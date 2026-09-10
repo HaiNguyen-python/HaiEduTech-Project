@@ -188,7 +188,7 @@ print(f"\\\\n📊 {len(timeline)} milestones spanning {timeline[-1][0] - timelin
         level: 2, difficulty: "beginner",
         theory: `## 1. 🚦 Vấn đề đời thường
 
-Bạn quyết định **đi xem phim hay không** dựa trên 3 yếu tố: phim hay (8/10), giá vé (rẻ hay không), bạn rủ (có hay không). Não bạn cân từng yếu tố theo "trọng số" - phim hay quan trọng nhất, sau đó bạn rủ, cuối cùng là giá. Cộng lại > ngưỡng → đi.
+Bạn quyết định **đi xem phim hay không** dựa trên 3 yếu tố: phim hay (8/10), giá vé (rẻ hay không), bạn rủ (có hay không). Não bạn cân từng yếu tố theo "weights" - phim hay quan trọng nhất, sau đó bạn rủ, cuối cùng là giá. Cộng lại > ngưỡng → đi.
 
 Đó **chính xác** là một **Perceptron**: input × weight + bias → activation → output.
 
@@ -197,7 +197,7 @@ Bạn quyết định **đi xem phim hay không** dựa trên 3 yếu tố: phim
 - **Perceptron** = neural unit nhỏ nhất: $y = f(w_1 x_1 + w_2 x_2 + ... + b)$
 - **Weight (w)**: tầm quan trọng của input.
 - **Bias (b)**: ngưỡng "nỗ lực tối thiểu" để kích hoạt.
-- **Activation (f)**: hàm bẻ cong tuyến tính → phi tuyến (sigmoid, ReLU).
+- **Activation (f)**: hàm bẻ cong linear → phi tuyến (sigmoid, ReLU).
 - **Forward pass**: tính output từ input qua nhiều lớp.
 
 ## 3. 🧰 Cấu trúc tối thiểu
@@ -216,7 +216,7 @@ def sigmoid(z): return 1 / (1 + np.exp(-z))
 
 # Perceptron 1 đơn vị: dự đoán "đi xem phim"
 x = np.array([0.8, 0.0, 1.0])         # phim hay, vé đắt, có bạn rủ
-w = np.array([0.6, -0.4, 0.5])        # trọng số học được
+w = np.array([0.6, -0.4, 0.5])        # weights học được
 b = -0.3
 
 z = np.dot(w, x) + b                  # 0.48 + 0 + 0.5 - 0.3 = 0.68
@@ -237,7 +237,7 @@ print(mlp(torch.tensor([[0.8, 0.0, 1.0]])))
 ## 5. ⚠️ Bẫy thường gặp
 
 > ⚠️ **Cảnh báo:**
-> - **Không có activation phi tuyến** → dù bao nhiêu lớp cũng = 1 lớp tuyến tính (vô dụng).
+> - **Không có activation phi tuyến** → dù bao nhiêu lớp cũng = 1 lớp linear (vô dụng).
 > - **Không scale input** (giá nhà 1 tỷ vs số phòng 3) → gradient nổ hoặc chết.
 > - **Bias = 0 và init random** → mọi neuron học giống nhau (symmetry breaking fail).
 > - **Quên softmax/sigmoid ở output** → loss tính sai.
@@ -260,7 +260,7 @@ print(mlp(torch.tensor([[0.8, 0.0, 1.0]])))
 
 ## 8. 📌 Tóm tắt 30 giây
 
-Perceptron = "cân nhắc theo trọng số": $y = f(\\\\sum w_i x_i + b)$. Nhiều perceptron xếp lớp = MLP. Phải có activation phi tuyến, phải scale input, phải init đúng. Đây là viên gạch đầu tiên của mọi kiến trúc neural net khác.
+Perceptron = "cân nhắc theo weights": $y = f(\\\\sum w_i x_i + b)$. Nhiều perceptron xếp lớp = MLP. Phải có activation phi tuyến, phải scale input, phải init đúng. Đây là viên gạch đầu tiên của mọi kiến trúc neural net khác.
 `,
         theoryEn: `**Neural Networks - The Foundation of Modern AI**
 
@@ -299,12 +299,12 @@ Each layer: z = W·x + b → a = σ(z) → pass to next layer.
 ---
 
 **Key Terms:** Weights (importance), Bias (shift), Depth (layers), Width (neurons per layer).`,
-        code: `# Nhập thư viện numpy để xử lý toán học và mảng
+        code: `# Nhập library numpy để xử lý toán học và mảng
 import numpy as np
 
-# Định nghĩa Perceptron (một neuron đơn giản)
+# Define Perceptron (một neuron đơn giản)
 class Perceptron:
-    # Khởi tạo trọng số và bias cho perceptron
+    # Initialize weights và bias cho perceptron
     def __init__(self, n_inputs):
         self.weights = np.random.randn(n_inputs) * 0.1
         self.bias = 0.0
@@ -318,7 +318,7 @@ class Perceptron:
         z = np.dot(x, self.weights) + self.bias
         return self.sigmoid(z)
 
-# Tạo một neuron đơn giản
+# Create a neuron đơn giản
 neuron = Perceptron(3)
 print(f"Weights: {neuron.weights}")
 print(f"Bias: {neuron.bias}")
@@ -331,9 +331,9 @@ print(f"Output: {output:.4f}")
 
 # Mạng đơn giản 2 lớp
 class SimpleNetwork:
-    # Tạo lớp mạng 2 lớp: 3 neuron ẩn và 1 neuron đầu ra
+    # Create lớp mạng 2 lớp: 3 neuron ẩn và 1 neuron đầu ra
     def __init__(self):
-        # Khởi tạo 3 neuron cho lớp ẩn bằng list comprehension
+        # Initialize 3 neuron cho lớp ẩn bằng list comprehension
         self.hidden = [Perceptron(2) for _ in range(3)]
         # Neuron đầu ra nhận 3 đầu vào từ lớp ẩn
         self.output = Perceptron(3)
@@ -344,7 +344,7 @@ class SimpleNetwork:
         h = np.array([n.forward(x) for n in self.hidden])
         return self.output.forward(h)
 
-# Tạo mạng và chạy một ví dụ đầu vào
+# Create mạng và chạy một ví dụ đầu vào
 net = SimpleNetwork()
 result = net.forward(np.array([1.0, 0.5]))
 print(f"\\\\n🧠 Network output: {result:.4f}")`,
@@ -378,7 +378,7 @@ print(f"\\\\n🧠 Network output: {result:.4f}")`,
 
 Bạn vào phòng tối, công tắc đèn có 2 trạng thái: **bật** hoặc **tắt**. Nhưng đèn dimmer thì có "mờ → sáng dần → chói loà" - uyển chuyển hơn. Trong neural net, **activation function** chính là công tắc / dimmer quyết định "neuron này có cháy không và cháy mạnh thế nào".
 
-Không có activation phi tuyến, neural net dù 100 lớp cũng chỉ bằng 1 phép cộng tuyến tính - vô dụng.
+Không có activation phi tuyến, neural net dù 100 lớp cũng chỉ bằng 1 phép cộng linear - vô dụng.
 
 ## 2. 💡 Khái niệm chính
 
@@ -389,7 +389,7 @@ Không có activation phi tuyến, neural net dù 100 lớp cũng chỉ bằng 1
 | **ReLU** | $\\\\max(0,x)$ | $[0,\\\\infty)$ | **Mặc định cho hidden** |
 | **Leaky ReLU** | $\\\\max(0.01x, x)$ | $\\\\mathbb{R}$ | Tránh "dying ReLU" |
 | **GELU** | $x \\\\cdot \\\\Phi(x)$ | $\\\\mathbb{R}$ | Transformer/GPT |
-| **Softmax** | $e^{x_i}/\\\\sum e^{x_j}$ | (0,1), tổng=1 | Output phân loại nhiều lớp |
+| **Softmax** | $e^{x_i}/\\\\sum e^{x_j}$ | (0,1), tổng=1 | Output classification nhiều lớp |
 
 ## 3. 🧰 Khi nào dùng cái nào
 
@@ -434,7 +434,7 @@ ReLU > Leaky > GELU > Tanh > Sigmoid (về tốc độ tính + gradient ổn đ�
 
 ## 8. 📌 Tóm tắt 30 giây
 
-Activation = công tắc bật neuron, biến tuyến tính → phi tuyến. **ReLU mặc định cho hidden, Sigmoid/Softmax cho output**. Tránh sigmoid trong hidden sâu (vanishing), tránh learning rate quá cao (dying ReLU). Không có activation phi tuyến = neural net chỉ là 1 lớp.
+Activation = công tắc bật neuron, biến linear → phi tuyến. **ReLU mặc định cho hidden, Sigmoid/Softmax cho output**. Tránh sigmoid trong hidden sâu (vanishing), tránh learning rate quá cao (dying ReLU). Không có activation phi tuyến = neural net chỉ là 1 lớp.
 `,
         theoryEn: `**Activation Functions - Adding Non-Linearity to Neural Networks**
 
@@ -455,69 +455,69 @@ Without activation functions, a neural network is just linear regression. Activa
 ---
 
 **Quick Reference:** Hidden layers → ReLU/GELU. Binary output → Sigmoid. Multi-class → Softmax. RNN → Tanh.`,
-        code: `# Nhập thư viện NumPy để làm việc với các mảng số.
+        code: `# Nhập library NumPy để làm việc với các mảng số.
 import numpy as np
 
-# Định nghĩa hàm sigmoid.
+# Define hàm sigmoid.
 # Hàm này thường dùng để nén giá trị đầu vào về khoảng (0, 1).
-# Đầu vào: x (một số hoặc mảng số).
-# Đầu ra: Giá trị sigmoid của x.
+# Input: x (một số hoặc mảng số).
+# Output: Giá trị sigmoid của x.
 def sigmoid(x): return 1 / (1 + np.exp(-x))
-# Định nghĩa hàm tanh (tangent hyperbolic).
+# Define hàm tanh (tangent hyperbolic).
 # Hàm này nén giá trị đầu vào về khoảng (-1, 1).
-# Đầu vào: x (một số hoặc mảng số).
-# Đầu ra: Giá trị tanh của x.
+# Input: x (một số hoặc mảng số).
+# Output: Giá trị tanh của x.
 def tanh(x): return np.tanh(x)
-# Định nghĩa hàm ReLU (Rectified Linear Unit).
+# Define hàm ReLU (Rectified Linear Unit).
 # Hàm này trả về 0 nếu x âm, và trả về x nếu x dương.
-# Đầu vào: x (một số hoặc mảng số).
-# Đầu ra: Giá trị ReLU của x.
+# Input: x (một số hoặc mảng số).
+# Output: Giá trị ReLU của x.
 def relu(x): return np.maximum(0, x)
-# Định nghĩa hàm Leaky ReLU.
+# Define hàm Leaky ReLU.
 # Tương tự ReLU nhưng cho phép một lượng nhỏ gradient khi x âm (tránh "chết" neuron).
-# Đầu vào: x (một số hoặc mảng số), alpha (hệ số cho phần âm, mặc định 0.01).
-# Đầu ra: Giá trị Leaky ReLU của x.
+# Input: x (một số hoặc mảng số), alpha (hệ số cho phần âm, mặc định 0.01).
+# Output: Giá trị Leaky ReLU của x.
 def leaky_relu(x, alpha=0.01): return np.where(x > 0, x, alpha * x)
-# Định nghĩa hàm softmax.
+# Define hàm softmax.
 # Hàm này chuyển đổi một vector các số thực thành một phân phối xác suất.
 # Tổng các phần tử đầu ra sẽ bằng 1.
-# Đầu vào: x (một mảng số).
-# Đầu ra: Mảng các giá trị xác suất.
+# Input: x (một mảng số).
+# Output: Mảng các giá trị xác suất.
 def softmax(x):
     # Trừ đi giá trị lớn nhất để tránh tràn số (overflow) khi tính np.exp.
     e = np.exp(x - np.max(x))
     # Chia cho tổng của các giá trị đã tính để chuẩn hóa thành xác suất.
     return e / e.sum()
 
-# Khởi tạo một mảng NumPy làm dữ liệu đầu vào.
+# Initialize một mảng NumPy làm dữ liệu đầu vào.
 x = np.array([-2, -1, 0, 1, 2])
-# In ra mảng đầu vào.
-# Kết quả mong đợi: Input:      [-2 -1  0  1  2]
+# Print mảng đầu vào.
+# Expected result: Input:      [-2 -1  0  1  2]
 print("Input:     ", x)
 # Áp dụng hàm sigmoid cho mảng x, chuyển đổi kiểu dữ liệu sang float trước.
 # Làm tròn kết quả đến 3 chữ số thập phân.
-# Kết quả mong đợi: Sigmoid:    [0.119 0.269 0.5   0.731 0.881]
+# Expected result: Sigmoid:    [0.119 0.269 0.5   0.731 0.881]
 print("Sigmoid:   ", np.round(sigmoid(x.astype(float)), 3))
 # Áp dụng hàm tanh cho mảng x, chuyển đổi kiểu dữ liệu sang float trước.
 # Làm tròn kết quả đến 3 chữ số thập phân.
-# Kết quả mong đợi: Tanh:       [-0.964 -0.762  0.    0.762  0.964]
+# Expected result: Tanh:       [-0.964 -0.762  0.    0.762  0.964]
 print("Tanh:      ", np.round(tanh(x.astype(float)), 3))
 # Áp dụng hàm ReLU cho mảng x.
-# Kết quả mong đợi: ReLU:       [0 0 0 1 2]
+# Expected result: ReLU:       [0 0 0 1 2]
 print("ReLU:      ", relu(x))
 # Áp dụng hàm Leaky ReLU cho mảng x, chuyển đổi kiểu dữ liệu sang float trước.
 # Làm tròn kết quả đến 3 chữ số thập phân.
-# Kết quả mong đợi: LeakyReLU:  [-0.02  -0.01   0.     1.     2.   ]
+# Expected result: LeakyReLU:  [-0.02  -0.01   0.     1.     2.   ]
 print("LeakyReLU: ", np.round(leaky_relu(x.astype(float)), 3))
 
-# Khởi tạo một mảng logits (đầu ra thô từ một lớp mạng nơ-ron) để kiểm tra softmax.
+# Initialize một mảng logits (đầu ra thô từ một lớp mạng nơ-ron) để kiểm tra softmax.
 logits = np.array([2.0, 1.0, 0.1])
 # Áp dụng hàm softmax cho mảng logits và in kết quả, làm tròn đến 3 chữ số thập phân.
-# Kết quả mong đợi: \\nSoftmax([2.  1.  0.1]) = [0.659 0.242 0.099]
+# Expected result: \\nSoftmax([2.  1.  0.1]) = [0.659 0.242 0.099]
 print(f"\\\\nSoftmax({logits}) = {np.round(softmax(logits), 3)}")
 # Tính tổng của các giá trị sau khi áp dụng softmax và in ra.
 # Tổng này phải xấp xỉ 1.0.
-# Kết quả mong đợi: Sum = 1.0000
+# Expected result: Sum = 1.0000
 print(f"Sum = {softmax(logits).sum():.4f}")`,
         codeLanguage: "python",
         exercise: "Draw a comparison chart of all activation functions over [-5, 5] using print art.",
@@ -636,7 +636,7 @@ Loss = đo sai; Gradient = chỉ hướng sửa; GD = bước theo hướng đó
 **Optimizers:** SGD → Momentum → RMSProp → **Adam** (most popular, combines Momentum + RMSProp).
 
 **Problems:** LR too high → diverge. LR too low → slow. Saddle points. Gradient explosion.`,
-        code: `# Nhập thư viện NumPy để xử lý mảng và phép toán số
+        code: `# Nhập library NumPy để xử lý mảng và phép toán số
 import numpy as np
 
 # Hàm mất mát (loss functions)
@@ -644,7 +644,7 @@ import numpy as np
 def mse(y_true, y_pred):
     return np.mean((y_true - y_pred) ** 2)
 
-# Hàm BCE: binary cross-entropy cho bài toán phân loại nhị phân
+# Hàm BCE: binary cross-entropy cho bài toán classification nhị phân
 def binary_cross_entropy(y_true, y_pred):
     y_pred = np.clip(y_pred, 1e-7, 1 - 1e-7)
     return -np.mean(y_true * np.log(y_pred) + (1 - y_true) * np.log(1 - y_pred))
@@ -775,12 +775,12 @@ Backprop = chain rule truy ngược: từ loss về từng weight, biết phải
 **Exploding Gradient:** Gradients grow huge → NaN. Fix: Gradient clipping, proper initialization.
 
 **Modern Improvements:** BatchNorm, Skip Connections, Layer Norm, Xavier/He initialization.`,
-        code: `# Nhập thư viện numpy để làm việc với mảng và ma trận
+        code: `# Nhập library numpy để làm việc với mảng và ma trận
 import numpy as np
 
-# Định nghĩa lớp mạng nơ-ron nhỏ
+# Define lớp mạng nơ-ron nhỏ
 class MiniNN:
-    # Khởi tạo trọng số và bias ngẫu nhiên với seed để tái lập kết quả
+    # Initialize weights và bias ngẫu nhiên với seed để tái lập kết quả
     def __init__(self):
         np.random.seed(42)
         self.w1 = np.random.randn(2, 4) * 0.5
@@ -800,7 +800,7 @@ class MiniNN:
         self.a2 = self.sigmoid(self.z2)
         return self.a2
 
-    # Lan truyền ngược: tính gradient và cập nhật tham số bằng learning rate
+    # Lan truyền ngược: tính gradient và cập nhật parameters bằng learning rate
     def backward(self, X, y, lr=0.5):
         m = X.shape[0]
         dz2 = self.a2 - y
@@ -818,11 +818,11 @@ class MiniNN:
 X = np.array([[0,0],[0,1],[1,0],[1,1]])
 y = np.array([[0],[1],[1],[0]])
 
-# Tạo đối tượng mạng nơ-ron
+# Create đối tượng mạng nơ-ron
 nn = MiniNN()
-# Thông báo bắt đầu huấn luyện
+# Thông báo bắt đầu training
 print("🧠 Training Neural Network on XOR")
-# Huấn luyện trong 2000 epoch, in loss mỗi 400 epoch
+# Train trong 2000 epoch, in loss mỗi 400 epoch
 for epoch in range(2000):
     out = nn.forward(X)
     loss = np.mean((y - out) ** 2)
@@ -885,9 +885,9 @@ Một **kernel** (ma trận nhỏ 3×3) trượt khắp ảnh. Tại mỗi vị 
 ## 4. 🎯 Ví dụ Keras chạy được ngay
 
 \`\`\`python
-# Nhập các lớp của Keras cần thiết để xây dựng mô hình CNN
+# Nhập các lớp của Keras cần thiết để xây dựng model CNN
 from tensorflow.keras import layers, models
-# Xây dựng mô hình tuần tự gồm các lớp tích chập, pooling, flatten và dense
+# Xây dựng model tuần tự gồm các lớp tích chập, pooling, flatten và dense
 model = models.Sequential([
     layers.Conv2D(32, 3, activation="relu", input_shape=(28,28,1)),
     layers.MaxPooling2D(2),
@@ -897,7 +897,7 @@ model = models.Sequential([
     layers.Dense(64, activation="relu"),
     layers.Dense(10, activation="softmax"),
 ])
-# Biên dịch mô hình với optimizer, hàm mất mát và metric
+# Biên dịch model với optimizer, loss function và metric
 model.compile(optimizer="adam", loss="sparse_categorical_crossentropy",
               metrics=["accuracy"])
 \`\`\`
@@ -916,7 +916,7 @@ Mạng này đạt > 99% trên MNIST chỉ với vài dòng.
 
 > 💡 **Mẹo:** **Đừng train CNN từ đầu** trừ khi bạn có > 100k ảnh. Dùng **Transfer Learning** từ ResNet50/EfficientNet đã train trên ImageNet - chỉ cần thay tầng cuối.
 
-- Bộ tham số an toàn: optimizer **Adam** lr=1e-3, batch 32, augmentation random flip + rotation 15°.
+- Bộ parameters an toàn: optimizer **Adam** lr=1e-3, batch 32, augmentation random flip + rotation 15°.
 - Bật **callback EarlyStopping** + **ReduceLROnPlateau** để không train phí.
 - Dùng **Grad-CAM** để xem CNN "nhìn vào đâu" khi quyết định → debug bias.
 
@@ -929,7 +929,7 @@ Mạng này đạt > 99% trên MNIST chỉ với vài dòng.
 
 ## 8. 📌 Tóm tắt 30 giây
 
-CNN = **kernel trượt tìm đặc điểm** → ReLU lọc → Pooling thu nhỏ → Dense quyết định. Luôn chuẩn hoá pixel \`/255\`, dùng augmentation, ưu tiên **Transfer Learning** thay vì train từ đầu. Đây là kiến trúc đã thay đổi computer vision và là nền tảng cho mọi mô hình ảnh hiện đại.
+CNN = **kernel trượt tìm đặc điểm** → ReLU lọc → Pooling thu nhỏ → Dense quyết định. Luôn chuẩn hoá pixel \`/255\`, dùng augmentation, ưu tiên **Transfer Learning** thay vì train từ đầu. Đây là kiến trúc đã thay đổi computer vision và là nền tảng cho mọi model ảnh hiện đại.
 `,
         theoryEn: `**CNNs - Vision AI**
 
@@ -944,10 +944,10 @@ CNNs process grid-like data (images) using local connectivity, weight sharing, a
 **Famous models:** LeNet → AlexNet → VGG → ResNet → EfficientNet → Vision Transformer.
 
 **Output formula:** (Input - Kernel + 2×Padding) / Stride + 1.`,
-        code: `# Nhập thư viện NumPy để làm việc với mảng (array) và các phép toán số học.
+        code: `# Nhập library NumPy để làm việc với mảng (array) và các phép toán số học.
 import numpy as np
 
-# Định nghĩa một ma trận (mảng 2 chiều) đại diện cho một hình ảnh.
+# Define một ma trận (mảng 2 chiều) đại diện cho một hình ảnh.
 # Các giá trị 0 và 1 có thể tượng trưng cho các điểm ảnh đen và trắng.
 image = np.array([
     [0,0,0,0,0,0,0,0],
@@ -959,7 +959,7 @@ image = np.array([
     [0,0,0,0,0,0,0,0],
 ])
 
-# Định nghĩa một từ điển chứa các "kernel" (mặt nạ) khác nhau.
+# Define một từ điển chứa các "kernel" (mặt nạ) khác nhau.
 # Mỗi kernel là một ma trận nhỏ dùng để áp dụng các hiệu ứng khác nhau lên hình ảnh.
 kernels = {
     # Kernel "Edge" (phát hiện cạnh): Làm nổi bật các đường biên trong ảnh.
@@ -970,19 +970,19 @@ kernels = {
     "Sharpen": np.array([[0,-1,0],[-1,5,-1],[0,-1,0]]),
 }
 
-# Định nghĩa hàm \`convolve2d\` để thực hiện phép chập 2D.
+# Define hàm \`convolve2d\` để thực hiện phép chập 2D.
 # Phép chập là một phép toán cơ bản trong xử lý ảnh để áp dụng kernel lên ảnh.
-# Đầu vào:
+# Input:
 #   - img: Ma trận hình ảnh đầu vào.
 #   - kernel: Ma trận kernel (mặt nạ) sẽ được áp dụng.
-# Đầu ra:
+# Output:
 #   - Ma trận hình ảnh đã được xử lý sau khi áp dụng kernel.
 def convolve2d(img, kernel):
-    # Lấy kích thước chiều cao (h) và chiều rộng (w) của ảnh đầu vào.
+    # Get size chiều cao (h) và chiều rộng (w) của ảnh đầu vào.
     h, w = img.shape
-    # Lấy kích thước chiều cao (kh) và chiều rộng (kw) của kernel.
+    # Get size chiều cao (kh) và chiều rộng (kw) của kernel.
     kh, kw = kernel.shape
-    # Tạo một ma trận \`out\` có kích thước phù hợp để lưu kết quả.
+    # Create a ma trận \`out\` có size phù hợp để lưu kết quả.
     # Kích thước của ảnh đầu ra sẽ nhỏ hơn ảnh gốc một chút do phép chập.
     # Các giá trị ban đầu được khởi tạo bằng 0.
     out = np.zeros((h-kh+1, w-kw+1))
@@ -991,21 +991,21 @@ def convolve2d(img, kernel):
         # Lặp qua từng cột của ma trận kết quả.
         for j in range(out.shape[1]):
             # Thực hiện phép chập tại vị trí (i, j):
-            # 1. Lấy một phần nhỏ của ảnh gốc có kích thước bằng kernel (vùng img[i:i+kh, j:j+kw]).
+            # 1. Get một phần nhỏ của ảnh gốc có size bằng kernel (vùng img[i:i+kh, j:j+kw]).
             # 2. Nhân từng phần tử của vùng ảnh này với từng phần tử tương ứng của kernel.
             # 3. Tính tổng tất cả các kết quả nhân đó.
             # 4. Gán tổng này vào vị trí (i, j) của ma trận kết quả \`out\`.
             out[i,j] = np.sum(img[i:i+kh, j:j+kw] * kernel)
     # Giới hạn các giá trị trong ma trận kết quả \`out\` trong khoảng từ 0 đến 1.
     # Điều này giúp đảm bảo các giá trị điểm ảnh hợp lệ (ví dụ: không âm hoặc quá lớn).
-    # Đầu ra: Ma trận ảnh đã được xử lý, với các giá trị được kẹp trong khoảng [0, 1].
+    # Output: Ma trận ảnh đã được xử lý, với các giá trị được kẹp trong khoảng [0, 1].
     return np.clip(out, 0, 1)
 
-# In ra hình ảnh gốc.
+# Print hình ảnh gốc.
 print("📷 Original (7x8):")
 # Lặp qua từng hàng của ma trận \`image\`.
 for row in image:
-    # In ra mỗi hàng, chuyển đổi các giá trị 0 thành "⬜" (ô vuông trắng) và 1 thành "⬛" (ô vuông đen).
+    # Print mỗi hàng, chuyển đổi các giá trị 0 thành "⬜" (ô vuông trắng) và 1 thành "⬛" (ô vuông đen).
     # Kết quả: Hiển thị hình ảnh gốc dưới dạng các ký tự unicode.
     print("  " + " ".join("⬛" if p else "⬜" for p in row))
 
@@ -1014,14 +1014,14 @@ for row in image:
 for name, kernel in kernels.items():
     # Áp dụng hàm \`convolve2d\` lên ảnh gốc.
     # Chuyển đổi \`image\` sang kiểu float để tránh lỗi khi nhân với kernel có số thực (ví dụ: kernel Blur).
-    # Đầu vào: ảnh gốc (kiểu float), kernel hiện tại.
-    # Đầu ra: \`result\` là ma trận ảnh đã được xử lý.
+    # Input: ảnh gốc (kiểu float), kernel hiện tại.
+    # Output: \`result\` là ma trận ảnh đã được xử lý.
     result = convolve2d(image.astype(float), kernel)
-    # In ra tên của hiệu ứng đã được áp dụng.
+    # Print tên của hiệu ứng đã được áp dụng.
     print(f"\\\\n🔍 After {name}:")
     # Lặp qua từng hàng của ma trận kết quả \`result\`.
     for row in result:
-        # In ra mỗi hàng, chuyển đổi các giá trị điểm ảnh.
+        # Print mỗi hàng, chuyển đổi các giá trị điểm ảnh.
         # Nếu giá trị điểm ảnh lớn hơn 0.3, hiển thị "⬛" (đen), ngược lại hiển thị "⬜" (trắng).
         # Ngưỡng 0.3 được chọn để phân biệt các điểm ảnh sau khi xử lý.
         # Kết quả: Hiển thị hình ảnh đã được xử lý dưới dạng các ký tự unicode.
@@ -1087,13 +1087,13 @@ model = models.Sequential([
     layers.Embedding(input_dim=10000, output_dim=64),
     layers.LSTM(128, return_sequences=False),
     layers.Dropout(0.3),
-    layers.Dense(1, activation="sigmoid"),  # phân loại sentiment
+    layers.Dense(1, activation="sigmoid"),  # classification sentiment
 ])
 model.compile(optimizer="adam", loss="binary_crossentropy",
               metrics=["accuracy"])
 \`\`\`
 
-Đây là baseline phân loại cảm xúc review hoạt động tốt.
+Đây là baseline classification cảm xúc review hoạt động tốt.
 
 ## 5. ⚠️ Bẫy thường gặp
 
@@ -1105,7 +1105,7 @@ model.compile(optimizer="adam", loss="binary_crossentropy",
 
 ## 6. ✅ Best practice
 
-> 💡 **Mẹo:** **GRU** = LSTM rút gọn, ít tham số hơn 25%, nhanh hơn, kết quả tương đương trên hầu hết task. Luôn thử GRU trước khi chọn LSTM.
+> 💡 **Mẹo:** **GRU** = LSTM rút gọn, ít parameters hơn 25%, nhanh hơn, kết quả tương đương trên hầu hết task. Luôn thử GRU trước khi chọn LSTM.
 
 - **Bidirectional LSTM** (đọc xuôi + ngược) → tăng accuracy đáng kể cho NER, sentiment.
 - Dùng pretrained embedding (Word2Vec, FastText, PhoW2V cho tiếng Việt) → tiết kiệm data.
@@ -1133,12 +1133,12 @@ RNN = **mạng có trí nhớ** xử lý chuỗi tuần tự. LSTM thêm 3 cổn
 **Applications:** Language modeling, translation, sentiment analysis, speech recognition, time series.
 
 **Note:** Transformers have largely replaced RNNs/LSTMs for most sequence tasks.`,
-        code: `# Nhập thư viện NumPy để xử lý số và ma trận
+        code: `# Nhập library NumPy để xử lý số và ma trận
 import numpy as np
 
-# Lớp RNN đơn giản lưu trọng số và thực hiện lan truyền tiến
+# Lớp RNN đơn giản lưu weights và thực hiện lan truyền tiến
 class SimpleRNN:
-    # Khởi tạo trọng số Wx, Wh và bias b
+    # Initialize weights Wx, Wh và bias b
     def __init__(self, input_size, hidden_size):
         self.Wx = np.random.randn(input_size, hidden_size) * 0.1
         self.Wh = np.random.randn(hidden_size, hidden_size) * 0.1
@@ -1163,7 +1163,7 @@ embeddings = np.random.randn(len(vocab), embed_size) * 0.5
 sentence = ['hello', 'world', 'AI', 'is', 'great']
 encoded = np.array([embeddings[vocab[w]] for w in sentence])
 
-# Tạo RNN và chạy forward trên chuỗi mã hoá
+# Create RNN và chạy forward trên chuỗi mã hoá
 rnn = SimpleRNN(input_size=embed_size, hidden_size=4)
 states, final = rnn.forward(encoded)
 
@@ -1202,7 +1202,7 @@ print(f"\\\\n🎯 Final hidden state: {np.round(final, 3)}")`,
 
 Bạn đọc câu: *"Con mèo ngồi trên thảm vì **nó** mệt."* - não bạn lập tức biết "**nó**" = "con mèo" chứ không phải "thảm". Bạn làm điều đó bằng cách **chú ý** vào các từ liên quan trong câu, dù chúng cách xa.
 
-**Self-Attention** dạy máy làm đúng việc đó: với mỗi từ, **chấm điểm liên quan** với mọi từ khác trong câu, rồi tổng hợp có trọng số. Đây là phát minh đứng sau ChatGPT, BERT, Gemini.
+**Self-Attention** dạy máy làm đúng việc đó: với mỗi từ, **chấm điểm liên quan** với mọi từ khác trong câu, rồi tổng hợp có weights. Đây là phát minh đứng sau ChatGPT, BERT, Gemini.
 
 ## 2. 💡 Self-Attention 3 bước
 
@@ -1271,15 +1271,15 @@ Self-Attention = **mỗi từ tự chấm điểm liên quan với mọi từ kh
 **Architecture:** [Multi-Head Attention → Add&Norm → FFN → Add&Norm] × N.
 
 **Family:** BERT (encoder), GPT (decoder), T5 (encoder-decoder), ViT (vision).`,
-        code: `# Nhập thư viện NumPy để làm việc với các mảng số.
+        code: `# Nhập library NumPy để làm việc với các mảng số.
 import numpy as np
 
-# Định nghĩa hàm softmax.
+# Define hàm softmax.
 # Hàm này chuyển đổi một vector số thực thành một phân phối xác suất.
-# Đầu vào:
+# Input:
 #   - x: Mảng (hoặc vector) các số.
 #   - axis: Trục mà dọc theo đó hàm softmax sẽ được tính toán. Mặc định là trục cuối cùng.
-# Đầu ra:
+# Output:
 #   - Một mảng có cùng hình dạng với x, với các giá trị đã được chuẩn hóa thành xác suất (tổng bằng 1 trên mỗi trục).
 def softmax(x, axis=-1):
     # Trừ đi giá trị lớn nhất trên mỗi hàng (hoặc cột) để tránh tràn số khi tính e^x.
@@ -1289,83 +1289,83 @@ def softmax(x, axis=-1):
     # e.sum(axis=axis, keepdims=True) tính tổng và giữ nguyên số chiều.
     return e / e.sum(axis=axis, keepdims=True)
 
-# Định nghĩa hàm self_attention (tự chú ý).
-# Đây là một thành phần cốt lõi trong các mô hình Transformer.
-# Đầu vào:
+# Define hàm self_attention (tự chú ý).
+# Đây là một thành phần cốt lõi trong các model Transformer.
+# Input:
 #   - X: Ma trận đầu vào, đại diện cho các nhúng (embeddings) của các token.
 #        Mỗi hàng là một nhúng của một token.
-#   - d_model: Kích thước của không gian mô hình (kích thước của mỗi nhúng).
-# Đầu ra:
+#   - d_model: Kích thước của không gian model (size của mỗi nhúng).
+# Output:
 #   - output: Ma trận đầu ra đã được "chú ý", có cùng hình dạng với X.
-#   - attention_weights: Ma trận trọng số chú ý, cho biết mức độ tương tác giữa các token.
+#   - attention_weights: Ma trận weights chú ý, cho biết mức độ tương tác giữa các token.
 def self_attention(X, d_model):
-    # Khởi tạo ngẫu nhiên các ma trận trọng số Wq, Wk, Wv.
+    # Initialize ngẫu nhiên các ma trận weights Wq, Wk, Wv.
     # Các ma trận này sẽ biến đổi đầu vào X thành Query (Q), Key (K), Value (V).
     # Nhân với 0.1 để giữ cho các giá trị khởi tạo nhỏ.
     Wq = np.random.randn(d_model, d_model) * 0.1
     Wk = np.random.randn(d_model, d_model) * 0.1
     Wv = np.random.randn(d_model, d_model) * 0.1
 
-    # Tính toán các ma trận Query (Q), Key (K), Value (V).
-    # Q = X @ Wq: Query được tạo ra bằng cách nhân X với ma trận trọng số Wq.
-    # K = X @ Wk: Key được tạo ra bằng cách nhân X với ma trận trọng số Wk.
-    # V = X @ Wv: Value được tạo ra bằng cách nhân X với ma trận trọng số Wv.
+    # Compute các ma trận Query (Q), Key (K), Value (V).
+    # Q = X @ Wq: Query được tạo ra bằng cách nhân X với ma trận weights Wq.
+    # K = X @ Wk: Key được tạo ra bằng cách nhân X với ma trận weights Wk.
+    # V = X @ Wv: Value được tạo ra bằng cách nhân X với ma trận weights Wv.
     Q = X @ Wq
     K = X @ Wk
     V = X @ Wv
 
-    # Tính toán điểm số chú ý (attention scores).
+    # Compute điểm số chú ý (attention scores).
     # scores = Q @ K.T: Tích vô hướng giữa Query và Key chuyển vị.
-    # Chia cho căn bậc hai của d_model để chuẩn hóa, giúp ổn định quá trình huấn luyện.
+    # Chia cho căn bậc hai của d_model để chuẩn hóa, giúp ổn định quá trình training.
     scores = Q @ K.T / np.sqrt(d_model)
-    # Áp dụng hàm softmax lên các điểm số để có được trọng số chú ý.
-    # Các trọng số này cho biết mức độ "quan tâm" của mỗi token đến các token khác.
+    # Áp dụng hàm softmax lên các điểm số để có được weights chú ý.
+    # Các weights này cho biết mức độ "quan tâm" của mỗi token đến các token khác.
     attention_weights = softmax(scores)
-    # Tính toán đầu ra cuối cùng bằng cách nhân trọng số chú ý với ma trận Value.
-    # Đây là tổng có trọng số của các vector Value, nơi trọng số được xác định bởi attention_weights.
+    # Compute đầu ra cuối cùng bằng cách nhân weights chú ý với ma trận Value.
+    # Đây là tổng có weights của các vector Value, nơi weights được xác định bởi attention_weights.
     output = attention_weights @ V
-    # Trả về đầu ra đã được chú ý và ma trận trọng số chú ý.
+    # Trả về đầu ra đã được chú ý và ma trận weights chú ý.
     return output, attention_weights
 
 # Mô phỏng các token đầu vào.
 tokens = ["The", "cat", "sat", "on", "mat"]
-# Định nghĩa kích thước của không gian mô hình (kích thước của mỗi nhúng).
+# Define size của không gian model (size của mỗi nhúng).
 d_model = 4
-# Tạo ma trận đầu vào X ngẫu nhiên.
+# Create ma trận đầu vào X ngẫu nhiên.
 # Mỗi hàng đại diện cho một token, mỗi cột là một chiều của nhúng.
-# len(tokens) là số lượng token, d_model là kích thước của nhúng.
+# len(tokens) là số lượng token, d_model là size của nhúng.
 X = np.random.randn(len(tokens), d_model)
 
 # Gọi hàm self_attention với đầu vào X và d_model.
 # output sẽ chứa các nhúng đã được chú ý.
-# weights sẽ chứa ma trận trọng số chú ý.
+# weights sẽ chứa ma trận weights chú ý.
 output, weights = self_attention(X, d_model)
 
-# In ra tiêu đề.
+# Print tiêu đề.
 print("⚡ Self-Attention")
-# In ra hình dạng (kích thước) của ma trận đầu vào.
-# Kết quả mong đợi: Input shape: (5, 4)
+# Print hình dạng (size) của ma trận đầu vào.
+# Expected result: Input shape: (5, 4)
 print(f"Input shape: {X.shape}")
-# In ra hình dạng (kích thước) của ma trận đầu ra.
-# Kết quả mong đợi: Output shape: (5, 4)
+# Print hình dạng (size) của ma trận đầu ra.
+# Expected result: Output shape: (5, 4)
 print(f"Output shape: {output.shape}")
-# In ra tiêu đề cho ma trận chú ý.
+# Print tiêu đề cho ma trận chú ý.
 print(f"\\\\n🔍 Attention Matrix:")
-# In ra khoảng trắng để căn chỉnh tiêu đề cột.
+# Print khoảng trắng để căn chỉnh tiêu đề cột.
 print(f"{'':>6}", end="")
-# In ra các token làm tiêu đề cột của ma trận chú ý.
+# Print các token làm tiêu đề cột của ma trận chú ý.
 for t in tokens: print(f"{t:>6}", end="")
 print()
-# Duyệt qua từng hàng của ma trận trọng số chú ý.
+# Duyệt qua từng hàng của ma trận weights chú ý.
 for i, t in enumerate(tokens):
-    # In ra token hiện tại làm tiêu đề hàng.
+    # Print token hiện tại làm tiêu đề hàng.
     print(f"{t:>6}", end="")
-    # Duyệt qua từng cột của ma trận trọng số chú ý.
+    # Duyệt qua từng cột của ma trận weights chú ý.
     for j in range(len(tokens)):
-        # In ra giá trị trọng số chú ý, định dạng 2 chữ số thập phân.
+        # Print giá trị weights chú ý, định dạng 2 chữ số thập phân.
         print(f"{weights[i,j]:6.2f}", end="")
     print()
-# Kết quả mong đợi: Một bảng hiển thị trọng số chú ý giữa các token.
+# Expected result: Một bảng hiển thị weights chú ý giữa các token.
 # Ví dụ:
 #        The   cat   sat    on   mat
 # The   0.20  0.15  0.25  0.10  0.30
@@ -1506,24 +1506,24 @@ Return as numbered markdown list. Each item: bold title + 1 line copy.
 
 **Tokenization:** LLMs read tokens, not words. Pricing and context limits are in tokens.`,
         code: `# Các mẫu kỹ thuật nhắc lệnh (Prompt Engineering Patterns)
-# Định nghĩa một từ điển (dictionary) để lưu trữ các ví dụ về các loại prompt khác nhau.
+# Define một từ điển (dictionary) để lưu trữ các ví dụ về các loại prompt khác nhau.
 # Mỗi khóa là tên của mẫu prompt, mỗi giá trị là chuỗi (string) chứa nội dung của prompt đó.
 prompts = {
     # Ví dụ về prompt "zero_shot" (không có ví dụ trong prompt).
-    # Đầu vào: Một câu hỏi hoặc yêu cầu trực tiếp.
-    # Đầu ra: Mô hình AI sẽ trả lời dựa trên kiến thức đã học.
+    # Input: Một câu hỏi hoặc yêu cầu trực tiếp.
+    # Output: Model AI sẽ trả lời dựa trên kiến thức đã học.
     "zero_shot": "Classify this review as positive or negative: 'Great product!'",
     # Ví dụ về prompt "few_shot" (có vài ví dụ trong prompt).
-    # Đầu vào: Một vài cặp ví dụ (input -> output) để hướng dẫn mô hình.
-    # Đầu ra: Mô hình AI sẽ đưa ra câu trả lời theo định dạng của các ví dụ.
+    # Input: Một vài cặp ví dụ (input -> output) để hướng dẫn model.
+    # Output: Model AI sẽ đưa ra câu trả lời theo định dạng của các ví dụ.
     "few_shot": """Classify reviews:
 'Love it!' → positive
 'Terrible quality' → negative
 'Works perfectly' → positive
 'Broke after 1 day' → ?""",
     # Ví dụ về prompt "chain_of_thought" (chuỗi suy nghĩ).
-    # Đầu vào: Một vấn đề phức tạp và yêu cầu mô hình giải thích từng bước suy luận.
-    # Đầu ra: Mô hình AI sẽ đưa ra các bước giải quyết vấn đề và câu trả lời cuối cùng.
+    # Input: Một vấn đề phức tạp và yêu cầu model giải thích từng bước suy luận.
+    # Output: Model AI sẽ đưa ra các bước giải quyết vấn đề và câu trả lời cuối cùng.
     "chain_of_thought": """Solve step by step:
 Q: If a store has 3 boxes with 12 items each, and sells 15 items, how many remain?
 A: Let me think step by step:
@@ -1532,14 +1532,14 @@ A: Let me think step by step:
 3. Remaining: 36 - 15 = 21
 Answer: 21 items""",
     # Ví dụ về prompt "role" (gán vai trò).
-    # Đầu vào: Gán một vai trò cụ thể cho mô hình AI.
-    # Đầu ra: Mô hình AI sẽ phản hồi theo vai trò được gán.
+    # Input: Gán một vai trò cụ thể cho model AI.
+    # Output: Model AI sẽ phản hồi theo vai trò được gán.
     "role": "You are a senior Python developer. Review this code for bugs, performance issues, and security vulnerabilities.",
 }
 
 # Lặp qua từng cặp khóa-giá trị (tên prompt và nội dung prompt) trong từ điển 'prompts'.
-# Đầu vào: Từ điển 'prompts'.
-# Đầu ra: In ra tên và một phần nội dung của mỗi prompt.
+# Input: Từ điển 'prompts'.
+# Output: Print tên và một phần nội dung của mỗi prompt.
 for name, prompt in prompts.items():
     # In tên của mẫu prompt, chuyển sang chữ in hoa.
     print(f"📝 {name.upper()}")
@@ -1549,13 +1549,13 @@ for name, prompt in prompts.items():
     print()
 
 # Đánh giá chất lượng prompt (Prompt scoring)
-# Định nghĩa một hàm để tính điểm chất lượng của một prompt.
-# Đầu vào: prompt (chuỗi) - nội dung của prompt cần đánh giá.
-# Đầu ra: score (số nguyên) - điểm chất lượng của prompt.
+# Define một hàm để tính điểm chất lượng của một prompt.
+# Input: prompt (chuỗi) - nội dung của prompt cần đánh giá.
+# Output: score (số nguyên) - điểm chất lượng của prompt.
 def score_prompt(prompt):
-    # Khởi tạo điểm ban đầu là 0.
+    # Initialize điểm ban đầu là 0.
     score = 0
-    # Định nghĩa các tiêu chí kiểm tra và điều kiện để đạt tiêu chí.
+    # Define các tiêu chí kiểm tra và điều kiện để đạt tiêu chí.
     # Mỗi tiêu chí là một tuple (nhãn, điều kiện kiểm tra).
     checks = [
         # Kiểm tra xem prompt có chứa các từ khóa liên quan đến ngữ cảnh không.
@@ -1568,8 +1568,8 @@ def score_prompt(prompt):
         ("Has examples", "→" in prompt or "example" in prompt.lower()),
     ]
     # Lặp qua từng tiêu chí kiểm tra.
-    # Đầu vào: Danh sách 'checks'.
-    # Đầu ra: Cập nhật 'score' và in trạng thái của từng tiêu chí.
+    # Input: Danh sách 'checks'.
+    # Output: Cập nhật 'score' và in trạng thái của từng tiêu chí.
     for label, passed in checks:
         # Nếu tiêu chí được đáp ứng, cộng 25 điểm vào tổng điểm.
         score += 25 if passed else 0
@@ -1581,10 +1581,10 @@ def score_prompt(prompt):
 # In tiêu đề cho phần đánh giá chất lượng prompt.
 print("🎯 Prompt Quality Score:")
 # Tính và in điểm chất lượng cho prompt "few_shot".
-# Đầu vào: Nội dung của prompt "few_shot" từ từ điển 'prompts'.
-# Đầu ra: Điểm chất lượng của prompt "few_shot" (ví dụ: "Score: 100%").
+# Input: Nội dung của prompt "few_shot" từ từ điển 'prompts'.
+# Output: Điểm chất lượng của prompt "few_shot" (ví dụ: "Score: 100%").
 print(f"   Score: {score_prompt(prompts['few_shot'])}%")
-# Kết quả mong đợi: In ra các dấu kiểm tra cho từng tiêu chí và tổng điểm.
+# Expected result: Print các dấu kiểm tra cho từng tiêu chí và tổng điểm.
 # Ví dụ:
 #   ✅ Has context
 #   ✅ Has specific task
@@ -1642,7 +1642,7 @@ Bạn đã biết tiếng Anh giỏi. Giờ học tiếng Pháp - bạn không h
 ## 4. 🎯 Ví dụ chạy được ngay
 
 \\\`\\\`\\\`python
-# Fine-tune ResNet50 cho phân loại 5 loại trái cây VN
+# Fine-tune ResNet50 cho classification 5 loại trái cây VN
 import torch, torchvision.models as models
 from torch import nn
 
@@ -1703,13 +1703,13 @@ Transfer Learning = đứng trên vai người khổng lồ. Freeze + train head
 **PEFT Methods:** LoRA, Adapter Layers, Prefix Tuning, Prompt Tuning.
 
 **Key:** Avoid catastrophic forgetting (low LR), quality > quantity, always evaluate against baseline.`,
-        code: `# Nhập thư viện numpy để xử lý mảng và số học
+        code: `# Nhập library numpy để xử lý mảng và số học
 import numpy as np
 
 # Mô phỏng Transfer Learning
-# Định nghĩa mô hình giả lập với các lớp và trạng thái đóng băng
+# Define model giả lập với các lớp và trạng thái đóng băng
 class PretrainedModel:
-    # Khởi tạo trọng số và trạng thái đóng băng
+    # Initialize weights và trạng thái đóng băng
     def __init__(self):
         np.random.seed(42)
         self.layer1 = np.random.randn(4, 8)  # đặc trưng chung
@@ -1717,7 +1717,7 @@ class PretrainedModel:
         self.layer3 = np.random.randn(6, 3)  # đặc trưng nhiệm vụ
         self.frozen = [True, True, False]
 
-    # In tóm tắt mô hình và tính tham số trainable
+    # In tóm tắt model và tính parameters trainable
     def summary(self):
         layers = [self.layer1, self.layer2, self.layer3]
         total = sum(l.size for l in layers)
@@ -1869,21 +1869,21 @@ RAG = Retrieve + Augment + Generate. Pipeline: chunk → embed → vector DB →
         code: `import numpy as np
 
 # Simple RAG simulation
-# Định nghĩa một lớp (class) để mô phỏng cơ sở dữ liệu vector đơn giản.
+# Define một lớp (class) để mô phỏng cơ sở dữ liệu vector đơn giản.
 # Lớp này sẽ lưu trữ các tài liệu và biểu diễn vector (embeddings) của chúng.
 class SimpleVectorDB:
     # Phương thức khởi tạo (constructor) của lớp.
     # Được gọi khi tạo một đối tượng mới từ lớp này.
     def __init__(self):
-        # Khởi tạo một danh sách rỗng để lưu trữ các tài liệu gốc (chuỗi văn bản).
+        # Initialize một danh sách rỗng để lưu trữ các tài liệu gốc (chuỗi văn bản).
         self.documents = []
-        # Khởi tạo một danh sách rỗng để lưu trữ các biểu diễn vector (embeddings) của tài liệu.
+        # Initialize một danh sách rỗng để lưu trữ các biểu diễn vector (embeddings) của tài liệu.
         self.embeddings = []
 
     # Phương thức này tạo ra một vector nhúng (embedding) cho một đoạn văn bản.
     # Trong ví dụ này, nó tạo ra một vector ngẫu nhiên để đơn giản hóa.
-    # Đầu vào: text (chuỗi văn bản).
-    # Đầu ra: Một mảng numpy (vector) biểu diễn văn bản.
+    # Input: text (chuỗi văn bản).
+    # Output: Một mảng numpy (vector) biểu diễn văn bản.
     def embed(self, text):
         # Đặt seed cho bộ sinh số ngẫu nhiên để đảm bảo cùng một văn bản luôn tạo ra cùng một embedding.
         # Sử dụng hash của văn bản để tạo seed.
@@ -1892,24 +1892,24 @@ class SimpleVectorDB:
         return np.random.randn(8)
 
     # Phương thức để thêm một tài liệu mới vào cơ sở dữ liệu.
-    # Đầu vào: doc (chuỗi văn bản của tài liệu).
+    # Input: doc (chuỗi văn bản của tài liệu).
     def add(self, doc):
         # Thêm tài liệu gốc vào danh sách documents.
         self.documents.append(doc)
-        # Tạo embedding cho tài liệu và thêm vào danh sách embeddings.
+        # Create embedding cho tài liệu và thêm vào danh sách embeddings.
         self.embeddings.append(self.embed(doc))
 
     # Phương thức để tìm kiếm các tài liệu tương tự nhất với một truy vấn.
-    # Đầu vào: query (chuỗi văn bản truy vấn), top_k (số lượng tài liệu tương tự nhất muốn lấy).
-    # Đầu ra: Một danh sách các cặp (tài liệu, điểm tương đồng) được sắp xếp theo điểm tương đồng giảm dần.
+    # Input: query (chuỗi văn bản truy vấn), top_k (số lượng tài liệu tương tự nhất muốn lấy).
+    # Output: Một danh sách các cặp (tài liệu, điểm tương đồng) được sắp xếp theo điểm tương đồng giảm dần.
     def search(self, query, top_k=2):
-        # Tạo embedding cho truy vấn.
+        # Create embedding cho truy vấn.
         q_emb = self.embed(query)
-        # Khởi tạo danh sách để lưu trữ điểm số tương đồng.
+        # Initialize danh sách để lưu trữ điểm số tương đồng.
         scores = []
         # Lặp qua tất cả các embedding trong cơ sở dữ liệu.
         for i, emb in enumerate(self.embeddings):
-            # Tính toán độ tương đồng cosine giữa embedding truy vấn và embedding tài liệu.
+            # Compute độ tương đồng cosine giữa embedding truy vấn và embedding tài liệu.
             # Công thức: (A . B) / (||A|| * ||B||)
             sim = np.dot(q_emb, emb) / (np.linalg.norm(q_emb) * np.linalg.norm(emb))
             # Lưu điểm tương đồng và chỉ số của tài liệu.
@@ -1917,15 +1917,15 @@ class SimpleVectorDB:
         # Sắp xếp danh sách điểm số theo thứ tự giảm dần (tài liệu tương đồng nhất lên đầu).
         scores.sort(reverse=True)
         # Trả về top_k tài liệu cùng với điểm tương đồng đã làm tròn.
-        # Đầu ra mong đợi: [("Tài liệu 1", 0.987), ("Tài liệu 2", 0.954)]
+        # Output mong đợi: [("Tài liệu 1", 0.987), ("Tài liệu 2", 0.954)]
         return [(self.documents[i], round(s, 3)) for s, i in scores[:top_k]]
 
 # Build knowledge base
 # Xây dựng cơ sở tri thức bằng cách thêm các tài liệu vào VectorDB.
 
-# Tạo một đối tượng cơ sở dữ liệu vector.
+# Create a đối tượng cơ sở dữ liệu vector.
 db = SimpleVectorDB()
-# Định nghĩa danh sách các tài liệu (chuỗi văn bản) sẽ được thêm vào cơ sở dữ liệu.
+# Define danh sách các tài liệu (chuỗi văn bản) sẽ được thêm vào cơ sở dữ liệu.
 docs = [
     "Python is a high-level programming language created by Guido van Rossum.",
     "Machine Learning uses algorithms to learn patterns from data.",
@@ -1941,35 +1941,35 @@ for doc in docs:
 # RAG query
 # Thực hiện một truy vấn RAG (Retrieval-Augmented Generation).
 
-# Định nghĩa câu truy vấn.
+# Define câu truy vấn.
 query = "What is machine learning?"
 # Tìm kiếm các tài liệu liên quan đến truy vấn trong cơ sở dữ liệu, lấy 2 tài liệu hàng đầu.
-# Đầu ra: Một danh sách các cặp (tài liệu, điểm tương đồng).
+# Output: Một danh sách các cặp (tài liệu, điểm tương đồng).
 results = db.search(query, top_k=2)
 
-# In ra tiêu đề của demo.
+# Print tiêu đề của demo.
 print("🔗 RAG Pipeline Demo")
-# In ra câu truy vấn.
+# Print câu truy vấn.
 print(f"📝 Query: {query}")
-# In ra số lượng tài liệu đã được truy xuất.
+# Print số lượng tài liệu đã được truy xuất.
 print(f"\\\\n🔍 Retrieved ({len(results)} chunks):")
 # Lặp qua các tài liệu đã truy xuất và in chúng ra cùng với điểm tương đồng.
-# Đầu ra mong đợi:
+# Output mong đợi:
 #   [+0.987] Machine Learning uses algorithms to learn patterns from data.
 #   [+0.123] Python is a high-level programming language created by Guido van Rossum.
 for doc, score in results:
     print(f"  [{score:+.3f}] {doc}")
 
 # Generate answer with context
-# Tạo câu trả lời dựa trên ngữ cảnh (các tài liệu đã truy xuất).
+# Create câu trả lời dựa trên ngữ cảnh (các tài liệu đã truy xuất).
 
 # Nối các tài liệu đã truy xuất thành một chuỗi duy nhất để làm ngữ cảnh.
 context = "\\\\n".join([doc for doc, _ in results])
-# In ra tiêu đề cho phần trả lời.
+# Print tiêu đề cho phần trả lời.
 print(f"\\\\n🤖 Generated Answer (using context):")
-# In ra một câu trả lời đơn giản dựa trên tài liệu đầu tiên được truy xuất.
-# Trong một hệ thống RAG thực tế, một mô hình ngôn ngữ lớn (LLM) sẽ sử dụng 'context' để tạo ra câu trả lời chi tiết hơn.
-# Đầu ra mong đợi:
+# Print một câu trả lời đơn giản dựa trên tài liệu đầu tiên được truy xuất.
+# Trong một hệ thống RAG thực tế, một model ngôn ngữ lớn (LLM) sẽ sử dụng 'context' để tạo ra câu trả lời chi tiết hơn.
+# Output mong đợi:
 #   Based on the retrieved information: Machine Learning uses algorithms to learn patterns from data.
 print(f"  Based on the retrieved information: {results[0][0]}")`,
         codeLanguage: "python",
@@ -2086,7 +2086,7 @@ AI không tự kỳ thị - nó học từ data lệch. Đo bằng demographic p
 **Explainability:** LIME, SHAP, Attention visualization, Model Cards.
 
 **Best Practices:** Diverse data, regular audits, human oversight, documentation, monitoring, red teaming.`,
-        code: `# Nhập thư viện numpy để xử lý mảng và toán xác suất
+        code: `# Nhập library numpy để xử lý mảng và toán xác suất
 import numpy as np
 
 # Công cụ kiểm toán thiên vị
@@ -2117,7 +2117,7 @@ def audit_model(predictions, demographics):
     
     return rates
 
-# Mô phỏng mô hình có thiên vị
+# Mô phỏng model có thiên vị
 np.random.seed(42)
 n = 200
 demographics = np.random.choice(["Group_A", "Group_B"], n)

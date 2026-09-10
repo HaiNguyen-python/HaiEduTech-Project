@@ -23,20 +23,20 @@ export const dlModules: ExtendedProgrammingModule[] = [
         titleEn: "Introduction to Neural Networks",
         level: 4,
         difficulty: "advanced",
-        theory: `> ⚠️ **Điều kiện tiên quyết** - Trước khi bắt đầu Học Sâu (Deep Learning), bạn nên nắm vững: **Các kiến thức cơ bản về Python** (hàm, mảng NumPy), **Đại số tuyến tính** (vectơ, nhân ma trận, tích vô hướng), và bài học **Hồi quy tuyến tính trong ML** trong giáo trình này.
+        theory: `> ⚠️ **Điều kiện tiên quyết** - Trước khi bắt đầu Học Sâu (Deep Learning), bạn nên nắm vững: **Các kiến thức cơ bản về Python** (hàm, mảng NumPy), **Đại số linear** (vectơ, nhân ma trận, tích vô hướng), và bài học **Hồi quy linear trong ML** trong giáo trình này.
 
 ## 1. Tại sao lại gọi là mạng "thần kinh" ("Neural")?
 
-Về cơ bản, một mạng nơ-ron (neural network) là một **chuỗi các hồi quy tuyến tính (linear regression) được gắn kết với nhau bằng các hàm phi tuyến tính**. Phép ẩn dụ sinh học chỉ mang tính tương đối - điều thực sự quan trọng là toán học: mỗi lớp (layer) biến đầu vào của nó thành một biểu diễn phong phú hơn mà lớp tiếp theo có thể sử dụng để phát hiện các mẫu phức tạp hơn.
+Về cơ bản, một mạng nơ-ron (neural network) là một **chuỗi các hồi quy linear (linear regression) được gắn kết với nhau bằng các hàm phi linear**. Phép ẩn dụ sinh học chỉ mang tính tương đối - điều thực sự quan trọng là toán học: mỗi lớp (layer) biến đầu vào của nó thành một biểu diễn phong phú hơn mà lớp tiếp theo có thể sử dụng để phát hiện các mẫu phức tạp hơn.
 
-Một mô hình tuyến tính đơn lẻ \`y = w·x + b\` chỉ có thể vẽ một **đường thẳng**. Các vấn đề trong thế giới thực (nhận diện mèo trong ảnh, dịch từ tiếng Pháp sang tiếng Anh, dự đoán biến động chứng khoán) đòi hỏi phải có **đường cong, góc cạnh và các vùng quyết định**. Việc xếp chồng nhiều đơn vị tuyến tính nhỏ với một phi tuyến tính ở giữa sẽ mở khóa sức mạnh biểu đạt đó.
+Một model linear đơn lẻ \`y = w·x + b\` chỉ có thể vẽ một **đường thẳng**. Các vấn đề trong thế giới thực (nhận diện mèo trong ảnh, dịch từ tiếng Pháp sang tiếng Anh, dự đoán biến động chứng khoán) đòi hỏi phải có **đường cong, góc cạnh và các vùng quyết định**. Việc xếp chồng nhiều đơn vị linear nhỏ với một phi linear ở giữa sẽ mở khóa sức mạnh biểu đạt đó.
 
 ## 2. Giải phẫu của một nơ-ron đơn lẻ
 
 Mỗi nơ-ron thực hiện **ba việc** theo thứ tự:
 
-1. **Tổng có trọng số** - nhân mỗi đầu vào với trọng số của nó và thêm một độ chệch (bias): \`z = w₁·x₁ + w₂·x₂ + ... + wₙ·xₙ + b\`
-2. **Kích hoạt** - truyền \`z\` qua một hàm phi tuyến tính \`a = σ(z)\` để tạo độ cong.
+1. **Tổng có weights** - nhân mỗi đầu vào với weights của nó và thêm một độ chệch (bias): \`z = w₁·x₁ + w₂·x₂ + ... + wₙ·xₙ + b\`
+2. **Kích hoạt** - truyền \`z\` qua một hàm phi linear \`a = σ(z)\` để tạo độ cong.
 3. **Chuyển tiếp** - gửi \`a\` đến các nơ-ron ở lớp tiếp theo.
 
 \\\`\\\`\\\`mermaid
@@ -48,25 +48,25 @@ graph LR
     A --> O[Output a]
 \\\`\\\`\\\`
 
-## 3. Hàm kích hoạt (Activation functions) - Chìa khóa cho tính phi tuyến tính
+## 3. Hàm kích hoạt (Activation functions) - Chìa khóa cho tính phi linear
 
-Nếu không có hàm kích hoạt, **N lớp xếp chồng sẽ gộp lại thành một lớp tuyến tính duy nhất** (nhân ma trận của các ma trận vẫn là một ma trận). Hàm kích hoạt là thứ làm cho các mô hình sâu (deep models) trở nên *sâu*.
+Nếu không có hàm kích hoạt, **N lớp xếp chồng sẽ gộp lại thành một lớp linear duy nhất** (nhân ma trận của các ma trận vẫn là một ma trận). Hàm kích hoạt là thứ làm cho các model sâu (deep models) trở nên *sâu*.
 
 | Hàm | Công thức | Phạm vi đầu ra | Khi nào sử dụng |
 |---|---|---|---|
-| **Sigmoid** | \`1 / (1 + e^-z)\` | (0, 1) | Đầu ra phân loại nhị phân, cổng trong LSTM |
+| **Sigmoid** | \`1 / (1 + e^-z)\` | (0, 1) | Output classification nhị phân, cổng trong LSTM |
 | **Tanh** | \`(eᶻ - e⁻ᶻ)/(eᶻ + e⁻ᶻ)\` | (-1, 1) | Các lớp ẩn trong các mạng RNN cũ hơn |
 | **ReLU** | \`max(0, z)\` | [0, ∞) | **Mặc định cho các lớp ẩn** - nhanh, không có vấn đề gradient biến mất ở phía dương |
 | **Leaky ReLU** | \`max(0.01·z, z)\` | (-∞, ∞) | Khi ReLU "chết" (các nơ-ron bị kẹt ở 0) |
-| **Softmax** | \`eᶻᵢ / Σ eᶻⱼ\` | (0, 1), tổng bằng 1 | Đầu ra phân loại đa lớp |
+| **Softmax** | \`eᶻᵢ / Σ eᶻⱼ\` | (0, 1), tổng bằng 1 | Output classification đa lớp |
 
-> **Quy tắc chung (2025)**: sử dụng **ReLU** trong các lớp ẩn, **Softmax** cho đầu ra đa lớp, **Sigmoid** cho đầu ra nhị phân. Chỉ sử dụng GELU hoặc SiLU khi huấn luyện Transformers.
+> **Quy tắc chung (2025)**: sử dụng **ReLU** trong các lớp ẩn, **Softmax** cho đầu ra đa lớp, **Sigmoid** cho đầu ra nhị phân. Chỉ sử dụng GELU hoặc SiLU khi training Transformers.
 
 ## 4. Các lớp (Layers) và phép truyền xuôi (forward pass)
 
-Một mạng *kết nối đầy đủ* (fully connected - dense) chỉ đơn giản là một chuỗi các lớp. Đối với một bộ phân loại hình ảnh với 784 pixel đầu vào, 128 đơn vị ẩn và 10 lớp đầu ra:
+Một mạng *kết nối đầy đủ* (fully connected - dense) chỉ đơn giản là một chuỗi các lớp. Đối với một bộ classification hình ảnh với 784 pixel đầu vào, 128 đơn vị ẩn và 10 lớp đầu ra:
 
-\`Đầu vào (784) → Dense(128, ReLU) → Dense(64, ReLU) → Dense(10, Softmax)\`
+\`Input (784) → Dense(128, ReLU) → Dense(64, ReLU) → Dense(10, Softmax)\`
 
 Mỗi mũi tên là một phép nhân ma trận. Toàn bộ phép truyền xuôi cho một mẫu là:
 
@@ -81,13 +81,13 @@ h2 = ReLU(W2 · h1 + b2)       # hình dạng: (64,)
 Một hệ thống đọc biển số xe tự động (ANPR) hiện đại được sử dụng tại các cổng đỗ xe và trạm thu phí trên khắp Việt Nam chạy **hai mạng**:
 
 1. Một **bộ phát hiện** tìm khung giới hạn (bounding box) của biển số trong khung hình camera.
-2. Một **bộ phân loại** đọc từng ký tự (0-9, A-Z, cộng với các chữ cái tiếng Việt Đ).
+2. Một **bộ classification** đọc từng ký tự (0-9, A-Z, cộng với các chữ cái tiếng Việt Đ).
 
-Cả hai đều là mạng nơ-ron. Riêng bộ phân loại chỉ cần khoảng 3 lớp dày đặc (dense layers) nếu các ký tự đã được cắt sẵn - nhưng trên thực tế chúng ta sử dụng một CNN (Bài 3) để chống nhiễu tốt hơn.
+Cả hai đều là mạng nơ-ron. Riêng bộ classification chỉ cần khoảng 3 lớp dày đặc (dense layers) nếu các ký tự đã được cắt sẵn - nhưng trên thực tế chúng ta sử dụng một CNN (Bài 3) để chống nhiễu tốt hơn.
 
 ## 6. Khái niệm cốt lõi
 
-> 🎯 **Khái niệm cốt lõi** - Một mạng nơ-ron là một **chuỗi các khối (tuyến tính → phi tuyến tính)**. Tính tuyến tính mang lại tốc độ và khả năng huấn luyện; hàm kích hoạt mang lại khả năng biểu đạt. Nếu không có hàm kích hoạt, chiều sâu (depth) sẽ vô nghĩa.`,
+> 🎯 **Khái niệm cốt lõi** - Một mạng nơ-ron là một **chuỗi các khối (linear → phi linear)**. Tính linear mang lại tốc độ và khả năng training; hàm kích hoạt mang lại khả năng biểu đạt. Nếu không có hàm kích hoạt, chiều sâu (depth) sẽ vô nghĩa.`,
         theoryEn: `> ⚠️ **Prerequisites** - Before starting Deep Learning, you should be comfortable with: **Python basics** (functions, NumPy arrays), **Linear Algebra** (vectors, matrix multiplication, dot product), and the **ML Linear Regression** lesson in this curriculum.
 
 ## 1. Why "Neural" Networks?
@@ -186,7 +186,7 @@ print("Predicted class probabilities:")
 print(y_hat.round(3))
 # Each row sums to 1 - these are real probabilities for class 0 and class 1.`,
         codeLanguage: "python",
-        exercise: "Hãy chỉnh sửa mạng ở trên để sử dụng **Tanh** thay vì ReLU trong các lớp ẩn. Chạy và quan sát xem xác suất đầu ra thay đổi như thế nào. Sau đó thử bỏ hoàn toàn hàm kích hoạt (thay `relu(z)` bằng `z`) – điều gì xảy ra và tại sao mạng lại trở thành tương đương với một lớp tuyến tính duy nhất?",
+        exercise: "Hãy chỉnh sửa mạng ở trên để sử dụng **Tanh** thay vì ReLU trong các lớp ẩn. Chạy và quan sát xem xác suất đầu ra thay đổi như thế nào. Sau đó thử bỏ hoàn toàn hàm kích hoạt (thay `relu(z)` bằng `z`) – điều gì xảy ra và tại sao mạng lại trở thành tương đương với một lớp linear duy nhất?",
         exerciseEn: "Modify the network above to use **Tanh** instead of ReLU in the hidden layers. Run it and observe how the output probabilities change. Then try removing the activation entirely (replace `relu(z)` with `z`) - what happens, and why does the network become equivalent to a single linear layer?",
         quiz: [
           {
@@ -224,11 +224,11 @@ print(y_hat.round(3))
         titleEn: "Building a Model with PyTorch",
         level: 4,
         difficulty: "advanced",
-        theory: `> ⚠️ **Điều kiện tiên quyết** - Bài học 1 (Mạng nơ-ron) và bài học **Hồi quy tuyến tính ML**.
+        theory: `> ⚠️ **Điều kiện tiên quyết** - Bài học 1 (Mạng nơ-ron) và bài học **Hồi quy linear ML**.
 
 ## 1. Tại sao lại cần một framework?
 
-Trong bài học trước, chúng ta đã viết một phép truyền xuôi (forward pass) thủ công. Việc huấn luyện cũng cần **phép truyền ngược** (backward pass) (gradient), một **thuật toán tối ưu hóa** (optimizer) (các biến thể của gradient descent), và **tăng tốc GPU**. Viết tất cả những thứ đó bằng tay cho mỗi mô hình là không thực tế.
+Trong bài học trước, chúng ta đã viết một phép truyền xuôi (forward pass) thủ công. Việc training cũng cần **phép truyền ngược** (backward pass) (gradient), một **thuật toán tối ưu hóa** (optimizer) (các biến thể của gradient descent), và **tăng tốc GPU**. Viết tất cả những thứ đó bằng tay cho mỗi model là không thực tế.
 
 Một framework học sâu (deep-learning framework) cung cấp cho bạn:
 
@@ -243,42 +243,42 @@ Hai tiêu chuẩn ngành vào năm 2025-2026 là **PyTorch** (nghiên cứu, ph�
 
 \`\`\`mermaid
 graph LR
-    A[1. Dữ liệu] --> B[2. Mô hình]
+    A[1. Dữ liệu] --> B[2. Model]
     B --> C[3. Hàm mất mát + Thuật toán tối ưu hóa]
-    C --> D[4. Vòng lặp huấn luyện]
+    C --> D[4. Vòng lặp training]
     D -->|epoch++| C
 \`\`\`
 
 1. **Dữ liệu** - gói các đầu vào của bạn trong \`torch.tensor\` (và lý tưởng là một \`DataLoader\` để phân lô).
-2. **Mô hình** - kế thừa \`nn.Module\` và triển khai \`forward(x)\`.
+2. **Model** - kế thừa \`nn.Module\` và triển khai \`forward(x)\`.
 3. **Hàm mất mát + Thuật toán tối ưu hóa** - chọn một tiêu chí (ví dụ: \`MSELoss\` cho hồi quy) và một thuật toán tối ưu hóa (\`Adam\` là một lựa chọn an toàn mặc định).
-4. **Vòng lặp huấn luyện** - lặp lại: truyền xuôi → hàm mất mát → truyền ngược → optimizer.step.
+4. **Vòng lặp training** - lặp lại: truyền xuôi → loss function → truyền ngược → optimizer.step.
 
-## 3. Vòng lặp huấn luyện, từng dòng
+## 3. Vòng lặp training, từng dòng
 
 \`\`\`python
 # Lặp qua số lượng epoch đã định nghĩa
 for epoch in range(epochs):
-    # Đặt lại gradient về 0 cho tất cả các tham số của mô hình.
+    # Đặt lại gradient về 0 cho tất cả các parameters của model.
     # Điều này quan trọng để tránh việc gradient tích lũy từ các bước trước.
     optimizer.zero_grad()        # reset gradients from previous step
-    # Thực hiện forward pass: đưa dữ liệu đầu vào X qua mô hình
+    # Thực hiện forward pass: đưa dữ liệu đầu vào X qua model
     # để nhận được dự đoán y_hat.
     y_hat = model(X)             # forward pass
-    # Tính toán giá trị hàm mất mát (loss) bằng cách so sánh
+    # Compute giá trị loss function (loss) bằng cách so sánh
     # dự đoán y_hat với giá trị thực tế y.
     loss = criterion(y_hat, y)   # compare prediction to truth
-    # Thực hiện backward pass: tính toán gradient của hàm mất mát
-    # đối với tất cả các tham số có thể huấn luyện được trong mô hình.
+    # Thực hiện backward pass: tính toán gradient của loss function
+    # đối với tất cả các parameters có thể training được trong model.
     loss.backward()              # autograd computes gradients
-    # Cập nhật trọng số của mô hình dựa trên gradient đã tính toán
+    # Cập nhật weights của model dựa trên gradient đã tính toán
     # và thuật toán tối ưu hóa (optimizer) đã chọn.
     optimizer.step()             # update weights
 \`\`\`
 
-Thứ tự \`zero_grad → forward → backward → step\` là không thể thay đổi. Quên \`zero_grad()\` là **lỗi PyTorch số 1** - gradient từ các batch trước tích lũy và hàm mất mát của bạn bùng nổ.
+Thứ tự \`zero_grad → forward → backward → step\` là không thể thay đổi. Quên \`zero_grad()\` là **lỗi PyTorch số 1** - gradient từ các batch trước tích lũy và loss function của bạn bùng nổ.
 
-## 4. Chọn hàm mất mát
+## 4. Chọn loss function
 
 | Nhiệm vụ | Hàm mất mát (Loss) | Lớp PyTorch |
 |---|---|---|
@@ -286,15 +286,15 @@ Thứ tự \`zero_grad → forward → backward → step\` là không thể thay
 | Phân loại nhị phân | Cross-Entropy nhị phân (Binary Cross-Entropy) | \`nn.BCEWithLogitsLoss\` |
 | Phân loại đa lớp | Cross-Entropy | \`nn.CrossEntropyLoss\` |
 
-> **Cạm bẫy**: \`CrossEntropyLoss\` đã áp dụng Softmax nội bộ. Nếu mô hình của bạn cũng kết thúc với một lớp Softmax, bạn sẽ áp dụng nó **hai lần** và quá trình huấn luyện sẽ ngầm hoạt động kém hiệu quả. Hãy xuất **logit thô** và để hàm mất mát xử lý Softmax.
+> **Cạm bẫy**: \`CrossEntropyLoss\` đã áp dụng Softmax nội bộ. Nếu model của bạn cũng kết thúc với một lớp Softmax, bạn sẽ áp dụng nó **hai lần** và quá trình training sẽ ngầm hoạt động kém hiệu quả. Hãy xuất **logit thô** và để loss function xử lý Softmax.
 
 ## 5. Ví dụ thực tế - Dự đoán giá căn hộ Hà Nội
 
-Bạn có một file CSV với 5 đặc trưng cho mỗi căn hộ (diện tích, số phòng ngủ, quận, tuổi, khoảng cách đến trung tâm thành phố). Vòng lặp huấn luyện dưới đây có thể áp dụng từ hồi quy đồ chơi này cho đến một LLM 100 triệu tham số - chỉ có định nghĩa mô hình thay đổi.
+Bạn có một file CSV với 5 đặc trưng cho mỗi căn hộ (diện tích, số phòng ngủ, quận, tuổi, khoảng cách đến trung tâm thành phố). Vòng lặp training dưới đây có thể áp dụng từ hồi quy đồ chơi này cho đến một LLM 100 triệu parameters - chỉ có định nghĩa model thay đổi.
 
 ## 6. Khái niệm chính
 
-> 🎯 **Khái niệm chính** - Mọi dự án PyTorch đều tuân theo mô hình **Dữ liệu → Mô hình → Hàm mất mát/Thuật toán tối ưu hóa → Vòng lặp huấn luyện**. Nắm vững vòng lặp đó và bạn có thể huấn luyện bất cứ thứ gì từ hồi quy tuyến tính đến các mô hình lớp GPT - định nghĩa mô hình thay đổi, vòng lặp thì không.`,
+> 🎯 **Khái niệm chính** - Mọi dự án PyTorch đều tuân theo model **Dữ liệu → Model → Hàm mất mát/Thuật toán tối ưu hóa → Vòng lặp training**. Nắm vững vòng lặp đó và bạn có thể training bất cứ thứ gì từ hồi quy linear đến các model lớp GPT - định nghĩa model thay đổi, vòng lặp thì không.`,
         theoryEn: `> ⚠️ **Prerequisites** - Lesson 1 (Neural Networks) and the **ML Linear Regression** lesson.
 
 ## 1. Why a framework?
@@ -330,19 +330,19 @@ graph LR
 \`\`\`python
 # Lặp qua số lượng epoch đã định nghĩa
 for epoch in range(epochs):
-    # Đặt lại gradient về 0 cho tất cả các tham số của mô hình.
+    # Đặt lại gradient về 0 cho tất cả các parameters của model.
     # Điều này quan trọng để tránh việc gradient tích lũy từ các bước trước.
     optimizer.zero_grad()        # reset gradients from previous step
-    # Thực hiện forward pass: đưa dữ liệu đầu vào X qua mô hình
+    # Thực hiện forward pass: đưa dữ liệu đầu vào X qua model
     # để nhận được dự đoán y_hat.
     y_hat = model(X)             # forward pass
-    # Tính toán giá trị hàm mất mát (loss) bằng cách so sánh
+    # Compute giá trị loss function (loss) bằng cách so sánh
     # dự đoán y_hat với giá trị thực tế y.
     loss = criterion(y_hat, y)   # compare prediction to truth
-    # Thực hiện backward pass: tính toán gradient của hàm mất mát
-    # đối với tất cả các tham số có thể huấn luyện được trong mô hình.
+    # Thực hiện backward pass: tính toán gradient của loss function
+    # đối với tất cả các parameters có thể training được trong model.
     loss.backward()              # autograd computes gradients
-    # Cập nhật trọng số của mô hình dựa trên gradient đã tính toán
+    # Cập nhật weights của model dựa trên gradient đã tính toán
     # và thuật toán tối ưu hóa (optimizer) đã chọn.
     optimizer.step()             # update weights
 \`\`\`
@@ -406,7 +406,7 @@ w = model.fc.weight.item()
 b = model.fc.bias.item()
 print(f"\\nLearned: y = {w:.3f} * x + {b:.3f}    (true: y = 2.000 * x + 1.000)")`,
         codeLanguage: "python",
-        exercise: "Mở rộng mô hình thành hai đặc trưng đầu vào (ví dụ: area và bedrooms) và tạo dữ liệu tổng hợp với `y = 3*x1 - 1.5*x2 + 0.5`. Xác nhận các trọng số đã huấn luyện gần với (3, -1.5) và hệ số điều chỉnh (bias) gần với 0.5. Sau đó thay đổi trình tối ưu hóa (optimizer) từ `Adam` thành `SGD(lr=0.1)` và quan sát cách đường cong tổn thất thay đổi.",
+        exercise: "Mở rộng model thành hai đặc trưng đầu vào (ví dụ: area và bedrooms) và tạo dữ liệu tổng hợp với `y = 3*x1 - 1.5*x2 + 0.5`. Xác nhận các weights đã training gần với (3, -1.5) và hệ số điều chỉnh (bias) gần với 0.5. Sau đó thay đổi trình tối ưu hóa (optimizer) từ `Adam` thành `SGD(lr=0.1)` và quan sát cách đường cong tổn thất thay đổi.",
         exerciseEn: "Extend the model to **two input features** (e.g. area and bedrooms) and generate synthetic data with `y = 3*x1 - 1.5*x2 + 0.5`. Confirm the trained weights are close to (3, -1.5) and the bias is close to 0.5. Then change the optimizer from `Adam` to `SGD(lr=0.1)` and observe how the loss curve changes.",
         quiz: [
           {
@@ -458,14 +458,14 @@ print(f"\\nLearned: y = {w:.3f} * x + {b:.3f}    (true: y = 2.000 * x + 1.000)")
 
 ## 1. Tại sao các lớp dày đặc (dense layers) thất bại trên hình ảnh
 
-Một bức ảnh màu 224×224 có 224·224·3 = **150.528 pixel**. Một lớp dày đặc đầu tiên với 1.000 đơn vị ẩn sẽ cần ~150 triệu trọng số *chỉ riêng cho lớp đầu tiên*. Tệ hơn nữa, các lớp dày đặc coi pixel (0,0) hoàn toàn không liên quan đến pixel (0,1) - chúng bỏ qua **cấu trúc không gian**.
+Một bức ảnh màu 224×224 có 224·224·3 = **150.528 pixel**. Một lớp dày đặc đầu tiên với 1.000 đơn vị ẩn sẽ cần ~150 triệu weights *chỉ riêng cho lớp đầu tiên*. Tệ hơn nữa, các lớp dày đặc coi pixel (0,0) hoàn toàn không liên quan đến pixel (0,1) - chúng bỏ qua **cấu trúc không gian**.
 
 Mạng nơ-ron tích chập (Convolutional Neural Networks - CNNs) giải quyết cả hai vấn đề bằng hai ý tưởng:
 
 - **Trường tiếp nhận cục bộ (Local receptive fields)** - mỗi nơ-ron chỉ nhìn thấy một vùng nhỏ (ví dụ 3×3) của đầu vào.
-- **Chia sẻ trọng số (Weight sharing)** - cùng một bộ lọc nhỏ trượt trên toàn bộ hình ảnh.
+- **Chia sẻ weights (Weight sharing)** - cùng một bộ lọc nhỏ trượt trên toàn bộ hình ảnh.
 
-Kết quả: một bộ lọc 3×3 duy nhất chỉ có **9 + 1 = 10 trọng số**, nhưng nó có thể phát hiện (ví dụ) một cạnh dọc ở bất cứ đâu trong hình ảnh.
+Kết quả: một bộ lọc 3×3 duy nhất chỉ có **9 + 1 = 10 weights**, nhưng nó có thể phát hiện (ví dụ) một cạnh dọc ở bất cứ đâu trong hình ảnh.
 
 ## 2. Thao tác tích chập (convolution operation) trong một hình ảnh
 
@@ -482,10 +482,10 @@ Một **bộ lọc (filter)** (còn gọi là kernel) là một ma trận nhỏ.
 | Lớp | Mục đích |
 |---|---|
 | **Conv2d** | Trích xuất các mẫu cục bộ bằng các bộ lọc có thể học được |
-| **ReLU** | Thêm tính phi tuyến tính (tương tự như trước) |
+| **ReLU** | Thêm tính phi linear (tương tự như trước) |
 | **MaxPool2d** | Giảm mẫu bằng cách giữ lại kích hoạt mạnh nhất trong mỗi cửa sổ - giúp tăng khả năng chịu đựng dịch chuyển và giảm tính toán |
 | **Flatten** | Biến bản đồ đặc trưng 2-D thành một vector 1-D |
-| **Dense** | Bộ phân loại cuối cùng |
+| **Dense** | Bộ classification cuối cùng |
 
 Một lớp Conv đơn sử dụng một **hàng loạt (bank)** các bộ lọc (ví dụ 32 hoặc 64). Mỗi bộ lọc tạo ra một bản đồ đặc trưng, do đó đầu ra của \\\`Conv2d(in=3, out=32)\\\` có 32 kênh.
 
@@ -501,14 +501,14 @@ Một lớp Conv đơn sử dụng một **hàng loạt (bank)** các bộ lọc
 Một quy trình ANPR (Automatic Number Plate Recognition - Nhận dạng biển số tự động) thực tế được sử dụng tại các bãi đỗ xe Hà Nội:
 
 1. **YOLO** (một công cụ phát hiện dựa trên CNN) tìm các khung bao quanh biển số - chạy ở 60 fps trên Jetson Nano.
-2. Một CNN thứ hai (3 khối Conv + 2 lớp Dense, ~200K tham số) phân loại từng ký tự đã cắt thành 0-9 / A-Z / Đ.
+2. Một CNN thứ hai (3 khối Conv + 2 lớp Dense, ~200K parameters) classification từng ký tự đã cắt thành 0-9 / A-Z / Đ.
 3. Toàn bộ quy trình gói gọn trong 2 MB và chạy ngoại tuyến tại cổng.
 
-Kiểu kiến trúc tương tự làm nền tảng cho Face ID của iPhone, phát hiện làn đường Tesla Autopilot và phân loại X-quang y tế.
+Kiểu kiến trúc tương tự làm nền tảng cho Face ID của iPhone, phát hiện làn đường Tesla Autopilot và classification X-quang y tế.
 
 ## 6. Khái niệm chính
 
-> 🎯 **Khái niệm chính** - CNNs thay "mọi pixel nói chuyện với mọi nơ-ron" bằng "bộ lọc nhỏ, được trượt khắp nơi". Điều này **giảm đáng kể** các tham số trong khi vẫn giữ cấu trúc không gian - lý do thị giác máy tính bùng nổ sau năm 2012.`,
+> 🎯 **Khái niệm chính** - CNNs thay "mọi pixel nói chuyện với mọi nơ-ron" bằng "bộ lọc nhỏ, được trượt khắp nơi". Điều này **giảm đáng kể** các parameters trong khi vẫn giữ cấu trúc không gian - lý do thị giác máy tính bùng nổ sau năm 2012.`,
         theoryEn: `> ⚠️ **Prerequisites** - Lessons 1 and 2.
 
 ## 1. Why dense layers fail on images
@@ -641,7 +641,7 @@ print("Output shape:", logits.shape)
 # Expected result: a positive integer representing the total number of weights and biases.
 print("Total parameters:", sum(p.numel() for p in model.parameters()))`,
         codeLanguage: "python",
-        exercise: "Thêm khối tích chập thứ ba (`Conv 32 -> 64`, ReLU, MaxPool) trước các lớp dày đặc. Tính toán lại kích thước đầu vào của `fc1` (gợi ý: ảnh 28x28 trở thành 3x3 sau ba pool 2x2 - 28 / 8 = 3 với các tổn thất lớp đệm). Chạy mô hình trên một lô giả và báo cáo tổng số tham số mới.",
+        exercise: "Thêm khối tích chập thứ ba (`Conv 32 -> 64`, ReLU, MaxPool) trước các lớp dày đặc. Compute lại size đầu vào của `fc1` (gợi ý: ảnh 28x28 trở thành 3x3 sau ba pool 2x2 - 28 / 8 = 3 với các tổn thất lớp đệm). Chạy model trên một lô giả và báo cáo tổng số parameters mới.",
         exerciseEn: "Add a **third** convolutional block (`Conv 32 -> 64`, ReLU, MaxPool) before the dense layers. Recalculate the input size of `fc1` (hint: a 28x28 image becomes 3x3 after three 2x2 pools - 28 / 8 = 3 with padding losses). Run the model on a fake batch and report the new total parameter count.",
         quiz: [
           {
@@ -686,7 +686,7 @@ print("Total parameters:", sum(p.numel() for p in model.parameters()))`,
         difficulty: "advanced",
         theory: `> ⚠️ **Điều kiện tiên quyết** - Bài học 1 và 2.
 
-## 1. Tại sao các mô hình dense và CNN gặp khó khăn với các chuỗi tuần tự
+## 1. Tại sao các model dense và CNN gặp khó khăn với các chuỗi tuần tự
 
 Văn bản, lời nói, luồng dữ liệu cảm biến và giá cổ phiếu đều có một đặc tính chung: **thứ tự quan trọng**. Câu "Mèo ăn cá" có nghĩa ngược lại với "Cá ăn mèo", nhưng một lớp dense làm phẳng cả hai câu thành cùng một túi từ thì lại coi chúng là giống hệt nhau.
 
@@ -697,7 +697,7 @@ h_t = tanh(W_x · x_t + W_h · h_{t-1} + b)
 y_t = W_y · h_t + b_y
 \\\`\\\`\\\`
 
-Các trọng số \\\`W_x\\\`, \\\`W_h\\\`, \\\`W_y\\\` giống nhau được sử dụng lại ở mỗi bước thời gian - chính xác là thủ thuật *chia sẻ trọng số* đã giúp CNN hoạt động, nhưng dọc theo **trục thời gian** thay vì không gian.
+Các weights \\\`W_x\\\`, \\\`W_h\\\`, \\\`W_y\\\` giống nhau được sử dụng lại ở mỗi bước thời gian - chính xác là thủ thuật *chia sẻ weights* đã giúp CNN hoạt động, nhưng dọc theo **trục thời gian** thay vì không gian.
 
 \\\`\\\`\\\`mermaid
 graph LR
@@ -727,26 +727,26 @@ Bởi vì trạng thái ô được cập nhật bằng **phép nhân và phép 
 
 ## 4. RNN hai chiều và xếp chồng (Bidirectional and Stacked RNNs)
 
-- **Hai chiều (Bidirectional)** - chạy một RNN từ trái sang phải và một RNN khác từ phải sang trái, sau đó nối các trạng thái ẩn. Mô hình có thể sử dụng ngữ cảnh từ cả hai phía của mỗi từ, giúp tăng độ chính xác trong việc gắn thẻ và nhận dạng thực thể có tên.
+- **Hai chiều (Bidirectional)** - chạy một RNN từ trái sang phải và một RNN khác từ phải sang trái, sau đó nối các trạng thái ẩn. Model có thể sử dụng ngữ cảnh từ cả hai phía của mỗi từ, giúp tăng độ chính xác trong việc gắn thẻ và nhận dạng thực thể có tên.
 - **Xếp chồng (Stacked)** - truyền dãy đầu ra của một LSTM vào một LSTM khác. Các LSTM hai lớp là tiêu chuẩn trong các hệ thống dịch máy thần kinh (NMT) trước khi Transformer chiếm ưu thế.
 
 ## 5. Ví dụ thực tế - phân tích cảm xúc tiếng Việt
 
-Một LSTM hai lớp hai chiều với trạng thái ẩn 128 chiều và vector nhúng (embedding) word2vec tiếng Việt có thể phân loại đánh giá sản phẩm trên Shopee với độ chính xác ~88%. Nó chạy dưới 5 ms cho mỗi đánh giá trên CPU - đủ nhỏ để nhúng vào ứng dụng di động để kiểm duyệt theo thời gian thực.
+Một LSTM hai lớp hai chiều với trạng thái ẩn 128 chiều và vector nhúng (embedding) word2vec tiếng Việt có thể classification đánh giá sản phẩm trên Shopee với độ chính xác ~88%. Nó chạy dưới 5 ms cho mỗi đánh giá trên CPU - đủ nhỏ để nhúng vào ứng dụng di động để kiểm duyệt theo thời gian thực.
 
 Kiến trúc tương tự cũng thúc đẩy việc nhận dạng giọng nói ban đầu (DeepSpeech 2), dịch máy ban đầu (Seq2Seq) và dự báo chuỗi thời gian trong tài chính.
 
 ## 6. Vị trí của RNN trong năm 2025-2026
 
-Các mô hình Transformer (Bài học 5) đã thay thế RNN trong hầu hết các tác vụ NLP. RNN / LSTM vẫn được ưu tiên khi:
+Các model Transformer (Bài học 5) đã thay thế RNN trong hầu hết các tác vụ NLP. RNN / LSTM vẫn được ưu tiên khi:
 
 - Các chuỗi rất dài nhưng cục bộ (cảm biến dòng chảy năng lượng thấp).
-- Độ trễ là cực kỳ quan trọng và mô hình phải chạy trực tuyến từng bước.
+- Độ trễ là cực kỳ quan trọng và model phải chạy trực tuyến từng bước.
 - Bộ nhớ hạn chế (một LSTM nhỏ hơn khoảng 10 lần so với một Transformer tương đương).
 
 ## 7. Khái niệm chính
 
-> 🎯 **Khái niệm chính** - RNN chia sẻ trọng số theo **thời gian** giống như CNN chia sẻ chúng theo **không gian**. LSTM bổ sung thêm một *trạng thái ô có cổng* để các gradient tồn tại qua các chuỗi dài. Các mô hình Transformer (bài học tiếp theo) loại bỏ hoàn toàn tính hồi quy để ưu tiên cơ chế chú ý (attention) - nhưng hiểu RNN là điều cần thiết để hiểu *tại sao* cơ chế chú ý lại giành chiến thắng.`,
+> 🎯 **Khái niệm chính** - RNN chia sẻ weights theo **thời gian** giống như CNN chia sẻ chúng theo **không gian**. LSTM bổ sung thêm một *trạng thái ô có cổng* để các gradient tồn tại qua các chuỗi dài. Các model Transformer (bài học tiếp theo) loại bỏ hoàn toàn tính hồi quy để ưu tiên cơ chế chú ý (attention) - nhưng hiểu RNN là điều cần thiết để hiểu *tại sao* cơ chế chú ý lại giành chiến thắng.`,
         theoryEn: `> ⚠️ **Prerequisites** - Lessons 1 and 2.
 
 ## 1. Why dense and CNN models struggle with sequences
@@ -890,7 +890,7 @@ print("Parameters: ", sum(p.numel() for p in model.parameters()))
 # Expected result: Parameters:  a large integer (e.g. around 1.5 million)
 `,
         codeLanguage: "python",
-        exercise: "Thay thế `nn.LSTM` bằng `nn.GRU` (API gần như tương tự - bỏ qua trạng thái ô `c_n`). So sánh số lượng tham số. Sau đó, làm cho mô hình **một chiều** (`bidirectional=False`) và cập nhật kích thước đầu vào của lớp tuyến tính cuối cùng. Phiên bản nào có ít tham số hơn và bạn mong đợi phiên bản nào sẽ hoạt động tốt hơn trên các bài đánh giá dài?",
+        exercise: "Thay thế `nn.LSTM` bằng `nn.GRU` (API gần như tương tự - bỏ qua trạng thái ô `c_n`). So sánh số lượng parameters. Sau đó, làm cho model **một chiều** (`bidirectional=False`) và cập nhật size đầu vào của lớp linear cuối cùng. Phiên bản nào có ít parameters hơn và bạn mong đợi phiên bản nào sẽ hoạt động tốt hơn trên các bài đánh giá dài?",
         exerciseEn: "Replace `nn.LSTM` with `nn.GRU` (the API is almost identical - drop the `c_n` cell state). Compare parameter counts. Then make the model **uni-directional** (`bidirectional=False`) and update the input dimension of the final linear layer. Which version has fewer parameters, and which would you expect to perform better on long reviews?",
         quiz: [
           {
@@ -937,13 +937,13 @@ print("Parameters: ", sum(p.numel() for p in model.parameters()))
 
 ## 1. Tại sao cơ chế chú ý (attention) thay thế cơ chế truy hồi (recurrence)
 
-RNN xử lý các token (mã thông báo) từng cái một – về cơ bản là **tuần tự (sequential)**, điều này có nghĩa là quá trình huấn luyện chậm trên các GPU hiện đại. Bài báo năm 2017 *"Attention Is All You Need"* đã giới thiệu **Transformer**: một mô hình loại bỏ hoàn toàn cơ chế truy hồi và cho phép mỗi token trực tiếp chú ý đến mọi token khác một cách **song song**.
+RNN xử lý các token (mã thông báo) từng cái một – về cơ bản là **tuần tự (sequential)**, điều này có nghĩa là quá trình training chậm trên các GPU hiện đại. Bài báo năm 2017 *"Attention Is All You Need"* đã giới thiệu **Transformer**: một model loại bỏ hoàn toàn cơ chế truy hồi và cho phép mỗi token trực tiếp chú ý đến mọi token khác một cách **song song**.
 
-Kết quả là kiến trúc đứng sau ChatGPT, Claude, Gemini, Llama và gần như mọi mô hình ngôn ngữ tiên tiến kể từ năm 2020.
+Kết quả là kiến trúc đứng sau ChatGPT, Claude, Gemini, Llama và gần như mọi model ngôn ngữ tiên tiến kể từ năm 2020.
 
 ## 2. Cơ chế tự chú ý (Self-attention) trong một hình ảnh
 
-Đối với mỗi token trong chuỗi, mô hình tính toán ba véc-tơ: một **Truy vấn (Query)** (tôi đang tìm kiếm gì?), một **Khóa (Key)** (tôi cung cấp gì?), và một **Giá trị (Value)** (tôi sẽ đóng góp gì?). Trọng số chú ý từ token i đến token j là tích vô hướng của Query của i với Key của j, sau đó được điều chỉnh tỷ lệ và áp dụng softmax. Kết quả đầu ra cho token i là tổng có trọng số của tất cả các Giá trị.
+Đối với mỗi token trong chuỗi, model tính toán ba véc-tơ: một **Truy vấn (Query)** (tôi đang tìm kiếm gì?), một **Khóa (Key)** (tôi cung cấp gì?), và một **Giá trị (Value)** (tôi sẽ đóng góp gì?). Trọng số chú ý từ token i đến token j là tích vô hướng của Query của i với Key của j, sau đó được điều chỉnh tỷ lệ và áp dụng softmax. Kết quả đầu ra cho token i là tổng có weights của tất cả các Giá trị.
 
 \\\`\\\`\\\`
 Attention(Q, K, V) = softmax(Q · Kᵀ / √d_k) · V
@@ -971,31 +971,31 @@ x = x + MultiHeadAttention(LayerNorm(x))
 x = x + FeedForward(LayerNorm(x))
 \\\`\\\`\\\`
 
-**Kết nối dư (residual connections)** (\`x + ...\`) và **Chuẩn hóa lớp (LayerNorm)** là những yếu tố giúp việc xếp chồng (stacking) hơn 100 khối có thể huấn luyện được. **Mạng truyền thẳng (FeedForward)** là một mạng dày đặc 2 lớp được áp dụng độc lập cho mỗi token.
+**Kết nối dư (residual connections)** (\`x + ...\`) và **Chuẩn hóa lớp (LayerNorm)** là những yếu tố giúp việc xếp chồng (stacking) hơn 100 khối có thể training được. **Mạng truyền thẳng (FeedForward)** là một mạng dày đặc 2 lớp được áp dụng độc lập cho mỗi token.
 
 ## 4. Bộ mã hóa, bộ giải mã và chỉ bộ giải mã
 
 | Biến thể | Được sử dụng bởi | Chức năng |
 |---|---|---|
-| **Chỉ bộ mã hóa (Encoder-only)** | BERT, RoBERTa | Hiểu văn bản - phân loại, vector nhúng (embedding), nhận dạng thực thể có tên (NER) |
-| **Chỉ bộ giải mã (Decoder-only)** | GPT, Llama, Claude, Gemini | Tạo văn bản - trò chuyện, mã, tóm tắt |
+| **Chỉ bộ mã hóa (Encoder-only)** | BERT, RoBERTa | Hiểu văn bản - classification, vector nhúng (embedding), nhận dạng thực thể có tên (NER) |
+| **Chỉ bộ giải mã (Decoder-only)** | GPT, Llama, Claude, Gemini | Create văn bản - trò chuyện, mã, tóm tắt |
 | **Bộ mã hóa-giải mã (Encoder-decoder)** | T5, Transformer gốc | Dịch / chuyển đổi - chuỗi đầu vào → đầu ra |
 
-Kiến trúc LLM chiếm ưu thế trong giai đoạn 2025-2026 là **chỉ bộ giải mã với mặt nạ nhân quả (causal masking)** – mỗi token chỉ có thể chú ý đến chính nó và các token trước đó, do đó mô hình có thể được huấn luyện để dự đoán token tiếp theo trên hàng nghìn tỷ token văn bản.
+Kiến trúc LLM chiếm ưu thế trong giai đoạn 2025-2026 là **chỉ bộ giải mã với mặt nạ nhân quả (causal masking)** – mỗi token chỉ có thể chú ý đến chính nó và các token trước đó, do đó model có thể được training để dự đoán token tiếp theo trên hàng nghìn tỷ token văn bản.
 
 ## 5. Từ Transformer đến LLM
 
-Một "Mô hình Ngôn ngữ Lớn (Large Language Model - LLM)" chỉ là một Transformer được mở rộng đáng kể:
+Một "Model Ngôn ngữ Lớn (Large Language Model - LLM)" chỉ là một Transformer được mở rộng đáng kể:
 
 | Yếu tố | Nhỏ | Tiên tiến (2025) |
 |---|---|---|
 | Tham số | 100 triệu | 100 tỷ – 2 nghìn tỷ |
 | Độ dài ngữ cảnh | 512 token | 1 triệu+ token |
-| Dữ liệu huấn luyện | ~1 tỷ token | 10 nghìn tỷ+ token |
+| Dữ liệu training | ~1 tỷ token | 10 nghìn tỷ+ token |
 | Điện toán (FLOPs) | 10¹⁹ | 10²⁵ |
-| Chi phí huấn luyện | < \$100 | \$50 triệu – \$500 triệu |
+| Chi phí training | < \$100 | \$50 triệu – \$500 triệu |
 
-Sau khi tiền huấn luyện (pre-training), mô hình được **tinh chỉnh với phản hồi của con người (RLHF/DPO)** để tuân theo hướng dẫn, từ chối các yêu cầu không an toàn và thể hiện một tính cách hữu ích – đây là sự khác biệt giữa một GPT-4 cơ bản thô và ChatGPT.
+Sau khi tiền training (pre-training), model được **tinh chỉnh với phản hồi của con người (RLHF/DPO)** để tuân theo hướng dẫn, từ chối các yêu cầu không an toàn và thể hiện một tính cách hữu ích – đây là sự khác biệt giữa một GPT-4 cơ bản thô và ChatGPT.
 
 ## 6. Ví dụ thực tế - Hỏi đáp tài liệu pháp luật Việt Nam
 
@@ -1004,18 +1004,18 @@ Một chatbot của công ty luật Việt Nam hiện đại sử dụng:
 1. Một **bộ mã hóa song ngữ (bilingual encoder)** (ví dụ: multilingual-e5) để biến mỗi điều khoản của Bộ luật Dân sự Việt Nam thành một vector nhúng (embedding) được lưu trữ trong một cơ sở dữ liệu vector.
 2. Một **LLM bộ giải mã (decoder LLM)** (ví dụ: Claude 3.5 hoặc Gemini 2.5) mà, khi nhận được câu hỏi của người dùng, sẽ truy xuất các điều khoản liên quan top-K và tạo ra một câu trả lời có căn cứ bằng tiếng Việt – trích dẫn số điều khoản.
 
-Kiểu mẫu này được gọi là **RAG (Retrieval-Augmented Generation - Tạo sinh tăng cường truy xuất)** và là cách phổ biến nhất để triển khai LLM trong sản xuất ngày nay.
+Kiểu mẫu này được gọi là **RAG (Retrieval-Augmented Generation - Create sinh tăng cường truy xuất)** và là cách phổ biến nhất để triển khai LLM trong sản xuất ngày nay.
 
 ## 7. Giới hạn năm 2025-2026
 
-- **Hỗn hợp các chuyên gia (Mixture of Experts - MoE)** – chỉ 1/8 tham số được kích hoạt cho mỗi token; giảm đáng kể chi phí suy luận (Mixtral, Gemini 1.5, GPT-4).
+- **Hỗn hợp các chuyên gia (Mixture of Experts - MoE)** – chỉ 1/8 parameters được kích hoạt cho mỗi token; giảm đáng kể chi phí suy luận (Mixtral, Gemini 1.5, GPT-4).
 - **Ngữ cảnh dài (Long context)** – cửa sổ 1 triệu+ token cho phép LLM đọc toàn bộ codebase hoặc sách chỉ trong một lần.
 - **Đa phương thức (Multimodal)** – cùng một xương sống Transformer hiện xử lý văn bản, hình ảnh, âm thanh và video (Gemini 2.5, GPT-5, Claude 3.5).
-- **Mô hình suy luận (Reasoning models)** – bước "suy nghĩ trước khi nói" riêng biệt (o1, o3, Gemini 2.5 Pro) đánh đổi độ trễ để đạt độ chính xác cao hơn đáng kể trong toán học, mã và logic.
+- **Model suy luận (Reasoning models)** – bước "suy nghĩ trước khi nói" riêng biệt (o1, o3, Gemini 2.5 Pro) đánh đổi độ trễ để đạt độ chính xác cao hơn đáng kể trong toán học, mã và logic.
 
 ## 8. Khái niệm chính
 
-> 🎯 **Khái niệm chính** - Cơ chế tự chú ý (Self-attention) thay thế cơ chế truy hồi bằng cách **so sánh tất cả với tất cả một cách song song**. Xếp chồng hàng tá khối chú ý và mở rộng tham số, dữ liệu, và sức mạnh điện toán là toàn bộ công thức tạo nên mọi LLM hiện đại. Mọi thứ khác – RAG, tinh chỉnh, đa phương thức – đều dựa trên nền tảng này.`,
+> 🎯 **Khái niệm chính** - Cơ chế tự chú ý (Self-attention) thay thế cơ chế truy hồi bằng cách **so sánh tất cả với tất cả một cách song song**. Xếp chồng hàng tá khối chú ý và mở rộng parameters, dữ liệu, và sức mạnh điện toán là toàn bộ công thức tạo nên mọi LLM hiện đại. Mọi thứ khác – RAG, tinh chỉnh, đa phương thức – đều dựa trên nền tảng này.`,
         theoryEn: `> ⚠️ **Prerequisites** - All previous DL lessons. Familiarity with the **AI Foundation → LLM** lesson is also recommended.
 
 ## 1. Why attention replaced recurrence
@@ -1132,7 +1132,7 @@ print(weights.round(decimals=2))
 print("\\\\nEach row sums to 1.0:", weights.sum(dim=-1).round(decimals=2).tolist())
 print("\\\\nOutput shape (one new vector per token):", output.shape)`,
         codeLanguage: "python",
-        exercise: "Thêm **che nhân quả (causal masking)** để token i không thể nhìn các token có chỉ số > i (phép biến đổi biến sự chú ý kiểu encoder này thành kiểu decoder của GPT). Gợi ý: tạo ma trận tam giác trên bằng `torch.triu(torch.ones(seq_len, seq_len), diagonal=1).bool()` và đặt các vị trí đó trong `scores` thành `-inf` *trước khi* áp dụng softmax. Kiểm tra lại để xác minh rằng ma trận trọng số kết quả là ma trận tam giác dưới.",
+        exercise: "Thêm **che nhân quả (causal masking)** để token i không thể nhìn các token có chỉ số > i (phép biến đổi biến sự chú ý kiểu encoder này thành kiểu decoder của GPT). Gợi ý: tạo ma trận tam giác trên bằng `torch.triu(torch.ones(seq_len, seq_len), diagonal=1).bool()` và đặt các vị trí đó trong `scores` thành `-inf` *trước khi* áp dụng softmax. Kiểm tra lại để xác minh rằng ma trận weights kết quả là ma trận tam giác dưới.",
         exerciseEn: "Add **causal masking** so that token i cannot attend to tokens with index > i (the trick that turns this encoder-style attention into a GPT-style decoder). Hint: build an upper-triangular matrix with `torch.triu(torch.ones(seq_len, seq_len), diagonal=1).bool()` and set those positions in `scores` to `-inf` *before* the softmax. Verify that the resulting weight matrix is lower-triangular.",
         quiz: [
           {
@@ -1182,30 +1182,30 @@ print("\\\\nOutput shape (one new vector per token):", output.shape)`,
         difficulty: "advanced",
         theory: `> ⚠️ **Điều kiện tiên quyết** - Các Bài học 1–3.
 
-## 1. Tại sao không huấn luyện từ đầu?
+## 1. Tại sao không training từ đầu?
 
-Huấn luyện một mô hình thị giác hiện đại trên ImageNet (1.2 triệu ảnh) mất **nhiều ngày trên 8 GPU**. Hầu hết các nhóm tái sử dụng một mạng đã được huấn luyện trên một tập dữ liệu khổng lồ và điều chỉnh nó - đó là **chuyển giao học tập (transfer learning)**.
+Train một model thị giác hiện đại trên ImageNet (1.2 triệu ảnh) mất **nhiều ngày trên 8 GPU**. Hầu hết các nhóm tái sử dụng một mạng đã được training trên một tập dữ liệu khổng lồ và điều chỉnh nó - đó là **chuyển giao học tập (transfer learning)**.
 
-Điểm mấu chốt: các **lớp thấp hơn** của một mạng CNN sâu học các đặc trưng rất chung (cạnh, kết cấu, hình dạng) hữu ích cho hầu hết mọi bài toán thị giác. Chỉ các **lớp trên cùng** mới chuyên biệt hóa. Giữ phần chung, thay thế phần trên cùng, và bạn sẽ có một mô hình mạnh mẽ với rất ít huấn luyện mới.
+Điểm mấu chốt: các **lớp thấp hơn** của một mạng CNN sâu học các đặc trưng rất chung (cạnh, kết cấu, hình dạng) hữu ích cho hầu hết mọi bài toán thị giác. Chỉ các **lớp trên cùng** mới chuyên biệt hóa. Giữ phần chung, thay thế phần trên cùng, và bạn sẽ có một model mạnh mẽ với rất ít training mới.
 
 ## 2. Hai phương pháp
 
 | Chiến lược | Bạn làm gì | Khi nào sử dụng |
 |---|---|---|
-| **Trích xuất đặc trưng (Feature extraction)** | Đóng băng các trọng số đã được huấn luyện, chỉ huấn luyện phần đầu mới | Tập dữ liệu nhỏ (< 5 000 ảnh) |
-| **Tinh chỉnh (Fine-tuning)** | Thay thế phần đầu VÀ bỏ đóng băng các lớp trên cùng, huấn luyện với tốc độ học nhỏ | Tập dữ liệu lớn hơn, miền tương tự |
+| **Trích xuất đặc trưng (Feature extraction)** | Đóng băng các weights đã được training, chỉ training phần đầu mới | Tập dữ liệu nhỏ (< 5 000 ảnh) |
+| **Tinh chỉnh (Fine-tuning)** | Thay thế phần đầu VÀ bỏ đóng băng các lớp trên cùng, training với learning rate nhỏ | Tập dữ liệu lớn hơn, miền tương tự |
 
-Nguyên tắc chung: **đóng băng trước**, xác thực, sau đó bỏ đóng băng các khối trên cùng với \\\`lr × 0.1\\\`. Không bao giờ bỏ đóng băng tất cả cùng một lúc với tốc độ học ban đầu - điều đó phá hủy kiến thức đã được huấn luyện trước (quên thảm khốc – catastrophic forgetting).
+Nguyên tắc chung: **đóng băng trước**, xác thực, sau đó bỏ đóng băng các khối trên cùng với \\\`lr × 0.1\\\`. Không bao giờ bỏ đóng băng tất cả cùng một lúc với learning rate ban đầu - điều đó phá hủy kiến thức đã được training trước (quên thảm khốc – catastrophic forgetting).
 
 ## 3. Ví dụ thực tế - phát hiện biển số xe
 
-Bạn chỉ có 2 000 hình ảnh biển số xe Việt Nam đã được gắn nhãn. Huấn luyện từ đầu sẽ bị quá khớp (overfit) rất nhiều. Thay vào đó: tải **ResNet-50 đã được huấn luyện trước trên ImageNet**, thay thế bộ phân loại bằng một phần đầu 2 lớp, đóng băng các lớp 1–3, tinh chỉnh lớp 4 + phần đầu với \\\`lr=1e-4\\\`. Bạn thường đạt được **độ chính xác >95% trong vòng chưa đầy một giờ**.
+Bạn chỉ có 2 000 hình ảnh biển số xe Việt Nam đã được gắn nhãn. Train từ đầu sẽ bị quá khớp (overfit) rất nhiều. Thay vào đó: tải **ResNet-50 đã được training trước trên ImageNet**, thay thế bộ classification bằng một phần đầu 2 lớp, đóng băng các lớp 1–3, tinh chỉnh lớp 4 + phần đầu với \\\`lr=1e-4\\\`. Bạn thường đạt được **độ chính xác >95% trong vòng chưa đầy một giờ**.
 
 ## 4. Vượt ra ngoài thị giác
 
-Năm 2025, chuyển giao học tập là mặc định trong **mọi** lĩnh vực phụ: BERT/Llama cho NLP, Whisper cho giọng nói, wav2vec 2.0 cho âm thanh. **LoRA** và **QLoRA** chỉ cập nhật ~1% tham số - giúp việc tinh chỉnh các mô hình LLM với hàng tỷ tham số trở nên khả thi trên một GPU tiêu dùng duy nhất.
+Năm 2025, chuyển giao học tập là mặc định trong **mọi** lĩnh vực phụ: BERT/Llama cho NLP, Whisper cho giọng nói, wav2vec 2.0 cho âm thanh. **LoRA** và **QLoRA** chỉ cập nhật ~1% parameters - giúp việc tinh chỉnh các model LLM với hàng tỷ parameters trở nên khả thi trên một GPU tiêu dùng duy nhất.
 
-> 💡 **Khái niệm then chốt** - Hầu như không ai huấn luyện các mô hình nền tảng từ đầu vào năm 2025. Kỹ năng quan trọng là lựa chọn kiến trúc cơ bản (backbone) đã được huấn luyện trước phù hợp và tinh chỉnh nó một cách hiệu quả.`,
+> 💡 **Khái niệm then chốt** - Hầu như không ai training các model nền tảng từ đầu vào năm 2025. Kỹ năng quan trọng là lựa chọn kiến trúc cơ bản (backbone) đã được training trước phù hợp và tinh chỉnh nó một cách hiệu quả.`,
         theoryEn: `> ⚠️ **Prerequisites** - Lessons 1–3.
 
 ## 1. Why not train from scratch?
@@ -1249,45 +1249,45 @@ model = models.resnet18(weights=models.ResNet18_Weights.DEFAULT)
 for param in model.parameters():
     param.requires_grad = False
 
-# Thay thế lớp cuối cùng (lớp phân loại) bằng một lớp mới có 2 đầu ra (chỉ lớp này sẽ được huấn luyện)
-# Đầu vào: Mô hình ResNet-18 đã đóng băng.
-# Đầu ra: Mô hình với lớp 'fc' (fully connected) được thay thế bằng một lớp tuyến tính mới.
-num_features = model.fc.in_features # Lấy số lượng đặc trưng đầu vào của lớp cuối cùng hiện tại
-model.fc = nn.Linear(num_features, 2) # Thay thế lớp cuối cùng bằng một lớp tuyến tính mới với 2 đầu ra
+# Thay thế final layer (lớp classification) bằng một lớp mới có 2 đầu ra (chỉ lớp này sẽ được training)
+# Input: Model ResNet-18 đã đóng băng.
+# Output: Model với lớp 'fc' (fully connected) được thay thế bằng một lớp linear mới.
+num_features = model.fc.in_features # Get số lượng đặc trưng đầu vào của final layer hiện tại
+model.fc = nn.Linear(num_features, 2) # Thay thế final layer bằng một lớp linear mới với 2 đầu ra
 
-# Tính toán số lượng tham số có thể huấn luyện và tổng số tham số
-# Đầu vào: Mô hình đã được sửa đổi.
-# Đầu ra: Hai số nguyên (trainable, total) và in ra tỷ lệ phần trăm.
-trainable = sum(p.numel() for p in model.parameters() if p.requires_grad) # Đếm các tham số có requires_grad = True
-total = sum(p.numel() for p in model.parameters()) # Đếm tổng số tham số
+# Compute số lượng parameters có thể training và tổng số parameters
+# Input: Model đã được sửa đổi.
+# Output: Hai số nguyên (trainable, total) và in ra tỷ lệ phần trăm.
+trainable = sum(p.numel() for p in model.parameters() if p.requires_grad) # Đếm các parameters có requires_grad = True
+total = sum(p.numel() for p in model.parameters()) # Đếm tổng số parameters
 print(f"Trainable: {trainable:,} / {total:,} ({100*trainable/total:.2f}%)")
-# Kết quả mong đợi: In ra số lượng tham số có thể huấn luyện, tổng số tham số và tỷ lệ phần trăm.
+# Expected result: Print số lượng parameters có thể training, tổng số parameters và tỷ lệ phần trăm.
 
-# Khởi tạo bộ tối ưu hóa Adam chỉ cho các tham số của lớp 'fc' mới (lớp có thể huấn luyện)
-# Đầu vào: Tham số của lớp 'fc' và tốc độ học (learning rate).
-# Đầu ra: Một đối tượng bộ tối ưu hóa.
+# Initialize optimizer Adam chỉ cho các parameters của lớp 'fc' mới (lớp có thể training)
+# Input: Tham số của lớp 'fc' và learning rate (learning rate).
+# Output: Một đối tượng optimizer.
 optimizer = torch.optim.Adam(model.fc.parameters(), lr=1e-3)
-# Khởi tạo hàm mất mát CrossEntropyLoss, thường dùng cho bài toán phân loại đa lớp
-# Đầu vào: Không có.
-# Đầu ra: Một đối tượng hàm mất mát.
+# Initialize loss function CrossEntropyLoss, thường dùng cho bài toán classification đa lớp
+# Input: Không có.
+# Output: Một đối tượng loss function.
 criterion = nn.CrossEntropyLoss()
 
-# Bước huấn luyện thử nghiệm (Toy training step)
-# Tạo một batch ảnh giả lập (8 ảnh, 3 kênh màu, kích thước 224x224)
-# Đầu vào: Kích thước tensor.
-# Đầu ra: Một tensor chứa dữ liệu ảnh ngẫu nhiên.
+# Bước training thử nghiệm (Toy training step)
+# Create a fake image batch (8 ảnh, 3 kênh màu, size 224x224)
+# Input: Kích thước tensor.
+# Output: Một tensor chứa dữ liệu ảnh ngẫu nhiên.
 imgs = torch.randn(8, 3, 224, 224)
-# Tạo nhãn giả lập cho batch ảnh (8 nhãn, giá trị 0 hoặc 1)
-# Đầu vào: Phạm vi giá trị và kích thước tensor.
-# Đầu ra: Một tensor chứa nhãn ngẫu nhiên.
+# Create fake labels cho batch ảnh (8 nhãn, giá trị 0 hoặc 1)
+# Input: Phạm vi giá trị và size tensor.
+# Output: Một tensor chứa nhãn ngẫu nhiên.
 labels = torch.randint(0, 2, (8,))
-# Tính toán giá trị mất mát (loss)
-# Đầu vào: Đầu ra của mô hình (dự đoán) và nhãn thực tế.
-# Đầu ra: Một tensor chứa giá trị mất mát.
+# Compute loss value (loss)
+# Input: Output của model (dự đoán) và nhãn thực tế.
+# Output: Một tensor chứa loss value.
 loss = criterion(model(imgs), labels)
-# Thực hiện lan truyền ngược (backpropagation) để tính gradient của loss đối với các tham số
-# Đầu vào: Giá trị mất mát.
-# Đầu ra: Gradient được tính và lưu trữ trong thuộc tính .grad của các tham số.
+# Thực hiện backpropagation (backpropagation) để tính gradient của loss đối với các parameters
+# Input: Giá trị mất mát.
+# Output: Gradient được tính và lưu trữ trong thuộc tính .grad của các parameters.
 loss.backward()
 # Update the model parameters based on the computed gradient and the optimizer
 # Input: computed gradient.
@@ -1297,7 +1297,7 @@ print(f"Loss: {loss.item():.4f}")
 # Expected result: prints the loss value after one test training step.
 `,
         codeLanguage: "python",
-        exercise: "Chuyển sang chế độ **fine-tuning**: bỏ đóng băng (`unfreeze`) `model.layer4`, sau đó tạo trình tối ưu hóa Adam với hai nhóm tham số - `layer4` có `lr=1e-4` và `fc` có `lr=1e-3`. In ra phần trăm tham số có thể huấn luyện mới (~20–25 %).",
+        exercise: "Chuyển sang chế độ **fine-tuning**: bỏ đóng băng (`unfreeze`) `model.layer4`, sau đó tạo trình tối ưu hóa Adam với hai nhóm parameters - `layer4` có `lr=1e-4` và `fc` có `lr=1e-3`. Print phần trăm parameters có thể training mới (~20–25 %).",
         exerciseEn: "Switch to **fine-tuning** mode: also unfreeze `model.layer4`, then build an Adam optimizer with two parameter groups - `layer4` at `lr=1e-4` and `fc` at `lr=1e-3`. Print the new trainable-parameter percentage (~20–25 %).",
         quiz: [
           {
@@ -1332,7 +1332,7 @@ print(f"Loss: {loss.item():.4f}")
         difficulty: "advanced",
         theory: `> ⚠️ **Điều kiện tiên quyết** - Bài 3 (CNN) và 6 (Học chuyển giao - Transfer Learning).
 
-## 1. Vượt ra ngoài phân loại
+## 1. Vượt ra ngoài classification
 
 Phân loại trả lời câu hỏi "có **gì** trong ảnh này?". Phát hiện đối tượng (Object detection) trả lời hai câu hỏi khó hơn: **những** đối tượng nào + **chúng ở đâu** (hộp giới hạn - bounding boxes \`(x, y, w, h)\`). **Phân đoạn ngữ nghĩa (Semantic segmentation)** gán nhãn cho mọi pixel; **phân đoạn thể hiện (instance segmentation)** cũng phân biệt từng đối tượng cùng lớp.
 
@@ -1340,7 +1340,7 @@ Phân loại trả lời câu hỏi "có **gì** trong ảnh này?". Phát hiệ
 
 | Dòng | Ví dụ | Ý tưởng | Tốc độ |
 |---|---|---|---|
-| **Hai giai đoạn (Two-stage)** | Faster R-CNN, Mask R-CNN | Đề xuất vùng → phân loại từng vùng | Chậm hơn, độ chính xác cao nhất |
+| **Hai giai đoạn (Two-stage)** | Faster R-CNN, Mask R-CNN | Đề xuất vùng → classification từng vùng | Chậm hơn, độ chính xác cao nhất |
 | **Một giai đoạn (One-stage)** | YOLO v8/v9/v10, RetinaNet | Dự đoán hộp + lớp trong một lần | Thời gian thực |
 
 Vào năm 2025, **YOLO** thống trị các trường hợp sử dụng thời gian thực trong sản xuất - các biến thể hiện đại đạt >50 mAP trên COCO với tốc độ >100 FPS.
@@ -1359,7 +1359,7 @@ Vào năm 2025, **YOLO** thống trị các trường hợp sử dụng thời g
 
 Xe tự lái, nhận diện biển số xe (YOLO + CRNN), hình ảnh y tế (U-Net để phân đoạn khối u), phân tích bán lẻ. Với \`ultralytics/yolov8\`, bạn có thể tinh chỉnh (fine-tune) một bộ dò hiện đại trên 200–500 hình ảnh đã được gán nhãn trong vòng chưa đầy một giờ.
 
-> 💡 **Khái niệm then chốt** - Nút thắt cổ chai vào năm 2025 không còn là mô hình - mà là **gán nhãn (labelling)**.`,
+> 💡 **Khái niệm then chốt** - Nút thắt cổ chai vào năm 2025 không còn là model - mà là **gán nhãn (labelling)**.`,
         theoryEn: `> ⚠️ **Prerequisites** - Lessons 3 (CNN) and 6 (Transfer Learning).
 
 ## 1. Beyond classification
@@ -1481,7 +1481,7 @@ for r in results:
 
 ## 1. Trò chơi hai người
 
-Năm 2014, Ian Goodfellow đề xuất: huấn luyện **hai** mạng nơ-ron chiến đấu với nhau.
+Năm 2014, Ian Goodfellow đề xuất: training **hai** mạng nơ-ron chiến đấu với nhau.
 
 - **Mạng sinh (Generator - G)** - nhận nhiễu ngẫu nhiên, tạo ra một mẫu giả trông giống thật
 - **Mạng phân biệt (Discriminator - D)** - nhận mẫu thật hoặc giả, phải nói được cái nào là cái nào
@@ -1497,13 +1497,13 @@ flowchart LR
     D --> OUT[Real or Fake?]
 \\\`\\\`\\\`
 
-## 2. Vòng lặp huấn luyện
+## 2. Vòng lặp training
 
 Đối với mỗi lô (batch):
-1. **Huấn luyện D**: dữ liệu thật (nhãn 1) và dữ liệu giả từ G (nhãn 0). Giảm thiểu BCE (Cross-entropy nhị phân).
-2. **Huấn luyện G**: cấp nhiễu, đẩy dữ liệu giả qua D, buộc D dán nhãn cho chúng là **thật**.
+1. **Train D**: dữ liệu thật (nhãn 1) và dữ liệu giả từ G (nhãn 0). Giảm thiểu BCE (Cross-entropy nhị phân).
+2. **Train G**: cấp nhiễu, đẩy dữ liệu giả qua D, buộc D dán nhãn cho chúng là **thật**.
 
-Nổi tiếng là không ổn định - D quá mạnh làm triệt tiêu gradient của G; D quá yếu không cung cấp tín hiệu hữu ích. Các thủ thuật như **WGAN-GP** và **chuẩn hóa phổ (spectral normalisation)** giúp ổn định quá trình huấn luyện.
+Nổi tiếng là không ổn định - D quá mạnh làm triệt tiêu gradient của G; D quá yếu không cung cấp tín hiệu hữu ích. Các thủ thuật như **WGAN-GP** và **chuẩn hóa phổ (spectral normalisation)** giúp ổn định quá trình training.
 
 ## 3. Các biến thể quan trọng
 
@@ -1515,7 +1515,7 @@ Nổi tiếng là không ổn định - D quá mạnh làm triệt tiêu gradien
 
 <h2> 4. GANs so với Diffusion vào năm 2025</h2>
 
-Đến năm 2022, **mô hình diffusion** (Stable Diffusion, DALL-E 3) đã vượt qua GANs trong tổng hợp hình ảnh nói chung. Nhưng GANs vẫn thống trị các ngách: tạo ảnh thời gian thực (NVIDIA DLSS), tổng hợp âm thanh (HiFi-GAN), siêu phân giải (super-resolution).
+Đến năm 2022, **model diffusion** (Stable Diffusion, DALL-E 3) đã vượt qua GANs trong tổng hợp hình ảnh nói chung. Nhưng GANs vẫn thống trị các ngách: tạo ảnh thời gian thực (NVIDIA DLSS), tổng hợp âm thanh (HiFi-GAN), siêu phân giải (super-resolution).
 
 > 💡 **Khái niệm then chốt** - Một mạng GAN học một phân phối **một cách ngầm định** bằng cách lấy mẫu từ nó, thay vì ước tính mật độ của nó.`,
         theoryEn: `> ⚠️ **Prerequisites** - Lessons 1–3.
@@ -1601,7 +1601,7 @@ for step in range(2000):
         print(f"step {step:4d} | loss_D={loss_D.item():.3f} loss_G={loss_G.item():.3f} | "
               f"fake mean={samples.mean():+.2f} std={samples.std():.2f}")`,
         codeLanguage: "python",
-        exercise: "Sửa đổi `REAL_SAMPLER` thành phân phối **ba chế độ** tại -3, 0, +3. Huấn luyện lại và kiểm tra xem generator có bao phủ cả ba chế độ hay không - nếu xảy ra **mode collapse**, hãy tăng hidden size từ 32 lên 128.",
+        exercise: "Sửa đổi `REAL_SAMPLER` thành phân phối **ba chế độ** tại -3, 0, +3. Train lại và kiểm tra xem generator có bao phủ cả ba chế độ hay không - nếu xảy ra **mode collapse**, hãy tăng hidden size từ 32 lên 128.",
         exerciseEn: "Modify `REAL_SAMPLER` to a **three-mode** distribution at -3, 0, +3. Re-train and check whether the generator covers all three modes - if it suffers **mode collapse**, increase hidden size from 32 to 128.",
         quiz: [
           {
@@ -1638,11 +1638,11 @@ for step in range(2000):
 
 ## 1. Học cách **khử nhiễu**
 
-Các mô hình khuếch tán (Diffusion models) được huấn luyện dựa trên một ý tưởng đơn giản một cách xuất sắc: thay vì tạo ra một hình ảnh trong một bước khổng lồ, hãy học cách dần dần **loại bỏ nhiễu** ở mọi mức độ nhiễu. Một khi mô hình có thể khử nhiễu, hãy tạo ra bằng cách bắt đầu từ **nhiễu thuần túy** và khử nhiễu từng bước.
+Các model khuếch tán (Diffusion models) được training dựa trên một ý tưởng đơn giản một cách xuất sắc: thay vì tạo ra một hình ảnh trong một bước khổng lồ, hãy học cách dần dần **loại bỏ nhiễu** ở mọi mức độ nhiễu. Một khi model có thể khử nhiễu, hãy tạo ra bằng cách bắt đầu từ **nhiễu thuần túy** và khử nhiễu từng bước.
 
 Hai giai đoạn:
 1. **Truyền xuôi (cố định)** - thêm nhiễu Gaussian vào hình ảnh \`x₀\` thực trong T bước cho đến khi \`x_T\` là nhiễu thuần túy. Không có học tập ở đây.
-2. **Ngược (học được)** - huấn luyện một mạng lưới \`ε_θ(x_t, t)\` để **dự đoán nhiễu** được thêm vào ở bước \`t\`. Hàm mất mát (Loss) = MSE giữa nhiễu dự đoán và nhiễu thực.
+2. **Ngược (học được)** - training một mạng lưới \`ε_θ(x_t, t)\` để **dự đoán nhiễu** được thêm vào ở bước \`t\`. Hàm mất mát (Loss) = MSE giữa nhiễu dự đoán và nhiễu thực.
 
 \\\`\\\`\\\`mermaid
 flowchart LR
@@ -1653,21 +1653,21 @@ flowchart LR
 ## 2. Tại sao khuếch tán đánh bại GANs
 
 GANs cần một trò chơi đối kháng không ổn định; khuếch tán chỉ cần hồi quy MSE. Ba lợi thế:
-- **Huấn luyện ổn định** - không có sụp đổ chế độ (mode collapse), không cần các thủ thuật cân bằng
-- **Khả năng mở rộng** - các mô hình lớn hơn tiếp tục tốt hơn; GANs bị chững lại
+- **Train ổn định** - không có sụp đổ chế độ (mode collapse), không cần các thủ thuật cân bằng
+- **Khả năng mở rộng** - các model lớn hơn tiếp tục tốt hơn; GANs bị chững lại
 - **Đa dạng** - các hạt nhiễu khác nhau tạo ra các hình ảnh khác nhau
 
 Cái giá phải trả: **tốc độ suy luận**. DDPM truyền thống (Vanilla DDPM) cần 1 000 lần truyền xuôi (forward pass) cho mỗi hình ảnh. Các bộ lấy mẫu hiện đại (DDIM, DPM-Solver++, **Latent Consistency Models**) cắt giảm xuống còn **4–8 bước**.
 
 ## 3. Khuếch tán ẩn (Latent diffusion) - Bí mật của Stable Diffusion
 
-Chạy khuếch tán trên các pixel RGB 1024×1024 quá tốn kém. **Stable Diffusion** (2022) thực hiện khuếch tán trong một **không gian ẩn (latent space) 64×64** của một bộ mã hóa tự động được huấn luyện trước, sau đó giải mã trở lại. Thủ thuật đó đã giúp tạo ra văn bản thành hình ảnh chân thực **chạy trên GPU của người tiêu dùng**.
+Chạy khuếch tán trên các pixel RGB 1024×1024 quá tốn kém. **Stable Diffusion** (2022) thực hiện khuếch tán trong một **không gian ẩn (latent space) 64×64** của một bộ mã hóa tự động được training trước, sau đó giải mã trở lại. Thủ thuật đó đã giúp tạo ra văn bản thành hình ảnh chân thực **chạy trên GPU của người tiêu dùng**.
 
 ## 4. Điều kiện hóa (Conditioning): văn bản → hình ảnh
 
 Điều kiện hóa bộ khử nhiễu dựa trên một **vector nhúng (embedding) văn bản** từ CLIP/T5. **Classifier-Free Guidance** khuếch đại ảnh hưởng của lời nhắc (prompt) tại thời điểm lấy mẫu.
 
-> 💡 **Khái niệm chính** - Một mô hình khuếch tán là một **bộ khử nhiễu** được huấn luyện ở mọi mức độ nhiễu. Tạo ra = liên tục khử nhiễu hỗn độn (pure noise) thành một cái gì đó có ý nghĩa. Với điều kiện hóa văn bản, ý tưởng đơn giản này cung cấp sức mạnh cho Stable Diffusion, DALL-E 3, Midjourney và Sora.`,
+> 💡 **Khái niệm chính** - Một model khuếch tán là một **bộ khử nhiễu** được training ở mọi mức độ nhiễu. create = liên tục khử nhiễu hỗn độn (pure noise) thành một cái gì đó có ý nghĩa. Với điều kiện hóa văn bản, ý tưởng đơn giản này cung cấp sức mạnh cho Stable Diffusion, DALL-E 3, Midjourney và Sora.`,
         theoryEn: `> ⚠️ **Prerequisites** - Lessons 3 (CNN) and 8 (GANs).
 
 ## 1. Learn to **un-noise**
@@ -1794,7 +1794,7 @@ for i, img in enumerate(images):
 | Kỹ thuật | Chi phí | Độ trễ | Phù hợp nhất cho |
 |---|---|---|---|
 | **Kỹ thuật nhắc lệnh (Prompt engineering) + vài mẫu (few-shot)** | Miễn phí | Nhanh | Kết quả nhanh chóng |
-| **RAG (Tạo sinh tăng cường truy xuất - Retrieval-Augmented Generation)** | Rẻ | Trung bình | Sự kiện cập nhật |
+| **RAG (Create sinh tăng cường truy xuất - Retrieval-Augmented Generation)** | Rẻ | Trung bình | Sự kiện cập nhật |
 | **Tinh chỉnh (Fine-tuning) (LoRA / QLoRA)** | Vừa phải | Nhanh | Phong cách, định dạng, lập luận theo lĩnh vực |
 
 Các hệ thống sản xuất thường **kết hợp RAG + tinh chỉnh** - tinh chỉnh cho giọng điệu, truy xuất cho các sự kiện.
@@ -1810,13 +1810,13 @@ Các hệ thống sản xuất thường **kết hợp RAG + tinh chỉnh** - ti
   6. Câu trả lời có căn cứ + trích dẫn
 \`\`\`
 
-Kiến thức được cập nhật mà không cần huấn luyện lại; các trích dẫn giúp kiểm toán được những thông tin sai lệch; ngay cả một mô hình 7B với RAG tốt thường vượt trội hơn mô hình 70B đơn lẻ trong các tác vụ dựa trên sự kiện.
+Kiến thức được cập nhật mà không cần training lại; các trích dẫn giúp kiểm toán được những thông tin sai lệch; ngay cả một model 7B với RAG tốt thường vượt trội hơn model 70B đơn lẻ trong các tác vụ dựa trên sự kiện.
 
 ## 3. LoRA - tinh chỉnh mà không tốn kém
 
-Tinh chỉnh toàn bộ một Llama 7B cần khoảng 80 GB GPU. **LoRA** (2021): đóng băng \`W\`, học một **delta** nhỏ \`ΔW = B · A\` trong đó \`A\`, \`B\` có bậc thấp (low-rank). Đối với một ma trận 4096×4096 với bậc \`r=8\`, bạn huấn luyện **65 nghìn tham số thay vì 17 triệu** - giảm 250 lần.
+Tinh chỉnh toàn bộ một Llama 7B cần khoảng 80 GB GPU. **LoRA** (2021): đóng băng \`W\`, học một **delta** nhỏ \`ΔW = B · A\` trong đó \`A\`, \`B\` có bậc thấp (low-rank). Đối với một ma trận 4096×4096 với bậc \`r=8\`, bạn training **65 nghìn parameters thay vì 17 triệu** - giảm 250 lần.
 
-**QLoRA** (2023): tải mô hình cơ sở ở độ chính xác **4 bit**; các bộ điều hợp LoRA vẫn ở định dạng float16. Giờ đây bạn có thể tinh chỉnh một **mô hình 70B trên một GPU tiêu dùng 24 GB duy nhất**.
+**QLoRA** (2023): tải model cơ sở ở độ chính xác **4 bit**; các bộ điều hợp LoRA vẫn ở định dạng float16. Giờ đây bạn có thể tinh chỉnh một **model 70B trên một GPU tiêu dùng 24 GB duy nhất**.
 
 ## 4. Nên tinh chỉnh cho cái gì
 
@@ -1824,9 +1824,9 @@ Không nên tinh chỉnh cho **sự kiện** – đó là công việc của RAG
 - **Định dạng đầu ra** (JSON, trích dẫn, tiếng Việt trang trọng)
 - **Giọng điệu & tính cách**
 - **Lập luận theo lĩnh vực**
-- **Độ trễ / chi phí** - một mô hình 1B đã được tinh chỉnh có thể thay thế một lời nhắc (prompt) 70B và cắt giảm hóa đơn 50 lần
+- **Độ trễ / chi phí** - một model 1B đã được tinh chỉnh có thể thay thế một lời nhắc (prompt) 70B và cắt giảm hóa đơn 50 lần
 
-> 💡 **Khái niệm then chốt** - Năm 2025, bộ công cụ của kỹ sư AI hiện đại: chọn một mô hình cơ sở mở mạnh mẽ, kết nối RAG để lấy sự kiện, áp dụng LoRA/QLoRA cho định dạng & phong cách. Không ai bắt đầu từ đầu cả.`,
+> 💡 **Khái niệm then chốt** - Năm 2025, bộ công cụ của kỹ sư AI hiện đại: chọn một model cơ sở mở mạnh mẽ, kết nối RAG để lấy sự kiện, áp dụng LoRA/QLoRA cho định dạng & phong cách. Không ai bắt đầu từ đầu cả.`,
         theoryEn: `> ⚠️ **Prerequisites** - Lesson 5 (Transformers & LLMs) and Lesson 6 (Transfer Learning).
 
 ## 1. Three ways to make an LLM "yours"
@@ -1921,10 +1921,10 @@ trainer.train()
 trainer.save_model("llama3-lora-vi")  # adapter ~80 MB compared to the 16 GB full model`,
         codeLanguage: "python",
         exercise: `Lên kế hoạch cho dự án tinh chỉnh chatbot hỗ trợ khách hàng tiếng Việt với 3 gạch đầu dòng:
-*   **Mô hình cơ sở và lý do:** \`ViText-BART-base\` vì nó được đào tạo trước chuyên biệt cho tiếng Việt và các tác vụ hiểu/sinh ngôn ngữ, giúp nắm bắt ngữ cảnh và tạo ra câu trả lời tự nhiên, chính xác hơn.
+*   **Model cơ sở và lý do:** \`ViText-BART-base\` vì nó được đào tạo trước chuyên biệt cho tiếng Việt và các tác vụ hiểu/sinh ngôn ngữ, giúp nắm bắt ngữ cảnh và tạo ra câu trả lời tự nhiên, chính xác hơn.
 *   **Cặp hướng dẫn/phản hồi mẫu:**
     *   **Hướng dẫn:** "Tôi muốn khiếu nại về chất lượng dịch vụ."
-    *   **Phản hồi mô hình:** "Tôi rất tiếc khi nghe điều này. Để tôi có thể hỗ trợ bạn tốt nhất, vui lòng cung cấp thêm thông tin về vấn đề bạn gặp phải, bao gồm mã dịch vụ (nếu có) và thời gian xảy ra sự việc. Cảm ơn bạn."
+    *   **Phản hồi model:** "Tôi rất tiếc khi nghe điều này. Để tôi có thể hỗ trợ bạn tốt nhất, vui lòng cung cấp thêm thông tin về vấn đề bạn gặp phải, bao gồm mã dịch vụ (nếu có) và thời gian xảy ra sự việc. Cảm ơn bạn."
 *   **Sử dụng RAG và thông tin truy xuất:** Có, sẽ sử dụng RAG. RAG sẽ truy xuất thông tin từ cơ sở dữ liệu FAQs (các câu hỏi thường gặp), tài liệu hướng dẫn sử dụng sản phẩm/dịch vụ, chính sách bảo hành, và thông tin tài khoản khách hàng (nếu được phép truy cập) để cung cấp câu trả lời chính xác, cập nhật và cá nhân hóa.`,
         exerciseEn: "Plan a fine-tuning project for a Vietnamese customer-support chatbot in 3 bullets: (1) base model + why, (2) one example instruction/response pair, (3) would you also use RAG and what would it retrieve?",
         quiz: [
@@ -1954,7 +1954,7 @@ trainer.save_model("llama3-lora-vi")  # adapter ~80 MB compared to the 16 GB ful
         titleEn: "Sequence Models - RNN, LSTM & GRU",
         level: 4,
         difficulty: "intermediate",
-        theory: `> ⚠️ **Điều kiện tiên quyết** - Bài học 1–3 (mạng nơ-ron, lan truyền ngược).
+        theory: `> ⚠️ **Điều kiện tiên quyết** - Bài học 1–3 (mạng nơ-ron, backpropagation).
 
 ## 1. Tại sao mạng truyền thẳng không thể hiểu một câu
 
@@ -1964,7 +1964,7 @@ Một mạng dày đặc (dense network) coi các đầu vào như một túi kh
 h_t = tanh(W_x · x_t + W_h · h_{t-1} + b)
 \\\`\\\`\\\`
 
-Đây là một **Mạng Nơ-ron Hồi quy** (Recurrent Neural Network – RNN) - cùng một trọng số (weight) được tái sử dụng ở mỗi bước thời gian (chia sẻ tham số theo thời gian).
+Đây là một **Mạng Nơ-ron Hồi quy** (Recurrent Neural Network – RNN) - cùng một weights (weight) được tái sử dụng ở mỗi bước thời gian (chia sẻ parameters theo thời gian).
 
 \\\`\\\`\\\`mermaid
 flowchart LR
@@ -1982,21 +1982,21 @@ Lan truyền ngược (backprop) qua 100 bước thời gian nhân 100 ma trận
 
 ## 3. LSTM - thêm mạch bộ nhớ
 
-**Bộ nhớ Dài-Ngắn Hạn** (Long Short-Term Memory – LSTM) (Hochreiter & Schmidhuber, 1997) giới thiệu một **trạng thái ô** (cell state) \`C_t\` chảy qua thời gian chỉ với các tương tác tuyến tính, được điều khiển bởi các cổng (gate):
+**Bộ nhớ Dài-Ngắn Hạn** (Long Short-Term Memory – LSTM) (Hochreiter & Schmidhuber, 1997) giới thiệu một **trạng thái ô** (cell state) \`C_t\` chảy qua thời gian chỉ với các tương tác linear, được điều khiển bởi các cổng (gate):
 
 | Cổng | Công thức | Vai trò |
 |---|---|---|
 | **Quên** \`f_t\` | σ(W_f·[h_{t-1}, x_t]) | Những gì cần bỏ khỏi \`C\` |
-| **Đầu vào** \`i_t\` | σ(W_i·…) | Thông tin mới cần thêm vào |
-| **Đầu ra** \`o_t\` | σ(W_o·…) | Những gì cần hiển thị dưới dạng \`h_t\` |
+| **Input** \`i_t\` | σ(W_i·…) | Thông tin mới cần thêm vào |
+| **Output** \`o_t\` | σ(W_o·…) | Những gì cần hiển thị dưới dạng \`h_t\` |
 
 \`C_t = f_t · C_{t-1} + i_t · tanh(...)\` - cập nhật cộng bảo toàn gradient.
 
-**GRU** (2014) là một LSTM được tinh giản với 2 cổng thay vì 3 - ít tham số hơn, độ chính xác tương tự.
+**GRU** (2014) là một LSTM được tinh giản với 2 cổng thay vì 3 - ít parameters hơn, độ chính xác tương tự.
 
 ## 4. Tại sao chúng ta vẫn dạy RNN vào năm 2025
 
-Transformers đã thay thế RNN trong hầu hết các ứng dụng Xử lý Ngôn ngữ Tự nhiên (NLP), nhưng RNN vẫn là công cụ phù hợp cho: **truyền phát âm thanh (Whisper distilled, RNN-T)**, **phát hiện từ khóa trên thiết bị** (mô hình ~100 KB), **dự báo chuỗi thời gian với các chân trời rất dài**, và là **khối xây dựng của các mô hình không gian trạng thái (Mamba)**.
+Transformers đã thay thế RNN trong hầu hết các ứng dụng Xử lý Ngôn ngữ Tự nhiên (NLP), nhưng RNN vẫn là công cụ phù hợp cho: **truyền phát âm thanh (Whisper distilled, RNN-T)**, **phát hiện từ khóa trên thiết bị** (model ~100 KB), **dự báo chuỗi thời gian với các chân trời rất dài**, và là **khối xây dựng của các model không gian trạng thái (Mamba)**.
 
 ## 5. Ví dụ thực tế: dự đoán nhu cầu điện
 
@@ -2004,11 +2004,11 @@ EVN Việt Nam dự báo phụ tải hàng giờ 24 giờ trước. Một LSTM h
 
 ## ⚠️ Cạm bẫy thường gặp
 - **Quên cắt gradient (clip gradients)** - gradient bùng nổ lặng lẽ tạo ra NaN.
-- **Sử dụng RNN nơi cơ chế chú ý (attention) vượt trội** - đối với các chuỗi dài > 500 với các mẫu truy cập ngẫu nhiên, Transformers huấn luyện nhanh hơn 10 lần trên GPU.
+- **Sử dụng RNN nơi cơ chế chú ý (attention) vượt trội** - đối với các chuỗi dài > 500 với các mẫu truy cập ngẫu nhiên, Transformers training nhanh hơn 10 lần trên GPU.
 - **Bỏ qua việc đệm độ dài chuỗi (sequence length padding)** - đóng gói chuỗi (\`pack_padded_sequence\`) nếu không bạn sẽ lãng phí tính toán vào các token PAD.
 
 ## 🛠️ Bài tập thực hành
-Thực hiện một LSTM cấp ký tự (character-level LSTM) tạo ra thơ tiếng Việt theo phong cách "Truyện Kiều". Huấn luyện trên 1.000 dòng đầu tiên. Lấy mẫu với các nhiệt độ 0,3, 0,7 và 1,2 - mô tả cách các đầu ra thay đổi.`,
+Thực hiện một LSTM cấp ký tự (character-level LSTM) tạo ra thơ tiếng Việt theo phong cách "Truyện Kiều". Train trên 1.000 dòng đầu tiên. Get mẫu với các nhiệt độ 0,3, 0,7 và 1,2 - mô tả cách các đầu ra thay đổi.`,
         theoryEn: `> ⚠️ **Prerequisites** - Lessons 1–3 (neural nets, backprop).
 
 ## 1. Why a feed-forward net cannot read a sentence
@@ -2153,7 +2153,7 @@ opt.step()
 # Expected result: a decimal number representing the model error.
 print(f"Loss: {loss.item():.4f}")`,
         codeLanguage: "python",
-        exercise: "LSTM giải quyết vấn đề gradient biến mất tốt hơn RNN thông thường vì nó sử dụng một \"cell state\" (trạng thái ô) để lưu trữ thông tin dài hạn. Quy tắc cập nhật trạng thái ô ($c_t = f_t \\cdot c_{t-1} + i_t \\cdot \\tilde{c}_t$) cho phép gradient chảy qua các bước thời gian mà không bị nhân với các trọng số nhỏ liên tục, từ đó giữ được độ lớn của gradient.",
+        exercise: "LSTM giải quyết vấn đề gradient biến mất tốt hơn RNN thông thường vì nó sử dụng một \"cell state\" (trạng thái ô) để lưu trữ thông tin dài hạn. Quy tắc cập nhật trạng thái ô ($c_t = f_t \\cdot c_{t-1} + i_t \\cdot \\tilde{c}_t$) cho phép gradient chảy qua các bước thời gian mà không bị nhân với các weights nhỏ liên tục, từ đó giữ được độ lớn của gradient.",
         exerciseEn: "Why does an LSTM solve the vanishing gradient problem better than a vanilla RNN? Answer in 2 sentences referring to the cell state update rule.",
         quiz: [
           {
@@ -2188,7 +2188,7 @@ print(f"Loss: {loss.item():.4f}")`,
 
 ImageNet có 1.2 triệu ảnh được gán nhãn và tiêu tốn hàng triệu đô la. Internet có **hàng nghìn tỷ** ảnh và văn bản chưa được gán nhãn. **Học tự giám sát (Self-Supervised Learning – SSL)** tạo ra một tác vụ giả (pretext task) từ chính dữ liệu thô – không cần nhãn của con người.
 
-## 2. Hai mô hình chủ đạo
+## 2. Hai model chủ đạo
 
 \\\`\\\`\\\`mermaid
 flowchart LR
@@ -2199,12 +2199,12 @@ flowchart LR
 \\\`\\\`\\\`
 
 ### A. Sinh tạo (Generative) - "dự đoán token / patch bị thiếu"
-- **BERT** - che đi 15% token, dự đoán chúng (Mô hình ngôn ngữ Masked - Masked Language Model).
-- **GPT** - dự đoán token tiếp theo (Mô hình ngôn ngữ nhân quả - Causal LM).
+- **BERT** - che đi 15% token, dự đoán chúng (Model ngôn ngữ Masked - Masked Language Model).
+- **GPT** - dự đoán token tiếp theo (Model ngôn ngữ nhân quả - Causal LM).
 - **MAE** (He et al. 2021) - che đi 75% các patch (mảng) ảnh, tái tạo pixel.
 
 ### B. Đối lập (Contrastive) - "cùng một ảnh, hai phép tăng cường → vector nhúng (embedding) gần nhau"
-- **SimCLR** - hàm mất mát (loss) InfoNCE; cần kích thước batch cực lớn (4096+).
+- **SimCLR** - loss function (loss) InfoNCE; cần size batch cực lớn (4096+).
 - **MoCo** - hàng đợi được mã hóa động lượng (momentum-encoded queue) loại bỏ yêu cầu batch khổng lồ.
 - **CLIP** - đối lập trên các **phương thức (modalities)** (ảnh ↔ chú thích); ImageNet 76 % với không điểm học (zero-shot).
 
@@ -2213,22 +2213,22 @@ flowchart LR
 | Kỷ nguyên | Cách tiếp cận | ImageNet top-1 với 1 % nhãn |
 |---|---|---|
 | 2018 | Giám sát từ đầu | 25 % |
-| 2020 | SimCLR tiền huấn luyện + đầu tuyến tính | 64 % |
-| 2022 | DINOv2 tiền huấn luyện | 80 % |
+| 2020 | SimCLR tiền training + đầu linear | 64 % |
+| 2022 | DINOv2 tiền training | 80 % |
 
-Một mô hình nền tảng (foundation model) được huấn luyện một lần trên 1 tỷ ảnh không được gán nhãn có thể được tinh chỉnh (fine-tuned) cho hàng chục tác vụ xuôi dòng (downstream tasks) – **cùng một ý tưởng đã cho chúng ta GPT trong NLP, áp dụng cho thị giác máy tính, âm thanh, video, phân tử**.
+Một model nền tảng (foundation model) được training một lần trên 1 tỷ ảnh không được gán nhãn có thể được tinh chỉnh (fine-tuned) cho hàng chục tác vụ xuôi dòng (downstream tasks) – **cùng một ý tưởng đã cho chúng ta GPT trong NLP, áp dụng cho thị giác máy tính, âm thanh, video, phân tử**.
 
 ## 4. Ví dụ thực tế: hình ảnh y tế
 
-Một bệnh viện ở Việt Nam có 50.000 ảnh X-quang nhưng chỉ có 800 ảnh được gán nhãn bởi các bác sĩ X-quang. Tiền huấn luyện SSL (MAE trên 50 nghìn ảnh X-quang chưa được gán nhãn) theo sau là tinh chỉnh (fine-tuning) trên 800 nhãn đạt được độ chính xác tương tự như huấn luyện có giám sát trên 5.000 nhãn – tiết kiệm hàng giờ làm việc cho các bác sĩ X-quang.
+Một bệnh viện ở Việt Nam có 50.000 ảnh X-quang nhưng chỉ có 800 ảnh được gán nhãn bởi các bác sĩ X-quang. Tiền training SSL (MAE trên 50 nghìn ảnh X-quang chưa được gán nhãn) theo sau là tinh chỉnh (fine-tuning) trên 800 nhãn đạt được độ chính xác tương tự như training có giám sát trên 5.000 nhãn – tiết kiệm hàng giờ làm việc cho các bác sĩ X-quang.
 
 ## ⚠️ Cạm bẫy thường gặp
 - **Tăng cường yếu (Weak augmentations)** - học đối lập (contrastive learning) sụp đổ nếu hai góc nhìn quá giống nhau.
-- **Bỏ qua thăm dò tuyến tính (linear probing)** - luôn đánh giá bộ mã hóa (encoder) đóng băng với một đầu tuyến tính trước khi tinh chỉnh.
-- **Tiền huấn luyện trên miền sai** - SSL trên ảnh tự nhiên chuyển giao kém sang ảnh vệ tinh.
+- **Bỏ qua thăm dò linear (linear probing)** - luôn đánh giá bộ mã hóa (encoder) đóng băng với một đầu linear trước khi tinh chỉnh.
+- **Tiền training trên miền sai** - SSL trên ảnh tự nhiên chuyển giao kém sang ảnh vệ tinh.
 
 ## 🛠️ Bài tập thực hành
-Bạn có 5.000 ảnh sản phẩm chưa được gán nhãn và 200 ảnh được gán nhãn (10 danh mục). Thiết kế kế hoạch huấn luyện 2 giai đoạn và biện minh cho lựa chọn phương pháp SSL của bạn (contrastive so với MAE).`,
+Bạn có 5.000 ảnh sản phẩm chưa được gán nhãn và 200 ảnh được gán nhãn (10 danh mục). Thiết kế kế hoạch training 2 giai đoạn và biện minh cho lựa chọn phương pháp SSL của bạn (contrastive so với MAE).`,
         theoryEn: `> ⚠️ **Prerequisites** - Lesson 5 (Transformers) and Lesson 6 (Transfer Learning).
 
 ## 1. The labelling crisis
@@ -2372,7 +2372,7 @@ loss = info_nce(z1, z2)
 # Expected result: a float value for the loss.
 print(f"InfoNCE: {loss.item():.4f}")`,
         codeLanguage: "python",
-        exercise: "CLIP có thể phân loại một lớp chưa từng thấy trong quá trình huấn luyện (zero-shot) vì nó học được mối quan hệ ngữ nghĩa giữa hình ảnh và văn bản. Thay vì học các nhãn cụ thể, nó học cách nhúng hình ảnh và văn bản vào một không gian nhúng chung, nơi các cặp hình ảnh-văn bản tương thích có nhúng gần nhau. Text encoder đóng vai trò tạo ra các nhúng cho mô tả văn bản của lớp, cho phép CLIP so sánh hình ảnh đầu vào với các mô tả văn bản này để tìm ra lớp phù hợp nhất, ngay cả khi lớp đó chưa từng xuất hiện trong dữ liệu huấn luyện.",
+        exercise: "CLIP có thể classification một lớp chưa từng thấy trong quá trình training (zero-shot) vì nó học được mối quan hệ ngữ nghĩa giữa hình ảnh và văn bản. Thay vì học các nhãn cụ thể, nó học cách nhúng hình ảnh và văn bản vào một không gian nhúng chung, nơi các cặp hình ảnh-văn bản tương thích có nhúng gần nhau. Text encoder đóng vai trò tạo ra các nhúng cho mô tả văn bản của lớp, cho phép CLIP so sánh hình ảnh đầu vào với các mô tả văn bản này để tìm ra lớp phù hợp nhất, ngay cả khi lớp đó chưa từng xuất hiện trong dữ liệu training.",
         exerciseEn: "Explain in 3 sentences why CLIP can classify a class it has never seen during training (zero-shot). What role does the text encoder play?",
         quiz: [
           {
@@ -2405,7 +2405,7 @@ print(f"InfoNCE: {loss.item():.4f}")`,
 
 ## 1. Tại sao lại là đa phương thức (multimodal)?
 
-Con người không chỉ suy nghĩ bằng văn bản – chúng ta kết hợp thị giác, âm thanh, ngôn ngữ và hành động. Biên giới của AI trong năm 2024-2025 (GPT-4o, Gemini 2.0, Claude 3.5 Sonnet vision, LLaVA) chính là **các mô hình nền tảng đa phương thức (multimodal foundation models)** xử lý và tạo ra thông tin trên nhiều phương thức (modalities).
+Con người không chỉ suy nghĩ bằng văn bản – chúng ta kết hợp thị giác, âm thanh, ngôn ngữ và hành động. Biên giới của AI trong năm 2024-2025 (GPT-4o, Gemini 2.0, Claude 3.5 Sonnet vision, LLaVA) chính là **các model nền tảng đa phương thức (multimodal foundation models)** xử lý và tạo ra thông tin trên nhiều phương thức (modalities).
 
 ## 2. Ba mẫu kiến trúc chính
 
@@ -2424,34 +2424,34 @@ flowchart TB
       I3[Các mảng ảnh dưới dạng token] --> TR[Transformer]
       T3[Các token văn bản] --> TR
       A3[Các token âm thanh] --> TR
-      TR --> O3[Tạo ra bất kỳ phương thức nào]
+      TR --> O3[create bất kỳ phương thức nào]
     end
 \`\`\`
 
 | Mẫu | Ví dụ | Điểm mạnh |
 |---|---|---|
-| **Dạng tháp đôi (Two-tower)** | CLIP, ALIGN | Truy xuất nhanh; phân loại zero-shot |
+| **Dạng tháp đôi (Two-tower)** | CLIP, ALIGN | Truy xuất nhanh; classification zero-shot |
 | **Cross-attention** | Flamingo, BLIP-2 | Hỏi đáp trực quan |
-| **Token hợp nhất (Unified tokens)** | GPT-4o, Gemini, Chameleon | Tạo văn bản + hình ảnh + âm thanh |
+| **Token hợp nhất (Unified tokens)** | GPT-4o, Gemini, Chameleon | Create văn bản + hình ảnh + âm thanh |
 
 ## 3. Mẹo "Q-Former" (BLIP-2)
 
-Một bộ mã hóa hình ảnh (image encoder) đã được đóng băng (frozen) tạo ra 256 mảng ảnh (patches); một LLM đã được đóng băng có không gian token riêng. **Q-Former** (Querying Transformer) là một cầu nối nhỏ - 32 vector truy vấn (query vectors) có thể học được chắt lọc 256 mảng ảnh này thành một chuỗi mà LLM có thể hiểu. Chỉ Q-Former được huấn luyện → đa phương thức trong vài ngày, không phải vài tháng.
+Một bộ mã hóa hình ảnh (image encoder) đã được đóng băng (frozen) tạo ra 256 mảng ảnh (patches); một LLM đã được đóng băng có không gian token riêng. **Q-Former** (Querying Transformer) là một cầu nối nhỏ - 32 vector truy vấn (query vectors) có thể học được chắt lọc 256 mảng ảnh này thành một chuỗi mà LLM có thể hiểu. Chỉ Q-Former được training → đa phương thức trong vài ngày, không phải vài tháng.
 
 ## 4. Ví dụ thực tế
 
 - **Y tế**: MedPaLM-M đọc X-quang + ghi chú lâm sàng để đưa ra các chẩn đoán phân biệt.
-- **Thương mại điện tử ở Việt Nam**: Tiki sử dụng truy xuất kiểu CLIP - người dùng chụp ảnh, mô hình tìm các sản phẩm tương tự trong danh mục (văn bản + hình ảnh kết hợp).
+- **Thương mại điện tử ở Việt Nam**: Tiki sử dụng truy xuất kiểu CLIP - người dùng chụp ảnh, model tìm các sản phẩm tương tự trong danh mục (văn bản + hình ảnh kết hợp).
 - **Trợ năng**: SeeingAI mô tả thế giới cho người dùng khiếm thị theo thời gian thực.
-- **Hỗ trợ khách hàng**: GPT-4o đọc ảnh chụp màn hình + lời phàn nàn bằng giọng nói của người dùng để phân loại các yêu cầu hỗ trợ.
+- **Hỗ trợ khách hàng**: GPT-4o đọc ảnh chụp màn hình + lời phàn nàn bằng giọng nói của người dùng để classification các yêu cầu hỗ trợ.
 
 ## ⚠️ Những vấn đề thường gặp
-- **Sự thống trị của phương thức (Modality dominance)** - khi huấn luyện kết hợp, phương thức dễ hơn (văn bản) áp đảo phương thức khó hơn (âm thanh). Giải pháp: cân bằng các hàm mất mát (loss function).
+- **Sự thống trị của phương thức (Modality dominance)** - khi training kết hợp, phương thức dễ hơn (văn bản) áp đảo phương thức khó hơn (âm thanh). Giải pháp: cân bằng các loss function (loss function).
 - **Nền tảng bị ảo giác (Hallucinated grounding)** - VLM có thể mô tả các đối tượng không có trong hình ảnh. Cách khắc phục: chuỗi tư duy (chain-of-thought) với các gợi ý hộp giới hạn (bounding-box prompts).
-- **Quên thảm khốc (Catastrophic forgetting)** - tinh chỉnh một mô hình đa phương thức cho một tác vụ duy nhất thường phá hủy các phương thức khác.
+- **Quên thảm khốc (Catastrophic forgetting)** - tinh chỉnh một model đa phương thức cho một tác vụ duy nhất thường phá hủy các phương thức khác.
 
 ## 🛠️ Bài tập thực hành
-Bạn muốn xây dựng "Tutor Bot" - sinh viên tải lên ảnh một bài toán và đặt câu hỏi. Hãy phác thảo kiến trúc (bộ mã hóa nào cho hình ảnh, LLM nào, cách chúng kết nối) và dữ liệu huấn luyện mà bạn cần.`,
+Bạn muốn xây dựng "Tutor Bot" - sinh viên tải lên ảnh một bài toán và đặt câu hỏi. Hãy phác thảo kiến trúc (bộ mã hóa nào cho hình ảnh, LLM nào, cách chúng kết nối) và dữ liệu training mà bạn cần.`,
         theoryEn: `> ⚠️ **Prerequisites** - Lessons 5, 9 (GAN/Diffusion) and 12 (SSL).
 
 ## 1. Why multimodal?
@@ -2516,26 +2516,26 @@ import torch, requests
 
 # Xác định thiết bị sẽ sử dụng (GPU nếu có, nếu không thì dùng CPU).
 device = "cuda" if torch.cuda.is_available() else "cpu"
-# Tải bộ xử lý (processor) đã được huấn luyện trước cho mô hình BLIP-2.
-# Bộ xử lý này sẽ chuẩn bị dữ liệu đầu vào (ảnh và câu hỏi) theo định dạng mà mô hình mong đợi.
+# Tải bộ xử lý (processor) đã được training trước cho model BLIP-2.
+# Bộ xử lý này sẽ chuẩn bị dữ liệu đầu vào (ảnh và câu hỏi) theo định dạng mà model mong đợi.
 processor = Blip2Processor.from_pretrained("Salesforce/blip2-opt-2.7b")
-# Tải mô hình BLIP-2 đã được huấn luyện trước.
-# "Salesforce/blip2-opt-2.7b" là tên của mô hình trên Hugging Face.
+# Tải model BLIP-2 đã được training trước.
+# "Salesforce/blip2-opt-2.7b" là tên của model trên Hugging Face.
 # torch_dtype=torch.float16: Sử dụng kiểu dữ liệu float16 để tiết kiệm bộ nhớ và tăng tốc độ tính toán (nếu GPU hỗ trợ).
-# .to(device): Chuyển mô hình sang thiết bị đã chọn (GPU hoặc CPU).
+# .to(device): Chuyển model sang thiết bị đã chọn (GPU hoặc CPU).
 model = Blip2ForConditionalGeneration.from_pretrained(
     "Salesforce/blip2-opt-2.7b", torch_dtype=torch.float16
 ).to(device)
 
 # Tải ảnh từ một URL.
-# requests.get(...).raw: Lấy nội dung thô của ảnh.
+# requests.get(...).raw: Get nội dung thô của ảnh.
 # Image.open(...): Mở ảnh từ nội dung thô.
 # .convert("RGB"): Chuyển đổi ảnh sang định dạng RGB (đảm bảo ảnh có 3 kênh màu).
 img = Image.open(requests.get(
     "https://images.unsplash.com/photo-1574158622682-e40e69881006",
     stream=True).raw).convert("RGB")
 
-# Định nghĩa danh sách các câu hỏi (prompts) mà chúng ta muốn hỏi mô hình về bức ảnh.
+# Define danh sách các câu hỏi (prompts) mà chúng ta muốn hỏi model về bức ảnh.
 # Mỗi câu hỏi được định dạng theo cấu trúc "Question: ... Answer:".
 prompts = [
     "Question: What animal is in the image? Answer:",
@@ -2545,24 +2545,24 @@ prompts = [
 
 # Lặp qua từng câu hỏi trong danh sách.
 for q in prompts:
-    # Tiền xử lý ảnh và câu hỏi để tạo ra đầu vào cho mô hình.
+    # Tiền xử lý ảnh và câu hỏi để tạo ra đầu vào cho model.
     # images=img: Ảnh đầu vào.
     # text=q: Câu hỏi đầu vào.
     # return_tensors="pt": Trả về kết quả dưới dạng tensor của PyTorch.
-    # .to(device, torch.float16): Chuyển tensor đầu vào sang thiết bị và kiểu dữ liệu phù hợp với mô hình.
+    # .to(device, torch.float16): Chuyển tensor đầu vào sang thiết bị và kiểu dữ liệu phù hợp với model.
     inputs = processor(images=img, text=q, return_tensors="pt").to(device, torch.float16)
-    # Tạo câu trả lời bằng cách gọi phương thức generate của mô hình.
-    # **inputs: Truyền các tensor đầu vào (input_ids, attention_mask, pixel_values) cho mô hình.
+    # Create câu trả lời bằng cách gọi phương thức generate của model.
+    # **inputs: Truyền các tensor đầu vào (input_ids, attention_mask, pixel_values) cho model.
     # max_new_tokens=20: Giới hạn độ dài tối đa của câu trả lời được tạo ra là 20 từ/token mới.
     out = model.generate(**inputs, max_new_tokens=20)
-    # Giải mã (decode) kết quả đầu ra của mô hình thành chuỗi văn bản dễ đọc.
-    # out[0]: Lấy tensor chứa các token đã tạo.
+    # Giải mã (decode) kết quả đầu ra của model thành chuỗi văn bản dễ đọc.
+    # out[0]: Get tensor chứa các token đã tạo.
     # skip_special_tokens=True: Bỏ qua các token đặc biệt (như token bắt đầu/kết thúc câu) trong kết quả.
-    # In ra câu hỏi và câu trả lời tương ứng.
-    # Kết quả mong đợi: Mô hình sẽ trả lời các câu hỏi về con mèo trong ảnh.
+    # Print câu hỏi và câu trả lời tương ứng.
+    # Expected result: Model sẽ trả lời các câu hỏi về con mèo trong ảnh.
     print(q, "->", processor.decode(out[0], skip_special_tokens=True))`,
         codeLanguage: "python",
-        exercise: "Liệt kê 3 điểm khác biệt giữa mô hình hai tháp kiểu CLIP và mô hình token hợp nhất như GPT-4o. Đối với mỗi điểm khác biệt, hãy nêu một trường hợp sử dụng mà một bên vượt trội.",
+        exercise: "Liệt kê 3 điểm khác biệt giữa model hai tháp kiểu CLIP và model token hợp nhất như GPT-4o. Đối với mỗi điểm khác biệt, hãy nêu một trường hợp sử dụng mà một bên vượt trội.",
         exerciseEn: "List 3 differences between CLIP-style two-tower models and unified-token models like GPT-4o. For each difference, name a use-case where one wins.",
         quiz: [
           {
@@ -2595,16 +2595,16 @@ for q in prompts:
 
 ## 1. Tại sao phải triển khai trên biên (edge)?
 
-Chi phí suy luận trên đám mây (cloud inference) tăng tuyến tính theo số lượng người dùng; độ trễ phụ thuộc vào mạng; dữ liệu nhạy cảm về quyền riêng tư (khuôn mặt, giọng nói, y tế) không nên rời khỏi thiết bị. **Suy luận trên thiết bị (on-device inference)** (điện thoại thông minh, Raspberry Pi, vi điều khiển) giải quyết cả ba vấn đề này – nhưng một mô hình 7B tham số ở định dạng float32 cần tới **28 GB**. Chúng ta cần nén nó 50–500 lần.
+Chi phí suy luận trên đám mây (cloud inference) tăng linear theo số lượng người dùng; độ trễ phụ thuộc vào mạng; dữ liệu nhạy cảm về quyền riêng tư (khuôn mặt, giọng nói, y tế) không nên rời khỏi thiết bị. **Suy luận trên thiết bị (on-device inference)** (điện thoại thông minh, Raspberry Pi, vi điều khiển) giải quyết cả ba vấn đề này – nhưng một model 7B parameters ở định dạng float32 cần tới **28 GB**. Chúng ta cần nén nó 50–500 lần.
 
 ## 2. Bộ công cụ nén
 
 \\\`\\\`\\\`mermaid
 flowchart LR
-    BIG[Mô hình FP32<br/>~28 GB] --> Q[Lượng tử hóa<br/>FP32 → INT8 / INT4]
-    BIG --> P[Tỉa thưa (Pruning)<br/>Loại bỏ các trọng số gần bằng 0]
-    BIG --> D[Chưng cất (Distillation)<br/>Mô hình nhỏ bắt chước mô hình lớn]
-    Q --> SMALL[Mô hình nhỏ<br/>~500 MB → Thân thiện với MCU]
+    BIG[Model FP32<br/>~28 GB] --> Q[Lượng tử hóa<br/>FP32 → INT8 / INT4]
+    BIG --> P[Tỉa thưa (Pruning)<br/>Loại bỏ các weights gần bằng 0]
+    BIG --> D[Chưng cất (Distillation)<br/>Model nhỏ bắt chước model lớn]
+    Q --> SMALL[Model nhỏ<br/>~500 MB → Thân thiện với MCU]
     P --> SMALL
     D --> SMALL
 \\\`\\\`\\\`
@@ -2618,13 +2618,13 @@ flowchart LR
 | INT4 (GPTQ/AWQ) | 4 | 3.5 GB | 1–3 % |
 | 1.58-bit (BitNet) | 1.58 | 1.3 GB | đang nghiên cứu |
 
-**PTQ** (Lượng tử hóa sau huấn luyện - Post-Training Quantization) là phương pháp một lần – hiệu chỉnh trên 128 mẫu. **QAT** (Huấn luyện nhận biết lượng tử hóa - Quantization-Aware Training) mô phỏng quá trình làm tròn trong khi huấn luyện – độ chính xác tốt hơn, nhưng chậm hơn.
+**PTQ** (Lượng tử hóa sau training - Post-Training Quantization) là phương pháp một lần – hiệu chỉnh trên 128 mẫu. **QAT** (Train nhận biết lượng tử hóa - Quantization-Aware Training) mô phỏng quá trình làm tròn trong khi training – độ chính xác tốt hơn, nhưng chậm hơn.
 
 ### B. Tỉa thưa (Pruning)
-**Tỉa thưa theo độ lớn (Magnitude pruning)** loại bỏ các trọng số có |w| dưới ngưỡng; **tỉa thưa có cấu trúc (structured pruning)** loại bỏ toàn bộ kênh/heads (nhanh hơn trên GPU). Giả thuyết Lottery Ticket (Frankle 2018) cho thấy bạn có thể giữ lại 5% trọng số và huấn luyện lại để đạt được độ chính xác đầy đủ.
+**Tỉa thưa theo độ lớn (Magnitude pruning)** loại bỏ các weights có |w| dưới ngưỡng; **tỉa thưa có cấu trúc (structured pruning)** loại bỏ toàn bộ kênh/heads (nhanh hơn trên GPU). Giả thuyết Lottery Ticket (Frankle 2018) cho thấy bạn có thể giữ lại 5% weights và training lại để đạt được độ chính xác đầy đủ.
 
 ### C. Chưng cất tri thức (Knowledge Distillation)
-Hinton 2015. Huấn luyện một mô hình **học sinh (student)** nhỏ để khớp với các xác suất mềm (soft probabilities) của một mô hình **giáo viên (teacher)** lớn (với tham số nhiệt độ \`T\`). DistilBERT giữ lại 97% độ chính xác của BERT với kích thước 40% và tốc độ nhanh hơn 60%.
+Hinton 2015. Train một model **học sinh (student)** nhỏ để khớp với các xác suất mềm (soft probabilities) của một model **giáo viên (teacher)** lớn (với parameters nhiệt độ \`T\`). DistilBERT giữ lại 97% độ chính xác của BERT với size 40% và tốc độ nhanh hơn 60%.
 
 ## 3. Quy trình triển khai
 
@@ -2635,12 +2635,12 @@ PyTorch → **ONNX** → backend (TensorRT cho NVIDIA, Core ML cho iPhone, TFLit
 Các camera giao thông thông minh của Việt Nam (Hà Nội, TP.HCM) cần đọc 100 biển số/giây trên một SoC (System on Chip) giá $50. Một YOLOv8-nano (3 MB INT8) phát hiện biển số; một CRNN 5 lớp (1 MB) đọc chữ. Tổng cộng: 4 MB, 35 ms mỗi khung hình, không cần đám mây.
 
 ## ⚠️ Những cạm bẫy thường gặp
-- **Lượng tử hóa mà không hiệu chỉnh** - các trọng số có thể làm tròn tốt, nhưng **các kích hoạt (activations)** bị cắt bớt (clip) → mất độ chính xác nghiêm trọng. Luôn luôn hiệu chỉnh trên dữ liệu đại diện.
-- **Thứ tự của Tỉa thưa + huấn luyện lại** - tỉa thưa sau đó huấn luyện lại (tỉa thưa độ lớn lặp đi lặp lại - iterative magnitude pruning) giúp khôi phục độ chính xác; chỉ tỉa thưa mà không huấn luyện lại thì không.
-- **Quên các bảng nhúng (embedding tables)** - đối với LLM, embedding chiếm 30% kích thước – hãy lượng tử hóa chúng nữa.
+- **Lượng tử hóa mà không hiệu chỉnh** - các weights có thể làm tròn tốt, nhưng **các kích hoạt (activations)** bị cắt bớt (clip) → mất độ chính xác nghiêm trọng. Luôn luôn hiệu chỉnh trên dữ liệu đại diện.
+- **Thứ tự của Tỉa thưa + training lại** - tỉa thưa sau đó training lại (tỉa thưa độ lớn lặp đi lặp lại - iterative magnitude pruning) giúp khôi phục độ chính xác; chỉ tỉa thưa mà không training lại thì không.
+- **Quên các bảng nhúng (embedding tables)** - đối với LLM, embedding chiếm 30% size – hãy lượng tử hóa chúng nữa.
 
 ## 🛠️ Bài tập thực hành
-Bạn phải triển khai bộ phân loại cảm xúc (sentiment classifier) (BERT-base, 110M tham số) trên Raspberry Pi 4 (RAM 1 GB). Chọn một chiến lược nén và giải thích thứ tự các hoạt động.`,
+Bạn phải triển khai bộ classification cảm xúc (sentiment classifier) (BERT-base, 110M parameters) trên Raspberry Pi 4 (RAM 1 GB). Chọn một chiến lược nén và giải thích thứ tự các hoạt động.`,
         theoryEn: `> ⚠️ **Prerequisites** - Lessons 1–6.
 
 ## 1. Why deploy on the edge?
@@ -2691,8 +2691,8 @@ Vietnam's smart traffic cameras (Hà Nội, HCM) need to read 100 plates/sec on 
 
 ## 🛠️ Practice Task
 You must deploy a sentiment classifier (BERT-base, 110M params) on a Raspberry Pi 4 (1 GB RAM). Pick a compression strategy and justify the order of operations.`,
-        code: `# Lượng tử hóa 4-bit cho mô hình Llama bằng bitsandbytes (GPU đơn)
-# Import các thư viện cần thiết
+        code: `# Lượng tử hóa 4-bit cho model Llama bằng bitsandbytes (GPU đơn)
+# Import required libraries
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 import torch
 
@@ -2704,25 +2704,25 @@ bnb = BitsAndBytesConfig(
     bnb_4bit_use_double_quant=True,     # Lượng tử hóa các hằng số lượng tử hóa
 )
 
-# Chỉ định mô hình và tải tokenizer, mô hình với cấu hình lượng tử
+# Chỉ định model và tải tokenizer, model với cấu hình lượng tử
 model_id = "meta-llama/Llama-3.1-8B-Instruct"
 tok = AutoTokenizer.from_pretrained(model_id)
 model = AutoModelForCausalLM.from_pretrained(
     model_id, quantization_config=bnb, device_map="auto"
 )
-# In kích thước bộ nhớ mô hình để tham khảo
+# In size bộ nhớ model for reference
 print(f"Memory footprint: {model.get_memory_footprint() / 1e9:.2f} GB")
 # Llama-3.1-8B với nf4 ≈ 5.4 GB → phù hợp với RTX 3060 12 GB
 
 # Prompt ví dụ để yêu cầu mô tả ngắn
 prompt = "Explain quantization in one sentence:"
-# Sinh văn bản từ mô hình (không sampling)
+# Sinh văn bản từ model (không sampling)
 out = model.generate(**tok(prompt, return_tensors="pt").to(model.device),
                      max_new_tokens=60, do_sample=False)
 # Giải mã và in kết quả, loại bỏ token đặc biệt
 print(tok.decode(out[0], skip_special_tokens=True))`,
         codeLanguage: "python",
-        exercise: "So sánh lượng tử hóa so với chưng cất để nén mô hình chatbot 1B tham số chạy trên điện thoại. Thảo luận về độ chính xác, chi phí đào tạo và độ trễ suy luận.",
+        exercise: "So sánh lượng tử hóa so với chưng cất để nén model chatbot 1B parameters chạy trên điện thoại. Thảo luận về độ chính xác, chi phí đào tạo và độ trễ suy luận.",
         exerciseEn: "Compare quantization vs distillation for compressing a 1B-parameter chatbot to run on a phone. Discuss accuracy, training cost, and inference latency.",
         quiz: [
           {
@@ -2755,7 +2755,7 @@ print(tok.decode(out[0], skip_special_tokens=True))`,
 
 ## 1. Tại sao "nó chạy tốt trong notebook của tôi" là chưa đủ
 
-Một mô hình chiến thắng trên bảng xếp hạng Kaggle chỉ chiếm **5 %** của một hệ thống ML thực tế. 95 % còn lại là các pipeline dữ liệu, giám sát, huấn luyện lại, thử nghiệm A/B, khôi phục, tuân thủ. **MLOps** = DevOps + các vấn đề đặc thù của dữ liệu và mô hình.
+Một model chiến thắng trên bảng xếp hạng Kaggle chỉ chiếm **5 %** của một hệ thống ML thực tế. 95 % còn lại là các pipeline dữ liệu, giám sát, training lại, thử nghiệm A/B, khôi phục, tuân thủ. **MLOps** = DevOps + các vấn đề đặc thù của dữ liệu và model.
 
 ## 2. Vòng đời từ đầu đến cuối
 
@@ -2763,11 +2763,11 @@ Một mô hình chiến thắng trên bảng xếp hạng Kaggle chỉ chiếm *
 flowchart LR
     DATA[Thu nạp dữ liệu<br/>Airflow, Kafka] --> FS[Kho đặc trưng<br/>Feast, Tecton]
     FS --> EXP[Thử nghiệm<br/>MLflow, W&B]
-    EXP --> REG[Registry Mô hình<br/>phiên bản + siêu dữ liệu]
+    EXP --> REG[Registry Model<br/>phiên bản + siêu dữ liệu]
     REG --> CICD[CI/CD<br/>GitHub Actions, Argo]
     CICD --> SERVE[Phục vụ<br/>Triton, TorchServe, vLLM]
     SERVE --> MON[Giám sát<br/>độ trễ + dịch chuyển + chi phí]
-    MON --> RETRAIN[Kích hoạt huấn luyện lại]
+    MON --> RETRAIN[Kích hoạt training lại]
     RETRAIN --> EXP
 \\\`\\\`\\\`
 
@@ -2777,13 +2777,13 @@ flowchart LR
 |---|---|---|
 | **Data drift** (Dịch chuyển dữ liệu) | Phân bố đầu vào thay đổi | KS-test, PSI, Khoảng cách Embedding |
 | **Concept drift** (Dịch chuyển khái niệm) | P(y\\\\|x) thay đổi (thế giới thay đổi) | Giảm các chỉ số trực tuyến |
-| **Model drift** (Dịch chuyển mô hình) | Dự đoán trở nên thiên lệch | Biểu đồ hiệu chuẩn, kiểm toán tính công bằng |
+| **Model drift** (Dịch chuyển model) | Dự đoán trở nên thiên lệch | Biểu đồ hiệu chuẩn, kiểm toán tính công bằng |
 
-Năm 2020, COVID đã làm hỏng gần như mọi mô hình dự báo nhu cầu trên toàn cầu - một trường hợp concept drift ở quy mô lớn.
+Năm 2020, COVID đã làm hỏng gần như mọi model dự báo nhu cầu trên toàn cầu - một trường hợp concept drift ở quy mô lớn.
 
-## 4. Các mô hình phục vụ (serving patterns)
+## 4. Các model phục vụ (serving patterns)
 
-| Mô hình | Trường hợp sử dụng | Độ trễ |
+| Model | Trường hợp sử dụng | Độ trễ |
 |---|---|---|
 | **Batch** (Hàng loạt) | Báo cáo hàng ngày, khuyến nghị | Hàng giờ |
 | **Online (REST)** (Trực tuyến) | Chatbot, kiểm tra gian lận | < 100 ms |
@@ -2794,23 +2794,23 @@ Cụ thể đối với LLM, **vLLM** + attention phân trang (paged attention) 
 
 ## 5. Ví dụ thực tế: Định giá tăng vọt của Grab
 
-Grab phục vụ >1 tỷ dự đoán/ngày trên khắp Đông Nam Á. Stack: kho đặc trưng (DynamoDB), mô hình (XGBoost + DL), Triton trên GPU, các chỉ số trực tuyến (độ trễ p99 < 50 ms, KPI kinh doanh = tỷ lệ chấp nhận của tài xế). Phát hiện dịch chuyển → tự động huấn luyện lại trên dữ liệu ngày hôm qua → A/B so sánh với mô hình đương nhiệm → thăng cấp nếu thắng.
+Grab phục vụ >1 tỷ dự đoán/ngày trên khắp Đông Nam Á. Stack: kho đặc trưng (DynamoDB), model (XGBoost + DL), Triton trên GPU, các chỉ số trực tuyến (độ trễ p99 < 50 ms, KPI kinh doanh = tỷ lệ chấp nhận của tài xế). Phát hiện dịch chuyển → tự động training lại trên dữ liệu ngày hôm qua → A/B so sánh với model đương nhiệm → thăng cấp nếu thắng.
 
 ## 6. Danh sách kiểm tra khả năng tái lập
 
 1. **Ghim** mọi dependency (uv, poetry, conda-lock).
-2. **Hash** dữ liệu huấn luyện (DVC, LakeFS).
-3. **Ghi lại** tất cả các siêu tham số (hyperparameters) và **git commit** của lần chạy huấn luyện.
-4. **Đóng gói container** cho hình ảnh suy luận; gắn thẻ với phiên bản mô hình + phiên bản framework.
+2. **Hash** dữ liệu training (DVC, LakeFS).
+3. **Ghi lại** tất cả các siêu parameters (hyperparameters) và **git commit** của lần chạy training.
+4. **Đóng gói container** cho hình ảnh suy luận; gắn thẻ với phiên bản model + phiên bản framework.
 5. **Lưu** dữ liệu hiệu chuẩn được sử dụng cho lượng tử hóa.
 
 ## ⚠️ Cạm bẫy thường gặp
-- **Train/serve skew** (Lệch giữa huấn luyện và phục vụ) - kỹ thuật đặc trưng khác nhau trong huấn luyện so với sản xuất. Cách khắc phục: một kho đặc trưng duy nhất được sử dụng bởi cả hai.
-- **Silent label leakage** (Rò rỉ nhãn âm thầm) - một đặc trưng có sẵn tại thời điểm huấn luyện nhưng không có sẵn tại thời điểm suy luận. Cách khắc phục: mô phỏng thời gian sản xuất (prod timing) ngoại tuyến.
-- **No rollback plan** (Không có kế hoạch khôi phục) - luôn phục vụ 2 phiên bản mô hình gần nhất đằng sau một cờ.
+- **Train/serve skew** (Lệch giữa training và phục vụ) - kỹ thuật đặc trưng khác nhau trong training so với sản xuất. Cách khắc phục: một kho đặc trưng duy nhất được sử dụng bởi cả hai.
+- **Silent label leakage** (Rò rỉ nhãn âm thầm) - một đặc trưng có sẵn tại thời điểm training nhưng không có sẵn tại thời điểm suy luận. Cách khắc phục: mô phỏng thời gian sản xuất (prod timing) ngoại tuyến.
+- **No rollback plan** (Không có kế hoạch khôi phục) - luôn phục vụ 2 phiên bản model gần nhất đằng sau một cờ.
 
 ## 🛠️ Bài tập thực hành
-Thiết kế kiến trúc MLOps (MLOps stack) cho một chatbot tiếng Việt được triển khai trên web + di động, phục vụ 10.000 yêu cầu/giây (RPS). Liệt kê: framework phục vụ, loại GPU, các chỉ số giám sát, cơ chế kích hoạt huấn luyện lại và chiến lược khôi phục.`,
+Thiết kế kiến trúc MLOps (MLOps stack) cho một chatbot tiếng Việt được triển khai trên web + di động, phục vụ 10.000 yêu cầu/giây (RPS). Liệt kê: framework phục vụ, loại GPU, các chỉ số giám sát, cơ chế kích hoạt training lại và chiến lược khôi phục.`,
         theoryEn: `> ⚠️ **Prerequisites** - All previous lessons. This is the capstone.
 
 ## 1. Why "it works in my notebook" isn't enough
@@ -2872,10 +2872,10 @@ Grab serves >1B predictions/day across SE-Asia. Stack: feature store (DynamoDB),
 ## 🛠️ Practice Task
 Design the MLOps stack for a Vietnamese-language chatbot deployed on web + mobile, serving 10 000 RPS. List: serving framework, GPU type, monitoring metrics, retraining trigger, and rollback strategy.`,
         code: `# Minimal MLflow tracking + model registry workflow
-# Nhập các thư viện cần thiết.
+# Import required libraries.
 # mlflow: Thư viện chính để theo dõi và quản lý vòng đời ML.
-# mlflow.pytorch: Module của MLflow để làm việc với mô hình PyTorch.
-# torch: Thư viện PyTorch để xây dựng và huấn luyện mô hình.
+# mlflow.pytorch: Module của MLflow để làm việc với model PyTorch.
+# torch: Thư viện PyTorch để xây dựng và training model.
 # torch.nn: Module của PyTorch chứa các lớp cho mạng nơ-ron.
 import mlflow, mlflow.pytorch, torch, torch.nn as nn
 
@@ -2887,46 +2887,46 @@ mlflow.set_tracking_uri("http://mlflow.haiedu.local:5000")
 mlflow.set_experiment("sentiment-vi")
 
 # Bắt đầu một lần chạy MLflow mới.
-# Mọi hoạt động ghi log (tham số, metrics, mô hình) trong khối 'with' này sẽ thuộc về lần chạy này.
+# Mọi hoạt động ghi log (parameters, metrics, model) trong khối 'with' này sẽ thuộc về lần chạy này.
 # run_name: Tên hiển thị cho lần chạy cụ thể này.
 with mlflow.start_run(run_name="distilbert-vi-v3") as run:
-    # 1. Ghi lại các siêu tham số (hyperparameters) của mô hình.
-    # params: Một từ điển chứa các tham số quan trọng của quá trình huấn luyện.
+    # 1. Ghi lại các siêu parameters (hyperparameters) của model.
+    # params: Một từ điển chứa các parameters quan trọng của quá trình training.
     params = {"lr": 2e-5, "batch_size": 32, "epochs": 3, "model": "distilbert-base-multilingual"}
-    # Ghi lại các tham số này vào MLflow.
-    # Đầu vào: Một từ điển các tham số.
+    # Ghi lại các parameters này vào MLflow.
+    # Input: Một từ điển các parameters.
     mlflow.log_params(params)
 
     # ... training loop here ...
-    # Giả định đây là kết quả từ vòng lặp huấn luyện.
+    # Giả định đây là kết quả từ vòng lặp training.
     # val_f1: Điểm F1 trên tập validation.
     val_f1 = 0.912
     # val_loss: Giá trị loss trên tập validation.
     val_loss = 0.187
     # Ghi lại các chỉ số (metrics) này vào MLflow.
-    # Đầu vào: Một từ điển các chỉ số.
+    # Input: Một từ điển các chỉ số.
     mlflow.log_metrics({"val_f1": val_f1, "val_loss": val_loss})
 
-    # 2. Ghi lại artifact mô hình đã huấn luyện và chữ ký của nó.
-    # model: Tạo một mô hình PyTorch đơn giản làm chỗ giữ chỗ (placeholder).
-    # Trong thực tế, đây sẽ là mô hình đã được huấn luyện.
+    # 2. Ghi lại artifact model đã training và chữ ký của nó.
+    # model: Create a model PyTorch đơn giản làm chỗ giữ chỗ (placeholder).
+    # Trong thực tế, đây sẽ là model đã được training.
     model = nn.Linear(768, 3)        # placeholder
-    # Ghi lại mô hình PyTorch vào MLflow.
-    # model: Đối tượng mô hình PyTorch cần ghi.
-    # artifact_path: Đường dẫn lưu trữ mô hình trong thư mục artifact của lần chạy.
-    # registered_model_name: Tên của mô hình trong Model Registry.
-    # Nếu mô hình chưa tồn tại trong Registry, nó sẽ được tạo mới.
+    # Ghi lại model PyTorch vào MLflow.
+    # model: Đối tượng model PyTorch cần ghi.
+    # artifact_path: Đường dẫn lưu trữ model trong thư mục artifact của lần chạy.
+    # registered_model_name: Tên của model trong Model Registry.
+    # Nếu model chưa tồn tại trong Registry, nó sẽ được tạo mới.
     mlflow.pytorch.log_model(
         model, artifact_path="model",
         registered_model_name="sentiment-vi",
     )
 
-    # 3. Đẩy mô hình lên stage "Staging" nếu nó tốt hơn mô hình "champion" (mô hình tốt nhất hiện tại).
-    # Khởi tạo một đối tượng MlflowClient để tương tác với MLflow Tracking Server và Model Registry.
+    # 3. Đẩy model lên stage "Staging" nếu nó tốt hơn model "champion" (model tốt nhất hiện tại).
+    # Initialize một đối tượng MlflowClient để tương tác với MLflow Tracking Server và Model Registry.
     client = mlflow.tracking.MlflowClient()
-    # Lấy phiên bản mô hình hiện đang ở stage "production" (champion).
-    # Đầu vào: Tên mô hình đã đăng ký và alias "production".
-    # Đầu ra: Đối tượng ModelVersion của mô hình champion.
+    # Get phiên bản model hiện đang ở stage "production" (champion).
+    # Input: Tên model đã đăng ký và alias "production".
+    # Output: Đối tượng ModelVersion của model champion.
     champion = client.get_model_version_by_alias("sentiment-vi", "production")
     # Get the F1 score of the champion model from its tags.
     # If the "val_f1" tag is not found, default to 0.
@@ -2948,7 +2948,7 @@ with mlflow.start_run(run_name="distilbert-vi-v3") as run:
         # Expected result: "Champion still wins, no promotion."
         print("⏭  Champion still wins, no promotion.")`,
         codeLanguage: "python",
-        exercise: "Bạn triển khai một mô hình phân tích cảm xúc. Sau 3 tuần, độ chính xác giảm từ 92% xuống 78%. Liệt kê 4 bước chẩn đoán theo thứ tự, nêu tên công cụ bạn sẽ sử dụng ở mỗi bước.",
+        exercise: "Bạn triển khai một model phân tích cảm xúc. Sau 3 tuần, độ chính xác giảm từ 92% xuống 78%. Liệt kê 4 bước chẩn đoán theo thứ tự, nêu tên công cụ bạn sẽ sử dụng ở mỗi bước.",
         exerciseEn: "You deploy a sentiment model. After 3 weeks, accuracy drops from 92 % to 78 %. List 4 diagnostic steps in order, naming the tool you would use at each step.",
         quiz: [
           {
