@@ -229,9 +229,11 @@ const WordQuest = ({
       const idx = start + i;
       const known = knownKeys?.has(w.key) ?? false;
       const { easy, hard } = kindsFor(w, micSupported);
+      // Every word was already presented in the study phase, so the drill has
+      // no "meet" step: three real exercises per word instead.
       const kinds = known
         ? pickKinds([...hard, ...easy], 3, [])
-        : ["meet" as StepKind, ...pickKinds(easy, 2, [])];
+        : pickKinds([...easy, ...hard], 3, []);
       return kinds.map(k => ({ wordIdx: idx, kind: k }));
     });
     // Interleave: all intro steps first, then round-robin the exercises so the
