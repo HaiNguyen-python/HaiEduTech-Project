@@ -663,23 +663,20 @@ const WordQuest = ({
                   )}
                 </div>
               )}
-              <div className="mt-2 flex flex-wrap justify-center gap-2">
+              <div className="mt-2 flex flex-wrap items-center justify-center gap-2">
                 <Button variant="outline" onClick={() => speak(sw.speakText)} className="gap-2">
                   <Volume2 className="h-4 w-4" /> {t("Nghe", "Listen")}
                 </Button>
                 <Button variant="outline" onClick={() => speak(sw.speakText, true)} className="gap-2">
                   <Volume2 className="h-4 w-4" /> {t("Nghe chậm", "Slow")}
                 </Button>
+                <Button onClick={startDrill} className="gap-2">
+                  {t("Tiếp tục", "Next")} <ChevronRight className="h-4 w-4" />
+                </Button>
               </div>
             </div>
           </motion.div>
         </AnimatePresence>
-
-        <div className="mt-4 flex items-center justify-center gap-3">
-          <Button onClick={startDrill} className="gap-2">
-            {t("Tiếp tục", "Next")} <ChevronRight className="h-4 w-4" />
-          </Button>
-        </div>
       </div>
     );
   }
