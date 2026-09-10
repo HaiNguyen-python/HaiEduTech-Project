@@ -99,11 +99,11 @@ HTML is not a programming language. JavaScript is not Java. A static HTML+CSS pa
 3 days HTML → 1 week CSS → 2-3 weeks JS → only then a framework. Inspect real sites with DevTools. Deploy small projects on GitHub Pages or Netlify.
 `,
     code: `<!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Trang đầu tiên</title>
+    <title>First page</title>
     <style>
       body { font-family: sans-serif; padding: 24px; background: #f8fafc; }
       h1 { color: #2563eb; }
@@ -111,12 +111,11 @@ HTML is not a programming language. JavaScript is not Java. A static HTML+CSS pa
     </style>
   </head>
   <body>
-    <h1>Xin chào, Hải!</h1>
-    <p>Đây là trang web đầu tiên do tôi viết.</p>
-    <button onclick="alert('Bạn vừa bấm nút!')">Bấm tôi</button>
+    <h1>Hello, Hai!</h1>
+    <p>This is the first website written by me.</p>
+    <button onclick="alert('You just clicked the button!')">Click me</button>
   </body>
-</html>
-`,
+</html>`,
     exercise: "Tạo 1 file `about.html` giới thiệu bản thân: tên, sở thích, 1 nút bấm hiện lời chào bằng alert().",
     exerciseEn: "Create an `about.html` introducing yourself with name, hobbies, and a button that triggers an alert greeting.",
     quiz: [
@@ -257,7 +256,7 @@ Avoid div-soup, never skip alt on images, prefer rem/%/vw over hard-coded px.
 Reset with box-sizing border-box, always include the responsive viewport meta tag, code mobile-first.
 `,
     code: `<!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -273,13 +272,12 @@ Reset with box-sizing border-box, always include the responsive viewport meta ta
   </head>
   <body>
     <article class="card">
-      <img src="https://i.pravatar.cc/200" alt="Ảnh đại diện" />
-      <h2>Nguyễn Văn Hải</h2>
-      <p>Học viên HaiEduTech</p>
+      <img src="https://i.pravatar.cc/200" alt="Avatar" />
+      <h2>Nguyen Van Hai</h2>
+      <p>HaiEduTech Student</p>
     </article>
   </body>
-</html>
-`,
+</html>`,
     exercise: "Tạo 1 trang HTML gồm: tiêu đề, ảnh đại diện, 3 thẻ social link (Facebook, GitHub, Email) dùng flexbox để xếp ngang, có hover đổi màu.",
     exerciseEn: "Build a small HTML page with a heading, avatar, and 3 social links laid out horizontally with flexbox and a hover colour change.",
     quiz: [
@@ -416,14 +414,14 @@ Always use \`===\` not \`==\`. \`null\` and \`undefined\` differ. Place \`<scrip
 
 One function, one job. Prefer \`addEventListener\` over inline \`onclick\`. Use template strings. Practise in DevTools Console.
 `,
-    code: `// Đếm số lần bấm và hiện ra màn hình
+    code: `// Count the clicks and show the total on screen
 const btn = document.getElementById("btn");
 const msg = document.getElementById("msg");
 let count = 0;
 
 btn.addEventListener("click", () => {
   count += 1;
-  msg.textContent = \`Bạn đã bấm \${count} lần\`;
+  msg.textContent = \`You clicked \${count} times\`;
 });
 `,
     exercise: "Xây 1 trang có ô nhập số và nút 'Kiểm tra'. Nếu số chẵn → hiện 'Số chẵn ✅', nếu lẻ → 'Số lẻ ❌'. Dùng addEventListener.",

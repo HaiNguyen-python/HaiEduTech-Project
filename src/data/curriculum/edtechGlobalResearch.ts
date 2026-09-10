@@ -110,7 +110,7 @@ def cohens_d(pre, post):
 pre  = [4, 5, 6, 5, 4, 7, 5, 6, 5, 4]
 post = [7, 8, 9, 8, 7, 9, 8, 9, 8, 7]
 print(f"Cohen's d = {cohens_d(pre, post):.2f}")
-# → d ≈ 1.7 (huge effect, gần với 2-sigma)`,
+# → d ≈ 1.7 (huge effect, close to 2-sigma)`,
         codeLanguage: "python",
         exercise:
           "Thiết kế một mini-study trong lớp: chọn 6 học sinh, chia 2 nhóm (control vs AI Tutor), chạy pre/post test 10 câu trong 30 phút, tính Cohen's d.",

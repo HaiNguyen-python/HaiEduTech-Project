@@ -170,11 +170,11 @@ Analysts export 1-10M rows from Snowflake → Pandas notebooks → discover feat
 
 ## Bridge to next
 After mastering DataFrame/Series, the next lesson (**Data Cleaning**) applies these techniques to data engineering's #1 problem: **dirty data** (missing, duplicates, outliers).`,
-        code: `# Thư viện cần thiết để xử lý dữ liệu
+        code: `# Required library to process data
 import pandas as pd
 import numpy as np
 
-# Tạo DataFrame
+# Create DataFrame
 data = {
     'name': ['An', 'Binh', 'Chi', 'Dung', 'Em'],
     'age': [22, 25, 23, 28, 21],
@@ -183,20 +183,20 @@ data = {
 }
 df = pd.DataFrame(data)
 
-# Hiển thị DataFrame và thông tin cơ bản
+# Display DataFrame and basic information
 print("📊 DataFrame:")
 print(df)
-print(f"\\\\nShape: {df.shape}")
-print(f"\\\\n📈 Statistics:")
+print(f"\\nShape: {df.shape}")
+print(f"\\n📈 Statistics:")
 print(df.describe())
 
-# Lọc dữ liệu
-print(f"\\\\n🔍 Students with score > 85:")
+# Filter data
+print(f"\\n🔍 Students with score > 85:")
 print(df[df['score'] > 85][['name', 'score']])
 
-# Thêm cột
+# Add column
 df['grade'] = df['score'].apply(lambda x: 'A' if x >= 90 else 'B' if x >= 80 else 'C')
-print(f"\\\\n🎓 With grades:")
+print(f"\\n🎓 With grades:")
 print(df[['name', 'score', 'grade']])`,
         codeLanguage: "python",
         exercise: "Create a DataFrame with 10 students, calculate average score by city, find the highest scorer.",
@@ -450,37 +450,37 @@ def clean_dataframe(df):
 
 ## Bridge to next
 After learning to clean, the next lesson (**Data Ingestion**) covers HOW to get data in from various sources (CSV, JSON, API, DB) - the first step before cleaning.`,
-        code: `# Thư viện cần thiết cho xử lý dữ liệu
+        code: `# Required libraries for data processing
 import pandas as pd
 import numpy as np
 
-# Dữ liệu lộn xộn
+# Messy data
 df = pd.DataFrame({
     'name': ['An', 'Binh', None, 'An', 'Chi', 'Dung'],
     'age': [22, np.nan, 23, 22, 25, np.nan],
     'score': [85, 92, 78, 85, 150, 88],
 })
 
-# In dữ liệu thô và kiểm tra giá trị thiếu/nhân bản
+# Print raw data and check for missing/duplicate values
 print("🔴 Raw Data:")
 print(df)
 print(f"\\\\nMissing values:\\\\n{df.isnull().sum()}")
 print(f"Duplicates: {df.duplicated().sum()}")
 
-# Dọn dữ liệu
+# Clean data
 df_clean = df.copy()
 df_clean['name'] = df_clean['name'].fillna('Unknown')
 df_clean['age'] = df_clean['age'].fillna(df_clean['age'].median())
 df_clean = df_clean.drop_duplicates()
 
-# Phát hiện ngoại lệ bằng phương pháp IQR
+# Detect outliers using the IQR method
 Q1 = df_clean['score'].quantile(0.25)
 Q3 = df_clean['score'].quantile(0.75)
 IQR = Q3 - Q1
 outliers = df_clean[(df_clean['score'] < Q1 - 1.5*IQR) | (df_clean['score'] > Q3 + 1.5*IQR)]
 print(f"\\\\n⚠️ Outliers detected: {len(outliers)}")
 
-# Loại bỏ các hàng ngoại lệ khỏi dataframe sạch
+# Remove outlier rows from the clean dataframe
 df_clean = df_clean[~df_clean.index.isin(outliers.index)]
 print(f"\\\\n✅ Clean Data ({len(df_clean)} rows):")
 print(df_clean)`,
@@ -786,92 +786,92 @@ df_validated = schema.validate(df, lazy=True)
 
 ## Bridge to next
 After successful extraction, the next lesson (**ETL Pipeline Design**) covers orchestrating the **full flow** from extract → transform → load with Airflow, idempotency, and monitoring.`,
-        code: `# Nhập thư viện 'json' để làm việc với dữ liệu JSON.
+        code: `# Import the 'json' library to work with JSON data.
 import json
-# Nhập thư viện 'csv' để làm việc với dữ liệu CSV.
+# Import the 'csv' library to work with CSV data.
 import csv
-# Nhập 'StringIO' từ thư viện 'io' để xử lý chuỗi như một file.
+# Import 'StringIO' from the 'io' library to handle strings as files.
 from io import StringIO
 
-# Mô phỏng việc nạp dữ liệu từ CSV.
-# Đây là một chuỗi nhiều dòng chứa dữ liệu CSV.
+# Simulate loading data from CSV.
+# This is a multi-line string containing CSV data.
 csv_data = """name,age,score
 An,22,85
 Binh,25,92
 Chi,23,78"""
 
-# Tạo một đối tượng DictReader từ chuỗi CSV.
-# StringIO(csv_data) biến chuỗi thành một đối tượng giống file để csv.DictReader có thể đọc.
-# DictReader đọc mỗi hàng thành một từ điển (dictionary), với khóa là tên cột.
+# Create a DictReader object from the CSV string.
+# StringIO(csv_data) converts the string into a file-like object for csv.DictReader to read.
+# DictReader reads each row as a dictionary, with column names as keys.
 reader = csv.DictReader(StringIO(csv_data))
-# Chuyển đổi đối tượng reader thành một danh sách các từ điển.
-# Mỗi từ điển đại diện cho một hàng trong CSV.
+# Convert the reader object into a list of dictionaries.
+# Each dictionary represents a row in the CSV.
 csv_rows = list(reader)
-# In ra số lượng hàng đã được nạp từ CSV.
-# Đầu ra: Số lượng hàng đã nạp.
+# Print the number of rows loaded from CSV.
+# Output: Number of loaded rows.
 print(f"📄 CSV: {len(csv_rows)} rows loaded")
-# Lặp qua từng hàng trong danh sách csv_rows và in ra nội dung của mỗi hàng.
-# Đầu ra: Từng hàng dữ liệu CSV dưới dạng từ điển.
+# Iterate through each row in the csv_rows list and print the content of each row.
+# Output: Each CSV data row as a dictionary.
 for row in csv_rows:
     print(f"  {row}")
 
-# Mô phỏng việc nạp dữ liệu từ JSON.
-# Đây là một chuỗi JSON chứa một danh sách các đối tượng.
+# Simulate loading data from JSON.
+# This is a JSON string containing a list of objects.
 json_data = '[{"name":"Dung","age":28,"score":95},{"name":"Em","age":21,"score":88}]'
-# Phân tích chuỗi JSON thành một đối tượng Python (danh sách các từ điển).
-# Đầu vào: Chuỗi JSON.
-# Đầu ra: Danh sách các từ điển Python.
+# Parse the JSON string into a Python object (list of dictionaries).
+# Input: JSON string.
+# Output: List of Python dictionaries.
 json_rows = json.loads(json_data)
-# In ra số lượng bản ghi đã được nạp từ JSON.
-# Đầu ra: Số lượng bản ghi JSON đã nạp.
+# Print the number of records loaded from JSON.
+# Output: Number of loaded JSON records.
 print(f"\\\\n📋 JSON: {len(json_rows)} records loaded")
-# Lặp qua từng bản ghi trong danh sách json_rows và in ra nội dung của mỗi bản ghi.
-# Đầu ra: Từng bản ghi dữ liệu JSON dưới dạng từ điển.
+# Iterate through each record in the json_rows list and print the content of each record.
+# Output: Each JSON data record as a dictionary.
 for row in json_rows:
     print(f"  {row}")
 
-# Định nghĩa hàm để kiểm tra tính hợp lệ của lược đồ dữ liệu.
-# Hàm này kiểm tra xem các trường bắt buộc có tồn tại không và kiểu dữ liệu có đúng không.
-# Đầu vào:
-#   - data: Danh sách các từ điển (mỗi từ điển là một hàng/bản ghi).
-#   - required_fields: Danh sách các tên trường bắt buộc phải có.
-#   - field_types: Một từ điển ánh xạ tên trường với kiểu dữ liệu mong đợi (ví dụ: {'age': int}).
-# Đầu ra:
-#   - errors: Một danh sách các chuỗi mô tả lỗi tìm thấy.
+# Define a function to check data schema validity.
+# This function checks if required fields exist and if data types are correct.
+# Input:
+#   - data: List of dictionaries (each dictionary is a row/record).
+#   - required_fields: List of required field names.
+#   - field_types: A dictionary mapping field names to expected data types (e.g., {'age': int}).
+# Output:
+#   - errors: A list of strings describing found errors.
 def validate_schema(data, required_fields, field_types):
-    # Khởi tạo một danh sách rỗng để lưu trữ các lỗi tìm thấy.
+    # Initialize an empty list to store found errors.
     errors = []
-    # Lặp qua từng hàng dữ liệu cùng với chỉ số của nó.
+    # Iterate through each data row along with its index.
     for i, row in enumerate(data):
-        # Kiểm tra các trường bắt buộc.
+        # Check required fields.
         for field in required_fields:
-            # Nếu trường bắt buộc không có trong hàng hiện tại, thêm lỗi vào danh sách.
+            # If a required field is not in the current row, add an error to the list.
             if field not in row:
                 errors.append(f"Row {i}: missing '{field}'")
-        # Kiểm tra kiểu dữ liệu của các trường.
+        # Check data types of fields.
         for field, expected_type in field_types.items():
-            # Nếu trường tồn tại trong hàng, tiến hành kiểm tra kiểu.
+            # If the field exists in the row, proceed to check its type.
             if field in row:
                 try:
-                    # Cố gắng chuyển đổi giá trị của trường sang kiểu dữ liệu mong đợi.
-                    # Nếu thành công, kiểu dữ liệu là đúng.
+                    # Attempt to convert the field's value to the expected data type.
+                    # If successful, the data type is correct.
                     expected_type(row[field])
                 except (ValueError, TypeError):
-                    # Nếu xảy ra lỗi ValueError hoặc TypeError trong quá trình chuyển đổi,
-                    # nghĩa là kiểu dữ liệu không đúng. Thêm lỗi vào danh sách.
+                    # If a ValueError or TypeError occurs during conversion,
+                    # it means the data type is incorrect. Add an error to the list.
                     errors.append(f"Row {i}: '{field}' is not {expected_type.__name__}")
-    # Trả về danh sách các lỗi đã tìm thấy.
+    # Return the list of found errors.
     return errors
 
-# Gọi hàm validate_schema để kiểm tra dữ liệu CSV.
-# Kiểm tra xem 'name' và 'age' có phải là trường bắt buộc không.
-# Kiểm tra xem 'age' và 'score' có phải là kiểu số nguyên không.
-# Đầu vào: csv_rows, ['name', 'age'], {'age': int, 'score': int}
-# Đầu ra: Danh sách các lỗi (nếu có).
+# Call the validate_schema function to check CSV data.
+# Check if 'name' and 'age' are required fields.
+# Check if 'age' and 'score' are integer types.
+# Input: csv_rows, ['name', 'age'], {'age': int, 'score': int}
+# Output: List of errors (if any).
 errors = validate_schema(csv_rows, ['name', 'age'], {'age': int, 'score': int})
-# In ra kết quả kiểm tra lược đồ.
-# Nếu danh sách lỗi rỗng, in ra "Schema valid!". Ngược lại, in ra số lượng lỗi.
-# Đầu ra: Thông báo về số lượng lỗi hoặc xác nhận lược đồ hợp lệ.
+# Print the schema validation result.
+# If the error list is empty, print "Schema valid!". Otherwise, print the number of errors.
+# Output: Message about the number of errors or schema validity confirmation.
 print(f"\\\\n✅ Validation: {len(errors)} errors" if errors else "\\\\n✅ Schema valid!")`,
         codeLanguage: "python",
         exercise: "Build a DataIngester class that reads CSV and JSON, auto-detects schema and reports quality.",
@@ -1064,135 +1064,135 @@ Every data-driven company needs reliable pipelines from operational systems (Pos
 
 ## Bridge to next
 After understanding the ETL/ELT architecture, the next lesson (**Data Modeling**) covers HOW to organize tables in the warehouse: Star Schema, Snowflake, fact vs dimension - the foundation of fast queries.`,
-        code: `# Nhập thư viện JSON để làm việc với dữ liệu JSON (nếu cần, ở đây không dùng trực tiếp nhưng thường đi kèm ETL).
+        code: `# Import the JSON library to work with JSON data (if needed, not used directly here but often accompanies ETL).
 import json
-# Nhập lớp datetime từ module datetime để làm việc với thời gian, dùng để ghi log.
+# Import the datetime class from the datetime module to work with time, used for logging.
 from datetime import datetime
 
-# Định nghĩa một lớp (class) tên là ETLPipeline.
-# Lớp này sẽ đại diện cho một quy trình ETL (Extract, Transform, Load - Trích xuất, Biến đổi, Tải).
+# Define a class named ETLPipeline.
+# This class will represent an ETL process (Extract, Transform, Load).
 class ETLPipeline:
-    # Phương thức khởi tạo (constructor) của lớp.
-    # Được gọi khi tạo một đối tượng mới từ lớp ETLPipeline.
-    # Đầu vào: self (đối tượng hiện tại), name (tên của pipeline).
+    # The constructor method of the class.
+    # Called when creating a new object from the ETLPipeline class.
+    # Input: self (the current object), name (the pipeline's name).
     def __init__(self, name):
-        # Gán tên cho pipeline.
+        # Assign the name to the pipeline.
         self.name = name
-        # Khởi tạo một danh sách rỗng để lưu trữ các bản ghi log của pipeline.
+        # Initialize an empty list to store the pipeline's log entries.
         self.log = []
 
-    # Phương thức nội bộ (private method, theo quy ước) để ghi log.
-    # Đầu vào: self, step (bước hiện tại của pipeline), msg (thông điệp log).
-    # Đầu ra: Không trả về giá trị, chỉ ghi log vào self.log và in ra console.
+    # Internal method (private method, by convention) for logging.
+    # Input: self, step (the current pipeline step), msg (the log message).
+    # Output: Returns no value, only logs to self.log and prints to console.
     def _log(self, step, msg):
-        # Tạo một bản ghi log dưới dạng từ điển.
-        # Bao gồm thời gian hiện tại, bước và thông điệp.
+        # Create a log entry as a dictionary.
+        # Includes current time, step, and message.
         entry = {"time": datetime.now().strftime("%H:%M:%S"), "step": step, "msg": msg}
-        # Thêm bản ghi log vào danh sách log của đối tượng.
+        # Add the log entry to the object's log list.
         self.log.append(entry)
-        # In bản ghi log ra màn hình console để dễ theo dõi.
+        # Print the log entry to the console for easy monitoring.
         print(f"  [{entry['time']}] {step}: {msg}")
 
-    # Phương thức Extract (Trích xuất) dữ liệu.
-    # Trong ví dụ này, nó chỉ đơn giản trả về dữ liệu nguồn đã nhận.
-    # Đầu vào: self, source (dữ liệu nguồn).
-    # Đầu ra: Dữ liệu nguồn đã nhận.
+    # Extract data method.
+    # In this example, it simply returns the received source data.
+    # Input: self, source (source data).
+    # Output: The received source data.
     def extract(self, source):
-        # Ghi log cho bước EXTRACT, thông báo số lượng bản ghi được đọc.
+        # Log the EXTRACT step, announcing the number of records read.
         self._log("EXTRACT", f"Reading {len(source)} records")
-        # Trả về dữ liệu nguồn.
+        # Return the source data.
         return source
 
-    # Phương thức Transform (Biến đổi) dữ liệu.
-    # Áp dụng một loạt các phép biến đổi lên dữ liệu.
-    # Đầu vào: self, data (dữ liệu cần biến đổi), transformations (danh sách các phép biến đổi).
-    # Đầu ra: Dữ liệu đã được biến đổi.
+    # Transform data method.
+    # Applies a series of transformations to the data.
+    # Input: self, data (data to be transformed), transformations (list of transformations).
+    # Output: The transformed data.
     def transform(self, data, transformations):
-        # Ghi log cho bước TRANSFORM, thông báo số lượng phép biến đổi sẽ được áp dụng.
+        # Log the TRANSFORM step, announcing the number of transformations to be applied.
         self._log("TRANSFORM", f"Applying {len(transformations)} transformations")
-        # Tạo một bản sao của dữ liệu gốc để tránh làm thay đổi dữ liệu ban đầu.
+        # Create a copy of the original data to avoid modifying the initial data.
         result = data.copy()
-        # Lặp qua từng phép biến đổi trong danh sách.
-        # Mỗi phép biến đổi là một cặp (tên, hàm).
+        # Iterate through each transformation in the list.
+        # Each transformation is a pair (name, function).
         for name, fn in transformations:
-            # Áp dụng hàm biến đổi (fn) cho từng hàng (row) trong dữ liệu.
-            # Sử dụng list comprehension để tạo danh sách mới đã biến đổi.
+            # Apply the transformation function (fn) to each row in the data.
+            # Use list comprehension to create a new transformed list.
             result = [fn(row) for row in result]
-            # Ghi log sau khi áp dụng xong một phép biến đổi cụ thể.
+            # Log after applying a specific transformation.
             self._log("TRANSFORM", f"  ✓ {name}: {len(result)} records")
-        # Trả về dữ liệu đã được biến đổi.
+        # Return the transformed data.
         return result
 
-    # Phương thức Load (Tải) dữ liệu.
-    # Trong ví dụ này, nó mô phỏng việc tải dữ liệu đến một đích nào đó.
-    # Đầu vào: self, data (dữ liệu cần tải), destination (đích đến).
-    # Đầu ra: Một từ điển chứa thông tin về số lượng bản ghi và đích đến.
+    # Load data method.
+    # In this example, it simulates loading data to a destination.
+    # Input: self, data (data to be loaded), destination (destination).
+    # Output: A dictionary containing information about the number of records and the destination.
     def load(self, data, destination):
-        # Ghi log cho bước LOAD, thông báo số lượng bản ghi và đích đến.
+        # Log the LOAD step, announcing the number of records and the destination.
         self._log("LOAD", f"Writing {len(data)} records to {destination}")
-        # Trả về một từ điển mô tả kết quả của quá trình tải.
+        # Return a dictionary describing the result of the loading process.
         return {"records": len(data), "destination": destination}
 
-    # Phương thức chính để chạy toàn bộ pipeline ETL.
-    # Đầu vào: self, source (dữ liệu nguồn), transformations (các phép biến đổi), destination (đích đến).
-    # Đầu ra: Kết quả của bước tải dữ liệu.
+    # Main method to run the entire ETL pipeline.
+    # Input: self, source (source data), transformations (transformations), destination (destination).
+    # Output: The result of the data loading step.
     def run(self, source, transformations, destination):
-        # In tiêu đề cho pipeline.
+        # Print the pipeline title.
         print(f"🔄 Pipeline: {self.name}")
-        # In một đường kẻ để phân tách trực quan.
+        # Print a line for visual separation.
         print("=" * 50)
-        # Gọi phương thức extract để trích xuất dữ liệu.
-        # Đầu vào: source_data.
-        # Đầu ra: raw (dữ liệu thô).
+        # Call the extract method to extract data.
+        # Input: source_data.
+        # Output: raw (raw data).
         raw = self.extract(source)
-        # Gọi phương thức transform để biến đổi dữ liệu.
-        # Đầu vào: raw, transforms.
-        # Đầu ra: transformed (dữ liệu đã biến đổi).
+        # Call the transform method to transform data.
+        # Input: raw, transforms.
+        # Output: transformed (transformed data).
         transformed = self.transform(raw, transformations)
-        # Gọi phương thức load để tải dữ liệu.
-        # Đầu vào: transformed, "data_warehouse.students".
-        # Đầu ra: result (kết quả tải).
+        # Call the load method to load data.
+        # Input: transformed, "data_warehouse.students".
+        # Output: result (load result).
         result = self.load(transformed, destination)
-        # Ghi log khi pipeline hoàn thành, bao gồm kết quả cuối cùng.
+        # Log when the pipeline is complete, including the final result.
         self._log("DONE", f"Pipeline complete! {result}")
-        # Trả về kết quả của bước tải.
+        # Return the result of the load step.
         return result
 
-# --- Phần chạy pipeline ---
+# --- Pipeline execution section ---
 
-# Dữ liệu nguồn ban đầu, là một danh sách các từ điển.
-# Mỗi từ điển đại diện cho thông tin của một sinh viên.
+# Initial source data, a list of dictionaries.
+# Each dictionary represents a student's information.
 source_data = [
     {"name": "an", "age": "22", "score": "85"},
     {"name": "binh", "age": "25", "score": "92"},
     {"name": "", "age": "23", "score": "78"},
 ]
 
-# Định nghĩa các phép biến đổi sẽ được áp dụng.
-# Mỗi phép biến đổi là một tuple gồm (tên_biến_đổi, hàm_lambda).
+# Define the transformations to be applied.
+# Each transformation is a tuple consisting of (transformation_name, lambda_function).
 transforms = [
-    # Biến đổi 1: Viết hoa chữ cái đầu của tên và xử lý tên rỗng.
-    # Đầu vào: r (một hàng dữ liệu).
-    # Đầu ra: Từ điển mới với tên đã được xử lý (ví dụ: "an" -> "An", "" -> "Unknown").
+    # Transformation 1: Capitalize the first letter of the name and handle empty names.
+    # Input: r (a data row).
+    # Output: New dictionary with the processed name (e.g., "an" -> "An", "" -> "Unknown").
     ("Capitalize names", lambda r: {**r, "name": r["name"].title() if r["name"] else "Unknown"}),
-    # Biến đổi 2: Chuyển đổi kiểu dữ liệu của 'age' và 'score' từ chuỗi sang số nguyên.
-    # Đầu vào: r (một hàng dữ liệu).
-    # Đầu ra: Từ điển mới với 'age' và 'score' là số nguyên.
+    # Transformation 2: Convert 'age' and 'score' data types from string to integer.
+    # Input: r (a data row).
+    # Output: New dictionary with 'age' and 'score' as integers.
     ("Cast types", lambda r: {**r, "age": int(r["age"]), "score": int(r["score"])}),
-    # Biến đổi 3: Thêm trường 'grade' dựa trên điểm số.
-    # Đầu vào: r (một hàng dữ liệu).
-    # Đầu ra: Từ điển mới có thêm trường 'grade' (A, B, hoặc C).
+    # Transformation 3: Add 'grade' field based on score.
+    # Input: r (a data row).
+    # Output: New dictionary with an added 'grade' field (A, B, or C).
     ("Add grade", lambda r: {**r, "grade": "A" if r["score"] >= 90 else "B" if r["score"] >= 80 else "C"}),
 ]
 
-# Tạo một đối tượng ETLPipeline mới với tên "Student Scores".
+# Create a new ETLPipeline object named "Student Scores".
 pipeline = ETLPipeline("Student Scores")
-# Chạy pipeline với dữ liệu nguồn, các phép biến đổi và đích đến đã định nghĩa.
-# Đầu vào: source_data, transforms, "data_warehouse.students".
-# Đầu ra: Kết quả của bước load, ví dụ: {'records': 3, 'destination': 'data_warehouse.students'}.
+# Run the pipeline with the defined source data, transformations, and destination.
+# Input: source_data, transforms, "data_warehouse.students".
+# Output: The result of the load step, e.g., {'records': 3, 'destination': 'data_warehouse.students'}.
 pipeline.run(source_data, transforms, "data_warehouse.students")
-# Kết quả mong đợi in ra console sẽ là các dòng log của từng bước và kết quả cuối cùng của pipeline.
-# Ví dụ:
+# The expected output printed to the console will be log lines for each step and the final pipeline result.
+# Example:
 # 🔄 Pipeline: Student Scores
 # ==================================================
 #   [HH:MM:SS] EXTRACT: Reading 3 records
@@ -1344,12 +1344,12 @@ Declare the grain first; use surrogate keys; conform shared dimensions; thin tal
 ## Anti-patterns & next lesson
 
 Avoid god-fact-tables, storing ratios in facts, and using natural keys as primary keys. Next: **Data Warehousing & OLAP** - how Snowflake/BigQuery physically store these models.`,
-        code: `# Thiết kế Star Schema
-# In tiêu đề minh họa cho ví dụ
+        code: `# Star Schema Design
+# Print illustrative title for example
 print("⭐ Star Schema: E-Commerce")
 print("=" * 50)
 
-# Định nghĩa cấu trúc schema: bảng fact và các dimension
+# Define schema structure: fact table and dimensions
 schema = {
     "fact_sales": {
         "type": "FACT",
@@ -1375,19 +1375,19 @@ schema = {
     },
 }
 
-# Duyệt từng bảng trong schema để in thông tin
+# Iterate through each table in the schema to print information
 for table, info in schema.items():
     icon = "📊" if info["type"] == "FACT" else "📋"
-    print(f"\\\\n{icon} {table} ({info['type']})")
-    # Duyệt các cột để đánh dấu khóa và metric
+    print(f"\\n{icon} {table} ({info['type']})")
+    # Iterate through columns to mark keys and metrics
     for col in info["columns"]:
         marker = "🔑" if col.endswith("_key") or col.endswith("_id") else "  "
         is_metric = "📈" if info.get("metrics") and col in info["metrics"] else "  "
         print(f"  {marker}{is_metric} {col}")
 
-# In tiêu đề truy vấn mẫu
-print("\\\\n🔍 Sample Query: Monthly revenue by category")
-# Chuỗi SQL ví dụ: truy vấn doanh thu theo tháng và theo category
+# Print sample query title
+print("\\n🔍 Sample Query: Monthly revenue by category")
+# Example SQL string: query revenue by month and category
 print("""
 SELECT d.month, d.year, p.category,
        SUM(f.total_amount) AS revenue,
@@ -1531,17 +1531,17 @@ Partition by date; cluster on common filter columns; use materialized views for 
 ## Anti-patterns & next lesson
 
 Avoid unpartitioned scans, OLTP-style point lookups, shared warehouses for ML + dashboards. Next: **Batch vs Streaming** - how fresh does the data need to be?`,
-        code: `# Mô phỏng các phép toán OLAP
+        code: `# Simulate OLAP operations
 import numpy as np
-# Khởi tạo cấu trúc dữ liệu và danh sách mẫu
+# Initialize data structures and sample lists
 sales_data = []
 products = ["Laptop", "Phone", "Tablet"]
 regions = ["North", "South", "East"]
 quarters = ["Q1", "Q2", "Q3", "Q4"]
 
-# Đặt seed để kết quả ngẫu nhiên lặp lại
+# Set seed for reproducible random results
 np.random.seed(42)
-# Tạo dữ liệu bán hàng ngẫu nhiên cho mỗi product-region-quarter
+# Generate random sales data for each product-region-quarter
 for p in products:
     for r in regions:
         for q in quarters:
@@ -1554,30 +1554,30 @@ for p in products:
 print("🏛️ OLAP Operations Demo")
 print("=" * 50)
 
-# Tổng hợp (Roll-up): Quý → Năm
-print("\\\\n📊 ROLL-UP (Quarter → Annual)")
+# Roll-up: Quarter → Annual
+print("\\n📊 ROLL-UP (Quarter → Annual)")
 annual = {}
-# Gom doanh thu theo product và region
+# Aggregate revenue by product and region
 for s in sales_data:
     key = (s["product"], s["region"])
     annual[key] = annual.get(key, 0) + s["revenue"]
-# In kết quả tổng hợp đã sắp xếp
+# Print sorted aggregated results
 for (p, r), rev in sorted(annual.items()):
     print(f"  {p:>8} | {r:>6} | \${rev:>8,}")
 
-# Phân tích chi tiết (Drill-down) theo sản phẩm
-print("\\\\n🔍 DRILL-DOWN (Product: Laptop by quarter)")
-# Duyệt từng bản ghi để tìm Laptop ở vùng North
+# Drill-down by product
+print("\\n🔍 DRILL-DOWN (Product: Laptop by quarter)")
+# Iterate through each record to find Laptop in the North region
 for s in sales_data:
-    # Chỉ in bản ghi của Laptop ở region North
+    # Only print Laptop records in the North region
     if s["product"] == "Laptop" and s["region"] == "North":
         print(f"  {s['quarter']}: \${s['revenue']:,} ({s['units']} units)")
 
-# Cắt lát (Slice): chỉ Q1
-print("\\\\n🔪 SLICE (Only Q1)")
-# Lọc các bản ghi thuộc Q1
+# Slice: only Q1
+print("\\n🔪 SLICE (Only Q1)")
+# Filter records belonging to Q1
 q1 = [s for s in sales_data if s["quarter"] == "Q1"]
-# In dữ liệu của Q1
+# Print Q1 data
 for s in q1:
     print(f"  {s['product']:>8} | {s['region']:>6} | \${s['revenue']:>8,}")`,
         codeLanguage: "python",
@@ -1716,46 +1716,46 @@ Default to batch; one event log feeding both; idempotent processing; explicit la
 ## Anti-patterns & next lesson
 
 Avoid streaming for show, missing idempotency, mixing event/processing time. Next: **Data Quality** - making the numbers right.`,
-        code: `# Nhập thư viện cần thiết
+        code: `# Import necessary libraries
 import time
 from collections import deque
 
-# Mô phỏng xử lý theo lô
+# Simulate batch processing
 def batch_process(data):
     print("📦 Batch Processing")
     start = time.time()
     results = []
-    # Duyệt từng bản ghi và đánh dấu đã xử lý, tính điểm
+    # Iterate through each record and mark as processed, calculate score
     for record in data:
         results.append({**record, "processed": True, "score": record["value"] * 2})
     elapsed = time.time() - start
     print(f"  Processed {len(results)} records in {elapsed:.4f}s")
     return results
 
-# Mô phỏng xử lý luồng
+# Simulate stream processing
 class StreamProcessor:
-    # Khởi tạo cửa sổ trượt và bộ đếm các sự kiện đã xử lý
+    # Initialize sliding window and counter for processed events
     def __init__(self, window_size=5):
         self.window = deque(maxlen=window_size)
         self.processed = 0
 
-    # Xử lý một sự kiện: cập nhật cửa sổ và tính trung bình
+    # Process an event: update window and calculate average
     def process_event(self, event):
         self.window.append(event["value"])
         self.processed += 1
         avg = sum(self.window) / len(self.window)
         return {"event": event, "window_avg": round(avg, 2), "count": self.processed}
 
-# Ví dụ
+# Example
 data = [{"id": i, "value": i * 10 + 5} for i in range(20)]
 
-# Xử lý theo lô
+# Batch processing
 batch_results = batch_process(data)
 
-# Xử lý luồng
-print("\\\\n⚡ Stream Processing")
+# Stream processing
+print("\\n⚡ Stream Processing")
 stream = StreamProcessor(window_size=5)
-# Duyệt 10 sự kiện đầu tiên và in kết quả trung bình cửa sổ
+# Iterate through the first 10 events and print window average results
 for event in data[:10]:
     result = stream.process_event(event)
     print(f"  Event {event['id']}: value={event['value']}, "
@@ -1890,56 +1890,56 @@ Tests run on every PR; SLAs per table; quality owned by producers; capture linea
 ## Anti-patterns & next lesson
 
 Avoid commented-out tests, silent retries, post-incident-only testing. Next: **Orchestration & DAGs** - running these checks in the right order with retries and observability.`,
-        code: `# Khung Kiểm tra Chất lượng Dữ liệu
-# Lớp chứa các kiểm tra chất lượng dữ liệu
+        code: `# Data Quality Checking Framework
+# Class containing data quality checks
 class DataQualityChecker:
-    # Khởi tạo lưu data, schema và kết quả
+    # Initialize to store data, schema, and results
     def __init__(self, data, schema):
         self.data = data
         self.schema = schema
         self.results = []
 
-    # Kiểm tra độ đầy đủ (không null hoặc rỗng) của cột
+    # Check completeness (not null or empty) of a column
     def check_completeness(self, column, threshold=0.95):
-        # Đếm số giá trị không null và không rỗng trong cột
+        # Count non-null and non-empty values in the column
         non_null = sum(1 for row in self.data if row.get(column) is not None and row.get(column) != "")
         rate = non_null / len(self.data)
         passed = rate >= threshold
         self.results.append({"check": f"Completeness({column})", "rate": rate, "threshold": threshold, "passed": passed})
         return passed
 
-    # Kiểm tra tính duy nhất của giá trị trong cột
+    # Check uniqueness of values in a column
     def check_uniqueness(self, column):
-        # Thu thập giá trị không null để kiểm tra unique
+        # Collect non-null values to check for uniqueness
         values = [row[column] for row in self.data if row.get(column)]
         unique_rate = len(set(values)) / len(values) if values else 0
         passed = unique_rate == 1.0
         self.results.append({"check": f"Uniqueness({column})", "rate": unique_rate, "threshold": 1.0, "passed": passed})
         return passed
 
-    # Kiểm tra giá trị nằm trong khoảng cho trước
+    # Check if values are within a given range
     def check_range(self, column, min_val, max_val):
-        # Đếm số bản ghi có giá trị nằm trong khoảng
+        # Count records with values within the range
         in_range = sum(1 for row in self.data if min_val <= (row.get(column) or 0) <= max_val)
         rate = in_range / len(self.data)
         passed = rate >= 0.95
         self.results.append({"check": f"Range({column}:{min_val}-{max_val})", "rate": rate, "threshold": 0.95, "passed": passed})
         return passed
 
-    # In báo cáo kết quả các kiểm tra
+    # Print a report of check results
     def report(self):
-        print("\\\\n📊 Data Quality Report")
+        print("\\n📊 Data Quality Report")
         print("=" * 60)
-        # Duyệt kết quả từng kiểm tra và in trạng thái
+        # Iterate through each check result and print status
         for r in self.results:
             icon = "✅" if r["passed"] else "❌"
             print(f"  {icon} {r['check']}: {r['rate']:.1%} (threshold: {r['threshold']:.1%})")
-        # Tính tổng số kiểm tra đạt
+        # Calculate total number of passed checks
         passed = sum(1 for r in self.results if r["passed"])
-        print(f"\\\\n  Overall: {passed}/{len(self.results)} checks passed")
+        print(f"\\n  Overall: {passed}/{len(self.results)} checks passed")
 
-# Kiểm thử
-# Dữ liệu mẫu để kiểm thử
+# Test
+# Sample data for testing
 data = [
     {"id": 1, "name": "An", "age": 22, "email": "an@test.com"},
     {"id": 2, "name": "Binh", "age": 25, "email": "binh@test.com"},
@@ -1947,7 +1947,7 @@ data = [
     {"id": 3, "name": "Dung", "age": 28, "email": None},
 ]
 
-# Tạo đối tượng và chạy các kiểm tra
+# Create object and run checks
 dq = DataQualityChecker(data, {})
 dq.check_completeness("name")
 dq.check_completeness("email")
@@ -2093,13 +2093,13 @@ Idempotency mandatory; state lives in object storage/warehouse, not orchestrator
 ## Anti-patterns & next lesson
 
 Avoid huge XCom payloads, \`datetime.now()\`, sleep loops, side-by-side cron. Next: **Cloud Platforms** - where these orchestrators live.`,
-        code: `# Mô phỏng DAG (tương tự Airflow)
-# Nhập hàm để lấy thời gian hiện tại
+        code: `# Simulate DAG (similar to Airflow)
+# Import function to get current time
 from datetime import datetime
 
-# Định nghĩa Task: đại diện công việc trong DAG
+# Define Task: represents work in DAG
 class Task:
-    # Khởi tạo Task với tên, hàm thực thi và số lần thử lại
+    # Initialize Task with name, execution function and number of retries
     def __init__(self, name, fn, retries=1):
         self.name = name
         self.fn = fn
@@ -2107,72 +2107,72 @@ class Task:
         self.status = "pending"
         self.result = None
 
-    # Thực thi hàm của task, thử lại khi lỗi
+    # Execute task's function, retry on error
     def run(self):
-        # Lặp theo số lần thử (bao gồm lần thử đầu tiên)
+        # Loop for the number of retries (including the first attempt)
         for attempt in range(self.retries + 1):
-            # Thử chạy hàm, nếu lỗi sẽ vào except
+            # Try to run the function, if error, it will go to except
             try:
                 self.result = self.fn()
                 self.status = "success"
                 return self.result
             except Exception as e:
-                # Nếu còn lần thử, in thông báo và tiếp tục
+                # If there are still retries, print message and continue
                 if attempt < self.retries:
                     print(f"    ⚠️ {self.name} failed, retrying ({attempt+1}/{self.retries})")
                 else:
                     self.status = "failed"
                     raise
 
-# Định nghĩa DAG để quản lý và chạy các Task
+# Define DAG to manage and run Tasks
 class DAG:
-    # Khởi tạo DAG với tên, lịch và các cấu trúc lưu tasks và phụ thuộc
+    # Initialize DAG with name, schedule and structures to store tasks and dependencies
     def __init__(self, name, schedule="daily"):
         self.name = name
         self.schedule = schedule
         self.tasks = {}
         self.deps = {}
 
-    # Thêm task vào DAG, ghi nhận phụ thuộc nếu có
+    # Add task to DAG, record dependencies if any
     def add_task(self, task, depends_on=None):
         self.tasks[task.name] = task
         self.deps[task.name] = depends_on or []
 
-    # Chạy DAG: in thông tin, xử lý thứ tự theo phụ thuộc
+    # Run DAG: print information, process order by dependencies
     def run(self):
         print(f"🎼 DAG: {self.name} (schedule: {self.schedule})")
         print(f"   Started: {datetime.now().strftime('%H:%M:%S')}")
         print("=" * 50)
         
-        # Lặp cho tới khi tất cả tasks hoàn thành
+        # Loop until all tasks are complete
         completed = set()
         while len(completed) < len(self.tasks):
-            # Duyệt các task, chạy khi phụ thuộc đã hoàn thành
+            # Iterate through tasks, run when dependencies are complete
             for name, task in self.tasks.items():
-                # Bỏ qua nếu task đã hoàn thành
+                # Skip if task is already complete
                 if name in completed:
                     continue
-                # Kiểm tra tất cả phụ thuộc đã được hoàn thành chưa
+                # Check if all dependencies are complete
                 if all(d in completed for d in self.deps[name]):
                     print(f"  ▶ Running: {name}")
                     task.run()
                     completed.add(name)
                     print(f"    ✅ {name}: {task.status}")
         
-        print(f"\\\\n🏁 DAG complete! {len(completed)} tasks executed.")
+        print(f"\\n🏁 DAG complete! {len(completed)} tasks executed.")
 
-# Xây dựng DAG cho pipeline
-# Khởi tạo một DAG với tên và lịch chạy
+# Build DAG for pipeline
+# Initialize a DAG with name and run schedule
 dag = DAG("daily_student_etl", schedule="0 2 * * *")
 
-# Thêm các task (extract, transform, load, notify) và xác định phụ thuộc
+# Add tasks (extract, transform, load, notify) and define dependencies
 dag.add_task(Task("extract_csv", lambda: "100 rows extracted"))
 dag.add_task(Task("extract_api", lambda: "50 records from API"))
 dag.add_task(Task("transform", lambda: "150 rows cleaned"), depends_on=["extract_csv", "extract_api"])
 dag.add_task(Task("load_warehouse", lambda: "loaded to DW"), depends_on=["transform"])
 dag.add_task(Task("notify", lambda: "email sent"), depends_on=["load_warehouse"])
 
-# Chạy DAG
+# Run DAG
 dag.run()`,
         codeLanguage: "python",
         exercise: "Add parallel execution, timeout, and SLA monitoring to the DAG simulator.",
@@ -2313,8 +2313,8 @@ One primary cloud; managed services for boring stuff; tag everything; budget ale
 ## Anti-patterns & next lesson
 
 Avoid premature multi-cloud; always-on clusters for spiky loads; ignoring residency. Next: **Production Best Practices**.`,
-        code: `# Khung quyết định kiến trúc đám mây
-# Danh sách dịch vụ theo hạng mục và nhà cung cấp
+        code: `# Cloud architecture decision framework
+# List of services by category and provider
 services = {
     "Storage": {
         "GCP": ["Cloud Storage", "BigQuery", "Bigtable"],
@@ -2333,25 +2333,25 @@ services = {
     },
 }
 
-# In tiêu đề so sánh nền tảng dữ liệu đám mây
+# Print cloud data platform comparison title
 print("☁️ Cloud Data Platform Comparison")
 print("=" * 70)
-# Duyệt từng hạng mục và in nhà cung cấp cùng công cụ
+# Iterate through each category and print providers and tools
 for category, providers in services.items():
-    print(f"\\\\n📂 {category}:")
-    # In công cụ cho mỗi nhà cung cấp
+    print(f"\\n📂 {category}:")
+    # Print tools for each provider
     for provider, tools in providers.items():
         print(f"  {provider:>6}: {' | '.join(tools)}")
 
-# Ước tính chi phí
+# Cost estimation
 def estimate_cost(storage_gb, queries_tb, compute_hours):
     costs = {
         "GCP": storage_gb * 0.02 + queries_tb * 5 + compute_hours * 0.10,
         "AWS": storage_gb * 0.023 + queries_tb * 5 + compute_hours * 0.12,
         "Azure": storage_gb * 0.018 + queries_tb * 5 + compute_hours * 0.11,
     }
-    print(f"\\\\n💰 Cost Estimate ({storage_gb}GB, {queries_tb}TB queries, {compute_hours}h compute):")
-    # In chi phí ước tính cho từng nhà cung cấp
+    print(f"\\n💰 Cost Estimate ({storage_gb}GB, {queries_tb}TB queries, {compute_hours}h compute):")
+    # Print estimated cost for each provider
     for provider, cost in costs.items():
         print(f"  {provider}: \${cost:.2f}/month")
     cheapest = min(costs, key=costs.get)
@@ -2496,151 +2496,151 @@ Idempotency or no ship; contract tests at every boundary; one owner + on-call; r
 No staging; muted alerts; secrets in code; hand-editing prod; blaming people.
 
 The mark of seniority: how **boring** your pipeline is to operate.`,
-        code: `# Nhập thư viện json để làm việc với dữ liệu JSON.
+        code: `# Import the json library to work with JSON data.
 import json
-# Nhập thư viện time để đo thời gian thực thi.
+# Import the time library to measure execution time.
 import time
-# Nhập lớp datetime từ module datetime để làm việc với ngày giờ.
+# Import the datetime class from the datetime module to work with dates and times.
 from datetime import datetime
 
-# Định nghĩa một lớp (class) có tên ProductionPipeline.
-# Lớp này mô phỏng một quy trình xử lý dữ liệu trong môi trường sản xuất.
+# Define a class named ProductionPipeline.
+# This class simulates a data processing pipeline in a production environment.
 class ProductionPipeline:
-    # Phương thức khởi tạo (constructor) của lớp.
-    # Được gọi khi tạo một đối tượng mới từ lớp ProductionPipeline.
-    # Tham số:
-    #   - name: Tên của pipeline (chuỗi).
+    # The constructor method of the class.
+    # Called when creating a new object from the ProductionPipeline class.
+    # Parameters:
+    #   - name: The name of the pipeline (string).
     def __init__(self, name):
-        # Gán tên cho pipeline.
+        # Assign the name to the pipeline.
         self.name = name
-        # Khởi tạo một từ điển để lưu trữ các chỉ số (metrics) của pipeline.
-        # Bao gồm số bản ghi đã xử lý, thất bại và thử lại.
+        # Initialize a dictionary to store pipeline metrics.
+        # Includes the number of records processed, failed, and retried.
         self.metrics = {"processed": 0, "failed": 0, "retried": 0}
-        # Khởi tạo một danh sách để lưu trữ các bản ghi bị lỗi không thể xử lý (dead letter queue).
+        # Initialize a list to store unprocessable failed records (dead letter queue).
         self.dead_letter = []
 
-    # Phương thức để ghi log (nhật ký) các sự kiện của pipeline.
-    # Tham số:
-    #   - level: Mức độ của log (ví dụ: "INFO", "ERROR", "WARN").
-    #   - message: Nội dung thông báo của log.
-    #   - **kwargs: Các đối số từ khóa bổ sung sẽ được thêm vào log.
+    # Method to log pipeline events.
+    # Parameters:
+    #   - level: The log level (e.g., "INFO", "ERROR", "WARN").
+    #   - message: The content of the log message.
+    #   - **kwargs: Additional keyword arguments to be added to the log.
     def log(self, level, message, **kwargs):
-        # Tạo một từ điển chứa thông tin log.
-        # Bao gồm thời gian, mức độ, tên pipeline, thông báo và các đối số bổ sung.
+        # Create a dictionary containing log information.
+        # Includes timestamp, level, pipeline name, message, and additional arguments.
         entry = {
-            "timestamp": datetime.now().isoformat(), # Thời gian hiện tại theo định dạng ISO 8601.
-            "level": level, # Mức độ log.
-            "pipeline": self.name, # Tên của pipeline.
-            "message": message, # Nội dung thông báo.
-            **kwargs # Thêm các đối số từ khóa khác vào log.
+            "timestamp": datetime.now().isoformat(), # Current time in ISO 8601 format.
+            "level": level, # Log level.
+            "pipeline": self.name, # Name of the pipeline.
+            "message": message, # Message content.
+            **kwargs # Add other keyword arguments to the log.
         }
-        # Chuyển đổi từ điển log thành chuỗi JSON và in ra console.
-        # Đầu ra: Một chuỗi JSON đại diện cho một bản ghi log.
+        # Convert the log dictionary to a JSON string and print to console.
+        # Output: A JSON string representing a log entry.
         print(json.dumps(entry))
 
-    # Phương thức để xử lý một bản ghi với khả năng thử lại khi gặp lỗi.
-    # Tham số:
-    #   - record: Bản ghi dữ liệu cần xử lý.
-    #   - fn: Hàm (function) sẽ được gọi để xử lý bản ghi.
-    #   - max_retries: Số lần tối đa thử lại nếu xử lý thất bại (mặc định là 3).
-    # Đầu ra: Kết quả của hàm fn nếu thành công, hoặc None nếu thất bại sau tất cả các lần thử lại.
+    # Method to process a record with retry capability upon error.
+    # Parameters:
+    #   - record: The data record to be processed.
+    #   - fn: The function to be called to process the record.
+    #   - max_retries: Maximum number of retries if processing fails (default is 3).
+    # Output: The result of the fn function if successful, or None if failed after all retries.
     def process_with_retry(self, record, fn, max_retries=3):
-        # Lặp qua số lần thử lại (bao gồm cả lần đầu tiên).
+        # Loop through the number of retries (including the first attempt).
         for attempt in range(max_retries + 1):
             try:
-                # Cố gắng gọi hàm xử lý fn với bản ghi.
+                # Attempt to call the processing function fn with the record.
                 result = fn(record)
-                # Nếu thành công, tăng số lượng bản ghi đã xử lý.
+                # If successful, increment the number of processed records.
                 self.metrics["processed"] += 1
-                # Trả về kết quả.
+                # Return the result.
                 return result
             except Exception as e:
-                # Nếu có lỗi, tăng số lượng bản ghi đã thử lại.
+                # If an error occurs, increment the number of retried records.
                 self.metrics["retried"] += 1
-                # Kiểm tra xem đây có phải là lần thử lại cuối cùng không.
+                # Check if this is the last retry.
                 if attempt == max_retries:
-                    # Nếu là lần thử lại cuối cùng và vẫn lỗi, tăng số lượng bản ghi thất bại.
+                    # If it's the last retry and still an error, increment the number of failed records.
                     self.metrics["failed"] += 1
-                    # Thêm bản ghi và thông tin lỗi vào danh sách dead_letter.
+                    # Add the record and error information to the dead_letter list.
                     self.dead_letter.append({"record": record, "error": str(e)})
-                    # Ghi log lỗi nghiêm trọng.
+                    # Log a severe error.
                     self.log("ERROR", f"Record failed after {max_retries} retries", error=str(e))
-                    # Trả về None vì không thể xử lý bản ghi này.
+                    # Return None because this record cannot be processed.
                     return None
 
-    # Phương thức chính để chạy pipeline.
-    # Tham số:
-    #   - data: Danh sách các bản ghi dữ liệu đầu vào.
-    #   - transform_fn: Hàm biến đổi sẽ được áp dụng cho mỗi bản ghi.
-    # Đầu ra: Danh sách các bản ghi đã được xử lý thành công.
+    # Main method to run the pipeline.
+    # Parameters:
+    #   - data: List of input data records.
+    #   - transform_fn: The transformation function to be applied to each record.
+    # Output: List of successfully processed records.
     def run(self, data, transform_fn):
-        # Ghi log thông tin khi pipeline bắt đầu.
-        # Đầu vào: data (danh sách các bản ghi), transform_fn (hàm xử lý).
+        # Log information when the pipeline starts.
+        # Input: data (list of records), transform_fn (processing function).
         self.log("INFO", f"Pipeline started with {len(data)} records")
-        # Ghi lại thời gian bắt đầu chạy pipeline.
+        # Record the pipeline start time.
         start = time.time()
         
-        # Khởi tạo danh sách để lưu trữ kết quả của các bản ghi được xử lý thành công.
+        # Initialize a list to store the results of successfully processed records.
         results = []
-        # Lặp qua từng bản ghi trong dữ liệu đầu vào.
+        # Iterate through each record in the input data.
         for record in data:
-            # Xử lý từng bản ghi với khả năng thử lại.
+            # Process each record with retry capability.
             result = self.process_with_retry(record, transform_fn)
-            # Nếu bản ghi được xử lý thành công (kết quả không phải None).
+            # If the record was processed successfully (result is not None).
             if result:
-                # Thêm kết quả vào danh sách.
+                # Add the result to the list.
                 results.append(result)
         
-        # Tính toán thời gian đã trôi qua khi pipeline hoàn thành.
+        # Calculate the elapsed time when the pipeline completes.
         elapsed = time.time() - start
-        # Ghi log thông tin khi pipeline hoàn thành.
-        # Bao gồm thời gian chạy và các chỉ số (metrics) đã thu thập.
+        # Log information when the pipeline completes.
+        # Includes runtime and collected metrics.
         self.log("INFO", "Pipeline complete", 
-                 duration_ms=round(elapsed * 1000), # Thời gian chạy tính bằng mili giây.
-                 **self.metrics) # Thêm tất cả các chỉ số từ self.metrics vào log.
+                 duration_ms=round(elapsed * 1000), # Runtime in milliseconds.
+                 **self.metrics) # Add all metrics from self.metrics to the log.
         
-        # Kiểm tra nếu có bất kỳ bản ghi nào trong dead_letter queue.
+        # Check if there are any records in the dead_letter queue.
         if self.dead_letter:
-            # Ghi log cảnh báo nếu có bản ghi bị lỗi.
+            # Log a warning if there are failed records.
             self.log("WARN", f"{len(self.dead_letter)} records in dead letter queue")
         
-        # Trả về danh sách các kết quả đã được xử lý thành công.
-        # Đầu ra: Danh sách các bản ghi đã được biến đổi thành công.
+        # Return the list of successfully processed results.
+        # Output: List of successfully transformed records.
 
         return results
 
-# Phần chạy thử nghiệm pipeline.
+# Section for testing the pipeline.
 
-# Nhập thư viện numpy để tạo số ngẫu nhiên.
+# Import the numpy library to generate random numbers.
 import numpy as np
-# Đặt seed cho bộ tạo số ngẫu nhiên của numpy để đảm bảo kết quả có thể lặp lại.
+# Set the seed for numpy's random number generator to ensure reproducible results.
 np.random.seed(42)
 
-# Định nghĩa hàm biến đổi (transform function) cho dữ liệu.
-# Hàm này mô phỏng một quá trình xử lý có thể thất bại ngẫu nhiên.
-# Tham số:
-#   - record: Một bản ghi dữ liệu đầu vào (từ điển).
-# Đầu ra: Một bản ghi dữ liệu đã được biến đổi (từ điển) hoặc gây ra lỗi.
+# Define the transform function for the data.
+# This function simulates a processing step that can randomly fail.
+# Parameters:
+#   - record: An input data record (dictionary).
+# Output: A transformed data record (dictionary) or raises an error.
 def transform(record):
-    # Có 15% khả năng hàm này sẽ gây ra lỗi ValueError.
+    # There is a 15% chance this function will raise a ValueError.
     if np.random.random() < 0.15:
-        raise ValueError("Transform failed") # Gây ra lỗi.
-    # Nếu không lỗi, trả về bản ghi với một trường 'score' mới.
-    # 'score' được tính bằng 'value' nhân 2.
+        raise ValueError("Transform failed") # Raise an error.
+    # If no error, return the record with a new 'score' field.
+    # 'score' is calculated as 'value' multiplied by 2.
     return {**record, "score": record["value"] * 2}
 
-# Tạo dữ liệu đầu vào giả định cho pipeline.
-# Đây là một danh sách các từ điển, mỗi từ điển có 'id' và 'value'.
+# Create hypothetical input data for the pipeline.
+# This is a list of dictionaries, each with 'id' and 'value'.
 data = [{"id": i, "value": i * 10} for i in range(20)]
-# Khởi tạo một đối tượng ProductionPipeline với tên "daily_etl".
+# Initialize a ProductionPipeline object with the name "daily_etl".
 pipeline = ProductionPipeline("daily_etl")
-# Chạy pipeline với dữ liệu và hàm biến đổi đã định nghĩa.
-# Kết quả là danh sách các bản ghi đã được xử lý thành công.
+# Run the pipeline with the defined data and transform function.
+# The result is a list of successfully processed records.
 results = pipeline.run(data, transform)
-# Kết quả mong đợi:
-# - Các log sẽ được in ra console, bao gồm thông tin bắt đầu, kết thúc, và các lỗi (nếu có).
-# - Biến 'results' sẽ chứa danh sách các bản ghi đã được biến đổi thành công.
-# - Biến 'pipeline.dead_letter' sẽ chứa các bản ghi không thể xử lý được.`,
+# Expected results:
+# - Logs will be printed to the console, including start, end, and error information (if any).
+# - The 'results' variable will contain a list of successfully transformed records.
+# - The 'pipeline.dead_letter' variable will contain records that could not be processed.`,
         codeLanguage: "python",
         exercise: "Add idempotency check (based on record ID) and checkpoint/resume to ProductionPipeline.",
         exerciseEn: "Add idempotency check (based on record ID) and checkpoint/resume to ProductionPipeline.",

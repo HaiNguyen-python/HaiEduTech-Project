@@ -126,7 +126,7 @@ Adding stars and badges is not automatically good. **Correct gamification** must
 5. **No offline mode** → weak network = lost lesson.
 6. **Overusing AI** → AI answers instead of guiding → loses its pedagogical value.
 `,
-        code: `# Mô phỏng đơn giản: ghi nhận một lần học và tính tỉ lệ nhớ
+        code: `# Simple simulation: record one learning session and calculate retention rate
 sessions = [
     {"word": "apple", "correct": True},
     {"word": "apple", "correct": True},
@@ -340,52 +340,52 @@ When building a new EdTech product, **start with SM-2** and upgrade to FSRS once
 4. **Ignoring "leech" cards** (failed > 8 times) → they should be flagged for a teacher to review the content.
 5. **Measuring q incorrectly** - if the UI only has "Right/Wrong" buttons, you lose the granular information of the 0-5 scale.
 `,
-        code: `# Định nghĩa hàm sm2 để cập nhật thông tin thẻ học sau mỗi lần ôn tập.
-# Đầu vào:
-#   - card: Một từ điển chứa thông tin của thẻ học (ví dụ: "ef", "interval", "repetitions").
-#   - q: Chất lượng trả lời của người dùng, một số nguyên từ 0 đến 5.
-# Đầu ra:
-#   - card: Từ điển thẻ học đã được cập nhật.
+        code: `# Define sm2 function to update flashcard information after each review.
+# Input:
+#   - card: A dictionary containing flashcard information (e.g., "ef", "interval", "repetitions").
+#   - q: User's answer quality, an integer from 0 to 5.
+# Output:
+#   - card: The updated flashcard dictionary.
 def sm2(card, q):
     """Update card after a review. q in [0..5]."""
-    # Nếu chất lượng trả lời q nhỏ hơn 3 (trả lời kém hoặc quên).
+    # If answer quality q is less than 3 (poor answer or forgotten).
     if q < 3:
-        # Đặt lại số lần lặp lại về 0.
+        # Reset repetitions to 0.
         card["repetitions"] = 0
-        # Đặt lại khoảng thời gian ôn tập về 1 ngày.
+        # Reset review interval to 1 day.
         card["interval"] = 1
-    # Nếu chất lượng trả lời q từ 3 trở lên (trả lời tốt).
+    # If answer quality q is 3 or higher (good answer).
     else:
-        # Nếu đây là lần lặp lại đầu tiên (repetitions = 0).
+        # If this is the first repetition (repetitions = 0).
         if card["repetitions"] == 0:
-            # Đặt khoảng thời gian ôn tập là 1 ngày.
+            # Set review interval to 1 day.
             card["interval"] = 1
-        # Nếu đây là lần lặp lại thứ hai (repetitions = 1).
+        # If this is the second repetition (repetitions = 1).
         elif card["repetitions"] == 1:
-            # Đặt khoảng thời gian ôn tập là 6 ngày.
+            # Set review interval to 6 days.
             card["interval"] = 6
-        # Nếu là các lần lặp lại sau đó.
+        # If these are subsequent repetitions.
         else:
-            # Tính khoảng thời gian ôn tập mới bằng cách nhân khoảng thời gian hiện tại với hệ số EF, sau đó làm tròn.
+            # Calculate new review interval by multiplying current interval by EF factor, then round.
             card["interval"] = round(card["interval"] * card["ef"])
-        # Tăng số lần lặp lại lên 1.
+        # Increment repetitions by 1.
         card["repetitions"] += 1
-    # Cập nhật hệ số dễ dàng (EF - E-Factor) của thẻ.
-    # Công thức này điều chỉnh EF dựa trên chất lượng trả lời q.
-    # EF không bao giờ nhỏ hơn 1.3.
+    # Update the card's ease factor (EF - E-Factor).
+    # This formula adjusts EF based on answer quality q.
+    # EF never goes below 1.3.
     card["ef"] = max(1.3, card["ef"] + 0.1 - (5-q)*(0.08 + (5-q)*0.02))
-    # Trả về từ điển thẻ đã được cập nhật.
+    # Return the updated card dictionary.
     return card
 
-# Khởi tạo một thẻ học mẫu với các giá trị ban đầu.
+# Initialize a sample flashcard with initial values.
 card = {"word": "ephemeral", "ef": 2.5, "interval": 0, "repetitions": 0}
-# Mô phỏng quá trình ôn tập với một chuỗi các chất lượng trả lời q.
-# Đầu vào: Một danh sách các giá trị q.
+# Simulate the review process with a sequence of answer qualities q.
+# Input: A list of q values.
 for q in [5, 4, 5, 2, 5]:
-    # Gọi hàm sm2 để cập nhật thẻ với chất lượng trả lời hiện tại.
+    # Call sm2 function to update the card with the current answer quality.
     card = sm2(card, q)
-    # In ra kết quả sau mỗi lần cập nhật: chất lượng trả lời q, khoảng thời gian ôn tập và hệ số EF.
-    # Đầu ra mong đợi: Các dòng in ra thông tin thẻ sau mỗi lần ôn tập.
+    # Print the result after each update: answer quality q, review interval, and EF factor.
+    # Expected output: Lines printing card information after each review.
     print(f"q={q} → interval={card['interval']}d, EF={card['ef']:.2f}")`,
         codeLanguage: "python",
         exercise: "Mô phỏng 20 lần ôn với điểm ngẫu nhiên (random 0-5). In ra interval cuối cùng và tổng số ngày đã giả lập.",
@@ -567,52 +567,52 @@ The 4th condition guards against **"fast random guessing"**: if a student answer
 5. **Never decaying mastery over time** - a student who took a 6-month break should not still be "mastered".
 6. **Forcing one model on every skill type** - vocabulary needs a higher α than grammar.
 `,
-        code: `# Định nghĩa một lớp (class) tên là Skill để mô hình hóa một kỹ năng hoặc kiến thức.
-# Lớp này sẽ theo dõi mức độ thành thạo và lịch sử các lần thực hành gần đây.
+        code: `# Defines a class named Skill to model a skill or knowledge.
+# This class will track the mastery level and recent practice history.
 class Skill:
-    # Phương thức khởi tạo (constructor) của lớp Skill.
-    # Được gọi mỗi khi tạo một đối tượng Skill mới.
-    # Đầu vào: alpha (hệ số học tập, mặc định là 0.3).
+    # The constructor method of the Skill class.
+    # Called every time a new Skill object is created.
+    # Input: alpha (learning rate, default is 0.3).
     def __init__(self, alpha=0.3):
-        # Khởi tạo mức độ thành thạo ban đầu của kỹ năng.
+        # Initializes the initial mastery level of the skill.
         self.mastery = 0.5
-        # Lưu hệ số alpha, dùng để điều chỉnh mức độ thành thạo.
+        # Stores the alpha coefficient, used to adjust the mastery level.
         self.alpha = alpha
-        # Khởi tạo một danh sách rỗng để lưu trữ kết quả của 3 lần thực hành gần nhất.
+        # Initializes an empty list to store the results of the 3 most recent practices.
         self.recent = []
 
-    # Phương thức này dùng để cập nhật mức độ thành thạo dựa trên kết quả thực hành.
-    # Đầu vào: correct (kiểu boolean), True nếu trả lời đúng, False nếu sai.
+    # This method is used to update the mastery level based on practice results.
+    # Input: correct (boolean type), True if the answer is correct, False if incorrect.
     def update(self, correct: bool):
-        # Cập nhật mức độ thành thạo (mastery) theo công thức:
-        # mastery mới = alpha * (1 nếu đúng, 0 nếu sai) + (1 - alpha) * mastery cũ.
-        # Công thức này giúp điều chỉnh mastery tăng nếu đúng, giảm nếu sai, và có trọng số theo alpha.
+        # Updates the mastery level according to the formula:
+        # new mastery = alpha * (1 if correct, 0 if incorrect) + (1 - alpha) * old mastery.
+        # This formula helps adjust mastery to increase if correct, decrease if incorrect, and is weighted by alpha.
         self.mastery = self.alpha * (1 if correct else 0) + (1 - self.alpha) * self.mastery
-        # Thêm kết quả thực hành hiện tại vào danh sách các lần gần đây.
+        # Adds the current practice result to the list of recent ones.
         self.recent.append(correct)
-        # Giữ lại chỉ 3 kết quả thực hành gần nhất trong danh sách.
-        # Nếu có nhiều hơn 3, sẽ loại bỏ các kết quả cũ nhất.
+        # Keeps only the 3 most recent practice results in the list.
+        # If there are more than 3, the oldest results will be removed.
         self.recent = self.recent[-3:]
 
-    # Phương thức này kiểm tra xem kỹ năng đã được "thành thạo" hay chưa.
-    # Đầu ra: True nếu kỹ năng đã thành thạo, False nếu chưa.
+    # This method checks whether the skill has been "mastered".
+    # Output: True if the skill is mastered, False otherwise.
     def is_mastered(self):
-        # Kỹ năng được coi là thành thạo nếu:
-        # 1. Mức độ thành thạo (mastery) lớn hơn hoặc bằng 0.85.
-        # 2. Có đủ 3 kết quả trong danh sách recent (đã thực hành ít nhất 3 lần).
-        # 3. Tất cả 3 kết quả gần nhất đều là True (đều đúng).
+        # A skill is considered mastered if:
+        # 1. The mastery level is greater than or equal to 0.85.
+        # 2. There are 3 results in the recent list (practiced at least 3 times).
+        # 3. All 3 most recent results are True (all correct).
         return self.mastery >= 0.85 and len(self.recent) == 3 and all(self.recent)
 
-# Tạo một đối tượng Skill mới với các giá trị mặc định.
+# Creates a new Skill object with default values.
 s = Skill()
-# Lặp qua một danh sách các kết quả trả lời (True/False).
-# Mỗi lần lặp sẽ mô phỏng một lần thực hành kỹ năng.
+# Iterates through a list of answer results (True/False).
+# Each iteration simulates a skill practice.
 for ans in [True, False, True, True, True, True]:
-    # Cập nhật trạng thái của kỹ năng dựa trên kết quả trả lời hiện tại.
+    # Updates the skill's state based on the current answer result.
     s.update(ans)
-    # In ra mức độ thành thạo hiện tại (làm tròn 2 chữ số thập phân)
-    # và trạng thái "đã thành thạo" (True/False) sau mỗi lần cập nhật.
-    # Đầu ra mong đợi: Một chuỗi các dòng in ra mastery và mastered sau mỗi lần update.
+    # Prints the current mastery level (rounded to 2 decimal places)
+    # and the "mastered" status (True/False) after each update.
+    # Expected output: A string of lines printing mastery and mastered after each update.
     print(f"mastery={s.mastery:.2f} mastered={s.is_mastered()}")`,
         codeLanguage: "python",
         exercise: "Thêm hàm next_difficulty() trả về 'easier' / 'same' / 'harder' dựa trên mastery (<0.4, 0.4–0.8, >0.8).",
@@ -841,14 +841,14 @@ TUTOR: { "feedback_vi": "Almost there! 'He' is 3rd person singular - what ending
 6. **Skipping PII redaction** → logs storing names/emails violate GDPR.
 7. **Never A/B testing prompts** → you never know which version teaches better.
 `,
-        code: `# Pseudo-code cho 1 vòng tutor
+        code: `# Pseudo-code for 1 tutor round
 def tutor_reply(student_msg, profile, history):
-    system = f"""Bạn là gia sư {profile['subject']}. Học sinh band {profile['band']}.
-Hỏi 1 câu gợi mở trước, chỉ 1 lỗi quan trọng, kết thúc bằng câu hỏi."""
+    system = f"""You are a {profile['subject']} tutor. Student band {profile['band']}.
+Ask 1 open-ended question first, only 1 important error, end with a question."""
     messages = [{"role":"system","content":system}, *history,
                 {"role":"user","content":student_msg}]
-    # response = llm.chat(messages)    # gọi LLM thật ở đây
-    response = "Câu của em hay rồi! Nhưng 'He go' nên thành gì nhỉ?"
+    # response = llm.chat(messages)    # call real LLM here
+    response = "Your sentence is good! But what should 'He go' become?"
     log_mastery(profile["id"], topic="3rd-person-s", correct=False)
     return response
 
@@ -1076,10 +1076,10 @@ def surface_check(text):
     return {"word_count": len(words), "min_ok": len(words) >= 250}
 
 def fake_llm_grade(text):
-    # Giả lập kết quả LLM trả JSON theo rubric
+    # Simulate LLM result returning JSON according to rubric
     return {
         "scores": {"task": 6.0, "coherence": 6.5, "lexical": 5.5, "grammar": 6.0},
-        "feedback": "Mở bài tốt; cần ví dụ cụ thể; tránh lặp 'technology'."
+        "feedback": "Good introduction; specific examples needed; avoid repeating 'technology'."
     }
 
 print(surface_check(ESSAY))
@@ -1302,7 +1302,7 @@ mastery = {"grammar": 0.4, "vocab": 0.8, "listening": 0.3}
 liked_topic = "listening"
 
 def score(lesson):
-    gap = 1 - mastery.get(lesson["topic"], 0.5)          # kỹ năng yếu được điểm cao
+    gap = 1 - mastery.get(lesson["topic"], 0.5)          # weak skills get high scores
     sim = 1.0 if lesson["topic"] == liked_topic else 0.3
     return 0.5*gap + 0.3*sim + 0.2*lesson["popularity"]
 

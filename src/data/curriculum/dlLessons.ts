@@ -1249,53 +1249,52 @@ model = models.resnet18(weights=models.ResNet18_Weights.DEFAULT)
 for param in model.parameters():
     param.requires_grad = False
 
-# Thay thế final layer (lớp classification) bằng một lớp mới có 2 đầu ra (chỉ lớp này sẽ được training)
-# Input: Model ResNet-18 đã đóng băng.
-# Output: Model với lớp 'fc' (fully connected) được thay thế bằng một lớp linear mới.
-num_features = model.fc.in_features # Get số lượng đặc trưng đầu vào của final layer hiện tại
-model.fc = nn.Linear(num_features, 2) # Thay thế final layer bằng một lớp linear mới với 2 đầu ra
+# Replace the final layer (classification layer) with a new layer with 2 outputs (only this layer will be trained)
+# Input: Frozen ResNet-18 Model.
+# Output: Model with the 'fc' (fully connected) layer replaced by a new linear layer.
+num_features = model.fc.in_features # Get the number of input features of the current final layer
+model.fc = nn.Linear(num_features, 2) # Replace the final layer with a new linear layer with 2 outputs
 
-# Compute số lượng parameters có thể training và tổng số parameters
-# Input: Model đã được sửa đổi.
-# Output: Hai số nguyên (trainable, total) và in ra tỷ lệ phần trăm.
-trainable = sum(p.numel() for p in model.parameters() if p.requires_grad) # Đếm các parameters có requires_grad = True
-total = sum(p.numel() for p in model.parameters()) # Đếm tổng số parameters
+# Compute the number of trainable parameters and total parameters
+# Input: Modified Model.
+# Output: Two integers (trainable, total) and print the percentage.
+trainable = sum(p.numel() for p in model.parameters() if p.requires_grad) # Count parameters with requires_grad = True
+total = sum(p.numel() for p in model.parameters()) # Count total parameters
 print(f"Trainable: {trainable:,} / {total:,} ({100*trainable/total:.2f}%)")
-# Expected result: Print số lượng parameters có thể training, tổng số parameters và tỷ lệ phần trăm.
+# Expected result: Print the number of trainable parameters, total parameters and percentage.
 
-# Initialize optimizer Adam chỉ cho các parameters của lớp 'fc' mới (lớp có thể training)
-# Input: Tham số của lớp 'fc' và learning rate (learning rate).
-# Output: Một đối tượng optimizer.
+# Initialize Adam optimizer only for the parameters of the new 'fc' layer (trainable layer)
+# Input: Parameters of the 'fc' layer and learning rate (learning rate).
+# Output: An optimizer object.
 optimizer = torch.optim.Adam(model.fc.parameters(), lr=1e-3)
-# Initialize loss function CrossEntropyLoss, thường dùng cho bài toán classification đa lớp
-# Input: Không có.
-# Output: Một đối tượng loss function.
+# Initialize CrossEntropyLoss loss function, commonly used for multi-class classification problems
+# Input: None.
+# Output: A loss function object.
 criterion = nn.CrossEntropyLoss()
 
-# Bước training thử nghiệm (Toy training step)
-# Create a fake image batch (8 ảnh, 3 kênh màu, size 224x224)
-# Input: Kích thước tensor.
-# Output: Một tensor chứa dữ liệu ảnh ngẫu nhiên.
+# Experimental training step (Toy training step)
+# Create a fake image batch (8 images, 3 color channels, size 224x224)
+# Input: Tensor dimensions.
+# Output: A tensor containing random image data.
 imgs = torch.randn(8, 3, 224, 224)
-# Create fake labels cho batch ảnh (8 nhãn, giá trị 0 hoặc 1)
-# Input: Phạm vi giá trị và size tensor.
-# Output: Một tensor chứa nhãn ngẫu nhiên.
+# Create fake labels for the image batch (8 labels, values 0 or 1)
+# Input: Value range and tensor size.
+# Output: A tensor containing random labels.
 labels = torch.randint(0, 2, (8,))
 # Compute loss value (loss)
-# Input: Output của model (dự đoán) và nhãn thực tế.
-# Output: Một tensor chứa loss value.
+# Input: Model output (prediction) and actual labels.
+# Output: A tensor containing the loss value.
 loss = criterion(model(imgs), labels)
-# Thực hiện backpropagation (backpropagation) để tính gradient của loss đối với các parameters
-# Input: Giá trị mất mát.
-# Output: Gradient được tính và lưu trữ trong thuộc tính .grad của các parameters.
+# Perform backpropagation (backpropagation) to compute the gradient of the loss with respect to the parameters
+# Input: Loss value.
+# Output: Gradients are computed and stored in the .grad attribute of the parameters.
 loss.backward()
 # Update the model parameters based on the computed gradient and the optimizer
 # Input: computed gradient.
 # Output: updated model parameters.
 optimizer.step()
 print(f"Loss: {loss.item():.4f}")
-# Expected result: prints the loss value after one test training step.
-`,
+# Expected result: prints the loss value after one test training step.`,
         codeLanguage: "python",
         exercise: "Chuyển sang chế độ **fine-tuning**: bỏ đóng băng (`unfreeze`) `model.layer4`, sau đó tạo trình tối ưu hóa Adam với hai nhóm parameters - `layer4` có `lr=1e-4` và `fc` có `lr=1e-3`. Print phần trăm parameters có thể training mới (~20–25 %).",
         exerciseEn: "Switch to **fine-tuning** mode: also unfreeze `model.layer4`, then build an Adam optimizer with two parameter groups - `layer4` at `lr=1e-4` and `fc` at `lr=1e-3`. Print the new trainable-parameter percentage (~20–25 %).",
@@ -2509,57 +2508,57 @@ You want to build "Tutor Bot" - students upload a photo of a math problem and as
 # Blip2ForConditionalGeneration: the main BLIP-2 model, used to generate answers.
 # Image from PIL: used to handle images.
 # torch: the PyTorch library for working with tensors and GPU.
-# requests: Dùng để tải ảnh từ URL.
+# requests: Used to download images from a URL.
 from transformers import Blip2Processor, Blip2ForConditionalGeneration
 from PIL import Image
 import torch, requests
 
-# Xác định thiết bị sẽ sử dụng (GPU nếu có, nếu không thì dùng CPU).
-device = "cuda" if torch.cuda.is_available() else "cpu"
-# Tải bộ xử lý (processor) đã được training trước cho model BLIP-2.
-# Bộ xử lý này sẽ chuẩn bị dữ liệu đầu vào (ảnh và câu hỏi) theo định dạng mà model mong đợi.
+# Determine the device to use (GPU if available, otherwise CPU).
+device = "cuda" if torch.cuda_is_available() else "cpu"
+# Load the pre-trained processor for the BLIP-2 model.
+# This processor will prepare input data (image and question) in the format expected by the model.
 processor = Blip2Processor.from_pretrained("Salesforce/blip2-opt-2.7b")
-# Tải model BLIP-2 đã được training trước.
-# "Salesforce/blip2-opt-2.7b" là tên của model trên Hugging Face.
-# torch_dtype=torch.float16: Sử dụng kiểu dữ liệu float16 để tiết kiệm bộ nhớ và tăng tốc độ tính toán (nếu GPU hỗ trợ).
-# .to(device): Chuyển model sang thiết bị đã chọn (GPU hoặc CPU).
+# Load the pre-trained BLIP-2 model.
+# "Salesforce/blip2-opt-2.7b" is the model's name on Hugging Face.
+# torch_dtype=torch.float16: Use float16 data type to save memory and speed up computation (if GPU supports it).
+# .to(device): Move the model to the selected device (GPU or CPU).
 model = Blip2ForConditionalGeneration.from_pretrained(
     "Salesforce/blip2-opt-2.7b", torch_dtype=torch.float16
 ).to(device)
 
-# Tải ảnh từ một URL.
-# requests.get(...).raw: Get nội dung thô của ảnh.
-# Image.open(...): Mở ảnh từ nội dung thô.
-# .convert("RGB"): Chuyển đổi ảnh sang định dạng RGB (đảm bảo ảnh có 3 kênh màu).
+# Download an image from a URL.
+# requests.get(...).raw: Get the raw content of the image.
+# Image.open(...): Open the image from the raw content.
+# .convert("RGB"): Convert the image to RGB format (ensuring the image has 3 color channels).
 img = Image.open(requests.get(
     "https://images.unsplash.com/photo-1574158622682-e40e69881006",
     stream=True).raw).convert("RGB")
 
-# Define danh sách các câu hỏi (prompts) mà chúng ta muốn hỏi model về bức ảnh.
-# Mỗi câu hỏi được định dạng theo cấu trúc "Question: ... Answer:".
+# Define a list of questions (prompts) we want to ask the model about the image.
+# Each question is formatted as "Question: ... Answer:".
 prompts = [
     "Question: What animal is in the image? Answer:",
     "Question: How many of them are there? Answer:",
     "Question: What color is the background? Answer:",
 ]
 
-# Lặp qua từng câu hỏi trong danh sách.
+# Iterate through each question in the list.
 for q in prompts:
-    # Tiền xử lý ảnh và câu hỏi để tạo ra đầu vào cho model.
-    # images=img: Ảnh đầu vào.
-    # text=q: Câu hỏi đầu vào.
-    # return_tensors="pt": Trả về kết quả dưới dạng tensor của PyTorch.
-    # .to(device, torch.float16): Chuyển tensor đầu vào sang thiết bị và kiểu dữ liệu phù hợp với model.
+    # Preprocess the image and question to create input for the model.
+    # images=img: Input image.
+    # text=q: Input question.
+    # return_tensors="pt": Return results as PyTorch tensors.
+    # .to(device, torch.float16): Move input tensors to the device and data type compatible with the model.
     inputs = processor(images=img, text=q, return_tensors="pt").to(device, torch.float16)
-    # Create câu trả lời bằng cách gọi phương thức generate của model.
-    # **inputs: Truyền các tensor đầu vào (input_ids, attention_mask, pixel_values) cho model.
-    # max_new_tokens=20: Giới hạn độ dài tối đa của câu trả lời được tạo ra là 20 từ/token mới.
+    # Generate an answer by calling the model's generate method.
+    # **inputs: Pass input tensors (input_ids, attention_mask, pixel_values) to the model.
+    # max_new_tokens=20: Limit the maximum length of the generated answer to 20 new words/tokens.
     out = model.generate(**inputs, max_new_tokens=20)
-    # Giải mã (decode) kết quả đầu ra của model thành chuỗi văn bản dễ đọc.
-    # out[0]: Get tensor chứa các token đã tạo.
-    # skip_special_tokens=True: Bỏ qua các token đặc biệt (như token bắt đầu/kết thúc câu) trong kết quả.
-    # Print câu hỏi và câu trả lời tương ứng.
-    # Expected result: Model sẽ trả lời các câu hỏi về con mèo trong ảnh.
+    # Decode the model's output into a human-readable text string.
+    # out[0]: Get the tensor containing the generated tokens.
+    # skip_special_tokens=True: Ignore special tokens (like start/end of sentence tokens) in the result.
+    # Print the question and the corresponding answer.
+    # Expected result: The model will answer questions about the cat in the image.
     print(q, "->", processor.decode(out[0], skip_special_tokens=True))`,
         codeLanguage: "python",
         exercise: "Liệt kê 3 điểm khác biệt giữa model hai tháp kiểu CLIP và model token hợp nhất như GPT-4o. Đối với mỗi điểm khác biệt, hãy nêu một trường hợp sử dụng mà một bên vượt trội.",
@@ -2691,35 +2690,35 @@ Vietnam's smart traffic cameras (Hà Nội, HCM) need to read 100 plates/sec on 
 
 ## 🛠️ Practice Task
 You must deploy a sentiment classifier (BERT-base, 110M params) on a Raspberry Pi 4 (1 GB RAM). Pick a compression strategy and justify the order of operations.`,
-        code: `# Lượng tử hóa 4-bit cho model Llama bằng bitsandbytes (GPU đơn)
+        code: `# 4-bit Quantization for Llama models using bitsandbytes (single GPU)
 # Import required libraries
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 import torch
 
-# Cấu hình bitsandbytes cho lượng tử hóa 4-bit
+# bitsandbytes configuration for 4-bit quantization
 bnb = BitsAndBytesConfig(
     load_in_4bit=True,
-    bnb_4bit_quant_type="nf4",          # Dạng NormalFloat-4
+    bnb_4bit_quant_type="nf4",          # NormalFloat-4 type
     bnb_4bit_compute_dtype=torch.float16,
-    bnb_4bit_use_double_quant=True,     # Lượng tử hóa các hằng số lượng tử hóa
+    bnb_4bit_use_double_quant=True,     # Quantize quantization constants
 )
 
-# Chỉ định model và tải tokenizer, model với cấu hình lượng tử
+# Specify model and load tokenizer, model with quantization configuration
 model_id = "meta-llama/Llama-3.1-8B-Instruct"
 tok = AutoTokenizer.from_pretrained(model_id)
 model = AutoModelForCausalLM.from_pretrained(
     model_id, quantization_config=bnb, device_map="auto"
 )
-# In size bộ nhớ model for reference
+# Print model memory size for reference
 print(f"Memory footprint: {model.get_memory_footprint() / 1e9:.2f} GB")
-# Llama-3.1-8B với nf4 ≈ 5.4 GB → phù hợp với RTX 3060 12 GB
+# Llama-3.1-8B with nf4 ≈ 5.4 GB -> fits RTX 3060 12 GB
 
-# Prompt ví dụ để yêu cầu mô tả ngắn
+# Example prompt to request a short description
 prompt = "Explain quantization in one sentence:"
-# Sinh văn bản từ model (không sampling)
+# Generate text from the model (no sampling)
 out = model.generate(**tok(prompt, return_tensors="pt").to(model.device),
                      max_new_tokens=60, do_sample=False)
-# Giải mã và in kết quả, loại bỏ token đặc biệt
+# Decode and print the result, removing special tokens
 print(tok.decode(out[0], skip_special_tokens=True))`,
         codeLanguage: "python",
         exercise: "So sánh lượng tử hóa so với chưng cất để nén model chatbot 1B parameters chạy trên điện thoại. Thảo luận về độ chính xác, chi phí đào tạo và độ trễ suy luận.",
@@ -2873,60 +2872,60 @@ Grab serves >1B predictions/day across SE-Asia. Stack: feature store (DynamoDB),
 Design the MLOps stack for a Vietnamese-language chatbot deployed on web + mobile, serving 10 000 RPS. List: serving framework, GPU type, monitoring metrics, retraining trigger, and rollback strategy.`,
         code: `# Minimal MLflow tracking + model registry workflow
 # Import required libraries.
-# mlflow: Thư viện chính để theo dõi và quản lý vòng đời ML.
-# mlflow.pytorch: Module của MLflow để làm việc với model PyTorch.
-# torch: Thư viện PyTorch để xây dựng và training model.
-# torch.nn: Module của PyTorch chứa các lớp cho mạng nơ-ron.
+# mlflow: Main library for tracking and managing the ML lifecycle.
+# mlflow.pytorch: MLflow module for working with PyTorch models.
+# torch: PyTorch library for building and training models.
+# torch.nn: PyTorch module containing classes for neural networks.
 import mlflow, mlflow.pytorch, torch, torch.nn as nn
 
-# Đặt địa chỉ URI của máy chủ MLflow Tracking.
-# Đây là nơi MLflow sẽ gửi và lưu trữ thông tin về các lần chạy (runs).
+# Set the URI of the MLflow Tracking server.
+# This is where MLflow will send and store information about runs.
 mlflow.set_tracking_uri("http://mlflow.haiedu.local:5000")
-# Đặt tên cho Experiment (thử nghiệm) hiện tại.
-# Tất cả các lần chạy trong khối này sẽ được nhóm dưới Experiment "sentiment-vi".
+# Set the name for the current Experiment.
+# All runs within this block will be grouped under the "sentiment-vi" Experiment.
 mlflow.set_experiment("sentiment-vi")
 
-# Bắt đầu một lần chạy MLflow mới.
-# Mọi hoạt động ghi log (parameters, metrics, model) trong khối 'with' này sẽ thuộc về lần chạy này.
-# run_name: Tên hiển thị cho lần chạy cụ thể này.
+# Start a new MLflow run.
+# All logging activities (parameters, metrics, model) within this 'with' block will belong to this run.
+# run_name: Display name for this specific run.
 with mlflow.start_run(run_name="distilbert-vi-v3") as run:
-    # 1. Ghi lại các siêu parameters (hyperparameters) của model.
-    # params: Một từ điển chứa các parameters quan trọng của quá trình training.
+    # 1. Log model hyperparameters.
+    # params: A dictionary containing important training parameters.
     params = {"lr": 2e-5, "batch_size": 32, "epochs": 3, "model": "distilbert-base-multilingual"}
-    # Ghi lại các parameters này vào MLflow.
-    # Input: Một từ điển các parameters.
+    # Log these parameters to MLflow.
+    # Input: A dictionary of parameters.
     mlflow.log_params(params)
 
     # ... training loop here ...
-    # Giả định đây là kết quả từ vòng lặp training.
-    # val_f1: Điểm F1 trên tập validation.
+    # Assume these are results from the training loop.
+    # val_f1: F1 score on the validation set.
     val_f1 = 0.912
-    # val_loss: Giá trị loss trên tập validation.
+    # val_loss: Loss value on the validation set.
     val_loss = 0.187
-    # Ghi lại các chỉ số (metrics) này vào MLflow.
-    # Input: Một từ điển các chỉ số.
+    # Log these metrics to MLflow.
+    # Input: A dictionary of metrics.
     mlflow.log_metrics({"val_f1": val_f1, "val_loss": val_loss})
 
-    # 2. Ghi lại artifact model đã training và chữ ký của nó.
-    # model: Create a model PyTorch đơn giản làm chỗ giữ chỗ (placeholder).
-    # Trong thực tế, đây sẽ là model đã được training.
+    # 2. Log the trained model artifact and its signature.
+    # model: Create a simple PyTorch model as a placeholder.
+    # In reality, this would be the trained model.
     model = nn.Linear(768, 3)        # placeholder
-    # Ghi lại model PyTorch vào MLflow.
-    # model: Đối tượng model PyTorch cần ghi.
-    # artifact_path: Đường dẫn lưu trữ model trong thư mục artifact của lần chạy.
-    # registered_model_name: Tên của model trong Model Registry.
-    # Nếu model chưa tồn tại trong Registry, nó sẽ được tạo mới.
+    # Log the PyTorch model to MLflow.
+    # model: The PyTorch model object to log.
+    # artifact_path: The path to store the model within the run's artifact directory.
+    # registered_model_name: The name of the model in the Model Registry.
+    # If the model does not exist in the Registry, it will be created.
     mlflow.pytorch.log_model(
         model, artifact_path="model",
         registered_model_name="sentiment-vi",
     )
 
-    # 3. Đẩy model lên stage "Staging" nếu nó tốt hơn model "champion" (model tốt nhất hiện tại).
-    # Initialize một đối tượng MlflowClient để tương tác với MLflow Tracking Server và Model Registry.
+    # 3. Promote the model to the "Staging" stage if it is better than the "champion" model (current best model).
+    # Initialize an MlflowClient object to interact with the MLflow Tracking Server and Model Registry.
     client = mlflow.tracking.MlflowClient()
-    # Get phiên bản model hiện đang ở stage "production" (champion).
-    # Input: Tên model đã đăng ký và alias "production".
-    # Output: Đối tượng ModelVersion của model champion.
+    # Get the model version currently in the "production" stage (champion).
+    # Input: Registered model name and alias "production".
+    # Output: ModelVersion object of the champion model.
     champion = client.get_model_version_by_alias("sentiment-vi", "production")
     # Get the F1 score of the champion model from its tags.
     # If the "val_f1" tag is not found, default to 0.

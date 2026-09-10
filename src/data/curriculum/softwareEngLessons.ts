@@ -148,44 +148,44 @@ When starting a project, ask:
 SDLC is the **recipe** that prevents a stillborn project. Agile/Scrum is the 2026 default for most products. Waterfall still rules safety-critical systems.
 `,
         code: `# SDLC Phase Tracker - minimal Scrum board in Python
-# Đây là một công cụ theo dõi tiến độ phát triển phần mềm đơn giản, mô phỏng bảng Scrum.
+# This is a simple software development progress tracking tool, simulating a Scrum board.
 
-# Định nghĩa thông tin về một sprint (giai đoạn phát triển).
-# sprint là một dictionary chứa các thông tin như tên, thời lượng và danh sách các câu chuyện (stories).
+# Defines information about a sprint (development phase).
+# A sprint is a dictionary containing information such as name, duration, and a list of stories.
 sprint = {
-    "name": "Sprint 3 - Payment", # Tên của sprint.
-    "duration_days": 14, # Thời lượng của sprint tính bằng ngày.
-    "stories": [ # Danh sách các câu chuyện (tasks) trong sprint. Mỗi câu chuyện là một dictionary.
-        {"id": "PAY-1", "title": "Stripe integration", "status": "done"}, # Câu chuyện 1: tích hợp Stripe, trạng thái đã hoàn thành.
-        {"id": "PAY-2", "title": "Refund flow",        "status": "in_progress"}, # Câu chuyện 2: luồng hoàn tiền, trạng thái đang thực hiện.
-        {"id": "PAY-3", "title": "Email receipt",      "status": "todo"}, # Câu chuyện 3: biên lai email, trạng thái cần làm.
+    "name": "Sprint 3 - Payment", # Name of the sprint.
+    "duration_days": 14, # Duration of the sprint in days.
+    "stories": [ # List of stories (tasks) in the sprint. Each story is a dictionary.
+        {"id": "PAY-1", "title": "Stripe integration", "status": "done"}, # Story 1: Stripe integration, status completed.
+        {"id": "PAY-2", "title": "Refund flow",        "status": "in_progress"}, # Story 2: refund flow, status in progress.
+        {"id": "PAY-3", "title": "Email receipt",      "status": "todo"}, # Story 3: email receipt, status to do.
     ],
 }
 
-# Định nghĩa hàm tính toán "velocity" (tốc độ hoàn thành công việc) của sprint.
-# Đầu vào: một dictionary 'sprint' chứa thông tin về sprint.
-# Đầu ra: một chuỗi định dạng "số_câu_chuyện_hoàn_thành/tổng_số_câu_chuyện_đã_làm".
+# Defines a function to calculate the "velocity" (work completion rate) of the sprint.
+# Input: a 'sprint' dictionary containing sprint information.
+# Output: a formatted string "number_of_completed_stories/total_number_of_stories_worked_on".
 def velocity(sprint):
-    # Đếm số lượng câu chuyện có trạng thái là "done" (đã hoàn thành).
-    # sum(1 for item in list if condition) là cách ngắn gọn để đếm số phần tử thỏa mãn điều kiện.
+    # Counts the number of stories with status "done" (completed).
+    # sum(1 for item in list if condition) is a concise way to count elements that satisfy a condition.
     done = sum(1 for s in sprint["stories"] if s["status"] == "done")
-    # Trả về chuỗi hiển thị số câu chuyện đã hoàn thành trên tổng số câu chuyện.
+    # Returns a string showing the number of completed stories out of the total number of stories.
     return f"{done}/{len(sprint['stories'])} stories done"
 
-# In ra tên của sprint.
-# Kết quả mong đợi: 📋 Sprint 3 - Payment
+# Prints the name of the sprint.
+# Expected output: 📋 Sprint 3 - Payment
 print(f"📋 {sprint['name']}")
-# Lặp qua từng câu chuyện trong danh sách 'stories' của sprint.
+# Iterates through each story in the 'stories' list of the sprint.
 for s in sprint["stories"]:
-    # Chọn biểu tượng (icon) tương ứng với trạng thái của câu chuyện.
-    # Đây là một dictionary dùng để ánh xạ trạng thái sang biểu tượng.
+    # Selects the icon corresponding to the story's status.
+    # This is a dictionary used to map status to icon.
     icon = {"done": "✅", "in_progress": "🔧", "todo": "⏳"}[s["status"]]
-    # In thông tin chi tiết của từng câu chuyện: biểu tượng, ID và tiêu đề.
-    # Kết quả mong đợi cho mỗi câu chuyện:   ✅ [PAY-1] Stripe integration
+    # Prints detailed information for each story: icon, ID, and title.
+    # Expected output for each story:   ✅ [PAY-1] Stripe integration
     print(f"  {icon} [{s['id']}] {s['title']}")
-# In ra "velocity" (tốc độ hoàn thành) của sprint.
-# Gọi hàm velocity() để lấy chuỗi kết quả.
-# Kết quả mong đợi: \\n🏁 Velocity: 1/3 stories done (hoặc tương tự tùy thuộc vào dữ liệu)
+# Prints the "velocity" (completion rate) of the sprint.
+# Calls the velocity() function to get the result string.
+# Expected output: \\n🏁 Velocity: 1/3 stories done (or similar depending on data)
 print(f"\\\\n🏁 Velocity: {velocity(sprint)}")`,
         exercise: "Mô tả lại 1 dự án bạn từng làm theo 6 giai đoạn SDLC. Giai đoạn nào bị bỏ qua? Hậu quả?",
         exerciseEn: "Describe a past project you worked on through the 6 SDLC phases. Which phase was skipped? What was the consequence?",
@@ -332,41 +332,41 @@ Before drawing an architecture, answer:
 Monolith = simple, easy. Microservices = scalable, but require mature DevOps. UML is the **shared language** that lets a team agree before writing line one of code.
 `,
         code: `# Decision helper: monolith or microservices?
-# Hàm này giúp đưa ra khuyến nghị nên chọn kiến trúc Monolith hay Microservices
-# dựa trên một số tiêu chí của dự án.
-# Đầu vào:
-#   - team_size (int): Kích thước đội ngũ phát triển.
-#   - expected_users (int): Số lượng người dùng dự kiến.
-#   - has_devops (bool): Đội ngũ có kinh nghiệm DevOps hay không.
-# Đầu ra:
-#   - str: "Microservices" nếu điểm số lớn hơn hoặc bằng 4, ngược lại là "Modular Monolith".
+# This function helps to make a recommendation on whether to choose Monolith or Microservices architecture
+# based on several project criteria.
+# Input:
+#   - team_size (int): Development team size.
+#   - expected_users (int): Expected number of users.
+#   - has_devops (bool): Does the team have DevOps experience.
+# Output:
+#   - str: "Microservices" if the score is greater than or equal to 4, otherwise "Modular Monolith".
 def recommend(team_size: int, expected_users: int, has_devops: bool) -> str:
-    # Khởi tạo điểm số ban đầu là 0.
+    # Initialize the initial score to 0.
     score = 0
-    # Nếu kích thước đội ngũ lớn hơn 20 người, cộng thêm 2 điểm.
+    # If the team size is greater than 20 people, add 2 points.
     if team_size > 20:        score += 2
-    # Nếu số lượng người dùng dự kiến lớn hơn 100,000, cộng thêm 2 điểm.
+    # If the expected number of users is greater than 100,000, add 2 points.
     if expected_users > 100_000: score += 2
-    # Nếu đội ngũ có kinh nghiệm DevOps, cộng thêm 1 điểm.
+    # If the team has DevOps experience, add 1 point.
     if has_devops:            score += 1
-    # Trả về "Microservices" nếu tổng điểm lớn hơn hoặc bằng 4,
-    # ngược lại trả về "Modular Monolith".
+    # Return "Microservices" if the total score is greater than or equal to 4,
+    # otherwise return "Modular Monolith".
     return "Microservices" if score >= 4 else "Modular Monolith"
 
-# Định nghĩa các trường hợp thử nghiệm.
-# Mỗi trường hợp là một dictionary chứa các thông tin đầu vào cho hàm recommend.
+# Define test cases.
+# Each case is a dictionary containing input information for the recommend function.
 cases = [
     {"team_size": 5,  "expected_users": 5_000,    "has_devops": False},
     {"team_size": 50, "expected_users": 5_000_000, "has_devops": True},
     {"team_size": 12, "expected_users": 80_000,   "has_devops": True},
 ]
-# Lặp qua từng trường hợp trong danh sách 'cases'.
+# Iterate through each case in the 'cases' list.
 for c in cases:
-    # In ra thông tin của trường hợp và kết quả khuyến nghị tương ứng.
-    # recommend(**c) dùng toán tử giải nén dictionary để truyền các giá trị
-    # trong dictionary 'c' làm đối số cho hàm recommend.
+    # Print the case information and the corresponding recommendation result.
+    # recommend(**c) uses the dictionary unpacking operator to pass the values
+    # in dictionary 'c' as arguments to the recommend function.
     print(f"{c}  →  {recommend(**c)}")
-# Kết quả mong đợi:
+# Expected output:
 # {'team_size': 5, 'expected_users': 5000, 'has_devops': False}  →  Modular Monolith
 # {'team_size': 50, 'expected_users': 5000000, 'has_devops': True}  →  Microservices
 # {'team_size': 12, 'expected_users': 80000, 'has_devops': True}  →  Modular Monolith`,
@@ -1193,109 +1193,109 @@ Before designing a pipeline, list:
 CI/CD is the 24/7 robot that tests + ships your code. The classic 5-stage pipeline: checkout → install → lint+test → build → deploy. GitHub Actions / GitLab CI / Jenkins are the three top picks.
 `,
         code: `# .github/workflows/ci-cd.yml - production-grade pipeline
-# Tên của quy trình CI/CD này.
+# Name of this CI/CD pipeline.
 name: CI/CD
 
-# Định nghĩa các sự kiện sẽ kích hoạt quy trình này.
+# Defines the events that will trigger this pipeline.
 on:
-  # Khi có sự kiện push code lên repository.
+  # When code is pushed to the repository.
   push:
-    # Quy trình sẽ chạy khi push lên các nhánh 'main' hoặc 'develop'.
+    # The pipeline will run when pushing to 'main' or 'develop' branches.
     branches: [main, develop]
-  # Khi có yêu cầu kéo (pull request) được mở.
+  # When a pull request is opened.
   pull_request:
-    # Quy trình sẽ chạy khi pull request nhắm vào nhánh 'main'.
+    # The pipeline will run when the pull request targets the 'main' branch.
     branches: [main]
 
-# Định nghĩa các công việc (jobs) sẽ chạy trong quy trình.
+# Defines the jobs that will run in the pipeline.
 jobs:
-  # Công việc kiểm tra chất lượng mã nguồn.
+  # Code quality check job.
   quality:
-    # Chỉ định hệ điều hành mà công việc này sẽ chạy trên đó.
+    # Specifies the operating system this job will run on.
     runs-on: ubuntu-latest
-    # Các bước thực hiện trong công việc 'quality'.
+    # Steps to perform in the 'quality' job.
     steps:
-      # Bước 1: Checkout mã nguồn từ repository.
-      # Đầu vào: Không có.
-      # Đầu ra: Mã nguồn được đưa vào môi trường chạy.
+      # Step 1: Checkout source code from the repository.
+      # Input: None.
+      # Output: Source code is placed in the runtime environment.
       - uses: actions/checkout@v4
-      # Bước 2: Thiết lập môi trường Node.js.
-      # Đầu vào: Phiên bản Node.js (20), cache npm.
-      # Đầu ra: Môi trường Node.js sẵn sàng.
+      # Step 2: Set up Node.js environment.
+      # Input: Node.js version (20), npm cache.
+      # Output: Node.js environment ready.
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
-      # Bước 3: Cài đặt các dependency của dự án bằng npm ci (cài đặt sạch).
-      # Đầu vào: file package-lock.json.
-      # Đầu ra: Các gói thư viện được cài đặt.
+      # Step 3: Install project dependencies using npm ci (clean install).
+      # Input: package-lock.json file.
+      # Output: Library packages are installed.
       - run: npm ci
-      # Bước 4: Chạy công cụ kiểm tra cú pháp và phong cách mã nguồn (lint).
-      # Đầu vào: Mã nguồn dự án.
-      # Đầu ra: Báo cáo lỗi lint (nếu có).
+      # Step 4: Run code syntax and style checker (lint).
+      # Input: Project source code.
+      # Output: Lint error report (if any).
       - run: npm run lint
-      # Bước 5: Chạy các bài kiểm thử và tạo báo cáo độ bao phủ mã (coverage).
-      # Đầu vào: Mã nguồn và các bài kiểm thử.
-      # Đầu ra: Kết quả kiểm thử và báo cáo độ bao phủ.
+      # Step 5: Run tests and generate code coverage report.
+      # Input: Source code and tests.
+      # Output: Test results and coverage report.
       - run: npm test -- --coverage
-      # Bước 6: Tải báo cáo độ bao phủ mã lên Codecov.
-      # Đầu vào: Báo cáo độ bao phủ mã.
-      # Đầu ra: Báo cáo độ bao phủ được hiển thị trên Codecov.
+      # Step 6: Upload code coverage report to Codecov.
+      # Input: Code coverage report.
+      # Output: Coverage report displayed on Codecov.
       - uses: codecov/codecov-action@v4
 
-  # Công việc kiểm tra bảo mật.
+  # Security check job.
   security:
-    # Chỉ định hệ điều hành mà công việc này sẽ chạy trên đó.
+    # Specifies the operating system this job will run on.
     runs-on: ubuntu-latest
-    # Công việc này phụ thuộc vào công việc 'quality', chỉ chạy khi 'quality' thành công.
+    # This job depends on the 'quality' job, only runs when 'quality' succeeds.
     needs: quality
-    # Các bước thực hiện trong công việc 'security'.
+    # Steps to perform in the 'security' job.
     steps:
-      # Bước 1: Checkout mã nguồn từ repository.
-      # Đầu vào: Không có.
-      # Đầu ra: Mã nguồn được đưa vào môi trường chạy.
+      # Step 1: Checkout source code from the repository.
+      # Input: None.
+      # Output: Source code is placed in the runtime environment.
       - uses: actions/checkout@v4
-      # Bước 2: Chạy kiểm tra lỗ hổng bảo mật npm với mức độ cao.
-      # Đầu vào: Các gói dependency của dự án.
-      # Đầu ra: Báo cáo các lỗ hổng bảo mật (nếu có).
+      # Step 2: Run npm security audit for high severity.
+      # Input: Project dependencies.
+      # Output: Security vulnerability report (if any).
       - run: npm audit --audit-level=high
-      # Bước 3: Sử dụng Trivy để quét lỗ hổng bảo mật trên hệ thống file.
-      # Đầu vào: Hệ thống file của dự án.
-      # Đầu ra: Báo cáo các lỗ hổng bảo mật nghiêm trọng và cao.
+      # Step 3: Use Trivy to scan for file system security vulnerabilities.
+      # Input: Project file system.
+      # Output: Critical and high security vulnerability report.
       - uses: aquasecurity/trivy-action@master
         with:
           scan-type: fs
           severity: CRITICAL,HIGH
 
-  # Công việc triển khai ứng dụng.
+  # Application deployment job.
   deploy:
-    # Chỉ định hệ điều hành mà công việc này sẽ chạy trên đó.
+    # Specifies the operating system this job will run on.
     runs-on: ubuntu-latest
-    # Công việc này phụ thuộc vào cả 'quality' và 'security', chỉ chạy khi cả hai thành công.
+    # This job depends on both 'quality' and 'security', only runs when both succeed.
     needs: [quality, security]
-    # Điều kiện để công việc này chạy: chỉ khi push lên nhánh 'main'.
-    # Đầu vào: Tên nhánh hiện tại.
-    # Đầu ra: True nếu là nhánh 'main', False nếu không.
+    # Condition for this job to run: only when pushing to the 'main' branch.
+    # Input: Current branch name.
+    # Output: True if 'main' branch, False otherwise.
     if: github.ref == 'refs/heads/main'
-    # Chỉ định môi trường triển khai là 'production'.
+    # Specifies the deployment environment as 'production'.
     environment: production
-    # Các bước thực hiện trong công việc 'deploy'.
+    # Steps to perform in the 'deploy' job.
     steps:
-      # Bước 1: Checkout mã nguồn từ repository.
-      # Đầu vào: Không có.
-      # Đầu ra: Mã nguồn được đưa vào môi trường chạy.
+      # Step 1: Checkout source code from the repository.
+      # Input: None.
+      # Output: Source code is placed in the runtime environment.
       - uses: actions/checkout@v4
-      # Bước 2: Cài đặt các dependency và xây dựng ứng dụng.
-      # Đầu vào: Mã nguồn dự án.
-      # Đầu ra: Các gói thư viện được cài đặt và mã nguồn đã được biên dịch/đóng gói.
+      # Step 2: Install dependencies and build the application.
+      # Input: Project source code.
+      # Output: Library packages installed and source code compiled/packaged.
       - run: npm ci && npm run build
-      # Bước 3: Triển khai ứng dụng bằng script tùy chỉnh.
-      # Đầu vào: Mã nguồn đã được xây dựng, biến môi trường DEPLOY_TOKEN.
-      # Đầu ra: Ứng dụng được triển khai thành công.
+      # Step 3: Deploy the application using a custom script.
+      # Input: Built source code, DEPLOY_TOKEN environment variable.
+      # Output: Application successfully deployed.
       - name: Deploy
         run: ./scripts/deploy.sh
         env:
-          # Sử dụng secret DEPLOY_TOKEN để xác thực khi triển khai.
+          # Use DEPLOY_TOKEN secret for authentication during deployment.
           DEPLOY_TOKEN: \${{ secrets.DEPLOY_TOKEN }}`,
         exercise: "Thiết kế pipeline cho 1 React app: trigger trên PR, chạy ESLint + Vitest + build, deploy preview lên Vercel.",
         exerciseEn: "Design a pipeline for a React app: trigger on PR, run ESLint + Vitest + build, deploy a preview to Vercel.",
