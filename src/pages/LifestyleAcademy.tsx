@@ -565,9 +565,19 @@ const LifestyleAcademy = () => {
               </p>
             </div>
 
+            <div className="mb-10">
+              <SoftSkillsRadar pillarScores={pillarScores} stats={stats} />
+            </div>
+
             <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
               {filteredLessons.map((lesson, i) => (
-                <LessonCard key={lesson.id} lesson={lesson} index={i} />
+                <LessonCard
+                  key={lesson.id}
+                  lesson={lesson}
+                  index={i}
+                  result={results[lesson.id]}
+                  onQuizFinish={saveResult}
+                />
               ))}
               {filteredLessons.length === 0 && (
                 <div className="col-span-full py-16 text-center text-slate-500 dark:text-slate-400">
