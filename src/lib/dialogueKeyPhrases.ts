@@ -195,16 +195,14 @@ export const DIALOGUE_KEY_PHRASES: string[] = [
 
 ];
 
-/** Ensures every dialogue shows some bold chunks, even when the bank misses. */
+/** Matches reusable chunks without selecting isolated vocabulary words. */
 const escapeRegExp = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 const matchesLine = (phrase: string, text: string) =>
   new RegExp(`(?<![\\p{L}])${escapeRegExp(phrase)}(?![\\p{L}])`, "iu").test(text);
 
 /**
- * Returns the phrases that should be printed in bold for a dialogue.
- * Falls back to the lesson's own target phrases when nothing in the shared
- * bank appears in the conversation, so no lesson is left without emphasis.
+ * Returns phrases that should be printed in bold for a dialogue.
  */
 /**
  * Generic chunk patterns. The fixed bank above cannot list every useful
@@ -279,14 +277,15 @@ const extractPatternPhrases = (text: string): string[] => {
  * Returns the phrases that should be printed in bold for a dialogue: bank
  * matches, generic pattern matches and the lesson's own target phrases.
  */
-export const resolveDialogueKeyPhrases = (lines: string[], lessonPhrases: string[] = []): string[] => {
+export const resolveDialogueKeyPhrases = (lines: string[], _lessonPhrases: string[] = []): string[] => {
   const text = lines.join(" \n ");
-  const hits = DIALOGUE_KEY_PHRASES.filter((phrase) => matchesLine(phrase, text));
+  const hits = DIALOGUE_KEY_PHRASES.filter(
+    (phrase) => phrase.trim().split(/\s+/).length >= 2 && matchesLine(phrase, text),
+  );
   const patterned = extractPatternPhrases(text);
-  const lesson = lessonPhrases.filter((phrase) => phrase.trim().length >= 3 && matchesLine(phrase, text));
   const seen = new Set<string>();
   const result: string[] = [];
-  for (const phrase of [...hits, ...lesson, ...patterned].sort((a, b) => b.length - a.length)) {
+  for (const phrase of [...hits, ...patterned].sort((a, b) => b.length - a.length)) {
     const key = phrase.toLowerCase();
     if (seen.has(key)) continue;
     if (result.some((longer) => longer.toLowerCase().includes(key))) continue;
