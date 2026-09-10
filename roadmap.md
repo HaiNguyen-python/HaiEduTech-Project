@@ -14,3 +14,4 @@
 
 ## Open
 - [ ] Business / Academic conversation key-language chips: browser spot check
+- [ ] Word Quest: study one word, complete 5 adaptive exercises, then advance; verify all 6 subjects

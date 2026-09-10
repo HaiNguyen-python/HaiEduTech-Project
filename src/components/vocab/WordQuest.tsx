@@ -4,9 +4,8 @@
  * (IELTS/English, Vietnamese, HSK, Japanese, Finnish, Swedish).
  *
  * Structure: words -> stages of 8 -> sets of 10 stages (so long banks stay a
- * short, scannable screen). Inside a stage the learner works in interleaved
- * rounds of 3 words; each word gets a *planned* mix of exercise types instead
- * of always walking the same 5 steps, which removes the old repetitive feel.
+ * short, scannable screen). Each word is studied in full, then receives five
+ * adaptive exercises before the learner moves to the next word.
  *
  * Exercise types: meet, meaning, listen, type, gap, speak (mic), recall,
  * build (assemble letters/syllables), usage (pick the right sentence),
@@ -34,14 +33,13 @@ const STAGE_SIZE = 8;
 /** How many stages are grouped into one "Set" card on the map. */
 const SET_SIZE = 10;
 /** How many words are interleaved in one learning round. */
-const ROUND_SIZE = 3;
 const DEFAULT_PROGRESS_KEY = "ielts_word_quest_v1";
 
 type StepKind =
   | "meet" | "meaning" | "listen" | "type" | "gap"
   | "speak" | "recall" | "build" | "usage" | "reverse";
 
-interface Task { wordIdx: number; kind: StepKind }
+interface Task { wordIdx: number; kind: StepKind; retry?: boolean }
 
 interface Progress {
   /** stage index -> number of words fully completed */
@@ -49,7 +47,7 @@ interface Progress {
   /** stage index -> mistakes made, used for the bronze/silver/gold medal */
   medals?: Record<number, number>;
   /** Where the learner stopped, so they can jump straight back in. */
-  resume?: { stage: number; word: number } | null;
+  resume?: { stage: number; word: number; task?: number } | null;
   /** stage index -> the learner already walked through all its word cards. */
   studied?: Record<number, boolean>;
 }
@@ -164,7 +162,6 @@ const WordQuest = ({
   const [studyIdx, setStudyIdx] = useState(0);
   const [queue, setQueue] = useState<Task[]>([]);
   const [cursor, setCursor] = useState(0);
-  const [roundIdx, setRoundIdx] = useState(0);
   const [doneWords, setDoneWords] = useState<number[]>([]);
   const [stars, setStars] = useState(0);
   const [combo, setCombo] = useState(0);
@@ -220,40 +217,19 @@ const WordQuest = ({
     setSpokenScore(null);
   }, []);
 
-  /** Build the interleaved task queue for one round of up to 3 words. */
-  const buildRound = useCallback((s: QuestItem[], round: number): Task[] => {
-    const start = round * ROUND_SIZE;
-    const slice = s.slice(start, start + ROUND_SIZE);
-    if (slice.length === 0) return [];
-    const perWord: Task[][] = slice.map((w, i) => {
-      const idx = start + i;
-      const known = knownKeys?.has(w.key) ?? false;
-      const { easy, hard } = kindsFor(w, micSupported);
-      // Every word was already presented in the study phase, so the drill has
-      // no "meet" step: three real exercises per word instead.
-      const kinds = known
-        ? pickKinds([...hard, ...easy], 3, [])
-        : pickKinds([...easy, ...hard], 3, []);
-      return kinds.map(k => ({ wordIdx: idx, kind: k }));
-    });
-    // Interleave: all intro steps first, then round-robin the exercises so the
-    // same word is never asked twice in a row.
-    const intro: Task[] = [];
-    const rest: Task[][] = perWord.map(list => {
-      const copy = [...list];
-      if (copy[0]?.kind === "meet") intro.push(copy.shift()!);
-      return copy;
-    });
-    const out = [...intro];
-    let more = true;
-    while (more) {
-      more = false;
-      for (const list of rest) {
-        const next = list.shift();
-        if (next) { out.push(next); more = true; }
-      }
-    }
-    return out;
+  /** Build five distinct exercises for one word, from recognition to recall. */
+  const buildWordTasks = useCallback((s: QuestItem[], wordIdx: number): Task[] => {
+    const target = s[wordIdx];
+    if (!target) return [];
+    const known = knownKeys?.has(target.key) ?? false;
+    const { easy, hard } = kindsFor(target, micSupported);
+    const first = known ? pickKinds(hard, 3, []) : pickKinds(easy, 2, []);
+    const second = known
+      ? pickKinds(easy, 5 - first.length, first)
+      : pickKinds(hard, 5 - first.length, first);
+    const selected = [...first, ...second];
+    const fill = pickKinds([...easy, ...hard], 5 - selected.length, selected);
+    return [...selected, ...fill].map(kind => ({ wordIdx, kind }));
   }, [knownKeys, micSupported]);
 
   // Auto-play the word when a listening-style step opens.
@@ -351,13 +327,19 @@ const WordQuest = ({
     if (advanceTimer.current) { window.clearTimeout(advanceTimer.current); advanceTimer.current = null; }
     setStageIdx(i);
     setSetIdx(Math.floor(i / SET_SIZE));
-    // Words first: only stages already studied jump straight into the drills.
-    setPhase(progress.studied?.[i] ? "drill" : "study");
-    setStudyIdx(0);
-    setRoundIdx(0);
-    setQueue(buildRound(s, 0));
-    setCursor(0);
-    setDoneWords([]);
+    const completed = Math.min(progress.stages[i] || 0, s.length);
+    const isReplay = completed >= s.length;
+    const resumeWord = progress.resume?.stage === i ? progress.resume.word : completed;
+    const nextWord = isReplay ? 0 : Math.min(Math.max(0, resumeWord), s.length - 1);
+    const nextQueue = buildWordTasks(s, nextWord);
+    const resumeTask = progress.resume?.stage === i && progress.resume.word === nextWord
+      ? Math.min(progress.resume.task || 0, Math.max(0, nextQueue.length - 1))
+      : 0;
+    setPhase("study");
+    setStudyIdx(nextWord);
+    setQueue(nextQueue);
+    setCursor(resumeTask);
+    setDoneWords(Array.from({ length: isReplay ? 0 : completed }, (_, index) => index));
     setStars(0);
     setCombo(0);
     setStageMistakes(0);
@@ -375,7 +357,7 @@ const WordQuest = ({
     window.setTimeout(() => setCelebrate(false), 3200);
   };
 
-  /** Move to the next task; roll into the next round or finish the stage. */
+  /** Move to the next exercise, or study the next word after all five are done. */
   const advance = (extraDone?: number) => {
     if (advanceTimer.current) { window.clearTimeout(advanceTimer.current); advanceTimer.current = null; }
     resetStepState();
@@ -389,25 +371,26 @@ const WordQuest = ({
       save({
         ...progress,
         stages: { ...progress.stages, [stageIdx]: Math.max(progress.stages[stageIdx] || 0, doneNow.length) },
-        resume: { stage: stageIdx, word: queue[cursor + 1].wordIdx },
+        resume: { stage: stageIdx, word: queue[cursor + 1].wordIdx, task: cursor + 1 },
       });
       return;
     }
 
-    // Round finished - start the next round of 3 words, or clear the stage.
-    const nextRound = roundIdx + 1;
-    const nextQueue = buildRound(stage, nextRound);
-    if (nextQueue.length === 0) {
+    const completedWord = task?.wordIdx ?? studyIdx;
+    const nextWord = completedWord + 1;
+    if (nextWord >= stage.length) {
       finishStage(stage, stageIdx, stageMistakes);
       return;
     }
-    setRoundIdx(nextRound);
+    const nextQueue = buildWordTasks(stage, nextWord);
+    setStudyIdx(nextWord);
+    setPhase("study");
     setQueue(nextQueue);
     setCursor(0);
     save({
       ...progress,
       stages: { ...progress.stages, [stageIdx]: Math.max(progress.stages[stageIdx] || 0, doneNow.length) },
-      resume: { stage: stageIdx, word: nextQueue[0].wordIdx },
+      resume: { stage: stageIdx, word: nextWord, task: 0 },
     });
   };
 
@@ -436,11 +419,9 @@ const WordQuest = ({
     if (!task || !word) return;
     const { easy, hard } = kindsFor(word, micSupported);
     const [retryKind] = pickKinds([...easy, ...hard], 1, [task.kind]);
-    setQueue(q => {
-      // Only ever queue one pending retry per word, however many tries it takes.
-      if (q.slice(cursor + 1).some(x => x.wordIdx === task.wordIdx)) return q;
-      return [...q, { wordIdx: task.wordIdx, kind: retryKind || task.kind }];
-    });
+    setQueue(q => q.some(x => x.wordIdx === task.wordIdx && x.retry)
+      ? q
+      : [...q, { wordIdx: task.wordIdx, kind: retryKind || task.kind, retry: true }]);
   };
 
   const handlePick = (key: string, correctKey: string) => {
@@ -498,12 +479,12 @@ const WordQuest = ({
         </h3>
         <p className="mt-1 text-sm text-muted-foreground">
           {t(
-            "Mỗi Set gồm 10 chặng, mỗi chặng 8 từ. Vào chặng, bạn được học đầy đủ 8 từ trước (nghĩa, phiên âm, ví dụ, phát âm), sau đó mới luyện tập xen kẽ nhiều dạng bài: chọn nghĩa, nghe, gõ, ghép chữ, nói lại, nhớ chủ động, điền câu. Từ nào sai sẽ quay lại với một dạng bài khác.",
-            "Each Set holds 10 stages of 8 words. A stage first walks you through all 8 words in full (meaning, phonetics, example, audio), then drills them across many exercise types: meaning, listening, typing, word building, saying it out loud, active recall and sentence gaps. Missed words return with a different exercise."
+            "Mỗi Set gồm 10 chặng, mỗi chặng 8 từ. Với từng từ, bạn xem đầy đủ nghĩa, phiên âm, ví dụ và phát âm, sau đó hoàn thành 5 bài tập thích ứng trước khi sang từ tiếp theo. Từ trả lời sai sẽ có thêm một bài ôn bù khác dạng.",
+            "Each Set holds 10 stages of 8 words. For each word, study its meaning, pronunciation, example and audio, then complete five adaptive exercises before moving on. A missed word receives one extra review in a different format."
           )}
         </p>
         {progress.resume && stages[progress.resume.stage] && (
-          <Button size="sm" className="mt-3 gap-2" onClick={() => openStage(progress.resume!.stage)}>
+            <Button size="sm" className="mt-3 gap-2" onClick={() => openStage(progress.resume?.stage ?? 0)}>
             <ChevronRight className="h-4 w-4" />
             {t(`Tiếp tục chặng ${progress.resume.stage + 1}`, `Continue stage ${progress.resume.stage + 1}`)}
           </Button>
@@ -616,15 +597,20 @@ const WordQuest = ({
     );
   }
 
-  // ── Study phase: full information for every word of the stage, one by one ──
+  // ── Study phase: learn this word in full before its five exercises ──
   if (phase === "study") {
     const sIdx = Math.min(studyIdx, stage.length - 1);
     const sw = stage[sIdx];
     const swEmoji = resolveVocabEmoji(sw.definition.en, sw.category);
-    const isLast = sIdx >= stage.length - 1;
     const startDrill = () => {
       stopVoice();
-      save({ ...progress, studied: { ...(progress.studied || {}), [stageIdx]: true } });
+      const tasksForWord = queue.some(item => item.wordIdx === sIdx) ? queue : buildWordTasks(stage, sIdx);
+      setQueue(tasksForWord);
+      save({
+        ...progress,
+        studied: { ...(progress.studied || {}), [stageIdx]: true },
+        resume: { stage: stageIdx, word: sIdx, task: cursor },
+      });
       setPhase("drill");
     };
     return (
@@ -635,11 +621,8 @@ const WordQuest = ({
           </Button>
           <Badge variant="outline">{t("Chặng", "Stage")} {stageIdx + 1}</Badge>
           <Badge variant="secondary">
-            {t("Học từ", "Study the words")} · {sIdx + 1}/{stage.length}
+            {t("Học từ", "Study word")} {sIdx + 1}/{stage.length}
           </Badge>
-          <Button variant="ghost" size="sm" onClick={startDrill} className="gap-1">
-            {t("Bỏ qua phần học", "Skip study")} <ChevronRight className="h-4 w-4" />
-          </Button>
         </div>
 
         <div className="mb-4 flex gap-1.5">
@@ -647,7 +630,8 @@ const WordQuest = ({
             <button
               key={i}
               aria-label={`${t("Từ", "Word")} ${i + 1}`}
-              onClick={() => setStudyIdx(i)}
+              aria-current={i === sIdx ? "step" : undefined}
+              disabled={i !== sIdx}
               className={`h-2 flex-1 rounded-full ${i < sIdx ? "bg-emerald-500" : i === sIdx ? "bg-primary" : "bg-secondary"}`}
             />
           ))}
@@ -691,23 +675,10 @@ const WordQuest = ({
           </motion.div>
         </AnimatePresence>
 
-        <div className="mt-4 flex items-center justify-between gap-3">
-          <Button
-            variant="outline"
-            disabled={sIdx === 0}
-            onClick={() => setStudyIdx(i => Math.max(0, i - 1))}
-          >
-            ← {t("Từ trước", "Previous")}
+        <div className="mt-4 flex items-center justify-center gap-3">
+          <Button onClick={startDrill} className="gap-2">
+            {t("Luyện 5 bài của từ này", "Practice this word - 5 exercises")} <ChevronRight className="h-4 w-4" />
           </Button>
-          {isLast ? (
-            <Button onClick={startDrill} className="gap-2">
-              {t("Bắt đầu luyện tập", "Start practice")} <ChevronRight className="h-4 w-4" />
-            </Button>
-          ) : (
-            <Button onClick={() => setStudyIdx(i => Math.min(stage.length - 1, i + 1))} className="gap-2">
-              {t("Từ tiếp", "Next word")} <ChevronRight className="h-4 w-4" />
-            </Button>
-          )}
         </div>
       </div>
     );
@@ -758,16 +729,18 @@ const WordQuest = ({
           ← {t("Bản đồ chặng", "Stage map")}
         </Button>
         <Badge variant="outline">
-          {t("Chặng", "Stage")} {stageIdx + 1} · {doneWords.length}/{totalStageWords} {t("từ", "words")}
+          {t("Chặng", "Stage")} {stageIdx + 1} · {t("Từ", "Word")} {(task?.wordIdx ?? 0) + 1}/{totalStageWords}
         </Badge>
-        <Badge variant="secondary">{labelOfKind(kind, t)}</Badge>
+        <Badge variant="secondary">
+          {Math.min(cursor + 1, 5)}/5 · {labelOfKind(kind, t)}
+        </Badge>
         <Button
           variant="ghost"
           size="sm"
           onClick={() => { stopVoice(); setStudyIdx(task?.wordIdx ?? 0); setPhase("study"); }}
           className="gap-1"
         >
-          <RotateCcw className="h-4 w-4" /> {t("Xem lại từ", "Review words")}
+          <RotateCcw className="h-4 w-4" /> {t("Xem lại từ này", "Review this word")}
         </Button>
         <span className="flex items-center gap-1 text-sm font-semibold text-amber-500">
           <Star className="h-4 w-4 fill-amber-400 text-amber-400" /> {stars}
@@ -1091,15 +1064,19 @@ const WordQuest = ({
               <p className="text-center text-sm text-muted-foreground">
                 {t(`Câu nào dùng từ "${word.word}" đúng ngữ cảnh?`, `Which sentence uses "${word.word}" correctly?`)}
               </p>
-              {usageOptions.map(o => (
+              {usageOptions.map(o => {
+                const correctUsage = usageOptions.find(option => option.right)?.text;
+                if (!correctUsage) return null;
+                return (
                 <button
                   key={o.text}
-                  onClick={() => handlePick(o.text, usageOptions.find(x => x.right)!.text)}
+                  onClick={() => handlePick(o.text, correctUsage)}
                   className={`rounded-xl border p-3 text-left text-sm leading-relaxed transition-all ${optionClass(o.right, wrongPicks.includes(o.text))}`}
                 >
                   {o.text}
                 </button>
-              ))}
+                );
+              })}
               {retryFooter}
             </div>
           )}
