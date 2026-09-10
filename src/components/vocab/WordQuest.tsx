@@ -351,6 +351,9 @@ const WordQuest = ({
     if (advanceTimer.current) { window.clearTimeout(advanceTimer.current); advanceTimer.current = null; }
     setStageIdx(i);
     setSetIdx(Math.floor(i / SET_SIZE));
+    // Words first: only stages already studied jump straight into the drills.
+    setPhase(progress.studied?.[i] ? "drill" : "study");
+    setStudyIdx(0);
     setRoundIdx(0);
     setQueue(buildRound(s, 0));
     setCursor(0);
