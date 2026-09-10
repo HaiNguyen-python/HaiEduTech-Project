@@ -1,6 +1,7 @@
 import StudyChibisStatic from "@/components/decorations/StudyChibisStatic";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import VocabBrainPanel from "@/components/vocab/VocabBrainPanel";
 import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -1043,6 +1044,17 @@ const ToeicVocabulary = () => {
           />
         </div>
       </main>
+      <section className="container mx-auto px-4 pb-10">
+        <VocabBrainPanel
+          subject="toeic"
+          localWords={[...mastered]}
+          t={t}
+          lookupWord={(w) => {
+              const f = toeicVocabData.find(x => x.word === w);
+              return f ? { word: f.word, phonetic: f.ipa, definitionVi: f.definition.vi, definitionEn: f.definition.en } : null;
+            }}
+        />
+      </section>
       <Footer />
     </div>
   );

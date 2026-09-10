@@ -27,6 +27,7 @@ import { playEnglishTts, stopEnglishTts } from "@/lib/englishTts";
 import { resolveVocabEmoji } from "@/lib/vocabEmojiMap";
 import { safeStorage } from "@/lib/safeStorage";
 import { maskWord } from "@/lib/vocab/questionQuality";
+import { recordVocabReviewTracked } from "@/lib/vocabReview";
 import { useSpeechRecognizer } from "@/hooks/useSpeechRecognizer";
 
 const STAGE_SIZE = 8;
@@ -129,6 +130,8 @@ interface Props {
   speechLang?: string;
   /** Words the learner already mastered - they skip the gentle intro step. */
   knownKeys?: Set<string>;
+  /** Mastery subject key, so finished words feed the memory brain. */
+  subject?: string;
 }
 
 const WordQuest = ({
@@ -139,6 +142,7 @@ const WordQuest = ({
   typingLabel,
   speechLang = "en-US",
   knownKeys,
+  subject,
 }: Props) => {
   const speak = speakProp || englishSpeak;
   const stopVoice = stopSpeak || stopEnglishTts;
@@ -174,6 +178,8 @@ const WordQuest = ({
   const [celebrate, setCelebrate] = useState(false);
   const [stageMistakes, setStageMistakes] = useState(0);
   const advanceTimer = useRef<number | null>(null);
+  /** Word keys the learner got wrong while drilling the current word. */
+  const missedInWord = useRef<Set<string>>(new Set());
 
   const stage = stageIdx === null ? null : stages[stageIdx];
   const task = queue[cursor] || null;
@@ -400,6 +406,15 @@ const WordQuest = ({
     const remaining = queue.slice(cursor + 1).some(q => q.wordIdx === task.wordIdx);
     if (!remaining) {
       onWordLearned?.(word.key);
+      // One review per finished word loop; a stumble on the way counts as "hard".
+      if (subject) {
+        const stumbled = missedInWord.current.has(word.key);
+        void recordVocabReviewTracked(subject, [word.key], {
+          correct: true,
+          grade: stumbled ? "hard" : "good",
+        });
+      }
+      missedInWord.current.delete(word.key);
       advance(task.wordIdx);
     } else {
       advance();
@@ -417,6 +432,7 @@ const WordQuest = ({
     setWrongCount(c => c + 1);
     setStageMistakes(m => m + 1);
     if (!task || !word) return;
+    missedInWord.current.add(word.key);
     const { easy, hard } = kindsFor(word, micSupported);
     const [retryKind] = pickKinds([...easy, ...hard], 1, [task.kind]);
     setQueue(q => q.some(x => x.wordIdx === task.wordIdx && x.retry)

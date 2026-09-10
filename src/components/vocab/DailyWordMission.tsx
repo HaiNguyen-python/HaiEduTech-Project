@@ -18,6 +18,7 @@ import { Badge } from "@/components/ui/badge";
 import type { QuestItem } from "@/lib/vocab/vocabAdapter";
 import { playEnglishTts, stopEnglishTts } from "@/lib/englishTts";
 import { useSpeechRecognizer } from "@/hooks/useSpeechRecognizer";
+import { recordVocabReviewTracked } from "@/lib/vocabReview";
 import { pickSmartDistractors, maskWord, shuffleArr } from "@/lib/vocab/questionQuality";
 import {
   buildMission, countDue, countDueOn, loadSrs, saveSrs, reviewCard, bumpStreak, loadStreak,
@@ -55,6 +56,8 @@ interface Props {
   onWordMastered?: (key: string) => void;
   /** Subject namespace for the local review schedule (e.g. "hsk"). */
   subject?: string;
+  /** Mastery subject used when writing reviews to the brain; defaults to `subject`. */
+  reviewSubject?: string;
   /** Per-subject text-to-speech; defaults to the English voice. */
   speak?: (text: string) => void;
   stopSpeak?: () => void;
@@ -182,6 +185,7 @@ const buildQuestion = (
 const DailyWordMission = ({
   bank, allWords, t, onWordMastered,
   subject = "ielts",
+  reviewSubject,
   speak: speakProp,
   stopSpeak,
   speechLang = "en-US",
@@ -283,6 +287,8 @@ const DailyWordMission = ({
   const grade = (g: SrsGrade) => {
     if (!q) return;
     const correct = wasCorrect ?? true;
+    // Feed the memory brain: every graded card is a real review (right or wrong).
+    void recordVocabReviewTracked(reviewSubject || subject, [q.word.key], { correct, grade: g });
     const before = store[q.word.key];
     const after = reviewCard(before, g, correct);
     const next = { ...store, [q.word.key]: after };

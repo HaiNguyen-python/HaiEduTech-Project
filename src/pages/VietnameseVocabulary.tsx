@@ -3,6 +3,7 @@
 // mastered tracking with leaderboard, Vietnamese TTS playback.
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import VocabBrainPanel from "@/components/vocab/VocabBrainPanel";
 import SEO from "@/components/SEO";
 import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -808,6 +809,18 @@ const VietnameseVocabulary = () => {
           </div>
         </div>
       </div>
+      <section className="container mx-auto px-4 pb-10">
+        <VocabBrainPanel
+          subject="vietnamese"
+          localWords={[...mastered]}
+          t={t}
+          lookupWord={(w) => {
+              const f = vietnameseVocabBank.find(x => x.word === w);
+              return f ? { word: f.word, definitionVi: f.meaning, definitionEn: f.meaningEn } : null;
+            }}
+            speak={text => { void playVietnameseTts(text); }}
+        />
+      </section>
       <Footer />
     </div>
   );

@@ -20,23 +20,50 @@ export const VOCAB_REVIEW_EVENT = "vocab-review-recorded";
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
+/** How the learner performed on this review. */
+export interface ReviewOutcome {
+  /** False = the word was not recalled (a lapse). Defaults to true. */
+  correct?: boolean;
+  /** Optional self-rating, used to nudge the ease factor. */
+  grade?: "forgot" | "hard" | "good" | "easy";
+}
+
+/** SM-2 style ease update, clamped to the useful 1.3 - 3.0 range. */
+const nextEase = (current: number, { correct = true, grade }: ReviewOutcome): number => {
+  const base = Number.isFinite(current) ? current : 2.5;
+  const delta = !correct || grade === "forgot" ? -0.25
+    : grade === "hard" ? -0.12
+    : grade === "easy" ? 0.1
+    : 0.02;
+  return Math.min(3, Math.max(1.3, Number((base + delta).toFixed(2))));
+};
+
 /**
  * Record a review for the given words. Words that are not in the mastered table
  * are silently skipped (nothing to consolidate yet). Never throws: a failed
  * review must not break the practice session.
  *
+ * A wrong answer is recorded too: it bumps `lapse_count` and lowers `ease`, so
+ * the memory model can push the word back towards short-term memory instead of
+ * only ever rewarding the learner.
+ *
  * @returns number of rows actually updated.
  */
-export async function recordVocabReview(subject: string, words: string[]): Promise<number> {
+export async function recordVocabReview(
+  subject: string,
+  words: string[],
+  outcome: ReviewOutcome = {},
+): Promise<number> {
   const unique = [...new Set(words.map(w => w.trim()).filter(Boolean))];
   if (unique.length === 0) return 0;
+  const failed = outcome.correct === false || outcome.grade === "forgot";
   try {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return 0;
 
     const { data: rows, error } = await (supabase as any)
       .from("user_vocab_mastered")
-      .select("word, reviewed_at, review_count")
+      .select("word, reviewed_at, review_count, lapse_count, ease")
       .eq("user_id", user.id)
       .eq("subject", subject)
       .in("word", unique);
@@ -44,7 +71,14 @@ export async function recordVocabReview(subject: string, words: string[]): Promi
 
     const nowIso = new Date().toISOString();
     let updated = 0;
-    for (const row of rows as { word: string; reviewed_at: string | null; review_count: number | null }[]) {
+    type Row = {
+      word: string;
+      reviewed_at: string | null;
+      review_count: number | null;
+      lapse_count: number | null;
+      ease: number | null;
+    };
+    for (const row of rows as Row[]) {
       const previous = row.reviewed_at ? new Date(row.reviewed_at).getTime() : Date.now();
       const gapDays = Math.max(0, Math.floor((Date.now() - previous) / DAY_MS));
       const { error: upErr } = await (supabase as any)
@@ -53,6 +87,8 @@ export async function recordVocabReview(subject: string, words: string[]): Promi
           reviewed_at: nowIso,
           review_count: Math.max(1, row.review_count ?? 1) + 1,
           last_interval_days: gapDays,
+          lapse_count: Math.max(0, row.lapse_count ?? 0) + (failed ? 1 : 0),
+          ease: nextEase(Number(row.ease ?? 2.5), outcome),
         })
         .eq("user_id", user.id)
         .eq("subject", subject)
@@ -97,9 +133,14 @@ export const markReviewedToday = (subject: string, words: string[]) => {
  * Convenience wrapper: record the review in the database and always track it
  * locally so the daily mission progress also works for guests / offline stars.
  */
-export const recordVocabReviewTracked = async (subject: string, words: string[]) => {
-  markReviewedToday(subject, words);
-  const n = await recordVocabReview(subject, words);
+export const recordVocabReviewTracked = async (
+  subject: string,
+  words: string[],
+  outcome: ReviewOutcome = {},
+) => {
+  // A forgotten word must not count towards "reviewed today" progress.
+  if (outcome.correct !== false && outcome.grade !== "forgot") markReviewedToday(subject, words);
+  const n = await recordVocabReview(subject, words, outcome);
   if (n === 0) {
     window.dispatchEvent(new CustomEvent(VOCAB_REVIEW_EVENT, { detail: { subject, count: 0 } }));
   }
