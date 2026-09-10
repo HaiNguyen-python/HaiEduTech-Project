@@ -11,6 +11,17 @@ import { useStudyPet } from "@/hooks/useStudyPet";
 import StudyPetAvatar from "@/components/StudyPetAvatar";
 import { usePetIdentity, PET_SKINS } from "@/hooks/usePetIdentity";
 import { useChatHistory } from "@/hooks/useChatHistory";
+import { useChatVoice } from "@/hooks/useChatVoice";
+import {
+  clearChatMemories,
+  deleteChatMemory,
+  extractMemories,
+  formatMemoriesForContext,
+  loadChatMemories,
+  saveChatMemories,
+  stripMemoryTokens,
+  type ChatMemoryRow,
+} from "@/lib/chatMemory";
 
 
 type Message = { role: "user" | "assistant"; content: string };
@@ -156,6 +167,8 @@ const ChatBot = () => {
   const isMobile = useIsMobile();
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
+  const msgCountRef = useRef(0);
+  msgCountRef.current = messages.length;
   // The draft text lives inside <ChatComposer/> so typing does not re-render
   // the whole transcript. These refs/callbacks stay stable so memoized message
   // bubbles never rebuild their markdown while the student types.
@@ -192,6 +205,15 @@ const ChatBot = () => {
   const [askSending, setAskSending] = useState(false);
   const [askSent, setAskSent] = useState(false);
   const [expanded, setExpanded] = useState(false);
+  // Virtual twin: Teacher Hai's voice + the notes he keeps about this student.
+  const voice = useChatVoice();
+  const [memories, setMemories] = useState<ChatMemoryRow[]>([]);
+  const [memoryOpen, setMemoryOpen] = useState(false);
+  const memoriesRef = useRef<ChatMemoryRow[]>([]);
+  memoriesRef.current = memories;
+  const refreshMemories = useCallback(async () => {
+    setMemories(await loadChatMemories());
+  }, []);
   // AI Study Pet — evolves with the student's real learning logs
   const pet = useStudyPet();
   const petId = usePetIdentity();
@@ -497,16 +519,29 @@ const ChatBot = () => {
 
   useEffect(() => {
     loadStudentContext();
-    const { data: sub } = supabase.auth.onAuthStateChange(() => loadStudentContext());
+    refreshMemories();
+    const { data: sub } = supabase.auth.onAuthStateChange(() => {
+      loadStudentContext();
+      refreshMemories();
+    });
     return () => {
       sub.subscription.unsubscribe();
     };
-  }, [loadStudentContext]);
+  }, [loadStudentContext, refreshMemories]);
 
   // Refresh personalization data each time the chat is opened
   useEffect(() => {
-    if (open) loadStudentContext();
-  }, [open, loadStudentContext]);
+    if (open) {
+      loadStudentContext();
+      refreshMemories();
+    }
+  }, [open, loadStudentContext, refreshMemories]);
+
+  // Stop Teacher Hai's voice when the panel closes.
+  const stopVoice = voice.stop;
+  useEffect(() => {
+    if (!open) stopVoice();
+  }, [open, stopVoice]);
 
   // Notify other floating widgets (e.g. Notebook) when chatbot opens/closes
   useEffect(() => {
@@ -975,24 +1010,31 @@ const ChatBot = () => {
     // Commit the accumulated answer into the transcript (throttled below).
     const paintAssistant = () => {
       if (!assistantSoFar) return;
+      // Hide the hidden memory notes (and any half-arrived token) from the bubble.
+      const visible = stripMemoryTokens(assistantSoFar).replace(/\[\[[^\]]*$/, "");
+      if (!visible.trim()) return;
       setMessages((prev) => {
         const last = prev[prev.length - 1];
         if (last?.role === "assistant") {
-          if (last.content === assistantSoFar) return prev;
-          return prev.map((m, i) => (i === prev.length - 1 ? { ...m, content: assistantSoFar } : m));
+          if (last.content === visible) return prev;
+          return prev.map((m, i) => (i === prev.length - 1 ? { ...m, content: visible } : m));
         }
-        return [...prev, { role: "assistant", content: assistantSoFar }];
+        return [...prev, { role: "assistant", content: visible }];
       });
     };
 
     try {
+      const memoryContext = formatMemoriesForContext(memoriesRef.current);
       const resp = await fetch(CHAT_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
         },
-        body: JSON.stringify({ messages: payloadMessages, studentContext }),
+        body: JSON.stringify({
+          messages: payloadMessages,
+          studentContext: memoryContext ? `${studentContext}\n\n${memoryContext}` : studentContext,
+        }),
       });
 
       if (!resp.ok || !resp.body) {
@@ -1095,6 +1137,17 @@ const ChatBot = () => {
             : m,
         );
       });
+    }
+
+    // Persist durable notes Teacher Hai picked up in this answer, then read aloud.
+    const noted = extractMemories(assistantSoFar);
+    if (noted.length) {
+      const saved = await saveChatMemories(noted);
+      if (saved) await refreshMemories();
+    }
+    const spoken = stripMemoryTokens(assistantSoFar);
+    if (spoken.trim() && voice.autoRead) {
+      voice.speak(spoken, `m${Math.max(0, msgCountRef.current - 1)}`);
     }
 
     setIsLoading(false);
@@ -1273,6 +1326,23 @@ const ChatBot = () => {
                 aria-label="Pet info"
               >
                 <Info className="h-4 w-4 text-primary" />
+              </button>
+              <button
+                onClick={voice.toggleAutoRead}
+                onPointerDown={(e) => e.stopPropagation()}
+                className="rounded-lg p-1.5 transition-colors hover:bg-secondary shrink-0"
+                title={voice.autoRead ? t("Tắt tự động đọc", "Turn off auto read") : t("Tự động đọc câu trả lời", "Auto-read answers")}
+                aria-pressed={voice.autoRead}
+              >
+                {voice.autoRead ? <Volume2 className="h-4 w-4 text-primary" /> : <VolumeX className="h-4 w-4 text-muted-foreground" />}
+              </button>
+              <button
+                onClick={() => { setMemoryOpen((v) => !v); refreshMemories(); }}
+                onPointerDown={(e) => e.stopPropagation()}
+                className="rounded-lg p-1.5 transition-colors hover:bg-secondary shrink-0"
+                title={t("Thầy nhớ gì về em", "What Teacher Hai remembers about you")}
+              >
+                <Brain className="h-4 w-4 text-primary" />
               </button>
               <button
                 onClick={openAskTeacher}
@@ -1481,7 +1551,34 @@ const ChatBot = () => {
                 </div>
               )}
 
-              <ChatMessageList messages={messages} t={tStable} onPlacementClick={handlePlacementClick} />
+              <ChatMessageList
+                messages={messages}
+                t={tStable}
+                onPlacementClick={handlePlacementClick}
+                speakingId={voice.speakingId}
+                onSpeak={voice.speak}
+                onStopSpeak={voice.stop}
+              />
+
+              {/* Quick learning actions - keep the lesson moving like a real tutor */}
+              {messages.length > 0 && !isLoading && (
+                <div className="flex flex-wrap gap-1.5 pt-1">
+                  {[
+                    { vi: "Kiểm tra em 5 câu", en: "Quiz me with 5 questions" },
+                    { vi: "Giải thích dễ hơn", en: "Explain it more simply" },
+                    { vi: "Cho em ví dụ khác", en: "Give me another example" },
+                    { vi: "Luyện nói câu này", en: "Let me practise saying this" },
+                  ].map((q) => (
+                    <button
+                      key={q.en}
+                      onClick={() => sendMessage(t(q.vi, q.en))}
+                      className="rounded-full border border-primary/30 bg-primary/5 px-2.5 py-1 text-[11px] font-medium text-primary transition-colors hover:bg-primary/15"
+                    >
+                      {t(q.vi, q.en)}
+                    </button>
+                  ))}
+                </div>
+              )}
 
 
               {isLoading && messages[messages.length - 1]?.role !== "assistant" && (

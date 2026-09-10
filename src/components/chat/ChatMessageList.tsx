@@ -6,6 +6,7 @@
  * history static instead of re-parsing the whole conversation per token.
  */
 import { memo } from "react";
+import { Square, Volume2 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
@@ -84,9 +85,22 @@ type BubbleProps = {
   content: string;
   t: (vi: string, en: string) => string;
   onPlacementClick: (href: string) => void;
+  messageId?: string;
+  speaking?: boolean;
+  onSpeak?: (content: string, id: string) => void;
+  onStopSpeak?: () => void;
 };
 
-const ChatBubble = memo(function ChatBubble({ role, content, t, onPlacementClick }: BubbleProps) {
+const ChatBubble = memo(function ChatBubble({
+  role,
+  content,
+  t,
+  onPlacementClick,
+  messageId,
+  speaking,
+  onSpeak,
+  onStopSpeak,
+}: BubbleProps) {
   const ctaMatch = role === "assistant" ? content.match(CTA_RE) : null;
   const ctaSubject = ctaMatch?.[1]?.toLowerCase();
   const placementHref = ctaSubject
@@ -119,6 +133,18 @@ const ChatBubble = memo(function ChatBubble({ role, content, t, onPlacementClick
         )}
       </div>
 
+      {role === "assistant" && onSpeak && messageId && displayContent.length > 1 && (
+        <button
+          type="button"
+          onClick={() => (speaking ? onStopSpeak?.() : onSpeak(displayContent, messageId))}
+          className="mt-1 inline-flex items-center gap-1 rounded-lg px-2 py-1 text-[11px] font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-primary"
+          title={speaking ? t("Dừng đọc", "Stop reading") : t("Nghe thầy đọc", "Listen to Teacher Hai")}
+        >
+          {speaking ? <Square className="h-3 w-3" /> : <Volume2 className="h-3 w-3" />}
+          <span>{speaking ? t("Dừng", "Stop") : t("Nghe", "Listen")}</span>
+        </button>
+      )}
+
       {ctaMatch && (
         <div className="mt-3 grid w-full max-w-[92%] grid-cols-2 gap-2">
           <button
@@ -149,9 +175,19 @@ type Props = {
   messages: ChatMessage[];
   t: (vi: string, en: string) => string;
   onPlacementClick: (href: string) => void;
+  speakingId?: string | null;
+  onSpeak?: (content: string, id: string) => void;
+  onStopSpeak?: () => void;
 };
 
-const ChatMessageList = memo(function ChatMessageList({ messages, t, onPlacementClick }: Props) {
+const ChatMessageList = memo(function ChatMessageList({
+  messages,
+  t,
+  onPlacementClick,
+  speakingId,
+  onSpeak,
+  onStopSpeak,
+}: Props) {
   return (
     <>
       {messages.map((msg, i) => (
@@ -161,6 +197,10 @@ const ChatMessageList = memo(function ChatMessageList({ messages, t, onPlacement
           content={msg.content}
           t={t}
           onPlacementClick={onPlacementClick}
+          messageId={`m${i}`}
+          speaking={speakingId === `m${i}`}
+          onSpeak={onSpeak}
+          onStopSpeak={onStopSpeak}
         />
       ))}
     </>
