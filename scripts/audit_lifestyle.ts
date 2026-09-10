@@ -1,4 +1,5 @@
 import { LIFESTYLE_LESSONS as lifestyleLessons } from "../src/data/lifestyleAcademyLessons";
+import { getLessonQuiz } from "../src/lib/lifestyleQuizBuilder";
 const all = lifestyleLessons as any[];
 const byPillar: Record<string, any[]> = {};
 const ids = new Set<string>();
@@ -18,6 +19,21 @@ for (const l of all) {
   if ((l.takeaways||[]).some((t:any)=>!t.vi||!t.en)) issues.push(`${l.id}: takeaway missing lang`);
   if (String(JSON.stringify(l)).includes("—")) issues.push(`${l.id}: em-dash`);
   if (!l.minutes || l.minutes < 4) issues.push(`${l.id}: minutes`);
+}
+// Quiz coverage: every lesson must expose exactly 4 bilingual MCQs.
+for (const l of all) {
+  const quiz = getLessonQuiz(l);
+  if (quiz.length !== 4) { issues.push(`${l.id}: quiz count ${quiz.length}`); continue; }
+  quiz.forEach((q, qi) => {
+    const tag = `${l.id} q${qi + 1}`;
+    if (!q.questionVi || !q.questionEn) issues.push(`${tag}: quiz question missing lang`);
+    if (q.options.length !== 4) issues.push(`${tag}: quiz options ${q.options.length}`);
+    if (q.options.some(o => !o.vi || !o.en)) issues.push(`${tag}: quiz option missing lang`);
+    if (new Set(q.options.map(o => o.en)).size !== q.options.length) issues.push(`${tag}: duplicate quiz options`);
+    if (q.answer < 0 || q.answer > 3) issues.push(`${tag}: bad answer index`);
+    if (!q.explanationVi || !q.explanationEn) issues.push(`${tag}: quiz explanation missing`);
+    if (JSON.stringify(q).includes("—")) issues.push(`${tag}: quiz em-dash`);
+  });
 }
 const PILLARS = ["finance","etiquette","presence","wellness","selfstudy","partying"];
 for (const p of PILLARS) if (!byPillar[p]) issues.push(`missing pillar ${p}`);

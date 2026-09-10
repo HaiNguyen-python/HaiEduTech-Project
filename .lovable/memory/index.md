@@ -1,7 +1,8 @@
 # Project Memory
 
 ## Memories
-- [Lifestyle Pillars](mem://features/lifestyle/self-study-pillar) - 5 pillars / 87 lessons, Self-Study Skills pillar ss-01..ss-15, indigo theme
+- [Lifestyle Pillars](mem://features/lifestyle/self-study-pillar) - 6 pillars / 102 lessons incl. Partying pty-01..pty-15, Self-Study ss-01..ss-15
+- [Lifestyle quizzes & radar](mem://features/lifestyle/quiz-and-radar) - 4-question quiz per lesson, 6-pillar soft-skills radar, progress table
 - [World Visitor Map](mem://features/home/world-visitor-map) - country visits deduplicated per visitor/day, no locale guessing, public aggregate student/page-view counts
 - [My Learning Path](mem://features/personalization/my-learning-path) - /my-path personalization for 13 subjects: wizard, weekly plan, readiness forecast, AI coach
 - [Placement to Path](mem://features/personalization/placement-to-path) - placement test ends with level, skill scores and a seeded My Path plan; Japanese/Swedish banks

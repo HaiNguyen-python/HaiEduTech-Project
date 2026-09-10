@@ -19,6 +19,8 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { emphasize } from "@/lib/lifestyleEmphasis";
 import { getLessonImage } from "@/data/lifestyleLessonImages";
 import type { LifestyleLesson } from "@/data/lifestyleAcademyLessons";
+import LessonQuiz from "@/components/lifestyle/LessonQuiz";
+import type { LifestyleLessonResult } from "@/hooks/useLifestyleProgress";
 
 export interface LessonDialogStyles {
   border: string;
@@ -37,6 +39,8 @@ interface LessonDialogProps {
   accentText: string;
   pillarTitle: string;
   levelLabel: string;
+  onQuizFinish?: (result: LifestyleLessonResult) => void;
+  previousScore?: number;
 }
 
 const LessonDialog = ({
@@ -48,6 +52,8 @@ const LessonDialog = ({
   accentText,
   pillarTitle,
   levelLabel,
+  onQuizFinish,
+  previousScore,
 }: LessonDialogProps) => {
   const { t, lang } = useLanguage();
   const vi = lang === "vi";
@@ -200,6 +206,8 @@ const LessonDialog = ({
                 </p>
               </section>
             )}
+
+            <LessonQuiz lesson={lesson} onFinish={onQuizFinish} previousScore={previousScore} />
           </div>
         </div>
       </DialogContent>
