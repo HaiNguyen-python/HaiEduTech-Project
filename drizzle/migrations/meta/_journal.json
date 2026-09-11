@@ -8,6 +8,13 @@
       "when": 1789125957409,
       "tag": "0000_placement_results_class_link",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1789148541033,
+      "tag": "0001_tighten_content_and_hsk_translation_access",
+      "breakpoints": true
     }
   ]
 }
