@@ -14,9 +14,9 @@ interface Row {
   id: string;
   slug: string;
   kind: string;
-  title_vi: string | null;
+  title: string | null;
   title_en: string | null;
-  summary_vi: string | null;
+  summary: string | null;
   summary_en: string | null;
   subject: string | null;
   level: string | null;
@@ -41,7 +41,7 @@ export default function PublishedContentStrip({
     let active = true;
     supabase
       .from("content_items")
-      .select("id, slug, kind, title_vi, title_en, summary_vi, summary_en, subject, level, published_at")
+      .select("id, slug, kind, title, title_en, summary, summary_en, subject, level, published_at")
       .eq("kind", kind)
       .eq("status", "published")
       .order("published_at", { ascending: false })
@@ -69,8 +69,8 @@ export default function PublishedContentStrip({
       </div>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {rows.map((row) => {
-          const title = t(row.title_vi || row.title_en || "", row.title_en || row.title_vi || "");
-          const summary = t(row.summary_vi || row.summary_en || "", row.summary_en || row.summary_vi || "");
+          const title = t(row.title || row.title_en || "", row.title_en || row.title || "");
+          const summary = t(row.summary || row.summary_en || "", row.summary_en || row.summary || "");
           return (
             <Link
               key={row.id}
