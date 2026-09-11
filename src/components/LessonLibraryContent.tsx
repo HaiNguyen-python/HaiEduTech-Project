@@ -5,6 +5,7 @@ import { BookOpen, Code2, Languages, Loader2, ArrowRight, Filter, Sparkles } fro
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Badge } from "@/components/ui/badge";
+import PublishedContentStrip from "@/components/content/PublishedContentStrip";
 
 const CATEGORY_LABELS: Record<string, { vi: string; en: string; icon: string }> = {
   grammar: { vi: "Ngữ pháp", en: "Grammar", icon: "📝" },
