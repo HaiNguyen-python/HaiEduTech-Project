@@ -4382,6 +4382,10 @@ export type Database = {
         Args: { _notebook_id: string }
         Returns: boolean
       }
+      content_object_visible: {
+        Args: { _name: string; _require_public: boolean }
+        Returns: boolean
+      }
       delete_email: {
         Args: { message_id: number; queue_name: string }
         Returns: boolean
