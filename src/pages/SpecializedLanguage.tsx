@@ -1,34 +1,11 @@
-import { useState, useRef } from "react";
-import { useSearchParams, useNavigate, Link } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  Stethoscope,
-  Code2,
-  HardHat,
-  Hotel,
-  Briefcase,
-  GraduationCap,
-  Truck,
-  Scale,
-  Plane,
-  Sparkles,
-  Loader2,
-  ArrowRight,
-  ArrowLeft,
-  BookOpen,
-  MessageCircle,
-  Languages,
-  Lightbulb,
-  Target,
-  Save,
-  Download,
-  ListChecks,
-  ChevronRight,
-  Globe,
-} from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
+import { ArrowLeft, ArrowRight, BookOpen, Briefcase, Check, Clock3, Code2, Download, GraduationCap, HardHat, Hotel, Languages, Loader2, Plane, RotateCcw, Save, Scale, Sparkles, Stethoscope, Target, Trash2, Truck } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
+import SpecializedLessonView from "@/components/specialized/SpecializedLessonView";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -36,51 +13,28 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Card, CardContent } from "@/components/ui/card";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
-import jsPDF from "jspdf";
+import { safeStorage } from "@/lib/safeStorage";
+import type { Json } from "@/integrations/supabase/types";
+import type { LearnerLevel, SpecializedCurriculum, SpecializedLang, SpecializedProgress } from "@/lib/specializedLanguage";
+import { curriculumToMarkdown, emptySpecializedProgress, isSpecializedLang, validateCurriculum } from "@/lib/specializedLanguage";
+import specializedHero from "@/assets/specialized-language-professionals.jpg";
 
-type LangKey = "english" | "chinese" | "vietnamese" | "finnish";
+const STORAGE_KEY = "specialized-learning-path-v2";
 
-interface VocabItem {
-  term: string;
-  pinyin?: string;
-  translation: string;
-  partOfSpeech: string;
-  example: string;
-  exampleTranslation: string;
-}
-interface Scenario {
-  title: string;
-  context: string;
-  dialogue: { speaker: string; line: string; translation: string }[];
-  keyPhrases: string[];
-}
-interface GrammarPoint {
-  point: string;
-  explanation: string;
-  examples: string[];
-}
-interface Lesson {
-  title: string;
-  subtitle: string;
-  overview: string;
-  vocabulary: VocabItem[];
-  scenarios: Scenario[];
-  grammar: GrammarPoint[];
-  tutorTips: string[];
-  culturalTip: string;
-  practiceTask: string;
-}
-
-const LANG_OPTIONS: { key: LangKey; label: string; flag: string; gradient: string }[] = [
-  { key: "english", label: "English", flag: "🇬🇧", gradient: "from-blue-500 to-indigo-600" },
-  { key: "chinese", label: "中文 Chinese", flag: "🇨🇳", gradient: "from-red-500 to-rose-600" },
-  { key: "vietnamese", label: "Tiếng Việt", flag: "🇻🇳", gradient: "from-amber-500 to-red-500" },
-  { key: "finnish", label: "Suomi Finnish", flag: "🇫🇮", gradient: "from-sky-500 to-blue-700" },
+const LANG_OPTIONS: { key: SpecializedLang; label: string; flag: string }[] = [
+  { key: "english", label: "English", flag: "🇬🇧" },
+  { key: "chinese", label: "中文 Chinese", flag: "🇨🇳" },
+  { key: "vietnamese", label: "Tiếng Việt", flag: "🇻🇳" },
+  { key: "finnish", label: "Suomi Finnish", flag: "🇫🇮" },
+  { key: "swedish", label: "Svenska Swedish", flag: "🇸🇪" },
+  { key: "japanese", label: "日本語 Japanese", flag: "🇯🇵" },
 ];
 
-const FIELD_PRESETS: { label: string; icon: typeof Stethoscope }[] = [
+const FIELD_PRESETS = [
   { label: "Medical / Healthcare", icon: Stethoscope },
   { label: "Information Technology", icon: Code2 },
   { label: "Construction & Engineering", icon: HardHat },
@@ -92,649 +46,172 @@ const FIELD_PRESETS: { label: string; icon: typeof Stethoscope }[] = [
   { label: "Aviation", icon: Plane },
 ];
 
-const GOAL_PRESETS = [
-  "Job interview preparation",
-  "Writing daily reports",
-  "Communicating with customers",
-  "Understanding technical documentation",
-  "Leading team meetings",
-  "Networking at conferences",
-];
+const GOALS = ["Job interview preparation", "Writing daily reports", "Communicating with customers", "Understanding technical documentation", "Leading team meetings", "Networking at conferences"];
 
-const SpecializedLanguage = () => {
+interface StoredPath {
+  pathId?: string;
+  curriculum: SpecializedCurriculum;
+  citations: string[];
+  progress: SpecializedProgress;
+  form: { language: SpecializedLang; field: string; jobRole: string; goal: string; learnerLevel: LearnerLevel; dailyMinutes: number; notes: string };
+}
+
+const parseProgress = (value: Json | null): SpecializedProgress => {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return emptySpecializedProgress();
+  const progress = value as Record<string, unknown>;
+  return {
+    currentLesson: typeof progress.currentLesson === "number" ? progress.currentLesson : 0,
+    bestScores: progress.bestScores && typeof progress.bestScores === "object" && !Array.isArray(progress.bestScores) ? progress.bestScores as Record<string, number> : {},
+    completedLessons: Array.isArray(progress.completedLessons) ? progress.completedLessons.filter((item): item is string => typeof item === "string") : [],
+  };
+};
+
+export default function SpecializedLanguage() {
   const [searchParams] = useSearchParams();
-  const initialLang = (searchParams.get("lang") as LangKey) || "english";
   const navigate = useNavigate();
   const { toast } = useToast();
-
+  const { t } = useLanguage();
+  const requestedLanguage = searchParams.get("lang");
   const [step, setStep] = useState(1);
-  const [language, setLanguage] = useState<LangKey>(initialLang);
+  const [language, setLanguage] = useState<SpecializedLang>(isSpecializedLang(requestedLanguage) ? requestedLanguage : "english");
+  const [learnerLevel, setLearnerLevel] = useState<LearnerLevel>("elementary");
   const [field, setField] = useState("");
   const [jobRole, setJobRole] = useState("");
   const [goal, setGoal] = useState("");
+  const [dailyMinutes, setDailyMinutes] = useState(20);
   const [notes, setNotes] = useState("");
   const [loading, setLoading] = useState(false);
-  const [lesson, setLesson] = useState<Lesson | null>(null);
+  const [restoring, setRestoring] = useState(true);
+  const [pathId, setPathId] = useState<string>();
+  const [curriculum, setCurriculum] = useState<SpecializedCurriculum | null>(null);
   const [citations, setCitations] = useState<string[]>([]);
-  const lessonRef = useRef<HTMLDivElement>(null);
+  const [progress, setProgress] = useState<SpecializedProgress>(emptySpecializedProgress);
+  const resultRef = useRef<HTMLDivElement>(null);
 
-  const totalSteps = 4;
-  const canProceed =
-    (step === 1 && !!language) ||
-    (step === 2 && field.trim().length >= 2) ||
-    (step === 3 && jobRole.trim().length >= 2) ||
-    (step === 4 && goal.trim().length >= 3);
+  const langMeta = LANG_OPTIONS.find((option) => option.key === language) ?? LANG_OPTIONS[0];
+  const totalSteps = 5;
+  const canProceed = (step === 1 && !!language && !!learnerLevel) || (step === 2 && field.trim().length >= 2) || (step === 3 && jobRole.trim().length >= 2) || (step === 4 && goal.trim().length >= 3) || step === 5;
 
-  const handleGenerate = async () => {
-    if (!canProceed) return;
+  const form = useMemo(() => ({ language, field, jobRole, goal, learnerLevel, dailyMinutes, notes }), [language, field, jobRole, goal, learnerLevel, dailyMinutes, notes]);
+
+  useEffect(() => {
+    let active = true;
+    const restore = async () => {
+      const { data: authData } = await supabase.auth.getUser();
+      if (authData.user) {
+        const { data } = await supabase.from("specialized_learning_paths").select("*").eq("user_id", authData.user.id).order("updated_at", { ascending: false }).limit(1).maybeSingle();
+        if (active && data && validateCurriculum(data.curriculum)) {
+          setPathId(data.id); setCurriculum(data.curriculum); setCitations(data.citations); setProgress(parseProgress(data.progress));
+          setLanguage(isSpecializedLang(data.language) ? data.language : "english"); setField(data.field); setJobRole(data.job_role); setGoal(data.goal);
+          setLearnerLevel(data.learner_level as LearnerLevel); setDailyMinutes(data.daily_minutes); setNotes(data.notes);
+        }
+      } else {
+        const saved = safeStorage.get<StoredPath>(STORAGE_KEY);
+        if (active && saved && validateCurriculum(saved.curriculum)) {
+          setPathId(saved.pathId); setCurriculum(saved.curriculum); setCitations(saved.citations); setProgress(saved.progress); setLanguage(saved.form.language);
+          setField(saved.form.field); setJobRole(saved.form.jobRole); setGoal(saved.form.goal); setLearnerLevel(saved.form.learnerLevel); setDailyMinutes(saved.form.dailyMinutes); setNotes(saved.form.notes);
+        }
+      }
+      if (active) setRestoring(false);
+    };
+    void restore();
+    return () => { active = false; };
+  }, []);
+
+  const persist = async (nextCurriculum: SpecializedCurriculum, nextProgress: SpecializedProgress, nextCitations = citations) => {
+    const stored: StoredPath = { pathId, curriculum: nextCurriculum, citations: nextCitations, progress: nextProgress, form };
+    const { data: authData } = await supabase.auth.getUser();
+    if (!authData.user) { safeStorage.set(STORAGE_KEY, stored); return; }
+    const payload = {
+      user_id: authData.user.id, language, field, job_role: jobRole, goal, learner_level: learnerLevel, daily_minutes: dailyMinutes, notes,
+      curriculum: nextCurriculum as unknown as Json, progress: nextProgress as unknown as Json, citations: nextCitations,
+    };
+    if (pathId) await supabase.from("specialized_learning_paths").update(payload).eq("id", pathId);
+    else {
+      const { data, error } = await supabase.from("specialized_learning_paths").insert(payload).select("id").single();
+      if (!error && data) setPathId(data.id);
+    }
+  };
+
+  const generate = async () => {
     setLoading(true);
-    setLesson(null);
-    setCitations([]);
     try {
-      const { data, error } = await supabase.functions.invoke("generate-specialized-lesson", {
-        body: { language, field, jobRole, goal, notes },
-      });
+      const { data, error } = await supabase.functions.invoke("generate-specialized-lesson", { body: form });
       if (error) throw error;
-      if (!data?.lesson) throw new Error(data?.error || "No lesson returned");
-      setLesson(data.lesson as Lesson);
-      setCitations(data.citations || []);
-      setTimeout(() => {
-        lessonRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 100);
-      toast({ title: "Lesson ready!", description: "Your custom curriculum is below." });
-    } catch (e: any) {
-      const msg = e?.message || "Something went wrong";
-      toast({
-        title: "Generation failed",
-        description: msg.includes("Rate limit")
-          ? "Too many requests. Please wait a minute and retry."
-          : msg.includes("credits")
-            ? "AI credits exhausted. Please top up the workspace."
-            : msg,
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
-    }
+      if (!validateCurriculum(data?.curriculum)) throw new Error(data?.error || t("Lộ trình chưa đầy đủ. Vui lòng thử lại.", "The pathway was incomplete. Please try again."));
+      const nextProgress = emptySpecializedProgress();
+      setPathId(undefined); setCurriculum(data.curriculum); setCitations(data.citations ?? []); setProgress(nextProgress);
+      await persist(data.curriculum, nextProgress, data.citations ?? []);
+      window.setTimeout(() => resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
+      toast({ title: t("Lộ trình 5 bài đã sẵn sàng", "Your five-lesson pathway is ready") });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : t("Không thể tạo lộ trình.", "Could not generate the pathway.");
+      toast({ title: t("Tạo lộ trình thất bại", "Generation failed"), description: message, variant: "destructive" });
+    } finally { setLoading(false); }
   };
 
-  const handleSaveToNotebook = async () => {
-    if (!lesson) return;
-    const { data: userData } = await supabase.auth.getUser();
-    if (!userData.user) {
-      toast({
-        title: "Please sign in",
-        description: "You need an account to save lessons to your notebook.",
-        variant: "destructive",
-      });
-      navigate("/login");
-      return;
-    }
-    const content = lessonToMarkdown(lesson, citations);
-    const { error } = await supabase.from("student_notebooks").insert({
-      user_id: userData.user.id,
-      title: `[${LANG_OPTIONS.find((l) => l.key === language)?.label}] ${lesson.title}`,
-      subject: `Specialized ${language}`,
-      content,
-    });
-    if (error) {
-      toast({ title: "Save failed", description: error.message, variant: "destructive" });
-    } else {
-      toast({ title: "Saved to your Smart Notebook" });
-    }
+  const updateScore = async (lessonIndex: number, score: number) => {
+    if (!curriculum) return;
+    const lessonId = curriculum.lessons[lessonIndex].id;
+    const best = Math.max(progress.bestScores[lessonId] ?? 0, score);
+    const completedLessons = best >= 75 ? [...new Set([...progress.completedLessons, lessonId])] : progress.completedLessons;
+    const nextProgress = { currentLesson: best >= 75 ? Math.min(lessonIndex + 1, 4) : lessonIndex, bestScores: { ...progress.bestScores, [lessonId]: best }, completedLessons };
+    setProgress(nextProgress);
+    await persist(curriculum, nextProgress);
+    toast({ title: best >= 75 ? t("Đã mở bài tiếp theo", "Next lesson unlocked") : t("Chưa đạt 75%", "Below 75%"), description: best >= 75 ? t("Tiến độ đã được lưu.", "Your progress has been saved.") : t("Hãy xem giải thích và làm lại.", "Review the explanations and try again.") });
   };
 
-  const handleExportPdf = () => {
-    if (!lesson) return;
-    const doc = new jsPDF({ unit: "pt", format: "a4" });
-    const pageWidth = doc.internal.pageSize.getWidth();
-    const margin = 40;
-    const maxWidth = pageWidth - margin * 2;
-    let y = margin;
-
-    const addText = (text: string, size = 11, bold = false, color: [number, number, number] = [30, 30, 30]) => {
-      doc.setFont("helvetica", bold ? "bold" : "normal");
-      doc.setFontSize(size);
-      doc.setTextColor(...color);
-      const lines = doc.splitTextToSize(text, maxWidth);
-      lines.forEach((ln: string) => {
-        if (y > 800) { doc.addPage(); y = margin; }
-        doc.text(ln, margin, y);
-        y += size * 1.3;
-      });
-    };
-    const addSpace = (n = 8) => { y += n; };
-    const addHeading = (text: string) => {
-      addSpace(10);
-      addText(text, 14, true, [37, 99, 235]);
-      addSpace(4);
-    };
-
-    addText(lesson.title, 18, true, [17, 24, 39]);
-    addText(lesson.subtitle, 11, false, [100, 100, 100]);
-    addSpace(6);
-    addText(lesson.overview, 11);
-
-    addHeading("Vocabulary");
-    lesson.vocabulary.forEach((v, i) => {
-      addText(`${i + 1}. ${v.term}${v.pinyin ? ` (${v.pinyin})` : ""} - ${v.translation} [${v.partOfSpeech}]`, 11, true);
-      addText(`   Ex: ${v.example} - ${v.exampleTranslation}`, 10, false, [80, 80, 80]);
-    });
-
-    addHeading("Workplace Scenarios");
-    lesson.scenarios.forEach((s, i) => {
-      addText(`${i + 1}. ${s.title}`, 12, true);
-      addText(s.context, 10, false, [80, 80, 80]);
-      s.dialogue.forEach((d) => addText(`   ${d.speaker}: ${d.line} (${d.translation})`, 10));
-      addText(`   Key phrases: ${s.keyPhrases.join(" | ")}`, 10, false, [37, 99, 235]);
-      addSpace(4);
-    });
-
-    addHeading("Grammar Focus");
-    lesson.grammar.forEach((g) => {
-      addText(g.point, 12, true);
-      addText(g.explanation, 10);
-      g.examples.forEach((ex) => addText(`   - ${ex}`, 10, false, [80, 80, 80]));
-    });
-
-    addHeading("AI Tutor Tips");
-    lesson.tutorTips.forEach((t, i) => addText(`${i + 1}. ${t}`, 10));
-
-    addHeading("Cultural Tip");
-    addText(lesson.culturalTip, 10);
-
-    addHeading("Practice Task");
-    addText(lesson.practiceTask, 11, true, [16, 185, 129]);
-
-    if (citations.length) {
-      addHeading("Sources");
-      citations.slice(0, 8).forEach((c, i) => addText(`[${i + 1}] ${c}`, 8, false, [120, 120, 120]));
-    }
-
-    doc.save(`${lesson.title.slice(0, 60).replace(/[^a-z0-9]+/gi, "_")}.pdf`);
-    toast({ title: "PDF downloaded" });
+  const removePath = async () => {
+    if (pathId) await supabase.from("specialized_learning_paths").delete().eq("id", pathId);
+    safeStorage.remove(STORAGE_KEY); setPathId(undefined); setCurriculum(null); setProgress(emptySpecializedProgress()); setStep(1);
+    toast({ title: t("Đã xóa lộ trình", "Pathway deleted") });
   };
 
-  const langMeta = LANG_OPTIONS.find((l) => l.key === language)!;
+  const saveNotebook = async () => {
+    if (!curriculum) return;
+    const { data } = await supabase.auth.getUser();
+    if (!data.user) { toast({ title: t("Vui lòng đăng nhập", "Please sign in"), variant: "destructive" }); navigate("/login"); return; }
+    const title = `[${langMeta.label}] ${curriculum.title}`;
+    const content = curriculumToMarkdown(curriculum, citations);
+    const { data: existing } = await supabase.from("student_notebooks").select("id").eq("user_id", data.user.id).eq("title", title).maybeSingle();
+    const result = existing ? await supabase.from("student_notebooks").update({ content, subject: `Specialized ${language}` }).eq("id", existing.id) : await supabase.from("student_notebooks").insert({ user_id: data.user.id, title, subject: `Specialized ${language}`, content });
+    toast({ title: result.error ? t("Không thể lưu", "Save failed") : t("Đã lưu vào Notebook", "Saved to Notebook"), description: result.error?.message, variant: result.error ? "destructive" : "default" });
+  };
 
-  return (
-    <div className="min-h-screen bg-background">
-      <SEO
-        title="Specialized Language Hub - AI-Powered Industry Lessons | HaiEduTech"
-        description="Generate personalized industry-focused language lessons in English, Chinese, Vietnamese, or Finnish using AI."
-      />
-      <Navbar />
+  const printPath = () => window.print();
+  const startNew = () => { setCurriculum(null); setPathId(undefined); setProgress(emptySpecializedProgress()); setStep(1); window.scrollTo({ top: 0, behavior: "smooth" }); };
 
-      {/* Hero */}
-      <section className={`relative overflow-hidden bg-gradient-to-br ${langMeta.gradient} text-white pt-28 pb-12 sm:pt-32 sm:pb-16`}>
-        <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "radial-gradient(circle at 20% 20%, white 1px, transparent 1px), radial-gradient(circle at 80% 60%, white 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
-        <div className="container mx-auto px-4 relative grid lg:grid-cols-[1.1fr_1fr] gap-10 items-center">
-          <div>
-            <h1 className="text-3xl sm:text-5xl font-bold mb-4">
-              Specialized Language Hub <span className="text-2xl sm:text-3xl">{langMeta.flag}</span>
-            </h1>
-            <p className="text-base sm:text-lg max-w-2xl opacity-95">
-              Build a custom industry-ready curriculum in minutes. Tell us your field, role, and goal - the AI tutor crafts vocabulary, scenarios, grammar, and cultural tips tailored to your career.
-            </p>
-            {/* Industry chips */}
-            <div className="hidden sm:flex flex-wrap gap-2 mt-6">
-              {[
-                { icon: "⚕️", label: "Medical" },
-                { icon: "⚖️", label: "Legal" },
-                { icon: "💻", label: "Tech & IT" },
-                { icon: "📈", label: "Finance" },
-                { icon: "✈️", label: "Aviation" },
-                { icon: "🏗️", label: "Engineering" },
-                { icon: "🎓", label: "Academic" },
-              ].map((c) => (
-                <span key={c.label} className="px-3 py-1.5 rounded-full bg-white/15 backdrop-blur-sm border border-white/25 text-sm font-medium">
-                  <span className="mr-1.5">{c.icon}</span>{c.label}
-                </span>
-              ))}
-            </div>
-          </div>
+  return <div className="min-h-screen bg-background">
+    <SEO title="Specialized Language Pathways | HaiEduTech" description="Build a five-lesson professional language pathway in English, Chinese, Vietnamese, Finnish, Swedish or Japanese." />
+    <Navbar />
+    <section className="relative overflow-hidden border-b bg-primary text-primary-foreground">
+      <img src={specializedHero} alt="International professionals learning workplace languages" width={1600} height={900} className="absolute inset-0 h-full w-full object-cover opacity-25" />
+      <div className="absolute inset-0 bg-primary/60" />
+      <div className="container relative mx-auto grid min-h-[360px] items-end gap-8 px-4 pb-10 pt-28 lg:grid-cols-[1fr_360px] lg:items-center lg:pb-12">
+        <div><Badge className="mb-4 bg-background text-foreground">{langMeta.flag} {langMeta.label}</Badge><h1 className="max-w-3xl text-3xl font-bold sm:text-5xl">Specialized Language Hub</h1><p className="mt-4 max-w-2xl text-base leading-relaxed sm:text-lg">{t("Lộ trình chuyên ngành 5 bài, kết hợp từ vựng, hội thoại, phát âm, luyện nói và kiểm tra tiến độ.", "A five-lesson professional pathway combining vocabulary, dialogue, pronunciation, speaking and progress checks.")}</p></div>
+        <div className="grid grid-cols-3 gap-2 rounded-lg border border-primary-foreground/30 bg-background/10 p-3 backdrop-blur-sm">{LANG_OPTIONS.map((option) => <div key={option.key} className="text-center"><span className="text-2xl">{option.flag}</span><p className="mt-1 text-xs font-medium">{option.label.split(" ").at(-1)}</p></div>)}</div>
+      </div>
+    </section>
 
-          {/* Industry illustration collage */}
-          <div className="hidden lg:block relative h-72 xl:h-80">
-            {[
-              { src: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=420&q=70", alt: "Medical professional", className: "top-0 left-0 w-44 h-52 rotate-[-6deg]", tag: "⚕️ Medical" },
-              { src: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=420&q=70", alt: "Legal documents", className: "top-4 left-44 w-44 h-44 rotate-[4deg]", tag: "⚖️ Legal" },
-              { src: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=420&q=70", alt: "Software engineering", className: "bottom-0 left-8 w-48 h-44 rotate-[2deg]", tag: "💻 Tech" },
-              { src: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=420&q=70", alt: "Finance charts", className: "bottom-4 right-4 w-44 h-44 rotate-[-4deg]", tag: "📈 Finance" },
-              { src: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=420&q=70", alt: "Aviation cockpit", className: "top-0 right-0 w-40 h-40 rotate-[6deg]", tag: "✈️ Aviation" },
-            ].map((img, i) => (
-              <figure
-                key={i}
-                className={`absolute ${img.className} rounded-2xl overflow-hidden ring-2 ring-white/40 shadow-2xl transition-transform hover:rotate-0 hover:scale-105 hover:z-10 bg-white/10`}
-              >
-                <img src={img.src} alt={img.alt} loading="lazy" className="w-full h-full object-cover" />
-                <figcaption className="absolute bottom-0 left-0 right-0 px-2 py-1 bg-gradient-to-t from-black/85 to-transparent text-white text-[11px] font-semibold">
-                  {img.tag}
-                </figcaption>
-              </figure>
-            ))}
-            {/* Floating sparkle accent */}
-            <div className="absolute -top-4 -right-4 w-16 h-16 rounded-full bg-white/20 blur-2xl" />
-            <div className="absolute bottom-8 left-2 w-20 h-20 rounded-full bg-white/15 blur-2xl" />
-          </div>
-        </div>
-      </section>
-
-      <main className="container mx-auto px-4 py-10 max-w-5xl">
-        {/* Multi-step form */}
-        <Card className="border-2 shadow-lg">
-          <CardContent className="p-6 sm:p-8">
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center gap-2">
-                <Badge variant="outline" className="text-xs">Step {step} / {totalSteps}</Badge>
-                <span className="text-sm text-muted-foreground">Needs Assessment</span>
-              </div>
-              <Progress value={(step / totalSteps) * 100} className="w-32" />
-            </div>
-
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={step}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.25 }}
-              >
-                {step === 1 && (
-                  <div>
-                    <Label className="text-lg font-semibold flex items-center gap-2 mb-4">
-                      <Globe className="w-5 h-5 text-primary" /> Choose your target language
-                    </Label>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                      {LANG_OPTIONS.map((opt) => (
-                        <button
-                          key={opt.key}
-                          onClick={() => setLanguage(opt.key)}
-                          className={`p-4 rounded-xl border-2 transition-all text-center ${
-                            language === opt.key
-                              ? "border-primary bg-primary/5 shadow-md scale-105"
-                              : "border-border hover:border-primary/50"
-                          }`}
-                        >
-                          <div className="text-3xl mb-2">{opt.flag}</div>
-                          <div className="font-semibold text-sm">{opt.label}</div>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {step === 2 && (
-                  <div>
-                    <Label className="text-lg font-semibold flex items-center gap-2 mb-4">
-                      <Briefcase className="w-5 h-5 text-primary" /> What's your specialized field?
-                    </Label>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-4">
-                      {FIELD_PRESETS.map((p) => {
-                        const Icon = p.icon;
-                        return (
-                          <button
-                            key={p.label}
-                            onClick={() => setField(p.label)}
-                            className={`p-3 rounded-lg border text-left flex items-center gap-2 transition-all text-sm ${
-                              field === p.label
-                                ? "border-primary bg-primary/5"
-                                : "border-border hover:border-primary/50"
-                            }`}
-                          >
-                            <Icon className="w-4 h-4 text-primary shrink-0" />
-                            <span>{p.label}</span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                    <Input
-                      placeholder="Or type your own (e.g., Renewable Energy, Cybersecurity)"
-                      value={field}
-                      onChange={(e) => setField(e.target.value)}
-                      maxLength={200}
-                    />
-                  </div>
-                )}
-
-                {step === 3 && (
-                  <div>
-                    <Label className="text-lg font-semibold flex items-center gap-2 mb-4">
-                      <Target className="w-5 h-5 text-primary" /> Your specific job role
-                    </Label>
-                    <Input
-                      placeholder="e.g., Junior Backend Developer, Registered Nurse, Site Engineer"
-                      value={jobRole}
-                      onChange={(e) => setJobRole(e.target.value)}
-                      maxLength={200}
-                      className="text-base"
-                    />
-                    <p className="text-xs text-muted-foreground mt-2">
-                      The more specific you are, the better the curriculum.
-                    </p>
-                  </div>
-                )}
-
-                {step === 4 && (
-                  <div className="space-y-4">
-                    <div>
-                      <Label className="text-lg font-semibold flex items-center gap-2 mb-4">
-                        <Lightbulb className="w-5 h-5 text-primary" /> Your learning goal
-                      </Label>
-                      <div className="flex flex-wrap gap-2 mb-3">
-                        {GOAL_PRESETS.map((g) => (
-                          <button
-                            key={g}
-                            onClick={() => setGoal(g)}
-                            className={`px-3 py-1.5 text-xs rounded-full border transition-all ${
-                              goal === g
-                                ? "border-primary bg-primary text-primary-foreground"
-                                : "border-border hover:border-primary/50"
-                            }`}
-                          >
-                            {g}
-                          </button>
-                        ))}
-                      </div>
-                      <Input
-                        placeholder="Or describe in your own words"
-                        value={goal}
-                        onChange={(e) => setGoal(e.target.value)}
-                        maxLength={500}
-                      />
-                    </div>
-                    <div>
-                      <Label className="text-sm font-medium mb-2 block">
-                        Special requirements (optional)
-                      </Label>
-                      <Textarea
-                        placeholder="Notes, scenarios, or documents you want to focus on..."
-                        value={notes}
-                        onChange={(e) => setNotes(e.target.value)}
-                        maxLength={1000}
-                        rows={4}
-                      />
-                    </div>
-                  </div>
-                )}
-              </motion.div>
-            </AnimatePresence>
-
-            <div className="flex justify-between mt-8">
-              <Button
-                variant="outline"
-                onClick={() => setStep((s) => Math.max(1, s - 1))}
-                disabled={step === 1 || loading}
-              >
-                <ArrowLeft className="w-4 h-4 mr-2" /> Back
-              </Button>
-              {step < totalSteps ? (
-                <Button onClick={() => setStep((s) => s + 1)} disabled={!canProceed}>
-                  Next <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-              ) : (
-                <Button
-                  onClick={handleGenerate}
-                  disabled={!canProceed || loading}
-                  className={`bg-gradient-to-r ${langMeta.gradient} text-white hover:opacity-90`}
-                >
-                  {loading ? (
-                    <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Generating...</>
-                  ) : (
-                    <><Sparkles className="w-4 h-4 mr-2" /> Generate Lesson</>
-                  )}
-                </Button>
-              )}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Loading state */}
-        {loading && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="mt-8 p-8 rounded-xl border-2 border-dashed border-primary/30 bg-primary/5 text-center"
-          >
-            <div className="flex justify-center gap-2 mb-4">
-              {[0, 1, 2].map((i) => (
-                <motion.div
-                  key={i}
-                  animate={{ y: [0, -10, 0] }}
-                  transition={{ duration: 0.8, repeat: Infinity, delay: i * 0.2 }}
-                  className="w-3 h-3 rounded-full bg-primary"
-                />
-              ))}
-            </div>
-            <p className="font-semibold text-foreground">Mr. Hai is researching the latest 2026 industry terms...</p>
-            <p className="text-sm text-muted-foreground mt-1">Crafting vocabulary, scenarios & cultural insights for {jobRole}.</p>
-          </motion.div>
-        )}
-
-        {/* Lesson display */}
-        {lesson && !loading && (
-          <div ref={lessonRef} className="mt-10">
-            <div className="grid lg:grid-cols-[220px_1fr] gap-6">
-              {/* Anchor sidebar */}
-              <aside className="lg:sticky lg:top-24 lg:self-start">
-                <div className="rounded-xl border bg-card p-4">
-                  <p className="text-xs font-semibold text-muted-foreground uppercase mb-3">On this page</p>
-                  <nav className="space-y-1 text-sm">
-                    {[
-                      { id: "overview", label: "Overview", icon: BookOpen },
-                      { id: "vocabulary", label: "Vocabulary", icon: Languages },
-                      { id: "scenarios", label: "Scenarios", icon: MessageCircle },
-                      { id: "grammar", label: "Grammar", icon: ListChecks },
-                      { id: "tips", label: "AI Tutor Tips", icon: Lightbulb },
-                      { id: "practice", label: "Practice Task", icon: Target },
-                    ].map((item) => {
-                      const Icon = item.icon;
-                      return (
-                        <a
-                          key={item.id}
-                          href={`#${item.id}`}
-                          className="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-muted text-foreground/80 hover:text-foreground"
-                        >
-                          <Icon className="w-3.5 h-3.5" />
-                          {item.label}
-                        </a>
-                      );
-                    })}
-                  </nav>
-                  <div className="mt-4 space-y-2">
-                    <Button onClick={handleSaveToNotebook} variant="outline" size="sm" className="w-full">
-                      <Save className="w-3.5 h-3.5 mr-1.5" /> Save to Notebook
-                    </Button>
-                    <Button onClick={handleExportPdf} size="sm" className="w-full">
-                      <Download className="w-3.5 h-3.5 mr-1.5" /> Export PDF
-                    </Button>
-                  </div>
-                </div>
-              </aside>
-
-              {/* Content */}
-              <article className="space-y-8">
-                <section id="overview" className="rounded-xl border-2 bg-card p-6">
-                  <Badge className={`bg-gradient-to-r ${langMeta.gradient} text-white border-0 mb-3`}>
-                    {langMeta.flag} {langMeta.label} · {field}
-                  </Badge>
-                  <h2 className="text-2xl sm:text-3xl font-bold mb-2">{lesson.title}</h2>
-                  <p className="text-muted-foreground italic mb-4">{lesson.subtitle}</p>
-                  <p className="text-foreground/90 leading-relaxed">{lesson.overview}</p>
-                </section>
-
-                <section id="vocabulary">
-                  <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-                    <Languages className="w-5 h-5 text-primary" /> Key Vocabulary
-                  </h3>
-                  <div className="grid sm:grid-cols-2 gap-3">
-                    {lesson.vocabulary.map((v, i) => (
-                      <Card key={i} className="hover:shadow-md transition-shadow">
-                        <CardContent className="p-4">
-                          <div className="flex items-start justify-between mb-1">
-                            <div>
-                              <div className="font-bold text-lg">{v.term}</div>
-                              {v.pinyin && <div className="text-sm text-primary">{v.pinyin}</div>}
-                            </div>
-                            <Badge variant="secondary" className="text-xs">{v.partOfSpeech}</Badge>
-                          </div>
-                          <p className="text-sm font-medium text-foreground/80 mb-2">{v.translation}</p>
-                          <div className="text-xs bg-muted/50 rounded p-2">
-                            <p className="italic">"{v.example}"</p>
-                            <p className="text-muted-foreground mt-1">{v.exampleTranslation}</p>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
-                </section>
-
-                <section id="scenarios">
-                  <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-                    <MessageCircle className="w-5 h-5 text-primary" /> Workplace Scenarios
-                  </h3>
-                  <div className="space-y-4">
-                    {lesson.scenarios.map((s, i) => (
-                      <Card key={i}>
-                        <CardContent className="p-5">
-                          <div className="flex items-center gap-2 mb-2">
-                            <Badge>{i + 1}</Badge>
-                            <h4 className="font-bold">{s.title}</h4>
-                          </div>
-                          <p className="text-sm text-muted-foreground mb-3">{s.context}</p>
-                          <div className="space-y-2 mb-3">
-                            {s.dialogue.map((d, j) => (
-                              <div key={j} className="text-sm bg-muted/30 rounded-lg p-3">
-                                <span className="font-semibold text-primary">{d.speaker}:</span>{" "}
-                                <span>{d.line}</span>
-                                <div className="text-xs text-muted-foreground italic mt-0.5">{d.translation}</div>
-                              </div>
-                            ))}
-                          </div>
-                          {s.keyPhrases?.length > 0 && (
-                            <div className="flex flex-wrap gap-1.5 pt-2 border-t">
-                              <span className="text-xs font-semibold text-muted-foreground self-center mr-1">Key phrases:</span>
-                              {s.keyPhrases.map((p, k) => (
-                                <Badge key={k} variant="outline" className="text-xs">{p}</Badge>
-                              ))}
-                            </div>
-                          )}
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
-                </section>
-
-                <section id="grammar">
-                  <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-                    <ListChecks className="w-5 h-5 text-primary" /> Grammar Focus
-                  </h3>
-                  <div className="space-y-3">
-                    {lesson.grammar.map((g, i) => (
-                      <Card key={i}>
-                        <CardContent className="p-4">
-                          <h4 className="font-bold mb-1">{g.point}</h4>
-                          <p className="text-sm text-foreground/80 mb-2">{g.explanation}</p>
-                          <ul className="text-sm space-y-1">
-                            {g.examples.map((ex, j) => (
-                              <li key={j} className="flex gap-2"><ChevronRight className="w-4 h-4 text-primary shrink-0 mt-0.5" /><span>{ex}</span></li>
-                            ))}
-                          </ul>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
-                </section>
-
-                <section id="tips">
-                  <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-                    <Lightbulb className="w-5 h-5 text-primary" /> AI Tutor Tips
-                  </h3>
-                  <div className="grid sm:grid-cols-2 gap-3">
-                    {lesson.tutorTips.map((t, i) => (
-                      <div key={i} className="rounded-lg border bg-gradient-to-br from-primary/5 to-transparent p-4">
-                        <div className="flex gap-2">
-                          <span className="text-2xl shrink-0">💡</span>
-                          <p className="text-sm">{t}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="mt-4 p-5 rounded-xl bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-950/30 dark:to-orange-950/30 border border-amber-200 dark:border-amber-900">
-                    <h4 className="font-bold mb-2 flex items-center gap-2">🌍 Cultural Tip</h4>
-                    <p className="text-sm leading-relaxed">{lesson.culturalTip}</p>
-                  </div>
-                </section>
-
-                <section id="practice" className="rounded-xl border-2 border-emerald-500/30 bg-emerald-50 dark:bg-emerald-950/20 p-6">
-                  <h3 className="text-xl font-bold mb-2 flex items-center gap-2 text-emerald-700 dark:text-emerald-400">
-                    <Target className="w-5 h-5" /> Today's Practice Task
-                  </h3>
-                  <p className="text-foreground/90">{lesson.practiceTask}</p>
-                </section>
-
-                {citations.length > 0 && (
-                  <section className="text-xs text-muted-foreground border-t pt-4">
-                    <p className="font-semibold mb-2">Sources (Perplexity):</p>
-                    <ol className="space-y-1 list-decimal list-inside">
-                      {citations.slice(0, 8).map((c, i) => (
-                        <li key={i}>
-                          <a href={c} target="_blank" rel="noopener noreferrer" className="hover:underline break-all">
-                            {c}
-                          </a>
-                        </li>
-                      ))}
-                    </ol>
-                  </section>
-                )}
-
-                <div className="flex flex-wrap gap-3 pt-4 border-t">
-                  <Button onClick={() => { setLesson(null); setStep(1); window.scrollTo({ top: 0, behavior: "smooth" }); }} variant="outline">
-                    Generate Another
-                  </Button>
-                  <Link to="/dashboard"><Button variant="ghost">Back to Dashboard</Button></Link>
-                </div>
-              </article>
-            </div>
-          </div>
-        )}
-      </main>
-
-      <Footer />
-    </div>
-  );
-};
-
-function lessonToMarkdown(l: Lesson, citations: string[]): string {
-  const lines: string[] = [];
-  lines.push(`# ${l.title}`, "", `*${l.subtitle}*`, "", l.overview, "");
-  lines.push(`## Vocabulary`);
-  l.vocabulary.forEach((v, i) => {
-    lines.push(
-      `${i + 1}. **${v.term}**${v.pinyin ? ` (${v.pinyin})` : ""} - ${v.translation} _(${v.partOfSpeech})_`,
-      `   - Ex: "${v.example}" - ${v.exampleTranslation}`,
-    );
-  });
-  lines.push("", `## Workplace Scenarios`);
-  l.scenarios.forEach((s, i) => {
-    lines.push(`### ${i + 1}. ${s.title}`, s.context, "");
-    s.dialogue.forEach((d) => lines.push(`- **${d.speaker}:** ${d.line} _(${d.translation})_`));
-    if (s.keyPhrases?.length) lines.push(`- Key phrases: ${s.keyPhrases.join(" | ")}`);
-    lines.push("");
-  });
-  lines.push(`## Grammar Focus`);
-  l.grammar.forEach((g) => {
-    lines.push(`### ${g.point}`, g.explanation);
-    g.examples.forEach((ex) => lines.push(`- ${ex}`));
-  });
-  lines.push("", `## AI Tutor Tips`);
-  l.tutorTips.forEach((t, i) => lines.push(`${i + 1}. ${t}`));
-  lines.push("", `## Cultural Tip`, l.culturalTip, "", `## Practice Task`, `> ${l.practiceTask}`);
-  if (citations.length) {
-    lines.push("", `## Sources`);
-    citations.slice(0, 8).forEach((c, i) => lines.push(`${i + 1}. ${c}`));
-  }
-  return lines.join("\n");
+    <main className="container mx-auto max-w-6xl px-4 py-8">
+      {restoring ? <div className="flex min-h-52 items-center justify-center"><Loader2 className="h-7 w-7 animate-spin text-primary" /></div> : !curriculum ? <Card className="border-2 shadow-lg"><CardContent className="p-5 sm:p-8">
+        <div className="mb-7 flex items-center justify-between gap-4"><div><Badge variant="outline">{t("Bước", "Step")} {step}/{totalSteps}</Badge><p className="mt-2 text-sm text-muted-foreground">{t("Khảo sát nhu cầu học", "Learning needs assessment")}</p></div><Progress value={(step / totalSteps) * 100} className="max-w-44" /></div>
+        <AnimatePresence mode="wait"><motion.div key={step} initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -16 }}>
+          {step === 1 && <div><h2 className="mb-5 text-xl font-bold">{t("Chọn ngôn ngữ và trình độ", "Choose your language and level")}</h2><div className="grid grid-cols-2 gap-3 md:grid-cols-3">{LANG_OPTIONS.map((option) => <Button key={option.key} type="button" variant="outline" className={`h-24 flex-col gap-2 whitespace-normal ${language === option.key ? "border-primary bg-primary/10 text-foreground ring-2 ring-primary/20" : ""}`} onClick={() => setLanguage(option.key)}><span className="text-3xl">{option.flag}</span><span>{option.label}</span></Button>)}</div><div className="mt-5 max-w-sm"><Label>{t("Trình độ hiện tại", "Current level")}</Label><Select value={learnerLevel} onValueChange={(value) => setLearnerLevel(value as LearnerLevel)}><SelectTrigger className="mt-2"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="beginner">Beginner</SelectItem><SelectItem value="elementary">Elementary</SelectItem><SelectItem value="intermediate">Intermediate</SelectItem><SelectItem value="advanced">Advanced</SelectItem></SelectContent></Select></div></div>}
+          {step === 2 && <div><h2 className="mb-5 text-xl font-bold">{t("Lĩnh vực chuyên ngành", "Your professional field")}</h2><div className="mb-4 grid grid-cols-2 gap-2 md:grid-cols-3">{FIELD_PRESETS.map(({ label, icon: Icon }) => <Button key={label} type="button" variant="outline" className={`h-auto min-h-14 justify-start whitespace-normal text-left ${field === label ? "border-primary bg-primary/10 text-foreground" : ""}`} onClick={() => setField(label)}><Icon className="mr-2 h-4 w-4 shrink-0 text-primary" />{label}</Button>)}</div><Label htmlFor="custom-field">{t("Hoặc nhập lĩnh vực riêng", "Or enter your own field")}</Label><Input id="custom-field" className="mt-2" value={field} onChange={(event) => setField(event.target.value)} maxLength={200} placeholder="Cybersecurity, Renewable Energy..." /></div>}
+          {step === 3 && <div><h2 className="mb-5 text-xl font-bold">{t("Vai trò và tình huống công việc", "Your role and work situations")}</h2><Label htmlFor="job-role">{t("Vai trò cụ thể", "Specific job role")}</Label><Input id="job-role" className="mt-2" value={jobRole} onChange={(event) => setJobRole(event.target.value)} maxLength={200} placeholder="Registered Nurse, Backend Developer..." /><p className="mt-2 text-sm text-muted-foreground">{t("Mô tả càng cụ thể, lộ trình càng sát thực tế.", "A specific role produces a more relevant pathway.")}</p></div>}
+          {step === 4 && <div className="space-y-5"><div><h2 className="mb-4 text-xl font-bold">{t("Mục tiêu và thời lượng học", "Goal and study time")}</h2><div className="mb-3 flex flex-wrap gap-2">{GOALS.map((item) => <Button key={item} type="button" size="sm" variant="outline" className={goal === item ? "border-primary bg-primary/10 text-foreground" : ""} onClick={() => setGoal(item)}>{item}</Button>)}</div><Input value={goal} onChange={(event) => setGoal(event.target.value)} maxLength={500} placeholder={t("Mô tả mục tiêu của bạn", "Describe your goal")} /></div><div className="max-w-xs"><Label>{t("Thời lượng mỗi ngày", "Daily study time")}</Label><Select value={String(dailyMinutes)} onValueChange={(value) => setDailyMinutes(Number(value))}><SelectTrigger className="mt-2"><SelectValue /></SelectTrigger><SelectContent>{[10, 15, 20, 30, 45, 60].map((minutes) => <SelectItem key={minutes} value={String(minutes)}>{minutes} {t("phút", "minutes")}</SelectItem>)}</SelectContent></Select></div><div><Label htmlFor="notes">{t("Yêu cầu riêng", "Special requirements")} ({t("không bắt buộc", "optional")})</Label><Textarea id="notes" className="mt-2" rows={3} value={notes} onChange={(event) => setNotes(event.target.value)} maxLength={1000} /></div></div>}
+          {step === 5 && <div><h2 className="mb-5 text-xl font-bold">{t("Xác nhận lộ trình", "Confirm your pathway")}</h2><div className="grid gap-3 sm:grid-cols-2">{[[t("Ngôn ngữ", "Language"), `${langMeta.flag} ${langMeta.label}`], [t("Trình độ", "Level"), learnerLevel], [t("Lĩnh vực", "Field"), field], [t("Vai trò", "Role"), jobRole], [t("Mục tiêu", "Goal"), goal], [t("Thời lượng", "Study time"), `${dailyMinutes} ${t("phút/ngày", "minutes/day")}`]].map(([label, value]) => <div key={label} className="rounded-lg border bg-muted/30 p-4"><p className="text-xs font-semibold uppercase text-muted-foreground">{label}</p><p className="mt-1 font-medium">{value}</p></div>)}</div></div>}
+        </motion.div></AnimatePresence>
+        <div className="mt-8 flex justify-between"><Button variant="outline" onClick={() => setStep((current) => Math.max(1, current - 1))} disabled={step === 1 || loading}><ArrowLeft className="mr-2 h-4 w-4" />{t("Quay lại", "Back")}</Button>{step < totalSteps ? <Button onClick={() => setStep((current) => current + 1)} disabled={!canProceed}>{t("Tiếp tục", "Next")}<ArrowRight className="ml-2 h-4 w-4" /></Button> : <Button onClick={generate} disabled={loading}>{loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Sparkles className="mr-2 h-4 w-4" />}{loading ? t("Đang tạo 5 bài...", "Creating five lessons...") : t("Tạo lộ trình 5 bài", "Create five-lesson pathway")}</Button>}</div>
+      </CardContent></Card> : <div ref={resultRef} className="grid gap-6 lg:grid-cols-[250px_minmax(0,1fr)]">
+        <aside className="lg:sticky lg:top-24 lg:self-start"><Card><CardContent className="p-4"><div className="mb-4"><p className="text-sm font-bold">{curriculum.title}</p><p className="mt-1 text-xs text-muted-foreground">{curriculum.subtitle}</p></div><Progress value={(progress.completedLessons.length / 5) * 100} /><p className="mb-4 mt-2 text-xs text-muted-foreground">{progress.completedLessons.length}/5 {t("bài đã qua", "lessons passed")}</p><nav className="space-y-2">{curriculum.lessons.map((lesson, index) => {
+          const unlocked = index === 0 || progress.completedLessons.includes(curriculum.lessons[index - 1].id);
+          const active = progress.currentLesson === index;
+          return <Button key={lesson.id} type="button" variant="outline" disabled={!unlocked} className={`h-auto w-full justify-start whitespace-normal px-3 py-3 text-left ${active ? "border-primary bg-primary/10 text-foreground" : ""}`} onClick={() => setProgress((current) => ({ ...current, currentLesson: index }))}><span className={`mr-2 flex h-7 w-7 shrink-0 items-center justify-center rounded-full ${progress.completedLessons.includes(lesson.id) ? "bg-emerald-600 text-primary-foreground" : "bg-muted"}`}>{progress.completedLessons.includes(lesson.id) ? <Check className="h-4 w-4" /> : index + 1}</span><span className="line-clamp-2 text-sm">{lesson.title}</span></Button>;
+        })}</nav><div className="mt-5 grid gap-2"><Button variant="outline" size="sm" onClick={saveNotebook}><Save className="mr-2 h-4 w-4" />Notebook</Button><Button variant="outline" size="sm" onClick={printPath}><Download className="mr-2 h-4 w-4" />{t("In / PDF", "Print / PDF")}</Button><Button variant="ghost" size="sm" onClick={startNew}><RotateCcw className="mr-2 h-4 w-4" />{t("Tạo mới", "New pathway")}</Button><Button variant="ghost" size="sm" className="text-destructive hover:text-destructive" onClick={removePath}><Trash2 className="mr-2 h-4 w-4" />{t("Xóa", "Delete")}</Button></div></CardContent></Card></aside>
+        <div className="min-w-0"><Card><CardContent className="p-5 sm:p-7"><div className="mb-5 flex flex-wrap items-center justify-between gap-3 border-b pb-4"><div className="flex items-center gap-2"><Badge variant="outline">{langMeta.flag} {langMeta.label}</Badge><Badge variant="secondary"><Clock3 className="mr-1 h-3.5 w-3.5" />{curriculum.totalMinutes} min</Badge></div><Badge>{learnerLevel}</Badge></div><SpecializedLessonView lesson={curriculum.lessons[progress.currentLesson]} language={language} lessonNumber={progress.currentLesson + 1} bestScore={progress.bestScores[curriculum.lessons[progress.currentLesson].id] ?? 0} isPassed={progress.completedLessons.includes(curriculum.lessons[progress.currentLesson].id)} t={t} onQuizComplete={(score) => updateScore(progress.currentLesson, score)} /><div className="mt-7 flex justify-between border-t pt-5"><Button variant="outline" disabled={progress.currentLesson === 0} onClick={() => setProgress((current) => ({ ...current, currentLesson: current.currentLesson - 1 }))}><ArrowLeft className="mr-2 h-4 w-4" />{t("Bài trước", "Previous")}</Button><Button disabled={progress.currentLesson === 4 || !progress.completedLessons.includes(curriculum.lessons[progress.currentLesson].id)} onClick={() => setProgress((current) => ({ ...current, currentLesson: current.currentLesson + 1 }))}>{t("Bài tiếp theo", "Next lesson")}<ArrowRight className="ml-2 h-4 w-4" /></Button></div></CardContent></Card>{citations.length > 0 && <div className="mt-5 border-t pt-4 text-xs text-muted-foreground"><p className="mb-2 font-semibold">{t("Nguồn tham khảo", "Sources")}</p>{citations.slice(0, 8).map((source) => <a key={source} href={source} target="_blank" rel="noopener noreferrer" className="mb-1 block break-all hover:text-foreground hover:underline">{source}</a>)}</div>}<div className="mt-5"><Link to="/dashboard"><Button variant="ghost"><BookOpen className="mr-2 h-4 w-4" />{t("Về bảng học tập", "Back to dashboard")}</Button></Link></div></div>
+      </div>}
+    </main><Footer />
+  </div>;
 }
-
-export default SpecializedLanguage;
