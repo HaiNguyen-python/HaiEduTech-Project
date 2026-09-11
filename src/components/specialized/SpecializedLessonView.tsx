@@ -31,6 +31,17 @@ const highlightPhrases = (line: string, phrases: string[] = []) => {
   );
 };
 
+const normalizeText = (value: string) => value.toLocaleLowerCase().replace(/[\s.,!?;:'"“”‘’()\-…]/g, "");
+
+// AI sometimes returns a translation identical to the source line (e.g. English pathways).
+// Only show the translation when it adds real information.
+const isMeaningfulTranslation = (source: string, translation?: string) => {
+  if (!translation) return false;
+  const a = normalizeText(source);
+  const b = normalizeText(translation);
+  return b.length > 0 && a !== b;
+};
+
 const ShadowingPractice = ({ target, language, t }: { target: string; language: SpecializedLang; t: Props["t"] }) => {
   const [accuracy, setAccuracy] = useState<number | null>(null);
   const recognizer = useSpeechRecognizer({
