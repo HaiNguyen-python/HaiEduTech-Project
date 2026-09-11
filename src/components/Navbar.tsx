@@ -382,6 +382,7 @@ const Navbar = () => {
       { to: "/swedish/curriculum", label: t("📖 Interactive Curriculum", "📖 Interactive Curriculum") },
       { to: "/swedish/skills", label: t("🧪 Skills Lab - Nghe · Đọc · Viết · Nói A1-B1", "🧪 Skills Lab") },
       { to: "/speaking-coach/swedish", label: t("🗣️ Speaking Coach", "🗣️ Speaking Coach") },
+      { to: "/specialized-language?lang=swedish", label: t("🧠 Tiếng Thụy Điển Chuyên ngành", "🧠 Specialized Swedish") },
     ] },
   ];
   const programmingSubs: SubItem[] = [
@@ -479,6 +480,7 @@ const Navbar = () => {
         { to: "/japanese?tab=listening", label: t("🎧 Luyện nghe", "🎧 Listening") },
         { to: "/japanese?tab=dictation", label: t("⌨️ Chính tả kana", "⌨️ Kana Dictation") },
         { to: "/japanese?tab=speaking", label: t("🎤 Speaking Coach", "🎤 Speaking Coach") },
+        { to: "/specialized-language?lang=japanese", label: t("🧠 Tiếng Nhật Chuyên ngành", "🧠 Specialized Japanese") },
       ] },
       { to: "#ja-tests-group", label: t("📝 Kiểm tra & Văn hoá", "📝 Tests & Culture"), groupLabel: "ja-tests", children: [
         { to: "/japanese?tab=quiz", label: t("🧠 Ôn tập & Kiểm tra", "🧠 Review & Quiz") },
