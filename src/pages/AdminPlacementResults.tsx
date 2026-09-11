@@ -23,6 +23,7 @@ import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import { PLACEMENT_TEST } from "@/data/placementTest";
 import { RECOMMENDED_CLASSES } from "@/lib/placement/placementModel";
+import { fetchAllRows } from "@/lib/adminData";
 
 interface PlacementBandStat {
   cefr: string;
