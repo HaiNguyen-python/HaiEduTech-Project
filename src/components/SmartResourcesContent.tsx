@@ -9,6 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Loader2, BookOpen, FileText, GraduationCap, Sparkles, Check, X, Download } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
+import PublishedContentStrip from "@/components/content/PublishedContentStrip";
 
 const ENGLISH_LEVELS = [
   { value: "A1", label: "A1 – Beginner" },
