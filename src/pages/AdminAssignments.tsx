@@ -216,6 +216,12 @@ const AdminAssignments = () => {
               <p className="text-sm text-slate-500 mt-1">
                 Multi-subject homework tracker for Teacher Hai
               </p>
+              <p className="text-xs text-slate-500 mt-1">
+                Showing {filteredRows.length} of {rows.length} assignment(s) · {students.length} student(s)
+                {mergedProfiles > 0 && (
+                  <span className="text-amber-700"> · {mergedProfiles} duplicate profile(s) merged</span>
+                )}
+              </p>
             </div>
           </div>
         </header>
