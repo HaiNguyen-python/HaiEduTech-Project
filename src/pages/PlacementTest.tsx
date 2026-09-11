@@ -275,13 +275,34 @@ const PlacementTest = () => {
   const [earlyExit, setEarlyExit] = useState<Cefr | null>(null);
   const startedAtRef = useRef(Date.now());
 
+  const draftKey = `het:placement-draft:${subject}`;
+
   // Reset progress and switch TTS locale whenever the subject changes.
+  // A locally saved draft is restored so an unauthenticated student never
+  // loses typed answers when asked to log in at submit time.
   useEffect(() => {
     CURRENT_SPEAK_LANG = meta.speakLang;
-    setIdx(0); setAnswers({}); setAudioBlobs({}); setDone(null);
-    setUnlocked(0); setEarlyExit(null);
+    let draft: { answers?: Record<number, unknown>; idx?: number; unlocked?: number } | null = null;
+    try {
+      const raw = localStorage.getItem(draftKey);
+      if (raw) draft = JSON.parse(raw);
+    } catch { draft = null; }
+    setIdx(draft?.idx ?? 0);
+    setAnswers(draft?.answers ?? {});
+    setAudioBlobs({}); setDone(null);
+    setUnlocked(draft?.unlocked ?? 0);
+    setEarlyExit(null);
     startedAtRef.current = Date.now();
-  }, [subject, meta.speakLang]);
+  }, [subject, meta.speakLang, draftKey]);
+
+  // Persist the draft (answers only - recordings stay in memory).
+  useEffect(() => {
+    if (done) return;
+    if (Object.keys(answers).length === 0) return;
+    try {
+      localStorage.setItem(draftKey, JSON.stringify({ answers, idx, unlocked }));
+    } catch { /* storage full or blocked - drafts are best-effort */ }
+  }, [answers, idx, unlocked, done, draftKey]);
 
   useEffect(() => () => stopPlacementTts(), []);
 
@@ -329,7 +350,9 @@ const PlacementTest = () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
-        toast.error("Please log in to submit the placement test.");
+        toast.error("Please log in to submit the placement test.", {
+          description: "Your answers are saved on this device - come back and submit them.",
+        });
         navigate("/login");
         return;
       }
@@ -350,7 +373,40 @@ const PlacementTest = () => {
           reached: seen.has(item.id),
         };
       });
-      const outcome = buildOutcome(outcomes, subject);
+      // AI grading of the open writing answers. Falls back silently to the
+      // deterministic word-count credit already in `outcomes` on any failure.
+      const aiComments: Record<string, string> = {};
+      let graded = outcomes;
+      const essayItems = bank.filter(
+        (item) => item.type === "write-essay" || item.type === "write-picture",
+      );
+      const payload = essayItems
+        .map((item) => ({
+          id: item.id,
+          prompt: item.prompt,
+          cefr: item.cefr,
+          minWords: "minWords" in item ? item.minWords : undefined,
+          text: (answers[item.id] as string | undefined) ?? "",
+        }))
+        .filter((e) => e.text.trim().length > 0);
+      if (payload.length > 0) {
+        try {
+          const { data: ai } = await supabase.functions.invoke("grade-placement-writing", {
+            body: { essays: payload, language: subject },
+          });
+          const scores = (ai as { scores?: Record<string, { credit: number; comment: string }> } | null)?.scores;
+          if (scores && Object.keys(scores).length > 0) {
+            graded = outcomes.map((o) => {
+              const hit = scores[String(o.id)];
+              if (!hit) return o;
+              aiComments[String(o.id)] = hit.comment;
+              return { ...o, credit: hit.credit };
+            });
+          }
+        } catch { /* keep deterministic credits */ }
+      }
+
+      const outcome = buildOutcome(graded, subject);
       const listening = outcome.skills.listening;
       const reading = outcome.skills.reading;
       const writing = outcome.skills.writing;
@@ -421,6 +477,9 @@ const PlacementTest = () => {
       const answersPayload: Record<string, unknown> = {
         __subject: subject, ...answers,
       };
+      if (Object.keys(aiComments).length > 0) {
+        answersPayload.__ai_writing = aiComments;
+      }
       if (subject === "programming") {
         answersPayload.__tech_metrics = techMetrics;
       } else {
@@ -450,8 +509,10 @@ const PlacementTest = () => {
         audio_urls: audioUrls as never,
         duration_seconds: Math.round((Date.now() - startedAtRef.current) / 1000),
         status: "pending",
+        subject,
       });
       if (error) throw error;
+      try { localStorage.removeItem(draftKey); } catch { /* ignore */ }
 
       // Log to RL pipeline so the placement run shows up in activity charts
       // and counts toward "meaningful activities" for the dispatcher.

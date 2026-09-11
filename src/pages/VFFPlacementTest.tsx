@@ -16,6 +16,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { vffPlacementTest, scorePlacement } from "@/data/vietnamese/vffPlacementTest";
 import { useVFFProgress } from "@/hooks/useVFFProgress";
+import { saveVffPlacementRun } from "@/lib/placement/vffPlacement";
 
 const VFFPlacementTest = () => {
   const { t } = useLanguage();
@@ -39,6 +40,15 @@ const VFFPlacementTest = () => {
   const submit = () => {
     const result = scorePlacement(answers);
     recordPlacement(result.score, result.recommendedLevel);
+    // Signed-in students also get the run in their placement history so a
+    // teacher can approve a class from the placement dashboard.
+    void saveVffPlacementRun({
+      scorePct: Math.round((result.score / result.total) * 100),
+      level: result.recommendedLevel,
+      correct: result.score,
+      totalItems: result.total,
+      mode: "standard",
+    });
     setSubmitted(true);
   };
 

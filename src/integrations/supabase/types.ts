@@ -2384,17 +2384,22 @@ export type Database = {
         Row: {
           answers: Json
           assigned_class: string | null
+          assigned_class_id: string | null
           audio_urls: Json
           cefr_band: string | null
           created_at: string
           duration_seconds: number | null
           essays: Json
+          graded_at: string | null
+          graded_by: string | null
           id: string
           listening_score: number
           reading_score: number
           speaking_score: number
           status: string
           student_name: string | null
+          subject: string | null
+          teacher_notes: string | null
           total_score: number
           updated_at: string
           user_id: string
@@ -2403,17 +2408,22 @@ export type Database = {
         Insert: {
           answers?: Json
           assigned_class?: string | null
+          assigned_class_id?: string | null
           audio_urls?: Json
           cefr_band?: string | null
           created_at?: string
           duration_seconds?: number | null
           essays?: Json
+          graded_at?: string | null
+          graded_by?: string | null
           id?: string
           listening_score?: number
           reading_score?: number
           speaking_score?: number
           status?: string
           student_name?: string | null
+          subject?: string | null
+          teacher_notes?: string | null
           total_score?: number
           updated_at?: string
           user_id: string
@@ -2422,23 +2432,36 @@ export type Database = {
         Update: {
           answers?: Json
           assigned_class?: string | null
+          assigned_class_id?: string | null
           audio_urls?: Json
           cefr_band?: string | null
           created_at?: string
           duration_seconds?: number | null
           essays?: Json
+          graded_at?: string | null
+          graded_by?: string | null
           id?: string
           listening_score?: number
           reading_score?: number
           speaking_score?: number
           status?: string
           student_name?: string | null
+          subject?: string | null
+          teacher_notes?: string | null
           total_score?: number
           updated_at?: string
           user_id?: string
           writing_score?: number
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "placement_test_results_assigned_class_id_fkey"
+            columns: ["assigned_class_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       player_badges: {
         Row: {

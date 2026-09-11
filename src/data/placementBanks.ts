@@ -19,10 +19,12 @@ import {
   CHINESE_ADV, VIETNAMESE_ADV, FINNISH_ADV, JAPANESE_ADV, SWEDISH_ADV,
   PROGRAMMING_ADV,
 } from "./placementBanksAdvanced";
+import { TOEIC_BANK, SAT_BANK, PTE_BANK } from "./placementBanksExam";
 
 export type PlacementSubject =
   | "english" | "chinese" | "vietnamese" | "finnish"
-  | "japanese" | "swedish" | "programming";
+  | "japanese" | "swedish" | "programming"
+  | "toeic" | "sat" | "pte";
 
 export interface SubjectMeta {
   title: string;
@@ -64,6 +66,21 @@ export const SUBJECT_META: Record<PlacementSubject, SubjectMeta> = {
   programming: {
     title: "Programming Placement Test",
     subtitle: "24 questions · Python · SQL · Logic · AI Fundamentals",
+    speakLang: "en-US",
+  },
+  toeic: {
+    title: "TOEIC Placement Test",
+    subtitle: "24 questions · Business Listening · Reading · Writing · Speaking",
+    speakLang: "en-US",
+  },
+  sat: {
+    title: "SAT Placement Test",
+    subtitle: "24 questions · Reading & Writing · Data reasoning · Speaking",
+    speakLang: "en-US",
+  },
+  pte: {
+    title: "PTE Academic Placement Test",
+    subtitle: "24 questions · Listening · Reading · Writing · Speaking",
     speakLang: "en-US",
   },
 };
@@ -582,6 +599,9 @@ export function getPlacementBank(subject: PlacementSubject): PlacementQuestion[]
     case "japanese": return [...JAPANESE, ...JAPANESE_ADV];
     case "swedish": return [...SWEDISH, ...SWEDISH_ADV];
     case "programming": return [...PROGRAMMING, ...PROGRAMMING_ADV];
+    case "toeic": return TOEIC_BANK;
+    case "sat": return SAT_BANK;
+    case "pte": return PTE_BANK;
     case "english":
     default: return PLACEMENT_TEST;
   }
@@ -593,6 +613,7 @@ export function parseSubject(raw: string | null | undefined): PlacementSubject {
   if (
     v === "chinese" || v === "vietnamese" || v === "finnish"
     || v === "japanese" || v === "swedish" || v === "programming"
+    || v === "toeic" || v === "sat" || v === "pte"
   ) return v;
   return "english";
 }

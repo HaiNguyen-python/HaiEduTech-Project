@@ -86,7 +86,7 @@ export const SUBJECTS: Record<SubjectId, SubjectDef> = {
     id: "toeic", labelVi: "TOEIC", labelEn: "TOEIC", emoji: "💼",
     hub: "/toeic",
     ladder: ["300", "400", "500", "600", "700", "800", "900"],
-    placement: "english",
+    placement: "toeic",
     activityPrefixes: ["toeic"],
     vocabSubjects: ["toeic"],
     tracks: [
@@ -99,7 +99,7 @@ export const SUBJECTS: Record<SubjectId, SubjectDef> = {
     id: "sat", labelVi: "SAT", labelEn: "SAT", emoji: "📐",
     hub: "/sat-curriculum",
     ladder: ["1000", "1100", "1200", "1300", "1400", "1500"],
-    placement: "english",
+    placement: "sat",
     activityPrefixes: ["sat"],
     vocabSubjects: ["sat"],
     tracks: [
@@ -114,7 +114,7 @@ export const SUBJECTS: Record<SubjectId, SubjectDef> = {
     id: "pte", labelVi: "PTE", labelEn: "PTE", emoji: "🗂️",
     hub: "/pte",
     ladder: ["30", "40", "50", "60", "70", "80"],
-    placement: "english",
+    placement: "pte",
     activityPrefixes: ["pte"],
     vocabSubjects: ["pte"],
     tracks: [

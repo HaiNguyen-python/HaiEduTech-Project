@@ -21,8 +21,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
-import { PLACEMENT_TEST } from "@/data/placementTest";
-import { RECOMMENDED_CLASSES } from "@/lib/placement/placementModel";
+import { getPlacementBank, parseSubject } from "@/data/placementBanks";
+import { classOptionsForSubject } from "@/lib/placement/placementModel";
 import { fetchAllRows } from "@/lib/adminData";
 
 interface PlacementBandStat {
@@ -57,23 +57,30 @@ interface PlacementRow {
   essays: Record<string, string>;
   audio_urls: Record<string, string>;
   assigned_class: string | null;
+  assigned_class_id: string | null;
+  teacher_notes: string | null;
+  graded_by: string | null;
+  graded_at: string | null;
+  subject: string | null;
   status: string;
   created_at: string;
+}
+
+interface ClassRow {
+  id: string;
+  class_name: string;
+  subject_category: string | null;
 }
 
 const FRAME =
   "bg-white border border-slate-200 rounded-2xl shadow-[0_1px_2px_rgba(15,23,42,0.04)]";
 
-const CLASS_OPTIONS = [
-  ...RECOMMENDED_CLASSES,
-  "Cambridge Starters",
-  "Cambridge Movers/Flyers",
-  "Chinese HSK 1-2",
-  "Chinese HSK 3-4",
-  "Finnish YKI A2",
-  "Programming Intro Cohort",
-  "Custom 1-on-1 Coaching",
-];
+/** The subject a run was taken in - new column first, legacy payload second. */
+const rowSubject = (row: PlacementRow | null): string =>
+  row?.subject
+  ?? (typeof (row?.answers as Record<string, unknown> | null)?.__subject === "string"
+    ? ((row!.answers as Record<string, unknown>).__subject as string)
+    : "english");
 
 const CONFIDENCE_LABEL: Record<string, string> = {
   high: "High confidence",
@@ -140,8 +147,14 @@ const AdminPlacementResults = () => {
   const [loading, setLoading] = useState(true);
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
-  const [statusFilter, setStatusFilter] = useState<"all" | "pending" | "approved">("all");
+  const [statusFilter, setStatusFilter] =
+    useState<"all" | "pending" | "approved" | "interview">("all");
   const [groupByClass, setGroupByClass] = useState(false);
+  const [classes, setClasses] = useState<ClassRow[]>([]);
+  const [notes, setNotes] = useState("");
+  const [overrides, setOverrides] =
+    useState<{ listening: string; reading: string; writing: string; speaking: string } | null>(null);
+  const [saving, setSaving] = useState(false);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -163,7 +176,15 @@ const AdminPlacementResults = () => {
     }
   }, []);
 
-  useEffect(() => { void load(); }, [load]);
+  const loadClasses = useCallback(async () => {
+    const { data, error } = await supabase
+      .from("classes").select("id, class_name, subject_category")
+      .order("class_name", { ascending: true });
+    if (error) { toast.error("Could not load classes."); return; }
+    setClasses((data ?? []) as ClassRow[]);
+  }, []);
+
+  useEffect(() => { void load(); void loadClasses(); }, [load, loadClasses]);
 
   // Auto-refresh when a student submits a new run.
   useEffect(() => {
@@ -183,6 +204,27 @@ const AdminPlacementResults = () => {
     [rows, selectedId]
   );
   const insight = useMemo(() => readInsight(selected), [selected]);
+  /** Raw subject label (may include tracks without a bank, e.g. vietnamese-vff). */
+  const subject = useMemo(() => rowSubject(selected), [selected]);
+  const bank = useMemo(() => getPlacementBank(parseSubject(subject)), [subject]);
+  const classOptions = useMemo(() => classOptionsForSubject(subject), [subject]);
+  /** Real classes of this subject first, then every other open class. */
+  const realClasses = useMemo(() => {
+    const mine = classes.filter((c) => (c.subject_category ?? "") === subject);
+    const rest = classes.filter((c) => !mine.includes(c));
+    return [...mine, ...rest];
+  }, [classes, subject]);
+
+  // Reset the per-run editors when another submission is selected.
+  useEffect(() => {
+    setNotes(selected?.teacher_notes ?? "");
+    setOverrides(selected ? {
+      listening: String(selected.listening_score),
+      reading: String(selected.reading_score),
+      writing: String(selected.writing_score),
+      speaking: String(selected.speaking_score),
+    } : null);
+  }, [selected]);
 
   const visibleRows = useMemo(() => {
     const filtered = statusFilter === "all"
@@ -204,22 +246,96 @@ const AdminPlacementResults = () => {
   ] : [], [selected]);
 
 
-  const saveAssignment = async (cls: string) => {
+  /**
+   * Approve a placement: record the class label, optionally link a real class
+   * row and enrol the student in it (never twice), and stamp who graded it.
+   */
+  const saveAssignment = async (cls: string, classId?: string | null) => {
     if (!selected) return;
-    const { error } = await supabase
-      .from("placement_test_results")
-      .update({ assigned_class: cls, status: "approved" })
-      .eq("id", selected.id);
-    if (error) {
-      toast.error("Could not save assignment.");
-    } else {
-      toast.success(`Assigned to ${cls}`);
+    setSaving(true);
+    try {
+      const { data: auth } = await supabase.auth.getUser();
+      const { error } = await supabase
+        .from("placement_test_results")
+        .update({
+          assigned_class: cls,
+          assigned_class_id: classId ?? null,
+          teacher_notes: notes.trim() ? notes.trim() : null,
+          graded_by: auth.user?.id ?? null,
+          graded_at: new Date().toISOString(),
+          status: "approved",
+        })
+        .eq("id", selected.id);
+      if (error) throw error;
+
+      if (classId) {
+        const { data: existing, error: exErr } = await supabase
+          .from("class_members").select("id")
+          .eq("class_id", classId).eq("user_id", selected.user_id).maybeSingle();
+        if (exErr) throw exErr;
+        if (!existing) {
+          const { error: memErr } = await supabase
+            .from("class_members")
+            .insert({ class_id: classId, user_id: selected.user_id });
+          if (memErr) throw memErr;
+          toast.success(`Assigned to ${cls} and enrolled in the class`);
+        } else {
+          toast.success(`Assigned to ${cls} - already enrolled`);
+        }
+      } else {
+        toast.success(`Assigned to ${cls}`);
+      }
       void load();
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Could not save assignment.");
+    } finally {
+      setSaving(false);
     }
   };
 
-  const speakingQs = PLACEMENT_TEST.filter((q) => q.skill === "speaking");
-  const essayQs = PLACEMENT_TEST.filter(
+  /** Mark the run as needing a short interview before a class is decided. */
+  const markInterview = async () => {
+    if (!selected) return;
+    const { data: auth } = await supabase.auth.getUser();
+    const { error } = await supabase
+      .from("placement_test_results")
+      .update({
+        status: "interview",
+        teacher_notes: notes.trim() ? notes.trim() : null,
+        graded_by: auth.user?.id ?? null,
+        graded_at: new Date().toISOString(),
+      })
+      .eq("id", selected.id);
+    if (error) { toast.error(error.message); return; }
+    toast.success("Marked as interview needed");
+    void load();
+  };
+
+  /** Save teacher score overrides and recompute the total as their average. */
+  const saveOverrides = async () => {
+    if (!selected || !overrides) return;
+    const clamp = (v: string) => Math.max(0, Math.min(100, Math.round(Number(v) || 0)));
+    const l = clamp(overrides.listening), r = clamp(overrides.reading);
+    const w = clamp(overrides.writing), sp = clamp(overrides.speaking);
+    const total = Math.round((l + r + w + sp) / 4);
+    const { data: auth } = await supabase.auth.getUser();
+    const { error } = await supabase
+      .from("placement_test_results")
+      .update({
+        listening_score: l, reading_score: r, writing_score: w, speaking_score: sp,
+        total_score: total,
+        teacher_notes: notes.trim() ? notes.trim() : null,
+        graded_by: auth.user?.id ?? null,
+        graded_at: new Date().toISOString(),
+      })
+      .eq("id", selected.id);
+    if (error) { toast.error(error.message); return; }
+    toast.success(`Scores saved - total recalculated to ${total}`);
+    void load();
+  };
+
+  const speakingQs = bank.filter((q) => q.skill === "speaking");
+  const essayQs = bank.filter(
     (q) => q.type === "write-picture" || q.type === "write-essay"
   );
 
@@ -252,7 +368,7 @@ const AdminPlacementResults = () => {
           {/* ── Submission list ─────────────────────────────── */}
           <aside className={`${FRAME} p-3 max-h-[80vh] overflow-y-auto`}>
             <div className="flex flex-wrap gap-1.5 mb-3">
-              {(["all", "pending", "approved"] as const).map((s) => (
+              {(["all", "pending", "approved", "interview"] as const).map((s) => (
                 <button
                   key={s}
                   onClick={() => setStatusFilter(s)}
@@ -261,7 +377,9 @@ const AdminPlacementResults = () => {
                       ? "bg-slate-900 text-white border-slate-900"
                       : "border-slate-200 text-slate-600 hover:bg-slate-50"}`}
                 >
-                  {s === "all" ? "All" : s === "pending" ? "Pending" : "Approved"}
+                  {s === "all" ? "All"
+                    : s === "pending" ? "Pending"
+                    : s === "approved" ? "Approved" : "Interview"}
                 </button>
               ))}
               <button
@@ -529,31 +647,117 @@ const AdminPlacementResults = () => {
                 <h3 className="text-sm font-semibold text-slate-700 mb-3">
                   Approve class placement
                 </h3>
+                <p className="text-xs text-slate-500 mb-3">
+                  Subject of this run: <span className="font-semibold text-slate-700">{subject}</span>.
+                  Choosing a real class also enrols the student in it.
+                </p>
+
+                {/* Real classes - enrols the student */}
+                <div className="flex flex-wrap items-center gap-3 mb-3">
+                  <select
+                    value={selected.assigned_class_id ?? ""}
+                    onChange={(e) => {
+                      const cls = realClasses.find((c) => c.id === e.target.value);
+                      if (cls) void saveAssignment(cls.class_name, cls.id);
+                    }}
+                    disabled={saving}
+                    className="flex-1 min-w-[240px] px-3 py-2 border border-slate-300 rounded-lg text-sm bg-white text-slate-900"
+                  >
+                    <option value="">Enrol in an existing class…</option>
+                    {realClasses.map((c) => (
+                      <option key={c.id} value={c.id}>
+                        {c.class_name}{c.subject_category ? ` · ${c.subject_category}` : ""}
+                      </option>
+                    ))}
+                  </select>
+                  {realClasses.length === 0 && (
+                    <span className="text-xs text-slate-500">
+                      No classes yet - create one in Class Management.
+                    </span>
+                  )}
+                </div>
+
+                {/* Recommended labels - records the placement without enrolment */}
                 <div className="flex flex-wrap items-center gap-3">
                   <select
                     value={selected.assigned_class ?? ""}
-                    onChange={(e) => saveAssignment(e.target.value)}
-                    className="flex-1 min-w-[240px] px-3 py-2 border border-slate-300 rounded-lg text-sm bg-white"
+                    onChange={(e) => { if (e.target.value) void saveAssignment(e.target.value, selected.assigned_class_id); }}
+                    disabled={saving}
+                    className="flex-1 min-w-[240px] px-3 py-2 border border-slate-300 rounded-lg text-sm bg-white text-slate-900"
                   >
-                    <option value="" disabled>Select recommended class…</option>
-                    {CLASS_OPTIONS.map((c) => (
+                    <option value="">Select recommended level…</option>
+                    {classOptions.map((c) => (
                       <option key={c} value={c}>{c}</option>
                     ))}
                   </select>
                   {insight?.recommended_class && (
-                    <Button onClick={() => saveAssignment(insight.recommended_class!)}>
+                    <Button
+                      disabled={saving}
+                      onClick={() => void saveAssignment(insight.recommended_class!, selected.assigned_class_id)}
+                    >
                       <Sparkles className="w-4 h-4 mr-1" />
                       Use suggested class
                     </Button>
                   )}
+                  <Button variant="outline" disabled={saving} onClick={() => void markInterview()}>
+                    Interview needed
+                  </Button>
                   {selected.status === "approved" && (
                     <span className="inline-flex items-center gap-1 text-sm text-emerald-700 font-medium">
                       <CheckCircle2 className="w-4 h-4" /> Approved
                     </span>
                   )}
+                  {selected.status === "interview" && (
+                    <span className="text-sm font-medium text-amber-700">Interview needed</span>
+                  )}
                 </div>
 
+                {/* Teacher notes */}
+                <div className="mt-4">
+                  <label htmlFor="placement-notes" className="block text-xs font-semibold text-slate-700 mb-1">
+                    Teacher notes (saved with the next action)
+                  </label>
+                  <textarea
+                    id="placement-notes"
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
+                    rows={3}
+                    placeholder="What the student needs in the first weeks…"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm bg-white text-slate-900"
+                  />
+                </div>
               </div>
+
+              {/* Score overrides */}
+              {overrides && (
+                <div className={`${FRAME} p-5`}>
+                  <h3 className="text-sm font-semibold text-slate-700 mb-1">
+                    Teacher scores
+                  </h3>
+                  <p className="text-xs text-slate-500 mb-3">
+                    Speaking is auto-scored provisionally. Adjust any skill (0-100);
+                    the total is recalculated as the average.
+                  </p>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    {(["listening", "reading", "writing", "speaking"] as const).map((k) => (
+                      <div key={k}>
+                        <label htmlFor={`ov-${k}`} className="block text-xs font-semibold text-slate-600 mb-1 capitalize">
+                          {k}
+                        </label>
+                        <input
+                          id={`ov-${k}`} type="number" min={0} max={100}
+                          value={overrides[k]}
+                          onChange={(e) => setOverrides({ ...overrides, [k]: e.target.value })}
+                          className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm bg-white text-slate-900"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                  <Button className="mt-3" onClick={() => void saveOverrides()}>
+                    Save scores &amp; recalculate
+                  </Button>
+                </div>
+              )}
             </section>
           )}
         </div>
