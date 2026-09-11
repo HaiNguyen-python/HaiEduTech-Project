@@ -116,7 +116,7 @@ export default function SpecializedLessonView({ lesson, language, lessonNumber, 
                 <div><p className="text-lg font-bold">{word.term}</p>{word.pronunciation && <p className="text-sm font-medium text-primary">{word.pronunciation}</p>}</div>
                 <Button type="button" size="icon" variant="ghost" aria-label={t("Nghe từ", "Listen to word")} onClick={() => speak(word.term, key)}>{speakingKey === key ? <Square className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}</Button>
               </div>
-              <p className="mt-1 text-sm"><Badge variant="secondary" className="mr-2">{word.partOfSpeech}</Badge>{word.translation}</p>
+              <p className="mt-1 text-sm"><Badge variant="secondary" className="mr-2">{word.partOfSpeech}</Badge>{isMeaningfulTranslation(word.term, word.translation) ? word.translation : ""}</p>
               <div className="mt-3 rounded-md bg-muted/50 p-3 text-sm leading-relaxed">
                 <div className="flex gap-2"><p className="flex-1">{word.example}</p><Button type="button" size="icon" variant="ghost" className="h-7 w-7" aria-label={t("Nghe ví dụ", "Listen to example")} onClick={() => speak(word.example, `example-${index}`)}><Play className="h-3.5 w-3.5" /></Button></div>
                 {isMeaningfulTranslation(word.example, word.exampleTranslation) && <p className="mt-1 text-muted-foreground">{word.exampleTranslation}</p>}
