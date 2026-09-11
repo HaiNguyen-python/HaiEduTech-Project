@@ -23,6 +23,7 @@ import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import { PLACEMENT_TEST } from "@/data/placementTest";
 import { RECOMMENDED_CLASSES } from "@/lib/placement/placementModel";
+import { fetchAllRows } from "@/lib/adminData";
 
 interface PlacementBandStat {
   cefr: string;
@@ -144,19 +145,22 @@ const AdminPlacementResults = () => {
 
   const load = useCallback(async () => {
     setLoading(true);
-    const { data, error } = await supabase
-      .from("placement_test_results")
-      .select("*")
-      .order("created_at", { ascending: false })
-      .limit(200);
-    if (error) {
-      toast.error("Could not load results.");
-    } else {
-      const list = (data ?? []) as unknown as PlacementRow[];
+    try {
+      // Paged: the old 200-row cap silently hid older placement runs.
+      const list = (await fetchAllRows<PlacementRow>((from, to) =>
+        supabase
+          .from("placement_test_results")
+          .select("*")
+          .order("created_at", { ascending: false })
+          .range(from, to),
+      )) as PlacementRow[];
       setRows(list);
       setSelectedId((cur) => cur ?? list[0]?.id ?? null);
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Could not load results.");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }, []);
 
   useEffect(() => { void load(); }, [load]);

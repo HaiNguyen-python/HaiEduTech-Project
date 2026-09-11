@@ -16,6 +16,8 @@ import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter,
 } from "@/components/ui/dialog";
 import { SUBJECT_LABELS } from "@/lib/assignmentMetrics";
+import { fetchAllRows } from "@/lib/adminData";
+import { dedupeStudentProfiles, fetchAllProfiles } from "@/lib/adminStudents";
 
 interface ClassRow { id: string; class_name: string; subject_category: string; created_at: string; }
 interface MemberRow { id: string; class_id: string; user_id: string; }
@@ -31,6 +33,7 @@ const AdminClasses = () => {
   const [students, setStudents] = useState<ProfileRow[]>([]);
   const [createOpen, setCreateOpen] = useState(false);
   const [editingClass, setEditingClass] = useState<ClassRow | null>(null);
+  const [mergedProfiles, setMergedProfiles] = useState(0);
 
   // Form state for create dialog
   const [name, setName] = useState("");
@@ -38,24 +41,26 @@ const AdminClasses = () => {
 
   const fetchAll = async () => {
     setLoading(true);
-    const [{ data: c }, { data: m }, { data: p }] = await Promise.all([
-      supabase.from("classes").select("*").order("created_at", { ascending: false }),
-      supabase.from("class_members").select("id, class_id, user_id"),
-      supabase.from("profiles").select("id, full_name").order("full_name"),
-    ]);
-    setClasses((c as ClassRow[]) ?? []);
-    setMembers((m as MemberRow[]) ?? []);
-    // Dedupe by name
-    const seen = new Set<string>();
-    const dedup: ProfileRow[] = [];
-    ((p as ProfileRow[]) ?? []).forEach((s) => {
-      const k = (s.full_name ?? "").trim().toLowerCase();
-      if (k && seen.has(k)) return;
-      if (k) seen.add(k);
-      dedup.push(s);
-    });
-    setStudents(dedup);
-    setLoading(false);
+    try {
+      // Paged reads: never silently stop at the 1000-row API ceiling.
+      const [c, m, p] = await Promise.all([
+        fetchAllRows<ClassRow>((from, to) =>
+          supabase.from("classes").select("*").order("created_at", { ascending: false }).range(from, to)),
+        fetchAllRows<MemberRow>((from, to) =>
+          supabase.from("class_members").select("id, class_id, user_id").range(from, to)),
+        fetchAllProfiles(),
+      ]);
+      setClasses(c);
+      setMembers(m);
+      const { students: unique, mergedCount } = dedupeStudentProfiles(p);
+      setStudents(unique as ProfileRow[]);
+      setMergedProfiles(mergedCount);
+    } catch (e) {
+      const message = e instanceof Error ? e.message : "Unknown error";
+      toast({ title: "Could not load classes", description: message, variant: "destructive" });
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => { if (isTeacher) fetchAll(); }, [isTeacher]);
@@ -109,6 +114,12 @@ const AdminClasses = () => {
               <p className="text-xs uppercase tracking-wider text-slate-500">Admin · LMS</p>
               <h1 className="text-2xl sm:text-3xl font-semibold mt-1">Class Management</h1>
               <p className="text-sm text-slate-500 mt-1">Group your students into classes for batch assignments.</p>
+              <p className="text-xs text-slate-500 mt-1">
+                Showing {classes.length} class(es) · {students.length} student(s)
+                {mergedProfiles > 0 && (
+                  <span className="text-amber-700"> · {mergedProfiles} duplicate profile(s) merged</span>
+                )}
+              </p>
             </div>
             <Button onClick={() => setCreateOpen(true)} className="bg-slate-900 hover:bg-slate-800 text-white">
               <Plus className="h-4 w-4" /> Create New Class
@@ -233,14 +244,28 @@ function EditMembersDialog({
     const toAdd = Array.from(selected).filter((id) => !currentMemberIds.has(id));
     const toRemove = Array.from(currentMemberIds).filter((id) => !selected.has(id));
 
+    // Both writes are verified: a silent failure used to leave a class empty
+    // while the UI reported success.
     if (toRemove.length > 0) {
-      await supabase.from("class_members").delete()
+      const { error } = await supabase.from("class_members").delete()
         .eq("class_id", klass.id).in("user_id", toRemove);
+      if (error) {
+        setSaving(false);
+        toast({ title: "Could not remove students", description: error.message, variant: "destructive" });
+        onSaved(); // reload from the server so the list reflects reality
+        return;
+      }
     }
     if (toAdd.length > 0) {
-      await supabase.from("class_members").insert(
+      const { error } = await supabase.from("class_members").insert(
         toAdd.map((uid) => ({ class_id: klass.id, user_id: uid }))
       );
+      if (error) {
+        setSaving(false);
+        toast({ title: "Could not add students", description: error.message, variant: "destructive" });
+        onSaved();
+        return;
+      }
     }
     setSaving(false);
     toast({ title: "Members updated", description: `${selected.size} student(s) in class.` });

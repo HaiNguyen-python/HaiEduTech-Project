@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Loader2, RefreshCw, Activity, CheckCircle2, AlertTriangle, XCircle, Clock } from "lucide-react";
 import { toast } from "sonner";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
+import DataIntegrityCard from "@/components/admin/DataIntegrityCard";
 
 type Status = "ok" | "fail" | "warn";
 type Category = "edge" | "db" | "rpc" | "route" | "ai";
@@ -138,6 +139,8 @@ const HealthMonitorTab = () => {
         <StatCard label="Cảnh báo" value={latest?.warned ?? 0} icon={<AlertTriangle className="w-4 h-4" />} color="text-amber-600" />
         <StatCard label="Bị lỗi" value={latest?.failed ?? 0} icon={<XCircle className="w-4 h-4" />} color="text-red-600" />
       </div>
+
+      <DataIntegrityCard />
 
       {latest && (
         <div className="text-sm text-muted-foreground flex items-center gap-2">

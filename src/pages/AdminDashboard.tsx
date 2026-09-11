@@ -136,12 +136,18 @@ function exportData(data: object[], format: "csv" | "json", filename: string) {
   URL.revokeObjectURL(url);
 }
 
+/** Activity lookback options for the dashboard snapshot. */
+type ActivityWindow = 30 | 90 | 120;
+const ACTIVITY_WINDOWS: ActivityWindow[] = [30, 90, 120];
+
 const AdminDashboard = () => {
   const { t } = useLanguage();
   const { isTeacher, isPureAssistant, loading: roleLoading } = useUserRole();
   const navigate = useNavigate();
 
   const [loadingData, setLoadingData] = useState(true);
+  // Activity lookback window. 30 days keeps the heavy RPC fast by default.
+  const [activityWindowDays, setActivityWindowDays] = useState<ActivityWindow>(30);
   const [activities, setActivities] = useState<AdminActivity[]>([]);
   const [studentStates, setStudentStates] = useState<StudentState[]>([]);
   const [selectedStudent, setSelectedStudent] = useState<StudentState | null>(null);
@@ -192,15 +198,16 @@ const AdminDashboard = () => {
   }, [roleLoading, canAccessDashboard, navigate]);
 
   // Fetch compact admin snapshot in one backend round-trip.
-  const fetchAll = useCallback(async () => {
+  const fetchAll = useCallback(async (force = false) => {
     if (!canAccessDashboard) return;
     const now = Date.now();
     // Cache snapshot 3 phút — admin không cần realtime tuyệt đối, RPC này quét student_activity_log rất nặng.
-    if (fetchInFlightRef.current || now - lastFetchAtRef.current < 180_000) return;
+    if (fetchInFlightRef.current || (!force && now - lastFetchAtRef.current < 180_000)) return;
     fetchInFlightRef.current = true;
     lastFetchAtRef.current = now;
     setLoadingData(true);
-    const sinceIso = new Date(Date.now() - 120 * 24 * 60 * 60 * 1000).toISOString();
+    // Shorter default window = far less data scanned; admin can widen on demand.
+    const sinceIso = new Date(Date.now() - activityWindowDays * 24 * 60 * 60 * 1000).toISOString();
     try {
       const { data, error } = await supabase.rpc("get_admin_dashboard_snapshot", { _since: sinceIso });
       if (error) throw error;
@@ -279,9 +286,16 @@ const AdminDashboard = () => {
       fetchInFlightRef.current = false;
       setLoadingData(false);
     }
-  }, [canAccessDashboard, t]);
+  }, [canAccessDashboard, t, activityWindowDays]);
 
   useEffect(() => { fetchAll(); }, [fetchAll]);
+
+  // Changing the window must bypass the 3-minute cache, otherwise the numbers
+  // would not move until the cache expired.
+  const changeActivityWindow = (days: ActivityWindow) => {
+    setActivityWindowDays(days);
+    lastFetchAtRef.current = 0;
+  };
 
   // Realtime subscription for live updates - ignore high-frequency system events
   // (heartbeat/daily_login) and debounce to prevent refetch storms.
@@ -444,8 +458,26 @@ const AdminDashboard = () => {
                   </p>
                 </div>
               </div>
-              {/* Export buttons */}
-              <div className="flex gap-2">
+              {/* Activity window + export buttons */}
+              <div className="flex flex-wrap items-center gap-2">
+                <div className="flex items-center gap-1 rounded-lg border border-border p-1">
+                  <span className="px-1.5 text-xs text-muted-foreground">
+                    {t("Dữ liệu", "Data")}
+                  </span>
+                  {ACTIVITY_WINDOWS.map((days) => (
+                    <Button
+                      key={days}
+                      variant={activityWindowDays === days ? "default" : "ghost"}
+                      size="sm"
+                      onClick={() => changeActivityWindow(days)}
+                      disabled={loadingData}
+                      aria-pressed={activityWindowDays === days}
+                      className="h-7 px-2 text-xs"
+                    >
+                      {days}{t(" ngày", "d")}
+                    </Button>
+                  ))}
+                </div>
                 <Button
                   variant="outline"
                   size="sm"
@@ -543,27 +575,30 @@ const AdminDashboard = () => {
                     </button>
                   );
                 })}
-                {/* Direct link to standalone Assignment Management page */}
-                <button
-                  onClick={() => navigate("/admin/assignments")}
-                  className="flex items-center gap-1.5 px-3 py-2 rounded-md text-sm font-semibold transition-all text-foreground/70 hover:bg-secondary hover:text-foreground"
-                >
-                  <ClipboardList className="w-4 h-4" /> {t("Quản lý Bài tập", "Assignments")}
-                </button>
-                {/* Direct link to Class Management page */}
-                <button
-                  onClick={() => navigate("/admin/classes")}
-                  className="flex items-center gap-1.5 px-3 py-2 rounded-md text-sm font-semibold transition-all text-foreground/70 hover:bg-secondary hover:text-foreground"
-                >
-                  <Users className="w-4 h-4" /> {t("Quản lý Lớp học", "Class Management")}
-                </button>
-                {/* Direct link to Placement Test diagnostic results */}
-                <button
-                  onClick={() => navigate("/admin/placement-test-results")}
-                  className="flex items-center gap-1.5 px-3 py-2 rounded-md text-sm font-semibold transition-all text-foreground/70 hover:bg-secondary hover:text-foreground"
-                >
-                  <ClipboardList className="w-4 h-4" /> {t("Kết quả Test đầu vào", "Placement Results")}
-                </button>
+                {/* Teacher-only standalone pages: assistants are redirected away
+                    by those routes, so don't show dead-end links to them. */}
+                {isTeacher && (
+                  <>
+                    <button
+                      onClick={() => navigate("/admin/assignments")}
+                      className="flex items-center gap-1.5 px-3 py-2 rounded-md text-sm font-semibold transition-all text-foreground/70 hover:bg-secondary hover:text-foreground"
+                    >
+                      <ClipboardList className="w-4 h-4" /> {t("Quản lý Bài tập", "Assignments")}
+                    </button>
+                    <button
+                      onClick={() => navigate("/admin/classes")}
+                      className="flex items-center gap-1.5 px-3 py-2 rounded-md text-sm font-semibold transition-all text-foreground/70 hover:bg-secondary hover:text-foreground"
+                    >
+                      <Users className="w-4 h-4" /> {t("Quản lý Lớp học", "Class Management")}
+                    </button>
+                    <button
+                      onClick={() => navigate("/admin/placement-test-results")}
+                      className="flex items-center gap-1.5 px-3 py-2 rounded-md text-sm font-semibold transition-all text-foreground/70 hover:bg-secondary hover:text-foreground"
+                    >
+                      <ClipboardList className="w-4 h-4" /> {t("Kết quả Test đầu vào", "Placement Results")}
+                    </button>
+                  </>
+                )}
               </div>
 
               {/* Sub-tabs (filtered by group) */}

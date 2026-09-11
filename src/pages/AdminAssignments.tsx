@@ -41,6 +41,8 @@ import {
   type Assignment,
 } from "@/lib/assignmentMetrics";
 import { ASSIGNMENT_LESSON_CATALOG } from "@/lib/assignmentLessonCatalog";
+import { fetchAllRows } from "@/lib/adminData";
+import { dedupeStudentProfiles, fetchAllProfiles } from "@/lib/adminStudents";
 
 type StatusFilter = "all" | "in_progress" | "completed" | "overdue";
 type SubjectFilter = "all" | keyof typeof SUBJECT_LABELS;
@@ -113,37 +115,38 @@ const AdminAssignments = () => {
 
   const [createOpen, setCreateOpen] = useState(false);
   const [detailRow, setDetailRow] = useState<AssignmentRow | null>(null);
+  const [mergedProfiles, setMergedProfiles] = useState(0);
 
   const fetchAll = useCallback(async () => {
     setLoading(true);
-    // Bounded queries keep the admin dashboard snappy under heavy data.
-    const [{ data: aData }, { data: sData }, { data: pData }, { data: cData }, { data: cmData }] = await Promise.all([
-      supabase.from("assignments").select("*").order("assigned_at", { ascending: false }).limit(200),
-      supabase.from("student_submissions").select("*").order("updated_at", { ascending: false }).limit(2000),
-      supabase.from("profiles").select("id, full_name").order("full_name").limit(1000),
-      supabase.from("classes").select("id, class_name, subject_category").order("class_name"),
-      supabase.from("class_members").select("class_id, user_id"),
-    ]);
-    setClasses((cData as ClassOption[]) ?? []);
-    setClassMembers((cmData as ClassMember[]) ?? []);
-    setAssignments((aData as Assignment[]) ?? []);
-    setSubmissions((sData as Submission[]) ?? []);
-    // Dedupe students by id, then by normalized display name so duplicate
-    // profiles (same person registered twice) don't appear in the picker.
-    const rawProfiles = (pData as StudentProfile[]) ?? [];
-    const byId = new Map<string, StudentProfile>();
-    rawProfiles.forEach((p) => { if (!byId.has(p.id)) byId.set(p.id, p); });
-    const seenNames = new Set<string>();
-    const uniqueStudents: StudentProfile[] = [];
-    Array.from(byId.values()).forEach((p) => {
-      const key = (p.full_name ?? "").trim().toLowerCase();
-      if (key && seenNames.has(key)) return; // skip duplicate display name
-      if (key) seenNames.add(key);
-      uniqueStudents.push(p);
-    });
-    setStudents(uniqueStudents);
-    setLoading(false);
-  }, []);
+    try {
+      // Fully paged reads - no hidden row ceilings, so counts stay truthful.
+      const [aData, sData, pData, cData, cmData] = await Promise.all([
+        fetchAllRows<Assignment>((from, to) =>
+          supabase.from("assignments").select("*").order("assigned_at", { ascending: false }).range(from, to)),
+        fetchAllRows<Submission>((from, to) =>
+          supabase.from("student_submissions").select("*").order("updated_at", { ascending: false }).range(from, to)),
+        fetchAllProfiles(),
+        fetchAllRows<ClassOption>((from, to) =>
+          supabase.from("classes").select("id, class_name, subject_category").order("class_name").range(from, to)),
+        fetchAllRows<ClassMember>((from, to) =>
+          supabase.from("class_members").select("class_id, user_id").range(from, to)),
+      ]);
+      setClasses(cData);
+      setClassMembers(cmData);
+      setAssignments(aData);
+      setSubmissions(sData);
+      // Shared merge rule: duplicate profiles fold into the oldest account.
+      const { students: uniqueStudents, mergedCount } = dedupeStudentProfiles(pData);
+      setStudents(uniqueStudents as StudentProfile[]);
+      setMergedProfiles(mergedCount);
+    } catch (e) {
+      const message = e instanceof Error ? e.message : "Unknown error";
+      toast({ title: "Could not load assignments", description: message, variant: "destructive" });
+    } finally {
+      setLoading(false);
+    }
+  }, [toast]);
 
   useEffect(() => {
     if (isTeacher) fetchAll();
@@ -212,6 +215,12 @@ const AdminAssignments = () => {
               </h1>
               <p className="text-sm text-slate-500 mt-1">
                 Multi-subject homework tracker for Teacher Hai
+              </p>
+              <p className="text-xs text-slate-500 mt-1">
+                Showing {filteredRows.length} of {rows.length} assignment(s) · {students.length} student(s)
+                {mergedProfiles > 0 && (
+                  <span className="text-amber-700"> · {mergedProfiles} duplicate profile(s) merged</span>
+                )}
               </p>
             </div>
           </div>
@@ -427,12 +436,26 @@ function CreateAssignmentDialog({ open, onOpenChange, students, classes, classMe
 
   // When a class is selected, auto-fill the student picker with its members.
   // Teacher can still add/remove individual students afterwards.
+  const memberCount = useCallback(
+    (classId: string) => classMembers.filter((m) => m.class_id === classId).length,
+    [classMembers],
+  );
+
   const handleClassChange = (classId: string) => {
     setTargetClassId(classId);
     if (classId === "none") return;
     const memberIds = classMembers.filter((m) => m.class_id === classId).map((m) => m.user_id);
     setSelected(new Set(memberIds));
+    if (memberIds.length === 0) {
+      toast({
+        title: "This class has no students yet",
+        description: "Add members in Class Management, or pick students manually below.",
+        variant: "destructive",
+      });
+    }
   };
+
+  const emptyClassSelected = targetClassId !== "none" && memberCount(targetClassId) === 0;
 
   const filteredStudents = useMemo(() => {
     const q = studentQuery.trim().toLowerCase();
@@ -488,13 +511,25 @@ function CreateAssignmentDialog({ open, onOpenChange, students, classes, classMe
       return;
     }
 
-    // Seed an initial "assigned" submission row per student so progress = 0 displays meaningfully
+    // Seed an initial "assigned" submission row per student so progress = 0 displays meaningfully.
+    // If this fails the assignment is rolled back: a task with no progress rows
+    // is worse than no task at all.
     const rows = target_student_ids.map((sid) => ({
       assignment_id: created.id,
       student_id: sid,
       status: "assigned" as const,
     }));
-    await supabase.from("student_submissions").insert(rows);
+    const { error: subError } = await supabase.from("student_submissions").insert(rows);
+    if (subError) {
+      await supabase.from("assignments").delete().eq("id", created.id);
+      setSubmitting(false);
+      toast({
+        title: "Create failed - nothing was assigned",
+        description: subError.message,
+        variant: "destructive",
+      });
+      return;
+    }
 
     // Emit a real-time notification to each targeted student
     const deadlineText = deadline
@@ -508,11 +543,28 @@ function CreateAssignmentDialog({ open, onOpenChange, students, classes, classMe
       body: notifBody,
       route: sourceRef || null,
     }));
-    await supabase.from("assignment_notifications").insert(notifRows);
+    const { data: notified, error: notifError } = await supabase
+      .from("assignment_notifications")
+      .insert(notifRows)
+      .select("id");
 
     setSubmitting(false);
     reset();
-    toast({ title: "Assignment created", description: `${target_student_ids.length} student(s) notified.` });
+    if (notifError) {
+      // Task exists and is visible in the student's list, but the bell alert failed.
+      toast({
+        title: "Assignment saved, alerts not sent",
+        description: `${target_student_ids.length} student(s) received the task, but the notification failed: ${notifError.message}`,
+        variant: "destructive",
+      });
+    } else {
+      const sent = notified?.length ?? 0;
+      toast({
+        title: "Assignment created",
+        description: `${target_student_ids.length} student(s) assigned · ${sent} notified.`,
+        variant: sent < target_student_ids.length ? "destructive" : undefined,
+      });
+    }
     onCreated();
   };
 
@@ -629,14 +681,20 @@ function CreateAssignmentDialog({ open, onOpenChange, students, classes, classMe
                     </div>
                   ) : classes.map((c) => (
                     <SelectItem key={c.id} value={c.id}>
-                      {c.class_name} ({SUBJECT_LABELS[c.subject_category] ?? c.subject_category})
+                      {c.class_name} ({SUBJECT_LABELS[c.subject_category] ?? c.subject_category}) · {memberCount(c.id)} student(s)
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
-              <p className="mt-1 text-[11px] text-slate-400">
-                Selecting a class auto-fills its members below.
-              </p>
+              {emptyClassSelected ? (
+                <p className="mt-1 text-[11px] text-rose-600">
+                  This class has no students — pick students manually below.
+                </p>
+              ) : (
+                <p className="mt-1 text-[11px] text-slate-500">
+                  Selecting a class auto-fills its members below.
+                </p>
+              )}
             </div>
             <div>
               <Label>Deadline</Label>
