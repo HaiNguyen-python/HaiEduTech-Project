@@ -58,6 +58,7 @@ const HealthMonitorTab = lazy(() => import("@/components/admin/HealthMonitorTab"
 const PhdResearchTab = lazy(() => import("@/components/admin/PhdResearchTab"));
 const EdTechResearchInsightsTab = lazy(() => import("@/components/admin/EdTechResearchInsightsTab"));
 const ResearchProjectsAdminTab = lazy(() => import("@/components/admin/ResearchProjectsAdminTab"));
+const ContentStudioTab = lazy(() => import("@/components/admin/content/ContentStudioTab"));
 const SuspiciousActivityCard = lazy(() => import("@/components/admin/SuspiciousActivityCard"));
 const LearningDnaExportButton = lazy(() => import("@/components/admin/LearningDnaExportButton"));
 const Classroom3D = lazy(() => import("@/components/admin/Classroom3D"));
@@ -588,6 +589,7 @@ const AdminDashboard = () => {
                     <TabsTrigger value="rl-interventions" className="gap-1.5"><Bell className="w-3.5 h-3.5" /> {t("Chuông RL tự động", "RL Bell Dispatcher")}</TabsTrigger>
                     <TabsTrigger value="strategy" className="gap-1.5"><TrendingUp className="w-3.5 h-3.5" /> {t("Chiến lược", "Strategy")}</TabsTrigger>
                     <TabsTrigger value="dictionary" className="gap-1.5"><BookOpen className="w-3.5 h-3.5" /> {t("Từ điển Anh", "English Dictionary")}</TabsTrigger>
+                    <TabsTrigger value="content-studio" className="gap-1.5"><BookOpen className="w-3.5 h-3.5" /> {t("Soạn & đăng nội dung", "Content Studio")}</TabsTrigger>
                   </>
                 )}
                 {tabGroup === "operations" && (
@@ -1219,6 +1221,10 @@ const AdminDashboard = () => {
 
               <TabsContent value="service-requests">
                 <ServiceRequestsTab />
+              </TabsContent>
+
+              <TabsContent value="content-studio">
+                <ContentStudioTab />
               </TabsContent>
 
               <TabsContent value="health">
