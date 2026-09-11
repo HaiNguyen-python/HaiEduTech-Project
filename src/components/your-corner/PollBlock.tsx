@@ -79,7 +79,7 @@ export default function PollBlock({ postId, userId, poll, votes, myVote, onChang
       );
     setPending(null);
     if (error) {
-      toast.error("Không gửi được phiếu");
+      toast.error(t("Không gửi được phiếu", "Could not submit your vote"));
       setLocalVotes(votes ?? {});
       setLocalVote(myVote);
       return;
@@ -90,7 +90,7 @@ export default function PollBlock({ postId, userId, poll, votes, myVote, onChang
   return (
     <div className="rounded-xl border border-primary/20 bg-gradient-to-br from-blue-50/60 to-emerald-50/60 dark:from-blue-950/30 dark:to-emerald-950/30 p-4 space-y-3">
       <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-primary">
-        <Vote className="w-3.5 h-3.5" /> Câu hỏi ôn tập
+        <Vote className="w-3.5 h-3.5" /> {t("Câu hỏi ôn tập", "Review question")}
         {poll.subject && (
           <span className="ml-auto text-[10px] font-semibold px-2 py-0.5 rounded-full bg-primary/10">
             {poll.subject}
@@ -99,7 +99,7 @@ export default function PollBlock({ postId, userId, poll, votes, myVote, onChang
       </div>
       <p className="font-semibold text-base leading-snug">{poll.question}</p>
       <div className="space-y-1.5">
-        {poll.options.map((opt, idx) => {
+        {options.map((opt, idx) => {
           const count = localVotes[String(idx)] ?? 0;
           const pct = total > 0 ? Math.round((count / total) * 100) : 0;
           const isMine = localVote === idx;
@@ -165,13 +165,13 @@ export default function PollBlock({ postId, userId, poll, votes, myVote, onChang
             {localVote === poll.correct_index ? (
               <>
                 <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                <span className="text-emerald-700 dark:text-emerald-400">Chính xác!</span>
+                <span className="text-emerald-700 dark:text-emerald-400">{t("Chính xác!", "Correct!")}</span>
               </>
             ) : (
               <>
                 <XCircle className="w-4 h-4 text-red-600" />
                 <span className="text-amber-700 dark:text-amber-400">
-                  Chưa đúng - Đáp án: {String.fromCharCode(65 + poll.correct_index)}. {poll.options[poll.correct_index]}
+                  {t("Chưa đúng - Đáp án", "Not quite - Answer")}: {String.fromCharCode(65 + poll.correct_index)}. {options[poll.correct_index]}
                 </span>
               </>
             )}
@@ -189,14 +189,14 @@ export default function PollBlock({ postId, userId, poll, votes, myVote, onChang
       {hasVoted && (
         <div className="rounded-lg border border-border/60 bg-background/80 p-3 space-y-2 animate-in fade-in slide-in-from-bottom-1">
           <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-primary">
-            <BarChart3 className="w-3.5 h-3.5" /> Kết quả trực quan
+            <BarChart3 className="w-3.5 h-3.5" /> {t("Kết quả trực quan", "Results at a glance")}
             {topOption && total > 0 && (
               <span className="ml-auto inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-600 normal-case tracking-normal">
-                <Trophy className="w-3 h-3" /> Dẫn đầu: {topOption.label} ({topOption.pct}%)
+                <Trophy className="w-3 h-3" /> {t("Dẫn đầu", "Leading")}: {topOption.label} ({topOption.pct}%)
               </span>
             )}
           </div>
-          <div className="w-full" style={{ height: Math.max(120, poll.options.length * 36) }}>
+          <div className="w-full" style={{ height: Math.max(120, options.length * 36) }}>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData} layout="vertical" margin={{ top: 4, right: 36, bottom: 4, left: 8 }}>
                 <XAxis type="number" domain={[0, 100]} hide />
@@ -216,7 +216,7 @@ export default function PollBlock({ postId, userId, poll, votes, myVote, onChang
                     borderRadius: 8,
                     fontSize: 12,
                   }}
-                  formatter={(v: number, _n, p: any) => [`${v}% (${p.payload.count} phiếu)`, "Tỉ lệ"]}
+                  formatter={(v: number, _n, p: any) => [`${v}% (${p.payload.count})`, t("Tỉ lệ", "Share")]}
                 />
                 <Bar dataKey="pct" radius={[4, 4, 4, 4]} barSize={18}>
                   {chartData.map((d, i) => (
@@ -237,8 +237,8 @@ export default function PollBlock({ postId, userId, poll, votes, myVote, onChang
 
       <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
         <BarChart3 className="w-3 h-3" />
-        {total} lượt bình chọn
-        {hasVoted && allowChange && <span>· Bạn có thể đổi đáp án</span>}
+        {total} {t("lượt bình chọn", total === 1 ? "vote" : "votes")}
+        {hasVoted && allowChange && <span>· {t("Bạn có thể đổi đáp án", "You can change your answer")}</span>}
       </div>
 
     </div>
