@@ -94,8 +94,8 @@ export default function LessonLibraryContent() {
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
         <PublishedContentStrip
           kind="lesson"
-          titleVi="Bài giảng từ thầy Hải"
-          titleEn="Lessons from Teacher Hai"
+          titleVi="Teacher Notes - Bài giảng"
+          titleEn="Teacher Notes - Lessons"
         />
         <div className="flex items-center gap-3 mb-6">
           <p className="text-muted-foreground">

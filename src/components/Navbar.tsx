@@ -447,13 +447,20 @@ const Navbar = () => {
     { to: "/study-abroad/checklist", label: t("✈️ Pre-Departure", "✈️ Pre-Departure"), icon: Plane },
   ];
 
+  // Teacher Notes: published Content Studio articles/lessons/resources, shown
+  // inside each subject dropdown and pre-filtered by that subject.
+  const teacherNotes = (subject: string): SubItem => ({
+    to: `/insights?subject=${encodeURIComponent(subject)}`,
+    label: t("📰 Teacher Notes", "📰 Teacher Notes"),
+    icon: Newspaper,
+  });
+
   const baseLinks = [
     { to: "/", label: t("Trang chủ", "Home"), icon: GraduationCap, key: "home" },
     { to: "/about", label: t("Giới thiệu", "About"), icon: Brain, key: "about" },
-    { to: "/insights", label: t("Bài viết", "Insights"), icon: Newspaper, key: "insights" },
-    { to: "/english", label: t("Tiếng Anh", "English"), icon: BookOpen, subs: englishSubs, key: "en" },
-    { to: "/learn-vietnamese", label: t("Tiếng Việt", "Vietnamese"), icon: Globe, subs: vietnameseSubs, key: "vn" },
-    { to: "/chinese", label: t("Tiếng Trung", "Chinese"), icon: Languages, subs: chineseSubs, key: "cn" },
+    { to: "/english", label: t("Tiếng Anh", "English"), icon: BookOpen, subs: [...englishSubs, teacherNotes("English")], key: "en" },
+    { to: "/learn-vietnamese", label: t("Tiếng Việt", "Vietnamese"), icon: Globe, subs: [...vietnameseSubs, teacherNotes("Vietnamese")], key: "vn" },
+    { to: "/chinese", label: t("Tiếng Trung", "Chinese"), icon: Languages, subs: [...chineseSubs, teacherNotes("Chinese")], key: "cn" },
     { to: "/japanese", label: t("Tiếng Nhật", "Japanese"), icon: Globe, subs: [
       { to: "/japanese", label: t("🌸 Tổng quan Tiếng Nhật", "🌸 Japanese Overview") },
       { to: "/placement-test?subject=japanese", label: t("📝 Placement Test & Personalization", "📝 Placement Test & Personalization") },
@@ -489,10 +496,11 @@ const Navbar = () => {
         { to: "/japanese?tab=culture", label: t("🎎 Văn hoá & Du học", "🎎 Culture & Study Abroad") },
       ] },
 
+      teacherNotes("Japanese"),
     ], key: "jp" },
-    { to: "/finnish", label: t("Tiếng Phần Lan", "Finnish"), icon: Globe, subs: finnishSubs, key: "fi" },
-    { to: "/swedish", label: t("Tiếng Thụy Điển", "Swedish"), icon: Globe, subs: swedishSubs, key: "sv" },
-    { to: "/programming", label: t("Lập Trình", "Programming"), icon: Code2, subs: programmingSubs, key: "prog" },
+    { to: "/finnish", label: t("Tiếng Phần Lan", "Finnish"), icon: Globe, subs: [...finnishSubs, teacherNotes("Finnish")], key: "fi" },
+    { to: "/swedish", label: t("Tiếng Thụy Điển", "Swedish"), icon: Globe, subs: [...swedishSubs, teacherNotes("Swedish")], key: "sv" },
+    { to: "/programming", label: t("Lập Trình", "Programming"), icon: Code2, subs: [...programmingSubs, teacherNotes("Programming")], key: "prog" },
     { to: "/lifestyle-academy", label: t("Lifestyle", "Lifestyle"), icon: Heart, subs: [
       { to: "/lifestyle-academy", label: t("🌿 Tổng quan Lifestyle Academy", "🌿 Lifestyle Academy Overview") },
       
@@ -503,6 +511,7 @@ const Navbar = () => {
       { to: "/lifestyle-academy?pillar=selfstudy", label: t("📚 Kỹ năng Tự học", "📚 Self-Study Skills") },
       { to: "/lifestyle-academy?pillar=partying", label: t("🎉 Tiệc tùng & Sự kiện", "🎉 Parties & Events") },
       { to: "/lifestyle-academy#micro-coach", label: t("🧘 Micro-Coach hôm nay", "🧘 Micro-Coach for Today") },
+      teacherNotes("Lifestyle"),
     ], key: "lifestyle" },
 
     // Study Abroad and standalone EdTech entries are hidden — EdTech is now nested inside Programming.
