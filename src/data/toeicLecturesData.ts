@@ -1585,6 +1585,7 @@ const noWaitMethod: ToeicLecture = {
 import { toeicExpansionLectures } from "./toeicLecturesExpansion";
 import { toeicExpansion2Lectures } from "./toeicLecturesExpansion2";
 import { toeicLecturesExpansion3 } from "./toeicLecturesExpansion3";
+import { toeicLecturesExpansion4 } from "./toeicLecturesExpansion4";
 
 export const allToeicLectures: ToeicLecture[] = [
   part1Photos,
@@ -1610,4 +1611,5 @@ export const allToeicLectures: ToeicLecture[] = [
   ...toeicExpansionLectures,
   ...toeicExpansion2Lectures,
   ...toeicLecturesExpansion3,
+  ...toeicLecturesExpansion4,
 ];

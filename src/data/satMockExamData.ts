@@ -249,5 +249,6 @@ const baseSatMockExams: SatMockExam[] = [
 
 import { satMockExamExpansion6 } from "./satMockExamExpansion6";
 import { satMockExamExpansion7 } from "./satMockExamExpansion7";
+import { satMockExamExpansion8 } from "./satMockExamExpansion8";
 
-export const satMockExams: SatMockExam[] = [...baseSatMockExams, ...satMockExamExpansion, ...satMockExamExpansion2, ...satMockExamExpansion3, ...satMockExamExpansion4, ...satMockExamExpansion5, ...satMockExamExpansion6, ...satMockExamExpansion7];
+export const satMockExams: SatMockExam[] = [...baseSatMockExams, ...satMockExamExpansion, ...satMockExamExpansion2, ...satMockExamExpansion3, ...satMockExamExpansion4, ...satMockExamExpansion5, ...satMockExamExpansion6, ...satMockExamExpansion7, ...satMockExamExpansion8];
