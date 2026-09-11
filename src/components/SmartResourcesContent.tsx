@@ -139,8 +139,8 @@ export default function SmartResourcesContent() {
       <div className="max-w-3xl mx-auto">
         <PublishedContentStrip
           kind="resource"
-          titleVi="Tài liệu tải về từ thầy Hải"
-          titleEn="Downloadable resources from Teacher Hai"
+          titleVi="Teacher Notes - Tài liệu"
+          titleEn="Teacher Notes - Resources"
         />
       </div>
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
