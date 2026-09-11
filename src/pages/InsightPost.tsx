@@ -66,9 +66,9 @@ export default function InsightPost() {
       <Navbar />
       <main className="container mx-auto max-w-4xl px-4 py-8">
         <Button asChild variant="ghost" size="sm" className="mb-4">
-          <Link to="/insights">
+          <Link to={item?.subject ? `/insights?subject=${encodeURIComponent(item.subject)}` : "/insights"}>
             <ArrowLeft className="mr-1 h-4 w-4" />
-            {t("Tất cả nội dung", "All content")}
+            {t("Teacher Notes", "Teacher Notes")}
           </Link>
         </Button>
 
