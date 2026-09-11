@@ -9,10 +9,12 @@ const corsHeaders = {
 };
 
 interface LessonInput {
-  language: "english" | "chinese" | "vietnamese" | "finnish";
+  language: "english" | "chinese" | "vietnamese" | "finnish" | "swedish" | "japanese";
   field: string;
   jobRole: string;
   goal: string;
+  learnerLevel?: "beginner" | "elementary" | "intermediate" | "advanced";
+  dailyMinutes?: number;
   notes?: string;
 }
 
@@ -21,7 +23,12 @@ const LANG_LABEL: Record<string, string> = {
   chinese: "Chinese (Mandarin, with Pinyin and Hanzi)",
   vietnamese: "Vietnamese",
   finnish: "Finnish",
+  swedish: "Swedish",
+  japanese: "Japanese (with Kana/Kanji and Romaji where useful)",
 };
+
+const ALLOWED_LANGUAGES = new Set(Object.keys(LANG_LABEL));
+const ALLOWED_LEVELS = new Set(["beginner", "elementary", "intermediate", "advanced"]);
 
 async function logUsage(
   fn: string,
@@ -108,6 +115,25 @@ function extractJson(text: string): any {
   return null;
 }
 
+function isValidCurriculum(value: any): boolean {
+  if (!value || typeof value !== "object" || !Array.isArray(value.lessons) || value.lessons.length !== 5) return false;
+  return value.lessons.every((lesson: any, index: number) =>
+    lesson?.id === `lesson-${index + 1}` &&
+    typeof lesson.title === "string" && lesson.title.trim().length > 0 &&
+    typeof lesson.objective === "string" && lesson.objective.trim().length > 0 &&
+    Array.isArray(lesson.vocabulary) && lesson.vocabulary.length >= 8 && lesson.vocabulary.length <= 10 &&
+    Array.isArray(lesson.scenario?.dialogue) && lesson.scenario.dialogue.length >= 4 && lesson.scenario.dialogue.length <= 6 &&
+    Array.isArray(lesson.practiceTasks) && lesson.practiceTasks.length === 2 &&
+    Array.isArray(lesson.quiz) && lesson.quiz.length === 5 &&
+    lesson.quiz.every((question: any) =>
+      typeof question?.question === "string" &&
+      Array.isArray(question.options) && question.options.length === 4 &&
+      Number.isInteger(question.correctIndex) && question.correctIndex >= 0 && question.correctIndex < 4 &&
+      typeof question.explanation === "string" && question.explanation.trim().length > 0
+    )
+  );
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
@@ -123,16 +149,16 @@ Deno.serve(async (req) => {
     }
 
     const body: LessonInput = await req.json();
-    const { language, field, jobRole, goal, notes = "" } = body;
+    const { language, field, jobRole, goal, notes = "", learnerLevel = "elementary", dailyMinutes = 20 } = body;
 
     // Basic validation
-    if (!language || !field || !jobRole || !goal) {
+    if (!language || !field || !jobRole || !goal || !ALLOWED_LANGUAGES.has(language) || !ALLOWED_LEVELS.has(learnerLevel)) {
       return new Response(
         JSON.stringify({ error: "Missing required fields: language, field, jobRole, goal" }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
-    if (field.length > 200 || jobRole.length > 200 || goal.length > 500 || notes.length > 1000) {
+    if (field.length > 200 || jobRole.length > 200 || goal.length > 500 || notes.length > 1000 || !Number.isInteger(dailyMinutes) || dailyMinutes < 5 || dailyMinutes > 120) {
       return new Response(
         JSON.stringify({ error: "Input too long" }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
@@ -141,62 +167,59 @@ Deno.serve(async (req) => {
 
     const targetLang = LANG_LABEL[language] ?? "English";
     const isChinese = language === "chinese";
+    const isJapanese = language === "japanese";
+    const pronunciationRule = isChinese
+      ? "Every vocabulary item must include Pinyin with tone marks in pronunciation. Every Chinese example and dialogue line must use natural Hanzi."
+      : isJapanese
+        ? "Every vocabulary item must include a useful Kana or Romaji reading in pronunciation. Use natural Kana/Kanji in examples and dialogue."
+        : language === "swedish" || language === "finnish"
+          ? "Pronunciation tips must cover stress, vowel length and the most relevant sound or inflection pattern."
+          : "Give practical pronunciation guidance appropriate to this language.";
 
     const systemPrompt =
       `You are a professional language teacher who creates rigorous, workplace-ready language curricula. ` +
       `Always respond with VALID JSON only, no commentary, no markdown fences, no <think> blocks. ` +
       `Search the web for the most up-to-date 2026 industry terminology.`;
 
-    const userPrompt = `Create a structured ${targetLang} lesson for a ${jobRole} working in ${field}. Learning goal: ${goal}. ${
+    const userPrompt = `Create a coherent five-lesson ${targetLang} professional language pathway for a ${learnerLevel} learner who is a ${jobRole} working in ${field}. Learning goal: ${goal}. The learner studies ${dailyMinutes} minutes per day. ${
       notes ? `Special requirements: ${notes}.` : ""
     }
 
 Return ONLY a JSON object with this exact shape:
 {
-  "title": "string - lesson title in ${targetLang}",
-  "subtitle": "string - one-line summary in English",
-  "overview": "string - 2-3 sentence intro in English explaining what the learner will gain",
-  "vocabulary": [
-    {
-      "term": "string - the word/phrase in ${targetLang}",
-      ${isChinese ? '"pinyin": "string - Pinyin with tone marks",' : ""}
-      "translation": "string - English meaning",
-      "partOfSpeech": "string - noun/verb/adjective/phrase",
-      "example": "string - example sentence in ${targetLang}",
-      "exampleTranslation": "string - English translation of the example"
-    }
-  ],
-  "scenarios": [
-    {
-      "title": "string - scenario name in English",
-      "context": "string - 1-2 sentences setting the scene",
-      "dialogue": [
-        { "speaker": "string", "line": "string in ${targetLang}", "translation": "string in English" }
-      ],
-      "keyPhrases": ["string in ${targetLang} - 2-3 reusable phrases"]
-    }
-  ],
-  "grammar": [
-    {
-      "point": "string - grammar focus in English",
-      "explanation": "string - clear explanation",
-      "examples": ["string in ${targetLang}"]
-    }
-  ],
-  "tutorTips": [
-    "string - actionable tip in English (cultural, pronunciation, or practice strategy)"
-  ],
-  "culturalTip": "string - one paragraph cultural insight for the workplace in English",
-  "practiceTask": "string - one concrete homework task the learner can do today"
+  "id": "specialized-pathway",
+  "title": "pathway title in ${targetLang}",
+  "subtitle": "one-line English summary",
+  "overview": "2-3 sentence English overview",
+  "language": "${language}",
+  "level": "${learnerLevel}",
+  "totalMinutes": ${dailyMinutes * 5},
+  "lessons": [{
+    "id": "lesson-1",
+    "title": "lesson title in ${targetLang}",
+    "subtitle": "short English label",
+    "objective": "specific learning objective in English",
+    "estimatedMinutes": ${dailyMinutes},
+    "vocabulary": [{"term":"${targetLang} word or phrase","pronunciation":"reading or IPA","translation":"English meaning","partOfSpeech":"part of speech","example":"authentic ${targetLang} sentence","exampleTranslation":"English translation"}],
+    "scenario": {"title":"English scenario title","context":"English setup","dialogue":[{"speaker":"role","line":"${targetLang} line","translation":"English translation","keyPhrases":["important multiword phrase appearing in line"]}]},
+    "languageFocus": {"title":"English grammar or communication focus","explanation":"clear English explanation","examples":["${targetLang} example"]},
+    "pronunciationTips": ["actionable English tip"],
+    "culturalNote": "concise English workplace culture note",
+    "practiceTasks": ["guided practice task", "independent practice task"],
+    "quiz": [{"question":"clear question","options":["option A","option B","option C","option D"],"correctIndex":0,"explanation":"why the answer is correct"}],
+    "takeaway": "English summary of what to retain"
+  }]
 }
 
 REQUIREMENTS:
-- vocabulary: exactly 10 entries, prioritizing 2026-current industry terms
-- scenarios: exactly 5 entries, each with 4-6 dialogue turns
-- grammar: 2-3 points relevant to ${jobRole}
-- tutorTips: exactly 5 tips
-- All ${targetLang} text must be authentic and native-sounding
-${isChinese ? "- Always include both Hanzi and Pinyin for Chinese text" : ""}`;
+- Return exactly 5 lessons in this sequence: Core Vocabulary; Workplace Communication; Documents & Technical Language; Problem Solving & Cultural Communication; Performance Challenge.
+- Each lesson has 8-10 distinct vocabulary entries, 4-6 dialogue turns, exactly 2 practice tasks, and exactly 5 quiz questions.
+- Every quiz question has exactly four plausible options, exactly one correct answer, a zero-based correctIndex, and an explanation.
+- Difficulty must progress across the five lessons while remaining appropriate for ${learnerLevel}.
+- Avoid repeating vocabulary, scenarios, questions or examples across lessons.
+- Important dialogue keyPhrases must be multiword phrases copied exactly from that line.
+- All target-language text must be authentic and native-sounding. Explanations and translations are in English.
+- ${pronunciationRule}`;
 
     const response = await fetch("https://api.perplexity.ai/chat/completions", {
       method: "POST",
@@ -211,7 +234,7 @@ ${isChinese ? "- Always include both Hanzi and Pinyin for Chinese text" : ""}`;
           { role: "user", content: userPrompt },
         ],
         temperature: 0.3,
-        max_tokens: 8000,
+        max_tokens: 16000,
       }),
     });
 
@@ -237,10 +260,10 @@ ${isChinese ? "- Always include both Hanzi and Pinyin for Chinese text" : ""}`;
     const citations: string[] = data?.citations ?? [];
 
     const parsed = extractJson(content);
-    if (!parsed) {
+    if (!parsed || !isValidCurriculum(parsed)) {
       await logUsage("generate-specialized-lesson", "sonar-pro", tokens, "parse_error");
       return new Response(
-        JSON.stringify({ error: "Failed to parse AI response. Please refine your request and try again." }),
+        JSON.stringify({ error: "The AI response did not contain a complete five-lesson pathway. Please try again." }),
         { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
@@ -248,7 +271,7 @@ ${isChinese ? "- Always include both Hanzi and Pinyin for Chinese text" : ""}`;
     await logUsage("generate-specialized-lesson", "sonar-pro", tokens, "success");
 
     return new Response(
-      JSON.stringify({ lesson: parsed, citations, tokens }),
+      JSON.stringify({ curriculum: parsed, lesson: parsed.lessons[0], citations: [...new Set(citations)], tokens }),
       { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   } catch (e) {
