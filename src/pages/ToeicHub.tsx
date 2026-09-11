@@ -1,7 +1,7 @@
 // TOEIC Hub - Combined entry for Lectures + Vocabulary
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { BookOpen, Library, ArrowRight, Headphones, FileText, Briefcase, Sparkles, GraduationCap, Mic, PenLine } from "lucide-react";
+import { BookOpen, Library, ArrowRight, Headphones, FileText, Briefcase, Sparkles, GraduationCap, Mic, PenLine, ClipboardCheck, ChevronRight } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
