@@ -132,7 +132,7 @@ export default function SpecializedLessonView({ lesson, language, lessonNumber, 
         <div className="space-y-2">
           {lesson.scenario.dialogue.map((line, index) => <div key={`${line.speaker}-${index}`} className="rounded-lg border bg-card p-4">
             <div className="flex items-start gap-2"><p className="min-w-0 flex-1 leading-relaxed"><strong className="text-primary">{line.speaker}:</strong> {highlightPhrases(line.line, line.keyPhrases)}</p><Button type="button" size="icon" variant="ghost" aria-label={t("Nghe câu", "Listen to line")} onClick={() => speak(line.line, `line-${index}`)}><Volume2 className="h-4 w-4" /></Button></div>
-            <p className="mt-1 text-sm italic text-muted-foreground">{line.translation}</p>
+            {isMeaningfulTranslation(line.line, line.translation) && <p className="mt-1 text-sm italic text-muted-foreground">{line.translation}</p>}
           </div>)}
         </div>
       </section>
