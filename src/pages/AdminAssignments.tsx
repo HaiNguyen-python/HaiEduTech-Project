@@ -436,12 +436,26 @@ function CreateAssignmentDialog({ open, onOpenChange, students, classes, classMe
 
   // When a class is selected, auto-fill the student picker with its members.
   // Teacher can still add/remove individual students afterwards.
+  const memberCount = useCallback(
+    (classId: string) => classMembers.filter((m) => m.class_id === classId).length,
+    [classMembers],
+  );
+
   const handleClassChange = (classId: string) => {
     setTargetClassId(classId);
     if (classId === "none") return;
     const memberIds = classMembers.filter((m) => m.class_id === classId).map((m) => m.user_id);
     setSelected(new Set(memberIds));
+    if (memberIds.length === 0) {
+      toast({
+        title: "This class has no students yet",
+        description: "Add members in Class Management, or pick students manually below.",
+        variant: "destructive",
+      });
+    }
   };
+
+  const emptyClassSelected = targetClassId !== "none" && memberCount(targetClassId) === 0;
 
   const filteredStudents = useMemo(() => {
     const q = studentQuery.trim().toLowerCase();
