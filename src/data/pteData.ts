@@ -359,6 +359,12 @@ export const MOCK_TESTS: PteMockTest[] = [
   { id: "mt-3", title: "Mock Test 3 - Advanced Trends 2026", description: "Predictive set based on 2026 high-frequency questions.",
     readAloudIds: ["ra-5", "ra-6"], repeatSentenceIds: ["rs-5", "rs-6"], essayIds: ["es-3"], summarizeTextIds: ["sw-3"],
     fillBlankIds: ["fb-5", "fb-6"], reorderIds: ["ro-3"], dictationIds: ["dc-5", "dc-6"], summarizeSpokenIds: ["ss-3"] },
+  { id: "mt-4", title: "Mock Test 4 - Accuracy Under Pressure", description: "Exam-length set focused on spelling, word forms and precise recall.",
+    readAloudIds: ["ra-7", "ra-8"], repeatSentenceIds: ["rs-7", "rs-8"], essayIds: ["es-4"], summarizeTextIds: ["sw-4"],
+    fillBlankIds: ["fb-7", "fb-8"], reorderIds: ["ro-4"], dictationIds: ["dc-7", "dc-8"], summarizeSpokenIds: ["ss-4"] },
+  { id: "mt-5", title: "Mock Test 5 - Band 79+ Challenge", description: "Hardest available items across all four skills for high-band targets.",
+    readAloudIds: ["ra-9", "ra-10"], repeatSentenceIds: ["rs-9", "rs-10"], essayIds: ["es-5"], summarizeTextIds: ["sw-5"],
+    fillBlankIds: ["fb-9", "fb-10"], reorderIds: ["ro-5"], dictationIds: ["dc-9", "dc-10"], summarizeSpokenIds: ["ss-5"] },
 ];
 
 // ===== Repeated / Predictive 2026 Question IDs =====

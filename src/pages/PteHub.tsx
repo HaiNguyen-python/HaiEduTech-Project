@@ -5,7 +5,8 @@
  */
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Mic, PenTool, BookOpen, Headphones, Trophy, Sparkles, Flame, TrendingUp, ChevronRight } from "lucide-react";
+import { Mic, PenTool, BookOpen, Headphones, Trophy, Sparkles, Flame, TrendingUp, ChevronRight, GraduationCap } from "lucide-react";
+import { PTE_LESSONS, PTE_LESSON_QUIZ_TOTAL } from "@/data/pteLessonsData";
 import PteShell from "@/components/pte/PteShell";
 import PtePeak from "@/components/pte/PtePeak";
 import PteSkillRings from "@/components/pte/PteSkillRings";
@@ -65,6 +66,25 @@ const PteHub = () => {
       backLabel="Learn English"
     >
       <PtePeak completed={progress.completedIds.length} total={totalTasks} />
+
+      {/* Strategy lessons CTA */}
+      <Link
+        to="/pte/lessons"
+        className="mb-6 block bg-white rounded-2xl p-5 sm:p-6 border-2 border-[#003580]/20 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all"
+      >
+        <div className="flex items-center gap-4">
+          <div className="w-12 h-12 rounded-xl bg-[#003580]/10 grid place-items-center shrink-0">
+            <GraduationCap size={26} className="text-[#003580]" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <h3 className="text-lg sm:text-xl font-bold text-[#003580]">PTE Strategy Lessons</h3>
+            <p className="text-slate-600 text-sm">
+              {PTE_LESSONS.length} method lessons across all four skills · worked examples · {PTE_LESSON_QUIZ_TOTAL} quiz questions
+            </p>
+          </div>
+          <ChevronRight size={24} className="shrink-0 text-[#003580]" />
+        </div>
+      </Link>
 
       {/* Per-skill progress overview - synced with Dashboard */}
       <section className="mb-6">
