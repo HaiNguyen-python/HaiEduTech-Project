@@ -294,9 +294,9 @@ const DuelBattle = ({ onBack }: DuelBattleProps) => {
           <div className="flex items-center gap-2">
             <span className="text-xs text-muted-foreground">{currentQ + 1}/{questions.length}</span>
             {streak >= 3 && <Flame className="w-4 h-4 text-orange-400" />}
-            <button onClick={handleToggleMute} className="text-muted-foreground">
+          <Button variant="ghost" size="icon" onClick={handleToggleMute} aria-label={t("Bật hoặc tắt âm thanh", "Toggle sound")}>
               {muted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
-            </button>
+          </Button>
           </div>
           <div className="text-center">
             <p className="text-lg font-bold text-red-400">{opponentScore}</p>
@@ -326,9 +326,9 @@ const DuelBattle = ({ onBack }: DuelBattleProps) => {
               className={`p-4 rounded-xl border text-sm font-bold transition-all ${
                 answered
                   ? idx === q.correct
-                    ? "border-green-500 bg-green-500/15 text-green-400 shadow-[0_0_15px_rgba(34,197,94,0.3)]"
+                    ? "border-green-500 bg-green-500/15 text-green-800 dark:text-green-300 shadow-sm"
                     : idx === selectedAns
-                    ? "border-red-500 bg-red-500/15 text-red-400 animate-[shake_0.5s_ease-in-out]"
+                    ? "border-red-500 bg-red-500/15 text-red-800 dark:text-red-300 animate-[shake_0.5s_ease-in-out]"
                     : "border-border/30 bg-card/50 text-muted-foreground"
                   : "border-border/50 bg-card/80 text-foreground hover:border-primary/50 hover:shadow-[0_0_10px_rgba(var(--primary),0.15)]"
               }`}

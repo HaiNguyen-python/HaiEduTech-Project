@@ -219,9 +219,9 @@ const CultureDetective = ({ onBack }: CultureDetectiveProps) => {
             </span>
           )}
           <span className="font-bold text-primary">{score}</span>
-          <button onClick={handleToggleMute} className="text-muted-foreground hover:text-foreground">
+          <Button variant="ghost" size="icon" onClick={handleToggleMute} aria-label={t("Bật hoặc tắt âm thanh", "Toggle sound")}>
             {muted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
-          </button>
+          </Button>
         </div>
       </div>
 

@@ -173,7 +173,7 @@ const TimelineDragDrop = ({ onBack, difficulty = "normal" }: TimelineDragDropPro
             <p className="text-xs text-muted-foreground">{t("Điểm", "Score")}</p>
           </div>
           <div className="text-center">
-            <p className="text-3xl font-bold text-amber-400">{maxStreak}</p>
+            <p className="text-3xl font-bold text-amber-700 dark:text-amber-300">{maxStreak}</p>
             <p className="text-xs text-muted-foreground">{t("Chuỗi", "Streak")}</p>
           </div>
         </div>
@@ -206,9 +206,9 @@ const TimelineDragDrop = ({ onBack, difficulty = "normal" }: TimelineDragDropPro
               <Flame className="w-4 h-4" /> {streak}
             </span>
           )}
-          <button onClick={handleToggleMute} className="text-muted-foreground hover:text-foreground">
+          <Button variant="ghost" size="icon" onClick={handleToggleMute} aria-label={t("Bật hoặc tắt âm thanh", "Toggle sound")}>
             {muted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
-          </button>
+          </Button>
         </div>
       </div>
 
