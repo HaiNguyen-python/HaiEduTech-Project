@@ -1281,31 +1281,57 @@ const ChatBot = () => {
                 if (!isMobile) dragControls.start(e);
               }}
               onDoubleClick={resetChatPosition}
-              className={`flex items-center gap-2 border-b border-border bg-primary/5 px-3 py-2.5 ${!isMobile ? "cursor-move" : ""}`}
+              className={`border-b border-border bg-primary/5 px-3 py-2 ${!isMobile ? "cursor-move" : ""}`}
               title={!isMobile ? t("Kéo để di chuyển • Nhấp đúp để đưa về vị trí gốc", "Drag to move • Double-click to reset position") : undefined}
             >
-              {!isMobile && <GripVertical className="h-4 w-4 text-muted-foreground/60 shrink-0" />}
-              <StudyPetAvatar pet={pet} size={36} className="shrink-0" showMoodBadge={false} skinSrc={petId.skin.src} />
-              <div className="flex-1 min-w-0">
-                {/* Pet name on its own line — never truncated by badges */}
-                <h3 className="text-sm font-bold text-foreground leading-tight truncate" title={petId.name}>
-                  🐾 {petId.name}
-                </h3>
-                <div className="mt-0.5 flex items-center gap-1 flex-wrap">
-                  <span className="rounded-md bg-primary/10 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-primary">
-                    LV.{pet.level}
-                  </span>
-                  <span className="rounded-md bg-amber-100 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-amber-700">
-                    {pet.stage === "mythic" ? t("Thần thoại", "Mythic")
-                      : pet.stage === "legendary" ? t("Huyền thoại", "Legendary")
-                      : pet.stage === "master" ? t("Bậc thầy", "Master")
-                      : pet.stage === "apprentice" ? t("Học việc", "Apprentice")
-                      : t("Sơ sinh", "Baby")}
-                  </span>
+              {/* Row 1 — identity: avatar, name, level badges, window controls */}
+              <div className="flex items-center gap-2">
+                {!isMobile && <GripVertical className="h-4 w-4 text-muted-foreground/50 shrink-0" />}
+                <StudyPetAvatar pet={pet} size={34} className="shrink-0" showMoodBadge={false} skinSrc={petId.skin.src} />
+                <div className="min-w-0 flex-1">
+                  <h3 className="truncate text-sm font-bold leading-tight text-foreground" title={petId.name}>
+                    🐾 {petId.name}
+                  </h3>
+                  <div className="mt-0.5 flex items-center gap-1">
+                    <span className="rounded bg-primary/10 px-1.5 py-px text-[10px] font-bold uppercase tracking-wide text-primary">
+                      LV.{pet.level}
+                    </span>
+                    <span className="truncate rounded bg-amber-100 px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-amber-700">
+                      {pet.stage === "mythic" ? t("Thần thoại", "Mythic")
+                        : pet.stage === "legendary" ? t("Huyền thoại", "Legendary")
+                        : pet.stage === "master" ? t("Bậc thầy", "Master")
+                        : pet.stage === "apprentice" ? t("Học việc", "Apprentice")
+                        : t("Sơ sinh", "Baby")}
+                    </span>
+                  </div>
                 </div>
-                {/* EXP progress bar — mirrors the actual pet_exp value */}
-                <div className="mt-1 flex items-center gap-1.5">
-                  <div className="relative h-1.5 flex-1 overflow-hidden rounded-full bg-muted">
+                <button
+                  onClick={() => {
+                    setExpanded((v) => !v);
+                    setTimeout(clampChatIntoView, 50);
+                  }}
+                  onPointerDown={(e) => e.stopPropagation()}
+                  className="hidden shrink-0 rounded-lg p-1.5 transition-colors hover:bg-secondary sm:inline-flex"
+                  title={expanded ? t("Thu nhỏ", "Restore") : t("Phóng to", "Expand")}
+                  aria-label={expanded ? t("Thu nhỏ", "Restore") : t("Phóng to", "Expand")}
+                >
+                  {expanded ? <Minimize2 className="h-4 w-4 text-muted-foreground" /> : <Maximize2 className="h-4 w-4 text-muted-foreground" />}
+                </button>
+                <button
+                  onClick={() => setOpen(false)}
+                  onPointerDown={(e) => e.stopPropagation()}
+                  className="shrink-0 rounded-lg p-1.5 transition-colors hover:bg-secondary"
+                  title={t("Đóng", "Close")}
+                  aria-label={t("Đóng", "Close")}
+                >
+                  <X className="h-5 w-5 text-muted-foreground" />
+                </button>
+              </div>
+
+              {/* Row 2 — progress and tools, so nothing crowds the name */}
+              <div className="mt-1.5 flex items-center gap-2">
+                <div className="flex min-w-0 flex-1 items-center gap-1.5">
+                  <div className="relative h-1.5 min-w-0 flex-1 overflow-hidden rounded-full bg-muted">
                     <div
                       className="h-full rounded-full bg-gradient-to-r from-sky-400 via-emerald-400 to-amber-400 transition-all duration-500"
                       style={{
@@ -1314,62 +1340,51 @@ const ChatBot = () => {
                     />
                   </div>
                   <span className="shrink-0 text-[10px] font-medium tabular-nums text-muted-foreground">
-                    EXP {pet.expIntoLevel}/{pet.expForNextLevel}
+                    {pet.expIntoLevel}/{pet.expForNextLevel}
                   </span>
                 </div>
+                <div className="flex shrink-0 items-center gap-0.5 rounded-lg border border-border bg-background/70 px-0.5 py-0.5">
+                  <button
+                    onClick={() => setShowPetInfo((v) => !v)}
+                    onPointerDown={(e) => e.stopPropagation()}
+                    className="rounded-md p-1 transition-colors hover:bg-secondary"
+                    title={t("Cách lên cấp Pet", "How to level up your Pet")}
+                    aria-label={t("Cách lên cấp Pet", "How to level up your Pet")}
+                    aria-pressed={showPetInfo}
+                  >
+                    <Info className={`h-3.5 w-3.5 ${showPetInfo ? "text-primary" : "text-muted-foreground"}`} />
+                  </button>
+                  <button
+                    onClick={voice.toggleAutoRead}
+                    onPointerDown={(e) => e.stopPropagation()}
+                    className="rounded-md p-1 transition-colors hover:bg-secondary"
+                    title={voice.autoRead ? t("Tắt tự động đọc", "Turn off auto read") : t("Tự động đọc câu trả lời", "Auto-read answers")}
+                    aria-label={t("Tự động đọc câu trả lời", "Auto-read answers")}
+                    aria-pressed={voice.autoRead}
+                  >
+                    {voice.autoRead ? <Volume2 className="h-3.5 w-3.5 text-primary" /> : <VolumeX className="h-3.5 w-3.5 text-muted-foreground" />}
+                  </button>
+                  <button
+                    onClick={() => { setMemoryOpen((v) => !v); refreshMemories(); }}
+                    onPointerDown={(e) => e.stopPropagation()}
+                    className="rounded-md p-1 transition-colors hover:bg-secondary"
+                    title={t("Thầy nhớ gì về em", "What Teacher Hai remembers about you")}
+                    aria-label={t("Thầy nhớ gì về em", "What Teacher Hai remembers about you")}
+                    aria-pressed={memoryOpen}
+                  >
+                    <Brain className={`h-3.5 w-3.5 ${memoryOpen ? "text-primary" : "text-muted-foreground"}`} />
+                  </button>
+                  <button
+                    onClick={openAskTeacher}
+                    onPointerDown={(e) => e.stopPropagation()}
+                    className="rounded-md p-1 transition-colors hover:bg-secondary"
+                    title={t("Gửi câu hỏi cho thầy Hải qua email", "Send a question to Teacher Hai via email")}
+                    aria-label={t("Gửi câu hỏi cho thầy Hải qua email", "Send a question to Teacher Hai via email")}
+                  >
+                    <Mail className="h-3.5 w-3.5 text-primary" />
+                  </button>
+                </div>
               </div>
-              <button
-                onClick={() => setShowPetInfo((v) => !v)}
-                onPointerDown={(e) => e.stopPropagation()}
-                className="rounded-lg p-1.5 transition-colors hover:bg-secondary shrink-0"
-                title={t("Cách lên cấp Pet", "How to level up your Pet")}
-                aria-label="Pet info"
-              >
-                <Info className="h-4 w-4 text-primary" />
-              </button>
-              <button
-                onClick={voice.toggleAutoRead}
-                onPointerDown={(e) => e.stopPropagation()}
-                className="rounded-lg p-1.5 transition-colors hover:bg-secondary shrink-0"
-                title={voice.autoRead ? t("Tắt tự động đọc", "Turn off auto read") : t("Tự động đọc câu trả lời", "Auto-read answers")}
-                aria-pressed={voice.autoRead}
-              >
-                {voice.autoRead ? <Volume2 className="h-4 w-4 text-primary" /> : <VolumeX className="h-4 w-4 text-muted-foreground" />}
-              </button>
-              <button
-                onClick={() => { setMemoryOpen((v) => !v); refreshMemories(); }}
-                onPointerDown={(e) => e.stopPropagation()}
-                className="rounded-lg p-1.5 transition-colors hover:bg-secondary shrink-0"
-                title={t("Thầy nhớ gì về em", "What Teacher Hai remembers about you")}
-              >
-                <Brain className="h-4 w-4 text-primary" />
-              </button>
-              <button
-                onClick={openAskTeacher}
-                onPointerDown={(e) => e.stopPropagation()}
-                className="rounded-lg p-1.5 transition-colors hover:bg-secondary shrink-0"
-                title={t("Gửi câu hỏi cho thầy Hải qua email", "Send a question to Teacher Hai via email")}
-              >
-                <Mail className="h-4 w-4 text-primary" />
-              </button>
-              <button
-                onClick={() => {
-                  setExpanded((v) => !v);
-                  setTimeout(clampChatIntoView, 50);
-                }}
-                onPointerDown={(e) => e.stopPropagation()}
-                className="hidden sm:inline-flex rounded-lg p-1.5 transition-colors hover:bg-secondary shrink-0"
-                title={expanded ? t("Thu nhỏ", "Restore") : t("Phóng to", "Expand")}
-              >
-                {expanded ? <Minimize2 className="h-4 w-4 text-muted-foreground" /> : <Maximize2 className="h-4 w-4 text-muted-foreground" />}
-              </button>
-              <button
-                onClick={() => setOpen(false)}
-                onPointerDown={(e) => e.stopPropagation()}
-                className="rounded-lg p-1.5 transition-colors hover:bg-secondary"
-              >
-                <X className="h-5 w-5 text-muted-foreground" />
-              </button>
             </div>
 
             {/* Pet Info Panel — explains how the pet evolves */}
