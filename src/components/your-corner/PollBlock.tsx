@@ -3,6 +3,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { BarChart3, Check, Vote, Trophy, CheckCircle2, XCircle, Lightbulb } from "lucide-react";
 import type { PollData } from "@/hooks/useYourCornerFeed";
+import { stripOptionPrefix } from "@/lib/yourCornerMeta";
+import { useLanguage } from "@/contexts/LanguageContext";
 import {
   ResponsiveContainer,
   BarChart,
