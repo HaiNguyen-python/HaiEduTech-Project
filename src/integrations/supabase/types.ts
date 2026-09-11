@@ -632,6 +632,113 @@ export type Database = {
         }
         Relationships: []
       }
+      content_assets: {
+        Row: {
+          bucket: string
+          content_id: string | null
+          created_at: string
+          created_by: string | null
+          file_name: string | null
+          id: string
+          kind: string
+          size_bytes: number | null
+          storage_path: string
+        }
+        Insert: {
+          bucket: string
+          content_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          file_name?: string | null
+          id?: string
+          kind?: string
+          size_bytes?: number | null
+          storage_path: string
+        }
+        Update: {
+          bucket?: string
+          content_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          file_name?: string | null
+          id?: string
+          kind?: string
+          size_bytes?: number | null
+          storage_path?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "content_assets_content_id_fkey"
+            columns: ["content_id"]
+            isOneToOne: false
+            referencedRelation: "content_items"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      content_items: {
+        Row: {
+          body: Json
+          cover_url: string | null
+          created_at: string
+          created_by: string | null
+          id: string
+          kind: string
+          level: string | null
+          published_at: string | null
+          slug: string
+          status: string
+          subject: string | null
+          summary: string | null
+          summary_en: string | null
+          tags: string[]
+          title: string
+          title_en: string | null
+          updated_at: string
+          visibility: string
+        }
+        Insert: {
+          body?: Json
+          cover_url?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          kind: string
+          level?: string | null
+          published_at?: string | null
+          slug: string
+          status?: string
+          subject?: string | null
+          summary?: string | null
+          summary_en?: string | null
+          tags?: string[]
+          title: string
+          title_en?: string | null
+          updated_at?: string
+          visibility?: string
+        }
+        Update: {
+          body?: Json
+          cover_url?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          kind?: string
+          level?: string | null
+          published_at?: string | null
+          slug?: string
+          status?: string
+          subject?: string | null
+          summary?: string | null
+          summary_en?: string | null
+          tags?: string[]
+          title?: string
+          title_en?: string | null
+          updated_at?: string
+          visibility?: string
+        }
+        Relationships: []
+      }
       counseling_conversations: {
         Row: {
           created_at: string

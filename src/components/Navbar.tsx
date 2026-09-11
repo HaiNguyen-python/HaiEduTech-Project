@@ -450,6 +450,7 @@ const Navbar = () => {
   const baseLinks = [
     { to: "/", label: t("Trang chủ", "Home"), icon: GraduationCap, key: "home" },
     { to: "/about", label: t("Giới thiệu", "About"), icon: Brain, key: "about" },
+    { to: "/insights", label: t("Bài viết", "Insights"), icon: Newspaper, key: "insights" },
     { to: "/english", label: t("Tiếng Anh", "English"), icon: BookOpen, subs: englishSubs, key: "en" },
     { to: "/learn-vietnamese", label: t("Tiếng Việt", "Vietnamese"), icon: Globe, subs: vietnameseSubs, key: "vn" },
     { to: "/chinese", label: t("Tiếng Trung", "Chinese"), icon: Languages, subs: chineseSubs, key: "cn" },

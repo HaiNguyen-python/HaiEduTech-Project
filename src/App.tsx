@@ -96,6 +96,8 @@ const DeferredGlobalWidgets = () => {
 const About = lazy(() => import("./pages/About.tsx"));
 const EdTechWebService = lazy(() => import("./pages/EdTechWebService.tsx"));
 const EdTechResearch = lazy(() => import("./pages/EdTechResearch.tsx"));
+const Insights = lazy(() => import("./pages/Insights.tsx"));
+const InsightPost = lazy(() => import("./pages/InsightPost.tsx"));
 const YourCorner = lazy(() => import("./pages/YourCorner.tsx"));
 const LifestyleAcademy = lazy(() => import("./pages/LifestyleAcademy.tsx"));
 const English = lazy(() => import("./pages/English.tsx"));
@@ -335,6 +337,8 @@ const App = () => (
             <Route path="/dich-vu-web" element={<LazyRoute><EdTechWebService /></LazyRoute>} />
             <Route path="/agency-admin" element={<LazyRoute><AgencyAdmin /></LazyRoute>} />
             <Route path="/edtech-research" element={<LazyRoute><EdTechResearch /></LazyRoute>} />
+            <Route path="/insights" element={<LazyRoute><Insights /></LazyRoute>} />
+            <Route path="/insights/:slug" element={<LazyRoute><InsightPost /></LazyRoute>} />
             <Route path="/your-corner" element={<LazyRoute><YourCorner /></LazyRoute>} />
             <Route path="/lifestyle-academy" element={<LazyRoute><LifestyleAcademy /></LazyRoute>} />
             <Route path="/english" element={<LazyRoute><English /></LazyRoute>} />
