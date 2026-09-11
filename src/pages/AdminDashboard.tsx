@@ -136,6 +136,10 @@ function exportData(data: object[], format: "csv" | "json", filename: string) {
   URL.revokeObjectURL(url);
 }
 
+/** Activity lookback options for the dashboard snapshot. */
+type ActivityWindow = 30 | 90 | 120;
+const ACTIVITY_WINDOWS: ActivityWindow[] = [30, 90, 120];
+
 const AdminDashboard = () => {
   const { t } = useLanguage();
   const { isTeacher, isPureAssistant, loading: roleLoading } = useUserRole();
