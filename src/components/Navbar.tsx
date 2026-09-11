@@ -378,7 +378,7 @@ const Navbar = () => {
     ] },
     { to: "/swedish/svenskfinland", label: t("🇸🇪 Sống bằng tiếng Thụy Điển ở Phần Lan", "🇸🇪 Life in Swedish-speaking Finland") },
     { to: "#sv-learning-group", label: t("📚 Học tập & Kỹ năng", "📚 Learning & Skills"), groupLabel: "sv-learning", children: [
-      { to: "/swedish/vocabulary", label: t("📚 Swedish Vocabulary A1–B1", "📚 Swedish Vocabulary A1–B1") },
+      { to: "/swedish/vocabulary", label: t("📚 Vocabulary A1–B1", "📚 Vocabulary A1–B1") },
       { to: "/swedish/curriculum", label: t("📖 Interactive Curriculum", "📖 Interactive Curriculum") },
       { to: "/swedish/skills", label: t("🧪 Skills Lab - Nghe · Đọc · Viết · Nói A1-B1", "🧪 Skills Lab") },
       { to: "/speaking-coach/swedish", label: t("🗣️ Speaking Coach", "🗣️ Speaking Coach") },
@@ -422,9 +422,9 @@ const Navbar = () => {
       { to: "/programming/startup", label: t("Tổng quan Startup Tech", "Startup Tech Overview"), icon: Compass },
       { to: "/programming/startup/roadmap", label: t("Lộ trình Founder 0→1", "Founder Roadmap 0→1"), icon: Sparkles },
       { to: "/programming/startup-1-founder/su-1-1", label: t("Bài học Startup (30)", "Startup Lessons (30)"), icon: GraduationCap },
-      { to: "/programming/startup/case-studies", label: t("Case Studies VN & Global", "Case Studies VN & Global"), icon: Trophy },
+      { to: "/programming/startup/case-studies", label: t("Case Studies", "Case Studies"), icon: Trophy },
       { to: "/programming/startup/toolkit", label: t("Startup Toolkit", "Startup Toolkit"), icon: Workflow },
-      { to: "/programming/startup/pitch-simulator", label: t("Pitch Simulator (AI Investor)", "Pitch Simulator (AI Investor)"), icon: MessagesSquare },
+      { to: "/programming/startup/pitch-simulator", label: t("Pitch Simulator ", "Pitch Simulator "), icon: MessagesSquare },
     ] },
     { to: "#prog-career-group", label: t("Sự nghiệp & Dự án", "Career & Projects"), icon: Rocket, groupLabel: "prog-career", children: [
       { to: "/programming/career-roadmap", label: t("Career Roadmap", "Career Roadmap"), icon: Sparkles },
@@ -451,7 +451,7 @@ const Navbar = () => {
   // inside each subject dropdown and pre-filtered by that subject.
   const teacherNotes = (subject: string): SubItem => ({
     to: `/insights?subject=${encodeURIComponent(subject)}`,
-    label: t("📰 Teacher Notes", "📰 Teacher Notes"),
+    label: t("Teacher Notes", "Teacher Notes"),
     icon: Newspaper,
   });
 
