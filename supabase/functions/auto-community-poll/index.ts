@@ -94,18 +94,19 @@ Deno.serve(async (req) => {
   const topic = bucket.topics[Math.floor(Math.random() * bucket.topics.length)];
   const subject = bucket.subject;
 
-  const prompt = `Bạn là giáo viên HaiEduTech. Tạo MỘT câu hỏi trắc nghiệm ôn tập cho cộng đồng học viên.
-Môn: ${subject}
-Chủ đề: ${topic}
+  const prompt = `You are a HaiEduTech teacher. Write ONE multiple-choice review question for the student community.
+Subject: ${subject}
+Topic: ${topic}
 
-CHỈ trả về JSON thuần theo đúng format:
-{"question":"...","options":["A","B","C","D"],"correct_index":0,"explanation":"..."}
+Return ONLY raw JSON in exactly this shape:
+{"question":"...","options":["...","...","...","..."],"correct_index":0,"explanation":"..."}
 
-Quy tắc:
-- 4 đáp án, chỉ 1 đáp án đúng.
-- Câu hỏi <=220 ký tự, mỗi đáp án <=80 ký tự.
-- Tiếng Việt (giữ thuật ngữ tiếng Anh nếu cần).
-- explanation: 1-2 câu ngắn gọn.`;
+Rules:
+- Exactly 4 options, only 1 correct.
+- Question <=220 characters, each option <=80 characters.
+- ENGLISH ONLY. Never use Vietnamese or any other language.
+- Do NOT prefix options with "A.", "B)", "1.", "-" or any label. Write only the answer text.
+- explanation: 1-2 short sentences in English.`;
 
   try {
     const provider = createOpenAICompatible({
@@ -123,16 +124,17 @@ Quy tắc:
     if (!result?.question || !Array.isArray(result.options) || result.options.length < 2) {
       return new Response(JSON.stringify({ error: "AI invalid", raw: text?.slice(0, 300) }), { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
+    const stripPrefix = (t: string) => t.replace(/^\s*(?:\(?[A-Da-d][.):]|\d+[.):]|[-•*])\s+/, "").trim();
     const q = String(result.question).trim();
-    const options = result.options.slice(0, 6).map((o: any) => String(o).trim()).filter(Boolean);
+    const options = result.options.slice(0, 6).map((o: any) => stripPrefix(String(o).trim())).filter(Boolean);
     const correct = Number.isInteger(result.correct_index) && result.correct_index >= 0 && result.correct_index < options.length ? result.correct_index : 0;
     const expl = String(result.explanation ?? "").trim();
 
     const emojiMap: Record<string, string> = { IELTS: "📘", Programming: "💻", General: "🤖" };
     const label = subject === "General" ? "AI" : subject;
     const emoji = emojiMap[subject] ?? "📊";
-    // Caption: chỉ giữ tiêu đề ngắn + hashtag. KHÔNG lộ đáp án/giải thích ở caption.
-    const content = `${emoji} Câu hỏi ôn tập ${label} hôm nay!\n\n#${label}${subject === "General" ? " #AI" : ""} #HaiEduTech #OnTapCungThayHai`;
+    // Caption: short English title + hashtags only. Never reveal the answer here.
+    const content = `${emoji} ${label} review question of the day!\n\n#${label}${subject === "General" ? " #AI" : ""} #HaiEduTech #OnTapCungThayHai`;
 
     const poll = { question: q, options, subject, allow_change: true, correct_index: correct, explanation: expl };
 

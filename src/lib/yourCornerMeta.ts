@@ -50,3 +50,10 @@ export function extractHashtags(text: string): string[] {
 export function linkifyHashtags(html: string): string {
   return html.replace(/(#[\p{L}0-9_]+)/gu, '<span class="text-primary font-semibold">$1</span>');
 }
+
+// Auto-generated review polls sometimes arrive with a leading "A." / "1)" / "-"
+// prefix baked into the option text. The UI already renders the letter label,
+// so strip any such prefix to avoid "A. A. ..." duplication.
+export function stripOptionPrefix(text: string): string {
+  return String(text ?? "").replace(/^\s*(?:\(?[A-Da-d][.):]|\d+[.):]|[-•*])\s+/, "").trim();
+}
