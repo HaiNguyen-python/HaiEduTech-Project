@@ -22,6 +22,7 @@ import { satExpansionModules10 as rawSatExpansionModules10 } from "./englishSatE
 import { satExpansionModules11 as rawSatExpansionModules11 } from "./englishSatExpansion11";
 import { satExpansionModules12 as rawSatExpansionModules12 } from "./englishSatExpansion12";
 import { satExpansionModules13 as rawSatExpansionModules13 } from "./englishSatExpansion13";
+import { satExpansionModules14 as rawSatExpansionModules14 } from "./englishSatExpansion14";
 import { enhanceSatModulesWithQuizDepth } from "@/lib/satQuizBuilder";
 
 // Pad every SAT lesson so each quiz has at least 5 questions.
@@ -39,6 +40,7 @@ export const satExpansionModules10 = enhanceSatModulesWithQuizDepth(rawSatExpans
 export const satExpansionModules11 = enhanceSatModulesWithQuizDepth(rawSatExpansionModules11);
 export const satExpansionModules12 = enhanceSatModulesWithQuizDepth(rawSatExpansionModules12);
 export const satExpansionModules13 = enhanceSatModulesWithQuizDepth(rawSatExpansionModules13);
+export const satExpansionModules14 = enhanceSatModulesWithQuizDepth(rawSatExpansionModules14);
 import { grammarExpansionModules2 } from "./englishGrammarExpansion2";
 import { grammarExpansionModules3 } from "./englishGrammarExpansion3";
 import { grammarExtraLessons4, grammarExpansionModules4 } from "./englishGrammarExpansion4";
@@ -109,6 +111,7 @@ export const allEnglishModules: LanguageModule[] = [
   ...satExpansionModules11,
   ...satExpansionModules12,
   ...satExpansionModules13,
+  ...satExpansionModules14,
 ];
 
 // All Chinese modules combined
