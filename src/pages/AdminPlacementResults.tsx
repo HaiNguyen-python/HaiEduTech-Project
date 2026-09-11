@@ -516,7 +516,7 @@ const AdminPlacementResults = () => {
                                 <td className="py-1.5 font-semibold text-slate-800">{b.cefr}</td>
                                 <td className="py-1.5 text-slate-700">{b.right}/{b.total}</td>
                                 <td className="py-1.5 text-slate-700">
-                                  {b.rate == null ? "—" : `${Math.round(b.rate * 100)}%`}
+                                  {b.rate == null ? "—" : `${Math.round(b.rate)}%`}
                                 </td>
                                 <td className="py-1.5">
                                   {b.reached ? (
