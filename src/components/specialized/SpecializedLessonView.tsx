@@ -119,7 +119,7 @@ export default function SpecializedLessonView({ lesson, language, lessonNumber, 
               <p className="mt-1 text-sm"><Badge variant="secondary" className="mr-2">{word.partOfSpeech}</Badge>{word.translation}</p>
               <div className="mt-3 rounded-md bg-muted/50 p-3 text-sm leading-relaxed">
                 <div className="flex gap-2"><p className="flex-1">{word.example}</p><Button type="button" size="icon" variant="ghost" className="h-7 w-7" aria-label={t("Nghe ví dụ", "Listen to example")} onClick={() => speak(word.example, `example-${index}`)}><Play className="h-3.5 w-3.5" /></Button></div>
-                <p className="mt-1 text-muted-foreground">{word.exampleTranslation}</p>
+                {isMeaningfulTranslation(word.example, word.exampleTranslation) && <p className="mt-1 text-muted-foreground">{word.exampleTranslation}</p>}
               </div>
             </CardContent></Card>;
           })}
