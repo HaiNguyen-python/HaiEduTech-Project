@@ -114,6 +114,12 @@ const AdminClasses = () => {
               <p className="text-xs uppercase tracking-wider text-slate-500">Admin · LMS</p>
               <h1 className="text-2xl sm:text-3xl font-semibold mt-1">Class Management</h1>
               <p className="text-sm text-slate-500 mt-1">Group your students into classes for batch assignments.</p>
+              <p className="text-xs text-slate-500 mt-1">
+                Showing {classes.length} class(es) · {students.length} student(s)
+                {mergedProfiles > 0 && (
+                  <span className="text-amber-700"> · {mergedProfiles} duplicate profile(s) merged</span>
+                )}
+              </p>
             </div>
             <Button onClick={() => setCreateOpen(true)} className="bg-slate-900 hover:bg-slate-800 text-white">
               <Plus className="h-4 w-4" /> Create New Class
