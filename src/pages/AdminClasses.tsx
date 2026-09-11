@@ -244,14 +244,28 @@ function EditMembersDialog({
     const toAdd = Array.from(selected).filter((id) => !currentMemberIds.has(id));
     const toRemove = Array.from(currentMemberIds).filter((id) => !selected.has(id));
 
+    // Both writes are verified: a silent failure used to leave a class empty
+    // while the UI reported success.
     if (toRemove.length > 0) {
-      await supabase.from("class_members").delete()
+      const { error } = await supabase.from("class_members").delete()
         .eq("class_id", klass.id).in("user_id", toRemove);
+      if (error) {
+        setSaving(false);
+        toast({ title: "Could not remove students", description: error.message, variant: "destructive" });
+        onSaved(); // reload from the server so the list reflects reality
+        return;
+      }
     }
     if (toAdd.length > 0) {
-      await supabase.from("class_members").insert(
+      const { error } = await supabase.from("class_members").insert(
         toAdd.map((uid) => ({ class_id: klass.id, user_id: uid }))
       );
+      if (error) {
+        setSaving(false);
+        toast({ title: "Could not add students", description: error.message, variant: "destructive" });
+        onSaved();
+        return;
+      }
     }
     setSaving(false);
     toast({ title: "Members updated", description: `${selected.size} student(s) in class.` });
