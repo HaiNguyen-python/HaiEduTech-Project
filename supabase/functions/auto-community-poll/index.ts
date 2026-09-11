@@ -124,16 +124,17 @@ Rules:
     if (!result?.question || !Array.isArray(result.options) || result.options.length < 2) {
       return new Response(JSON.stringify({ error: "AI invalid", raw: text?.slice(0, 300) }), { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
-    const q = String(result.question).trim();
-    const options = result.options.slice(0, 6).map((o: any) => String(o).trim()).filter(Boolean);
+    const q = stripPrefixSafe(String(result.question).trim());
+    const stripPrefix = (t: string) => t.replace(/^\s*(?:\(?[A-Da-d][.):]|\d+[.):]|[-•*])\s+/, "").trim();
+    const options = result.options.slice(0, 6).map((o: any) => stripPrefix(String(o).trim())).filter(Boolean);
     const correct = Number.isInteger(result.correct_index) && result.correct_index >= 0 && result.correct_index < options.length ? result.correct_index : 0;
     const expl = String(result.explanation ?? "").trim();
 
     const emojiMap: Record<string, string> = { IELTS: "📘", Programming: "💻", General: "🤖" };
     const label = subject === "General" ? "AI" : subject;
     const emoji = emojiMap[subject] ?? "📊";
-    // Caption: chỉ giữ tiêu đề ngắn + hashtag. KHÔNG lộ đáp án/giải thích ở caption.
-    const content = `${emoji} Câu hỏi ôn tập ${label} hôm nay!\n\n#${label}${subject === "General" ? " #AI" : ""} #HaiEduTech #OnTapCungThayHai`;
+    // Caption: short English title + hashtags only. Never reveal the answer here.
+    const content = `${emoji} ${label} review question of the day!\n\n#${label}${subject === "General" ? " #AI" : ""} #HaiEduTech #OnTapCungThayHai`;
 
     const poll = { question: q, options, subject, allow_change: true, correct_index: correct, explanation: expl };
 
