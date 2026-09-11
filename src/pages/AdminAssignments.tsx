@@ -497,13 +497,25 @@ function CreateAssignmentDialog({ open, onOpenChange, students, classes, classMe
       return;
     }
 
-    // Seed an initial "assigned" submission row per student so progress = 0 displays meaningfully
+    // Seed an initial "assigned" submission row per student so progress = 0 displays meaningfully.
+    // If this fails the assignment is rolled back: a task with no progress rows
+    // is worse than no task at all.
     const rows = target_student_ids.map((sid) => ({
       assignment_id: created.id,
       student_id: sid,
       status: "assigned" as const,
     }));
-    await supabase.from("student_submissions").insert(rows);
+    const { error: subError } = await supabase.from("student_submissions").insert(rows);
+    if (subError) {
+      await supabase.from("assignments").delete().eq("id", created.id);
+      setSubmitting(false);
+      toast({
+        title: "Create failed - nothing was assigned",
+        description: subError.message,
+        variant: "destructive",
+      });
+      return;
+    }
 
     // Emit a real-time notification to each targeted student
     const deadlineText = deadline
@@ -517,11 +529,28 @@ function CreateAssignmentDialog({ open, onOpenChange, students, classes, classMe
       body: notifBody,
       route: sourceRef || null,
     }));
-    await supabase.from("assignment_notifications").insert(notifRows);
+    const { data: notified, error: notifError } = await supabase
+      .from("assignment_notifications")
+      .insert(notifRows)
+      .select("id");
 
     setSubmitting(false);
     reset();
-    toast({ title: "Assignment created", description: `${target_student_ids.length} student(s) notified.` });
+    if (notifError) {
+      // Task exists and is visible in the student's list, but the bell alert failed.
+      toast({
+        title: "Assignment saved, alerts not sent",
+        description: `${target_student_ids.length} student(s) received the task, but the notification failed: ${notifError.message}`,
+        variant: "destructive",
+      });
+    } else {
+      const sent = notified?.length ?? 0;
+      toast({
+        title: "Assignment created",
+        description: `${target_student_ids.length} student(s) assigned · ${sent} notified.`,
+        variant: sent < target_student_ids.length ? "destructive" : undefined,
+      });
+    }
     onCreated();
   };
 
