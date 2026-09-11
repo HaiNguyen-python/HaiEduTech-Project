@@ -16,6 +16,8 @@ import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter,
 } from "@/components/ui/dialog";
 import { SUBJECT_LABELS } from "@/lib/assignmentMetrics";
+import { fetchAllRows } from "@/lib/adminData";
+import { dedupeStudentProfiles, fetchAllProfiles } from "@/lib/adminStudents";
 
 interface ClassRow { id: string; class_name: string; subject_category: string; created_at: string; }
 interface MemberRow { id: string; class_id: string; user_id: string; }
@@ -31,6 +33,7 @@ const AdminClasses = () => {
   const [students, setStudents] = useState<ProfileRow[]>([]);
   const [createOpen, setCreateOpen] = useState(false);
   const [editingClass, setEditingClass] = useState<ClassRow | null>(null);
+  const [mergedProfiles, setMergedProfiles] = useState(0);
 
   // Form state for create dialog
   const [name, setName] = useState("");
@@ -38,24 +41,26 @@ const AdminClasses = () => {
 
   const fetchAll = async () => {
     setLoading(true);
-    const [{ data: c }, { data: m }, { data: p }] = await Promise.all([
-      supabase.from("classes").select("*").order("created_at", { ascending: false }),
-      supabase.from("class_members").select("id, class_id, user_id"),
-      supabase.from("profiles").select("id, full_name").order("full_name"),
-    ]);
-    setClasses((c as ClassRow[]) ?? []);
-    setMembers((m as MemberRow[]) ?? []);
-    // Dedupe by name
-    const seen = new Set<string>();
-    const dedup: ProfileRow[] = [];
-    ((p as ProfileRow[]) ?? []).forEach((s) => {
-      const k = (s.full_name ?? "").trim().toLowerCase();
-      if (k && seen.has(k)) return;
-      if (k) seen.add(k);
-      dedup.push(s);
-    });
-    setStudents(dedup);
-    setLoading(false);
+    try {
+      // Paged reads: never silently stop at the 1000-row API ceiling.
+      const [c, m, p] = await Promise.all([
+        fetchAllRows<ClassRow>((from, to) =>
+          supabase.from("classes").select("*").order("created_at", { ascending: false }).range(from, to)),
+        fetchAllRows<MemberRow>((from, to) =>
+          supabase.from("class_members").select("id, class_id, user_id").range(from, to)),
+        fetchAllProfiles(),
+      ]);
+      setClasses(c);
+      setMembers(m);
+      const { students: unique, mergedCount } = dedupeStudentProfiles(p);
+      setStudents(unique as ProfileRow[]);
+      setMergedProfiles(mergedCount);
+    } catch (e) {
+      const message = e instanceof Error ? e.message : "Unknown error";
+      toast({ title: "Could not load classes", description: message, variant: "destructive" });
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => { if (isTeacher) fetchAll(); }, [isTeacher]);
