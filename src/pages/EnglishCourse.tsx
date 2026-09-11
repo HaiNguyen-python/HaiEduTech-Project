@@ -340,6 +340,13 @@ const EnglishCourse = () => {
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                       {[
                         {
+                          to: "/placement-test?subject=sat",
+                          icon: ClipboardCheck,
+                          title: t("Kiểm tra xếp lớp SAT", "SAT Placement Test"),
+                          sub: t("24 câu · biết lớp phù hợp", "24 Qs · find your class"),
+                          iconBg: "from-slate-600 to-zinc-700",
+                        },
+                        {
                           to: "/sat-curriculum",
                           icon: BookOpen,
                           title: t("Chương trình SAT", "SAT Curriculum"),
