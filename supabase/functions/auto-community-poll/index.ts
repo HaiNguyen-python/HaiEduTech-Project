@@ -124,8 +124,8 @@ Rules:
     if (!result?.question || !Array.isArray(result.options) || result.options.length < 2) {
       return new Response(JSON.stringify({ error: "AI invalid", raw: text?.slice(0, 300) }), { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
-    const q = stripPrefixSafe(String(result.question).trim());
     const stripPrefix = (t: string) => t.replace(/^\s*(?:\(?[A-Da-d][.):]|\d+[.):]|[-•*])\s+/, "").trim();
+    const q = String(result.question).trim();
     const options = result.options.slice(0, 6).map((o: any) => stripPrefix(String(o).trim())).filter(Boolean);
     const correct = Number.isInteger(result.correct_index) && result.correct_index >= 0 && result.correct_index < options.length ? result.correct_index : 0;
     const expl = String(result.explanation ?? "").trim();
