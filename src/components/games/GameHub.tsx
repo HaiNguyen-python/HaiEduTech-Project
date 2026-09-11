@@ -23,7 +23,7 @@ const GameHub = () => {
     {
       id: "timeline" as const,
       icon: <Clock className="w-8 h-8" />,
-      title: t("Dòng thời gian lịch sử", "The Linguistic Time Machine"),
+      title: t("Dòng thời gian lịch sử", "Vietnamese History Timeline"),
       desc: t("Sắp xếp các sự kiện lịch sử theo đúng thứ tự thời gian", "Drag historical events into correct chronological order"),
       color: "from-amber-500 to-orange-600",
       glow: "shadow-[0_0_30px_rgba(245,158,11,0.3)]",
@@ -32,7 +32,7 @@ const GameHub = () => {
     {
       id: "vocab_shadow" as const,
       icon: <Zap className="w-8 h-8" />,
-      title: t("Đấu trường từ vựng", "Vocab Arena: Shadow Fight"),
+      title: t("Đấu trường từ vựng", "Vietnamese Vocabulary Match"),
       desc: t("Ghép cặp từ Việt-Anh trước khi chúng rơi xuống đáy!", "Match Vietnamese-English pairs before they hit the bottom!"),
       color: "from-cyan-500 to-blue-600",
       glow: "shadow-[0_0_30px_rgba(6,182,212,0.3)]",
@@ -41,7 +41,7 @@ const GameHub = () => {
     {
       id: "culture_detective" as const,
       icon: <Search className="w-8 h-8" />,
-      title: t("Thám tử văn hóa", "Culture Detective"),
+      title: t("Thám tử văn hóa", "Vietnamese Culture Detective"),
       desc: t("Nhận diện văn hóa Việt Nam qua từ khóa và mở khóa bí mật!", "Identify Vietnamese culture through keywords and unlock secrets!"),
       color: "from-purple-500 to-pink-600",
       glow: "shadow-[0_0_30px_rgba(168,85,247,0.3)]",
@@ -81,7 +81,7 @@ const GameHub = () => {
           className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30 mb-4"
         >
           <Gamepad2 className="w-5 h-5 text-primary" />
-          <span className="text-sm font-bold text-primary neon-text">GAME CENTER</span>
+          <span className="text-sm font-bold text-primary">{t("TRÒ CHƠI VIỆT NAM", "VIETNAMESE GAME CENTER")}</span>
         </motion.div>
         <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
           {t("Trung tâm trò chơi", "Game Center")}
@@ -105,20 +105,20 @@ const GameHub = () => {
             whileHover={{ scale: 1.02, y: -2 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => setActiveGame(game.id)}
-            className={`relative overflow-hidden p-5 rounded-2xl border border-border/50 bg-card/80 backdrop-blur-sm text-left transition-all ${game.borderGlow} hover:${game.glow}`}
+            className={`relative overflow-hidden p-5 rounded-xl border border-border bg-card text-left shadow-sm transition-all ${game.borderGlow} hover:shadow-md`}
           >
             {/* Gradient accent */}
             <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${game.color}`} />
 
-            <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${game.color} flex items-center justify-center text-white mb-3`}>
+            <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${game.color} flex items-center justify-center text-primary-foreground mb-3`}>
               {game.icon}
             </div>
             <h3 className="text-base font-bold text-foreground mb-1">{game.title}</h3>
-            <p className="text-xs text-muted-foreground leading-relaxed">{game.desc}</p>
+            <p className="text-sm text-foreground/70 leading-relaxed">{game.desc}</p>
 
             {/* Play indicator */}
             <div className="absolute top-4 right-4 px-2 py-0.5 rounded-full bg-primary/10 text-primary text-xs font-bold">
-              ▶ PLAY
+              ▶ {t("CHƠI", "PLAY")}
             </div>
           </motion.button>
         ))}
@@ -126,16 +126,16 @@ const GameHub = () => {
 
       {/* Leaderboard section */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="p-4 rounded-2xl bg-card/80 border border-border/50">
-          <p className="text-xs text-amber-400 font-bold mb-2">🕰️ {t("Dòng thời gian", "Timeline")}</p>
+        <div className="p-4 rounded-xl bg-card border border-border">
+          <p className="text-xs text-amber-700 dark:text-amber-300 font-bold mb-2">🕰️ {t("Dòng thời gian", "Timeline")}</p>
           <GameLeaderboard gameType="timeline" currentScore={lastScore} />
         </div>
-        <div className="p-4 rounded-2xl bg-card/80 border border-border/50">
-          <p className="text-xs text-cyan-400 font-bold mb-2">⚡ {t("Đấu trường", "Shadow Fight")}</p>
+        <div className="p-4 rounded-xl bg-card border border-border">
+          <p className="text-xs text-cyan-700 dark:text-cyan-300 font-bold mb-2">⚡ {t("Đấu trường", "Vocabulary Match")}</p>
           <GameLeaderboard gameType="vocab_shadow" currentScore={lastScore} />
         </div>
-        <div className="p-4 rounded-2xl bg-card/80 border border-border/50">
-          <p className="text-xs text-purple-400 font-bold mb-2">🔍 {t("Thám tử", "Detective")}</p>
+        <div className="p-4 rounded-xl bg-card border border-border">
+          <p className="text-xs text-purple-700 dark:text-purple-300 font-bold mb-2">🔍 {t("Thám tử", "Detective")}</p>
           <GameLeaderboard gameType="culture_detective" currentScore={lastScore} />
         </div>
       </div>

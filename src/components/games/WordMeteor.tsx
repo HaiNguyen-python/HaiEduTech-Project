@@ -53,6 +53,29 @@ interface Props {
   onScore?: (delta: number) => void;
 }
 
+const METEOR_DECOR: Record<MeteorLang, { symbols: string[]; glyphs: string[]; field: string }> = {
+  en: {
+    symbols: ["✨", "📚", "💬", "⭐", "🎓", "☄️", "🔤", "🌍"],
+    glyphs: ["A", "Z"],
+    field: "from-sky-100 via-cyan-50 to-emerald-100 dark:from-sky-950 dark:via-cyan-950 dark:to-emerald-950",
+  },
+  zh: {
+    symbols: ["🏮", "🐉", "🌸", "🎏", "🏮", "🌸", "🎋", "🏮"],
+    glyphs: ["福", "龙"],
+    field: "from-rose-200 via-amber-100 to-rose-300 dark:from-rose-900 dark:via-amber-900 dark:to-rose-950",
+  },
+  vi: {
+    symbols: ["🪷", "🇻🇳", "🌾", "🥁", "🍜", "🎋", "🪷", "🌾"],
+    glyphs: ["VI", "VN"],
+    field: "from-sky-100 via-amber-50 to-emerald-100 dark:from-sky-950 dark:via-emerald-950 dark:to-amber-950",
+  },
+  fi: {
+    symbols: ["❄️", "🌲", "🦌", "🫐", "☕", "🏒", "❄️", "🌲"],
+    glyphs: ["FI", "SU"],
+    field: "from-sky-100 via-blue-50 to-cyan-100 dark:from-slate-950 dark:via-blue-950 dark:to-cyan-950",
+  },
+};
+
 export default function WordMeteor({
   lang,
   customBank,
@@ -73,6 +96,7 @@ export default function WordMeteor({
   }, [customBank, lang]);
 
   const theme = METEOR_LANG_THEME[lang];
+  const decor = METEOR_DECOR[lang];
   const resolvedGameType = gameType ?? `meteor_${lang}`;
 
   const [meteors, setMeteors] = useState<Meteor[]>([]);
@@ -295,14 +319,14 @@ export default function WordMeteor({
         </div>
 
         <div
-          className="relative h-[78vh] min-h-[640px] w-full overflow-hidden rounded-2xl border-2 border-amber-400/60 bg-gradient-to-b from-rose-200 via-amber-100 to-rose-300 dark:from-rose-900 dark:via-amber-900 dark:to-rose-950"
+          className={`relative h-[78vh] min-h-[640px] w-full overflow-hidden rounded-xl border-2 border-primary/35 bg-gradient-to-b ${decor.field}`}
           style={{
             backgroundImage:
               "radial-gradient(circle at 20% 20%, rgba(251,191,36,0.45), transparent 40%), radial-gradient(circle at 80% 70%, rgba(244,63,94,0.35), transparent 45%)",
           }}
         >
-          {/* Chinese cultural floating decor */}
-          {["🏮","🐉","🌸","🎏","🏮","🌸","🎋","🏮"].map((e, i) => (
+          {/* Language-specific floating decor */}
+          {decor.symbols.map((e, i) => (
             <motion.span
               key={`d-${i}`}
               animate={{ y: [0, -10, 0], rotate: [-4, 4, -4] }}
@@ -314,8 +338,8 @@ export default function WordMeteor({
               {e}
             </motion.span>
           ))}
-          <div className="absolute top-4 right-6 text-7xl font-bold text-rose-600/25 select-none" aria-hidden>福</div>
-          <div className="absolute top-1/3 left-4 text-7xl font-bold text-amber-700/20 select-none" aria-hidden>龙</div>
+          <div className="absolute top-4 right-6 text-7xl font-bold text-primary/15 select-none" aria-hidden>{decor.glyphs[0]}</div>
+          <div className="absolute top-1/3 left-4 text-7xl font-bold text-accent/15 select-none" aria-hidden>{decor.glyphs[1]}</div>
 
           <AnimatePresence>
             {meteors.map((m) => (
@@ -352,7 +376,7 @@ export default function WordMeteor({
                       <button
                         key={opt}
                         onClick={() => handlePick(m, opt)}
-                        className="w-full max-w-full rounded-xl border-2 border-amber-200 bg-rose-900/80 px-4 py-3 text-base font-semibold text-amber-50 backdrop-blur transition hover:scale-[1.03] hover:bg-rose-800 active:scale-95 shadow-lg"
+                      className="w-full max-w-full rounded-xl border-2 border-background/70 bg-foreground/85 px-4 py-3 text-base font-semibold text-background backdrop-blur transition hover:scale-[1.03] hover:bg-foreground active:scale-95 shadow-lg"
                       >
                         {opt}
                       </button>
@@ -386,12 +410,12 @@ export default function WordMeteor({
           </motion.div>
 
           {!running && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/70 text-center text-white p-4 z-20">
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-foreground/85 text-center text-background p-4 z-20">
               <Sparkles className="h-10 w-10 text-amber-300" />
               <h3 className="text-2xl font-bold">
                 {lives <= 0 ? `Game Over - ${score} pts` : `${theme.emoji} Word Meteor - ${theme.label}`}
               </h3>
-              <p className="max-w-sm text-sm text-white/80">
+              <p className="max-w-sm text-sm text-background/80">
                 Pick the correct meaning before the meteor lands. Use ← → (or A/D) to fly the rocket. Chain answers for bonus points!
               </p>
               <Button onClick={reset} className={`bg-gradient-to-r ${theme.accent} text-white`}>
@@ -429,7 +453,7 @@ export default function WordMeteor({
       </div>
 
       {/* Leaderboard sidebar */}
-      <aside className="rounded-2xl border-2 border-amber-400/40 bg-slate-900 p-4 text-white shadow-[0_0_20px_rgba(251,191,36,0.15)]">
+      <aside className="rounded-xl border-2 border-primary/25 bg-card p-4 text-foreground shadow-sm">
         <GameLeaderboard gameType={resolvedGameType} currentScore={score} />
       </aside>
     </div>

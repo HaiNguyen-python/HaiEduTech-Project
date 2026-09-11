@@ -342,11 +342,11 @@ const VocabShadowFight = ({ onBack }: VocabShadowFightProps) => {
             <p className="text-xs text-muted-foreground">{t("Điểm", "Score")}</p>
           </div>
           <div className="p-3 rounded-xl bg-card border border-border">
-            <p className="text-2xl font-bold text-amber-400">{maxStreak}</p>
+            <p className="text-2xl font-bold text-amber-700 dark:text-amber-300">{maxStreak}</p>
             <p className="text-xs text-muted-foreground">{t("Chuỗi tối đa", "Max Streak")}</p>
           </div>
           <div className="p-3 rounded-xl bg-card border border-border">
-            <p className="text-2xl font-bold text-green-400">Lv.{level}</p>
+            <p className="text-2xl font-bold text-green-700 dark:text-green-300">Lv.{level}</p>
             <p className="text-xs text-muted-foreground">{t("Cấp độ", "Level")}</p>
           </div>
         </div>
@@ -455,8 +455,8 @@ const VocabShadowFight = ({ onBack }: VocabShadowFightProps) => {
                   : selected === word.id
                   ? "bg-primary/30 border-primary text-primary shadow-[0_0_15px_rgba(var(--primary),0.4)] scale-110"
                   : word.lang === "vi"
-                  ? "bg-card/90 border border-amber-500/40 text-amber-300 hover:border-amber-400 hover:shadow-[0_0_10px_rgba(245,158,11,0.3)]"
-                  : "bg-card/90 border border-cyan-500/40 text-cyan-300 hover:border-cyan-400 hover:shadow-[0_0_10px_rgba(6,182,212,0.3)]"
+                  ? "bg-card border border-amber-500/50 text-amber-800 dark:text-amber-200 hover:border-amber-500 shadow-sm"
+                  : "bg-card border border-cyan-500/50 text-cyan-800 dark:text-cyan-200 hover:border-cyan-500 shadow-sm"
               }`}
               style={{ transform: "translate(-50%, -50%)" }}
             >

@@ -1,6 +1,7 @@
 // Learn Vietnamese main page with language, history, folklore, and game sections
 import { useState, useEffect, useRef } from "react";
 import vietnameseCultureBanner from "@/assets/vietnamese-culture-banner.webp";
+import vietnameseGameBanner from "@/assets/vietnamese-game-banner.webp";
 import vietnameseLanguageBg from "@/assets/vietnamese-language-bg.webp";
 import vietnamFlag from "@/assets/vietnam-flag.webp";
 import { Link, useSearchParams } from "react-router-dom";
@@ -162,7 +163,13 @@ const Vietnamese = () => {
             transition={{ duration: 0.6 }}
             className="relative w-full max-w-[1600px] mx-auto sm:rounded-3xl overflow-hidden shadow-xl"
           >
-            <img src={vietnameseCultureBanner} alt="Vietnamese culture illustration" width={1920} height={1080} className="w-full h-[280px] sm:h-[320px] md:h-auto object-cover object-center" />
+             <img
+               src={activeTab === "game" ? vietnameseGameBanner : vietnameseCultureBanner}
+               alt={activeTab === "game" ? "Vietnamese game landscape with lotus pond and rice fields" : "Vietnamese culture illustration"}
+               width={activeTab === "game" ? 1536 : 1920}
+               height={activeTab === "game" ? 640 : 1080}
+               className="w-full h-[280px] sm:h-[320px] md:h-auto object-cover object-center"
+             />
             {/* Text overlay on cloud area */}
             <div className="absolute inset-0 flex flex-col items-center justify-start pt-[8%] sm:pt-[6%] md:pt-[3%] pointer-events-none">
               <motion.div

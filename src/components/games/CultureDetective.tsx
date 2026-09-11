@@ -176,11 +176,11 @@ const CultureDetective = ({ onBack }: CultureDetectiveProps) => {
             <p className="text-xs text-muted-foreground">{t("Tổng điểm", "Total Score")}</p>
           </div>
           <div className="p-3 rounded-xl bg-card border border-border">
-            <p className="text-2xl font-bold text-amber-400">{maxStreak}</p>
+            <p className="text-2xl font-bold text-amber-700 dark:text-amber-300">{maxStreak}</p>
             <p className="text-xs text-muted-foreground">{t("Chuỗi tối đa", "Max Streak")}</p>
           </div>
           <div className="p-3 rounded-xl bg-card border border-border">
-            <p className="text-2xl font-bold text-green-400">{shuffledItems.length}</p>
+            <p className="text-2xl font-bold text-green-700 dark:text-green-300">{shuffledItems.length}</p>
             <p className="text-xs text-muted-foreground">{t("Vật phẩm", "Items")}</p>
           </div>
         </div>
@@ -277,9 +277,9 @@ const CultureDetective = ({ onBack }: CultureDetectiveProps) => {
               className={`px-3 py-2.5 rounded-xl text-sm font-medium border transition-all ${
                 isRevealed
                   ? isCorrect
-                    ? "border-green-500 bg-green-500/15 text-green-400 shadow-[0_0_10px_rgba(34,197,94,0.2)]"
+                    ? "border-green-500 bg-green-500/15 text-green-800 dark:text-green-300 shadow-sm"
                     : isSelected
-                    ? "border-red-500 bg-red-500/15 text-red-400"
+                    ? "border-red-500 bg-red-500/15 text-red-800 dark:text-red-300"
                     : "border-border/30 bg-card/30 text-muted-foreground"
                   : isSelected
                   ? "border-primary bg-primary/15 text-primary shadow-[0_0_10px_rgba(var(--primary),0.2)]"
