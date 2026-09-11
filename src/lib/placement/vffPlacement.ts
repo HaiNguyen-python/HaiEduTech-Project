@@ -68,7 +68,7 @@ export const saveVffPlacementRun = async (run: VffPlacementRun): Promise<void> =
       score: run.scorePct,
       maxScore: 100,
       timeSpentSeconds: run.durationSeconds,
-      domain: "vietnamese",
+      
       metadata: { subject: "vietnamese-vff", level: run.level, mode: run.mode },
     });
   } catch {
