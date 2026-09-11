@@ -67,6 +67,23 @@ const PteHub = () => {
     >
       <PtePeak completed={progress.completedIds.length} total={totalTasks} />
 
+      {/* Placement test CTA */}
+      <Link
+        to="/placement-test?subject=pte"
+        className="mb-4 block bg-white rounded-2xl p-5 sm:p-6 border-2 border-[#003580]/20 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all"
+      >
+        <div className="flex items-center gap-4">
+          <div className="w-12 h-12 rounded-xl bg-[#003580]/10 grid place-items-center shrink-0">
+            <ClipboardCheck size={26} className="text-[#003580]" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <h3 className="text-lg sm:text-xl font-bold text-[#003580]">PTE Placement Test</h3>
+            <p className="text-slate-600 text-sm">24 questions - find your level and the right class</p>
+          </div>
+          <ChevronRight size={24} className="shrink-0 text-[#003580]" />
+        </div>
+      </Link>
+
       {/* Strategy lessons CTA */}
       <Link
         to="/pte/lessons"
