@@ -163,7 +163,7 @@ const AdminDashboard = () => {
     const groupMap: Record<string, "overview" | "students" | "learning" | "operations"> = {
       overview: "overview", system: "overview",
       students: "students", insights: "students", attendance: "students", feedback: "students", chatbot: "students",
-      "rl-engine": "learning", "rl-interventions": "learning", strategy: "learning", dictionary: "learning",
+      "rl-engine": "learning", "rl-interventions": "learning", strategy: "learning", dictionary: "learning", "content-studio": "learning",
       income: "operations", assistants: "operations", schedule: "operations",
       "report-logs": "operations", "service-requests": "operations", health: "operations",
     };
