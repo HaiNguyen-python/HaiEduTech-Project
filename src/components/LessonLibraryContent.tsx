@@ -5,6 +5,7 @@ import { BookOpen, Code2, Languages, Loader2, ArrowRight, Filter, Sparkles } fro
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Badge } from "@/components/ui/badge";
+import PublishedContentStrip from "@/components/content/PublishedContentStrip";
 
 const CATEGORY_LABELS: Record<string, { vi: string; en: string; icon: string }> = {
   grammar: { vi: "Ngữ pháp", en: "Grammar", icon: "📝" },
@@ -91,6 +92,11 @@ export default function LessonLibraryContent() {
   return (
     <div className="max-w-5xl mx-auto">
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+        <PublishedContentStrip
+          kind="lesson"
+          titleVi="Bài giảng từ thầy Hải"
+          titleEn="Lessons from Teacher Hai"
+        />
         <div className="flex items-center gap-3 mb-6">
           <p className="text-muted-foreground">
             {t("Chọn bộ lọc để tìm nhanh bài học phù hợp với bạn.", "Use filters to find what fits.")}

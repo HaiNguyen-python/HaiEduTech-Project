@@ -9,6 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Loader2, BookOpen, FileText, GraduationCap, Sparkles, Check, X, Download } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
+import PublishedContentStrip from "@/components/content/PublishedContentStrip";
 
 const ENGLISH_LEVELS = [
   { value: "A1", label: "A1 – Beginner" },
@@ -135,6 +136,13 @@ export default function SmartResourcesContent() {
 
   return (
     <div>
+      <div className="max-w-3xl mx-auto">
+        <PublishedContentStrip
+          kind="resource"
+          titleVi="Tài liệu tải về từ thầy Hải"
+          titleEn="Downloadable resources from Teacher Hai"
+        />
+      </div>
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
         <Card className="max-w-3xl mx-auto mb-10 shadow-md border-border/60">
           <CardHeader className="pb-4">
