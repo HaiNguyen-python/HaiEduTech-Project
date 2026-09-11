@@ -132,7 +132,7 @@ const FactOrMythGame = () => {
         <div className="flex gap-4">
           <Button
             onClick={() => handleAnswer(true)}
-            className="flex-1 gap-2 bg-emerald-600 hover:bg-emerald-700 text-white"
+            className="flex-1 gap-2 bg-emerald-600 hover:bg-emerald-700 text-primary-foreground"
             size="lg"
           >
             <CheckCircle2 className="w-5 h-5" />
@@ -140,7 +140,7 @@ const FactOrMythGame = () => {
           </Button>
           <Button
             onClick={() => handleAnswer(false)}
-            className="flex-1 gap-2 bg-red-600 hover:bg-red-700 text-white"
+            className="flex-1 gap-2 bg-red-600 hover:bg-red-700 text-primary-foreground"
             size="lg"
           >
             <XCircle className="w-5 h-5" />

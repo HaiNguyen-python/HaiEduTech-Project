@@ -176,11 +176,11 @@ const CultureDetective = ({ onBack }: CultureDetectiveProps) => {
             <p className="text-xs text-muted-foreground">{t("Tổng điểm", "Total Score")}</p>
           </div>
           <div className="p-3 rounded-xl bg-card border border-border">
-            <p className="text-2xl font-bold text-amber-400">{maxStreak}</p>
+            <p className="text-2xl font-bold text-amber-700 dark:text-amber-300">{maxStreak}</p>
             <p className="text-xs text-muted-foreground">{t("Chuỗi tối đa", "Max Streak")}</p>
           </div>
           <div className="p-3 rounded-xl bg-card border border-border">
-            <p className="text-2xl font-bold text-green-400">{shuffledItems.length}</p>
+            <p className="text-2xl font-bold text-green-700 dark:text-green-300">{shuffledItems.length}</p>
             <p className="text-xs text-muted-foreground">{t("Vật phẩm", "Items")}</p>
           </div>
         </div>
@@ -219,9 +219,9 @@ const CultureDetective = ({ onBack }: CultureDetectiveProps) => {
             </span>
           )}
           <span className="font-bold text-primary">{score}</span>
-          <button onClick={handleToggleMute} className="text-muted-foreground hover:text-foreground">
+          <Button variant="ghost" size="icon" onClick={handleToggleMute} aria-label={t("Bật hoặc tắt âm thanh", "Toggle sound")}>
             {muted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -277,13 +277,13 @@ const CultureDetective = ({ onBack }: CultureDetectiveProps) => {
               className={`px-3 py-2.5 rounded-xl text-sm font-medium border transition-all ${
                 isRevealed
                   ? isCorrect
-                    ? "border-green-500 bg-green-500/15 text-green-400 shadow-[0_0_10px_rgba(34,197,94,0.2)]"
+                    ? "border-green-500 bg-green-500/15 text-green-800 dark:text-green-300 shadow-sm"
                     : isSelected
-                    ? "border-red-500 bg-red-500/15 text-red-400"
+                    ? "border-red-500 bg-red-500/15 text-red-800 dark:text-red-300"
                     : "border-border/30 bg-card/30 text-muted-foreground"
                   : isSelected
                   ? "border-primary bg-primary/15 text-primary shadow-[0_0_10px_rgba(var(--primary),0.2)]"
-                  : "border-border/50 bg-card/80 text-foreground hover:border-primary/50 hover:shadow-[0_0_8px_rgba(var(--primary),0.1)]"
+                  : "border-border bg-card text-foreground hover:border-primary/60 hover:shadow-sm"
               }`}
             >
               {isRevealed && isCorrect && <CheckCircle className="w-3 h-3 inline mr-1" />}

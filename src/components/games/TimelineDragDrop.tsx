@@ -173,7 +173,7 @@ const TimelineDragDrop = ({ onBack, difficulty = "normal" }: TimelineDragDropPro
             <p className="text-xs text-muted-foreground">{t("Điểm", "Score")}</p>
           </div>
           <div className="text-center">
-            <p className="text-3xl font-bold text-amber-400">{maxStreak}</p>
+            <p className="text-3xl font-bold text-amber-700 dark:text-amber-300">{maxStreak}</p>
             <p className="text-xs text-muted-foreground">{t("Chuỗi", "Streak")}</p>
           </div>
         </div>
@@ -206,9 +206,9 @@ const TimelineDragDrop = ({ onBack, difficulty = "normal" }: TimelineDragDropPro
               <Flame className="w-4 h-4" /> {streak}
             </span>
           )}
-          <button onClick={handleToggleMute} className="text-muted-foreground hover:text-foreground">
+          <Button variant="ghost" size="icon" onClick={handleToggleMute} aria-label={t("Bật hoặc tắt âm thanh", "Toggle sound")}>
             {muted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -250,7 +250,7 @@ const TimelineDragDrop = ({ onBack, difficulty = "normal" }: TimelineDragDropPro
                     ? "border-green-500 bg-green-500/10 shadow-[0_0_15px_rgba(34,197,94,0.3)]"
                     : isWrong
                     ? "border-red-500 bg-red-500/10 animate-[shake_0.5s_ease-in-out]"
-                    : "border-border/50 bg-card/80 hover:border-primary/50 hover:shadow-[0_0_10px_rgba(var(--primary),0.15)]"
+            : "border-border bg-card hover:border-primary/60 hover:shadow-sm"
                 }`}
                 whileDrag={{ scale: 1.03, boxShadow: "0 0 20px rgba(16, 185, 129, 0.4)" }}
               >

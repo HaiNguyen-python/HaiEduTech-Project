@@ -58,11 +58,11 @@ const HUD = ({ score, lives, combo }: { score: number; lives: number; combo: num
   <div className="flex items-center justify-between gap-3 p-3 rounded-xl bg-amber-50/90 dark:bg-amber-950/60 border border-amber-500/40 backdrop-blur-sm mb-3">
     <div className="flex items-center gap-3 text-sm font-mono">
       <span className="text-amber-700 dark:text-amber-300">ĐIỂM <span className="font-bold">{score}</span></span>
-      <span className="text-rose-600 dark:text-rose-300">x{combo}</span>
+      <span className="text-rose-700 dark:text-rose-300">x{combo}</span>
     </div>
     <div className="flex items-center gap-1">
       {Array.from({ length: 3 }).map((_, i) => (
-        <Heart key={i} className={`w-5 h-5 ${i < lives ? "text-rose-500 fill-rose-500" : "text-slate-300"}`} />
+        <Heart key={i} className={`w-5 h-5 ${i < lives ? "text-rose-500 fill-rose-500" : "text-muted-foreground/45"}`} />
       ))}
     </div>
   </div>
@@ -316,8 +316,8 @@ const BongNuocPop = ({ onExit }: { onExit: () => void }) => {
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             whileTap={{ scale: 0.85 }}
-            className="absolute w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-br from-white/90 to-cyan-300/80 dark:from-cyan-300/50 dark:to-cyan-500/50 border-2 border-white/80 shadow-lg flex items-center justify-center text-center text-xs sm:text-sm font-bold text-cyan-900 backdrop-blur-sm"
-            style={{ left: `${b.x}%`, bottom: `${b.y}%` }}
+             className="absolute w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-br from-card to-cyan-200 dark:from-cyan-300 dark:to-cyan-500 border-2 border-background/80 shadow-lg flex items-center justify-center text-center text-xs sm:text-sm font-bold text-cyan-950 backdrop-blur-sm"
+             style={{ left: `clamp(0px, calc(${b.x}% - 2.5rem), calc(100% - 5rem))`, bottom: `${b.y}%` }}
           >
             <span className="px-1 break-words leading-tight">{b.pair.vi}</span>
           </motion.button>
@@ -340,7 +340,6 @@ const VietnameseArcade = () => {
     {
       id: "match" as const,
       icon: <Soup className="w-7 h-7" />,
-      chibi: "🐉",
       title: t("Phở Match", "Phở Match"),
       desc: t("Ghép thẻ Tiếng Việt với nghĩa Tiếng Anh.", "Match Vietnamese cards with their English meanings."),
       color: "from-amber-500 to-rose-600",
@@ -348,7 +347,6 @@ const VietnameseArcade = () => {
     {
       id: "bubble" as const,
       icon: <Droplets className="w-7 h-7" />,
-      chibi: "🐢",
       title: t("Bóng Nước Pop", "Bubble Pop"),
       desc: t("Đập bóng có nghĩa khớp với từ Tiếng Anh được hỏi.", "Pop the bubble that matches the English prompt."),
       color: "from-cyan-500 to-emerald-600",
@@ -356,7 +354,6 @@ const VietnameseArcade = () => {
     {
       id: "meteor" as const,
       icon: <Rocket className="w-7 h-7" />,
-      chibi: "🪷",
       title: t("Word Meteor (Tiếng Việt)", "Word Meteor (Vietnamese)"),
       desc: t("Bắn nghĩa tiếng Anh đúng cho thiên thạch Tiếng Việt đang rơi.", "Tap the correct English meaning of falling Vietnamese meteors."),
       color: "from-red-500 to-orange-600",
@@ -364,7 +361,7 @@ const VietnameseArcade = () => {
   ];
 
   return (
-    <div className="dark min-h-screen bg-gradient-to-b from-amber-50/50 via-background to-rose-50/40 dark:from-amber-950/20 dark:via-background dark:to-rose-950/20">
+    <div className="min-h-screen bg-gradient-to-b from-amber-50/70 via-background to-rose-50/50 dark:from-amber-950/20 dark:via-background dark:to-rose-950/20">
       <SEO
         title="Vietnamese Arcade - Trò chơi học Tiếng Việt | HaiEduTech"
         description="Mini-games học từ vựng Tiếng Việt theo phong cách lotus arcade: Phở Match và Bóng Nước Pop, hỗ trợ phát âm vi-VN, hoàn toàn responsive."
@@ -379,7 +376,7 @@ const VietnameseArcade = () => {
                 <Sparkles className="w-4 h-4" /> VIETNAMESE ARCADE HUB
               </div>
               <h1 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-amber-500 via-rose-500 to-emerald-500 bg-clip-text text-transparent mb-2">
-                🪷 {t("Trung tâm trò chơi Tiếng Việt", "Vietnamese Vocabulary Arcade")}
+                {t("Trung tâm trò chơi Tiếng Việt", "Vietnamese Vocabulary Arcade")}
               </h1>
               <p className="text-sm text-muted-foreground max-w-md mx-auto">
                 {t("Mini-game luyện từ vựng Tiếng Việt với phát âm tự động.", "Mini-games to drill Vietnamese vocabulary with built-in pronunciation.")}
@@ -396,23 +393,15 @@ const VietnameseArcade = () => {
                   whileHover={{ scale: 1.03, y: -3 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => setActive(g.id)}
-                  className="relative overflow-hidden p-5 min-h-[180px] rounded-2xl border-2 border-amber-300/40 bg-gradient-to-br from-white to-amber-50/40 dark:from-slate-900 dark:to-amber-950/30 text-left transition-all hover:border-amber-500/70 hover:shadow-xl"
+                  className="relative overflow-hidden p-5 min-h-[180px] rounded-xl border-2 border-amber-300/70 bg-card text-left shadow-sm transition-all hover:border-amber-500 hover:bg-amber-50/70 hover:shadow-lg dark:border-amber-700/50 dark:hover:bg-amber-950/30"
                 >
                   <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${g.color} rounded-t-2xl`} />
-                  <motion.div
-                    animate={{ y: [0, -6, 0], rotate: [-3, 3, -3] }}
-                    transition={{ duration: 3, repeat: Infinity }}
-                    className="absolute -bottom-2 -right-2 text-6xl drop-shadow-xl select-none opacity-90"
-                    aria-hidden
-                  >
-                    {g.chibi}
-                  </motion.div>
-                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${g.color} flex items-center justify-center text-white mb-3`}>
+                  <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${g.color} flex items-center justify-center text-primary-foreground mb-3`}>
                     {g.icon}
                   </div>
                   <h3 className="font-bold text-foreground mb-1">{g.title}</h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed max-w-[75%]">{g.desc}</p>
-                  <div className="absolute top-3 right-3 px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-700 dark:text-amber-300 text-[10px] font-mono">▶ PLAY</div>
+                  <p className="text-sm text-foreground/75 leading-relaxed max-w-[75%]">{g.desc}</p>
+                  <div className="absolute top-3 right-3 px-2 py-1 rounded-full bg-amber-100 text-amber-800 dark:bg-amber-900/60 dark:text-amber-200 text-[10px] font-bold">▶ {t("CHƠI", "PLAY")}</div>
                 </motion.button>
               ))}
             </div>

@@ -342,11 +342,11 @@ const VocabShadowFight = ({ onBack }: VocabShadowFightProps) => {
             <p className="text-xs text-muted-foreground">{t("Điểm", "Score")}</p>
           </div>
           <div className="p-3 rounded-xl bg-card border border-border">
-            <p className="text-2xl font-bold text-amber-400">{maxStreak}</p>
+            <p className="text-2xl font-bold text-amber-700 dark:text-amber-300">{maxStreak}</p>
             <p className="text-xs text-muted-foreground">{t("Chuỗi tối đa", "Max Streak")}</p>
           </div>
           <div className="p-3 rounded-xl bg-card border border-border">
-            <p className="text-2xl font-bold text-green-400">Lv.{level}</p>
+            <p className="text-2xl font-bold text-green-700 dark:text-green-300">Lv.{level}</p>
             <p className="text-xs text-muted-foreground">{t("Cấp độ", "Level")}</p>
           </div>
         </div>
@@ -398,18 +398,18 @@ const VocabShadowFight = ({ onBack }: VocabShadowFightProps) => {
           )}
           {/* Power-up indicator */}
           {powerUp.active && (
-            <span className="text-xs px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-400 font-bold flex items-center gap-1">
+            <span className="text-xs px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-800 dark:text-cyan-300 font-bold flex items-center gap-1">
               {powerUp.type === "freeze" ? <Snowflake className="w-3 h-3" /> : <Star className="w-3 h-3" />}
               {powerUp.timeLeft}s
             </span>
           )}
           {/* Double points indicator */}
           {doublePoints && (
-            <span className="text-xs font-bold text-amber-400">×2</span>
+            <span className="text-xs font-bold text-amber-700 dark:text-amber-300">×2</span>
           )}
-          <button onClick={handleToggleMute} className="text-muted-foreground hover:text-foreground">
+          <Button variant="ghost" size="icon" onClick={handleToggleMute} aria-label={t("Bật hoặc tắt âm thanh", "Toggle sound")}>
             {muted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -428,8 +428,8 @@ const VocabShadowFight = ({ onBack }: VocabShadowFightProps) => {
       >
         {/* Center divider */}
         <div className="absolute left-1/2 top-0 bottom-0 w-px bg-border/30" />
-        <div className="absolute left-[10%] top-2 text-xs text-muted-foreground/50 font-bold">🇻🇳 Tiếng Việt</div>
-        <div className="absolute right-[10%] top-2 text-xs text-muted-foreground/50 font-bold">🇬🇧 English</div>
+        <div className="absolute left-[10%] top-2 text-xs text-muted-foreground font-bold">Tiếng Việt</div>
+        <div className="absolute right-[10%] top-2 text-xs text-muted-foreground font-bold">English</div>
 
         {/* Bottom danger zone */}
         <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-red-500/20 to-transparent border-t border-red-500/30" />
@@ -451,12 +451,12 @@ const VocabShadowFight = ({ onBack }: VocabShadowFightProps) => {
               onClick={() => handleWordClick(word)}
               className={`absolute px-3 py-1.5 rounded-lg text-sm font-bold cursor-pointer transition-colors whitespace-nowrap ${
                 word.matched
-                  ? "bg-green-500/30 border-green-500 text-green-400"
+                  ? "bg-green-500/20 border-green-500 text-green-800 dark:text-green-300"
                   : selected === word.id
                   ? "bg-primary/30 border-primary text-primary shadow-[0_0_15px_rgba(var(--primary),0.4)] scale-110"
                   : word.lang === "vi"
-                  ? "bg-card/90 border border-amber-500/40 text-amber-300 hover:border-amber-400 hover:shadow-[0_0_10px_rgba(245,158,11,0.3)]"
-                  : "bg-card/90 border border-cyan-500/40 text-cyan-300 hover:border-cyan-400 hover:shadow-[0_0_10px_rgba(6,182,212,0.3)]"
+                  ? "bg-card border border-amber-500/50 text-amber-800 dark:text-amber-200 hover:border-amber-500 shadow-sm"
+                  : "bg-card border border-cyan-500/50 text-cyan-800 dark:text-cyan-200 hover:border-cyan-500 shadow-sm"
               }`}
               style={{ transform: "translate(-50%, -50%)" }}
             >
@@ -472,8 +472,9 @@ const VocabShadowFight = ({ onBack }: VocabShadowFightProps) => {
             animate={{ scale: [1, 1.2, 1], rotate: 0 }}
             transition={{ duration: 0.5, scale: { repeat: Infinity, duration: 1 } }}
             onClick={handlePowerUpClick}
-            className="absolute z-20 w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-lg shadow-[0_0_20px_rgba(168,85,247,0.5)] cursor-pointer"
+            className="absolute z-20 w-11 h-11 rounded-full bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center text-white text-lg shadow-md cursor-pointer"
             style={{ left: `${showPowerUp.x}%`, top: `${showPowerUp.y}%` }}
+            aria-label={showPowerUp.type === "freeze" ? t("Nhận sức mạnh đóng băng", "Collect freeze power-up") : t("Nhận điểm thưởng", "Collect bonus points")}
           >
             {showPowerUp.type === "freeze" ? "❄️" : "⭐"}
           </motion.button>
@@ -499,8 +500,8 @@ const VocabShadowFight = ({ onBack }: VocabShadowFightProps) => {
       {/* Instructions */}
       <p className="text-center text-xs text-muted-foreground mt-3">
         {t(
-          "Nhấn vào một từ tiếng Việt 🇻🇳, rồi nhấn vào nghĩa tiếng Anh 🇬🇧 tương ứng",
-          "Click a Vietnamese word 🇻🇳, then click its English match 🇬🇧"
+          "Nhấn vào một từ tiếng Việt, rồi nhấn vào nghĩa tiếng Anh tương ứng",
+          "Click a Vietnamese word, then click its English match"
         )}
       </p>
 
