@@ -41,6 +41,8 @@ import {
   type Assignment,
 } from "@/lib/assignmentMetrics";
 import { ASSIGNMENT_LESSON_CATALOG } from "@/lib/assignmentLessonCatalog";
+import { fetchAllRows } from "@/lib/adminData";
+import { dedupeStudentProfiles, fetchAllProfiles } from "@/lib/adminStudents";
 
 type StatusFilter = "all" | "in_progress" | "completed" | "overdue";
 type SubjectFilter = "all" | keyof typeof SUBJECT_LABELS;
@@ -113,37 +115,38 @@ const AdminAssignments = () => {
 
   const [createOpen, setCreateOpen] = useState(false);
   const [detailRow, setDetailRow] = useState<AssignmentRow | null>(null);
+  const [mergedProfiles, setMergedProfiles] = useState(0);
 
   const fetchAll = useCallback(async () => {
     setLoading(true);
-    // Bounded queries keep the admin dashboard snappy under heavy data.
-    const [{ data: aData }, { data: sData }, { data: pData }, { data: cData }, { data: cmData }] = await Promise.all([
-      supabase.from("assignments").select("*").order("assigned_at", { ascending: false }).limit(200),
-      supabase.from("student_submissions").select("*").order("updated_at", { ascending: false }).limit(2000),
-      supabase.from("profiles").select("id, full_name").order("full_name").limit(1000),
-      supabase.from("classes").select("id, class_name, subject_category").order("class_name"),
-      supabase.from("class_members").select("class_id, user_id"),
-    ]);
-    setClasses((cData as ClassOption[]) ?? []);
-    setClassMembers((cmData as ClassMember[]) ?? []);
-    setAssignments((aData as Assignment[]) ?? []);
-    setSubmissions((sData as Submission[]) ?? []);
-    // Dedupe students by id, then by normalized display name so duplicate
-    // profiles (same person registered twice) don't appear in the picker.
-    const rawProfiles = (pData as StudentProfile[]) ?? [];
-    const byId = new Map<string, StudentProfile>();
-    rawProfiles.forEach((p) => { if (!byId.has(p.id)) byId.set(p.id, p); });
-    const seenNames = new Set<string>();
-    const uniqueStudents: StudentProfile[] = [];
-    Array.from(byId.values()).forEach((p) => {
-      const key = (p.full_name ?? "").trim().toLowerCase();
-      if (key && seenNames.has(key)) return; // skip duplicate display name
-      if (key) seenNames.add(key);
-      uniqueStudents.push(p);
-    });
-    setStudents(uniqueStudents);
-    setLoading(false);
-  }, []);
+    try {
+      // Fully paged reads - no hidden row ceilings, so counts stay truthful.
+      const [aData, sData, pData, cData, cmData] = await Promise.all([
+        fetchAllRows<Assignment>((from, to) =>
+          supabase.from("assignments").select("*").order("assigned_at", { ascending: false }).range(from, to)),
+        fetchAllRows<Submission>((from, to) =>
+          supabase.from("student_submissions").select("*").order("updated_at", { ascending: false }).range(from, to)),
+        fetchAllProfiles(),
+        fetchAllRows<ClassOption>((from, to) =>
+          supabase.from("classes").select("id, class_name, subject_category").order("class_name").range(from, to)),
+        fetchAllRows<ClassMember>((from, to) =>
+          supabase.from("class_members").select("class_id, user_id").range(from, to)),
+      ]);
+      setClasses(cData);
+      setClassMembers(cmData);
+      setAssignments(aData);
+      setSubmissions(sData);
+      // Shared merge rule: duplicate profiles fold into the oldest account.
+      const { students: uniqueStudents, mergedCount } = dedupeStudentProfiles(pData);
+      setStudents(uniqueStudents as StudentProfile[]);
+      setMergedProfiles(mergedCount);
+    } catch (e) {
+      const message = e instanceof Error ? e.message : "Unknown error";
+      toast({ title: "Could not load assignments", description: message, variant: "destructive" });
+    } finally {
+      setLoading(false);
+    }
+  }, [toast]);
 
   useEffect(() => {
     if (isTeacher) fetchAll();
