@@ -12,7 +12,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Trophy, Zap, Sparkles, ArrowLeft } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   METEOR_BANKS,
@@ -305,13 +304,13 @@ export default function WordMeteor({
                 <ArrowLeft className="w-4 h-4 mr-1" /> Menu
               </Button>
             )}
-            <Badge variant="outline" className="text-base">
+            <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-base font-semibold text-foreground">
               <Trophy className="mr-1 h-4 w-4" /> {score}
-            </Badge>
-            <Badge variant="outline" className="text-base">
+            </div>
+            <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-base font-semibold text-foreground">
               <Zap className="mr-1 h-4 w-4" /> {streak}
-            </Badge>
-            <Badge variant="outline" className="text-base">❤️ {lives}</Badge>
+            </div>
+            <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-base font-semibold text-foreground">Lives {lives}</div>
           </div>
           <Button onClick={reset} size="sm" className={`bg-gradient-to-r ${theme.accent} text-white`}>
             {running ? "Restart" : "Start"}
