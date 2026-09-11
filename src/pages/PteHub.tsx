@@ -5,7 +5,8 @@
  */
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Mic, PenTool, BookOpen, Headphones, Trophy, Sparkles, Flame, TrendingUp, ChevronRight } from "lucide-react";
+import { Mic, PenTool, BookOpen, Headphones, Trophy, Sparkles, Flame, TrendingUp, ChevronRight, GraduationCap } from "lucide-react";
+import { PTE_LESSONS, PTE_LESSON_QUIZ_TOTAL } from "@/data/pteLessonsData";
 import PteShell from "@/components/pte/PteShell";
 import PtePeak from "@/components/pte/PtePeak";
 import PteSkillRings from "@/components/pte/PteSkillRings";
