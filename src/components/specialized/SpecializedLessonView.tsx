@@ -31,6 +31,17 @@ const highlightPhrases = (line: string, phrases: string[] = []) => {
   );
 };
 
+const normalizeText = (value: string) => value.toLocaleLowerCase().replace(/[\s.,!?;:'"“”‘’()\-…]/g, "");
+
+// AI sometimes returns a translation identical to the source line (e.g. English pathways).
+// Only show the translation when it adds real information.
+const isMeaningfulTranslation = (source: string, translation?: string) => {
+  if (!translation) return false;
+  const a = normalizeText(source);
+  const b = normalizeText(translation);
+  return b.length > 0 && a !== b;
+};
+
 const ShadowingPractice = ({ target, language, t }: { target: string; language: SpecializedLang; t: Props["t"] }) => {
   const [accuracy, setAccuracy] = useState<number | null>(null);
   const recognizer = useSpeechRecognizer({
@@ -105,10 +116,10 @@ export default function SpecializedLessonView({ lesson, language, lessonNumber, 
                 <div><p className="text-lg font-bold">{word.term}</p>{word.pronunciation && <p className="text-sm font-medium text-primary">{word.pronunciation}</p>}</div>
                 <Button type="button" size="icon" variant="ghost" aria-label={t("Nghe từ", "Listen to word")} onClick={() => speak(word.term, key)}>{speakingKey === key ? <Square className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}</Button>
               </div>
-              <p className="mt-1 text-sm"><Badge variant="secondary" className="mr-2">{word.partOfSpeech}</Badge>{word.translation}</p>
+              <p className="mt-1 text-sm"><Badge variant="secondary" className="mr-2">{word.partOfSpeech}</Badge>{isMeaningfulTranslation(word.term, word.translation) ? word.translation : ""}</p>
               <div className="mt-3 rounded-md bg-muted/50 p-3 text-sm leading-relaxed">
                 <div className="flex gap-2"><p className="flex-1">{word.example}</p><Button type="button" size="icon" variant="ghost" className="h-7 w-7" aria-label={t("Nghe ví dụ", "Listen to example")} onClick={() => speak(word.example, `example-${index}`)}><Play className="h-3.5 w-3.5" /></Button></div>
-                <p className="mt-1 text-muted-foreground">{word.exampleTranslation}</p>
+                {isMeaningfulTranslation(word.example, word.exampleTranslation) && <p className="mt-1 text-muted-foreground">{word.exampleTranslation}</p>}
               </div>
             </CardContent></Card>;
           })}
@@ -121,7 +132,7 @@ export default function SpecializedLessonView({ lesson, language, lessonNumber, 
         <div className="space-y-2">
           {lesson.scenario.dialogue.map((line, index) => <div key={`${line.speaker}-${index}`} className="rounded-lg border bg-card p-4">
             <div className="flex items-start gap-2"><p className="min-w-0 flex-1 leading-relaxed"><strong className="text-primary">{line.speaker}:</strong> {highlightPhrases(line.line, line.keyPhrases)}</p><Button type="button" size="icon" variant="ghost" aria-label={t("Nghe câu", "Listen to line")} onClick={() => speak(line.line, `line-${index}`)}><Volume2 className="h-4 w-4" /></Button></div>
-            <p className="mt-1 text-sm italic text-muted-foreground">{line.translation}</p>
+            {isMeaningfulTranslation(line.line, line.translation) && <p className="mt-1 text-sm italic text-muted-foreground">{line.translation}</p>}
           </div>)}
         </div>
       </section>
