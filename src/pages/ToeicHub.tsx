@@ -101,6 +101,26 @@ const ToeicHub = () => {
           </p>
         </motion.div>
 
+        <div className="max-w-6xl mx-auto mb-8">
+          <Link
+            to="/placement-test?subject=toeic"
+            className="flex items-center gap-4 rounded-2xl bg-white ring-1 ring-slate-200 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all p-5 sm:p-6"
+          >
+            <div className="w-12 h-12 rounded-xl bg-slate-900/5 text-slate-900 grid place-items-center shrink-0">
+              <ClipboardCheck className="w-6 h-6" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <h2 className="text-lg sm:text-xl font-bold text-slate-900">
+                {t("Bài kiểm tra xếp lớp TOEIC", "TOEIC Placement Test")}
+              </h2>
+              <p className="text-sm text-slate-600">
+                {t("24 câu - biết trình độ và lớp phù hợp", "24 questions - find your level and the right class")}
+              </p>
+            </div>
+            <ChevronRight className="w-6 h-6 text-slate-400 shrink-0" />
+          </Link>
+        </div>
+
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto">
           {sections.map((s, i) => (
             <motion.div
