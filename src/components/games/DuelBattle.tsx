@@ -330,7 +330,7 @@ const DuelBattle = ({ onBack }: DuelBattleProps) => {
                     : idx === selectedAns
                     ? "border-red-500 bg-red-500/15 text-red-800 dark:text-red-300 animate-[shake_0.5s_ease-in-out]"
                     : "border-border/30 bg-card/50 text-muted-foreground"
-                  : "border-border/50 bg-card/80 text-foreground hover:border-primary/50 hover:shadow-[0_0_10px_rgba(var(--primary),0.15)]"
+                  : "border-border bg-card text-foreground hover:border-primary/60 hover:shadow-sm"
               }`}
             >
               {String.fromCharCode(65 + idx)}. {opt}

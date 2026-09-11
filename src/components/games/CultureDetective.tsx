@@ -283,7 +283,7 @@ const CultureDetective = ({ onBack }: CultureDetectiveProps) => {
                     : "border-border/30 bg-card/30 text-muted-foreground"
                   : isSelected
                   ? "border-primary bg-primary/15 text-primary shadow-[0_0_10px_rgba(var(--primary),0.2)]"
-                  : "border-border/50 bg-card/80 text-foreground hover:border-primary/50 hover:shadow-[0_0_8px_rgba(var(--primary),0.1)]"
+                  : "border-border bg-card text-foreground hover:border-primary/60 hover:shadow-sm"
               }`}
             >
               {isRevealed && isCorrect && <CheckCircle className="w-3 h-3 inline mr-1" />}

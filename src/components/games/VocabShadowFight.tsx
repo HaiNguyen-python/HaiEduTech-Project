@@ -428,8 +428,8 @@ const VocabShadowFight = ({ onBack }: VocabShadowFightProps) => {
       >
         {/* Center divider */}
         <div className="absolute left-1/2 top-0 bottom-0 w-px bg-border/30" />
-        <div className="absolute left-[10%] top-2 text-xs text-muted-foreground/50 font-bold">🇻🇳 Tiếng Việt</div>
-        <div className="absolute right-[10%] top-2 text-xs text-muted-foreground/50 font-bold">🇬🇧 English</div>
+        <div className="absolute left-[10%] top-2 text-xs text-muted-foreground font-bold">Tiếng Việt</div>
+        <div className="absolute right-[10%] top-2 text-xs text-muted-foreground font-bold">English</div>
 
         {/* Bottom danger zone */}
         <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-red-500/20 to-transparent border-t border-red-500/30" />
@@ -472,8 +472,9 @@ const VocabShadowFight = ({ onBack }: VocabShadowFightProps) => {
             animate={{ scale: [1, 1.2, 1], rotate: 0 }}
             transition={{ duration: 0.5, scale: { repeat: Infinity, duration: 1 } }}
             onClick={handlePowerUpClick}
-            className="absolute z-20 w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-lg shadow-[0_0_20px_rgba(168,85,247,0.5)] cursor-pointer"
+            className="absolute z-20 w-11 h-11 rounded-full bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center text-white text-lg shadow-md cursor-pointer"
             style={{ left: `${showPowerUp.x}%`, top: `${showPowerUp.y}%` }}
+            aria-label={showPowerUp.type === "freeze" ? t("Nhận sức mạnh đóng băng", "Collect freeze power-up") : t("Nhận điểm thưởng", "Collect bonus points")}
           >
             {showPowerUp.type === "freeze" ? "❄️" : "⭐"}
           </motion.button>
@@ -499,8 +500,8 @@ const VocabShadowFight = ({ onBack }: VocabShadowFightProps) => {
       {/* Instructions */}
       <p className="text-center text-xs text-muted-foreground mt-3">
         {t(
-          "Nhấn vào một từ tiếng Việt 🇻🇳, rồi nhấn vào nghĩa tiếng Anh 🇬🇧 tương ứng",
-          "Click a Vietnamese word 🇻🇳, then click its English match 🇬🇧"
+          "Nhấn vào một từ tiếng Việt, rồi nhấn vào nghĩa tiếng Anh tương ứng",
+          "Click a Vietnamese word, then click its English match"
         )}
       </p>
 

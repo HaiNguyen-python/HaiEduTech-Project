@@ -250,7 +250,7 @@ const TimelineDragDrop = ({ onBack, difficulty = "normal" }: TimelineDragDropPro
                     ? "border-green-500 bg-green-500/10 shadow-[0_0_15px_rgba(34,197,94,0.3)]"
                     : isWrong
                     ? "border-red-500 bg-red-500/10 animate-[shake_0.5s_ease-in-out]"
-                    : "border-border/50 bg-card/80 hover:border-primary/50 hover:shadow-[0_0_10px_rgba(var(--primary),0.15)]"
+            : "border-border bg-card hover:border-primary/60 hover:shadow-sm"
                 }`}
                 whileDrag={{ scale: 1.03, boxShadow: "0 0 20px rgba(16, 185, 129, 0.4)" }}
               >

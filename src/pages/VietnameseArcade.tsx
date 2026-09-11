@@ -340,7 +340,6 @@ const VietnameseArcade = () => {
     {
       id: "match" as const,
       icon: <Soup className="w-7 h-7" />,
-      chibi: "🍜",
       title: t("Phở Match", "Phở Match"),
       desc: t("Ghép thẻ Tiếng Việt với nghĩa Tiếng Anh.", "Match Vietnamese cards with their English meanings."),
       color: "from-amber-500 to-rose-600",
@@ -348,7 +347,6 @@ const VietnameseArcade = () => {
     {
       id: "bubble" as const,
       icon: <Droplets className="w-7 h-7" />,
-      chibi: "🐢",
       title: t("Bóng Nước Pop", "Bubble Pop"),
       desc: t("Đập bóng có nghĩa khớp với từ Tiếng Anh được hỏi.", "Pop the bubble that matches the English prompt."),
       color: "from-cyan-500 to-emerald-600",
@@ -356,7 +354,6 @@ const VietnameseArcade = () => {
     {
       id: "meteor" as const,
       icon: <Rocket className="w-7 h-7" />,
-      chibi: "🪷",
       title: t("Word Meteor (Tiếng Việt)", "Word Meteor (Vietnamese)"),
       desc: t("Bắn nghĩa tiếng Anh đúng cho thiên thạch Tiếng Việt đang rơi.", "Tap the correct English meaning of falling Vietnamese meteors."),
       color: "from-red-500 to-orange-600",
@@ -379,7 +376,7 @@ const VietnameseArcade = () => {
                 <Sparkles className="w-4 h-4" /> VIETNAMESE ARCADE HUB
               </div>
               <h1 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-amber-500 via-rose-500 to-emerald-500 bg-clip-text text-transparent mb-2">
-                🪷 {t("Trung tâm trò chơi Tiếng Việt", "Vietnamese Vocabulary Arcade")}
+                {t("Trung tâm trò chơi Tiếng Việt", "Vietnamese Vocabulary Arcade")}
               </h1>
               <p className="text-sm text-muted-foreground max-w-md mx-auto">
                 {t("Mini-game luyện từ vựng Tiếng Việt với phát âm tự động.", "Mini-games to drill Vietnamese vocabulary with built-in pronunciation.")}
@@ -399,14 +396,6 @@ const VietnameseArcade = () => {
                   className="relative overflow-hidden p-5 min-h-[180px] rounded-xl border-2 border-amber-300/70 bg-card text-left shadow-sm transition-all hover:border-amber-500 hover:bg-amber-50/70 hover:shadow-lg dark:border-amber-700/50 dark:hover:bg-amber-950/30"
                 >
                   <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${g.color} rounded-t-2xl`} />
-                  <motion.div
-                    animate={{ y: [0, -6, 0], rotate: [-3, 3, -3] }}
-                    transition={{ duration: 3, repeat: Infinity }}
-                    className="absolute -bottom-2 -right-2 text-6xl drop-shadow-xl select-none opacity-90"
-                    aria-hidden
-                  >
-                    {g.chibi}
-                  </motion.div>
                   <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${g.color} flex items-center justify-center text-primary-foreground mb-3`}>
                     {g.icon}
                   </div>

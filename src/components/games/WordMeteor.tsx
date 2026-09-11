@@ -55,7 +55,7 @@ interface Props {
 
 const METEOR_DECOR: Record<MeteorLang, { symbols: string[]; glyphs: string[]; field: string }> = {
   en: {
-    symbols: ["✨", "📚", "💬", "⭐", "🎓", "☄️", "🔤", "🌍"],
+    symbols: ["READ", "WORD", "LEARN", "SPEAK", "A–Z", "STUDY", "WRITE", "LISTEN"],
     glyphs: ["A", "Z"],
     field: "from-sky-100 via-cyan-50 to-emerald-100 dark:from-sky-950 dark:via-cyan-950 dark:to-emerald-950",
   },
@@ -65,7 +65,7 @@ const METEOR_DECOR: Record<MeteorLang, { symbols: string[]; glyphs: string[]; fi
     field: "from-rose-200 via-amber-100 to-rose-300 dark:from-rose-900 dark:via-amber-900 dark:to-rose-950",
   },
   vi: {
-    symbols: ["🪷", "🇻🇳", "🌾", "🥁", "🍜", "🎋", "🪷", "🌾"],
+    symbols: ["SEN", "VIỆT", "LÚA", "TRỐNG", "PHỞ", "TRE", "SEN", "LÚA"],
     glyphs: ["VI", "VN"],
     field: "from-sky-100 via-amber-50 to-emerald-100 dark:from-sky-950 dark:via-emerald-950 dark:to-amber-950",
   },
@@ -331,7 +331,7 @@ export default function WordMeteor({
               key={`d-${i}`}
               animate={{ y: [0, -10, 0], rotate: [-4, 4, -4] }}
               transition={{ duration: 4 + (i % 3), repeat: Infinity, delay: i * 0.3 }}
-              className="absolute text-3xl sm:text-4xl select-none drop-shadow-[0_2px_6px_rgba(190,18,60,0.35)]"
+              className="absolute text-sm sm:text-base font-black tracking-widest text-primary/20 select-none"
               style={{ left: `${(i * 13 + 4) % 92}%`, top: `${(i * 11 + 6) % 70}%`, opacity: 0.7 }}
               aria-hidden
             >
@@ -413,7 +413,7 @@ export default function WordMeteor({
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-foreground/85 text-center text-background p-4 z-20">
               <Sparkles className="h-10 w-10 text-amber-300" />
               <h3 className="text-2xl font-bold">
-                {lives <= 0 ? `Game Over - ${score} pts` : `${theme.emoji} Word Meteor - ${theme.label}`}
+                {lives <= 0 ? `Game Over - ${score} pts` : `Word Meteor - ${theme.label}`}
               </h3>
               <p className="max-w-sm text-sm text-background/80">
                 Pick the correct meaning before the meteor lands. Use ← → (or A/D) to fly the rocket. Chain answers for bonus points!
