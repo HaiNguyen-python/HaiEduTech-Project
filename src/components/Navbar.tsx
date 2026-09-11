@@ -242,7 +242,7 @@ const Navbar = () => {
     { to: "/ielts-skills-practice", label: t("IELTS Skills Practice", "IELTS Skills Practice"), icon: PenTool },
     // 📊 Đánh giá & Tiến độ
     { to: "#h-analysis", label: t("Đánh giá & Tiến độ", "Progress & Analysis"), header: true },
-    { to: "/ielts-performance", label: t("Your IELTS Performance", "Your IELTS Performance"), icon: ClipboardCheck },
+    { to: "/ielts-performance", label: t("Your Performance", "Your Performance"), icon: ClipboardCheck },
   ];
 
 
@@ -258,10 +258,10 @@ const Navbar = () => {
     { to: "/placement-test?subject=english", label: t("📝 Placement Test & Personalization", "📝 Placement Test & Personalization") },
     { to: "#en-div1", label: "", divider: true },
     // Cambridge exam groups first
-    { to: "#en-foundation-group", label: t("📖 Cambridge Starters -> PET", "📖 Cambridge Starters -> PET"), groupLabel: "en-foundation", children: [
+    { to: "#en-foundation-group", label: t("📖 Cambridge YLE", "📖 Cambridge YLE"), groupLabel: "en-foundation", children: [
       { to: "/cambridge-lectures", label: t("🎓 Cambridge Test Prep", "🎓 Cambridge Test Prep") },
-      { to: "/cambridge-yle-vocabulary", label: t("🌈 Cambridge YLE Vocabulary & Games", "🌈 Cambridge YLE Vocabulary & Games") },
-      { to: "/cambridge-speaking-practice", label: t("🎤 Cambridge Speaking Practice", "🎤 Cambridge Speaking Practice") },
+      { to: "/cambridge-yle-vocabulary", label: t("🌈 Vocabulary & Games", "🌈 Vocabulary & Games") },
+      { to: "/cambridge-speaking-practice", label: t("🎤 Speaking Practice", "🎤 Speaking Practice") },
     ] },
 
     // IELTS - promoted to top-level so all 10 IELTS items are reachable in one hover
@@ -290,7 +290,7 @@ const Navbar = () => {
     // Combined: speaking coach + presentation studio under one group
     { to: "#en-speaking-group", label: t("🎙️ Luyện nói", "🎙️ Speaking Studio"), groupLabel: "en-speaking", children: [
       { to: "/speaking-coach/english", label: t("🎙️ Speaking Coach", "🎙️ Speaking Coach") },
-      { to: "/presentation-studio", label: t("🎤 Presentation & Public Speaking", "🎤 Presentation & Public Speaking") },
+      { to: "/presentation-studio", label: t("🎤 Public Speaking", "🎤 Public Speaking") },
     ] },
   ];
   const chineseSubs: SubItem[] = [
@@ -300,13 +300,13 @@ const Navbar = () => {
       { to: "/chinese/hsk-guide", label: t("🎓 HSK Exam Guide", "🎓 HSK Exam Guide") },
       { to: "/chinese/hsk-grammar", label: t("📐 HSK Grammar", "📐 HSK Grammar") },
       { to: "/chinese/hsk/vocabulary", label: t("📖 HSK Vocabulary", "📖 HSK Vocabulary") },
-      { to: "/chinese/hsk/test", label: t("📝 HSK Test (Đề thi thử)", "📝 HSK Test (Mock Exams)") },
-      { to: "/chinese/hskk", label: t("🎙️ HSKK Speaking (Beta)", "🎙️ HSKK Speaking (Beta)") },
+      { to: "/chinese/hsk/test", label: t("📝 HSK Test", "📝 HSK Test") },
+      { to: "/chinese/hskk", label: t("🎙️ HSKK Speaking", "🎙️ HSKK Speaking") },
     ] },
     { to: "#cn-foundation-skills-group", label: t("🈶 Kỹ năng nền tảng", "🈶 Foundation Skills"), groupLabel: "cn-foundation-skills", children: [
       { to: "/chinese/pronunciation", label: t("🔊 Phát âm Pinyin", "🔊 Pinyin Pronunciation") },
       { to: "/chinese/strokes", label: t("✍️ Hướng dẫn nét bút", "✍️ Stroke Order Guide") },
-      { to: "/chinese/tone-drill", label: t("🎯 Tone Drill 四声训练", "🎯 Tone Drill 四声训练") },
+      { to: "/chinese/tone-drill", label: t("🎯 Tone Drill", "🎯 Tone Drill") },
     ] },
     { to: "#cn-foundation-group", label: t("🧱 Communication Program", "🧱 Communication Program"), groupLabel: "cn-foundation", children: [
       { to: "/chinese/conversational/curriculum", label: t("🎯 Chương trình Tương tác", "🎯 Interactive Curriculum") },
@@ -327,8 +327,8 @@ const Navbar = () => {
     { to: "#vn-curriculum-group", label: t("📚 Chương trình học", "📚 Curriculum"), groupLabel: "vn-curriculum", children: [
       { to: "/learn-vietnamese?tab=language", label: t("📝 Ngữ pháp Tiếng Việt", "📝 Vietnamese Grammar") },
       { to: "/learn-vietnamese/vocabulary", label: t("📖 Từ vựng Tiếng Việt", "📖 Vietnamese Vocabulary") },
-      { to: "/learn-vietnamese?tab=history", label: t("📜 Lịch sử & Văn hóa Việt Nam", "📜 Vietnamese History & Culture") },
-      { to: "/learn-vietnamese/national-anthem", label: t("⭐ Quốc ca Việt Nam", "⭐ Vietnamese National Anthem") },
+      { to: "/learn-vietnamese?tab=history", label: t("📜 History & Culture", "📜 History & Culture") },
+      { to: "/learn-vietnamese/national-anthem", label: t("⭐ National Anthem", "⭐ National Anthem") },
       { to: "/specialized-language?lang=vietnamese", label: t("🧠 Tiếng Việt Chuyên ngành", "🧠 Specialized Vietnamese") },
     ] },
     { to: "#vn-culture-group", label: t("🎎 Văn hóa & Đời sống", "🎎 Culture & Lifestyle"), groupLabel: "vn-culture", children: [
@@ -340,14 +340,14 @@ const Navbar = () => {
     ] },
     { to: "#vn-practice-group", label: t("🎯 Luyện tập & Tương tác", "🎯 Practice & Interactive"), groupLabel: "vn-practice", children: [
       { to: "/learn-vietnamese?tab=game", label: t("🎮 Trò chơi", "🎮 Games") },
-      { to: "/learn-vietnamese/arcade", label: t("🕹️ Vietnamese Arcade Hub", "🕹️ Vietnamese Arcade Hub") },
+      { to: "/learn-vietnamese/arcade", label: t("🕹️ Arcade Hub", "🕹️ Arcade Hub") },
       { to: "/learn-vietnamese/daily", label: t("📅 Daily Vietnamese", "📅 Daily Vietnamese") },
       { to: "/learn-vietnamese/phrasebook", label: t("💬 Phrasebook tình huống", "💬 Situational Phrasebook") },
       { to: "/speaking-coach/vietnamese", label: t("🎙️ Speaking Coach", "🎙️ Speaking Coach") },
     ] },
     { to: "#vn-foreigners-group", label: t("🌏 Cho người học đặc biệt", "🌏 For Special Learners"), groupLabel: "vn-foreigners", children: [
       { to: "/learn-vietnamese/for-foreigners", label: t("🌏 Vietnamese for Foreigners", "🌏 Vietnamese for Foreigners") },
-      { to: "/learn-vietnamese/kids-overseas", label: t("👨‍👩‍👧 Cho trẻ Việt kiều", "👨‍👩‍👧 For Overseas Vietnamese Kids") },
+      { to: "/learn-vietnamese/kids-overseas", label: t("👨‍👩‍👧 For Overseas Vietnamese Children", "👨‍👩‍👧 For Overseas Vietnamese Children") },
     ] },
   ];
 
@@ -396,7 +396,7 @@ const Navbar = () => {
     { to: "#prog-ai-data-group", label: t("AI & Data Engineering", "AI & Data Engineering"), icon: Brain, groupLabel: "prog-ai-data", children: [
       { to: "/programming/ai-academy", label: t("AI Academy", "AI Academy"), icon: Bot },
       { to: "/programming/prog-ai-foundation", label: t("AI Foundation", "AI Foundation"), icon: Brain },
-      { to: "/programming/prog-prompt-engineering", label: t("Prompt Engineering ✍️", "Prompt Engineering ✍️"), icon: Sparkles },
+      { to: "/programming/prog-prompt-engineering", label: t("Prompt Engineering ", "Prompt Engineering "), icon: Sparkles },
       { to: "/programming/prog-ml", label: t("Machine Learning", "Machine Learning"), icon: Bot },
       { to: "/programming/dl-foundations", label: t("Deep Learning", "Deep Learning"), icon: Network },
       { to: "/programming/reinforcement-learning", label: t("Reinforcement Learning", "Reinforcement Learning"), icon: Gamepad2 },
@@ -413,9 +413,9 @@ const Navbar = () => {
       { to: "/programming/cybersecurity", label: t("Cybersecurity", "Cybersecurity"), icon: Shield },
     ] },
     { to: "#prog-edtech-group", label: t("EdTech", "EdTech"), icon: GraduationCap, groupLabel: "prog-edtech", children: [
-      { to: "/programming/edtech", label: t("📚 EdTech Lessons", "📚 EdTech Lessons"), icon: GraduationCap },
-      { to: "/edtech-research", label: t("🔬 EdTech Research", "🔬 EdTech Research"), icon: FlaskConical },
-      { to: "/dich-vu-web", label: t("🎨 EdTech Design", "🎨 EdTech Design"), icon: PenTool },
+      { to: "/programming/edtech", label: t("EdTech Lessons", "EdTech Lessons"), icon: GraduationCap },
+      { to: "/edtech-research", label: t("EdTech Research", "EdTech Research"), icon: FlaskConical },
+      { to: "/dich-vu-web", label: t("EdTech Design", "EdTech Design"), icon: PenTool },
     ] },
     
     { to: "#prog-startup-group", label: t("Startup", "Startup"), icon: Rocket, groupLabel: "prog-startup", children: [
@@ -458,7 +458,7 @@ const Navbar = () => {
       { to: "/placement-test?subject=japanese", label: t("📝 Placement Test & Personalization", "📝 Placement Test & Personalization") },
       { to: "#ja-learning-group", label: t("📚 Chương trình học", "📚 Learning Program"), groupLabel: "ja-learning", children: [
         { to: "/japanese?tab=kana", label: t("🈶 Hiragana & Katakana", "🈶 Hiragana & Katakana") },
-        { to: "/japanese?tab=greetings", label: t("💬 Chào hỏi & Giao tiếp", "💬 Greetings & Conversation") },
+        { to: "/japanese?tab=greetings", label: t("💬 Conversation", "💬 Conversation") },
         { to: "/japanese?tab=numbers", label: t("🔢 Số đếm & Thời gian", "🔢 Numbers & Time") },
         { to: "/japanese?tab=grammar", label: t("✍️ Ngữ pháp N5", "✍️ N5 Grammar") },
       ] },
