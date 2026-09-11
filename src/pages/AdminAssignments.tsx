@@ -681,14 +681,20 @@ function CreateAssignmentDialog({ open, onOpenChange, students, classes, classMe
                     </div>
                   ) : classes.map((c) => (
                     <SelectItem key={c.id} value={c.id}>
-                      {c.class_name} ({SUBJECT_LABELS[c.subject_category] ?? c.subject_category})
+                      {c.class_name} ({SUBJECT_LABELS[c.subject_category] ?? c.subject_category}) · {memberCount(c.id)} student(s)
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
-              <p className="mt-1 text-[11px] text-slate-400">
-                Selecting a class auto-fills its members below.
-              </p>
+              {emptyClassSelected ? (
+                <p className="mt-1 text-[11px] text-rose-600">
+                  This class has no students — pick students manually below.
+                </p>
+              ) : (
+                <p className="mt-1 text-[11px] text-slate-500">
+                  Selecting a class auto-fills its members below.
+                </p>
+              )}
             </div>
             <div>
               <Label>Deadline</Label>
