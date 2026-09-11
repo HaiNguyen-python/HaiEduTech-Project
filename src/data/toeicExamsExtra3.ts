@@ -25,4 +25,6 @@ export const TOEIC_LR_EXTRA3: ToeicLRExam[] = [
   make("lr-16", "TOEIC LR Practice Test 16 - Banking & Insurance"),
   make("lr-17", "TOEIC LR Practice Test 17 - Sports & Recreation"),
   make("lr-18", "TOEIC LR Practice Test 18 - Aviation & Travel Tech"),
+  make("lr-19", "TOEIC LR Practice Test 19 - Retail & Customer Service"),
+  make("lr-20", "TOEIC LR Practice Test 20 - Manufacturing & Supply Chain"),
 ];
