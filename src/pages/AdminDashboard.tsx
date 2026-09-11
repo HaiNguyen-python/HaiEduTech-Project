@@ -192,15 +192,16 @@ const AdminDashboard = () => {
   }, [roleLoading, canAccessDashboard, navigate]);
 
   // Fetch compact admin snapshot in one backend round-trip.
-  const fetchAll = useCallback(async () => {
+  const fetchAll = useCallback(async (force = false) => {
     if (!canAccessDashboard) return;
     const now = Date.now();
     // Cache snapshot 3 phút — admin không cần realtime tuyệt đối, RPC này quét student_activity_log rất nặng.
-    if (fetchInFlightRef.current || now - lastFetchAtRef.current < 180_000) return;
+    if (fetchInFlightRef.current || (!force && now - lastFetchAtRef.current < 180_000)) return;
     fetchInFlightRef.current = true;
     lastFetchAtRef.current = now;
     setLoadingData(true);
-    const sinceIso = new Date(Date.now() - 120 * 24 * 60 * 60 * 1000).toISOString();
+    // Shorter default window = far less data scanned; admin can widen on demand.
+    const sinceIso = new Date(Date.now() - activityWindowDays * 24 * 60 * 60 * 1000).toISOString();
     try {
       const { data, error } = await supabase.rpc("get_admin_dashboard_snapshot", { _since: sinceIso });
       if (error) throw error;
