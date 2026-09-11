@@ -32,6 +32,7 @@ import WeeklyPlanList from "@/components/personalization/WeeklyPlanList";
 import WeaknessList from "@/components/personalization/WeaknessList";
 import NextStepHero from "@/components/personalization/NextStepHero";
 import PathHistoryChart from "@/components/personalization/PathHistoryChart";
+import PlacementHistoryCard from "@/components/personalization/PlacementHistoryCard";
 
 const MyPath = () => {
   const { t, lang } = useLanguage();
@@ -313,6 +314,9 @@ const MyPath = () => {
                     </div>
 
                     <PathHistoryChart history={history} />
+                    <div className="mt-5">
+                      <PlacementHistoryCard />
+                    </div>
                   </TabsContent>
                 ))}
               </Tabs>

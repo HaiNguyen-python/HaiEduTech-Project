@@ -134,6 +134,68 @@ export const CLASS_BY_SUBJECT: Record<string, Record<Cefr, string>> = {
     C1: "Swedish Advanced (C1)",
     C2: "Swedish Advanced (C1)",
   },
+  "vietnamese-vff": {
+    A1: "Vietnamese for Foreigners (A1)",
+    A2: "Vietnamese for Foreigners (A2)",
+    B1: "Vietnamese for Foreigners (B1)",
+    B2: "Vietnamese for Foreigners (B2)",
+    C1: "Vietnamese for Foreigners (C1)",
+    C2: "Vietnamese for Foreigners (C1)",
+  },
+  programming: {
+    A1: "Programming Intro Cohort (Scratch / Python basics)",
+    A2: "Programming Foundation (Python)",
+    B1: "Programming Intermediate (Python + SQL)",
+    B2: "Programming Advanced (Data & AI)",
+    C1: "Programming Specialisation (ML / Big Data)",
+    C2: "Programming Specialisation (ML / Big Data)",
+  },
+  toeic: {
+    A1: "TOEIC Foundation (target 300-400)",
+    A2: "TOEIC Elementary (target 450-550)",
+    B1: "TOEIC Intermediate (target 600-700)",
+    B2: "TOEIC Upper-Intermediate (target 750-850)",
+    C1: "TOEIC Mastery (target 900+)",
+    C2: "TOEIC Mastery (target 900+)",
+  },
+  sat: {
+    A1: "SAT Foundation (target 1000)",
+    A2: "SAT Elementary (target 1100)",
+    B1: "SAT Intermediate (target 1200)",
+    B2: "SAT Advanced (target 1350)",
+    C1: "SAT Elite (target 1450+)",
+    C2: "SAT Elite (target 1450+)",
+  },
+  pte: {
+    A1: "PTE Foundation (target 30)",
+    A2: "PTE Elementary (target 40)",
+    B1: "PTE Intermediate (target 50)",
+    B2: "PTE Upper-Intermediate (target 65)",
+    C1: "PTE Advanced (target 79+)",
+    C2: "PTE Advanced (target 79+)",
+  },
+};
+
+/** Bands that non-CEFR banks (programming) can report. */
+export const TECH_BAND_TO_CEFR: Record<string, Cefr> = {
+  Novice: "A1", Intermediate: "B1", Advanced: "C1",
+};
+
+/** Every class name the placement engine can recommend, de-duplicated. */
+export const allRecommendableClasses = (): string[] => {
+  const out = new Set<string>();
+  Object.values(CLASS_BY_BAND).forEach((c) => out.add(c));
+  Object.values(CLASS_BY_SUBJECT).forEach((ladder) =>
+    Object.values(ladder).forEach((c) => out.add(c)));
+  out.add("Custom 1-on-1 Coaching");
+  return [...out];
+};
+
+/** Class ladder of one subject first, then every other option. */
+export const classOptionsForSubject = (subject: string): string[] => {
+  const ladder = CLASS_BY_SUBJECT[subject] ?? CLASS_BY_BAND;
+  const mine = [...new Set(Object.values(ladder))];
+  return [...mine, ...allRecommendableClasses().filter((c) => !mine.includes(c))];
 };
 
 /** Resolve the class name for a band inside a given subject bank. */
@@ -245,10 +307,4 @@ export const buildOutcome = (
 };
 
 /** Class list shown to teachers, aligned with the recommendation above. */
-export const RECOMMENDED_CLASSES = [
-  "English Foundation (A1)",
-  "Pre-Intermediate (A2)",
-  "Intermediate (B1)",
-  "Upper-Intermediate (B2) / IELTS 6.0+",
-  "Advanced (C1) / IELTS 7.0+",
-];
+export const RECOMMENDED_CLASSES = allRecommendableClasses();

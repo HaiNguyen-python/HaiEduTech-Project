@@ -13,13 +13,17 @@ import { SUBJECTS, type SubjectDef, type SubjectId } from "./subjectRegistry";
 
 /** Bank slug used on /placement-test -> subjects that the result seeds. */
 export const BANK_SUBJECTS: Record<string, SubjectId[]> = {
-  english: ["english", "ielts", "cambridge", "toeic"],
+  english: ["english", "ielts", "cambridge"],
   chinese: ["chinese"],
   vietnamese: ["vietnamese"],
+  "vietnamese-vff": ["vietnamese"],
   finnish: ["finnish"],
   japanese: ["japanese"],
   swedish: ["swedish"],
   programming: ["programming"],
+  toeic: ["toeic"],
+  sat: ["sat"],
+  pte: ["pte"],
 };
 
 export const subjectsForBank = (bank: string): SubjectId[] => BANK_SUBJECTS[bank] ?? ["english"];
@@ -33,14 +37,24 @@ const BAND_POS: Record<Cefr, number> = {
  * Position on a subject ladder from the placement band plus the weighted
  * score, so two students on the same band are still separated a little.
  */
+/** Non-CEFR bands (e.g. the Programming bank) mapped onto CEFR positions. */
+const ALIAS_BAND: Record<string, Cefr> = {
+  Novice: "A1", Beginner: "A1", Elementary: "A2",
+  Intermediate: "B1", "Upper-Intermediate": "B2",
+  Advanced: "C1", Expert: "C2",
+};
+
 export const ladderLevelFrom = (
   subject: SubjectId,
-  cefr: Cefr,
+  cefr: Cefr | string,
   total: number,
   def: SubjectDef = SUBJECTS[subject],
 ): string => {
+  const band = (BAND_POS as Record<string, number>)[cefr] !== undefined
+    ? (cefr as Cefr)
+    : (ALIAS_BAND[String(cefr)] ?? "A2");
   // The band decides the rung; the score only nudges it inside the band.
-  const pos = Math.max(0, Math.min(1, BAND_POS[cefr] + (total / 100 - 0.5) * 0.08));
+  const pos = Math.max(0, Math.min(1, BAND_POS[band] + (total / 100 - 0.5) * 0.08));
   const index = Math.round(pos * (def.ladder.length - 1));
   return def.ladder[Math.max(0, Math.min(def.ladder.length - 1, index))];
 };

@@ -276,8 +276,11 @@ const Navbar = () => {
     // Combined: international exams + national exam under one group
     { to: "#en-other-exams-group", label: t("🌐 Các kỳ thi tiếng Anh khác", "🌐 Other English Exams"), groupLabel: "en-other-exams", children: [
       { to: "/toeic", label: "TOEIC", icon: BookOpen },
+      { to: "/placement-test?subject=toeic", label: t("📝 TOEIC Placement Test", "📝 TOEIC Placement Test") },
       { to: "/pte", label: "PTE Academic", icon: Target },
+      { to: "/placement-test?subject=pte", label: t("📝 PTE Placement Test", "📝 PTE Placement Test") },
       { to: "/english/sat", label: "SAT", icon: PenTool },
+      { to: "/placement-test?subject=sat", label: t("📝 SAT Placement Test", "📝 SAT Placement Test") },
       { to: "#en-other-exams-div", label: "", divider: true },
       ...nationalExamChildren,
     ] },

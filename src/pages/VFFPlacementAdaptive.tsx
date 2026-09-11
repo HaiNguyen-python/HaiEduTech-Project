@@ -15,6 +15,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { VFF_PLACEMENT_BANK, scoreToLevel, VFFPlacementItem } from "@/data/vietnamese/vffPlacementBank";
 import { useVFFProgress } from "@/hooks/useVFFProgress";
+import { saveVffPlacementRun } from "@/lib/placement/vffPlacement";
 
 const MAX_Q = 12;
 
@@ -63,6 +64,9 @@ const VFFPlacementAdaptive = () => {
       const totalCorrect = Object.values(nextCorrect).reduce((a, b) => a + b, 0);
       const scorePct = Math.round((totalCorrect / MAX_Q) * 100);
       recordPlacement(scorePct, lvl);
+      void saveVffPlacementRun({
+        scorePct, level: lvl, correct: totalCorrect, totalItems: MAX_Q, mode: "adaptive",
+      });
       setDone(true);
       return;
     }
