@@ -27,9 +27,12 @@ interface Props {
 }
 
 export default function PollBlock({ postId, userId, poll, votes, myVote, onChanged }: Props) {
+  const { t } = useLanguage();
   const [pending, setPending] = useState<number | null>(null);
   const [localVote, setLocalVote] = useState<number | null>(myVote);
   const [localVotes, setLocalVotes] = useState<Record<string, number>>(votes ?? {});
+
+  const options = useMemo(() => poll.options.map(stripOptionPrefix), [poll.options]);
 
   const total = useMemo(
     () => Object.values(localVotes).reduce((s, n) => s + (n || 0), 0),
@@ -37,13 +40,13 @@ export default function PollBlock({ postId, userId, poll, votes, myVote, onChang
   );
   const chartData = useMemo(
     () =>
-      poll.options.map((opt, idx) => {
+      options.map((opt, idx) => {
         const count = localVotes[String(idx)] ?? 0;
         const pct = total > 0 ? Math.round((count / total) * 100) : 0;
         const label = opt.length > 22 ? opt.slice(0, 21) + "…" : opt;
         return { label, pct, count, isMine: localVote === idx };
       }),
-    [poll.options, localVotes, total, localVote]
+    [options, localVotes, total, localVote]
   );
   const topOption = useMemo(() => {
     if (total === 0) return null;
