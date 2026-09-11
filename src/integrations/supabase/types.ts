@@ -2902,6 +2902,57 @@ export type Database = {
         }
         Relationships: []
       }
+      specialized_learning_paths: {
+        Row: {
+          citations: string[]
+          created_at: string
+          curriculum: Json
+          daily_minutes: number
+          field: string
+          goal: string
+          id: string
+          job_role: string
+          language: string
+          learner_level: string
+          notes: string
+          progress: Json
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          citations?: string[]
+          created_at?: string
+          curriculum?: Json
+          daily_minutes?: number
+          field: string
+          goal: string
+          id?: string
+          job_role: string
+          language: string
+          learner_level?: string
+          notes?: string
+          progress?: Json
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          citations?: string[]
+          created_at?: string
+          curriculum?: Json
+          daily_minutes?: number
+          field?: string
+          goal?: string
+          id?: string
+          job_role?: string
+          language?: string
+          learner_level?: string
+          notes?: string
+          progress?: Json
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       student_activity_log: {
         Row: {
           activity_id: string | null
