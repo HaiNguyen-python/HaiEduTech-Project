@@ -142,6 +142,8 @@ const AdminDashboard = () => {
   const navigate = useNavigate();
 
   const [loadingData, setLoadingData] = useState(true);
+  // Activity lookback window. 30 days keeps the heavy RPC fast by default.
+  const [activityWindowDays, setActivityWindowDays] = useState<ActivityWindow>(30);
   const [activities, setActivities] = useState<AdminActivity[]>([]);
   const [studentStates, setStudentStates] = useState<StudentState[]>([]);
   const [selectedStudent, setSelectedStudent] = useState<StudentState | null>(null);
@@ -280,9 +282,16 @@ const AdminDashboard = () => {
       fetchInFlightRef.current = false;
       setLoadingData(false);
     }
-  }, [canAccessDashboard, t]);
+  }, [canAccessDashboard, t, activityWindowDays]);
 
   useEffect(() => { fetchAll(); }, [fetchAll]);
+
+  // Changing the window must bypass the 3-minute cache, otherwise the numbers
+  // would not move until the cache expired.
+  const changeActivityWindow = (days: ActivityWindow) => {
+    setActivityWindowDays(days);
+    lastFetchAtRef.current = 0;
+  };
 
   // Realtime subscription for live updates - ignore high-frequency system events
   // (heartbeat/daily_login) and debounce to prevent refetch storms.
