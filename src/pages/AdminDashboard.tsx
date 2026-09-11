@@ -458,8 +458,26 @@ const AdminDashboard = () => {
                   </p>
                 </div>
               </div>
-              {/* Export buttons */}
-              <div className="flex gap-2">
+              {/* Activity window + export buttons */}
+              <div className="flex flex-wrap items-center gap-2">
+                <div className="flex items-center gap-1 rounded-lg border border-border p-1">
+                  <span className="px-1.5 text-xs text-muted-foreground">
+                    {t("Dữ liệu", "Data")}
+                  </span>
+                  {ACTIVITY_WINDOWS.map((days) => (
+                    <Button
+                      key={days}
+                      variant={activityWindowDays === days ? "default" : "ghost"}
+                      size="sm"
+                      onClick={() => changeActivityWindow(days)}
+                      disabled={loadingData}
+                      aria-pressed={activityWindowDays === days}
+                      className="h-7 px-2 text-xs"
+                    >
+                      {days}{t(" ngày", "d")}
+                    </Button>
+                  ))}
+                </div>
                 <Button
                   variant="outline"
                   size="sm"
