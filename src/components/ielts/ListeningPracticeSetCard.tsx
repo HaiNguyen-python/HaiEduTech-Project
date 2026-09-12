@@ -474,24 +474,52 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [turns.length, turnFirstChunk, chunks.length, turnGap, aiRate, ai, speakChunks, finishPlayback]);
 
-  const speak = async (fromIdx = 0) => {
+  /**
+   * Start playback from a chunk. In AI mode the whole recording is downloaded
+   * first so the voices never change part way through.
+   */
+  const speak = async (fromIdx = 0, offsetSec = 0) => {
     if (chunkTimerRef.current) window.clearTimeout(chunkTimerRef.current);
     try { window.speechSynthesis?.cancel(); } catch { /* noop */ }
     try { audioElRef.current?.pause(); } catch { /* noop */ }
-    if (useAiVoice && !ai.ready) await ai.prepare();
+    generationRef.current++;
+    cancelledRef.current = true;
+
+    let aiOk = false;
+    if (useAiVoice) {
+      setPreparing(true);
+      aiOk = ai.ready || (await ai.prepare());
+      setPreparing(false);
+    }
+
     const gen = ++generationRef.current;
     cancelledRef.current = false;
+    refreshedRef.current = false;
     setPlaying(true);
     setPaused(false);
     startTick();
+    if (aiOk) {
+      playTurns(chunkTurn[fromIdx] ?? 0, gen, offsetSec);
+      return;
+    }
     // Small delay helps Safari accept speak() right after cancel().
+    aiPlayingRef.current = false;
     window.setTimeout(() => speakChunks(fromIdx, gen), 60);
   };
 
   const togglePause = () => {
     if (typeof window === "undefined") return;
+    const el = audioElRef.current;
     if (paused) {
-      // Resume: bump generation, cancel any lingering utterance, restart current chunk.
+      // Resume where the audio stopped - AI files resume exactly, no restart.
+      if (aiPlayingRef.current && el) {
+        cancelledRef.current = false;
+        setPaused(false);
+        setPlaying(true);
+        startTick();
+        el.play().catch(() => { /* noop */ });
+        return;
+      }
       const gen = ++generationRef.current;
       cancelledRef.current = false;
       try { window.speechSynthesis?.cancel(); } catch { /* noop */ }
@@ -500,15 +528,21 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
       startTick();
       window.setTimeout(() => speakChunks(currentIdx, gen), 80);
     } else {
-      // Pause: invalidate generation, kill timers + current utterance.
-      generationRef.current++;
-      cancelledRef.current = true;
       if (chunkTimerRef.current) {
         window.clearTimeout(chunkTimerRef.current);
         chunkTimerRef.current = null;
       }
+      if (aiPlayingRef.current && el) {
+        // Keep the generation valid so onended/resume still belong to this run.
+        try { el.pause(); } catch { /* noop */ }
+        stopTick();
+        setPaused(true);
+        setPlaying(false);
+        return;
+      }
+      generationRef.current++;
+      cancelledRef.current = true;
       try { window.speechSynthesis?.cancel(); } catch { /* noop */ }
-      try { audioElRef.current?.pause(); } catch { /* noop */ }
       stopTick();
       setPaused(true);
       setPlaying(false);
@@ -518,9 +552,14 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
 
   const stop = () => {
     cancelledRef.current = true;
+    generationRef.current++;
     if (chunkTimerRef.current) window.clearTimeout(chunkTimerRef.current);
     window.speechSynthesis?.cancel();
-    try { audioElRef.current?.pause(); } catch { /* noop */ }
+    aiPlayingRef.current = false;
+    try {
+      const el = audioElRef.current;
+      if (el) { el.pause(); el.currentTime = 0; }
+    } catch { /* noop */ }
     stopTick();
     setPlaying(false);
     setPaused(false);
@@ -528,22 +567,31 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
     setElapsedInChunk(0);
   };
 
-  // Seek to a time (seconds) by finding the corresponding chunk and restarting playback there.
+  // Seek to a time (seconds); units are speaker turns in AI mode, sentences otherwise.
   const seekToTime = (timeSec: number) => {
     if (!chunks.length) return;
-    let idx = 0;
+    let unit = 0;
     for (let i = 0; i < cumulative.length; i++) {
-      if (cumulative[i] <= timeSec) idx = i; else break;
+      if (cumulative[i] <= timeSec) unit = i; else break;
     }
+    const offset = Math.max(0, timeSec - (cumulative[unit] ?? 0));
+    const chunkIdx = aiMode ? (turnFirstChunk[unit] ?? 0) : unit;
     if (playing) {
-      speak(idx);
+      speak(chunkIdx, aiMode ? offset : 0);
     } else {
-      setCurrentIdx(idx);
-      setElapsedInChunk(0);
+      setCurrentIdx(chunkIdx);
+      setElapsedInChunk(aiMode ? offset : 0);
     }
   };
 
   const skipChunks = (delta: number) => {
+    if (aiMode) {
+      const unit = Math.max(0, Math.min(turns.length - 1, (chunkTurn[currentIdx] ?? 0) + delta));
+      const target = turnFirstChunk[unit] ?? 0;
+      if (playing) speak(target);
+      else { setCurrentIdx(target); setElapsedInChunk(0); }
+      return;
+    }
     const target = Math.max(0, Math.min(chunks.length - 1, currentIdx + delta));
     if (playing) speak(target);
     else { setCurrentIdx(target); setElapsedInChunk(0); }
