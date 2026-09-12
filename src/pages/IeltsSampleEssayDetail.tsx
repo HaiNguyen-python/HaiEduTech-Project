@@ -17,6 +17,7 @@ import EssayBandAnalysis from "@/components/ielts/EssayBandAnalysis";
 import GlossaryPhrasePractice from "@/components/ielts/GlossaryPhrasePractice";
 import EssayOutline from "@/components/ielts/EssayOutline";
 import ClickRevealEssay from "@/components/ielts/ClickRevealEssay";
+import { getEssayIllustration } from "@/data/ieltsEssayIllustrations";
 
 const IeltsSampleEssayDetail = () => {
   const { essayId } = useParams();
@@ -47,6 +48,7 @@ const IeltsSampleEssayDetail = () => {
   }
 
   const essayBand = essay.band ?? "8.0+";
+  const illustration = getEssayIllustration(essay.id);
 
   // Render essay body with **bold** terms and paragraph breaks
   const renderEssayBody = (text: string) => {
