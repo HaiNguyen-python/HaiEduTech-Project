@@ -269,6 +269,51 @@ const TranslationPractice = ({ taskType }: Props) => {
   const displayScore = ai?.score ?? local?.score ?? 0;
   const cats = TRANSLATION_CATEGORIES[taskType];
 
+  const handleExportPdf = () => {
+    openWritingPdf({
+      title: `IELTS Writing Task ${taskType} - Translation Practice`,
+      subtitle: item.category,
+      meta: [
+        { label: "Score", value: `${displayScore}/10` },
+        { label: "Band", value: String(item.band ?? "") },
+      ],
+      sections: [
+        { heading: "Vietnamese sentence", kind: "text", text: item.vi },
+        { heading: "Your translation", kind: "text", text: answer },
+        { heading: "Reference version", kind: "text", text: item.en },
+        ...(ai
+          ? ([
+              {
+                heading: "AI scores",
+                kind: "table",
+                columns: ["Criterion", "Score"],
+                rows: [
+                  ["Accuracy", String(ai.accuracy)],
+                  ["Grammar", String(ai.grammar)],
+                  ["Vocabulary", String(ai.vocabulary)],
+                  ["Style", String(ai.style)],
+                ],
+              },
+              { heading: "Verdict", kind: "text", text: ai.verdict },
+              {
+                heading: "Feedback",
+                kind: "list",
+                items: (ai.feedback || []).map(f => (lang === "vi" ? f.vi : f.en)),
+              },
+              { heading: "Corrected version", kind: "text", text: ai.corrected },
+              { heading: "Band 7.5+ upgrade", kind: "text", text: ai.upgraded },
+            ] as const)
+          : []),
+        {
+          heading: "Teacher Hai's tip",
+          kind: "text",
+          text: lang === "vi" ? item.noteVi : item.noteEn,
+        },
+      ] as Parameters<typeof openWritingPdf>[0]["sections"],
+      fileName: `ielts-translation-practice-task${taskType}`,
+    });
+  };
+
   return (
     <div className="space-y-4">
       {/* Sentence / paragraph switch */}
