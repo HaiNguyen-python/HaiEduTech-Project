@@ -45,7 +45,7 @@ serve(async (req) => {
 {
   "overall": <number, e.g. 6.5>,
   "criteria": [
-    { "score": <number>, "label": "Task Achievement", "strengths": [s1,s2,s3], "weaknesses": [w1,w2,w3], "suggestions": [g1,g2,g3] },
+    { "score": <number>, "label": "${firstCriterion}", "strengths": [s1,s2,s3], "weaknesses": [w1,w2,w3], "suggestions": [g1,g2,g3] },
     { "score": <number>, "label": "Coherence & Cohesion", "strengths": [...], "weaknesses": [...], "suggestions": [...] },
     { "score": <number>, "label": "Lexical Resource", "strengths": [...], "weaknesses": [...], "suggestions": [...] },
     { "score": <number>, "label": "Grammatical Range & Accuracy", "strengths": [...], "weaknesses": [...], "suggestions": [...] }
@@ -57,8 +57,12 @@ serve(async (req) => {
 Rules:
 1. Quote actual text from the essay in "errors". Provide at least 6 entries.
 2. Scores must be varied and realistic.
-3. Be concise — each strength/weakness/suggestion is 1 short phrase.
-4. Do NOT include an "upgraded" rewrite — that is handled by a separate call.`;
+3. Be concise - each strength/weakness/suggestion is 1 short phrase.
+4. Do NOT include an "upgraded" rewrite - that is handled by a separate call.
+5. ${taskType === 1
+      ? "Task 1: judge whether the response reports the key features, makes accurate comparisons, includes an overview, and reports data accurately. Penalise opinions and unsupported claims. Expect 150+ words."
+      : "Task 2: judge whether the response fully answers the exact question asked, holds a clear position throughout, and develops ideas with relevant examples. Expect 250+ words."}
+6. Grade strictly AGAINST the prompt given by the student. If the response drifts off the prompt, lower ${firstCriterion} and say so explicitly.`;
 
     // Hard timeout
     const controller = new AbortController();
