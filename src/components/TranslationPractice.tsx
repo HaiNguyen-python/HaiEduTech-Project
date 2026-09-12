@@ -522,6 +522,10 @@ const TranslationPractice = ({ taskType }: Props) => {
                   <p className="text-sm">{lang === "vi" ? item.noteVi : item.noteEn}</p>
                 </div>
                 <div className="flex flex-wrap gap-2">
+                  <Button variant="outline" size="sm" onClick={handleExportPdf} className="gap-1.5">
+                    <Download className="w-4 h-4" />
+                    {t("Tải PDF", "Download PDF")}
+                  </Button>
                   <Button variant="outline" size="sm" onClick={handleSaveNotebook} disabled={saved} className="gap-1.5">
                     {saved ? <BookmarkCheck className="w-4 h-4" /> : <BookmarkPlus className="w-4 h-4" />}
                     {saved ? t("Đã lưu", "Saved") : t("Lưu vào sổ tay", "Save to notebook")}
