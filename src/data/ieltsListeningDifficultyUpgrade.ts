@@ -7,6 +7,7 @@
  * @copyright 2026 HaiEduTech
  */
 import type { ListeningPracticeSet, ListeningQuestion } from "./ieltsListeningPractice";
+import { AUTHORED_LISTENING_TRANSCRIPTS } from "./ieltsListeningTranscripts";
 
 type MatchingOption = NonNullable<ListeningPracticeSet["matchingOptions"]>[number];
 type Section = ListeningPracticeSet["section"];
@@ -504,6 +505,9 @@ const buildSectionFour = (set: ListeningPracticeSet, random: () => number) => {
 };
 
 const buildTranscript = (set: ListeningPracticeSet, random: () => number) => {
+  // Authored recordings always win over the legacy generated fallback.
+  const authored = AUTHORED_LISTENING_TRANSCRIPTS[set.id];
+  if (authored && authored.trim()) return authored;
   switch (set.section) {
     case 1:
       return buildSectionOne(set, random);

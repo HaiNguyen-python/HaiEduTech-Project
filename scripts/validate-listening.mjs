@@ -10,7 +10,7 @@ import ts from "typescript";
 
 const DATA_DIR = path.resolve("src/data");
 const TMP_DIR = fs.mkdtempSync(path.join(os.tmpdir(), "listening-validate-"));
-const FILE_RE = /^ielts(ListeningPractice(Expansion\d*)?|ListeningAllSets|FullListeningTests|ListeningDifficultyUpgrade)\.ts$/;
+const FILE_RE = /^ielts(ListeningPractice(Expansion\d*)?|ListeningAllSets|FullListeningTests|ListeningDifficultyUpgrade|ListeningTranscripts)\.ts$/;
 
 const compileFile = file => {
   const srcPath = path.join(DATA_DIR, file);
@@ -50,7 +50,38 @@ const includesLoose = (transcript, answer) => {
     0: "zero", 1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six", 7: "seven", 8: "eight", 9: "nine",
   };
   const spokenDigits = String(answer).replace(/\d/g, d => ` ${digitWords[d]} `).replace(/\s+/g, " ").trim();
-  return spokenDigits ? plain.includes(normalise(spokenDigits)) : false;
+  if (spokenDigits && plain.includes(normalise(spokenDigits))) return true;
+
+  // Recordings say things naturally: "a car park" is spoken as "car park",
+  // "1:30 pm" as "one thirty", "£5" as "five pounds".
+  const tens = { 0: "", 1: "ten", 2: "twenty", 3: "thirty", 4: "forty", 5: "fifty" };
+  const teens = ["ten", "eleven", "twelve"];
+  const noArticle = cleaned.replace(/^(a|an|the)\s+/, "");
+  if (noArticle && plain.includes(noArticle)) return true;
+
+  const time = String(answer).match(/^(\d{1,2}):(\d{2})/);
+  if (time) {
+    const hour = Number(time[1]);
+    const minute = Number(time[2]);
+    const hourWord = hour <= 12 && hour >= 10 ? teens[hour - 10] : digitWords[hour % 12 === 0 ? 12 : hour % 12] ?? "";
+    const minuteWord = minute === 0 ? "o clock" : minute === 30 ? "thirty" : minute === 15 ? "fifteen"
+      : minute % 10 === 0 ? tens[minute / 10] : `${tens[Math.floor(minute / 10)]} ${digitWords[minute % 10]}`;
+    const spoken = normalise(`${hour === 12 ? "twelve" : hourWord || digitWords[hour] || hour} ${minuteWord}`);
+    if (spoken && plain.includes(spoken)) return true;
+    if (minute === 30 && plain.includes(normalise(`half past ${hourWord || digitWords[hour] || hour}`))) return true;
+  }
+
+  const money = String(answer).match(/^[£$€](\d+)$/);
+  if (money) {
+    const value = Number(money[1]);
+    const word = value < 10 ? digitWords[value]
+      : value >= 10 && value <= 12 ? teens[value - 10]
+      : value % 10 === 0 && value <= 50 ? tens[value / 10]
+      : String(value);
+    if (plain.includes(normalise(`${word} pounds`))) return true;
+    if (plain.includes(normalise(`${word} euros`)) || plain.includes(normalise(`${word} dollars`))) return true;
+  }
+  return false;
 };
 
 // Phrases that would tell the student which detail is the key.
@@ -99,7 +130,9 @@ for (const set of ALL_LISTENING_SETS) {
   lines.forEach(line => seenLines.set(line, (seenLines.get(line) ?? 0) + 1));
   const repeated = [...seenLines.entries()].filter(([line, count]) => count > 1 && wordCount(line) > 8);
   if (repeated.length) issues.push(`${set.id}: repeats ${repeated.length} long line(s) verbatim`);
-  if (lines.length < 12) issues.push(`${set.id}: transcript has only ${lines.length} spoken lines`);
+  // Section 4 is a single lecturer, so it naturally has fewer, longer turns.
+  const minLines = set.section === 4 ? 6 : 12;
+  if (lines.length < minLines) issues.push(`${set.id}: transcript has only ${lines.length} spoken lines`);
   const opening = lines[0].replace(/^[A-Za-z ]+:\s*/, "").slice(0, 40);
   openingsBySection[set.section].set(opening, (openingsBySection[set.section].get(opening) ?? 0) + 1);
   if (set.questions.some(question => question.type === "fill-in") && !/NO MORE THAN/i.test(set.context)) {

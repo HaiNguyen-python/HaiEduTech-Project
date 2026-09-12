@@ -21,6 +21,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { pushListeningAttempt } from "@/lib/ieltsListeningHistory";
+import { useListeningAiAudio } from "@/hooks/useListeningAiAudio";
 
 type AccentKey = "en-GB" | "en-US" | "en-AU";
 const ACCENT_LABELS: Record<AccentKey, string> = {
@@ -135,6 +136,36 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
   };
 
   const chunks = useMemo(() => buildChunks(s.transcript), [s.transcript]);
+
+  /** Speaker label that owns a chunk (inherited from the last tagged line). */
+  const speakerAt = useCallback((idx: number): string | null => {
+    for (let i = idx; i >= 0; i--) {
+      const m = chunks[i]?.match(/^([A-Z][a-zA-Z]{1,20}):/);
+      if (m) return m[1];
+    }
+    return null;
+  }, [chunks]);
+
+  // Lines handed to the AI voice service (speaker label stripped from the text).
+  const audioLines = useMemo(
+    () => chunks.map((c, i) => ({
+      i,
+      speaker: speakerAt(i),
+      text: c.replace(/^([A-Z][a-zA-Z]{1,20}):\s*/, ""),
+    })),
+    [chunks, speakerAt]
+  );
+
+  const [useAiVoice, setUseAiVoice] = useState(() => {
+    if (typeof window === "undefined") return true;
+    return localStorage.getItem("ielts-listening-ai-voice") !== "0";
+  });
+  useEffect(() => {
+    localStorage.setItem("ielts-listening-ai-voice", useAiVoice ? "1" : "0");
+  }, [useAiVoice]);
+
+  const ai = useListeningAiAudio(s.id, s.section, audioLines, useAiVoice);
+  const audioElRef = useRef<HTMLAudioElement | null>(null);
 
   // Estimate per-chunk duration (speak time + trailing gap) in seconds.
   // Baseline ~160 wpm at rate=1.0 → ~0.375s/word; account for spelling slowdown + gap.
@@ -280,20 +311,6 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
       ? spokenBody.replace(/-/g, ", ").replace(/\b([A-Z])\b/g, "$1,")
       : spokenBody;
 
-    const profile = speakerProfile(speakerName, startIdx);
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = accent;
-    const baseRate = isSpelling ? Math.min(rate, 0.55) : rate;
-    u.rate = Math.max(0.3, Math.min(1.5, baseRate * profile.rateMul));
-    // Expressive pitch: question rises, exclamation emphasises.
-    const endsWithQ = /\?\s*$/.test(text);
-    const endsWithE = /!\s*$/.test(text);
-    u.pitch = Math.max(0.5, Math.min(2.0,
-      profile.pitch + (endsWithQ ? 0.15 : endsWithE ? 0.1 : 0)
-    ));
-    const v = pickVoiceFor(profile.gender, profile.seed);
-    if (v) u.voice = v;
-
     const prev = chunks[startIdx - 1] ?? "";
     const prevSpeaker = prev.match(/^([A-Z][a-zA-Z]+):/)?.[1] ?? null;
     const isSpeakerSwitch = speakerName && prevSpeaker && speakerName !== prevSpeaker;
@@ -303,19 +320,49 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
       : isDialogueChange ? 700
       : /[?!]$/.test(prev) ? 550
       : 420;
-    u.onend = () => {
+    const advance = () => {
       if (cancelledRef.current || gen !== generationRef.current) return;
       chunkTimerRef.current = window.setTimeout(() => speakChunks(startIdx + 1, gen), gapMs);
     };
+
+    // Preferred path: the studio-quality AI recording for this line.
+    const aiUrl = useAiVoice ? ai.urls[startIdx] : undefined;
+    if (aiUrl) {
+      const el = audioElRef.current ?? new Audio();
+      audioElRef.current = el;
+      el.onended = advance;
+      el.onerror = () => { setPlaying(false); setPaused(false); stopTick(); };
+      el.src = aiUrl;
+      el.playbackRate = Math.max(0.7, Math.min(1.3, rate / 0.85));
+      el.play().catch(() => { setPlaying(false); setPaused(false); stopTick(); });
+      return;
+    }
+
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+    const profile = speakerProfile(speakerName, startIdx);
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = accent;
+    const baseRate = isSpelling ? Math.min(rate, 0.55) : rate;
+    u.rate = Math.max(0.3, Math.min(1.5, baseRate * profile.rateMul));
+    const endsWithQ = /\?\s*$/.test(text);
+    const endsWithE = /!\s*$/.test(text);
+    u.pitch = Math.max(0.5, Math.min(2.0,
+      profile.pitch + (endsWithQ ? 0.15 : endsWithE ? 0.1 : 0)
+    ));
+    const v = pickVoiceFor(profile.gender, profile.seed);
+    if (v) u.voice = v;
+    u.onend = advance;
     u.onerror = () => { setPlaying(false); setPaused(false); stopTick(); };
     window.speechSynthesis.speak(u);
-  }, [chunks, rate, accent, voicePool]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chunks, rate, accent, voicePool, useAiVoice, ai.urls]);
 
-  const speak = (fromIdx = 0) => {
-    if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+  const speak = async (fromIdx = 0) => {
     if (chunkTimerRef.current) window.clearTimeout(chunkTimerRef.current);
+    try { window.speechSynthesis?.cancel(); } catch { /* noop */ }
+    try { audioElRef.current?.pause(); } catch { /* noop */ }
+    if (useAiVoice && !ai.ready) await ai.prepare();
     const gen = ++generationRef.current;
-    window.speechSynthesis.cancel();
     cancelledRef.current = false;
     setPlaying(true);
     setPaused(false);
@@ -325,12 +372,12 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
   };
 
   const togglePause = () => {
-    if (typeof window === "undefined" || !window.speechSynthesis) return;
+    if (typeof window === "undefined") return;
     if (paused) {
       // Resume: bump generation, cancel any lingering utterance, restart current chunk.
       const gen = ++generationRef.current;
       cancelledRef.current = false;
-      try { window.speechSynthesis.cancel(); } catch { /* noop */ }
+      try { window.speechSynthesis?.cancel(); } catch { /* noop */ }
       setPaused(false);
       setPlaying(true);
       startTick();
@@ -343,7 +390,8 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
         window.clearTimeout(chunkTimerRef.current);
         chunkTimerRef.current = null;
       }
-      try { window.speechSynthesis.cancel(); } catch { /* noop */ }
+      try { window.speechSynthesis?.cancel(); } catch { /* noop */ }
+      try { audioElRef.current?.pause(); } catch { /* noop */ }
       stopTick();
       setPaused(true);
       setPlaying(false);
@@ -355,6 +403,7 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
     cancelledRef.current = true;
     if (chunkTimerRef.current) window.clearTimeout(chunkTimerRef.current);
     window.speechSynthesis?.cancel();
+    try { audioElRef.current?.pause(); } catch { /* noop */ }
     stopTick();
     setPlaying(false);
     setPaused(false);
@@ -594,9 +643,29 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
             </Badge>
             )}
 
+            <Badge
+              variant={useAiVoice ? "default" : "outline"}
+              className={cn(
+                "cursor-pointer text-[10px] gap-1",
+                useAiVoice && "bg-emerald-600 hover:bg-emerald-700 text-white border-emerald-600"
+              )}
+              onClick={() => { stop(); setUseAiVoice(v => !v); }}
+              title={t(
+                "Giọng AI chất lượng cao như đề thi thật (tải lần đầu, sau đó phát ngay)",
+                "High quality AI exam voices (loaded once, then instant)"
+              )}
+            >
+              <Sparkles className="w-3 h-3" />
+              {useAiVoice ? t("Giọng AI • ON", "AI voice • ON") : t("Giọng máy", "Device voice")}
+            </Badge>
+
             <span className="text-xs text-muted-foreground ml-auto inline-flex items-center gap-1">
               <Mic2 className="w-3 h-3 text-emerald-600" />
-              {t("Đa giọng - mỗi nhân vật một voice riêng", "Multi-voice - distinct voice per speaker")}
+              {ai.loading
+                ? t("Đang tải giọng đọc...", "Loading voices...")
+                : ai.failed
+                  ? t("Đang dùng giọng máy dự phòng", "Using device voice fallback")
+                  : t("Đa giọng - mỗi nhân vật một voice riêng", "Multi-voice - distinct voice per speaker")}
             </span>
           </div>
           <div className="flex flex-wrap items-center gap-2">
