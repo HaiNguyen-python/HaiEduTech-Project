@@ -16,8 +16,9 @@ import { useMemo, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Lightbulb, Sparkles, BookOpen, Save, Check, RotateCcw,
-  ChevronRight, Target, MessageSquare,
+  ChevronRight, Target, MessageSquare, Download,
 } from "lucide-react";
+import { openWritingPdf } from "@/lib/writingPdfExport";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
