@@ -171,32 +171,82 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
 
   const ai = useListeningAiAudio(s.id, s.section, audioLines, useAiVoice);
   const audioElRef = useRef<HTMLAudioElement | null>(null);
+  const aiPlayingRef = useRef(false);
+  const refreshedRef = useRef(false);
+  const [preparing, setPreparing] = useState(false);
+  // Real duration of each AI turn file, read from the audio metadata.
+  const [turnDur, setTurnDur] = useState<Record<number, number>>({});
+  /** AI files are recorded at the default pace; the speed picker is relative. */
+  const BASE_RATE = s.rate ?? 0.85;
+  const aiRate = Math.max(0.5, Math.min(1.6, rate / BASE_RATE));
+  const aiMode = useAiVoice && !ai.failed;
+
+  // Read the real length of every downloaded turn so the timer is exact.
+  useEffect(() => {
+    if (!useAiVoice) return;
+    for (const [key, url] of Object.entries(ai.urls)) {
+      const idx = Number(key);
+      const probe = new Audio();
+      probe.preload = "metadata";
+      probe.onloadedmetadata = () => {
+        if (!Number.isFinite(probe.duration)) return;
+        setTurnDur(prev => (prev[idx] ? prev : { ...prev, [idx]: probe.duration }));
+      };
+      probe.src = url;
+    }
+  }, [ai.urls, useAiVoice]);
+
+  useEffect(() => { setTurnDur({}); }, [s.id]);
 
   // Estimate per-chunk duration (speak time + trailing gap) in seconds.
   // Baseline ~160 wpm at rate=1.0 → ~0.375s/word; account for spelling slowdown + gap.
+  const estimateSpoken = useCallback((text: string, unitRate: number) => {
+    const words = text.trim().split(/\s+/).length;
+    const isSpelling = /(?:\b[A-Z](?:[-\s][A-Z]){2,}\b)|(?:\b\d{4,}\b)/.test(text);
+    const effRate = isSpelling ? Math.min(unitRate, 0.55) : unitRate;
+    return (words * 0.38) / Math.max(effRate, 0.3);
+  }, []);
+
   const chunkDurations = useMemo(() => {
     return chunks.map((c, i) => {
-      const words = c.trim().split(/\s+/).length;
-      const isSpelling = /(?:\b[A-Z](?:[-\s][A-Z]){2,}\b)|(?:\b\d{4,}\b)/.test(c);
-      const effRate = isSpelling ? Math.min(rate, 0.55) : rate;
-      const speakSec = (words * 0.38) / Math.max(effRate, 0.3);
       const next = chunks[i + 1] ?? "";
       const isDialogueChange = /^[A-Z][a-z]+:/.test(next) && !/^[A-Z][a-z]+:/.test(c);
+      const isSpelling = /(?:\b[A-Z](?:[-\s][A-Z]){2,}\b)|(?:\b\d{4,}\b)/.test(c);
       const gapMs = isSpelling ? 900 : isDialogueChange ? 700 : /[?!]$/.test(c) ? 550 : 420;
-      return speakSec + gapMs / 1000;
+      return estimateSpoken(c, rate) + gapMs / 1000;
     });
-  }, [chunks, rate]);
+  }, [chunks, rate, estimateSpoken]);
+
+  /** Gap after a turn: a bit longer when the speaker changes. */
+  const turnGap = useCallback((turnIdx: number) => {
+    const cur = speakerAt(turnFirstChunk[turnIdx] ?? 0);
+    const next = turnIdx + 1 < turns.length ? speakerAt(turnFirstChunk[turnIdx + 1] ?? 0) : cur;
+    return cur !== next ? 0.65 : 0.4;
+  }, [speakerAt, turnFirstChunk, turns.length]);
+
+  const turnDurations = useMemo(
+    () => turns.map((line, i) => {
+      const measured = turnDur[i];
+      const spoken = measured ? measured / aiRate : estimateSpoken(line, rate);
+      return spoken + turnGap(i);
+    }),
+    [turns, turnDur, aiRate, rate, estimateSpoken, turnGap]
+  );
+
+  // The timeline follows whichever engine is actually playing.
+  const unitDurations = aiMode ? turnDurations : chunkDurations;
+  const currentUnit = aiMode ? (chunkTurn[currentIdx] ?? 0) : currentIdx;
 
   const cumulative = useMemo(() => {
     const arr: number[] = [0];
-    for (let i = 0; i < chunkDurations.length - 1; i++) arr.push(arr[i] + chunkDurations[i]);
+    for (let i = 0; i < unitDurations.length - 1; i++) arr.push(arr[i] + unitDurations[i]);
     return arr;
-  }, [chunkDurations]);
+  }, [unitDurations]);
   const totalDuration = useMemo(
-    () => chunkDurations.reduce((a, b) => a + b, 0),
-    [chunkDurations]
+    () => unitDurations.reduce((a, b) => a + b, 0),
+    [unitDurations]
   );
-  const currentTime = Math.min(totalDuration, (cumulative[currentIdx] ?? 0) + elapsedInChunk);
+  const currentTime = Math.min(totalDuration, (cumulative[currentUnit] ?? 0) + elapsedInChunk);
 
   const stopTick = () => {
     if (tickRef.current) { window.clearInterval(tickRef.current); tickRef.current = null; }
@@ -204,6 +254,12 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
   const startTick = () => {
     stopTick();
     tickRef.current = window.setInterval(() => {
+      const el = audioElRef.current;
+      if (aiPlayingRef.current && el) {
+        if (el.paused) return;
+        setElapsedInChunk(el.currentTime / (el.playbackRate || 1));
+        return;
+      }
       if (pausedAtRef.current != null) return;
       const now = performance.now();
       const e = (now - chunkStartedAtRef.current - pausedAccumRef.current) / 1000;
