@@ -553,7 +553,9 @@ const IeltsWritingPractice = () => {
           </TabsList>
 
           <TabsContent value="free-grade" className="space-y-4">
-            <FreeWritingGrader />
+            <div>
+              <FreeWritingGrader />
+            </div>
           </TabsContent>
 
           <TabsContent value="idea" className="space-y-4">
