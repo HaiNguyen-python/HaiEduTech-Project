@@ -8,6 +8,7 @@ import { IELTS_PHRASES, TASK1_CATEGORIES, TASK2_CATEGORIES } from "../src/data/i
 import { LINKERS, LINKER_CATEGORIES } from "../src/data/ieltsCohesionBank";
 import { IELTS_IDEA_TOPICS as IELTS_IDEAS } from "../src/data/ieltsIdeaBank";
 import { ALL_TRANSLATION_ITEMS } from "../src/data/ieltsTranslationBank";
+import { essayIllustrations } from "../src/data/ieltsEssayIllustrations";
 import { sampleEssays } from "../src/data/ieltsSampleEssays";
 
 const issues: string[] = [];
@@ -152,6 +153,20 @@ for (const essay of sampleEssays) {
     add(bank, essay.id, "em-dash found (use hyphen)");
   }
 }
+
+// ---------- Task 2 illustrations ----------
+const seenImages = new Map<string, string>();
+for (const essay of sampleEssays.filter((e) => e.taskType === 2)) {
+  const illo = essayIllustrations[essay.id];
+  if (!illo) { add("essay-illustration", essay.id, "missing Task 2 illustration"); continue; }
+  if (!illo.url?.trim()) add("essay-illustration", essay.id, "empty illustration url");
+  if (!illo.alt?.trim()) add("essay-illustration", essay.id, "empty alt text");
+  if (!illo.caption?.trim()) add("essay-illustration", essay.id, "empty caption");
+  const prev = seenImages.get(illo.url);
+  if (prev) add("essay-illustration", essay.id, `illustration reused from ${prev}`);
+  seenImages.set(illo.url, essay.id);
+}
+console.log("Task 2 illustrations:", seenImages.size);
 
 console.log("Grammar Task 2 items:", IELTS_GRAMMAR.length);
 console.log("Grammar Task 1 items:", IELTS_GRAMMAR_TASK1.length, "| Task 1 practice pool:", task1Pool);
