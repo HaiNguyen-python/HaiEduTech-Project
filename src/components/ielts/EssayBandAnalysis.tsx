@@ -11,7 +11,6 @@
 import { useMemo } from "react";
 import { motion } from "framer-motion";
 import { Award, Target, Link2, BookMarked, Wand2, Quote } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import { useLanguage } from "@/contexts/LanguageContext";
 import type { SampleEssay } from "@/data/ieltsSampleEssays";
 

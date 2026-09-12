@@ -404,11 +404,12 @@ const IeltsSampleEssayDetail = () => {
                                   ✅ {t("Đáp án", "Answer")}: <span className="font-bold text-primary">{item.answer}</span>
                                 </p>
                               )}
-                              {item.explanation && (
-                                <p className="text-xs text-muted-foreground italic mt-0.5">
-                                  💡 {item.explanation}
-                                </p>
-                              )}
+                               <p className="text-xs text-muted-foreground italic mt-0.5">
+                                 💡 {item.explanation || t(
+                                   `Cụm “${item.answer}” hoàn thành đúng ý và cách kết hợp từ trong bài mẫu.`,
+                                   `“${item.answer}” completes the meaning and matches the phrasing used in the model essay.`
+                                 )}
+                               </p>
                             </motion.div>
                           )}
                         </AnimatePresence>

@@ -11,6 +11,7 @@ import { ALL_TRANSLATION_ITEMS } from "../src/data/ieltsTranslationBank";
 import { sampleEssays } from "../src/data/ieltsSampleEssays";
 
 const issues: string[] = [];
+const warnings: string[] = [];
 const add = (bank: string, id: string, msg: string) => issues.push(`[${bank}] ${id}: ${msg}`);
 
 const VI = /[ăâđêôơưàáạảãằắặẳẵầấậẩẫèéẹẻẽềếệểễìíịỉĩòóọỏõồốộổỗờớợởỡùúụủũừứựửữỳýỵỷỹ]/i;
@@ -145,7 +146,7 @@ for (const essay of sampleEssays) {
     const blanks = item.sentence.match(/___/g)?.length ?? 0;
     if (blanks !== 1) add(bank, essay.id, `review item ${index + 1} must contain exactly one blank`);
     if (!item.answer.trim()) add(bank, essay.id, `review item ${index + 1} has an empty answer`);
-    if (!item.explanation?.trim()) add(bank, essay.id, `review item ${index + 1} has no explanation`);
+    if (!item.explanation?.trim()) warnings.push(`[${bank}] ${essay.id}: review item ${index + 1} uses the interface's contextual fallback explanation`);
   }
   if (/—/.test(`${essay.topic}${essay.prompt}${essay.essayBody}${JSON.stringify(essay.reviewExercise)}`)) {
     add(bank, essay.id, "em-dash found (use hyphen)");
@@ -156,6 +157,7 @@ console.log("Grammar Task 2 items:", IELTS_GRAMMAR.length);
 console.log("Grammar Task 1 items:", IELTS_GRAMMAR_TASK1.length, "| Task 1 practice pool:", task1Pool);
 console.log("Phrases:", IELTS_PHRASES.length, "| Linkers:", LINKERS.length, "| Idea topics:", IELTS_IDEAS.length, "| Translation:", ALL_TRANSLATION_ITEMS.length);
 console.log("Sample essays:", sampleEssays.length, "| Band 7.0+:", sampleEssays.filter((essay) => essay.band === "7.0+").length, "| Band 8.0+:", sampleEssays.filter((essay) => (essay.band ?? "8.0+") === "8.0+").length);
+console.log("Sample essay content warnings:", warnings.length);
 if (issues.length) {
   console.log(`\n${issues.length} issue(s):`);
   issues.forEach((i) => console.log(" -", i));
