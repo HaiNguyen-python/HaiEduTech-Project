@@ -25,7 +25,11 @@ serve(async (req) => {
 
   try {
     // Public endpoint (verify_jwt=false). Skip auth roundtrip to cut latency.
-    const { essay } = await req.json();
+    const body = await req.json();
+    const essay = body?.essay;
+    const taskType = body?.taskType === 1 ? 1 : 2;
+    const customPrompt = typeof body?.prompt === "string" ? body.prompt.slice(0, 2000).trim() : "";
+    const chartDescription = typeof body?.chartDescription === "string" ? body.chartDescription.slice(0, 2000).trim() : "";
 
 
 
@@ -36,11 +40,12 @@ serve(async (req) => {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
 
-    const systemPrompt = `You are a Senior IELTS Examiner. Grade the Writing Task 2 essay and return STRICT JSON ONLY (no markdown). Schema:
+    const firstCriterion = taskType === 1 ? "Task Achievement" : "Task Response";
+    const systemPrompt = `You are a Senior IELTS Examiner. Grade the Writing Task ${taskType} response and return STRICT JSON ONLY (no markdown). Schema:
 {
   "overall": <number, e.g. 6.5>,
   "criteria": [
-    { "score": <number>, "label": "Task Achievement", "strengths": [s1,s2,s3], "weaknesses": [w1,w2,w3], "suggestions": [g1,g2,g3] },
+    { "score": <number>, "label": "${firstCriterion}", "strengths": [s1,s2,s3], "weaknesses": [w1,w2,w3], "suggestions": [g1,g2,g3] },
     { "score": <number>, "label": "Coherence & Cohesion", "strengths": [...], "weaknesses": [...], "suggestions": [...] },
     { "score": <number>, "label": "Lexical Resource", "strengths": [...], "weaknesses": [...], "suggestions": [...] },
     { "score": <number>, "label": "Grammatical Range & Accuracy", "strengths": [...], "weaknesses": [...], "suggestions": [...] }
@@ -52,8 +57,12 @@ serve(async (req) => {
 Rules:
 1. Quote actual text from the essay in "errors". Provide at least 6 entries.
 2. Scores must be varied and realistic.
-3. Be concise — each strength/weakness/suggestion is 1 short phrase.
-4. Do NOT include an "upgraded" rewrite — that is handled by a separate call.`;
+3. Be concise - each strength/weakness/suggestion is 1 short phrase.
+4. Do NOT include an "upgraded" rewrite - that is handled by a separate call.
+5. ${taskType === 1
+      ? "Task 1: judge whether the response reports the key features, makes accurate comparisons, includes an overview, and reports data accurately. Penalise opinions and unsupported claims. Expect 150+ words."
+      : "Task 2: judge whether the response fully answers the exact question asked, holds a clear position throughout, and develops ideas with relevant examples. Expect 250+ words."}
+6. Grade strictly AGAINST the prompt given by the student. If the response drifts off the prompt, lower ${firstCriterion} and say so explicitly.`;
 
     // Hard timeout
     const controller = new AbortController();
@@ -74,7 +83,15 @@ Rules:
           response_format: { type: "json_object" },
           messages: [
             { role: "system", content: systemPrompt },
-            { role: "user", content: `Grade this IELTS Writing Task 2 essay:\n\n${essay}` },
+            {
+              role: "user",
+              content: [
+                `Grade this IELTS Writing Task ${taskType} response.`,
+                customPrompt ? `\nPROMPT (the exact question the student answered):\n${customPrompt}` : "",
+                chartDescription ? `\nDATA / CHART DESCRIPTION provided by the student:\n${chartDescription}` : "",
+                `\nSTUDENT RESPONSE:\n${essay}`,
+              ].join("\n"),
+            },
           ],
         }),
       });
