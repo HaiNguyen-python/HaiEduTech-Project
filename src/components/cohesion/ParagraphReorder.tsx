@@ -6,8 +6,9 @@ import { useMemo, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowUp, ArrowDown, CheckCircle2, RotateCcw, Shuffle,
-  Sparkles, BookmarkPlus, BookmarkCheck, Loader2, Eye,
+  Sparkles, BookmarkPlus, BookmarkCheck, Loader2, Eye, Download,
 } from "lucide-react";
+import { openWritingPdf } from "@/lib/writingPdfExport";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
