@@ -136,6 +136,31 @@ const ParagraphReorder = ({ taskType }: Props) => {
   const isCorrect = order.length > 0 && order.every((v, i) => v === i);
   const correctCount = order.filter((v, i) => v === i).length;
 
+  const handleExportPdf = () => {
+    openWritingPdf({
+      title: `IELTS Writing Task ${taskType} - Paragraph Reorder`,
+      subtitle: current.topic,
+      meta: [
+        { label: "Score", value: `${correctCount}/${order.length}` },
+        { label: "Type", value: String(current.type ?? "") },
+      ],
+      sections: [
+        {
+          heading: "Your order",
+          kind: "list",
+          items: order.map((v, i) => `${i + 1}. ${current.sentences[v]}`),
+        },
+        {
+          heading: "Correct Band 8+ order",
+          kind: "list",
+          items: current.sentences.map((s, i) => `${i + 1}. ${s}`),
+        },
+        { heading: "Why this order works", kind: "text", text: current.explanation },
+      ],
+      fileName: `ielts-paragraph-reorder-task${taskType}`,
+    });
+  };
+
   const goNext = () => {
     const nextIdx = (idx + 1) % pool.length;
     const nextItem = pool[nextIdx];
