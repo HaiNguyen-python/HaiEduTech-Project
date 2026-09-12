@@ -141,6 +141,32 @@ const LinkerBank = ({ taskType }: Props) => {
     setSaving(false);
   };
 
+  const handleExportPdf = () => {
+    if (!selected || !result) return;
+    openWritingPdf({
+      title: `IELTS Writing Task ${taskType} - Linker Bank`,
+      subtitle: selected.linker,
+      meta: [
+        { label: "Score", value: `${result.score}/10` },
+        { label: "Category", value: String(selected.category ?? "") },
+        { label: "Level", value: String(selected.level ?? "") },
+      ],
+      sections: [
+        {
+          heading: "Linker",
+          kind: "text",
+          text: `${selected.linker}\n\n${selected.meaning}\n\nModel example: ${selected.example}${selected.warning ? `\n\nWarning: ${selected.warning}` : ""}`,
+        },
+        { heading: "Your sentence", kind: "text", text: sentence.trim() },
+        { heading: "Linker usage feedback", kind: "text", text: result.phraseFeedback },
+        { heading: "Grammar feedback", kind: "text", text: result.grammarFeedback },
+        { heading: "Band 7.5+ upgrade", kind: "text", text: result.upgradedVersion },
+        { heading: "Tips to improve", kind: "list", items: result.tips || [] },
+      ],
+      fileName: `ielts-linker-bank-task${taskType}`,
+    });
+  };
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
       {/* LEFT: Linker list */}
