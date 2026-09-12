@@ -830,21 +830,6 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
             </Badge>
             )}
 
-            <Badge
-              variant={useAiVoice ? "default" : "outline"}
-              className={cn(
-                "cursor-pointer text-[10px] gap-1",
-                useAiVoice && "bg-emerald-600 hover:bg-emerald-700 text-white border-emerald-600"
-              )}
-              onClick={() => { stop(); setUseAiVoice(v => !v); }}
-              title={t(
-                "Giọng AI chất lượng cao như đề thi thật (tải lần đầu, sau đó phát ngay)",
-                "High quality AI exam voices (loaded once, then instant)"
-              )}
-            >
-              <Sparkles className="w-3 h-3" />
-              {useAiVoice ? t("Giọng AI • ON", "AI voice • ON") : t("Giọng máy", "Device voice")}
-            </Badge>
 
             <span className="text-xs text-muted-foreground ml-auto inline-flex items-center gap-1">
               <Mic2 className="w-3 h-3 text-emerald-600" />
