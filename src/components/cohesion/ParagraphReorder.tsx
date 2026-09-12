@@ -15,6 +15,7 @@ import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { REORDER_PARAGRAPHS, ReorderParagraph } from "@/data/ieltsCohesionBank";
 import { appendCohesionNotebook, escapeCohesionHtml } from "./cohesionNotebook";
+import { recordPracticeSignal } from "@/lib/writingPracticeSignals";
 
 interface Props {
   taskType: 1 | 2;
