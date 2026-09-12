@@ -7,6 +7,7 @@
  * @copyright 2026 HaiEduTech
  */
 import type { ListeningPracticeSet, ListeningQuestion } from "./ieltsListeningPractice";
+import { AUTHORED_LISTENING_TRANSCRIPTS } from "./ieltsListeningTranscripts";
 
 type MatchingOption = NonNullable<ListeningPracticeSet["matchingOptions"]>[number];
 type Section = ListeningPracticeSet["section"];
