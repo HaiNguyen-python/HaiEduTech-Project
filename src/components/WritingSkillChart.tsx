@@ -204,7 +204,7 @@ const WritingSkillChart = forwardRef<HTMLDivElement, Props>(({ taskType = "all",
 
   if (loading) {
     return (
-      <Card className="border-2 border-primary/20">
+      <Card ref={ref} className="border-2 border-primary/20">
         <CardContent className="py-10 text-center text-sm text-muted-foreground">
           {t("Đang tải biểu đồ năng lực...", "Loading skill chart...")}
         </CardContent>
@@ -214,7 +214,7 @@ const WritingSkillChart = forwardRef<HTMLDivElement, Props>(({ taskType = "all",
 
   if (filtered.length === 0) {
     return (
-      <Card className="border-2 border-dashed border-primary/30 bg-gradient-to-br from-primary/5 to-emerald-500/5">
+      <Card ref={ref} className="border-2 border-dashed border-primary/30 bg-gradient-to-br from-primary/5 to-emerald-500/5">
         <CardHeader className="pb-3">
           <CardTitle className="flex items-center gap-2 text-base">
             <Sparkles className="w-4 h-4 text-primary" />
@@ -243,7 +243,7 @@ const WritingSkillChart = forwardRef<HTMLDivElement, Props>(({ taskType = "all",
   const overallAvg = radarData.reduce((s, r) => s + r.score, 0) / radarData.length;
 
   return (
-    <Card className="border-2 border-primary/20 bg-gradient-to-br from-background to-muted/30">
+    <Card ref={ref} className="border-2 border-primary/20 bg-gradient-to-br from-background to-muted/30">
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between flex-wrap gap-2">
           <CardTitle className="flex items-center gap-2 text-base">
@@ -389,6 +389,8 @@ const WritingSkillChart = forwardRef<HTMLDivElement, Props>(({ taskType = "all",
       </CardContent>
     </Card>
   );
-};
+});
+
+WritingSkillChart.displayName = "WritingSkillChart";
 
 export default WritingSkillChart;
