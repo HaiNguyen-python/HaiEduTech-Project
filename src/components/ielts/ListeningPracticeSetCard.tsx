@@ -873,7 +873,9 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
                   variant="outline"
                   className="gap-1 px-2"
                   title={t("Tới 1 câu", "Next sentence")}
-                  disabled={currentIdx >= chunks.length - 1}
+                  disabled={aiMode
+                    ? (chunkTurn[currentIdx] ?? 0) >= turns.length - 1
+                    : currentIdx >= chunks.length - 1}
                 >
                   <SkipForward className="w-4 h-4" />
                 </Button>
