@@ -393,23 +393,10 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
       : 420;
     const advance = () => {
       if (cancelledRef.current || gen !== generationRef.current) return;
-      chunkTimerRef.current = window.setTimeout(() => speakChunks(startIdx + 1, gen), gapMs);
+      chunkTimerRef.current = window.setTimeout(() => speakChunks(startIdx + 1, gen, stopBefore, onDone), gapMs);
     };
 
-    // Preferred path: the studio-quality AI recording for this line.
-    const aiUrl = useAiVoice ? ai.urls[startIdx] : undefined;
-    if (aiUrl) {
-      const el = audioElRef.current ?? new Audio();
-      audioElRef.current = el;
-      el.onended = advance;
-      el.onerror = () => { setPlaying(false); setPaused(false); stopTick(); };
-      el.src = aiUrl;
-      el.playbackRate = Math.max(0.7, Math.min(1.3, rate / 0.85));
-      el.play().catch(() => { setPlaying(false); setPaused(false); stopTick(); });
-      return;
-    }
-
-    if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) { advance(); return; }
     const profile = speakerProfile(speakerName, startIdx);
     const u = new SpeechSynthesisUtterance(text);
     u.lang = accent;
