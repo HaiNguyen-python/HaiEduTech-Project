@@ -643,9 +643,29 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
             </Badge>
             )}
 
+            <Badge
+              variant={useAiVoice ? "default" : "outline"}
+              className={cn(
+                "cursor-pointer text-[10px] gap-1",
+                useAiVoice && "bg-emerald-600 hover:bg-emerald-700 text-white border-emerald-600"
+              )}
+              onClick={() => { stop(); setUseAiVoice(v => !v); }}
+              title={t(
+                "Giọng AI chất lượng cao như đề thi thật (tải lần đầu, sau đó phát ngay)",
+                "High quality AI exam voices (loaded once, then instant)"
+              )}
+            >
+              <Sparkles className="w-3 h-3" />
+              {useAiVoice ? t("Giọng AI • ON", "AI voice • ON") : t("Giọng máy", "Device voice")}
+            </Badge>
+
             <span className="text-xs text-muted-foreground ml-auto inline-flex items-center gap-1">
               <Mic2 className="w-3 h-3 text-emerald-600" />
-              {t("Đa giọng - mỗi nhân vật một voice riêng", "Multi-voice - distinct voice per speaker")}
+              {ai.loading
+                ? t("Đang tải giọng đọc...", "Loading voices...")
+                : ai.failed
+                  ? t("Đang dùng giọng máy dự phòng", "Using device voice fallback")
+                  : t("Đa giọng - mỗi nhân vật một voice riêng", "Multi-voice - distinct voice per speaker")}
             </span>
           </div>
           <div className="flex flex-wrap items-center gap-2">
