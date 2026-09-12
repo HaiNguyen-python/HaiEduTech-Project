@@ -9,23 +9,49 @@ import { playSwedishTts, stopSwedishTts } from "@/lib/swedishTts";
 
 export type SpeakingLang = "english" | "chinese" | "japanese" | "finnish" | "swedish" | "vietnamese";
 
-export async function playSpeakingTts(language: SpeakingLang, text: string, rate = 1): Promise<boolean> {
+let activeRequest: { key: string; promise: Promise<boolean> } | null = null;
+
+const stopAllSpeakingTts = () => {
+  stopEnglishTts();
+  stopChineseTts();
+  stopJapaneseTts();
+  stopFinnishTts();
+  stopSwedishTts();
+  stopVietnameseTts();
+};
+
+export function playSpeakingTts(language: SpeakingLang, text: string, rate = 1): Promise<boolean> {
+  const normalized = text.trim();
+  if (!normalized) return Promise.resolve(false);
+  const key = `${language}\u0000${rate}\u0000${normalized}`;
+  // React state cannot disable a button until after the next render. Reuse the
+  // same promise when a double-click/tap reaches us in that small window.
+  if (activeRequest?.key === key) return activeRequest.promise;
+
+  stopAllSpeakingTts();
   const opts = { playbackRate: rate, speechRate: rate * 0.95 };
-  try {
-    switch (language) {
-      case "chinese": return await playChineseTts(text, opts);
-      case "japanese": return await playJapaneseTts(text, opts);
-      case "finnish": return await playFinnishTts(text, opts);
-      case "swedish": return await playSwedishTts(text, opts);
-      case "vietnamese": return await playVietnameseTts(text, { playbackRate: rate * 0.8, speechRate: rate * 0.75 });
-      default: return await playEnglishTts(text, opts);
+  const promise = (async () => {
+    try {
+      switch (language) {
+        case "chinese": return await playChineseTts(normalized, opts);
+        case "japanese": return await playJapaneseTts(normalized, opts);
+        case "finnish": return await playFinnishTts(normalized, opts);
+        case "swedish": return await playSwedishTts(normalized, opts);
+        case "vietnamese": return await playVietnameseTts(normalized, { playbackRate: rate * 0.8, speechRate: rate * 0.75 });
+        default: return await playEnglishTts(normalized, opts);
+      }
+    } catch {
+      return false;
+    } finally {
+      if (activeRequest?.promise === promise) activeRequest = null;
     }
-  } catch {
-    return false;
-  }
+  })();
+  activeRequest = { key, promise };
+  return promise;
 }
 
 export function stopSpeakingTts(language: SpeakingLang) {
+  activeRequest = null;
   try {
     switch (language) {
       case "chinese": return stopChineseTts();

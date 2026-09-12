@@ -817,7 +817,6 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
     demoPlayingRef.current = true;
     setIsPlayingDemo(true);
     try {
-      stopSpeakingTts(language);
       const ok = await playSpeakingTts(language, currentSentence.text, slow ? 0.65 : 0.9);
       if (!ok) toast.error(t("Không thể phát âm thanh. Hãy thử lại.", "Could not play audio. Please try again."));
     } catch {

@@ -75,7 +75,6 @@ const WeakWordReview = ({ language, onChange }: Props) => {
     if (!card || audioBusyRef.current) return;
     audioBusyRef.current = true;
     setAudioBusy(true);
-    stopSpeakingTts(language);
     try { await playSpeakingTts(language, card.word, 0.8); }
     finally { audioBusyRef.current = false; setAudioBusy(false); }
   };

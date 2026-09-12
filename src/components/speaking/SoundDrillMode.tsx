@@ -99,7 +99,6 @@ const SoundDrillMode = ({ language, onPerfectScore }: Props) => {
     if (audioBusyRef.current) return;
     audioBusyRef.current = true;
     setAudioBusy(true);
-    stopSpeakingTts(language);
     try { await playSpeakingTts(language, word, 0.85); }
     finally { audioBusyRef.current = false; setAudioBusy(false); }
   };

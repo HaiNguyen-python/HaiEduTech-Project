@@ -84,7 +84,6 @@ const ShadowingMode = ({ language, onPerfectScore }: Props) => {
   const play = async (rate: number) => {
     if (!sentence || playing) return;
     const token = ++playTokenRef.current;
-    stopSpeakingTts(language);
     setPlaying(true);
     await playSpeakingTts(language, sentence.text, rate);
     if (token === playTokenRef.current) setPlaying(false);

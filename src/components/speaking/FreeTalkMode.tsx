@@ -92,7 +92,6 @@ const FreeTalkMode = ({ language, onPerfectScore }: Props) => {
     if (audioBusyRef.current) return;
     audioBusyRef.current = true;
     setAudioBusy(true);
-    stopSpeakingTts(language);
     try { await playSpeakingTts(language, text, 0.95); }
     finally { audioBusyRef.current = false; setAudioBusy(false); }
   };
