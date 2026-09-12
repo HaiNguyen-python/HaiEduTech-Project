@@ -245,6 +245,31 @@ const PhrasePractice = ({ taskType }: Props) => {
     setSavedRewrite(false);
   };
 
+  const handleExportPdf = () => {
+    if (!selectedPhrase || !result) return;
+    openWritingPdf({
+      title: `IELTS Writing Task ${taskType} - Phrase Practice`,
+      subtitle: `"${selectedPhrase.phrase}"`,
+      meta: [
+        { label: "Score", value: `${result.score}/10` },
+        { label: "Level", value: String(selectedPhrase.level) },
+      ],
+      sections: [
+        {
+          heading: "Target phrase",
+          kind: "text",
+          text: `${selectedPhrase.phrase}\n\n${selectedPhrase.meaning} - ${selectedPhrase.meaningEn}`,
+        },
+        { heading: "Your sentence", kind: "text", text: userSentence },
+        { heading: "Phrase usage feedback", kind: "text", text: result.phraseFeedback },
+        { heading: "Grammar feedback", kind: "text", text: result.grammarFeedback },
+        { heading: "Band 7.5+ upgrade", kind: "text", text: result.upgradedVersion },
+        { heading: "Tips to improve", kind: "list", items: result.tips || [] },
+      ],
+      fileName: `ielts-phrase-practice-task${taskType}`,
+    });
+  };
+
   const handleSaveGrade = async () => {
     if (!selectedPhrase || !result || savedGrade || savingGrade) return;
     setSavingGrade(true);
