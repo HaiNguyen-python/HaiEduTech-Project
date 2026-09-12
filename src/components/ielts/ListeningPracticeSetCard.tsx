@@ -372,12 +372,12 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
   };
 
   const togglePause = () => {
-    if (typeof window === "undefined" || !window.speechSynthesis) return;
+    if (typeof window === "undefined") return;
     if (paused) {
       // Resume: bump generation, cancel any lingering utterance, restart current chunk.
       const gen = ++generationRef.current;
       cancelledRef.current = false;
-      try { window.speechSynthesis.cancel(); } catch { /* noop */ }
+      try { window.speechSynthesis?.cancel(); } catch { /* noop */ }
       setPaused(false);
       setPlaying(true);
       startTick();
@@ -390,7 +390,8 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
         window.clearTimeout(chunkTimerRef.current);
         chunkTimerRef.current = null;
       }
-      try { window.speechSynthesis.cancel(); } catch { /* noop */ }
+      try { window.speechSynthesis?.cancel(); } catch { /* noop */ }
+      try { audioElRef.current?.pause(); } catch { /* noop */ }
       stopTick();
       setPaused(true);
       setPlaying(false);
@@ -402,6 +403,7 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
     cancelledRef.current = true;
     if (chunkTimerRef.current) window.clearTimeout(chunkTimerRef.current);
     window.speechSynthesis?.cancel();
+    try { audioElRef.current?.pause(); } catch { /* noop */ }
     stopTick();
     setPlaying(false);
     setPaused(false);
