@@ -161,11 +161,11 @@ export const sampleEssays70Plus: SampleEssay[] = [
       type: "gap-fill",
       instruction: "Fill in the blanks with appropriate words from the essay.",
       items: [
-        { sentence: "The table ___ on visitor numbers to four cities in 2010, 2015 and 2020.", answer: "presents data" },
-        { sentence: "All four cities saw ___ growth between 2010 and 2015.", answer: "steady" },
-        { sentence: "In 2020, every city experienced a ___ in visitor numbers.", answer: "sharp drop" },
-        { sentence: "Visitor numbers ___ dramatically due to global travel restrictions.", answer: "collapsed" },
-        { sentence: "Bangkok kept the ___ position despite the fall in numbers.", answer: "top" },
+        { sentence: "The table ___ on visitor numbers to four cities in 2010, 2015 and 2020.", answer: "presents data", explanation: "'Presents data on' is a clear academic phrase for introducing a table." },
+        { sentence: "All four cities saw ___ growth between 2010 and 2015.", answer: "steady", explanation: "'Steady growth' describes a consistent upward movement across the period." },
+        { sentence: "In 2020, every city experienced a ___ in visitor numbers.", answer: "sharp drop", explanation: "'A sharp drop' accurately describes the large decrease shown by every city." },
+        { sentence: "Visitor numbers ___ dramatically due to global travel restrictions.", answer: "collapsed", explanation: "'Collapsed dramatically' combines a strong trend verb with an adverb for emphasis." },
+        { sentence: "Bangkok kept the ___ position despite the fall in numbers.", answer: "top", explanation: "'Top position' shows that Bangkok still ranked first after the decrease." },
       ],
     },
     chartConfig: {

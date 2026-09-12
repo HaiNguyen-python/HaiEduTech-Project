@@ -60,7 +60,7 @@ function detectGrammarFeatures(body: string): FeatureMatch[] {
     const m = body.match(t.re);
     if (m) {
       const sentence = sentences.find((candidate) => candidate.toLowerCase().includes(m[0].toLowerCase()));
-      out.push({ label: t.label, evidence: shortenEvidence(sentence ?? m[0]) });
+      out.push({ label: t.label, evidence: shortenEvidence(cleanText(sentence ?? m[0])) });
     }
   }
   return out.slice(0, 4);
