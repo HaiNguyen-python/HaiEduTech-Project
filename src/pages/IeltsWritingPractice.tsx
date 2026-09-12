@@ -32,7 +32,7 @@ import PhrasePractice from "@/components/PhrasePractice";
 import GrammarPractice from "@/components/GrammarPractice";
 import IdeaPractice from "@/components/IdeaPractice";
 import CohesionLab from "@/components/CohesionLab";
-import WritingSkillChart from "@/components/WritingSkillChart";
+import WritingSkillChart, { WRITING_ATTEMPT_EVENT } from "@/components/WritingSkillChart";
 import { Sparkles, PenLine, GraduationCap, Lightbulb, Link2, Languages, ClipboardCheck } from "lucide-react";
 import FreeWritingGrader from "@/components/ielts/FreeWritingGrader";
 import WritingResultPanel from "@/components/ielts/WritingResultPanel";
