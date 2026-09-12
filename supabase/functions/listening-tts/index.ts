@@ -67,20 +67,27 @@ serve(async (req) => {
       return json({ error: "server_not_configured" }, 500);
     }
     const admin = createClient(SUPABASE_URL, SERVICE_KEY);
-    const publicBase = `${SUPABASE_URL}/storage/v1/object/public/${BUCKET}`;
 
     const results: { i: number; url: string }[] = [];
     let blocked: { status: number; message?: string } | null = null;
+
+    const signed = async (path: string) => {
+      const { data } = await admin.storage.from(BUCKET).createSignedUrl(path, 60 * 60 * 6);
+      return data?.signedUrl ?? null;
+    };
 
     const run = async (line: LineInput) => {
       const key = await sha256(`${line.voice}|${line.speed}|${line.text}`);
       const path = `${setId}/${key}.mp3`;
 
-      // Cached already? Just hand back the public URL.
-      const head = await fetch(`${publicBase}/${path}`, { method: "HEAD" });
-      if (head.ok) {
-        results.push({ i: line.i, url: `${publicBase}/${path}` });
-        return;
+      // Cached already? Just hand back a fresh signed URL.
+      const existing = await admin.storage.from(BUCKET).list(setId, { search: `${key}.mp3` });
+      if (existing.data?.some((f) => f.name === `${key}.mp3`)) {
+        const url = await signed(path);
+        if (url) {
+          results.push({ i: line.i, url });
+          return;
+        }
       }
 
       const resp = await fetch("https://ai.gateway.lovable.dev/v1/audio/speech", {
