@@ -1,6 +1,6 @@
 // Minimal-pair sound drill: the learner says the highlighted word and the
 // recogniser decides which of the two words was heard.
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Mic, Square, Volume2, CheckCircle, XCircle, Waves, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -52,6 +52,8 @@ const SoundDrillMode = ({ language, onPerfectScore }: Props) => {
   const [correctCount, setCorrectCount] = useState(0);
   const [weakSounds, setWeakSounds] = useState<string[]>([]);
   const [finished, setFinished] = useState(false);
+  const audioBusyRef = useRef(false);
+  const [audioBusy, setAudioBusy] = useState(false);
 
   const item = items[index];
   const targetWord = item ? (item.target === "a" ? item.pair.a : item.pair.b) : "";
@@ -92,6 +94,15 @@ const SoundDrillMode = ({ language, onPerfectScore }: Props) => {
   }, [language]);
 
   useEffect(() => () => stopSpeakingTts(language), [language]);
+
+  const playWord = async (word: string) => {
+    if (audioBusyRef.current) return;
+    audioBusyRef.current = true;
+    setAudioBusy(true);
+    stopSpeakingTts(language);
+    try { await playSpeakingTts(language, word, 0.85); }
+    finally { audioBusyRef.current = false; setAudioBusy(false); }
+  };
 
   const next = () => {
     setVerdict(null);
@@ -195,7 +206,8 @@ const SoundDrillMode = ({ language, onPerfectScore }: Props) => {
                   variant="ghost"
                   size="sm"
                   className="mt-2 gap-1"
-                  onClick={() => playSpeakingTts(language, word, 0.85)}
+                  disabled={audioBusy}
+                  onClick={() => void playWord(word)}
                 >
                   <Volume2 className="w-4 h-4" />
                   {t("Nghe", "Listen")}

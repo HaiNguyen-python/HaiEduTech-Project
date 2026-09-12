@@ -1,6 +1,6 @@
 // Weak-word review: every word missed in any Speaking Coach mode comes back
 // here until the learner says it cleanly three times.
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Mic, Square, Volume2, CheckCircle, XCircle, Brain, PartyPopper } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -39,6 +39,8 @@ const WeakWordReview = ({ language, onChange }: Props) => {
   const [verdict, setVerdict] = useState<"correct" | "wrong" | null>(null);
   const [heard, setHeard] = useState("");
   const [cleared, setCleared] = useState(0);
+  const audioBusyRef = useRef(false);
+  const [audioBusy, setAudioBusy] = useState(false);
 
   const card = queue[index];
 
@@ -68,6 +70,15 @@ const WeakWordReview = ({ language, onChange }: Props) => {
   }, [language]);
 
   useEffect(() => () => stopSpeakingTts(language), [language]);
+
+  const playWord = async () => {
+    if (!card || audioBusyRef.current) return;
+    audioBusyRef.current = true;
+    setAudioBusy(true);
+    stopSpeakingTts(language);
+    try { await playSpeakingTts(language, card.word, 0.8); }
+    finally { audioBusyRef.current = false; setAudioBusy(false); }
+  };
 
   const next = () => {
     setVerdict(null);
@@ -139,7 +150,7 @@ const WeakWordReview = ({ language, onChange }: Props) => {
           <div className="text-2xl font-bold">{card.word}</div>
           {card.ipa && <div className="text-sm font-mono text-muted-foreground mt-1">{card.ipa}</div>}
           <div className="mt-2 flex items-center justify-center gap-2">
-            <Button variant="outline" size="sm" className="gap-1" onClick={() => playSpeakingTts(language, card.word, 0.8)}>
+            <Button variant="outline" size="sm" className="gap-1" disabled={audioBusy} onClick={() => void playWord()}>
               <Volume2 className="w-4 h-4" />
               {t("Nghe mẫu", "Listen")}
             </Button>
