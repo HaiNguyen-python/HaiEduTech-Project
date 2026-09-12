@@ -407,7 +407,16 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
     setCurrentIdx(firstChunk);
     setElapsedInChunk(offsetSec);
 
+    // Drop the previous element completely so its old handlers can never fire
+    // again and replay a turn that was already heard.
+    detachAudio();
+
+    // One outcome per turn: advance OR fall back, never both.
+    let settled = false;
+
     const nextTurn = () => {
+      if (settled) return;
+      settled = true;
       if (cancelledRef.current || gen !== generationRef.current) return;
       chunkTimerRef.current = window.setTimeout(
         () => playTurns(turnIdx + 1, gen),
@@ -415,14 +424,25 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
       );
     };
     const deviceForThisTurn = () => {
+      if (settled) return;
+      settled = true;
+      if (cancelledRef.current || gen !== generationRef.current) return;
+      detachAudio();
       const stopBefore = turnFirstChunk[turnIdx + 1] ?? chunks.length;
-      speakChunks(firstChunk, gen, stopBefore, nextTurn);
+      speakChunks(firstChunk, gen, stopBefore, () => {
+        if (cancelledRef.current || gen !== generationRef.current) return;
+        chunkTimerRef.current = window.setTimeout(
+          () => playTurns(turnIdx + 1, gen),
+          turnGap(turnIdx) * 1000
+        );
+      });
     };
 
     const url = ai.getUrl(turnIdx);
     if (!url) { deviceForThisTurn(); return; }
 
-    const el = audioElRef.current ?? new Audio();
+    const el = new Audio();
+    el.preload = "auto";
     audioElRef.current = el;
     aiPlayingRef.current = true;
     el.onended = nextTurn;
@@ -435,12 +455,13 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
       }
     };
     el.onerror = async () => {
-      if (cancelledRef.current || gen !== generationRef.current) return;
+      if (settled || cancelledRef.current || gen !== generationRef.current) return;
       // Signed URLs expire; ask for a fresh batch once, then fall back.
       if (!refreshedRef.current) {
         refreshedRef.current = true;
         const ok = await ai.refresh();
         if (ok && !cancelledRef.current && gen === generationRef.current) {
+          settled = true;
           playTurns(turnIdx, gen, offsetSec);
           return;
         }
@@ -449,9 +470,15 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
     };
     el.src = url;
     el.playbackRate = aiRate;
-    el.play().catch(() => { deviceForThisTurn(); });
+    el.play().catch((err: unknown) => {
+      // A play() rejected because we moved on (or the tab blocked autoplay) is
+      // not a broken file - re-reading the turn here is what caused doubles.
+      const name = (err as { name?: string } | null)?.name;
+      if (name === "AbortError" || name === "NotAllowedError") return;
+      deviceForThisTurn();
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [turns.length, turnFirstChunk, chunks.length, turnGap, aiRate, ai, speakChunks, finishPlayback]);
+  }, [turns.length, turnFirstChunk, chunks.length, turnGap, aiRate, ai, speakChunks, finishPlayback, detachAudio]);
 
   /**
    * Start playback from a chunk. In AI mode the whole recording is downloaded
