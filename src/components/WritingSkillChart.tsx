@@ -1,5 +1,5 @@
-// IELTS Writing skill progress chart — 4 official criteria with distinct colors
-import { useEffect, useMemo, useState } from "react";
+// IELTS Writing skill progress chart - 4 official criteria with distinct colors
+import { forwardRef, useEffect, useMemo, useState } from "react";
 import {
   RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar,
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
@@ -51,22 +51,75 @@ function matchCriterion(label: string): CritKey | null {
   return null;
 }
 
+// Event fired whenever a writing attempt is graded/saved/removed anywhere in the app
+export const WRITING_ATTEMPT_EVENT = "haiedu:writing-attempt-saved";
+
+// Clean AI-provided band scores: numeric, inside 0-9, snapped to half bands
+function sanitizeBand(raw: unknown): number | null {
+  const n = typeof raw === "number" ? raw : Number(raw);
+  if (!Number.isFinite(n)) return null;
+  const clamped = Math.min(9, Math.max(0, n));
+  return Math.round(clamped * 2) / 2;
+}
+
+// Extract one clean {criterion -> band} map from a stored attempt result
+function normalizeCriteria(result: any): Partial<Record<CritKey, number>> {
+  const out: Partial<Record<CritKey, number>> = {};
+  const crits = Array.isArray(result?.criteria) ? result.criteria : [];
+  crits.forEach((c: any) => {
+    const key = matchCriterion(String(c?.label ?? ""));
+    if (!key || out[key] !== undefined) return;
+    const band = sanitizeBand(c?.score);
+    if (band !== null) out[key] = band;
+  });
+  return out;
+}
+
+const TARGET_KEY = "ielts-performance-target-v1";
+function readTargetBand(): number {
+  try {
+    const raw = localStorage.getItem(TARGET_KEY);
+    const n = Number(raw);
+    if (Number.isFinite(n) && n > 0) return Math.min(9, Math.max(4, Math.round(n * 2) / 2));
+  } catch { /* ignore */ }
+  return 7;
+}
+
+// Recent attempts weigh the most: the radar reflects current level, not old work
+const RECENT_WINDOW = 5;
+
 interface Props {
   taskType?: 1 | 2 | "all";
   liveResult?: { overall: number; criteria: { label: string; score: number }[] } | null;
   refreshKey?: number;
 }
 
-const WritingSkillChart = ({ taskType = "all", liveResult = null, refreshKey = 0 }: Props) => {
+const WritingSkillChart = forwardRef<HTMLDivElement, Props>(({ taskType = "all", liveResult = null, refreshKey = 0 }, ref) => {
   const { t } = useLanguage();
   const [attempts, setAttempts] = useState<Attempt[]>([]);
   const [loading, setLoading] = useState(true);
+  const [reloadTick, setReloadTick] = useState(0);
+  const [targetBand, setTargetBand] = useState(7);
+
+  useEffect(() => { setTargetBand(readTargetBand()); }, [reloadTick, refreshKey]);
+
+  // Single refresh source: any grading/save/delete anywhere, plus auth changes
+  useEffect(() => {
+    const bump = () => setReloadTick(k => k + 1);
+    window.addEventListener(WRITING_ATTEMPT_EVENT, bump);
+    const { data: sub } = supabase.auth.onAuthStateChange(() => bump());
+    return () => {
+      window.removeEventListener(WRITING_ATTEMPT_EVENT, bump);
+      sub.subscription.unsubscribe();
+    };
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
     (async () => {
       setLoading(true);
-      const { data: { user } } = await supabase.auth.getUser();
+      const { data: { session } } = await supabase.auth.getSession();
+      const user = session?.user ?? null;
       if (!user) { if (!cancelled) { setAttempts([]); setLoading(false); } return; }
       const { data } = await supabase
         .from("writing_attempts")
@@ -77,7 +130,7 @@ const WritingSkillChart = ({ taskType = "all", liveResult = null, refreshKey = 0
       if (!cancelled) { setAttempts((data as Attempt[]) || []); setLoading(false); }
     })();
     return () => { cancelled = true; };
-  }, [refreshKey, liveResult?.overall]);
+  }, [refreshKey, reloadTick]);
 
   // Merge just-graded liveResult so scores appear instantly without waiting for DB reload
   const merged = useMemo<Attempt[]>(() => {
@@ -94,14 +147,20 @@ const WritingSkillChart = ({ taskType = "all", liveResult = null, refreshKey = 0
     }, ...base];
   }, [attempts, liveResult, taskType]);
 
-  const filtered = merged.filter(a => taskType === "all" || a.task_type === taskType || a.task_type == null);
+  // Task filter: rows without a task type only show in the "all" view so a
+  // Task 1 chart never borrows Task 2 bands (and vice versa)
+  const filtered = merged
+    .filter(a => (taskType === "all" ? true : a.task_type === taskType))
+    .map(a => ({ ...a, crits: normalizeCriteria(a.result), overall: sanitizeBand(a.overall_score) }))
+    .filter(a => Object.keys(a.crits).length > 0 || a.overall !== null);
 
+  // Average over the most recent attempts so the radar tracks current level
+  const recent = filtered.slice(0, RECENT_WINDOW);
   const perCritScores: Record<CritKey, number[]> = { TR: [], CC: [], LR: [], GR: [] };
-  filtered.forEach(a => {
-    const crits = Array.isArray(a.result?.criteria) ? a.result.criteria : [];
-    crits.forEach((c: any) => {
-      const k = matchCriterion(String(c.label || ""));
-      if (k && typeof c.score === "number") perCritScores[k].push(c.score);
+  recent.forEach(a => {
+    (Object.keys(a.crits) as CritKey[]).forEach(k => {
+      const v = a.crits[k];
+      if (typeof v === "number") perCritScores[k].push(v);
     });
   });
 
@@ -111,24 +170,23 @@ const WritingSkillChart = ({ taskType = "all", liveResult = null, refreshKey = 0
     return { key: c.key, label: t(c.labelVi, c.labelEn), score: Number(avg.toFixed(1)), color: c.color, fullMark: 9 };
   });
 
-  const latest: AggRow[] = CRITERIA.map(c => {
-    const first = filtered.find(a => Array.isArray(a.result?.criteria)
-      && a.result.criteria.some((cr: any) => matchCriterion(String(cr.label || "")) === c.key));
-    const cr = first?.result?.criteria?.find((x: any) => matchCriterion(String(x.label || "")) === c.key);
-    return { key: c.key, label: t(c.labelVi, c.labelEn), score: cr?.score || 0, color: c.color, fullMark: 9 };
-  });
+  // Latest = the 4 criteria of ONE most recent attempt (missing criteria stay 0)
+  const latestAttempt = filtered.find(a => Object.keys(a.crits).length > 0);
+  const latest: AggRow[] = CRITERIA.map(c => ({
+    key: c.key,
+    label: t(c.labelVi, c.labelEn),
+    score: latestAttempt?.crits[c.key] ?? 0,
+    color: c.color,
+    fullMark: 9,
+  }));
 
   const trend = [...filtered].reverse().map((a, i) => {
     const row: Record<string, any> = { idx: i + 1, date: new Date(a.created_at).toLocaleDateString() };
-    (a.result?.criteria || []).forEach((c: any) => {
-      const k = matchCriterion(String(c.label || ""));
-      if (k) row[k] = c.score;
-    });
-    row.overall = a.overall_score;
+    (Object.keys(a.crits) as CritKey[]).forEach(k => { row[k] = a.crits[k]; });
+    row.overall = a.overall;
     return row;
   });
 
-  const targetBand = 7;
 
   const scrollToTab = (tabValue: string) => {
     const trigger = document.querySelector<HTMLButtonElement>(`[role="tab"][value="${tabValue}"]`)
@@ -146,7 +204,7 @@ const WritingSkillChart = ({ taskType = "all", liveResult = null, refreshKey = 0
 
   if (loading) {
     return (
-      <Card className="border-2 border-primary/20">
+      <Card ref={ref} className="border-2 border-primary/20">
         <CardContent className="py-10 text-center text-sm text-muted-foreground">
           {t("Đang tải biểu đồ năng lực...", "Loading skill chart...")}
         </CardContent>
@@ -156,7 +214,7 @@ const WritingSkillChart = ({ taskType = "all", liveResult = null, refreshKey = 0
 
   if (filtered.length === 0) {
     return (
-      <Card className="border-2 border-dashed border-primary/30 bg-gradient-to-br from-primary/5 to-emerald-500/5">
+      <Card ref={ref} className="border-2 border-dashed border-primary/30 bg-gradient-to-br from-primary/5 to-emerald-500/5">
         <CardHeader className="pb-3">
           <CardTitle className="flex items-center gap-2 text-base">
             <Sparkles className="w-4 h-4 text-primary" />
@@ -185,7 +243,7 @@ const WritingSkillChart = ({ taskType = "all", liveResult = null, refreshKey = 0
   const overallAvg = radarData.reduce((s, r) => s + r.score, 0) / radarData.length;
 
   return (
-    <Card className="border-2 border-primary/20 bg-gradient-to-br from-background to-muted/30">
+    <Card ref={ref} className="border-2 border-primary/20 bg-gradient-to-br from-background to-muted/30">
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between flex-wrap gap-2">
           <CardTitle className="flex items-center gap-2 text-base">
@@ -331,6 +389,8 @@ const WritingSkillChart = ({ taskType = "all", liveResult = null, refreshKey = 0
       </CardContent>
     </Card>
   );
-};
+});
+
+WritingSkillChart.displayName = "WritingSkillChart";
 
 export default WritingSkillChart;

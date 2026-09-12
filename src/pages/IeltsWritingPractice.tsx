@@ -32,7 +32,7 @@ import PhrasePractice from "@/components/PhrasePractice";
 import GrammarPractice from "@/components/GrammarPractice";
 import IdeaPractice from "@/components/IdeaPractice";
 import CohesionLab from "@/components/CohesionLab";
-import WritingSkillChart from "@/components/WritingSkillChart";
+import WritingSkillChart, { WRITING_ATTEMPT_EVENT } from "@/components/WritingSkillChart";
 import { Sparkles, PenLine, GraduationCap, Lightbulb, Link2, Languages, ClipboardCheck } from "lucide-react";
 import FreeWritingGrader from "@/components/ielts/FreeWritingGrader";
 import WritingResultPanel from "@/components/ielts/WritingResultPanel";
@@ -281,6 +281,8 @@ const IeltsWritingPractice = () => {
             result: fullResult as unknown as Record<string, unknown>,
             overall_score: graded.overall,
           } as never);
+          // Tell the skill chart (and history) to reload from the database
+          window.dispatchEvent(new Event(WRITING_ATTEMPT_EVENT));
           // Log activity for admin analytics
           logStudentActivity({
             activityType: "ielts_writing",
@@ -551,7 +553,9 @@ const IeltsWritingPractice = () => {
           </TabsList>
 
           <TabsContent value="free-grade" className="space-y-4">
-            <FreeWritingGrader />
+            <div>
+              <FreeWritingGrader />
+            </div>
           </TabsContent>
 
           <TabsContent value="idea" className="space-y-4">

@@ -4,6 +4,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChevronDown, ChevronUp, History, FileText } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { WRITING_ATTEMPT_EVENT } from "@/components/WritingSkillChart";
 
 interface WritingAttempt {
   id: string;
@@ -24,6 +25,9 @@ const WritingHistory = () => {
 
   useEffect(() => {
     fetchAttempts();
+    const reload = () => fetchAttempts();
+    window.addEventListener(WRITING_ATTEMPT_EVENT, reload);
+    return () => window.removeEventListener(WRITING_ATTEMPT_EVENT, reload);
   }, []);
 
   const fetchAttempts = async () => {

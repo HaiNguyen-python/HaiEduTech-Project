@@ -1,6 +1,6 @@
 // Smart Grading for essays written against the student's OWN prompt
 // (school topics, books, real exam questions) - no prompt bank involved.
-import { useState } from "react";
+import { forwardRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Send, Loader2, AlertCircle, Trash2, NotebookPen, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -13,13 +13,14 @@ import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { fetchUpgradedEssay } from "@/lib/upgradeWriting";
 import { handleAiError } from "@/lib/aiResponseHandler";
 import WritingResultPanel, { type GradingResult } from "@/components/ielts/WritingResultPanel";
+import { WRITING_ATTEMPT_EVENT } from "@/components/WritingSkillChart";
 
 const MAX_PROMPT = 2000;
 const MAX_ESSAY = 6000;
 
 const countWords = (value: string) => (value.trim() ? value.trim().split(/\s+/).length : 0);
 
-const FreeWritingGrader = () => {
+const FreeWritingGrader = forwardRef<HTMLDivElement>((_props, ref) => {
   const { t } = useLanguage();
   const [taskType, setTaskType] = useState<1 | 2>(2);
   const [prompt, setPrompt] = useState("");
@@ -132,6 +133,8 @@ const FreeWritingGrader = () => {
             result: { ...graded, upgraded } as unknown as Record<string, unknown>,
             overall_score: graded.overall,
           } as never);
+          // Tell the skill chart (and history) to reload from the database
+          window.dispatchEvent(new Event(WRITING_ATTEMPT_EVENT));
           logStudentActivity({
             activityType: "ielts_writing",
             score: graded.overall,
@@ -216,7 +219,7 @@ const FreeWritingGrader = () => {
   };
 
   return (
-    <div className="grid lg:grid-cols-2 gap-4 lg:gap-6">
+    <div ref={ref} className="grid lg:grid-cols-2 gap-4 lg:gap-6">
       {/* LEFT: input */}
       <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
         <Card className="border-primary/30">
@@ -359,6 +362,8 @@ const FreeWritingGrader = () => {
       </div>
     </div>
   );
-};
+});
+
+FreeWritingGrader.displayName = "FreeWritingGrader";
 
 export default FreeWritingGrader;
