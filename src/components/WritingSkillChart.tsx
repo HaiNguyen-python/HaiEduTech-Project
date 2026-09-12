@@ -51,13 +51,50 @@ function matchCriterion(label: string): CritKey | null {
   return null;
 }
 
+// Event fired whenever a writing attempt is graded/saved/removed anywhere in the app
+export const WRITING_ATTEMPT_EVENT = "haiedu:writing-attempt-saved";
+
+// Clean AI-provided band scores: numeric, inside 0-9, snapped to half bands
+function sanitizeBand(raw: unknown): number | null {
+  const n = typeof raw === "number" ? raw : Number(raw);
+  if (!Number.isFinite(n)) return null;
+  const clamped = Math.min(9, Math.max(0, n));
+  return Math.round(clamped * 2) / 2;
+}
+
+// Extract one clean {criterion -> band} map from a stored attempt result
+function normalizeCriteria(result: any): Partial<Record<CritKey, number>> {
+  const out: Partial<Record<CritKey, number>> = {};
+  const crits = Array.isArray(result?.criteria) ? result.criteria : [];
+  crits.forEach((c: any) => {
+    const key = matchCriterion(String(c?.label ?? ""));
+    if (!key || out[key] !== undefined) return;
+    const band = sanitizeBand(c?.score);
+    if (band !== null) out[key] = band;
+  });
+  return out;
+}
+
+const TARGET_KEY = "ielts-performance-target-v1";
+function readTargetBand(): number {
+  try {
+    const raw = localStorage.getItem(TARGET_KEY);
+    const n = Number(raw);
+    if (Number.isFinite(n) && n > 0) return Math.min(9, Math.max(4, Math.round(n * 2) / 2));
+  } catch { /* ignore */ }
+  return 7;
+}
+
+// Recent attempts weigh the most: the radar reflects current level, not old work
+const RECENT_WINDOW = 5;
+
 interface Props {
   taskType?: 1 | 2 | "all";
   liveResult?: { overall: number; criteria: { label: string; score: number }[] } | null;
   refreshKey?: number;
 }
 
-const WritingSkillChart = ({ taskType = "all", liveResult = null, refreshKey = 0 }: Props) => {
+const WritingSkillChart = forwardRef<HTMLDivElement, Props>(({ taskType = "all", liveResult = null, refreshKey = 0 }, ref) => {
   const { t } = useLanguage();
   const [attempts, setAttempts] = useState<Attempt[]>([]);
   const [loading, setLoading] = useState(true);
