@@ -147,14 +147,20 @@ const WritingSkillChart = forwardRef<HTMLDivElement, Props>(({ taskType = "all",
     }, ...base];
   }, [attempts, liveResult, taskType]);
 
-  const filtered = merged.filter(a => taskType === "all" || a.task_type === taskType || a.task_type == null);
+  // Task filter: rows without a task type only show in the "all" view so a
+  // Task 1 chart never borrows Task 2 bands (and vice versa)
+  const filtered = merged
+    .filter(a => (taskType === "all" ? true : a.task_type === taskType))
+    .map(a => ({ ...a, crits: normalizeCriteria(a.result), overall: sanitizeBand(a.overall_score) }))
+    .filter(a => Object.keys(a.crits).length > 0 || a.overall !== null);
 
+  // Average over the most recent attempts so the radar tracks current level
+  const recent = filtered.slice(0, RECENT_WINDOW);
   const perCritScores: Record<CritKey, number[]> = { TR: [], CC: [], LR: [], GR: [] };
-  filtered.forEach(a => {
-    const crits = Array.isArray(a.result?.criteria) ? a.result.criteria : [];
-    crits.forEach((c: any) => {
-      const k = matchCriterion(String(c.label || ""));
-      if (k && typeof c.score === "number") perCritScores[k].push(c.score);
+  recent.forEach(a => {
+    (Object.keys(a.crits) as CritKey[]).forEach(k => {
+      const v = a.crits[k];
+      if (typeof v === "number") perCritScores[k].push(v);
     });
   });
 
@@ -164,24 +170,23 @@ const WritingSkillChart = forwardRef<HTMLDivElement, Props>(({ taskType = "all",
     return { key: c.key, label: t(c.labelVi, c.labelEn), score: Number(avg.toFixed(1)), color: c.color, fullMark: 9 };
   });
 
-  const latest: AggRow[] = CRITERIA.map(c => {
-    const first = filtered.find(a => Array.isArray(a.result?.criteria)
-      && a.result.criteria.some((cr: any) => matchCriterion(String(cr.label || "")) === c.key));
-    const cr = first?.result?.criteria?.find((x: any) => matchCriterion(String(x.label || "")) === c.key);
-    return { key: c.key, label: t(c.labelVi, c.labelEn), score: cr?.score || 0, color: c.color, fullMark: 9 };
-  });
+  // Latest = the 4 criteria of ONE most recent attempt (missing criteria stay 0)
+  const latestAttempt = filtered.find(a => Object.keys(a.crits).length > 0);
+  const latest: AggRow[] = CRITERIA.map(c => ({
+    key: c.key,
+    label: t(c.labelVi, c.labelEn),
+    score: latestAttempt?.crits[c.key] ?? 0,
+    color: c.color,
+    fullMark: 9,
+  }));
 
   const trend = [...filtered].reverse().map((a, i) => {
     const row: Record<string, any> = { idx: i + 1, date: new Date(a.created_at).toLocaleDateString() };
-    (a.result?.criteria || []).forEach((c: any) => {
-      const k = matchCriterion(String(c.label || ""));
-      if (k) row[k] = c.score;
-    });
-    row.overall = a.overall_score;
+    (Object.keys(a.crits) as CritKey[]).forEach(k => { row[k] = a.crits[k]; });
+    row.overall = a.overall;
     return row;
   });
 
-  const targetBand = 7;
 
   const scrollToTab = (tabValue: string) => {
     const trigger = document.querySelector<HTMLButtonElement>(`[role="tab"][value="${tabValue}"]`)
