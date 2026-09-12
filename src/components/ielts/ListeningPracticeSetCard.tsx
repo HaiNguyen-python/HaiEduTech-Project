@@ -311,20 +311,6 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
       ? spokenBody.replace(/-/g, ", ").replace(/\b([A-Z])\b/g, "$1,")
       : spokenBody;
 
-    const profile = speakerProfile(speakerName, startIdx);
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = accent;
-    const baseRate = isSpelling ? Math.min(rate, 0.55) : rate;
-    u.rate = Math.max(0.3, Math.min(1.5, baseRate * profile.rateMul));
-    // Expressive pitch: question rises, exclamation emphasises.
-    const endsWithQ = /\?\s*$/.test(text);
-    const endsWithE = /!\s*$/.test(text);
-    u.pitch = Math.max(0.5, Math.min(2.0,
-      profile.pitch + (endsWithQ ? 0.15 : endsWithE ? 0.1 : 0)
-    ));
-    const v = pickVoiceFor(profile.gender, profile.seed);
-    if (v) u.voice = v;
-
     const prev = chunks[startIdx - 1] ?? "";
     const prevSpeaker = prev.match(/^([A-Z][a-zA-Z]+):/)?.[1] ?? null;
     const isSpeakerSwitch = speakerName && prevSpeaker && speakerName !== prevSpeaker;
