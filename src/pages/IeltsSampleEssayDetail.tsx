@@ -13,7 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import confetti from "canvas-confetti";
 import SEO from "@/components/SEO";
-import EssayBand8Analysis from "@/components/ielts/EssayBand8Analysis";
+import EssayBandAnalysis from "@/components/ielts/EssayBandAnalysis";
 import GlossaryPhrasePractice from "@/components/ielts/GlossaryPhrasePractice";
 import EssayOutline from "@/components/ielts/EssayOutline";
 import ClickRevealEssay from "@/components/ielts/ClickRevealEssay";
@@ -45,6 +45,8 @@ const IeltsSampleEssayDetail = () => {
       </div>
     );
   }
+
+  const essayBand = essay.band ?? "8.0+";
 
   // Render essay body with **bold** terms and paragraph breaks
   const renderEssayBody = (text: string) => {
@@ -150,7 +152,7 @@ const IeltsSampleEssayDetail = () => {
       <span class="badge">Task ${essay.taskType}</span>
       <span class="badge">${essay.chartType || essay.essayType}</span>
       <div class="prompt">${essay.prompt}</div>
-      <h2>📖 Sample Essay (Band 8.0+)</h2>
+       <h2>📖 Sample Essay (Band ${essayBand})</h2>
       <div>${essay.essayBody.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').split('\n\n').map(p => `<p>${p}</p>`).join('')}</div>
       <h2>📚 Bilingual Glossary</h2>
       <table><tr><th>Term</th><th>Vietnamese</th><th>Context</th></tr>
@@ -166,7 +168,7 @@ const IeltsSampleEssayDetail = () => {
     <div className="min-h-screen bg-background">
       <SEO
         title={`IELTS Task ${essay.taskType} Sample: ${essay.topic}`}
-        description={`Band 8.0+ IELTS Writing Task ${essay.taskType} sample essay on "${essay.topic}". Includes bilingual glossary and review exercise.`}
+        description={`Band ${essayBand} IELTS Writing Task ${essay.taskType} sample essay on "${essay.topic}". Includes bilingual glossary and review exercise.`}
         path={`/ielts-sample-essays/${essay.id}`}
         type="article"
         jsonLd={{
@@ -193,7 +195,7 @@ const IeltsSampleEssayDetail = () => {
             <div className="flex items-center gap-2 mb-1.5">
               <Badge variant={essay.taskType === 1 ? "secondary" : "default"}>Task {essay.taskType}</Badge>
               <Badge variant="outline" className="capitalize">{essay.chartType || essay.essayType}</Badge>
-              <Badge variant="outline">Band {essay.band ?? "8.0+"}</Badge>
+               <Badge variant="outline">Band {essayBand}</Badge>
             </div>
             <h1 className="text-2xl md:text-3xl font-bold text-foreground capitalize">{essay.topic}</h1>
           </div>
@@ -248,7 +250,7 @@ const IeltsSampleEssayDetail = () => {
             <summary className="cursor-pointer flex items-center justify-between gap-3 list-none px-4 py-3 md:px-5 md:py-4 bg-gradient-to-r from-primary/5 to-transparent hover:from-primary/10 transition-colors">
               <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
                 <BookOpen className="w-5 h-5 text-primary" />
-                {t(`Xem toàn bộ bài mẫu (Band ${essay.band ?? "8.0+"})`, `View full sample essay (Band ${essay.band ?? "8.0+"})`)}
+                 {t(`Xem toàn bộ bài mẫu (Band ${essayBand})`, `View full sample essay (Band ${essayBand})`)}
               </h2>
               <ChevronDown className="w-5 h-5 text-muted-foreground transition-transform duration-300 group-open:rotate-180 flex-shrink-0" />
             </summary>
@@ -267,15 +269,15 @@ const IeltsSampleEssayDetail = () => {
           </details>
 
 
-          {/* Band 7.0+ Analysis - TA/TR, CC, LR, GRA (collapsible) */}
+          {/* Band-aware analysis - TA/TR, CC, LR, GRA (collapsible) */}
           <details className="glass-card rounded-xl border border-border/40 overflow-hidden group transition-shadow hover:shadow-lg [&[open]>summary]:border-b [&[open]>summary]:border-border/30">
             <summary className="cursor-pointer flex items-center justify-between gap-3 list-none px-4 py-3 md:px-5 md:py-4 bg-gradient-to-r from-primary/5 to-transparent hover:from-primary/10 transition-colors">
               <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
-                📊 {t("Phân tích Band 8.0+ (TA/CC/LR/GRA)", "Band 8.0+ Analysis (TA/CC/LR/GRA)")}
+                 📊 {t(`Phân tích Band ${essayBand} (TA/CC/LR/GRA)`, `Band ${essayBand} Analysis (TA/CC/LR/GRA)`)}
               </h2>
               <ChevronDown className="w-5 h-5 text-muted-foreground transition-transform duration-300 group-open:rotate-180 flex-shrink-0" />
             </summary>
-            <div className="px-4 pb-4 pt-3 md:px-5"><EssayBand8Analysis essay={essay} /></div>
+             <div className="px-4 pb-4 pt-3 md:px-5"><EssayBandAnalysis essay={essay} /></div>
           </details>
 
           {/* Bilingual Glossary with per-phrase writing practice (collapsible) */}
@@ -343,13 +345,10 @@ const IeltsSampleEssayDetail = () => {
               </h2>
               <ChevronDown className="w-5 h-5 text-muted-foreground transition-transform duration-300 group-open:rotate-180 flex-shrink-0" />
             </summary>
-            <h2 className="text-lg font-semibold text-foreground mb-1.5 flex items-center gap-2">
-              <Sparkles className="w-5 h-5 text-primary" />
-              {t("Bài Tập Ôn Tập", "Mini-Review Challenge")}
-            </h2>
-            <p className="text-sm text-muted-foreground mb-4">{essay.reviewExercise.instruction}</p>
+             <div className="px-4 pb-5 pt-4 md:px-6 md:pb-6">
+             <p className="text-sm leading-relaxed text-muted-foreground mb-4">{essay.reviewExercise.instruction}</p>
 
-            <div className="space-y-5">
+             <div className="space-y-4">
               {essay.reviewExercise.items.map((item, idx) => {
                 const userAns = answers[idx] || "";
                 const isCorrect = submitted && userAns.trim().toLowerCase() === item.answer.toLowerCase();
@@ -361,33 +360,31 @@ const IeltsSampleEssayDetail = () => {
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: idx * 0.08 }}
-                    className="rounded-xl border border-border/50 bg-card/50 p-4"
+                     className="rounded-lg border border-border/50 bg-card/50 p-4 md:p-5"
                   >
-                    <div className="flex items-start gap-3">
-                      <span className="text-sm font-bold text-muted-foreground w-6 shrink-0 mt-1">{idx + 1}.</span>
-                      <div className="flex-1 space-y-2">
-                        <div className="flex items-center gap-2 flex-wrap text-sm leading-relaxed">
-                          {item.sentence.split("___").map((part, pi, arr) => (
-                            <span key={pi}>
-                              {part}
-                              {pi < arr.length - 1 && (
-                                <input
-                                  type="text"
-                                  value={userAns}
-                                  onChange={(e) => { if (!submitted) setAnswers(prev => ({ ...prev, [idx]: e.target.value })); }}
-                                  disabled={submitted}
-                                  placeholder="..."
-                                  className={`inline-block w-36 px-3 py-1.5 mx-1 rounded-lg border text-center text-sm font-medium transition-all outline-none ${
-                                    submitted
-                                      ? isCorrect
-                                        ? "border-green-500 bg-green-500/10 text-green-700 dark:text-green-400"
-                                        : "border-destructive bg-destructive/10 text-destructive"
-                                      : "border-border bg-background focus:border-primary focus:ring-2 focus:ring-primary/20"
-                                  }`}
-                                />
-                              )}
-                            </span>
-                          ))}
+                     <div className="grid grid-cols-[1.75rem_minmax(0,1fr)] gap-2.5 md:gap-3">
+                       <span className="text-sm font-bold text-muted-foreground pt-2">{idx + 1}.</span>
+                       <div className="min-w-0 space-y-2.5">
+                         <div className="flex min-w-0 flex-wrap items-center gap-x-1.5 gap-y-2 text-base leading-7">
+                           <span>{item.sentence.split("___")[0]}</span>
+                           <input
+                             type="text"
+                             value={userAns}
+                             onChange={(e) => { if (!submitted) setAnswers(prev => ({ ...prev, [idx]: e.target.value })); }}
+                             disabled={submitted}
+                             placeholder="..."
+                             aria-label={`${t("Câu", "Question")} ${idx + 1}`}
+                             className={`h-10 w-full min-w-0 rounded-md border px-3 text-center text-base font-medium outline-none transition-all sm:w-44 ${
+                               submitted
+                                 ? isCorrect
+                                   ? "border-primary bg-primary/10 text-primary"
+                                   : "border-destructive bg-destructive/10 text-destructive"
+                                 : "border-border bg-background focus:border-primary focus:ring-2 focus:ring-primary/20"
+                             }`}
+                           />
+                           {!/^[\s.,!?;:]*$/.test(item.sentence.split("___")[1] ?? "") && (
+                             <span>{item.sentence.split("___")[1]}</span>
+                           )}
                           {submitted && (
                             isCorrect
                               ? <CheckCircle className="w-5 h-5 text-green-500 shrink-0" />
@@ -409,11 +406,12 @@ const IeltsSampleEssayDetail = () => {
                                   ✅ {t("Đáp án", "Answer")}: <span className="font-bold text-primary">{item.answer}</span>
                                 </p>
                               )}
-                              {item.explanation && (
-                                <p className="text-xs text-muted-foreground italic mt-0.5">
-                                  💡 {item.explanation}
-                                </p>
-                              )}
+                               <p className="text-xs text-muted-foreground italic mt-0.5">
+                                 💡 {item.explanation || t(
+                                   `Cụm “${item.answer}” hoàn thành đúng ý và cách kết hợp từ trong bài mẫu.`,
+                                   `“${item.answer}” completes the meaning and matches the phrasing used in the model essay.`
+                                 )}
+                               </p>
                             </motion.div>
                           )}
                         </AnimatePresence>
@@ -425,7 +423,7 @@ const IeltsSampleEssayDetail = () => {
             </div>
 
             {/* Action buttons */}
-            <div className="flex items-center gap-4 mt-6">
+             <div className="flex flex-wrap items-center gap-4 mt-6">
               {!submitted && Object.keys(answers).length > 0 && (
                 <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                   <Button
@@ -441,7 +439,7 @@ const IeltsSampleEssayDetail = () => {
                   <motion.div
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="flex items-center gap-4"
+                     className="flex flex-wrap items-center gap-4"
                   >
                     <span className={`text-lg font-bold ${isPerfect ? "text-green-500" : score >= essay.reviewExercise.items.length / 2 ? "text-yellow-500" : "text-destructive"}`}>
                       {isPerfect && "🎉 "}{score}/{essay.reviewExercise.items.length} {t("đúng", "correct")}
@@ -458,6 +456,7 @@ const IeltsSampleEssayDetail = () => {
                 </AnimatePresence>
               )}
             </div>
+             </div>
           </details>
         </motion.div>
       </main>
