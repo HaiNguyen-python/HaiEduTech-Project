@@ -97,3 +97,6 @@ verify_jwt = false
 
 [functions.grade-cambridge-writing]
 verify_jwt = false
+
+[functions.listening-tts]
+verify_jwt = false
