@@ -496,16 +496,21 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
    * first so the voices never change part way through.
    */
   const speak = async (fromIdx = 0, offsetSec = 0) => {
+    // Only one playback stream at a time; a second request while the recording
+    // is still downloading would read the same lines twice.
+    if (preparingRef.current) return;
     if (chunkTimerRef.current) window.clearTimeout(chunkTimerRef.current);
     try { window.speechSynthesis?.cancel(); } catch { /* noop */ }
-    try { audioElRef.current?.pause(); } catch { /* noop */ }
+    detachAudio();
     generationRef.current++;
     cancelledRef.current = true;
 
     let aiOk = false;
-    if (useAiVoice) {
+    if (!ai.failed) {
+      preparingRef.current = true;
       setPreparing(true);
       aiOk = ai.ready || (await ai.prepare());
+      preparingRef.current = false;
       setPreparing(false);
     }
 
