@@ -18,6 +18,7 @@ import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
+import { recordPracticeSignal } from "@/lib/writingPracticeSignals";
 import {
   TRANSLATION_CATEGORIES,
   getTranslationItems,
@@ -204,6 +205,7 @@ const TranslationPractice = ({ taskType }: Props) => {
         maxScore: 10,
         metadata: { task: item.task, category: item.category, band: item.band },
       });
+      recordPracticeSignal({ crit: "GR", score10: finalScore, taskType, activityId: item.id });
     }
   };
 

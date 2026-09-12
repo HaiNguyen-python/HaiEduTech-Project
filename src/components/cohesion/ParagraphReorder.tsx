@@ -15,6 +15,7 @@ import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { REORDER_PARAGRAPHS, ReorderParagraph } from "@/data/ieltsCohesionBank";
 import { appendCohesionNotebook, escapeCohesionHtml } from "./cohesionNotebook";
+import { recordPracticeSignal } from "@/lib/writingPracticeSignals";
 
 interface Props {
   taskType: 1 | 2;
@@ -145,6 +146,13 @@ const ParagraphReorder = ({ taskType }: Props) => {
 
   const handleCheck = () => {
     setChecked(true);
+    if (order.length > 0) {
+      recordPracticeSignal({
+        crit: "CC",
+        score10: (correctCount / order.length) * 10,
+        taskType,
+      });
+    }
     if (isCorrect) toast.success(t("Chính xác! ✨", "Perfect order! ✨"));
     else toast.error(t(`Chưa đúng - ${correctCount}/${order.length} câu đúng vị trí`, `Not quite - ${correctCount}/${order.length} in place`));
   };

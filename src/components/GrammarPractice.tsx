@@ -20,6 +20,7 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
+import { recordPracticeSignal } from "@/lib/writingPracticeSignals";
 import {
   IELTS_GRAMMAR,
   GRAMMAR_CATEGORIES,
@@ -189,6 +190,7 @@ const GrammarPractice = ({ taskType }: Props) => {
       const r = data as GradeResult;
       setResult(r);
       setSaved(false);
+      recordPracticeSignal({ crit: "GR", score10: r?.score, taskType });
     } catch (e) {
       console.error(e);
       toast.error(t("Đã có lỗi xảy ra", "Something went wrong"));

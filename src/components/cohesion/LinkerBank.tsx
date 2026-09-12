@@ -15,6 +15,7 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
+import { recordPracticeSignal } from "@/lib/writingPracticeSignals";
 import { LINKERS, LINKER_CATEGORIES, LinkerItem } from "@/data/ieltsCohesionBank";
 import { appendCohesionNotebook, escapeCohesionHtml } from "./cohesionNotebook";
 
@@ -111,8 +112,10 @@ const LinkerBank = ({ taskType }: Props) => {
         else toast.error(t("Chấm điểm thất bại.", "Grading failed."));
         return;
       }
-      setResult(data as GradeResult);
+      const graded = data as GradeResult;
+      setResult(graded);
       setSaved(false);
+      recordPracticeSignal({ crit: "CC", score10: graded?.score, taskType });
     } catch (e) {
       console.error(e);
       toast.error(t("Đã có lỗi xảy ra", "Something went wrong"));

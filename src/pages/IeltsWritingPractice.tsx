@@ -879,12 +879,14 @@ const IeltsWritingPractice = () => {
           </div>
         )}
 
-        {/* Writing skill chart — 4 IELTS criteria, refreshes after each grading */}
+          </TabsContent>
+        </Tabs>
+
+        {/* Writing skill chart - always visible on every tab, blends essays + practice */}
         <div className="mt-8">
           <WritingSkillChart taskType={taskType} liveResult={result} refreshKey={draftsReloadKey} />
         </div>
-          </TabsContent>
-        </Tabs>
+
 
       </main>
       <Footer />
