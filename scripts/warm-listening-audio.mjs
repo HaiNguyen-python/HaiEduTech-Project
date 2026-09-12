@@ -24,9 +24,8 @@ if (!url || !key) {
   process.exit(1);
 }
 
-const { ALL_LISTENING_SETS, IELTS_FULL_LISTENING_TESTS } = await import(
-  "../src/data/ieltsListeningPractice.ts"
-);
+const { ALL_LISTENING_SETS } = await import("../src/data/ieltsListeningAllSets.ts");
+const { IELTS_FULL_LISTENING_TESTS } = await import("../src/data/ieltsFullListeningTests.ts");
 const { instructionsForSection, speedForSection, voiceForSpeaker } = await import(
   "../src/lib/ieltsListeningVoices.ts"
 );
