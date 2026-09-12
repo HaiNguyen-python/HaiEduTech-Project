@@ -37,6 +37,7 @@ export const useListeningAiAudio = (setId: string, section: number, lines: Audio
   useEffect(() => {
     // A new recording resets the cache of signed URLs.
     setUrls({});
+    urlsRef.current = {};
     setFailed(false);
     setProgress(0);
     startedRef.current = null;
@@ -65,6 +66,7 @@ export const useListeningAiAudio = (setId: string, section: number, lines: Audio
       setUrls((prev) => {
         const next = { ...prev };
         for (const item of data.urls as { i: number; url: string }[]) next[item.i] = item.url;
+        urlsRef.current = next;
         return next;
       });
       return true;
@@ -103,10 +105,14 @@ export const useListeningAiAudio = (setId: string, section: number, lines: Audio
   const refresh = useCallback(async () => {
     startedRef.current = setId;
     setUrls({});
+    urlsRef.current = {};
     return load();
   }, [load, setId]);
 
   const ready = lines.length > 0 && Object.keys(urls).length >= lines.length;
 
-  return { urls, loading, failed, progress, prepare, refresh, ready };
+  /** Latest signed URL for a turn, safe to call from playback callbacks. */
+  const getUrl = useCallback((index: number) => urlsRef.current[index], []);
+
+  return { urls, loading, failed, progress, prepare, refresh, ready, getUrl };
 };
