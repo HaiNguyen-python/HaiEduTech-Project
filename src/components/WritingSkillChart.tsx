@@ -1,5 +1,5 @@
-// IELTS Writing skill progress chart — 4 official criteria with distinct colors
-import { useEffect, useMemo, useState } from "react";
+// IELTS Writing skill progress chart - 4 official criteria with distinct colors
+import { forwardRef, useEffect, useMemo, useState } from "react";
 import {
   RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar,
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
