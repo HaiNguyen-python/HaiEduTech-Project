@@ -17,6 +17,7 @@
 - [IELTS Writing Grammar Tasks](mem://features/ielts/writing-grammar-tasks) - Grammar Practice filters Task 1 (data description bank) vs Task 2 essay bank
 - [IELTS Translation Practice](mem://features/ielts/translation-practice) - VI-EN sentence translation tab in Writing Practice, AI graded
 - [IELTS Listening Full Tests](mem://features/ielts/listening-full-tests) - 13 full tests x 40 Qs, controlled-mode card, 30-min timer
+- [IELTS Listening Audio & Scripts](mem://features/ielts/listening-audio-and-scripts) - 120 authored recordings in ieltsListeningTranscripts.ts + cached AI voices via listening-tts
 - [Vocab Arena](mem://features/ielts/vocab-arena) — 9 IELTS mini games, exit/restart rules, scores feed leaderboard + 3D brain
 - [Practice Question Fairness](mem://features/vocab/practice-question-fairness) — Shared distractor/masking/sanity rules so answers are never obvious, plus new question types
 - [Word Quest](mem://features/vocab/word-quest) — Shared vocab tab (IELTS, Vietnamese, HSK, Japanese, Finnish, Swedish) via QuestItem adapters; stage map, stars & combo, local progress
