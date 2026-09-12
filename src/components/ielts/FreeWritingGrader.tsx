@@ -219,7 +219,7 @@ const FreeWritingGrader = forwardRef<HTMLDivElement>((_props, ref) => {
   };
 
   return (
-    <div className="grid lg:grid-cols-2 gap-4 lg:gap-6">
+    <div ref={ref} className="grid lg:grid-cols-2 gap-4 lg:gap-6">
       {/* LEFT: input */}
       <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
         <Card className="border-primary/30">
