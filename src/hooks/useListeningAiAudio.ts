@@ -22,7 +22,7 @@ export interface AudioLine {
 /** Lines per request; the edge function accepts at most 14. */
 const PAGE = 12;
 
-export const useListeningAiAudio = (setId: string, section: number, lines: AudioLine[], enabled: boolean) => {
+export const useListeningAiAudio = (setId: string, section: number, lines: AudioLine[]) => {
   const [urls, setUrls] = useState<Record<number, string>>({});
   const [loading, setLoading] = useState(false);
   const [failed, setFailed] = useState(false);
@@ -95,11 +95,10 @@ export const useListeningAiAudio = (setId: string, section: number, lines: Audio
 
   /** Load once per set; repeated calls while ready are no-ops. */
   const prepare = useCallback(async () => {
-    if (!enabled) return false;
     if (startedRef.current === setId && Object.keys(urls).length >= linesRef.current.length) return true;
     startedRef.current = setId;
     return load();
-  }, [enabled, load, setId, urls]);
+  }, [load, setId, urls]);
 
   /** Ask for fresh signed URLs (the previous batch expired). */
   const refresh = useCallback(async () => {
