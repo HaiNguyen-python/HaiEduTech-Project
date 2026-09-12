@@ -31,6 +31,8 @@ export const useListeningAiAudio = (setId: string, section: number, lines: Audio
   const startedRef = useRef<string | null>(null);
   const linesRef = useRef(lines);
   linesRef.current = lines;
+  // Mirror of `urls` so playback callbacks always read the newest signed URLs.
+  const urlsRef = useRef<Record<number, string>>({});
 
   useEffect(() => {
     // A new recording resets the cache of signed URLs.
