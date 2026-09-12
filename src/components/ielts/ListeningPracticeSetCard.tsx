@@ -177,6 +177,17 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
 
   useEffect(() => { setTurnDur({}); }, [s.id]);
 
+  /** Stop and unwire the current audio element so stale events cannot replay it. */
+  const detachAudio = useCallback(() => {
+    const el = audioElRef.current;
+    if (!el) return;
+    el.onended = null;
+    el.onerror = null;
+    el.onloadedmetadata = null;
+    try { el.pause(); } catch { /* noop */ }
+    audioElRef.current = null;
+  }, []);
+
   // Estimate per-chunk duration (speak time + trailing gap) in seconds.
   // Baseline ~160 wpm at rate=1.0 → ~0.375s/word; account for spelling slowdown + gap.
   const estimateSpoken = useCallback((text: string, unitRate: number) => {
