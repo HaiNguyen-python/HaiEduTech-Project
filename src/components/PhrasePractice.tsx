@@ -516,7 +516,10 @@ const PhrasePractice = ({ taskType }: Props) => {
                     </CardHeader>
                     <CardContent className="space-y-4">
                       {/* Save to notebook */}
-                      <div className="flex justify-end">
+                      <div className="flex justify-end flex-wrap gap-2">
+                        <Button size="sm" variant="outline" onClick={handleExportPdf}>
+                          <Download className="w-4 h-4 mr-1.5" />{t("Tải PDF", "Download PDF")}
+                        </Button>
                         <Button
                           size="sm"
                           variant={savedGrade ? "outline" : "default"}
