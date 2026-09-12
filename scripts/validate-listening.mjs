@@ -133,6 +133,25 @@ for (const set of ALL_LISTENING_SETS) {
   // Section 4 is a single lecturer, so it naturally has fewer, longer turns.
   const minLines = set.section === 4 ? 6 : 12;
   if (lines.length < minLines) issues.push(`${set.id}: transcript has only ${lines.length} spoken lines`);
+
+  // Speaker labels drive the AI voice mapping, so they must be present and stable.
+  const speakers = new Set();
+  lines.forEach(line => {
+    const match = line.match(/^([A-Z][a-zA-Z]{1,20}):/);
+    if (match) speakers.add(match[1]);
+  });
+  if (!speakers.size) issues.push(`${set.id}: transcript has no speaker labels`);
+  // Sections 1 and 3 are conversations; Section 2 may be a monologue or a talk with a host.
+  if ((set.section === 1 || set.section === 3) && speakers.size < 2) {
+    issues.push(`${set.id}: Section ${set.section} needs at least 2 named speakers, found ${speakers.size}`);
+  }
+  if (set.section === 4 && speakers.size > 1) {
+    issues.push(`${set.id}: Section 4 must be a single speaker, found ${speakers.size}`);
+  }
+  if (speakers.size > 4) issues.push(`${set.id}: too many speakers (${speakers.size})`);
+  // Spelled-out letters must be hyphenated so the voice reads them one by one.
+  const badSpelling = set.transcript.match(/\b[A-Z](?:\s[A-Z]){2,}\b/g);
+  if (badSpelling) issues.push(`${set.id}: spelled letters need hyphens ("${badSpelling[0]}")`);
   const opening = lines[0].replace(/^[A-Za-z ]+:\s*/, "").slice(0, 40);
   openingsBySection[set.section].set(opening, (openingsBySection[set.section].get(opening) ?? 0) + 1);
   if (set.questions.some(question => question.type === "fill-in") && !/NO MORE THAN/i.test(set.context)) {

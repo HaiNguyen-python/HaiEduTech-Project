@@ -121,21 +121,26 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
   const [restoredOnce, setRestoredOnce] = useState(false);
 
 
-  // Split transcript into natural chunks (sentences / dialogue turns).
-  const buildChunks = (text: string): string[] => {
-    const lines = text.split(/\n+/).map(l => l.trim()).filter(Boolean);
-    const chunks: string[] = [];
-    for (const line of lines) {
+  // Split the transcript into speaker turns (one transcript line = one turn) and,
+  // inside each turn, into sentences used for on-screen highlighting and for the
+  // device voice. AI audio is generated per turn so each voice stays continuous.
+  const { chunks, chunkTurn, turnFirstChunk, turns } = useMemo(() => {
+    const lines = s.transcript.split(/\n+/).map(l => l.trim()).filter(Boolean);
+    const outChunks: string[] = [];
+    const outTurnOf: number[] = [];
+    const firstChunk: number[] = [];
+    lines.forEach((line, turnIdx) => {
+      firstChunk[turnIdx] = outChunks.length;
       const parts = line.match(/[^.!?]+[.!?]+["')\]]*|[^.!?]+$/g) ?? [line];
+      let added = 0;
       for (const p of parts) {
         const trimmed = p.trim();
-        if (trimmed) chunks.push(trimmed);
+        if (trimmed) { outChunks.push(trimmed); outTurnOf.push(turnIdx); added++; }
       }
-    }
-    return chunks;
-  };
-
-  const chunks = useMemo(() => buildChunks(s.transcript), [s.transcript]);
+      if (!added) { outChunks.push(line); outTurnOf.push(turnIdx); }
+    });
+    return { chunks: outChunks, chunkTurn: outTurnOf, turnFirstChunk: firstChunk, turns: lines };
+  }, [s.transcript]);
 
   /** Speaker label that owns a chunk (inherited from the last tagged line). */
   const speakerAt = useCallback((idx: number): string | null => {
@@ -146,14 +151,14 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
     return null;
   }, [chunks]);
 
-  // Lines handed to the AI voice service (speaker label stripped from the text).
+  // Turns handed to the AI voice service (speaker label stripped from the text).
   const audioLines = useMemo(
-    () => chunks.map((c, i) => ({
+    () => turns.map((line, i) => ({
       i,
-      speaker: speakerAt(i),
-      text: c.replace(/^([A-Z][a-zA-Z]{1,20}):\s*/, ""),
+      speaker: speakerAt(turnFirstChunk[i] ?? 0),
+      text: line.replace(/^([A-Z][a-zA-Z]{1,20}):\s*/, ""),
     })),
-    [chunks, speakerAt]
+    [turns, turnFirstChunk, speakerAt]
   );
 
   const [useAiVoice, setUseAiVoice] = useState(() => {
@@ -166,32 +171,82 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
 
   const ai = useListeningAiAudio(s.id, s.section, audioLines, useAiVoice);
   const audioElRef = useRef<HTMLAudioElement | null>(null);
+  const aiPlayingRef = useRef(false);
+  const refreshedRef = useRef(false);
+  const [preparing, setPreparing] = useState(false);
+  // Real duration of each AI turn file, read from the audio metadata.
+  const [turnDur, setTurnDur] = useState<Record<number, number>>({});
+  /** AI files are recorded at the default pace; the speed picker is relative. */
+  const BASE_RATE = s.rate ?? 0.85;
+  const aiRate = Math.max(0.5, Math.min(1.6, rate / BASE_RATE));
+  const aiMode = useAiVoice && !ai.failed;
+
+  // Read the real length of every downloaded turn so the timer is exact.
+  useEffect(() => {
+    if (!useAiVoice) return;
+    for (const [key, url] of Object.entries(ai.urls)) {
+      const idx = Number(key);
+      const probe = new Audio();
+      probe.preload = "metadata";
+      probe.onloadedmetadata = () => {
+        if (!Number.isFinite(probe.duration)) return;
+        setTurnDur(prev => (prev[idx] ? prev : { ...prev, [idx]: probe.duration }));
+      };
+      probe.src = url;
+    }
+  }, [ai.urls, useAiVoice]);
+
+  useEffect(() => { setTurnDur({}); }, [s.id]);
 
   // Estimate per-chunk duration (speak time + trailing gap) in seconds.
   // Baseline ~160 wpm at rate=1.0 → ~0.375s/word; account for spelling slowdown + gap.
+  const estimateSpoken = useCallback((text: string, unitRate: number) => {
+    const words = text.trim().split(/\s+/).length;
+    const isSpelling = /(?:\b[A-Z](?:[-\s][A-Z]){2,}\b)|(?:\b\d{4,}\b)/.test(text);
+    const effRate = isSpelling ? Math.min(unitRate, 0.55) : unitRate;
+    return (words * 0.38) / Math.max(effRate, 0.3);
+  }, []);
+
   const chunkDurations = useMemo(() => {
     return chunks.map((c, i) => {
-      const words = c.trim().split(/\s+/).length;
-      const isSpelling = /(?:\b[A-Z](?:[-\s][A-Z]){2,}\b)|(?:\b\d{4,}\b)/.test(c);
-      const effRate = isSpelling ? Math.min(rate, 0.55) : rate;
-      const speakSec = (words * 0.38) / Math.max(effRate, 0.3);
       const next = chunks[i + 1] ?? "";
       const isDialogueChange = /^[A-Z][a-z]+:/.test(next) && !/^[A-Z][a-z]+:/.test(c);
+      const isSpelling = /(?:\b[A-Z](?:[-\s][A-Z]){2,}\b)|(?:\b\d{4,}\b)/.test(c);
       const gapMs = isSpelling ? 900 : isDialogueChange ? 700 : /[?!]$/.test(c) ? 550 : 420;
-      return speakSec + gapMs / 1000;
+      return estimateSpoken(c, rate) + gapMs / 1000;
     });
-  }, [chunks, rate]);
+  }, [chunks, rate, estimateSpoken]);
+
+  /** Gap after a turn: a bit longer when the speaker changes. */
+  const turnGap = useCallback((turnIdx: number) => {
+    const cur = speakerAt(turnFirstChunk[turnIdx] ?? 0);
+    const next = turnIdx + 1 < turns.length ? speakerAt(turnFirstChunk[turnIdx + 1] ?? 0) : cur;
+    return cur !== next ? 0.65 : 0.4;
+  }, [speakerAt, turnFirstChunk, turns.length]);
+
+  const turnDurations = useMemo(
+    () => turns.map((line, i) => {
+      const measured = turnDur[i];
+      const spoken = measured ? measured / aiRate : estimateSpoken(line, rate);
+      return spoken + turnGap(i);
+    }),
+    [turns, turnDur, aiRate, rate, estimateSpoken, turnGap]
+  );
+
+  // The timeline follows whichever engine is actually playing.
+  const unitDurations = aiMode ? turnDurations : chunkDurations;
+  const currentUnit = aiMode ? (chunkTurn[currentIdx] ?? 0) : currentIdx;
 
   const cumulative = useMemo(() => {
     const arr: number[] = [0];
-    for (let i = 0; i < chunkDurations.length - 1; i++) arr.push(arr[i] + chunkDurations[i]);
+    for (let i = 0; i < unitDurations.length - 1; i++) arr.push(arr[i] + unitDurations[i]);
     return arr;
-  }, [chunkDurations]);
+  }, [unitDurations]);
   const totalDuration = useMemo(
-    () => chunkDurations.reduce((a, b) => a + b, 0),
-    [chunkDurations]
+    () => unitDurations.reduce((a, b) => a + b, 0),
+    [unitDurations]
   );
-  const currentTime = Math.min(totalDuration, (cumulative[currentIdx] ?? 0) + elapsedInChunk);
+  const currentTime = Math.min(totalDuration, (cumulative[currentUnit] ?? 0) + elapsedInChunk);
 
   const stopTick = () => {
     if (tickRef.current) { window.clearInterval(tickRef.current); tickRef.current = null; }
@@ -199,6 +254,12 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
   const startTick = () => {
     stopTick();
     tickRef.current = window.setInterval(() => {
+      const el = audioElRef.current;
+      if (aiPlayingRef.current && el) {
+        if (el.paused) return;
+        setElapsedInChunk(el.currentTime / (el.playbackRate || 1));
+        return;
+      }
       if (pausedAtRef.current != null) return;
       const now = performance.now();
       const e = (now - chunkStartedAtRef.current - pausedAccumRef.current) / 1000;
@@ -275,16 +336,26 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
     };
   };
 
-  const speakChunks = useCallback((startIdx: number, gen: number) => {
+  const finishPlayback = useCallback(() => {
+    aiPlayingRef.current = false;
+    setPlaying(false);
+    setPaused(false);
+    setCurrentIdx(0);
+    setElapsedInChunk(0);
+    stopTick();
+  }, []);
+
+  /**
+   * Device-voice playback. `stopBefore` + `onDone` let a single speaker turn be
+   * spoken by the device when its AI file is unavailable.
+   */
+  const speakChunks = useCallback((startIdx: number, gen: number, stopBefore?: number, onDone?: () => void) => {
     if (cancelledRef.current || gen !== generationRef.current) return;
-    if (startIdx >= chunks.length) {
-      setPlaying(false);
-      setPaused(false);
-      setCurrentIdx(0);
-      setElapsedInChunk(0);
-      stopTick();
+    if (startIdx >= (stopBefore ?? chunks.length)) {
+      if (onDone) onDone(); else finishPlayback();
       return;
     }
+    aiPlayingRef.current = false;
     setCurrentIdx(startIdx);
     setElapsedInChunk(0);
     chunkStartedAtRef.current = performance.now();
@@ -322,23 +393,10 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
       : 420;
     const advance = () => {
       if (cancelledRef.current || gen !== generationRef.current) return;
-      chunkTimerRef.current = window.setTimeout(() => speakChunks(startIdx + 1, gen), gapMs);
+      chunkTimerRef.current = window.setTimeout(() => speakChunks(startIdx + 1, gen, stopBefore, onDone), gapMs);
     };
 
-    // Preferred path: the studio-quality AI recording for this line.
-    const aiUrl = useAiVoice ? ai.urls[startIdx] : undefined;
-    if (aiUrl) {
-      const el = audioElRef.current ?? new Audio();
-      audioElRef.current = el;
-      el.onended = advance;
-      el.onerror = () => { setPlaying(false); setPaused(false); stopTick(); };
-      el.src = aiUrl;
-      el.playbackRate = Math.max(0.7, Math.min(1.3, rate / 0.85));
-      el.play().catch(() => { setPlaying(false); setPaused(false); stopTick(); });
-      return;
-    }
-
-    if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) { advance(); return; }
     const profile = speakerProfile(speakerName, startIdx);
     const u = new SpeechSynthesisUtterance(text);
     u.lang = accent;
@@ -352,29 +410,116 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
     const v = pickVoiceFor(profile.gender, profile.seed);
     if (v) u.voice = v;
     u.onend = advance;
-    u.onerror = () => { setPlaying(false); setPaused(false); stopTick(); };
+    // A failed utterance must not kill the recording - move to the next sentence.
+    u.onerror = advance;
     window.speechSynthesis.speak(u);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chunks, rate, accent, voicePool, useAiVoice, ai.urls]);
+  }, [chunks, rate, accent, voicePool, finishPlayback]);
 
-  const speak = async (fromIdx = 0) => {
+  /**
+   * AI playback: one cached file per speaker turn, played in order. A turn whose
+   * file is missing or broken is spoken by the device voice so the recording
+   * always plays to the end.
+   */
+  const playTurns = useCallback((turnIdx: number, gen: number, offsetSec = 0) => {
+    if (cancelledRef.current || gen !== generationRef.current) return;
+    if (turnIdx >= turns.length) { finishPlayback(); return; }
+    const firstChunk = turnFirstChunk[turnIdx] ?? 0;
+    setCurrentIdx(firstChunk);
+    setElapsedInChunk(offsetSec);
+
+    const nextTurn = () => {
+      if (cancelledRef.current || gen !== generationRef.current) return;
+      chunkTimerRef.current = window.setTimeout(
+        () => playTurns(turnIdx + 1, gen),
+        turnGap(turnIdx) * 1000
+      );
+    };
+    const deviceForThisTurn = () => {
+      const stopBefore = turnFirstChunk[turnIdx + 1] ?? chunks.length;
+      speakChunks(firstChunk, gen, stopBefore, nextTurn);
+    };
+
+    const url = ai.getUrl(turnIdx);
+    if (!url) { deviceForThisTurn(); return; }
+
+    const el = audioElRef.current ?? new Audio();
+    audioElRef.current = el;
+    aiPlayingRef.current = true;
+    el.onended = nextTurn;
+    el.onloadedmetadata = () => {
+      if (Number.isFinite(el.duration)) {
+        setTurnDur(prev => (prev[turnIdx] ? prev : { ...prev, [turnIdx]: el.duration }));
+      }
+      if (offsetSec > 0) {
+        el.currentTime = Math.max(0, Math.min(el.duration - 0.2, offsetSec * aiRate));
+      }
+    };
+    el.onerror = async () => {
+      if (cancelledRef.current || gen !== generationRef.current) return;
+      // Signed URLs expire; ask for a fresh batch once, then fall back.
+      if (!refreshedRef.current) {
+        refreshedRef.current = true;
+        const ok = await ai.refresh();
+        if (ok && !cancelledRef.current && gen === generationRef.current) {
+          playTurns(turnIdx, gen, offsetSec);
+          return;
+        }
+      }
+      deviceForThisTurn();
+    };
+    el.src = url;
+    el.playbackRate = aiRate;
+    el.play().catch(() => { deviceForThisTurn(); });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [turns.length, turnFirstChunk, chunks.length, turnGap, aiRate, ai, speakChunks, finishPlayback]);
+
+  /**
+   * Start playback from a chunk. In AI mode the whole recording is downloaded
+   * first so the voices never change part way through.
+   */
+  const speak = async (fromIdx = 0, offsetSec = 0) => {
     if (chunkTimerRef.current) window.clearTimeout(chunkTimerRef.current);
     try { window.speechSynthesis?.cancel(); } catch { /* noop */ }
     try { audioElRef.current?.pause(); } catch { /* noop */ }
-    if (useAiVoice && !ai.ready) await ai.prepare();
+    generationRef.current++;
+    cancelledRef.current = true;
+
+    let aiOk = false;
+    if (useAiVoice) {
+      setPreparing(true);
+      aiOk = ai.ready || (await ai.prepare());
+      setPreparing(false);
+    }
+
     const gen = ++generationRef.current;
     cancelledRef.current = false;
+    refreshedRef.current = false;
     setPlaying(true);
     setPaused(false);
     startTick();
+    if (aiOk) {
+      playTurns(chunkTurn[fromIdx] ?? 0, gen, offsetSec);
+      return;
+    }
     // Small delay helps Safari accept speak() right after cancel().
+    aiPlayingRef.current = false;
     window.setTimeout(() => speakChunks(fromIdx, gen), 60);
   };
 
   const togglePause = () => {
     if (typeof window === "undefined") return;
+    const el = audioElRef.current;
     if (paused) {
-      // Resume: bump generation, cancel any lingering utterance, restart current chunk.
+      // Resume where the audio stopped - AI files resume exactly, no restart.
+      if (aiPlayingRef.current && el) {
+        cancelledRef.current = false;
+        setPaused(false);
+        setPlaying(true);
+        startTick();
+        el.play().catch(() => { /* noop */ });
+        return;
+      }
       const gen = ++generationRef.current;
       cancelledRef.current = false;
       try { window.speechSynthesis?.cancel(); } catch { /* noop */ }
@@ -383,15 +528,21 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
       startTick();
       window.setTimeout(() => speakChunks(currentIdx, gen), 80);
     } else {
-      // Pause: invalidate generation, kill timers + current utterance.
-      generationRef.current++;
-      cancelledRef.current = true;
       if (chunkTimerRef.current) {
         window.clearTimeout(chunkTimerRef.current);
         chunkTimerRef.current = null;
       }
+      if (aiPlayingRef.current && el) {
+        // Keep the generation valid so onended/resume still belong to this run.
+        try { el.pause(); } catch { /* noop */ }
+        stopTick();
+        setPaused(true);
+        setPlaying(false);
+        return;
+      }
+      generationRef.current++;
+      cancelledRef.current = true;
       try { window.speechSynthesis?.cancel(); } catch { /* noop */ }
-      try { audioElRef.current?.pause(); } catch { /* noop */ }
       stopTick();
       setPaused(true);
       setPlaying(false);
@@ -401,9 +552,14 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
 
   const stop = () => {
     cancelledRef.current = true;
+    generationRef.current++;
     if (chunkTimerRef.current) window.clearTimeout(chunkTimerRef.current);
     window.speechSynthesis?.cancel();
-    try { audioElRef.current?.pause(); } catch { /* noop */ }
+    aiPlayingRef.current = false;
+    try {
+      const el = audioElRef.current;
+      if (el) { el.pause(); el.currentTime = 0; }
+    } catch { /* noop */ }
     stopTick();
     setPlaying(false);
     setPaused(false);
@@ -411,22 +567,31 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
     setElapsedInChunk(0);
   };
 
-  // Seek to a time (seconds) by finding the corresponding chunk and restarting playback there.
+  // Seek to a time (seconds); units are speaker turns in AI mode, sentences otherwise.
   const seekToTime = (timeSec: number) => {
     if (!chunks.length) return;
-    let idx = 0;
+    let unit = 0;
     for (let i = 0; i < cumulative.length; i++) {
-      if (cumulative[i] <= timeSec) idx = i; else break;
+      if (cumulative[i] <= timeSec) unit = i; else break;
     }
+    const offset = Math.max(0, timeSec - (cumulative[unit] ?? 0));
+    const chunkIdx = aiMode ? (turnFirstChunk[unit] ?? 0) : unit;
     if (playing) {
-      speak(idx);
+      speak(chunkIdx, aiMode ? offset : 0);
     } else {
-      setCurrentIdx(idx);
-      setElapsedInChunk(0);
+      setCurrentIdx(chunkIdx);
+      setElapsedInChunk(aiMode ? offset : 0);
     }
   };
 
   const skipChunks = (delta: number) => {
+    if (aiMode) {
+      const unit = Math.max(0, Math.min(turns.length - 1, (chunkTurn[currentIdx] ?? 0) + delta));
+      const target = turnFirstChunk[unit] ?? 0;
+      if (playing) speak(target);
+      else { setCurrentIdx(target); setElapsedInChunk(0); }
+      return;
+    }
     const target = Math.max(0, Math.min(chunks.length - 1, currentIdx + delta));
     if (playing) speak(target);
     else { setCurrentIdx(target); setElapsedInChunk(0); }
@@ -661,8 +826,11 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
 
             <span className="text-xs text-muted-foreground ml-auto inline-flex items-center gap-1">
               <Mic2 className="w-3 h-3 text-emerald-600" />
-              {ai.loading
-                ? t("Đang tải giọng đọc...", "Loading voices...")
+              {ai.loading || preparing
+                ? t(
+                    `Đang tải bản thu... ${Math.round(ai.progress * 100)}%`,
+                    `Loading recording... ${Math.round(ai.progress * 100)}%`
+                  )
                 : ai.failed
                   ? t("Đang dùng giọng máy dự phòng", "Using device voice fallback")
                   : t("Đa giọng - mỗi nhân vật một voice riêng", "Multi-voice - distinct voice per speaker")}
@@ -670,9 +838,11 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
           </div>
           <div className="flex flex-wrap items-center gap-2">
             {!playing ? (
-              <Button onClick={() => speak(currentIdx)} size="sm" className="gap-2">
+              <Button onClick={() => speak(currentIdx)} size="sm" className="gap-2" disabled={preparing || ai.loading}>
                 <Play className="w-4 h-4" />
-                {currentIdx > 0 ? t("Tiếp tục", "Resume") : t("Phát", "Play")}
+                {preparing || ai.loading
+                  ? t("Đang tải...", "Loading...")
+                  : currentIdx > 0 ? t("Tiếp tục", "Resume") : t("Phát", "Play")}
               </Button>
             ) : (
               <>
@@ -703,7 +873,9 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
                   variant="outline"
                   className="gap-1 px-2"
                   title={t("Tới 1 câu", "Next sentence")}
-                  disabled={currentIdx >= chunks.length - 1}
+                  disabled={aiMode
+                    ? (chunkTurn[currentIdx] ?? 0) >= turns.length - 1
+                    : currentIdx >= chunks.length - 1}
                 >
                   <SkipForward className="w-4 h-4" />
                 </Button>
@@ -758,12 +930,12 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
                 step={0.5}
                 onValueChange={(v) => {
                   const t0 = v[0] ?? 0;
-                  let idx = 0;
+                  let unit = 0;
                   for (let i = 0; i < cumulative.length; i++) {
-                    if (cumulative[i] <= t0) idx = i; else break;
+                    if (cumulative[i] <= t0) unit = i; else break;
                   }
-                  setCurrentIdx(idx);
-                  setElapsedInChunk(Math.max(0, t0 - (cumulative[idx] ?? 0)));
+                  setCurrentIdx(aiMode ? (turnFirstChunk[unit] ?? 0) : unit);
+                  setElapsedInChunk(Math.max(0, t0 - (cumulative[unit] ?? 0)));
                 }}
                 onValueCommit={(v) => seekToTime(v[0] ?? 0)}
                 className="flex-1"
