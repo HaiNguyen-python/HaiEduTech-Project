@@ -130,7 +130,9 @@ for (const set of ALL_LISTENING_SETS) {
   lines.forEach(line => seenLines.set(line, (seenLines.get(line) ?? 0) + 1));
   const repeated = [...seenLines.entries()].filter(([line, count]) => count > 1 && wordCount(line) > 8);
   if (repeated.length) issues.push(`${set.id}: repeats ${repeated.length} long line(s) verbatim`);
-  if (lines.length < 12) issues.push(`${set.id}: transcript has only ${lines.length} spoken lines`);
+  // Section 4 is a single lecturer, so it naturally has fewer, longer turns.
+  const minLines = set.section === 4 ? 6 : 12;
+  if (lines.length < minLines) issues.push(`${set.id}: transcript has only ${lines.length} spoken lines`);
   const opening = lines[0].replace(/^[A-Za-z ]+:\s*/, "").slice(0, 40);
   openingsBySection[set.section].set(opening, (openingsBySection[set.section].get(opening) ?? 0) + 1);
   if (set.questions.some(question => question.type === "fill-in") && !/NO MORE THAN/i.test(set.context)) {
