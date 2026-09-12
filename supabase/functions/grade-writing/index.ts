@@ -83,7 +83,15 @@ Rules:
           response_format: { type: "json_object" },
           messages: [
             { role: "system", content: systemPrompt },
-            { role: "user", content: `Grade this IELTS Writing Task 2 essay:\n\n${essay}` },
+            {
+              role: "user",
+              content: [
+                `Grade this IELTS Writing Task ${taskType} response.`,
+                customPrompt ? `\nPROMPT (the exact question the student answered):\n${customPrompt}` : "",
+                chartDescription ? `\nDATA / CHART DESCRIPTION provided by the student:\n${chartDescription}` : "",
+                `\nSTUDENT RESPONSE:\n${essay}`,
+              ].join("\n"),
+            },
           ],
         }),
       });
