@@ -214,7 +214,7 @@ const IeltsSampleEssays = () => {
                     <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">
                       {essay.prompt}
                     </p>
-                    <div className="mt-auto pt-4 flex items-center gap-3 text-xs text-muted-foreground border-t border-border/60 mt-4">
+                    <div className="mt-auto pt-3 flex items-center gap-3 text-xs text-muted-foreground border-t border-border/60">
                       <span>📖 {essay.glossary.length} {t("từ vựng", "terms")}</span>
                       <span>✍️ {essay.reviewExercise.items.length} {t("bài tập", "exercises")}</span>
                       <span className="ml-auto text-primary opacity-0 group-hover:opacity-100 transition-opacity font-medium">
