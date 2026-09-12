@@ -24,6 +24,9 @@ const WritingHistory = () => {
 
   useEffect(() => {
     fetchAttempts();
+    const reload = () => fetchAttempts();
+    window.addEventListener(WRITING_ATTEMPT_EVENT, reload);
+    return () => window.removeEventListener(WRITING_ATTEMPT_EVENT, reload);
   }, []);
 
   const fetchAttempts = async () => {

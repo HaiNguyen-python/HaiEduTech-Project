@@ -281,6 +281,8 @@ const IeltsWritingPractice = () => {
             result: fullResult as unknown as Record<string, unknown>,
             overall_score: graded.overall,
           } as never);
+          // Tell the skill chart (and history) to reload from the database
+          window.dispatchEvent(new Event(WRITING_ATTEMPT_EVENT));
           // Log activity for admin analytics
           logStudentActivity({
             activityType: "ielts_writing",

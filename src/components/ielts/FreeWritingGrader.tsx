@@ -132,6 +132,8 @@ const FreeWritingGrader = () => {
             result: { ...graded, upgraded } as unknown as Record<string, unknown>,
             overall_score: graded.overall,
           } as never);
+          // Tell the skill chart (and history) to reload from the database
+          window.dispatchEvent(new Event(WRITING_ATTEMPT_EVENT));
           logStudentActivity({
             activityType: "ielts_writing",
             score: graded.overall,
