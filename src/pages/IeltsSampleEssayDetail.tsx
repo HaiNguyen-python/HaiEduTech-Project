@@ -382,7 +382,9 @@ const IeltsSampleEssayDetail = () => {
                                  : "border-border bg-background focus:border-primary focus:ring-2 focus:ring-primary/20"
                              }`}
                            />
-                           <span>{item.sentence.split("___")[1]}</span>
+                           {!/^[\s.,!?;:]*$/.test(item.sentence.split("___")[1] ?? "") && (
+                             <span>{item.sentence.split("___")[1]}</span>
+                           )}
                           {submitted && (
                             isCorrect
                               ? <CheckCircle className="w-5 h-5 text-green-500 shrink-0" />
