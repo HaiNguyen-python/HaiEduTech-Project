@@ -14,6 +14,7 @@ import { fetchUpgradedEssay } from "@/lib/upgradeWriting";
 import { handleAiError } from "@/lib/aiResponseHandler";
 import WritingResultPanel, { type GradingResult } from "@/components/ielts/WritingResultPanel";
 import { WRITING_ATTEMPT_EVENT } from "@/components/WritingSkillChart";
+import { openWritingPdf, buildGradedEssayPdf } from "@/lib/writingPdfExport";
 
 const MAX_PROMPT = 2000;
 const MAX_ESSAY = 6000;
