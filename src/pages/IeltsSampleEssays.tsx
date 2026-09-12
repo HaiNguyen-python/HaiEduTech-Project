@@ -130,43 +130,45 @@ const IeltsSampleEssays = () => {
         </div>
 
         {/* Filters */}
-        <div className="flex flex-col md:flex-row gap-4 mb-8">
-          <Tabs value={taskFilter} onValueChange={(v) => { setTaskFilter(v as any); setSubtypeFilter("all"); }}>
-            <TabsList>
-              <TabsTrigger value="all">{t("Tất cả", "All")}</TabsTrigger>
-              <TabsTrigger value="1">Task 1</TabsTrigger>
-              <TabsTrigger value="2">Task 2</TabsTrigger>
-            </TabsList>
-          </Tabs>
+        <div className="glass-card rounded-xl p-4 mb-8 space-y-3">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+            <Tabs value={taskFilter} onValueChange={(v) => { setTaskFilter(v as any); setSubtypeFilter("all"); }}>
+              <TabsList>
+                <TabsTrigger value="all">{t("Tất cả", "All")}</TabsTrigger>
+                <TabsTrigger value="1">Task 1</TabsTrigger>
+                <TabsTrigger value="2">Task 2</TabsTrigger>
+              </TabsList>
+            </Tabs>
+
+            <Button size="sm" variant={starredOnly ? "default" : "outline"} onClick={() => setStarredOnly(s => !s)} className="gap-1.5 w-full sm:w-auto">
+              <Star className={`w-4 h-4 ${starredOnly ? "fill-current" : ""}`} />
+              {t("Đã đánh dấu", "Starred")} ({stars.size})
+            </Button>
+
+            <div className="relative sm:ml-auto w-full sm:w-64">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+              <Input
+                placeholder={t("Tìm theo chủ đề...", "Search by topic...")}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-9"
+              />
+            </div>
+          </div>
 
           {subtypes.length > 0 && (
-            <div className="flex flex-wrap gap-2">
-              <Button size="sm" variant={subtypeFilter === "all" ? "default" : "outline"} onClick={() => setSubtypeFilter("all")}>
-                {t("Tất cả", "All")}
+            <div className="flex flex-wrap gap-2 pt-1 border-t border-border/60">
+              <Button size="sm" variant={subtypeFilter === "all" ? "default" : "outline"} onClick={() => setSubtypeFilter("all")} className="mt-2">
+                {t("Tất cả dạng", "All types")}
               </Button>
               {subtypes.map(st => (
-                <Button key={st} size="sm" variant={subtypeFilter === st ? "default" : "outline"} onClick={() => setSubtypeFilter(st)} className="capitalize">
+                <Button key={st} size="sm" variant={subtypeFilter === st ? "default" : "outline"} onClick={() => setSubtypeFilter(st)} className="capitalize mt-2">
                   {taskFilter === "1" && chartIcons[st]}
                   <span className="ml-1">{st}</span>
                 </Button>
               ))}
             </div>
           )}
-
-          <Button size="sm" variant={starredOnly ? "default" : "outline"} onClick={() => setStarredOnly(s => !s)} className="gap-1.5">
-            <Star className={`w-4 h-4 ${starredOnly ? "fill-current" : ""}`} />
-            {t("Đã đánh dấu", "Starred")} ({stars.size})
-          </Button>
-
-          <div className="relative md:ml-auto md:w-64">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-            <Input
-              placeholder={t("Tìm theo chủ đề...", "Search by topic...")}
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-9"
-            />
-          </div>
         </div>
 
         {/* Results count */}
@@ -175,7 +177,7 @@ const IeltsSampleEssays = () => {
         </p>
 
         {/* Essay Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 items-stretch">
           <AnimatePresence mode="popLayout">
             {filtered.map((essay, i) => (
               <motion.div
@@ -184,8 +186,9 @@ const IeltsSampleEssays = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ delay: i * 0.04 }}
+                className="h-full"
               >
-                <Link to={`/ielts-sample-essays/${essay.id}`} className="block relative">
+                <div className="relative h-full">
                   <button
                     onClick={(e) => toggleStar(essay.id, e)}
                     className="absolute top-3 right-3 z-10 p-1.5 rounded-full bg-background/80 hover:bg-amber-500/20 transition-colors"
@@ -193,36 +196,49 @@ const IeltsSampleEssays = () => {
                   >
                     <Star className={`w-4 h-4 ${stars.has(essay.id) ? "fill-amber-400 text-amber-400" : "text-muted-foreground"}`} />
                   </button>
-                  <div className="glass-card rounded-xl p-5 h-full hover:shadow-lg hover:border-primary/30 transition-all group">
-                    <div className="flex items-center gap-2 mb-3">
-                      <Badge variant={essay.taskType === 1 ? "secondary" : "default"} className="text-xs">
+                  <Link
+                    to={`/ielts-sample-essays/${essay.id}`}
+                    className="group glass-card rounded-xl p-5 h-full flex flex-col hover:shadow-lg hover:border-primary/30 transition-all"
+                  >
+                    <div className="flex items-center gap-2 mb-3 pr-9">
+                      <Badge variant={essay.taskType === 1 ? "secondary" : "default"} className="text-xs shrink-0">
                         Task {essay.taskType}
                       </Badge>
-                      <Badge variant="outline" className="text-xs capitalize">
+                      <Badge variant="outline" className="text-xs capitalize shrink-0">
                         {essay.chartType || essay.essayType}
                       </Badge>
-                      <Badge variant="outline" className="text-xs">Band {essay.band ?? "8.0+"}</Badge>
                     </div>
-                    <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors capitalize mb-2 pr-8">
+                    <h3 className="font-semibold text-base leading-snug text-foreground group-hover:text-primary transition-colors capitalize mb-2 line-clamp-2 min-h-[2.75rem]">
                       {essay.topic}
                     </h3>
-                    <p className="text-xs text-muted-foreground line-clamp-3">
-                      {essay.prompt.slice(0, 120)}...
+                    <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">
+                      {essay.prompt}
                     </p>
-                    <div className="flex items-center gap-3 mt-3 text-xs text-muted-foreground">
+                    <div className="mt-auto pt-4 flex items-center gap-3 text-xs text-muted-foreground border-t border-border/60 mt-4">
                       <span>📖 {essay.glossary.length} {t("từ vựng", "terms")}</span>
                       <span>✍️ {essay.reviewExercise.items.length} {t("bài tập", "exercises")}</span>
+                      <span className="ml-auto text-primary opacity-0 group-hover:opacity-100 transition-opacity font-medium">
+                        Band {essay.band ?? "8.0+"} →
+                      </span>
                     </div>
-                  </div>
-                </Link>
+                  </Link>
+                </div>
               </motion.div>
             ))}
           </AnimatePresence>
         </div>
 
         {filtered.length === 0 && (
-          <div className="text-center py-16 text-muted-foreground">
-            {t("Không tìm thấy bài mẫu phù hợp.", "No matching essays found.")}
+          <div className="text-center py-16 space-y-3">
+            <BookOpen className="w-10 h-10 mx-auto text-muted-foreground/50" />
+            <p className="text-muted-foreground">{t("Không tìm thấy bài mẫu phù hợp.", "No matching essays found.")}</p>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => { setTaskFilter("all"); setSubtypeFilter("all"); setSearchQuery(""); setStarredOnly(false); }}
+            >
+              {t("Xóa bộ lọc", "Clear filters")}
+            </Button>
           </div>
         )}
       </main>
