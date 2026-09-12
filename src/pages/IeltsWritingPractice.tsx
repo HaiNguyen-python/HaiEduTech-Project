@@ -550,6 +550,10 @@ const IeltsWritingPractice = () => {
             </TabsTrigger>
           </TabsList>
 
+          <TabsContent value="free-grade" className="space-y-4">
+            <FreeWritingGrader />
+          </TabsContent>
+
           <TabsContent value="idea" className="space-y-4">
             <p className="text-xs text-muted-foreground mb-2">
               {t(
