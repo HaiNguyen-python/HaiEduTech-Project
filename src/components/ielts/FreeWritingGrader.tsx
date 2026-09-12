@@ -1,6 +1,6 @@
 // Smart Grading for essays written against the student's OWN prompt
 // (school topics, books, real exam questions) - no prompt bank involved.
-import { useState } from "react";
+import { forwardRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Send, Loader2, AlertCircle, Trash2, NotebookPen, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -20,7 +20,7 @@ const MAX_ESSAY = 6000;
 
 const countWords = (value: string) => (value.trim() ? value.trim().split(/\s+/).length : 0);
 
-const FreeWritingGrader = () => {
+const FreeWritingGrader = forwardRef<HTMLDivElement>((_props, ref) => {
   const { t } = useLanguage();
   const [taskType, setTaskType] = useState<1 | 2>(2);
   const [prompt, setPrompt] = useState("");
