@@ -7,8 +7,9 @@ import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Languages, Send, Loader2, Lightbulb, RotateCcw, Shuffle, ArrowRight,
-  CheckCircle2, Eye, BookmarkPlus, BookmarkCheck, Sparkles, Volume2,
+  CheckCircle2, Eye, BookmarkPlus, BookmarkCheck, Sparkles, Volume2, Download,
 } from "lucide-react";
+import { openWritingPdf } from "@/lib/writingPdfExport";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
