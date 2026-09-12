@@ -46,13 +46,13 @@ export const instructionsForSection = (section: number, speaker: string | null):
     `This line comes from ${role}.`,
     who,
     section >= 3
-      ? "Academic, measured pace, clear articulation, natural stress on key information."
-      : "Relaxed natural pace, warm and clear, with realistic intonation.",
+      ? "Natural academic speaking pace like a real university talk, clear articulation, natural stress on key information, no slow dictation style."
+      : "Natural conversational pace like real everyday speech, warm and clear, with realistic intonation, no slow dictation style.",
     "Never announce answers or add words that are not in the text.",
   ]
     .filter(Boolean)
     .join(" ");
 };
 
-/** Natural speaking speed for all sections (matches a real exam recording). */
-export const speedForSection = (_section: number) => 1;
+/** Natural real-life speaking pace; slightly brisker in conversational sections. */
+export const speedForSection = (section: number) => (section <= 2 ? 1.2 : 1.15);
