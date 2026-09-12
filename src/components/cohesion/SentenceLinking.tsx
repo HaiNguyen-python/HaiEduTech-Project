@@ -6,7 +6,7 @@ import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Send, Loader2, CheckCircle2, RotateCcw, Sparkles, ArrowUp,
-  BookmarkPlus, BookmarkCheck, Eye, Shuffle, Lightbulb,
+  BookmarkPlus, BookmarkCheck, Eye, Shuffle, Lightbulb, Download,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
