@@ -259,11 +259,14 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
 
   useEffect(() => {
     return () => {
+      cancelledRef.current = true;
+      generationRef.current++;
       try { window.speechSynthesis?.cancel(); } catch { /* noop */ }
       if (chunkTimerRef.current) window.clearTimeout(chunkTimerRef.current);
+      detachAudio();
       stopTick();
     };
-  }, []);
+  }, [detachAudio]);
 
   // ---------- Multi-voice engine ----------
   // Build an ordered pool of English voices for the chosen accent, sorted by
@@ -425,9 +428,14 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
     // One outcome per turn: advance OR fall back, never both.
     let settled = false;
 
-    const nextTurn = () => {
+    const claimTurn = () => {
       if (settled) return;
       settled = true;
+      detachAudio();
+      return true;
+    };
+    const nextTurn = () => {
+      if (!claimTurn()) return;
       if (cancelledRef.current || gen !== generationRef.current) return;
       chunkTimerRef.current = window.setTimeout(
         () => playTurns(turnIdx + 1, gen),
@@ -435,10 +443,8 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
       );
     };
     const deviceForThisTurn = () => {
-      if (settled) return;
-      settled = true;
+      if (!claimTurn()) return;
       if (cancelledRef.current || gen !== generationRef.current) return;
-      detachAudio();
       const stopBefore = turnFirstChunk[turnIdx + 1] ?? chunks.length;
       speakChunks(firstChunk, gen, stopBefore, () => {
         if (cancelledRef.current || gen !== generationRef.current) return;
@@ -466,18 +472,28 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
       }
     };
     el.onerror = async () => {
-      if (settled || cancelledRef.current || gen !== generationRef.current) return;
+      // Claim this turn before awaiting a URL refresh. Without this guard,
+      // `play()` can reject while refresh is pending and start device speech;
+      // the refreshed AI file then starts too, making every sentence repeat.
+      if (!claimTurn() || cancelledRef.current || gen !== generationRef.current) return;
       // Signed URLs expire; ask for a fresh batch once, then fall back.
       if (!refreshedRef.current) {
         refreshedRef.current = true;
         const ok = await ai.refresh();
         if (ok && !cancelledRef.current && gen === generationRef.current) {
-          settled = true;
           playTurns(turnIdx, gen, offsetSec);
           return;
         }
       }
-      deviceForThisTurn();
+      if (cancelledRef.current || gen !== generationRef.current) return;
+      const stopBefore = turnFirstChunk[turnIdx + 1] ?? chunks.length;
+      speakChunks(firstChunk, gen, stopBefore, () => {
+        if (cancelledRef.current || gen !== generationRef.current) return;
+        chunkTimerRef.current = window.setTimeout(
+          () => playTurns(turnIdx + 1, gen),
+          turnGap(turnIdx) * 1000
+        );
+      });
     };
     el.src = url;
     el.playbackRate = aiRate;
