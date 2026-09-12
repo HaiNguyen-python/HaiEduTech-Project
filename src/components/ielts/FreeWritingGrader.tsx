@@ -362,6 +362,8 @@ const FreeWritingGrader = forwardRef<HTMLDivElement>((_props, ref) => {
       </div>
     </div>
   );
-};
+});
+
+FreeWritingGrader.displayName = "FreeWritingGrader";
 
 export default FreeWritingGrader;
