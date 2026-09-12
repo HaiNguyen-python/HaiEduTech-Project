@@ -336,6 +336,15 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
     };
   };
 
+  const finishPlayback = useCallback(() => {
+    aiPlayingRef.current = false;
+    setPlaying(false);
+    setPaused(false);
+    setCurrentIdx(0);
+    setElapsedInChunk(0);
+    stopTick();
+  }, []);
+
   const speakChunks = useCallback((startIdx: number, gen: number) => {
     if (cancelledRef.current || gen !== generationRef.current) return;
     if (startIdx >= chunks.length) {
