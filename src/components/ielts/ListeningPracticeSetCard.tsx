@@ -578,10 +578,7 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
     if (chunkTimerRef.current) window.clearTimeout(chunkTimerRef.current);
     window.speechSynthesis?.cancel();
     aiPlayingRef.current = false;
-    try {
-      const el = audioElRef.current;
-      if (el) { el.pause(); el.currentTime = 0; }
-    } catch { /* noop */ }
+    detachAudio();
     stopTick();
     setPlaying(false);
     setPaused(false);
