@@ -345,16 +345,17 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
     stopTick();
   }, []);
 
-  const speakChunks = useCallback((startIdx: number, gen: number) => {
+  /**
+   * Device-voice playback. `stopBefore` + `onDone` let a single speaker turn be
+   * spoken by the device when its AI file is unavailable.
+   */
+  const speakChunks = useCallback((startIdx: number, gen: number, stopBefore?: number, onDone?: () => void) => {
     if (cancelledRef.current || gen !== generationRef.current) return;
-    if (startIdx >= chunks.length) {
-      setPlaying(false);
-      setPaused(false);
-      setCurrentIdx(0);
-      setElapsedInChunk(0);
-      stopTick();
+    if (startIdx >= (stopBefore ?? chunks.length)) {
+      if (onDone) onDone(); else finishPlayback();
       return;
     }
+    aiPlayingRef.current = false;
     setCurrentIdx(startIdx);
     setElapsedInChunk(0);
     chunkStartedAtRef.current = performance.now();
