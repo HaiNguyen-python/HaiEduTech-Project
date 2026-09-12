@@ -2,15 +2,10 @@
  * @file warm-listening-audio.mjs
  * @description Pre-generates and caches the AI voice files for the first IELTS
  * Listening full tests so students never wait for a cold recording.
- * Usage: node scripts/warm-listening-audio.mjs [numberOfFullTests]
+ * Usage: bun scripts/warm-listening-audio.mjs [numberOfFullTests]
  * @copyright 2026 HaiEduTech
  */
 import { readFileSync } from "node:fs";
-import { register } from "node:module";
-import { pathToFileURL } from "node:url";
-
-register("ts-node/esm", pathToFileURL("./"));
-
 const env = Object.fromEntries(
   readFileSync(".env", "utf8")
     .split("\n")
