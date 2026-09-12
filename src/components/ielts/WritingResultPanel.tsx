@@ -3,7 +3,7 @@
 // Smart Grading tab so both views stay visually identical.
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ChevronDown, ChevronUp, Loader2, Copy, Check, RefreshCw } from "lucide-react";
+import { ChevronDown, ChevronUp, Loader2, Copy, Check, RefreshCw, Download } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
