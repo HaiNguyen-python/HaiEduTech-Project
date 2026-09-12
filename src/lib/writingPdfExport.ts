@@ -190,3 +190,69 @@ ${body}
     }
   }, 350);
 }
+
+export interface GradedEssayPdfInput {
+  taskType: 1 | 2;
+  prompt: string;
+  essay: string;
+  wordCount: number;
+  chartDescription?: string;
+  activityLabel: string;
+  result: {
+    overall: number;
+    criteria: { label: string; score: number; strengths?: string[]; weaknesses?: string[]; suggestions?: string[] }[];
+    errors?: { error: string; correction: string; category: string }[];
+    upgraded?: string;
+    advice?: string;
+  };
+}
+
+/** Build the printable document for a fully graded essay (Essay Writing / Smart Grading). */
+export function buildGradedEssayPdf(input: GradedEssayPdfInput): WritingPdfDoc {
+  const { result } = input;
+  const sections: PdfSection[] = [
+    { heading: "Prompt", kind: "text", text: input.prompt },
+  ];
+  if (input.chartDescription && input.chartDescription.trim()) {
+    sections.push({ heading: "Chart / data description", kind: "text", text: input.chartDescription });
+  }
+  sections.push(
+    { heading: `Your essay (${input.wordCount} words)`, kind: "text", text: input.essay },
+    {
+      heading: "Criteria breakdown",
+      kind: "criteria",
+      items: (result.criteria || []).map(c => ({
+        label: c.label,
+        score: c.score,
+        strengths: c.strengths,
+        weaknesses: c.weaknesses,
+        suggestions: c.suggestions,
+      })),
+    },
+  );
+  if (result.errors && result.errors.length) {
+    sections.push({
+      heading: "Errors and corrections",
+      kind: "table",
+      columns: ["Issue", "Correction", "Type"],
+      rows: result.errors.map(e => [e.error, e.correction, e.category]),
+    });
+  }
+  if (result.upgraded && result.upgraded.trim()) {
+    sections.push({ heading: "Upgraded Band 8.0+ version", kind: "text", text: result.upgraded });
+  }
+  if (result.advice && result.advice.trim()) {
+    sections.push({ heading: "Advice for next time", kind: "text", text: result.advice });
+  }
+  return {
+    title: `IELTS Writing Task ${input.taskType} - Graded Feedback`,
+    subtitle: input.activityLabel,
+    meta: [
+      { label: "Task", value: `Task ${input.taskType}` },
+      { label: "Overall band", value: String(result.overall) },
+      { label: "Words", value: String(input.wordCount) },
+    ],
+    sections,
+    fileName: `ielts-writing-task${input.taskType}-feedback`,
+  };
+}
