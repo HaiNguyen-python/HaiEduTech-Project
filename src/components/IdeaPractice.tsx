@@ -64,6 +64,40 @@ const IdeaPractice = () => {
     setTimeout(() => setSaved(false), 2000);
   };
 
+  const handleExportPdf = () => {
+    if (!selected) return;
+    openWritingPdf({
+      title: "IELTS Writing Task 2 - Idea Bank",
+      subtitle: selected.type.replace(/-/g, " ").toUpperCase(),
+      sections: [
+        {
+          heading: "Prompt",
+          kind: "text",
+          text: lang === "vi" ? selected.promptVi : selected.prompt,
+        },
+        ...selected.sides.map((side) => ({
+          heading: `Ideas: ${lang === "vi" ? side.labelVi : side.label}`,
+          kind: "list" as const,
+          items: side.ideas.map(
+            (idea, i) =>
+              `${i + 1}. ${idea.point} | Reason: ${idea.reason} | Example: ${idea.example}${
+                idea.collocations && idea.collocations.length
+                  ? ` | Collocations: ${idea.collocations.join(", ")}`
+                  : ""
+              }`,
+          ),
+        })),
+        {
+          heading: "Suggested Band 7+ thesis sentences",
+          kind: "list" as const,
+          items: selected.thesisOptions || [],
+        },
+        { heading: "Your own ideas", kind: "text" as const, text: notes },
+      ],
+      fileName: "ielts-idea-bank-task2",
+    });
+  };
+
   const handleReset = () => {
     if (!selected) return;
     localStorage.removeItem(STORAGE_PREFIX + selected.id);
