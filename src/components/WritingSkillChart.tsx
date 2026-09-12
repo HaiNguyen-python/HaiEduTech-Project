@@ -11,6 +11,7 @@ import { TrendingUp, Target, Sparkles, Lightbulb, ArrowRight } from "lucide-reac
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { practiceBands } from "@/lib/writingPracticeSignals";
 
 const CRITERIA = [
   { key: "TR", labelVi: "Task Response",        labelEn: "Task Response",                 color: "#3B82F6" },
@@ -28,7 +29,10 @@ interface Attempt {
   result: any;
 }
 
-interface AggRow { key: CritKey; label: string; score: number; color: string; fullMark: number; }
+interface AggRow {
+  key: CritKey; label: string; score: number; color: string; fullMark: number;
+  practiceCount?: number; fromEssay?: boolean;
+}
 
 // Coaching links per criterion (tab within IeltsWritingPractice)
 const COACH: Record<CritKey, { tabVi: string; tabEn: string; tab: string; tipVi: string; tipEn: string }> = {
@@ -164,10 +168,27 @@ const WritingSkillChart = forwardRef<HTMLDivElement, Props>(({ taskType = "all",
     });
   });
 
+  // Micro-practice signals from the other tabs (Phrase, Grammar, Translation, Cohesion)
+  const practice = useMemo(() => practiceBands(taskType), [taskType, reloadTick, refreshKey]);
+  const practiceCount = Object.values(practice).reduce((s, p) => s + (p?.count ?? 0), 0);
+
   const radarData: AggRow[] = CRITERIA.map(c => {
     const arr = perCritScores[c.key];
-    const avg = arr.length ? arr.reduce((s, v) => s + v, 0) / arr.length : 0;
-    return { key: c.key, label: t(c.labelVi, c.labelEn), score: Number(avg.toFixed(1)), color: c.color, fullMark: 9 };
+    const essayBand = arr.length ? arr.reduce((s, v) => s + v, 0) / arr.length : null;
+    const practiceBand = practice[c.key]?.band ?? null;
+    let score = 0;
+    if (essayBand !== null && practiceBand !== null) score = essayBand * 0.8 + practiceBand * 0.2;
+    else if (essayBand !== null) score = essayBand;
+    else if (practiceBand !== null) score = practiceBand;
+    return {
+      key: c.key,
+      label: t(c.labelVi, c.labelEn),
+      score: Number((Math.round(score * 2) / 2).toFixed(1)),
+      color: c.color,
+      fullMark: 9,
+      practiceCount: practice[c.key]?.count ?? 0,
+      fromEssay: essayBand !== null,
+    };
   });
 
   // Latest = the 4 criteria of ONE most recent attempt (missing criteria stay 0)
@@ -212,7 +233,7 @@ const WritingSkillChart = forwardRef<HTMLDivElement, Props>(({ taskType = "all",
     );
   }
 
-  if (filtered.length === 0) {
+  if (filtered.length === 0 && practiceCount === 0) {
     return (
       <Card ref={ref} className="border-2 border-dashed border-primary/30 bg-gradient-to-br from-primary/5 to-emerald-500/5">
         <CardHeader className="pb-3">
@@ -223,8 +244,8 @@ const WritingSkillChart = forwardRef<HTMLDivElement, Props>(({ taskType = "all",
         </CardHeader>
         <CardContent className="text-sm text-muted-foreground">
           {t(
-            "Chưa có dữ liệu. Hãy nộp bài đầu tiên để xem điểm 4 tiêu chí IELTS Writing của bạn.",
-            "No data yet. Submit your first essay to see your 4 IELTS Writing criteria scores."
+            "Chưa có dữ liệu. Nộp một bài luận hoặc luyện ở bất kỳ tab nào (cụm từ, ngữ pháp, dịch câu, cohesion) để bắt đầu tích điểm 4 tiêu chí.",
+            "No data yet. Submit an essay or practise in any tab (phrases, grammar, translation, cohesion) to start building your 4 criteria scores."
           )}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mt-4">
             {CRITERIA.map(c => (
@@ -250,7 +271,8 @@ const WritingSkillChart = forwardRef<HTMLDivElement, Props>(({ taskType = "all",
             <TrendingUp className="w-4 h-4 text-primary" />
             {t("Biểu đồ năng lực Writing", "Writing Skill Chart")}
             <span className="text-xs font-normal text-muted-foreground ml-1">
-              ({filtered.length} {t("bài", "attempts")})
+              ({filtered.length} {t("bài", "attempts")}
+              {practiceCount > 0 ? ` + ${practiceCount} ${t("lượt luyện", "practice")}` : ""})
             </span>
           </CardTitle>
           <div className="flex items-center gap-3 text-xs">
@@ -293,6 +315,14 @@ const WritingSkillChart = forwardRef<HTMLDivElement, Props>(({ taskType = "all",
                     <div className="h-2 rounded-full bg-muted overflow-hidden">
                       <div className="h-full rounded-full transition-all" style={{ width: `${(r.score / 9) * 100}%`, backgroundColor: r.color }} />
                     </div>
+                    <p className="text-[11px] text-muted-foreground">
+                      {r.fromEssay
+                        ? t("Từ bài luận đã chấm", "From graded essays")
+                        : t("Từ bài luyện tập", "From practice tasks")}
+                      {(r.practiceCount ?? 0) > 0
+                        ? ` · +${r.practiceCount} ${t("lượt luyện", "practice")}`
+                        : ""}
+                    </p>
                   </div>
                 ))}
               </div>

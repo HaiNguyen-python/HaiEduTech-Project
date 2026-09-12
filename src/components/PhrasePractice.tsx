@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
+import { recordPracticeSignal } from "@/lib/writingPracticeSignals";
 import {
   IELTS_PHRASES,
   TASK1_CATEGORIES,
@@ -206,6 +207,8 @@ const PhrasePractice = ({ taskType }: Props) => {
 
       const result = data as GradeResult;
       setResult(result);
+      recordPracticeSignal({ crit: "LR", score10: result?.score, taskType });
+
 
       // Save attempt to localStorage
       try {

@@ -15,6 +15,7 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
+import { recordPracticeBandSignal } from "@/lib/writingPracticeSignals";
 import { appendCohesionNotebook, escapeCohesionHtml } from "./cohesionNotebook";
 
 interface Props {
@@ -94,8 +95,10 @@ const CohesionAnalyser = ({ taskType }: Props) => {
         else toast.error(t("Phân tích thất bại.", "Analysis failed."));
         return;
       }
-      setResult(data as AnalysisResult);
+      const analysed = data as AnalysisResult;
+      setResult(analysed);
       setSaved(false);
+      recordPracticeBandSignal({ crit: "CC", band: analysed?.score, taskType });
     } catch (e) {
       console.error(e);
       toast.error(t("Đã có lỗi xảy ra", "Something went wrong"));
