@@ -141,7 +141,8 @@ for (const set of ALL_LISTENING_SETS) {
     if (match) speakers.add(match[1]);
   });
   if (!speakers.size) issues.push(`${set.id}: transcript has no speaker labels`);
-  if (set.section <= 3 && speakers.size < 2) {
+  // Sections 1 and 3 are conversations; Section 2 may be a monologue or a talk with a host.
+  if ((set.section === 1 || set.section === 3) && speakers.size < 2) {
     issues.push(`${set.id}: Section ${set.section} needs at least 2 named speakers, found ${speakers.size}`);
   }
   if (set.section === 4 && speakers.size > 1) {
