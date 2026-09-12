@@ -334,19 +334,49 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
       : isDialogueChange ? 700
       : /[?!]$/.test(prev) ? 550
       : 420;
-    u.onend = () => {
+    const advance = () => {
       if (cancelledRef.current || gen !== generationRef.current) return;
       chunkTimerRef.current = window.setTimeout(() => speakChunks(startIdx + 1, gen), gapMs);
     };
+
+    // Preferred path: the studio-quality AI recording for this line.
+    const aiUrl = useAiVoice ? ai.urls[startIdx] : undefined;
+    if (aiUrl) {
+      const el = audioElRef.current ?? new Audio();
+      audioElRef.current = el;
+      el.onended = advance;
+      el.onerror = () => { setPlaying(false); setPaused(false); stopTick(); };
+      el.src = aiUrl;
+      el.playbackRate = Math.max(0.7, Math.min(1.3, rate / 0.85));
+      el.play().catch(() => { setPlaying(false); setPaused(false); stopTick(); });
+      return;
+    }
+
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+    const profile = speakerProfile(speakerName, startIdx);
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = accent;
+    const baseRate = isSpelling ? Math.min(rate, 0.55) : rate;
+    u.rate = Math.max(0.3, Math.min(1.5, baseRate * profile.rateMul));
+    const endsWithQ = /\?\s*$/.test(text);
+    const endsWithE = /!\s*$/.test(text);
+    u.pitch = Math.max(0.5, Math.min(2.0,
+      profile.pitch + (endsWithQ ? 0.15 : endsWithE ? 0.1 : 0)
+    ));
+    const v = pickVoiceFor(profile.gender, profile.seed);
+    if (v) u.voice = v;
+    u.onend = advance;
     u.onerror = () => { setPlaying(false); setPaused(false); stopTick(); };
     window.speechSynthesis.speak(u);
-  }, [chunks, rate, accent, voicePool]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chunks, rate, accent, voicePool, useAiVoice, ai.urls]);
 
-  const speak = (fromIdx = 0) => {
-    if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+  const speak = async (fromIdx = 0) => {
     if (chunkTimerRef.current) window.clearTimeout(chunkTimerRef.current);
+    try { window.speechSynthesis?.cancel(); } catch { /* noop */ }
+    try { audioElRef.current?.pause(); } catch { /* noop */ }
+    if (useAiVoice && !ai.ready) await ai.prepare();
     const gen = ++generationRef.current;
-    window.speechSynthesis.cancel();
     cancelledRef.current = false;
     setPlaying(true);
     setPaused(false);
