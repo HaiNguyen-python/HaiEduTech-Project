@@ -21,6 +21,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { pushListeningAttempt } from "@/lib/ieltsListeningHistory";
+import { useListeningAiAudio } from "@/hooks/useListeningAiAudio";
 
 type AccentKey = "en-GB" | "en-US" | "en-AU";
 const ACCENT_LABELS: Record<AccentKey, string> = {
@@ -135,6 +136,36 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
   };
 
   const chunks = useMemo(() => buildChunks(s.transcript), [s.transcript]);
+
+  /** Speaker label that owns a chunk (inherited from the last tagged line). */
+  const speakerAt = useCallback((idx: number): string | null => {
+    for (let i = idx; i >= 0; i--) {
+      const m = chunks[i]?.match(/^([A-Z][a-zA-Z]{1,20}):/);
+      if (m) return m[1];
+    }
+    return null;
+  }, [chunks]);
+
+  // Lines handed to the AI voice service (speaker label stripped from the text).
+  const audioLines = useMemo(
+    () => chunks.map((c, i) => ({
+      i,
+      speaker: speakerAt(i),
+      text: c.replace(/^([A-Z][a-zA-Z]{1,20}):\s*/, ""),
+    })),
+    [chunks, speakerAt]
+  );
+
+  const [useAiVoice, setUseAiVoice] = useState(() => {
+    if (typeof window === "undefined") return true;
+    return localStorage.getItem("ielts-listening-ai-voice") !== "0";
+  });
+  useEffect(() => {
+    localStorage.setItem("ielts-listening-ai-voice", useAiVoice ? "1" : "0");
+  }, [useAiVoice]);
+
+  const ai = useListeningAiAudio(s.id, s.section, audioLines, useAiVoice);
+  const audioElRef = useRef<HTMLAudioElement | null>(null);
 
   // Estimate per-chunk duration (speak time + trailing gap) in seconds.
   // Baseline ~160 wpm at rate=1.0 → ~0.375s/word; account for spelling slowdown + gap.
