@@ -33,7 +33,9 @@ import GrammarPractice from "@/components/GrammarPractice";
 import IdeaPractice from "@/components/IdeaPractice";
 import CohesionLab from "@/components/CohesionLab";
 import WritingSkillChart from "@/components/WritingSkillChart";
-import { Sparkles, PenLine, GraduationCap, Lightbulb, Link2, Languages } from "lucide-react";
+import { Sparkles, PenLine, GraduationCap, Lightbulb, Link2, Languages, ClipboardCheck } from "lucide-react";
+import FreeWritingGrader from "@/components/ielts/FreeWritingGrader";
+import WritingResultPanel from "@/components/ielts/WritingResultPanel";
 
 // Grading result types (shared with AIGrading)
 interface CriteriaDetail {
@@ -517,10 +519,14 @@ const IeltsWritingPractice = () => {
 
         {/* Mode Tabs: Essay Writing vs Phrase Practice */}
         <Tabs defaultValue="essay" className="w-full">
-          <TabsList className="grid w-full max-w-5xl grid-cols-3 md:grid-cols-6 mt-6 mb-6 h-auto">
+          <TabsList className="grid w-full max-w-6xl grid-cols-3 md:grid-cols-7 mt-6 mb-6 h-auto">
             <TabsTrigger value="essay" className="gap-1.5 py-2">
               <PenLine className="w-4 h-4" />
               <span className="text-xs md:text-sm">{t("Viết bài luận", "Essay Writing")}</span>
+            </TabsTrigger>
+            <TabsTrigger value="free-grade" className="gap-1.5 py-2">
+              <ClipboardCheck className="w-4 h-4" />
+              <span className="text-xs md:text-sm">{t("Chấm bài tự do", "Smart Grading")}</span>
             </TabsTrigger>
             <TabsTrigger value="idea" className="gap-1.5 py-2">
               <Lightbulb className="w-4 h-4" />
