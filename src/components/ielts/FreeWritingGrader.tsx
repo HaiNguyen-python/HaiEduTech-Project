@@ -346,7 +346,22 @@ const FreeWritingGrader = forwardRef<HTMLDivElement>((_props, ref) => {
       {/* RIGHT: results */}
       <div className="space-y-4">
         {result ? (
-          <WritingResultPanel result={result} upgradeLoading={upgradeLoading} onRetryUpgrade={retryUpgrade} />
+          <WritingResultPanel
+            result={result}
+            upgradeLoading={upgradeLoading}
+            onRetryUpgrade={retryUpgrade}
+            onExportPdf={() => {
+              openWritingPdf(buildGradedEssayPdf({
+                taskType,
+                prompt,
+                essay,
+                wordCount,
+                chartDescription: taskType === 1 ? chartDescription : "",
+                activityLabel: t("Chấm bài tự do (Smart Grading)", "Smart Grading (own prompt)"),
+                result,
+              }));
+            }}
+          />
         ) : (
           <Card className="border-dashed">
             <CardContent className="p-8 text-center text-sm text-muted-foreground">
