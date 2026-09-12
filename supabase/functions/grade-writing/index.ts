@@ -40,7 +40,8 @@ serve(async (req) => {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
 
-    const systemPrompt = `You are a Senior IELTS Examiner. Grade the Writing Task 2 essay and return STRICT JSON ONLY (no markdown). Schema:
+    const firstCriterion = taskType === 1 ? "Task Achievement" : "Task Response";
+    const systemPrompt = `You are a Senior IELTS Examiner. Grade the Writing Task ${taskType} response and return STRICT JSON ONLY (no markdown). Schema:
 {
   "overall": <number, e.g. 6.5>,
   "criteria": [
