@@ -115,6 +115,34 @@ const SentenceLinking = ({ taskType }: Props) => {
     }
   };
 
+  const handleExportPdf = () => {
+    if (!result) return;
+    openWritingPdf({
+      title: `IELTS Writing Task ${taskType} - Sentence Linking`,
+      subtitle: current.topic,
+      meta: [{ label: "Score", value: `${result.score}/10` }],
+      sections: [
+        {
+          heading: "Source sentences",
+          kind: "list",
+          items: [`A: ${current.sentenceA}`, `B: ${current.sentenceB}`],
+        },
+        {
+          heading: "Suggested linkers",
+          kind: "list",
+          items: current.suggestedLinkers || [],
+        },
+        { heading: "Your combined sentence", kind: "text", text: combined.trim() },
+        { heading: "Cohesion feedback", kind: "text", text: result.phraseFeedback },
+        { heading: "Grammar feedback", kind: "text", text: result.grammarFeedback },
+        { heading: "Band 7.5+ upgrade", kind: "text", text: result.upgradedVersion },
+        { heading: "Model answers", kind: "list", items: current.modelAnswers || [] },
+        { heading: "Tips to improve", kind: "list", items: result.tips || [] },
+      ],
+      fileName: `ielts-sentence-linking-task${taskType}`,
+    });
+  };
+
   const handleSave = async () => {
     if (!result || saved || saving) return;
     setSaving(true);
