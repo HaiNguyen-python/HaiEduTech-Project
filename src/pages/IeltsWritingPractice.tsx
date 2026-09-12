@@ -873,6 +873,16 @@ const IeltsWritingPractice = () => {
                   result={result}
                   upgradeLoading={upgradeLoading}
                   onRetryUpgrade={() => { void retryUpgrade(); }}
+                  onExportPdf={() => {
+                    openWritingPdf(buildGradedEssayPdf({
+                      taskType,
+                      prompt: currentPrompt?.prompt || "",
+                      essay,
+                      wordCount,
+                      activityLabel: t("Luyện viết bài luận", "Essay Writing"),
+                      result,
+                    }));
+                  }}
                 />
               )}
             </motion.div>
