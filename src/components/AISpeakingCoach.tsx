@@ -8,13 +8,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { toast } from "sonner";
-import { playJapaneseTts } from "@/lib/japaneseTts";
 import { japaneseSoundTipsFor } from "@/lib/japaneseSoundTips";
 import confetti from "canvas-confetti";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { speakingCoachLanguages, pronunciationTips, type SpeakingSentence, type SpeakingTheme } from "@/data/speakingCoachData";
-import { playFinnishTts } from "@/lib/finnishTts";
-import { playSwedishTts } from "@/lib/swedishTts";
+import { playSpeakingTts, stopSpeakingTts } from "@/lib/speakingModeShared";
 import { transcribeSwedishSentence, swedishSoundTipsFor } from "@/lib/swedishSentenceIpa";
 import { swedishSentenceEn } from "@/data/swedishSpeakingEnglishIndex";
 
@@ -333,6 +331,7 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
   const [perfectStreak, setPerfectStreak] = useState(0);
   const [totalPracticed, setTotalPracticed] = useState(0);
   const [isPlayingDemo, setIsPlayingDemo] = useState(false);
+  const demoPlayingRef = useRef(false);
   const [levelFilter, setLevelFilter] = useState<"all" | "A1" | "A2" | "B1" | "B2" | "C1">(() => {
     try { return (localStorage.getItem(`speaking-coach-level-${language}`) as any) || "all"; } catch { return "all"; }
   });
@@ -357,6 +356,8 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
 
   // Reset all state when language changes
   useEffect(() => {
+    stopSpeakingTts(language);
+    demoPlayingRef.current = false;
     setSelectedTheme(null);
     setCurrentIndex(0);
     setTranscript("");
@@ -380,6 +381,11 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
       try { recognitionRef.current.abort(); } catch {}
       recognitionRef.current = null;
     }
+  }, [language]);
+
+  useEffect(() => () => {
+    demoPlayingRef.current = false;
+    stopSpeakingTts(language);
   }, [language]);
 
   const currentSentence = useMemo(
@@ -807,49 +813,36 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
 
   // Play demo audio (TTS). `slow` gives learners a syllable-by-syllable pace.
   const playDemo = useCallback(async (slow = false) => {
-    if (!currentSentence || isPlayingDemo) return;
+    if (!currentSentence || demoPlayingRef.current) return;
+    demoPlayingRef.current = true;
     setIsPlayingDemo(true);
-
     try {
-      if (language === "japanese") {
-        const ok = await playJapaneseTts(currentSentence.text, { playbackRate: slow ? 0.6 : 0.9, speechRate: slow ? 0.6 : 0.85 });
-        if (!ok) {
-          toast.error(t("Không thể phát âm thanh tiếng Nhật. Hãy thử lại.", "Could not play Japanese audio. Please try again."));
-        }
-      } else if (language === "finnish") {
-        await playFinnishTts(currentSentence.text);
-      } else if (language === "swedish") {
-        // playSwedishTts resolves false when every engine in the chain fails -
-        // without this check the button looked like it worked but stayed silent.
-        const ok = await playSwedishTts(currentSentence.text, { playbackRate: slow ? 0.6 : 0.9 });
-        if (!ok) {
-          toast.error(t("Không thể phát âm thanh tiếng Thụy Điển. Hãy thử lại.", "Could not play Swedish audio. Please try again."));
-        }
-      } else {
-        const utterance = new SpeechSynthesisUtterance(currentSentence.text);
-        utterance.lang = config.speechLang;
-        utterance.rate = slow ? 0.6 : 0.85;
-        utterance.onend = () => setIsPlayingDemo(false);
-        utterance.onerror = () => setIsPlayingDemo(false);
-        window.speechSynthesis.speak(utterance);
-        return; // onend will handle setIsPlayingDemo
-      }
+      const ok = await playSpeakingTts(language, currentSentence.text, slow ? 0.65 : 0.9);
+      if (!ok) toast.error(t("Không thể phát âm thanh. Hãy thử lại.", "Could not play audio. Please try again."));
     } catch {
       toast.error(t("Không thể phát âm thanh.", "Could not play audio."));
+    } finally {
+      demoPlayingRef.current = false;
+      setIsPlayingDemo(false);
     }
-    setIsPlayingDemo(false);
-  }, [currentSentence, language, config.speechLang, isPlayingDemo, t]);
+  }, [currentSentence, language, t]);
 
 
   // Navigate sentences
   const goNext = () => {
     if (selectedTheme && currentIndex < selectedTheme.sentences.length - 1) {
+      stopSpeakingTts(language);
+      demoPlayingRef.current = false;
+      setIsPlayingDemo(false);
       setCurrentIndex((i) => i + 1);
       resetState();
     }
   };
   const goPrev = () => {
     if (currentIndex > 0) {
+      stopSpeakingTts(language);
+      demoPlayingRef.current = false;
+      setIsPlayingDemo(false);
       setCurrentIndex((i) => i - 1);
       resetState();
     }

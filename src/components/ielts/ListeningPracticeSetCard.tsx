@@ -94,6 +94,8 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
   const chunkTimerRef = useRef<number | null>(null);
   const cancelledRef = useRef(false);
   const generationRef = useRef(0);
+  const playbackActiveRef = useRef(false);
+  const playerIdRef = useRef(Symbol("ielts-listening-player"));
   const [currentIdx, setCurrentIdx] = useState(0);
   const [elapsedInChunk, setElapsedInChunk] = useState(0);
   const chunkStartedAtRef = useRef<number>(0);
@@ -259,11 +261,14 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
 
   useEffect(() => {
     return () => {
+      cancelledRef.current = true;
+      generationRef.current++;
       try { window.speechSynthesis?.cancel(); } catch { /* noop */ }
       if (chunkTimerRef.current) window.clearTimeout(chunkTimerRef.current);
+      detachAudio();
       stopTick();
     };
-  }, []);
+  }, [detachAudio]);
 
   // ---------- Multi-voice engine ----------
   // Build an ordered pool of English voices for the chosen accent, sorted by
@@ -327,6 +332,7 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
   };
 
   const finishPlayback = useCallback(() => {
+    playbackActiveRef.current = false;
     aiPlayingRef.current = false;
     setPlaying(false);
     setPaused(false);
@@ -425,9 +431,14 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
     // One outcome per turn: advance OR fall back, never both.
     let settled = false;
 
-    const nextTurn = () => {
+    const claimTurn = () => {
       if (settled) return;
       settled = true;
+      detachAudio();
+      return true;
+    };
+    const nextTurn = () => {
+      if (!claimTurn()) return;
       if (cancelledRef.current || gen !== generationRef.current) return;
       chunkTimerRef.current = window.setTimeout(
         () => playTurns(turnIdx + 1, gen),
@@ -435,10 +446,8 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
       );
     };
     const deviceForThisTurn = () => {
-      if (settled) return;
-      settled = true;
+      if (!claimTurn()) return;
       if (cancelledRef.current || gen !== generationRef.current) return;
-      detachAudio();
       const stopBefore = turnFirstChunk[turnIdx + 1] ?? chunks.length;
       speakChunks(firstChunk, gen, stopBefore, () => {
         if (cancelledRef.current || gen !== generationRef.current) return;
@@ -466,18 +475,28 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
       }
     };
     el.onerror = async () => {
-      if (settled || cancelledRef.current || gen !== generationRef.current) return;
+      // Claim this turn before awaiting a URL refresh. Without this guard,
+      // `play()` can reject while refresh is pending and start device speech;
+      // the refreshed AI file then starts too, making every sentence repeat.
+      if (!claimTurn() || cancelledRef.current || gen !== generationRef.current) return;
       // Signed URLs expire; ask for a fresh batch once, then fall back.
       if (!refreshedRef.current) {
         refreshedRef.current = true;
         const ok = await ai.refresh();
         if (ok && !cancelledRef.current && gen === generationRef.current) {
-          settled = true;
           playTurns(turnIdx, gen, offsetSec);
           return;
         }
       }
-      deviceForThisTurn();
+      if (cancelledRef.current || gen !== generationRef.current) return;
+      const stopBefore = turnFirstChunk[turnIdx + 1] ?? chunks.length;
+      speakChunks(firstChunk, gen, stopBefore, () => {
+        if (cancelledRef.current || gen !== generationRef.current) return;
+        chunkTimerRef.current = window.setTimeout(
+          () => playTurns(turnIdx + 1, gen),
+          turnGap(turnIdx) * 1000
+        );
+      });
     };
     el.src = url;
     el.playbackRate = aiRate;
@@ -495,10 +514,14 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
    * Start playback from a chunk. In AI mode the whole recording is downloaded
    * first so the voices never change part way through.
    */
-  const speak = async (fromIdx = 0, offsetSec = 0) => {
+  const speak = async (fromIdx = 0, offsetSec = 0, replaceActive = false) => {
     // Only one playback stream at a time; a second request while the recording
     // is still downloading would read the same lines twice.
-    if (preparingRef.current) return;
+    if (preparingRef.current || (playbackActiveRef.current && !replaceActive)) return;
+    playbackActiveRef.current = true;
+    window.dispatchEvent(new CustomEvent("ielts-listening-playback-start", {
+      detail: playerIdRef.current,
+    }));
     if (chunkTimerRef.current) window.clearTimeout(chunkTimerRef.current);
     try { window.speechSynthesis?.cancel(); } catch { /* noop */ }
     detachAudio();
@@ -573,6 +596,7 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
 
 
   const stop = () => {
+    playbackActiveRef.current = false;
     cancelledRef.current = true;
     generationRef.current++;
     if (chunkTimerRef.current) window.clearTimeout(chunkTimerRef.current);
@@ -586,6 +610,17 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
     setElapsedInChunk(0);
   };
 
+  // Full tests render four section players together. Starting one section must
+  // stop every other section, otherwise two recordings can overlap.
+  useEffect(() => {
+    const stopOtherPlayer = (event: Event) => {
+      const owner = (event as CustomEvent<symbol>).detail;
+      if (owner !== playerIdRef.current && playbackActiveRef.current) stop();
+    };
+    window.addEventListener("ielts-listening-playback-start", stopOtherPlayer);
+    return () => window.removeEventListener("ielts-listening-playback-start", stopOtherPlayer);
+  });
+
   // Seek to a time (seconds); units are speaker turns in AI mode, sentences otherwise.
   const seekToTime = (timeSec: number) => {
     if (!chunks.length) return;
@@ -596,7 +631,7 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
     const offset = Math.max(0, timeSec - (cumulative[unit] ?? 0));
     const chunkIdx = aiMode ? (turnFirstChunk[unit] ?? 0) : unit;
     if (playing) {
-      speak(chunkIdx, aiMode ? offset : 0);
+      speak(chunkIdx, aiMode ? offset : 0, true);
     } else {
       setCurrentIdx(chunkIdx);
       setElapsedInChunk(aiMode ? offset : 0);
@@ -607,12 +642,12 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
     if (aiMode) {
       const unit = Math.max(0, Math.min(turns.length - 1, (chunkTurn[currentIdx] ?? 0) + delta));
       const target = turnFirstChunk[unit] ?? 0;
-      if (playing) speak(target);
+      if (playing) speak(target, 0, true);
       else { setCurrentIdx(target); setElapsedInChunk(0); }
       return;
     }
     const target = Math.max(0, Math.min(chunks.length - 1, currentIdx + delta));
-    if (playing) speak(target);
+    if (playing) speak(target, 0, true);
     else { setCurrentIdx(target); setElapsedInChunk(0); }
   };
 

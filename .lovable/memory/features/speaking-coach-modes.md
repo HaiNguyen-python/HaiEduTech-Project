@@ -11,3 +11,4 @@ Route `/speaking-coach/:language` (english, chinese, japanese, finnish, swedish,
 - Shared infra: `useSpeechRecognizer.ts`, `src/lib/speakingModeShared.ts`, `speakingShadowScore.ts`, `speakingWeakWords.ts` (CLEAN_STREAK = 3), `speaking/pronunciationStats.ts`, `speaking/pronunciationPlan.ts`.
 - Free Talk uses edge function `analyze-free-talk` (Gemini 2.5 Flash, verify_jwt false).
 - No database tables; all progress in localStorage via `safeStorage` (namespace prefix `het:`).
+- Speaking audio must play each model sentence exactly once: shared TTS deduplicates identical in-flight requests, stops other language engines before a new request, and listen controls use synchronous busy refs. Shadowing has no automatic multi-repeat control.

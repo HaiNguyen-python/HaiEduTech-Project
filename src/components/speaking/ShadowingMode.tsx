@@ -1,6 +1,6 @@
 // Shadowing mode: listen to the model sentence, then imitate it. Scores both
 // word accuracy and pace (how close the learner's duration is to the model).
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Mic, Square, Volume2, Repeat, ChevronLeft, ChevronRight, Gauge, Rabbit } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -42,6 +42,7 @@ const ShadowingMode = ({ language, onPerfectScore }: Props) => {
   const [playing, setPlaying] = useState(false);
   const [done, setDone] = useState(0);
   const [avg, setAvg] = useState(0);
+  const playTokenRef = useRef(0);
 
   const sentence = sentences[index];
 
@@ -65,6 +66,9 @@ const ShadowingMode = ({ language, onPerfectScore }: Props) => {
   const rec = useSpeechRecognizer({ speechLang: config.speechLang, maxSeconds: 30, onFinal: handleFinal });
 
   useEffect(() => {
+    playTokenRef.current += 1;
+    stopSpeakingTts(language);
+    setPlaying(false);
     setResults(null);
     setAccuracy(null);
     setPace(null);
@@ -72,15 +76,17 @@ const ShadowingMode = ({ language, onPerfectScore }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [index, language]);
 
-  useEffect(() => () => stopSpeakingTts(language), [language]);
+  useEffect(() => () => {
+    playTokenRef.current += 1;
+    stopSpeakingTts(language);
+  }, [language]);
 
-  const play = async (rate: number, times = 1) => {
-    if (!sentence) return;
+  const play = async (rate: number) => {
+    if (!sentence || playing) return;
+    const token = ++playTokenRef.current;
     setPlaying(true);
-    for (let i = 0; i < times; i++) {
-      await playSpeakingTts(language, sentence.text, rate);
-    }
-    setPlaying(false);
+    await playSpeakingTts(language, sentence.text, rate);
+    if (token === playTokenRef.current) setPlaying(false);
   };
 
   if (!sentence) return null;
@@ -140,10 +146,6 @@ const ShadowingMode = ({ language, onPerfectScore }: Props) => {
             <Button variant="outline" size="sm" disabled={playing} onClick={() => play(0.7)} className="gap-1">
               <Rabbit className="w-4 h-4" />
               {t("Chậm 0.7x", "Slow 0.7x")}
-            </Button>
-            <Button variant="outline" size="sm" disabled={playing} onClick={() => play(1, 3)} className="gap-1">
-              <Repeat className="w-4 h-4" />
-              {t("Lặp 3 lần", "Loop 3x")}
             </Button>
             {rec.isRecording ? (
               <Button size="sm" variant="destructive" onClick={rec.stop} className="gap-1">

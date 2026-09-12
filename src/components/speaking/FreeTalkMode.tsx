@@ -1,6 +1,6 @@
 // Free Talk mode: open answer on a level-appropriate topic. A local heuristic
 // report shows immediately, then the AI report replaces it when it arrives.
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Mic, Square, MessageCircle, Sparkles, Loader2, Volume2, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -70,6 +70,8 @@ const FreeTalkMode = ({ language, onPerfectScore }: Props) => {
   const [aiLoading, setAiLoading] = useState(false);
   const [aiError, setAiError] = useState<string | null>(null);
   const [answer, setAnswer] = useState("");
+  const audioBusyRef = useRef(false);
+  const [audioBusy, setAudioBusy] = useState(false);
 
   const pool = useMemo(() => {
     const filtered = topics.filter((x) => x.level === level);
@@ -85,6 +87,14 @@ const FreeTalkMode = ({ language, onPerfectScore }: Props) => {
   }, [pool]);
 
   useEffect(() => () => stopSpeakingTts(language), [language]);
+
+  const playModelAnswer = async (text: string) => {
+    if (audioBusyRef.current) return;
+    audioBusyRef.current = true;
+    setAudioBusy(true);
+    try { await playSpeakingTts(language, text, 0.95); }
+    finally { audioBusyRef.current = false; setAudioBusy(false); }
+  };
 
   const requestAi = useCallback(
     async (transcript: string, report: LocalReport, activeTopic: FreeTalkTopic) => {
@@ -320,7 +330,8 @@ const FreeTalkMode = ({ language, onPerfectScore }: Props) => {
                       size="sm"
                       variant="ghost"
                       className="gap-1"
-                      onClick={() => playSpeakingTts(language, ai.modelAnswer, 0.95)}
+                      disabled={audioBusy}
+                      onClick={() => void playModelAnswer(ai.modelAnswer)}
                     >
                       <Volume2 className="w-4 h-4" />
                       {t("Nghe", "Listen")}
