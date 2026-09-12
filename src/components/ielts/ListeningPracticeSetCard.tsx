@@ -121,21 +121,26 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
   const [restoredOnce, setRestoredOnce] = useState(false);
 
 
-  // Split transcript into natural chunks (sentences / dialogue turns).
-  const buildChunks = (text: string): string[] => {
-    const lines = text.split(/\n+/).map(l => l.trim()).filter(Boolean);
-    const chunks: string[] = [];
-    for (const line of lines) {
+  // Split the transcript into speaker turns (one transcript line = one turn) and,
+  // inside each turn, into sentences used for on-screen highlighting and for the
+  // device voice. AI audio is generated per turn so each voice stays continuous.
+  const { chunks, chunkTurn, turnFirstChunk, turns } = useMemo(() => {
+    const lines = s.transcript.split(/\n+/).map(l => l.trim()).filter(Boolean);
+    const outChunks: string[] = [];
+    const outTurnOf: number[] = [];
+    const firstChunk: number[] = [];
+    lines.forEach((line, turnIdx) => {
+      firstChunk[turnIdx] = outChunks.length;
       const parts = line.match(/[^.!?]+[.!?]+["')\]]*|[^.!?]+$/g) ?? [line];
+      let added = 0;
       for (const p of parts) {
         const trimmed = p.trim();
-        if (trimmed) chunks.push(trimmed);
+        if (trimmed) { outChunks.push(trimmed); outTurnOf.push(turnIdx); added++; }
       }
-    }
-    return chunks;
-  };
-
-  const chunks = useMemo(() => buildChunks(s.transcript), [s.transcript]);
+      if (!added) { outChunks.push(line); outTurnOf.push(turnIdx); }
+    });
+    return { chunks: outChunks, chunkTurn: outTurnOf, turnFirstChunk: firstChunk, turns: lines };
+  }, [s.transcript]);
 
   /** Speaker label that owns a chunk (inherited from the last tagged line). */
   const speakerAt = useCallback((idx: number): string | null => {
@@ -146,14 +151,14 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
     return null;
   }, [chunks]);
 
-  // Lines handed to the AI voice service (speaker label stripped from the text).
+  // Turns handed to the AI voice service (speaker label stripped from the text).
   const audioLines = useMemo(
-    () => chunks.map((c, i) => ({
+    () => turns.map((line, i) => ({
       i,
-      speaker: speakerAt(i),
-      text: c.replace(/^([A-Z][a-zA-Z]{1,20}):\s*/, ""),
+      speaker: speakerAt(turnFirstChunk[i] ?? 0),
+      text: line.replace(/^([A-Z][a-zA-Z]{1,20}):\s*/, ""),
     })),
-    [chunks, speakerAt]
+    [turns, turnFirstChunk, speakerAt]
   );
 
   const [useAiVoice, setUseAiVoice] = useState(() => {
