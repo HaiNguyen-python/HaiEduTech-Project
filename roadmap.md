@@ -1,6 +1,7 @@
 # Roadmap
 
 ## Done
+- [x] IELTS sample essays: band-aware analysis, evidence-based criteria, and a single padded Mini-Review heading
 - [x] Speaking and IELTS audio: prevent duplicate playback, overlapping players, and repeated fallback speech
 - [x] Expand key-phrase highlighting coverage across all 138 English conversations
 - [x] Business / Academic / Conversational phrase highlighting: desktop and mobile browser checks
