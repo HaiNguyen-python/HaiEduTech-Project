@@ -504,6 +504,9 @@ const buildSectionFour = (set: ListeningPracticeSet, random: () => number) => {
 };
 
 const buildTranscript = (set: ListeningPracticeSet, random: () => number) => {
+  // Authored recordings always win over the legacy generated fallback.
+  const authored = AUTHORED_LISTENING_TRANSCRIPTS[set.id];
+  if (authored && authored.trim()) return authored;
   switch (set.section) {
     case 1:
       return buildSectionOne(set, random);
