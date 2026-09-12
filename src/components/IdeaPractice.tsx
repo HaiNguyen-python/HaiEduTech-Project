@@ -313,7 +313,11 @@ const IdeaPractice = () => {
                     rows={6}
                     className="text-sm"
                   />
-                  <div className="flex gap-2">
+                  <div className="flex flex-wrap gap-2">
+                    <Button onClick={handleExportPdf} size="sm" variant="outline" className="gap-2">
+                      <Download className="w-4 h-4" />
+                      {t("Tải PDF", "Download PDF")}
+                    </Button>
                     <Button onClick={handleSaveNotes} size="sm" className="gap-2">
                       {saved ? (
                         <Check className="w-4 h-4" />
