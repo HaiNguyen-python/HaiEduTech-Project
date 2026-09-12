@@ -13,6 +13,7 @@ import { ActivityChips, type SpeakingActivity } from "@/components/speaking/Acti
 import type { PlanMode } from "@/lib/speaking/pronunciationPlan";
 import { allPronWords, loadPronStats } from "@/lib/speaking/pronunciationStats";
 import { countWeakWords } from "@/lib/speakingWeakWords";
+import { stopSpeakingTts } from "@/lib/speakingModeShared";
 import { Badge } from "@/components/ui/badge";
 import MountainClimber from "@/components/MountainClimber";
 import FinnishSkier from "@/components/FinnishSkier";
@@ -52,6 +53,7 @@ const SpeakingCoachPage = () => {
   }, [lang, view]);
 
   const pickActivity = useCallback((next: SpeakingActivity) => {
+    stopSpeakingTts(lang);
     setActivity(next);
     setView("practice");
     if (next === "review") setWeakCount(countWeakWords(lang));
