@@ -826,8 +826,11 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
 
             <span className="text-xs text-muted-foreground ml-auto inline-flex items-center gap-1">
               <Mic2 className="w-3 h-3 text-emerald-600" />
-              {ai.loading
-                ? t("Đang tải giọng đọc...", "Loading voices...")
+              {ai.loading || preparing
+                ? t(
+                    `Đang tải bản thu... ${Math.round(ai.progress * 100)}%`,
+                    `Loading recording... ${Math.round(ai.progress * 100)}%`
+                  )
                 : ai.failed
                   ? t("Đang dùng giọng máy dự phòng", "Using device voice fallback")
                   : t("Đa giọng - mỗi nhân vật một voice riêng", "Multi-voice - distinct voice per speaker")}
@@ -835,9 +838,11 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
           </div>
           <div className="flex flex-wrap items-center gap-2">
             {!playing ? (
-              <Button onClick={() => speak(currentIdx)} size="sm" className="gap-2">
+              <Button onClick={() => speak(currentIdx)} size="sm" className="gap-2" disabled={preparing || ai.loading}>
                 <Play className="w-4 h-4" />
-                {currentIdx > 0 ? t("Tiếp tục", "Resume") : t("Phát", "Play")}
+                {preparing || ai.loading
+                  ? t("Đang tải...", "Loading...")
+                  : currentIdx > 0 ? t("Tiếp tục", "Resume") : t("Phát", "Play")}
               </Button>
             ) : (
               <>
