@@ -121,7 +121,8 @@ serve(async (req) => {
         console.error("listening-tts upload error", error.message);
         return;
       }
-      results.push({ i: line.i, url: `${publicBase}/${path}` });
+      const url = await signed(path);
+      if (url) results.push({ i: line.i, url });
     };
 
     // Small concurrency keeps us inside the gateway rate limit.
