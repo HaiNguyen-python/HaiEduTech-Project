@@ -39,7 +39,7 @@ interface Props {
   onExportPdf?: () => void;
 }
 
-const WritingResultPanel = ({ result, upgradeLoading, onRetryUpgrade }: Props) => {
+const WritingResultPanel = ({ result, upgradeLoading, onRetryUpgrade, onExportPdf }: Props) => {
   const { t } = useLanguage();
   const [expandedCriteria, setExpandedCriteria] = useState<number | null>(null);
   const [copied, setCopied] = useState(false);
