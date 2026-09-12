@@ -35,6 +35,8 @@ interface Props {
   result: GradingResult;
   upgradeLoading: boolean;
   onRetryUpgrade?: () => void;
+  /** When provided, a "Download PDF" button appears under the overall band. */
+  onExportPdf?: () => void;
 }
 
 const WritingResultPanel = ({ result, upgradeLoading, onRetryUpgrade }: Props) => {
