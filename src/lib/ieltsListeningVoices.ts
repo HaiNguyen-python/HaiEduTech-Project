@@ -54,5 +54,5 @@ export const instructionsForSection = (section: number, speaker: string | null):
     .join(" ");
 };
 
-/** Slightly slower for Section 4 lectures, natural elsewhere. */
-export const speedForSection = (section: number) => (section === 4 ? 0.92 : section === 1 ? 0.97 : 0.95);
+/** Natural speaking speed for all sections (matches a real exam recording). */
+export const speedForSection = (_section: number) => 1;
