@@ -928,12 +928,12 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
                 step={0.5}
                 onValueChange={(v) => {
                   const t0 = v[0] ?? 0;
-                  let idx = 0;
+                  let unit = 0;
                   for (let i = 0; i < cumulative.length; i++) {
-                    if (cumulative[i] <= t0) idx = i; else break;
+                    if (cumulative[i] <= t0) unit = i; else break;
                   }
-                  setCurrentIdx(idx);
-                  setElapsedInChunk(Math.max(0, t0 - (cumulative[idx] ?? 0)));
+                  setCurrentIdx(aiMode ? (turnFirstChunk[unit] ?? 0) : unit);
+                  setElapsedInChunk(Math.max(0, t0 - (cumulative[unit] ?? 0)));
                 }}
                 onValueCommit={(v) => seekToTime(v[0] ?? 0)}
                 className="flex-1"
