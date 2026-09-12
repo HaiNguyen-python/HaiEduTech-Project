@@ -98,12 +98,28 @@ const WritingSkillChart = forwardRef<HTMLDivElement, Props>(({ taskType = "all",
   const { t } = useLanguage();
   const [attempts, setAttempts] = useState<Attempt[]>([]);
   const [loading, setLoading] = useState(true);
+  const [reloadTick, setReloadTick] = useState(0);
+  const [targetBand, setTargetBand] = useState(7);
+
+  useEffect(() => { setTargetBand(readTargetBand()); }, [reloadTick, refreshKey]);
+
+  // Single refresh source: any grading/save/delete anywhere, plus auth changes
+  useEffect(() => {
+    const bump = () => setReloadTick(k => k + 1);
+    window.addEventListener(WRITING_ATTEMPT_EVENT, bump);
+    const { data: sub } = supabase.auth.onAuthStateChange(() => bump());
+    return () => {
+      window.removeEventListener(WRITING_ATTEMPT_EVENT, bump);
+      sub.subscription.unsubscribe();
+    };
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
     (async () => {
       setLoading(true);
-      const { data: { user } } = await supabase.auth.getUser();
+      const { data: { session } } = await supabase.auth.getSession();
+      const user = session?.user ?? null;
       if (!user) { if (!cancelled) { setAttempts([]); setLoading(false); } return; }
       const { data } = await supabase
         .from("writing_attempts")
@@ -114,7 +130,7 @@ const WritingSkillChart = forwardRef<HTMLDivElement, Props>(({ taskType = "all",
       if (!cancelled) { setAttempts((data as Attempt[]) || []); setLoading(false); }
     })();
     return () => { cancelled = true; };
-  }, [refreshKey, liveResult?.overall]);
+  }, [refreshKey, reloadTick]);
 
   // Merge just-graded liveResult so scores appear instantly without waiting for DB reload
   const merged = useMemo<Attempt[]>(() => {
