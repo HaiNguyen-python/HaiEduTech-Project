@@ -161,40 +161,19 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
     [turns, turnFirstChunk, speakerAt]
   );
 
-  const [useAiVoice, setUseAiVoice] = useState(() => {
-    if (typeof window === "undefined") return true;
-    return localStorage.getItem("ielts-listening-ai-voice") !== "0";
-  });
-  useEffect(() => {
-    localStorage.setItem("ielts-listening-ai-voice", useAiVoice ? "1" : "0");
-  }, [useAiVoice]);
-
-  const ai = useListeningAiAudio(s.id, s.section, audioLines, useAiVoice);
+  // AI exam voices are always used; the device voice is only a silent fallback.
+  const ai = useListeningAiAudio(s.id, s.section, audioLines);
   const audioElRef = useRef<HTMLAudioElement | null>(null);
   const aiPlayingRef = useRef(false);
   const refreshedRef = useRef(false);
   const [preparing, setPreparing] = useState(false);
-  // Real duration of each AI turn file, read from the audio metadata.
+  const preparingRef = useRef(false);
+  // Real duration of each AI turn file, read from the playing audio element.
   const [turnDur, setTurnDur] = useState<Record<number, number>>({});
   /** AI files are recorded at the default pace; the speed picker is relative. */
   const BASE_RATE = s.rate ?? 0.85;
   const aiRate = Math.max(0.5, Math.min(1.6, rate / BASE_RATE));
-  const aiMode = useAiVoice && !ai.failed;
-
-  // Read the real length of every downloaded turn so the timer is exact.
-  useEffect(() => {
-    if (!useAiVoice) return;
-    for (const [key, url] of Object.entries(ai.urls)) {
-      const idx = Number(key);
-      const probe = new Audio();
-      probe.preload = "metadata";
-      probe.onloadedmetadata = () => {
-        if (!Number.isFinite(probe.duration)) return;
-        setTurnDur(prev => (prev[idx] ? prev : { ...prev, [idx]: probe.duration }));
-      };
-      probe.src = url;
-    }
-  }, [ai.urls, useAiVoice]);
+  const aiMode = !ai.failed;
 
   useEffect(() => { setTurnDur({}); }, [s.id]);
 
