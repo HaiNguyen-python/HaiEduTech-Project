@@ -17,6 +17,7 @@ import EssayBandAnalysis from "@/components/ielts/EssayBandAnalysis";
 import GlossaryPhrasePractice from "@/components/ielts/GlossaryPhrasePractice";
 import EssayOutline from "@/components/ielts/EssayOutline";
 import ClickRevealEssay from "@/components/ielts/ClickRevealEssay";
+import { getEssayIllustration } from "@/data/ieltsEssayIllustrations";
 
 const IeltsSampleEssayDetail = () => {
   const { essayId } = useParams();
@@ -47,6 +48,7 @@ const IeltsSampleEssayDetail = () => {
   }
 
   const essayBand = essay.band ?? "8.0+";
+  const illustration = getEssayIllustration(essay.id);
 
   // Render essay body with **bold** terms and paragraph breaks
   const renderEssayBody = (text: string) => {
@@ -210,13 +212,15 @@ const IeltsSampleEssayDetail = () => {
           {essay.taskType === 2 && (
             <figure className="relative overflow-hidden rounded-2xl border border-border/50 bg-gradient-to-br from-primary/5 to-emerald-500/5 shadow-sm">
               <div className="relative w-full h-52 md:h-72 bg-muted/40">
-                {/* Emoji fallback rendered behind the image — visible if the CDN image fails */}
+                {/* Emoji fallback rendered behind the image — visible if the image fails */}
                 <div className="absolute inset-0 flex items-center justify-center text-5xl md:text-6xl select-none opacity-70">
                   {topicEmoji(essay.topic)}
                 </div>
                 <img
-                  src={topicImageUrl(essay.topic, essay.id)}
-                  alt={`Editorial illustration for IELTS Task 2 topic: ${essay.topic}`}
+                  src={illustration?.url ?? topicImageUrl(essay.topic, essay.id)}
+                  alt={illustration?.alt ?? `Editorial illustration for IELTS Task 2 topic: ${essay.topic}`}
+                  width={1536}
+                  height={640}
                   loading="lazy"
                   decoding="async"
                   onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
@@ -224,7 +228,7 @@ const IeltsSampleEssayDetail = () => {
                 />
               </div>
               <figcaption className="px-4 py-2 text-xs text-muted-foreground bg-background/70 backdrop-blur capitalize">
-                🎨 {t("Hình minh họa chủ đề", "Topic illustration")}: <span className="text-foreground font-medium">{essay.topic}</span>
+                🎨 {t("Hình minh họa chủ đề", "Topic illustration")}: <span className="text-foreground font-medium">{illustration?.caption ?? essay.topic}</span>
               </figcaption>
             </figure>
           )}
