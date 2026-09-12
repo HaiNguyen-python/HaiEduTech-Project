@@ -212,6 +212,28 @@ const GrammarPractice = ({ taskType }: Props) => {
     setSaving(false);
   };
 
+  const handleExportPdf = () => {
+    if (!selected || !result) return;
+    openWritingPdf({
+      title: `IELTS Writing Task ${taskType} - Grammar Practice`,
+      subtitle: selected.structure,
+      meta: [
+        { label: "Score", value: `${result.score}/10` },
+        { label: "Category", value: selected.category },
+      ],
+      sections: [
+        { heading: "Target structure", kind: "text", text: `${selected.structure}\n\n${selected.meaning}` },
+        { heading: "Model example", kind: "text", text: selected.example },
+        { heading: "Your sentence", kind: "text", text: sentence },
+        { heading: "Structure feedback", kind: "text", text: result.phraseFeedback },
+        { heading: "Grammar feedback", kind: "text", text: result.grammarFeedback },
+        { heading: "Band 7.5+ upgrade", kind: "text", text: result.upgradedVersion },
+        { heading: "Tips to improve", kind: "list", items: result.tips || [] },
+      ],
+      fileName: `ielts-grammar-practice-task${taskType}`,
+    });
+  };
+
   const scoreColor = (s: number) =>
     s >= 8 ? "text-emerald-500" : s >= 6 ? "text-blue-500" : s >= 4 ? "text-amber-500" : "text-red-500";
 
