@@ -25,7 +25,11 @@ serve(async (req) => {
 
   try {
     // Public endpoint (verify_jwt=false). Skip auth roundtrip to cut latency.
-    const { essay } = await req.json();
+    const body = await req.json();
+    const essay = body?.essay;
+    const taskType = body?.taskType === 1 ? 1 : 2;
+    const customPrompt = typeof body?.prompt === "string" ? body.prompt.slice(0, 2000).trim() : "";
+    const chartDescription = typeof body?.chartDescription === "string" ? body.chartDescription.slice(0, 2000).trim() : "";
 
 
 
