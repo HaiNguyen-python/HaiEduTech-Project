@@ -131,6 +131,43 @@ const CohesionAnalyser = ({ taskType }: Props) => {
 
   const structure = result?.paragraphStructure;
 
+  const handleExportPdf = () => {
+    if (!result) return;
+    const st = result.paragraphStructure;
+    openWritingPdf({
+      title: `IELTS Writing Task ${taskType} - Cohesion Analyser`,
+      subtitle: result.scoreLabel,
+      meta: [{ label: "C&C band", value: String(result.score) }],
+      sections: [
+        { heading: "Your paragraph", kind: "text", text: paragraph.trim() },
+        {
+          heading: "Cohesive devices found",
+          kind: "table",
+          columns: ["Device", "Usage", "Note"],
+          rows: (result.linkersFound || []).map(l => [l.device, l.usage, l.note]),
+        },
+        { heading: "Reference chain analysis", kind: "text", text: result.referenceAnalysis },
+        {
+          heading: "Paragraph structure",
+          kind: "list",
+          items: st
+            ? [
+                `Topic sentence: ${st.hasTopicSentence ? "yes" : "no"}`,
+                `Supporting ideas: ${st.hasSupporting ? "yes" : "no"}`,
+                `Concluding idea: ${st.hasConcluding ? "yes" : "no"}`,
+                st.note,
+              ].filter(Boolean)
+            : [],
+        },
+        { heading: "Strengths", kind: "list", items: result.strengths || [] },
+        { heading: "Needs work", kind: "list", items: result.weaknesses || [] },
+        { heading: "Band 8+ rewrite", kind: "text", text: result.rewrite },
+        { heading: "Tips to improve", kind: "list", items: result.tips || [] },
+      ],
+      fileName: `ielts-cohesion-analyser-task${taskType}`,
+    });
+  };
+
   return (
     <div className="space-y-4 max-w-4xl mx-auto">
       <Card className="border-primary/30 bg-gradient-to-br from-primary/5 to-transparent">
