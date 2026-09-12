@@ -161,42 +161,32 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
     [turns, turnFirstChunk, speakerAt]
   );
 
-  const [useAiVoice, setUseAiVoice] = useState(() => {
-    if (typeof window === "undefined") return true;
-    return localStorage.getItem("ielts-listening-ai-voice") !== "0";
-  });
-  useEffect(() => {
-    localStorage.setItem("ielts-listening-ai-voice", useAiVoice ? "1" : "0");
-  }, [useAiVoice]);
-
-  const ai = useListeningAiAudio(s.id, s.section, audioLines, useAiVoice);
+  // AI exam voices are always used; the device voice is only a silent fallback.
+  const ai = useListeningAiAudio(s.id, s.section, audioLines);
   const audioElRef = useRef<HTMLAudioElement | null>(null);
   const aiPlayingRef = useRef(false);
   const refreshedRef = useRef(false);
   const [preparing, setPreparing] = useState(false);
-  // Real duration of each AI turn file, read from the audio metadata.
+  const preparingRef = useRef(false);
+  // Real duration of each AI turn file, read from the playing audio element.
   const [turnDur, setTurnDur] = useState<Record<number, number>>({});
   /** AI files are recorded at the default pace; the speed picker is relative. */
   const BASE_RATE = s.rate ?? 0.85;
   const aiRate = Math.max(0.5, Math.min(1.6, rate / BASE_RATE));
-  const aiMode = useAiVoice && !ai.failed;
-
-  // Read the real length of every downloaded turn so the timer is exact.
-  useEffect(() => {
-    if (!useAiVoice) return;
-    for (const [key, url] of Object.entries(ai.urls)) {
-      const idx = Number(key);
-      const probe = new Audio();
-      probe.preload = "metadata";
-      probe.onloadedmetadata = () => {
-        if (!Number.isFinite(probe.duration)) return;
-        setTurnDur(prev => (prev[idx] ? prev : { ...prev, [idx]: probe.duration }));
-      };
-      probe.src = url;
-    }
-  }, [ai.urls, useAiVoice]);
+  const aiMode = !ai.failed;
 
   useEffect(() => { setTurnDur({}); }, [s.id]);
+
+  /** Stop and unwire the current audio element so stale events cannot replay it. */
+  const detachAudio = useCallback(() => {
+    const el = audioElRef.current;
+    if (!el) return;
+    el.onended = null;
+    el.onerror = null;
+    el.onloadedmetadata = null;
+    try { el.pause(); } catch { /* noop */ }
+    audioElRef.current = null;
+  }, []);
 
   // Estimate per-chunk duration (speak time + trailing gap) in seconds.
   // Baseline ~160 wpm at rate=1.0 → ~0.375s/word; account for spelling slowdown + gap.
@@ -428,7 +418,16 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
     setCurrentIdx(firstChunk);
     setElapsedInChunk(offsetSec);
 
+    // Drop the previous element completely so its old handlers can never fire
+    // again and replay a turn that was already heard.
+    detachAudio();
+
+    // One outcome per turn: advance OR fall back, never both.
+    let settled = false;
+
     const nextTurn = () => {
+      if (settled) return;
+      settled = true;
       if (cancelledRef.current || gen !== generationRef.current) return;
       chunkTimerRef.current = window.setTimeout(
         () => playTurns(turnIdx + 1, gen),
@@ -436,14 +435,25 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
       );
     };
     const deviceForThisTurn = () => {
+      if (settled) return;
+      settled = true;
+      if (cancelledRef.current || gen !== generationRef.current) return;
+      detachAudio();
       const stopBefore = turnFirstChunk[turnIdx + 1] ?? chunks.length;
-      speakChunks(firstChunk, gen, stopBefore, nextTurn);
+      speakChunks(firstChunk, gen, stopBefore, () => {
+        if (cancelledRef.current || gen !== generationRef.current) return;
+        chunkTimerRef.current = window.setTimeout(
+          () => playTurns(turnIdx + 1, gen),
+          turnGap(turnIdx) * 1000
+        );
+      });
     };
 
     const url = ai.getUrl(turnIdx);
     if (!url) { deviceForThisTurn(); return; }
 
-    const el = audioElRef.current ?? new Audio();
+    const el = new Audio();
+    el.preload = "auto";
     audioElRef.current = el;
     aiPlayingRef.current = true;
     el.onended = nextTurn;
@@ -456,12 +466,13 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
       }
     };
     el.onerror = async () => {
-      if (cancelledRef.current || gen !== generationRef.current) return;
+      if (settled || cancelledRef.current || gen !== generationRef.current) return;
       // Signed URLs expire; ask for a fresh batch once, then fall back.
       if (!refreshedRef.current) {
         refreshedRef.current = true;
         const ok = await ai.refresh();
         if (ok && !cancelledRef.current && gen === generationRef.current) {
+          settled = true;
           playTurns(turnIdx, gen, offsetSec);
           return;
         }
@@ -470,25 +481,36 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
     };
     el.src = url;
     el.playbackRate = aiRate;
-    el.play().catch(() => { deviceForThisTurn(); });
+    el.play().catch((err: unknown) => {
+      // A play() rejected because we moved on (or the tab blocked autoplay) is
+      // not a broken file - re-reading the turn here is what caused doubles.
+      const name = (err as { name?: string } | null)?.name;
+      if (name === "AbortError" || name === "NotAllowedError") return;
+      deviceForThisTurn();
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [turns.length, turnFirstChunk, chunks.length, turnGap, aiRate, ai, speakChunks, finishPlayback]);
+  }, [turns.length, turnFirstChunk, chunks.length, turnGap, aiRate, ai, speakChunks, finishPlayback, detachAudio]);
 
   /**
    * Start playback from a chunk. In AI mode the whole recording is downloaded
    * first so the voices never change part way through.
    */
   const speak = async (fromIdx = 0, offsetSec = 0) => {
+    // Only one playback stream at a time; a second request while the recording
+    // is still downloading would read the same lines twice.
+    if (preparingRef.current) return;
     if (chunkTimerRef.current) window.clearTimeout(chunkTimerRef.current);
     try { window.speechSynthesis?.cancel(); } catch { /* noop */ }
-    try { audioElRef.current?.pause(); } catch { /* noop */ }
+    detachAudio();
     generationRef.current++;
     cancelledRef.current = true;
 
     let aiOk = false;
-    if (useAiVoice) {
+    if (!ai.failed) {
+      preparingRef.current = true;
       setPreparing(true);
       aiOk = ai.ready || (await ai.prepare());
+      preparingRef.current = false;
       setPreparing(false);
     }
 
@@ -556,10 +578,7 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
     if (chunkTimerRef.current) window.clearTimeout(chunkTimerRef.current);
     window.speechSynthesis?.cancel();
     aiPlayingRef.current = false;
-    try {
-      const el = audioElRef.current;
-      if (el) { el.pause(); el.currentTime = 0; }
-    } catch { /* noop */ }
+    detachAudio();
     stopTick();
     setPlaying(false);
     setPaused(false);
@@ -808,21 +827,6 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
             </Badge>
             )}
 
-            <Badge
-              variant={useAiVoice ? "default" : "outline"}
-              className={cn(
-                "cursor-pointer text-[10px] gap-1",
-                useAiVoice && "bg-emerald-600 hover:bg-emerald-700 text-white border-emerald-600"
-              )}
-              onClick={() => { stop(); setUseAiVoice(v => !v); }}
-              title={t(
-                "Giọng AI chất lượng cao như đề thi thật (tải lần đầu, sau đó phát ngay)",
-                "High quality AI exam voices (loaded once, then instant)"
-              )}
-            >
-              <Sparkles className="w-3 h-3" />
-              {useAiVoice ? t("Giọng AI • ON", "AI voice • ON") : t("Giọng máy", "Device voice")}
-            </Badge>
 
             <span className="text-xs text-muted-foreground ml-auto inline-flex items-center gap-1">
               <Mic2 className="w-3 h-3 text-emerald-600" />
