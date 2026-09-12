@@ -146,6 +146,13 @@ const ParagraphReorder = ({ taskType }: Props) => {
 
   const handleCheck = () => {
     setChecked(true);
+    if (order.length > 0) {
+      recordPracticeSignal({
+        crit: "CC",
+        score10: (correctCount / order.length) * 10,
+        taskType,
+      });
+    }
     if (isCorrect) toast.success(t("Chính xác! ✨", "Perfect order! ✨"));
     else toast.error(t(`Chưa đúng - ${correctCount}/${order.length} câu đúng vị trí`, `Not quite - ${correctCount}/${order.length} in place`));
   };
