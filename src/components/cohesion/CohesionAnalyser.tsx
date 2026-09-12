@@ -6,7 +6,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Send, Loader2, RotateCcw, Sparkles, ArrowUp, BookmarkPlus,
-  BookmarkCheck, CheckCircle2, XCircle, AlertTriangle, Wand2,
+  BookmarkCheck, CheckCircle2, XCircle, AlertTriangle, Wand2, Download,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -16,6 +16,7 @@ import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { recordPracticeBandSignal } from "@/lib/writingPracticeSignals";
+import { openWritingPdf } from "@/lib/writingPdfExport";
 import { appendCohesionNotebook, escapeCohesionHtml } from "./cohesionNotebook";
 
 interface Props {
@@ -131,6 +132,43 @@ const CohesionAnalyser = ({ taskType }: Props) => {
 
   const structure = result?.paragraphStructure;
 
+  const handleExportPdf = () => {
+    if (!result) return;
+    const st = result.paragraphStructure;
+    openWritingPdf({
+      title: `IELTS Writing Task ${taskType} - Cohesion Analyser`,
+      subtitle: result.scoreLabel,
+      meta: [{ label: "C&C band", value: String(result.score) }],
+      sections: [
+        { heading: "Your paragraph", kind: "text", text: paragraph.trim() },
+        {
+          heading: "Cohesive devices found",
+          kind: "table",
+          columns: ["Device", "Usage", "Note"],
+          rows: (result.linkersFound || []).map(l => [l.device, l.usage, l.note]),
+        },
+        { heading: "Reference chain analysis", kind: "text", text: result.referenceAnalysis },
+        {
+          heading: "Paragraph structure",
+          kind: "list",
+          items: st
+            ? [
+                `Topic sentence: ${st.hasTopicSentence ? "yes" : "no"}`,
+                `Supporting ideas: ${st.hasSupporting ? "yes" : "no"}`,
+                `Concluding idea: ${st.hasConcluding ? "yes" : "no"}`,
+                st.note,
+              ].filter(Boolean)
+            : [],
+        },
+        { heading: "Strengths", kind: "list", items: result.strengths || [] },
+        { heading: "Needs work", kind: "list", items: result.weaknesses || [] },
+        { heading: "Band 8+ rewrite", kind: "text", text: result.rewrite },
+        { heading: "Tips to improve", kind: "list", items: result.tips || [] },
+      ],
+      fileName: `ielts-cohesion-analyser-task${taskType}`,
+    });
+  };
+
   return (
     <div className="space-y-4 max-w-4xl mx-auto">
       <Card className="border-primary/30 bg-gradient-to-br from-primary/5 to-transparent">
@@ -197,7 +235,10 @@ const CohesionAnalyser = ({ taskType }: Props) => {
                 </div>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="flex justify-end">
+                <div className="flex justify-end flex-wrap gap-2">
+                  <Button size="sm" variant="outline" onClick={handleExportPdf}>
+                    <Download className="w-4 h-4 mr-1.5" />{t("Tải PDF", "Download PDF")}
+                  </Button>
                   <Button
                     size="sm"
                     variant={saved ? "outline" : "default"}

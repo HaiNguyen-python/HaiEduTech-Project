@@ -14,6 +14,7 @@ import { fetchUpgradedEssay } from "@/lib/upgradeWriting";
 import { handleAiError } from "@/lib/aiResponseHandler";
 import WritingResultPanel, { type GradingResult } from "@/components/ielts/WritingResultPanel";
 import { WRITING_ATTEMPT_EVENT } from "@/components/WritingSkillChart";
+import { openWritingPdf, buildGradedEssayPdf } from "@/lib/writingPdfExport";
 
 const MAX_PROMPT = 2000;
 const MAX_ESSAY = 6000;
@@ -346,7 +347,22 @@ const FreeWritingGrader = forwardRef<HTMLDivElement>((_props, ref) => {
       {/* RIGHT: results */}
       <div className="space-y-4">
         {result ? (
-          <WritingResultPanel result={result} upgradeLoading={upgradeLoading} onRetryUpgrade={retryUpgrade} />
+          <WritingResultPanel
+            result={result}
+            upgradeLoading={upgradeLoading}
+            onRetryUpgrade={retryUpgrade}
+            onExportPdf={() => {
+              openWritingPdf(buildGradedEssayPdf({
+                taskType,
+                prompt,
+                essay,
+                wordCount,
+                chartDescription: taskType === 1 ? chartDescription : "",
+                activityLabel: t("Chấm bài tự do (Smart Grading)", "Smart Grading (own prompt)"),
+                result,
+              }));
+            }}
+          />
         ) : (
           <Card className="border-dashed">
             <CardContent className="p-8 text-center text-sm text-muted-foreground">

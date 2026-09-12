@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles, Send, Loader2, CheckCircle2, XCircle, Lightbulb, ArrowUp, RotateCcw, BookOpen, PenLine, Eye, BookmarkPlus, BookmarkCheck } from "lucide-react";
+import { Sparkles, Send, Loader2, CheckCircle2, XCircle, Lightbulb, ArrowUp, RotateCcw, BookOpen, PenLine, Eye, BookmarkPlus, BookmarkCheck, Download } from "lucide-react";
+import { openWritingPdf } from "@/lib/writingPdfExport";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -242,6 +243,31 @@ const PhrasePractice = ({ taskType }: Props) => {
     setShowAnswer(false);
     setSavedGrade(false);
     setSavedRewrite(false);
+  };
+
+  const handleExportPdf = () => {
+    if (!selectedPhrase || !result) return;
+    openWritingPdf({
+      title: `IELTS Writing Task ${taskType} - Phrase Practice`,
+      subtitle: `"${selectedPhrase.phrase}"`,
+      meta: [
+        { label: "Score", value: `${result.score}/10` },
+        { label: "Level", value: String(selectedPhrase.level) },
+      ],
+      sections: [
+        {
+          heading: "Target phrase",
+          kind: "text",
+          text: `${selectedPhrase.phrase}\n\n${selectedPhrase.meaning} - ${selectedPhrase.meaningEn}`,
+        },
+        { heading: "Your sentence", kind: "text", text: userSentence },
+        { heading: "Phrase usage feedback", kind: "text", text: result.phraseFeedback },
+        { heading: "Grammar feedback", kind: "text", text: result.grammarFeedback },
+        { heading: "Band 7.5+ upgrade", kind: "text", text: result.upgradedVersion },
+        { heading: "Tips to improve", kind: "list", items: result.tips || [] },
+      ],
+      fileName: `ielts-phrase-practice-task${taskType}`,
+    });
   };
 
   const handleSaveGrade = async () => {
@@ -516,7 +542,10 @@ const PhrasePractice = ({ taskType }: Props) => {
                     </CardHeader>
                     <CardContent className="space-y-4">
                       {/* Save to notebook */}
-                      <div className="flex justify-end">
+                      <div className="flex justify-end flex-wrap gap-2">
+                        <Button size="sm" variant="outline" onClick={handleExportPdf}>
+                          <Download className="w-4 h-4 mr-1.5" />{t("Tải PDF", "Download PDF")}
+                        </Button>
                         <Button
                           size="sm"
                           variant={savedGrade ? "outline" : "default"}

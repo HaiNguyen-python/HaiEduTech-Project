@@ -3,7 +3,7 @@
 // Smart Grading tab so both views stay visually identical.
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ChevronDown, ChevronUp, Loader2, Copy, Check, RefreshCw } from "lucide-react";
+import { ChevronDown, ChevronUp, Loader2, Copy, Check, RefreshCw, Download } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -35,9 +35,11 @@ interface Props {
   result: GradingResult;
   upgradeLoading: boolean;
   onRetryUpgrade?: () => void;
+  /** When provided, a "Download PDF" button appears under the overall band. */
+  onExportPdf?: () => void;
 }
 
-const WritingResultPanel = ({ result, upgradeLoading, onRetryUpgrade }: Props) => {
+const WritingResultPanel = ({ result, upgradeLoading, onRetryUpgrade, onExportPdf }: Props) => {
   const { t } = useLanguage();
   const [expandedCriteria, setExpandedCriteria] = useState<number | null>(null);
   const [copied, setCopied] = useState(false);
@@ -56,6 +58,11 @@ const WritingResultPanel = ({ result, upgradeLoading, onRetryUpgrade }: Props) =
         <CardContent className="p-6 text-center">
           <p className="text-sm text-muted-foreground mb-1">{t("Điểm tổng", "Overall Band Score")}</p>
           <p className={`text-5xl font-bold ${getScoreColor(result.overall)}`}>{result.overall}</p>
+          {onExportPdf && (
+            <Button size="sm" variant="outline" className="mt-4" onClick={onExportPdf}>
+              <Download className="w-4 h-4 mr-1.5" /> {t("Tải PDF", "Download PDF")}
+            </Button>
+          )}
         </CardContent>
       </Card>
 

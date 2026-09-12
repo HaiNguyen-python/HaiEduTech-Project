@@ -6,8 +6,9 @@ import { useMemo, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowUp, ArrowDown, CheckCircle2, RotateCcw, Shuffle,
-  Sparkles, BookmarkPlus, BookmarkCheck, Loader2, Eye,
+  Sparkles, BookmarkPlus, BookmarkCheck, Loader2, Eye, Download,
 } from "lucide-react";
+import { openWritingPdf } from "@/lib/writingPdfExport";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -134,6 +135,31 @@ const ParagraphReorder = ({ taskType }: Props) => {
 
   const isCorrect = order.length > 0 && order.every((v, i) => v === i);
   const correctCount = order.filter((v, i) => v === i).length;
+
+  const handleExportPdf = () => {
+    openWritingPdf({
+      title: `IELTS Writing Task ${taskType} - Paragraph Reorder`,
+      subtitle: current.topic,
+      meta: [
+        { label: "Score", value: `${correctCount}/${order.length}` },
+        { label: "Type", value: String(current.type ?? "") },
+      ],
+      sections: [
+        {
+          heading: "Your order",
+          kind: "list",
+          items: order.map((v, i) => `${i + 1}. ${current.sentences[v]}`),
+        },
+        {
+          heading: "Correct Band 8+ order",
+          kind: "list",
+          items: current.sentences.map((s, i) => `${i + 1}. ${s}`),
+        },
+        { heading: "Why this order works", kind: "text", text: current.explanation },
+      ],
+      fileName: `ielts-paragraph-reorder-task${taskType}`,
+    });
+  };
 
   const goNext = () => {
     const nextIdx = (idx + 1) % pool.length;
@@ -278,7 +304,10 @@ const ParagraphReorder = ({ taskType }: Props) => {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="flex justify-end">
+                <div className="flex justify-end flex-wrap gap-2">
+                  <Button size="sm" variant="outline" onClick={handleExportPdf}>
+                    <Download className="w-4 h-4 mr-1.5" />{t("Tải PDF", "Download PDF")}
+                  </Button>
                   <Button
                     size="sm"
                     variant={saved ? "outline" : "default"}

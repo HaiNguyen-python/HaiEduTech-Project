@@ -7,8 +7,9 @@ import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Languages, Send, Loader2, Lightbulb, RotateCcw, Shuffle, ArrowRight,
-  CheckCircle2, Eye, BookmarkPlus, BookmarkCheck, Sparkles, Volume2,
+  CheckCircle2, Eye, BookmarkPlus, BookmarkCheck, Sparkles, Volume2, Download,
 } from "lucide-react";
+import { openWritingPdf } from "@/lib/writingPdfExport";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -268,6 +269,51 @@ const TranslationPractice = ({ taskType }: Props) => {
   const displayScore = ai?.score ?? local?.score ?? 0;
   const cats = TRANSLATION_CATEGORIES[taskType];
 
+  const handleExportPdf = () => {
+    openWritingPdf({
+      title: `IELTS Writing Task ${taskType} - Translation Practice`,
+      subtitle: item.category,
+      meta: [
+        { label: "Score", value: `${displayScore}/10` },
+        { label: "Band", value: String(item.band ?? "") },
+      ],
+      sections: [
+        { heading: "Vietnamese sentence", kind: "text", text: item.vi },
+        { heading: "Your translation", kind: "text", text: answer },
+        { heading: "Reference version", kind: "text", text: item.en },
+        ...(ai
+          ? ([
+              {
+                heading: "AI scores",
+                kind: "table",
+                columns: ["Criterion", "Score"],
+                rows: [
+                  ["Accuracy", String(ai.accuracy)],
+                  ["Grammar", String(ai.grammar)],
+                  ["Vocabulary", String(ai.vocabulary)],
+                  ["Style", String(ai.style)],
+                ],
+              },
+              { heading: "Verdict", kind: "text", text: ai.verdict },
+              {
+                heading: "Feedback",
+                kind: "list",
+                items: (ai.feedback || []).map(f => (lang === "vi" ? f.vi : f.en)),
+              },
+              { heading: "Corrected version", kind: "text", text: ai.corrected },
+              { heading: "Band 7.5+ upgrade", kind: "text", text: ai.upgraded },
+            ] as const)
+          : []),
+        {
+          heading: "Teacher Hai's tip",
+          kind: "text",
+          text: lang === "vi" ? item.noteVi : item.noteEn,
+        },
+      ] as Parameters<typeof openWritingPdf>[0]["sections"],
+      fileName: `ielts-translation-practice-task${taskType}`,
+    });
+  };
+
   return (
     <div className="space-y-4">
       {/* Sentence / paragraph switch */}
@@ -522,6 +568,10 @@ const TranslationPractice = ({ taskType }: Props) => {
                   <p className="text-sm">{lang === "vi" ? item.noteVi : item.noteEn}</p>
                 </div>
                 <div className="flex flex-wrap gap-2">
+                  <Button variant="outline" size="sm" onClick={handleExportPdf} className="gap-1.5">
+                    <Download className="w-4 h-4" />
+                    {t("Tải PDF", "Download PDF")}
+                  </Button>
                   <Button variant="outline" size="sm" onClick={handleSaveNotebook} disabled={saved} className="gap-1.5">
                     {saved ? <BookmarkCheck className="w-4 h-4" /> : <BookmarkPlus className="w-4 h-4" />}
                     {saved ? t("Đã lưu", "Saved") : t("Lưu vào sổ tay", "Save to notebook")}

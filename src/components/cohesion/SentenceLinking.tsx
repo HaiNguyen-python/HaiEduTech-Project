@@ -6,7 +6,7 @@ import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Send, Loader2, CheckCircle2, RotateCcw, Sparkles, ArrowUp,
-  BookmarkPlus, BookmarkCheck, Eye, Shuffle, Lightbulb,
+  BookmarkPlus, BookmarkCheck, Eye, Shuffle, Lightbulb, Download,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -16,6 +16,7 @@ import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { recordPracticeSignal } from "@/lib/writingPracticeSignals";
+import { openWritingPdf } from "@/lib/writingPdfExport";
 import { LINKING_PAIRS, LinkingPair } from "@/data/ieltsCohesionBank";
 import { appendCohesionNotebook, escapeCohesionHtml } from "./cohesionNotebook";
 
@@ -113,6 +114,34 @@ const SentenceLinking = ({ taskType }: Props) => {
     } finally {
       setGrading(false);
     }
+  };
+
+  const handleExportPdf = () => {
+    if (!result) return;
+    openWritingPdf({
+      title: `IELTS Writing Task ${taskType} - Sentence Linking`,
+      subtitle: current.topic,
+      meta: [{ label: "Score", value: `${result.score}/10` }],
+      sections: [
+        {
+          heading: "Source sentences",
+          kind: "list",
+          items: [`A: ${current.sentenceA}`, `B: ${current.sentenceB}`],
+        },
+        {
+          heading: "Suggested linkers",
+          kind: "list",
+          items: current.suggestedLinkers || [],
+        },
+        { heading: "Your combined sentence", kind: "text", text: combined.trim() },
+        { heading: "Cohesion feedback", kind: "text", text: result.phraseFeedback },
+        { heading: "Grammar feedback", kind: "text", text: result.grammarFeedback },
+        { heading: "Band 7.5+ upgrade", kind: "text", text: result.upgradedVersion },
+        { heading: "Model answers", kind: "list", items: current.modelAnswers || [] },
+        { heading: "Tips to improve", kind: "list", items: result.tips || [] },
+      ],
+      fileName: `ielts-sentence-linking-task${taskType}`,
+    });
   };
 
   const handleSave = async () => {
@@ -231,7 +260,10 @@ const SentenceLinking = ({ taskType }: Props) => {
                 </div>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="flex justify-end">
+                <div className="flex justify-end flex-wrap gap-2">
+                  <Button size="sm" variant="outline" onClick={handleExportPdf}>
+                    <Download className="w-4 h-4 mr-1.5" />{t("Tải PDF", "Download PDF")}
+                  </Button>
                   <Button
                     size="sm"
                     variant={saved ? "outline" : "default"}

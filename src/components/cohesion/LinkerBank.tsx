@@ -6,7 +6,7 @@ import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Link2, Send, Loader2, CheckCircle2, XCircle, Lightbulb, ArrowUp,
-  RotateCcw, AlertTriangle, BookmarkPlus, BookmarkCheck, Sparkles,
+  RotateCcw, AlertTriangle, BookmarkPlus, BookmarkCheck, Sparkles, Download,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -16,6 +16,7 @@ import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { recordPracticeSignal } from "@/lib/writingPracticeSignals";
+import { openWritingPdf } from "@/lib/writingPdfExport";
 import { LINKERS, LINKER_CATEGORIES, LinkerItem } from "@/data/ieltsCohesionBank";
 import { appendCohesionNotebook, escapeCohesionHtml } from "./cohesionNotebook";
 
@@ -139,6 +140,32 @@ const LinkerBank = ({ taskType }: Props) => {
     });
     if (ok) setSaved(true);
     setSaving(false);
+  };
+
+  const handleExportPdf = () => {
+    if (!selected || !result) return;
+    openWritingPdf({
+      title: `IELTS Writing Task ${taskType} - Linker Bank`,
+      subtitle: selected.linker,
+      meta: [
+        { label: "Score", value: `${result.score}/10` },
+        { label: "Category", value: String(selected.category ?? "") },
+        { label: "Level", value: String(selected.level ?? "") },
+      ],
+      sections: [
+        {
+          heading: "Linker",
+          kind: "text",
+          text: `${selected.linker}\n\n${selected.meaning}\n\nModel example: ${selected.example}${selected.warning ? `\n\nWarning: ${selected.warning}` : ""}`,
+        },
+        { heading: "Your sentence", kind: "text", text: sentence.trim() },
+        { heading: "Linker usage feedback", kind: "text", text: result.phraseFeedback },
+        { heading: "Grammar feedback", kind: "text", text: result.grammarFeedback },
+        { heading: "Band 7.5+ upgrade", kind: "text", text: result.upgradedVersion },
+        { heading: "Tips to improve", kind: "list", items: result.tips || [] },
+      ],
+      fileName: `ielts-linker-bank-task${taskType}`,
+    });
   };
 
   return (
@@ -293,7 +320,10 @@ const LinkerBank = ({ taskType }: Props) => {
                       </div>
                     </CardHeader>
                     <CardContent className="space-y-4">
-                      <div className="flex justify-end">
+                      <div className="flex justify-end flex-wrap gap-2">
+                        <Button size="sm" variant="outline" onClick={handleExportPdf}>
+                          <Download className="w-4 h-4 mr-1.5" />{t("Tải PDF", "Download PDF")}
+                        </Button>
                         <Button
                           size="sm"
                           variant={saved ? "outline" : "default"}

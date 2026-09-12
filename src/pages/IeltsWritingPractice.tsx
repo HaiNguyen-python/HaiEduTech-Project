@@ -36,6 +36,7 @@ import WritingSkillChart, { WRITING_ATTEMPT_EVENT } from "@/components/WritingSk
 import { Sparkles, PenLine, GraduationCap, Lightbulb, Link2, Languages, ClipboardCheck } from "lucide-react";
 import FreeWritingGrader from "@/components/ielts/FreeWritingGrader";
 import WritingResultPanel from "@/components/ielts/WritingResultPanel";
+import { openWritingPdf, buildGradedEssayPdf } from "@/lib/writingPdfExport";
 
 // Grading result types (shared with AIGrading)
 interface CriteriaDetail {
@@ -873,6 +874,16 @@ const IeltsWritingPractice = () => {
                   result={result}
                   upgradeLoading={upgradeLoading}
                   onRetryUpgrade={() => { void retryUpgrade(); }}
+                  onExportPdf={() => {
+                    openWritingPdf(buildGradedEssayPdf({
+                      taskType,
+                      prompt: currentPrompt?.prompt || "",
+                      essay,
+                      wordCount,
+                      activityLabel: t("Luyện viết bài luận", "Essay Writing"),
+                      result,
+                    }));
+                  }}
                 />
               )}
             </motion.div>

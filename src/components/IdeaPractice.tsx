@@ -16,8 +16,9 @@ import { useMemo, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Lightbulb, Sparkles, BookOpen, Save, Check, RotateCcw,
-  ChevronRight, Target, MessageSquare,
+  ChevronRight, Target, MessageSquare, Download,
 } from "lucide-react";
+import { openWritingPdf } from "@/lib/writingPdfExport";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -62,6 +63,40 @@ const IdeaPractice = () => {
     setSaved(true);
     toast.success(t("Đã lưu ý tưởng của bạn", "Your ideas have been saved"));
     setTimeout(() => setSaved(false), 2000);
+  };
+
+  const handleExportPdf = () => {
+    if (!selected) return;
+    openWritingPdf({
+      title: "IELTS Writing Task 2 - Idea Bank",
+      subtitle: selected.type.replace(/-/g, " ").toUpperCase(),
+      sections: [
+        {
+          heading: "Prompt",
+          kind: "text",
+          text: lang === "vi" ? selected.promptVi : selected.prompt,
+        },
+        ...selected.sides.map((side) => ({
+          heading: `Ideas: ${lang === "vi" ? side.labelVi : side.label}`,
+          kind: "list" as const,
+          items: side.ideas.map(
+            (idea, i) =>
+              `${i + 1}. ${idea.point} | Reason: ${idea.reason} | Example: ${idea.example}${
+                idea.collocations && idea.collocations.length
+                  ? ` | Collocations: ${idea.collocations.join(", ")}`
+                  : ""
+              }`,
+          ),
+        })),
+        {
+          heading: "Suggested Band 7+ thesis sentences",
+          kind: "list" as const,
+          items: selected.thesisOptions || [],
+        },
+        { heading: "Your own ideas", kind: "text" as const, text: notes },
+      ],
+      fileName: "ielts-idea-bank-task2",
+    });
   };
 
   const handleReset = () => {
@@ -278,7 +313,11 @@ const IdeaPractice = () => {
                     rows={6}
                     className="text-sm"
                   />
-                  <div className="flex gap-2">
+                  <div className="flex flex-wrap gap-2">
+                    <Button onClick={handleExportPdf} size="sm" variant="outline" className="gap-2">
+                      <Download className="w-4 h-4" />
+                      {t("Tải PDF", "Download PDF")}
+                    </Button>
                     <Button onClick={handleSaveNotes} size="sm" className="gap-2">
                       {saved ? (
                         <Check className="w-4 h-4" />
