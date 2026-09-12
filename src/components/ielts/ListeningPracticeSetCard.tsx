@@ -410,10 +410,69 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
     const v = pickVoiceFor(profile.gender, profile.seed);
     if (v) u.voice = v;
     u.onend = advance;
-    u.onerror = () => { setPlaying(false); setPaused(false); stopTick(); };
+    // A failed utterance must not kill the recording - move to the next sentence.
+    u.onerror = advance;
     window.speechSynthesis.speak(u);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chunks, rate, accent, voicePool, useAiVoice, ai.urls]);
+  }, [chunks, rate, accent, voicePool, finishPlayback]);
+
+  /**
+   * AI playback: one cached file per speaker turn, played in order. A turn whose
+   * file is missing or broken is spoken by the device voice so the recording
+   * always plays to the end.
+   */
+  const playTurns = useCallback((turnIdx: number, gen: number, offsetSec = 0) => {
+    if (cancelledRef.current || gen !== generationRef.current) return;
+    if (turnIdx >= turns.length) { finishPlayback(); return; }
+    const firstChunk = turnFirstChunk[turnIdx] ?? 0;
+    setCurrentIdx(firstChunk);
+    setElapsedInChunk(offsetSec);
+
+    const nextTurn = () => {
+      if (cancelledRef.current || gen !== generationRef.current) return;
+      chunkTimerRef.current = window.setTimeout(
+        () => playTurns(turnIdx + 1, gen),
+        turnGap(turnIdx) * 1000
+      );
+    };
+    const deviceForThisTurn = () => {
+      const stopBefore = turnFirstChunk[turnIdx + 1] ?? chunks.length;
+      speakChunks(firstChunk, gen, stopBefore, nextTurn);
+    };
+
+    const url = ai.getUrl(turnIdx);
+    if (!url) { deviceForThisTurn(); return; }
+
+    const el = audioElRef.current ?? new Audio();
+    audioElRef.current = el;
+    aiPlayingRef.current = true;
+    el.onended = nextTurn;
+    el.onloadedmetadata = () => {
+      if (Number.isFinite(el.duration)) {
+        setTurnDur(prev => (prev[turnIdx] ? prev : { ...prev, [turnIdx]: el.duration }));
+      }
+      if (offsetSec > 0) {
+        el.currentTime = Math.max(0, Math.min(el.duration - 0.2, offsetSec * aiRate));
+      }
+    };
+    el.onerror = async () => {
+      if (cancelledRef.current || gen !== generationRef.current) return;
+      // Signed URLs expire; ask for a fresh batch once, then fall back.
+      if (!refreshedRef.current) {
+        refreshedRef.current = true;
+        const ok = await ai.refresh();
+        if (ok && !cancelledRef.current && gen === generationRef.current) {
+          playTurns(turnIdx, gen, offsetSec);
+          return;
+        }
+      }
+      deviceForThisTurn();
+    };
+    el.src = url;
+    el.playbackRate = aiRate;
+    el.play().catch(() => { deviceForThisTurn(); });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [turns.length, turnFirstChunk, chunks.length, turnGap, aiRate, ai, speakChunks, finishPlayback]);
 
   const speak = async (fromIdx = 0) => {
     if (chunkTimerRef.current) window.clearTimeout(chunkTimerRef.current);
