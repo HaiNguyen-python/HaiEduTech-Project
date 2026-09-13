@@ -8,6 +8,7 @@ import ShadowingMode from "@/components/speaking/ShadowingMode";
 import SoundDrillMode from "@/components/speaking/SoundDrillMode";
 import FreeTalkMode from "@/components/speaking/FreeTalkMode";
 import WeakWordReview from "@/components/speaking/WeakWordReview";
+import SpeakWithMrHaiMode from "@/components/speaking/SpeakWithMrHaiMode";
 import SpeakingOverview from "@/components/speaking/SpeakingOverview";
 import { ActivityChips, type SpeakingActivity } from "@/components/speaking/ActivityPicker";
 import type { PlanMode } from "@/lib/speaking/pronunciationPlan";
@@ -20,8 +21,9 @@ import FinnishSkier from "@/components/FinnishSkier";
 import GreatWallClimber from "@/components/GreatWallClimber";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Mic, Repeat, Waves, MessageCircle, Brain, BarChart3, Compass } from "lucide-react";
+import { ArrowLeft, Mic, BarChart3 } from "lucide-react";
 import { motion } from "framer-motion";
+import speakingCoachBanner from "@/assets/speaking-coach-mr-hai-banner.jpg";
 
 
 interface FlyingStar {
@@ -155,19 +157,24 @@ const SpeakingCoachPage = () => {
           {t("Quay lại", "Go back")}
         </Button>
 
-        <motion.div
+        <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-6"
+          className="relative mb-6 min-h-[220px] overflow-hidden rounded-md border border-primary/20 bg-card shadow-lg sm:min-h-[260px]"
         >
-          <h1 className="text-2xl sm:text-3xl font-bold text-foreground flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
-              <Mic className="w-6 h-6 text-primary" />
-            </div>
-            {config.title}
-          </h1>
-          <p className="text-muted-foreground mt-2">{config.subtitle}</p>
-        </motion.div>
+          <img src={speakingCoachBanner} alt={t("Thầy Hải và học viên luyện nói", "Mr. Hai practising speaking with a learner")} width={1600} height={720} loading="lazy" className="absolute inset-0 h-full w-full object-cover object-center" />
+          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-background/20" />
+          <div className="relative z-10 flex min-h-[220px] max-w-2xl flex-col justify-center p-5 sm:min-h-[260px] sm:p-8">
+            <h1 className="flex items-center gap-3 text-2xl font-bold text-foreground sm:text-3xl">
+              <div className="grid h-12 w-12 shrink-0 place-items-center rounded-md bg-primary text-primary-foreground shadow-md">
+                <Mic className="h-6 w-6" />
+              </div>
+              {config.title}
+            </h1>
+            <p className="mt-3 max-w-lg text-base font-medium text-foreground/80">{config.subtitle}</p>
+            <Button size="sm" className="mt-5 w-fit" onClick={() => pickActivity("mrhai")}>{t("Nói với thầy Hải", "Speak with Mr. Hai")}</Button>
+          </div>
+        </motion.section>
 
         {/* Gamification progress visualizer */}
         {excellentCount > 0 && (
@@ -257,6 +264,7 @@ const SpeakingCoachPage = () => {
             {activity === "shadow" && <ShadowingMode language={lang} onPerfectScore={handlePerfectScore} />}
             {activity === "drill" && <SoundDrillMode language={lang} onPerfectScore={handlePerfectScore} />}
             {activity === "freetalk" && <FreeTalkMode language={lang} onPerfectScore={handlePerfectScore} />}
+            {activity === "mrhai" && <SpeakWithMrHaiMode language={lang} />}
             {activity === "review" && (
               <WeakWordReview language={lang} onChange={() => setWeakCount(countWeakWords(lang))} />
             )}
