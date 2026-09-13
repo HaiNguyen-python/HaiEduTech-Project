@@ -105,10 +105,10 @@ const FreeTalkMode = ({ language, onPerfectScore }: Props) => {
         });
         if (error) throw error;
         if ((data as any)?.error) throw new Error(String((data as any).error));
-        const report = normalizeFreeTalkReport(data);
-        if (!report) throw new Error("Invalid AI feedback response");
-        setAi(report);
-        if (report.score >= 80) onPerfectScore?.();
+        const aiReport = normalizeFreeTalkReport(data);
+        if (!aiReport) throw new Error("Invalid AI feedback response");
+        setAi(aiReport);
+        if (aiReport.score >= 80) onPerfectScore?.();
       } catch {
         setAiError(
           t(
