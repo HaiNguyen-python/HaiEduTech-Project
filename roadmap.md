@@ -1,6 +1,7 @@
 # Roadmap
 
 ## Done
+- [x] Sound Lab: guided listen-coach-speak flow, sequential pair audio, safe sound highlighting, same-item retries, best-attempt scoring, and actionable results
 - [x] Shadowing studio: Vibrant glass layout, theme chibi art, live waveform states, phrase pacing, accessible controls, and responsive score feedback
 - [x] Speaking Coach: six-language stability audit, guarded AI feedback, live weak-word progress, accessible mic errors, theme-level chibi illustrations, and regression tests
 - [x] English Fun Facts: branded action colors, balanced quotation marks, and aligned responsive cards
