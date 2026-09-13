@@ -132,6 +132,7 @@ export function getStructureExample(structure: string, topic: string, part: 1 | 
     .replace(/\s+([,.;!?])/g, "$1")
     .replace(/\s+/g, " ")
     .trim();
+  if (example.length < 25) example = `${example.replace(/[.!?]$/, "")}, especially when discussing ${topicText}`;
   if (!/[.!?]$/.test(example)) example += ".";
   return example.charAt(0).toUpperCase() + example.slice(1);
 }
@@ -162,9 +163,14 @@ const PHRASE_STOP_WORDS = new Set([
   "a", "an", "and", "at", "be", "by", "for", "from", "in", "is", "it", "my", "of", "on", "one", "or", "the", "to", "with",
 ]);
 
-const wordStem = (word: string) => word
-  .replace(/ies$/i, "y")
-  .replace(/(ing|ed|es|s)$/i, "");
+const wordStem = (word: string) => {
+  if (/ies$/i.test(word) && word.length > 4) return word.replace(/ies$/i, "y");
+  if (/ing$/i.test(word) && word.length > 5) return word.replace(/ing$/i, "");
+  if (/ed$/i.test(word) && word.length > 5) return word.replace(/ed$/i, "");
+  if (/es$/i.test(word) && word.length > 5) return word.replace(/es$/i, "");
+  if (/s$/i.test(word) && word.length > 4) return word.replace(/s$/i, "");
+  return word;
+};
 
 export function phraseAppearsInTranscript(phrase: string, transcript: string): boolean {
   const tokens = (value: string) => value
