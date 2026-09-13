@@ -282,7 +282,7 @@ const SpeakWithMrHaiMode = ({ language }: Props) => {
                         {message.correction && <div className="mt-2 rounded-md border border-accent/50 bg-accent/10 p-2 text-xs text-foreground"><strong>{t("Gợi ý sửa:", "Correction:")}</strong> {message.correction}</div>}
                         {message.encouragement && <p className="text-xs font-semibold text-primary">{message.encouragement}</p>}
                       </MessageContent>
-                      {message.role === "assistant" && <MessageActions><MessageAction tooltip={t("Nghe lại", "Replay")} onClick={() => void speakReply(message.content)}><Volume2 className="h-4 w-4" /></MessageAction></MessageActions>}
+                      {message.role === "assistant" && <MessageActions><MessageAction tooltip={t("Nghe lại", "Replay")} disabled={isInteractionBusy || voiceState === "paused" || voiceState === "ended"} onClick={() => void speakReply(message.content)}><Volume2 className="h-4 w-4" /></MessageAction></MessageActions>}
                     </Message>
                   ))}
                   {voiceState === "thinking" && <Message from="assistant"><MessageContent><Shimmer>{t("Mr. Hai đang suy nghĩ...", "Mr. Hai is thinking...")}</Shimmer></MessageContent></Message>}
