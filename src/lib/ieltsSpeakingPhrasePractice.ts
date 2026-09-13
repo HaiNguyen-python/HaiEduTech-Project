@@ -128,7 +128,7 @@ export function getStructureExample(structure: string, topic: string, part: 1 | 
   let slotIndex = 0;
   let example = structure
     .normalize("NFC")
-    .replace(/\.{2,}/g, () => slots[Math.min(slotIndex++, slots.length - 1)])
+    .replace(/\.{2,}/g, () => ` ${slots[Math.min(slotIndex++, slots.length - 1)]} `)
     .replace(/\s+([,.;!?])/g, "$1")
     .replace(/\s+/g, " ")
     .trim();
