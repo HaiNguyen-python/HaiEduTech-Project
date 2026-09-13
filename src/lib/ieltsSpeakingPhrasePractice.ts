@@ -121,7 +121,7 @@ export function phraseAppearsInTranscript(phrase: string, transcript: string): b
   const tokens = (value: string) => value
     .normalize("NFC")
     .toLowerCase()
-    .replace(/one['’]s|someone['’]s/g, " ")
+    .replace(/one['’]s|someone['’]s|someone|people|person/g, " ")
     .replace(/[^a-z0-9 ]/g, " ")
     .split(/\s+/)
     .filter((word) => word.length > 2 && !PHRASE_STOP_WORDS.has(word))
