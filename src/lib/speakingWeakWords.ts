@@ -63,8 +63,8 @@ export function addWeakWords(
       source,
     };
   }
-  saveWeakWords(language, store);
   recordMisses(language, words, source);
+  saveWeakWords(language, store);
   return store;
 }
 

@@ -1,6 +1,7 @@
 import { speakingCoachLanguages } from "../src/data/speakingCoachData";
 import { speakingMinimalPairs } from "../src/data/speakingMinimalPairs";
 import { speakingFreeTalkTopics, fillerPatterns } from "../src/data/speakingFreeTalkTopics";
+import { getSpeakingThemeIllustration } from "../src/data/speakingCoachThemeIllustrations";
 
 const langs = Object.keys(speakingCoachLanguages);
 let problems = 0;
@@ -25,6 +26,17 @@ for (const l of langs) {
   sentences.forEach((s: any) => {
     if (!s.text?.trim()) p(`${l}: empty text ${s.id}`);
     if (!s.translation?.trim()) p(`${l}: missing translation ${s.id}`);
+  });
+  const textSeen = new Map<string, string>();
+  sentences.forEach((s: any) => {
+    const normalized = String(s.text ?? "").toLocaleLowerCase().replace(/[^\p{L}\p{N}]+/gu, " ").trim();
+    const previous = textSeen.get(normalized);
+    if (previous) console.warn(`WARN: ${l}: duplicate sentence text ${previous} / ${s.id}`);
+    else if (normalized) textSeen.set(normalized, s.id);
+  });
+  themes.forEach((theme: any) => {
+    const illustration = getSpeakingThemeIllustration(theme);
+    if (!illustration?.src || !illustration.altEn || !illustration.altVi) p(`${l}: theme ${theme.id} missing illustration fallback`);
   });
   themes.forEach((t: any) => { if ((t.sentences?.length ?? 0) < 6) p(`${l}: theme ${t.id} has ${t.sentences?.length} sentences`); });
 
