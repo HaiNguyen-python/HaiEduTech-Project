@@ -135,12 +135,11 @@ const ShadowingMode = ({ language, onPerfectScore }: Props) => {
             <aside className="space-y-4">
               <div className="overflow-hidden rounded-md border border-primary/20 bg-primary/5">
                 <SpeakingThemeIllustration theme={theme} variant="practice" />
-                <div className="flex items-center justify-between gap-3 px-4 py-3">
+                <div className="flex items-center gap-3 px-4 py-3">
                   <div className="min-w-0">
                     <p className="text-xs font-semibold uppercase text-primary">{t("Chủ đề", "Theme")}</p>
                     <p className="truncate font-semibold">{t(theme.nameVi, theme.name)}</p>
                   </div>
-                  <span className="text-2xl" aria-hidden="true">{theme.icon}</span>
                 </div>
               </div>
 
