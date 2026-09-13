@@ -448,9 +448,10 @@ const EnglishCourse = () => {
                           </p>
                         </button>
                       ))}
-                    </div>
-                  </div>
-                )}
+                     </div>
+                     </div>
+                   </div>
+                 )}
               </div>
             </div>
 
