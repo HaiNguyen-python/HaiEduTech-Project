@@ -13,6 +13,8 @@ import {
   phraseAppearsInTranscript,
   phrasePracticeId,
   savePhraseSpeakingResult,
+  structureAppearsInTranscript,
+  structurePracticeId,
   type PhraseSpeakingGrade,
   type PhraseSpeakingProgress,
 } from "@/lib/ieltsSpeakingPhrasePractice";
@@ -20,6 +22,7 @@ import { micErrorMessage } from "@/lib/speakingModeShared";
 import { playEnglishTts, stopEnglishTts } from "@/lib/englishTts";
 
 interface Props {
+  mode?: "vocabulary" | "structure";
   part: 1 | 2 | 3;
   topic: string;
   phrase: string;
@@ -34,10 +37,11 @@ const statusCode = (error: unknown) => {
   return Number(context?.status) || 0;
 };
 
-const PhraseSpeakingPractice = ({ part, topic, phrase, meaning, example, onClose }: Props) => {
+const PhraseSpeakingPractice = ({ mode = "vocabulary", part, topic, phrase, meaning, example, onClose }: Props) => {
   const { t } = useLanguage();
   const [grade, setGrade] = useState<PhraseSpeakingGrade | null>(null);
-  const practiceId = phrasePracticeId(part, topic, phrase);
+  const isStructure = mode === "structure";
+  const practiceId = isStructure ? structurePracticeId(part, topic, phrase) : phrasePracticeId(part, topic, phrase);
   const [progress, setProgress] = useState<PhraseSpeakingProgress | null>(() => loadPhraseSpeakingResult(practiceId));
   const [grading, setGrading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -49,8 +53,13 @@ const PhraseSpeakingPractice = ({ part, topic, phrase, meaning, example, onClose
       setError(t("Câu quá ngắn. Hãy nói ít nhất ba từ và dùng cụm từ mục tiêu.", "That sentence is too short. Say at least three words and use the target phrase."));
       return;
     }
-    if (!phraseAppearsInTranscript(phrase, spoken)) {
-      setError(t("Câu của bạn chưa có cụm từ mục tiêu hoặc một biến thể đủ rõ. Hãy bổ sung cụm từ rồi nói lại.", "Your sentence does not clearly include the target phrase or a valid variation. Add it and try again."));
+    const targetAppears = isStructure
+      ? structureAppearsInTranscript(phrase, spoken)
+      : phraseAppearsInTranscript(phrase, spoken);
+    if (!targetAppears) {
+      setError(isStructure
+        ? t("Câu của bạn chưa thể hiện đủ phần cố định của cấu trúc. Hãy áp dụng mẫu câu rồi nói lại.", "Your sentence does not clearly use the fixed part of this structure. Apply the frame and try again.")
+        : t("Câu của bạn chưa có cụm từ mục tiêu hoặc một biến thể đủ rõ. Hãy bổ sung cụm từ rồi nói lại.", "Your sentence does not clearly include the target phrase or a valid variation. Add it and try again."));
       return;
     }
     setGrading(true);
@@ -58,7 +67,7 @@ const PhraseSpeakingPractice = ({ part, topic, phrase, meaning, example, onClose
     setGrade(null);
     try {
       const { data, error: invokeError } = await supabase.functions.invoke("grade-speaking-sentence", {
-        body: { part, topic, phrase, meaning, example, transcript: spoken },
+        body: { mode, part, topic, phrase, meaning, example, transcript: spoken },
       });
       if (invokeError) throw invokeError;
       const normalized = normalizePhraseSpeakingGrade(data);
@@ -66,13 +75,13 @@ const PhraseSpeakingPractice = ({ part, topic, phrase, meaning, example, onClose
       setGrade(normalized);
       setProgress(savePhraseSpeakingResult(practiceId, normalized.overall));
       void logStudentActivity({
-        activityType: "ielts_speaking_phrase",
+        activityType: isStructure ? "ielts_speaking_structure" : "ielts_speaking_phrase",
         activityId: practiceId,
         score: normalized.overall,
         maxScore: 100,
         timeSpentSeconds: Math.max(1, Math.round(elapsedMs / 1000)),
         domain: "english",
-        metadata: { part, topic, phrase, phraseUsedCorrectly: normalized.phraseUsedCorrectly },
+        metadata: { part, topic, phrase, mode, targetUsedCorrectly: normalized.phraseUsedCorrectly },
       });
     } catch (caught) {
       const status = statusCode(caught);
@@ -92,7 +101,7 @@ const PhraseSpeakingPractice = ({ part, topic, phrase, meaning, example, onClose
     } finally {
       setGrading(false);
     }
-  }, [example, meaning, part, phrase, practiceId, t, topic]);
+  }, [example, isStructure, meaning, mode, part, phrase, practiceId, t, topic]);
   gradeRef.current = gradeSentence;
 
   const recognizer = useSpeechRecognizer({
@@ -112,7 +121,9 @@ const PhraseSpeakingPractice = ({ part, topic, phrase, meaning, example, onClose
   return (
     <div className="mt-3 space-y-3 border-t border-primary/20 pt-3">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <p className="text-sm font-semibold text-primary">{t("Đặt một câu mới có dùng cụm từ này", "Make a new sentence using this phrase")}</p>
+        <p className="text-sm font-semibold text-primary">{isStructure
+          ? t("Đặt một câu mới có dùng cấu trúc này", "Make a new sentence using this structure")
+          : t("Đặt một câu mới có dùng cụm từ này", "Make a new sentence using this phrase")}</p>
         <Button variant="ghost" size="icon-sm" onClick={onClose} aria-label={t("Đóng phần luyện nói", "Close speaking practice")}>
           <X className="h-4 w-4" />
         </Button>
@@ -150,7 +161,9 @@ const PhraseSpeakingPractice = ({ part, topic, phrase, meaning, example, onClose
         )}
       </div>
 
-      {grading && <div className="flex items-center gap-2 text-sm text-primary"><Loader2 className="h-4 w-4 animate-spin" />{t("AI đang chấm cách dùng cụm từ, ngữ pháp và độ tự nhiên...", "AI is checking phrase use, grammar, and naturalness...")}</div>}
+      {grading && <div className="flex items-center gap-2 text-sm text-primary"><Loader2 className="h-4 w-4 animate-spin" />{isStructure
+        ? t("AI đang chấm cách dùng cấu trúc, ngữ pháp và độ tự nhiên...", "AI is checking structure use, grammar, and naturalness...")
+        : t("AI đang chấm cách dùng cụm từ, ngữ pháp và độ tự nhiên...", "AI is checking phrase use, grammar, and naturalness...")}</div>}
       {(micError || error) && <p role="alert" className="flex items-start gap-2 text-sm text-destructive"><AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />{micError || error}</p>}
 
       {grade && (
@@ -159,7 +172,9 @@ const PhraseSpeakingPractice = ({ part, topic, phrase, meaning, example, onClose
             <Badge variant={grade.overall >= 80 ? "default" : grade.overall >= 60 ? "secondary" : "destructive"}>{grade.overall}/100</Badge>
             <span className="inline-flex items-center gap-1 text-sm font-medium">
               {grade.phraseUsedCorrectly ? <CheckCircle2 className="h-4 w-4 text-emerald-600" /> : <AlertCircle className="h-4 w-4 text-amber-600" />}
-              {grade.phraseUsedCorrectly ? t("Dùng cụm từ đúng", "Phrase used correctly") : t("Cần chỉnh cách dùng cụm từ", "Phrase usage needs work")}
+              {grade.phraseUsedCorrectly
+                ? isStructure ? t("Dùng cấu trúc đúng", "Structure used correctly") : t("Dùng cụm từ đúng", "Phrase used correctly")
+                : isStructure ? t("Cần chỉnh cách dùng cấu trúc", "Structure usage needs work") : t("Cần chỉnh cách dùng cụm từ", "Phrase usage needs work")}
             </span>
             {progress && <span className="text-xs text-muted-foreground">{t("Tốt nhất", "Best")}: {progress.bestScore}% · {progress.attempts} {t("lượt", "attempts")}</span>}
           </div>
