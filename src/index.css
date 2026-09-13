@@ -125,6 +125,68 @@
     --ring: 217 91% 60%;
   }
 
+  .speaking-studio {
+    font-family: "Manrope", sans-serif;
+    letter-spacing: 0;
+    --background: 210 40% 98%;
+    --primary: 217 91% 60%;
+    --primary-foreground: 0 0% 100%;
+    --accent: 38 92% 50%;
+    --ring: 217 91% 60%;
+    --border: 214 32% 84%;
+    --speaking-success: 160 84% 39%;
+    --speaking-warning: 38 92% 43%;
+    --speaking-error: 350 75% 52%;
+  }
+
+  .dark .speaking-studio {
+    --background: 222 47% 11%;
+    --border: 217 25% 28%;
+    --speaking-success: 160 72% 48%;
+    --speaking-warning: 43 96% 56%;
+    --speaking-error: 350 88% 68%;
+  }
+
+  .speaking-studio h2,
+  .speaking-studio h3,
+  .speaking-studio .speaking-studio-shell [class*="font-semibold"] {
+    font-family: "Sora", sans-serif;
+    letter-spacing: 0;
+  }
+
+  .speaking-waveform {
+    display: flex;
+    height: 2.25rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+    overflow: hidden;
+  }
+
+  .speaking-waveform-bar {
+    width: 0.2rem;
+    flex: 0 0 0.2rem;
+    border-radius: 999px;
+    background: hsl(var(--primary) / 0.35);
+    transform-origin: center;
+  }
+
+  .speaking-waveform.is-playing .speaking-waveform-bar {
+    background: hsl(var(--speaking-success));
+  }
+
+  .speaking-waveform.is-recording .speaking-waveform-bar {
+    background: hsl(var(--speaking-error));
+  }
+
+  .speaking-word-correct { color: hsl(var(--speaking-success)); }
+  .speaking-word-close { color: hsl(var(--speaking-warning)); }
+  .speaking-word-wrong {
+    color: hsl(var(--speaking-error));
+    text-decoration-line: underline;
+    text-decoration-style: wavy;
+  }
+
   .font-classroom-heading { font-family: "Outfit", sans-serif; letter-spacing: 0; }
   .font-classroom-body { font-family: "Figtree", sans-serif; letter-spacing: 0; }
   .classroom-command-shadow { box-shadow: var(--classroom-shadow); }
