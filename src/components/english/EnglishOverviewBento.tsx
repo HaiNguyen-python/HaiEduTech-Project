@@ -49,8 +49,8 @@ export default function EnglishOverviewBento({ programs }: EnglishOverviewBentoP
         </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-6">
-        <motion.article {...enter(0.04)} className="relative overflow-hidden rounded-lg border border-primary/30 bg-primary p-6 text-primary-foreground lg:col-span-4 lg:min-h-[300px]">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-12">
+        <motion.article {...enter(0.04)} className="relative overflow-hidden rounded-lg border border-primary/30 bg-primary p-6 text-primary-foreground md:col-span-2 lg:col-span-8 lg:min-h-[300px]">
           <div className="relative z-10 flex h-full flex-col justify-between gap-8">
             <div className="max-w-2xl">
               <span className="mb-4 inline-flex items-center gap-2 rounded-md bg-primary-foreground/15 px-3 py-1 text-sm font-semibold">
@@ -78,7 +78,7 @@ export default function EnglishOverviewBento({ programs }: EnglishOverviewBentoP
           <BookOpen className="absolute -bottom-8 -right-5 h-44 w-44 text-primary-foreground/10" aria-hidden="true" />
         </motion.article>
 
-        <motion.article {...enter(0.08)} className="flex flex-col justify-between rounded-lg border border-border bg-card p-6 lg:col-span-2">
+        <motion.article {...enter(0.08)} className="flex flex-col justify-between rounded-lg border border-border bg-card p-6 lg:col-span-4">
           <div>
             <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
               <Mic className="h-6 w-6" />
@@ -98,7 +98,7 @@ export default function EnglishOverviewBento({ programs }: EnglishOverviewBentoP
           const program = programs[index];
           if (!program) return null;
           return (
-            <motion.article key={href} {...enter(0.12 + cardIndex * 0.04)} className="flex min-h-[260px] flex-col rounded-lg border border-border bg-card p-5 lg:col-span-2">
+            <motion.article key={href} {...enter(0.12 + cardIndex * 0.04)} className="flex min-h-[260px] flex-col rounded-lg border border-border bg-card p-5 lg:col-span-3">
               <div className="flex items-start justify-between gap-3">
                 <div className={cn("flex h-10 w-10 items-center justify-center rounded-lg", tone)}><Icon className="h-5 w-5" /></div>
                 <span className="rounded-md bg-secondary px-2.5 py-1 text-xs font-semibold text-secondary-foreground">{program.level}</span>
@@ -119,7 +119,7 @@ export default function EnglishOverviewBento({ programs }: EnglishOverviewBentoP
           );
         })}
 
-        <motion.article {...enter(0.26)} className="flex min-h-[260px] flex-col rounded-lg border border-accent/35 bg-accent/10 p-5 lg:col-span-2">
+        <motion.article {...enter(0.26)} className="flex min-h-[260px] flex-col rounded-lg border border-accent/35 bg-accent/10 p-5 lg:col-span-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent/20 text-foreground"><Music2 className="h-5 w-5" /></div>
           <span className="mt-5 text-xs font-semibold uppercase text-foreground">{t("Học nhẹ nhàng", "Learn through music")}</span>
           <h3 className="mt-2 font-display text-lg font-bold text-card-foreground">{t("Học qua bài hát", "Learn through Songs")}</h3>
