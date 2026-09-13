@@ -5,6 +5,8 @@ import { getSpeakingThemeIllustration } from "@/data/speakingCoachThemeIllustrat
 import { classifySoundTip, shouldRecordWeakSound, splitWordDifference } from "@/lib/soundDrillCoach";
 import { buildFreeTalkQuickReport, splitGrammarFix } from "@/lib/freeTalkPractice";
 import { sortWeakWords } from "@/lib/weakWordCoach";
+import { mergeSpeakingThemes } from "@/data/speakingCoachMerge";
+import { speakingCoachLanguages } from "@/data/speakingCoachData";
 
 describe("Speaking Coach safeguards", () => {
   it("grades Nordic diacritics and CJK units consistently", () => {
@@ -51,6 +53,26 @@ describe("Speaking Coach safeguards", () => {
     expect(report.words).toBe(7);
     expect(report.durationSec).toBe(6);
     expect(splitGrammarFix("I go yesterday -> I went yesterday")).toEqual({ original: "I go yesterday", improved: "I went yesterday" });
+  });
+
+  it("merges duplicate themes and labels names shared across levels", () => {
+    const merged = mergeSpeakingThemes([
+      { id: "t-food", name: "Food", nameVi: "Ẩm thực", level: "A1", sentences: [{ id: "a1", text: "I like rice" }] },
+      { id: "t-food-v2", name: "Food", nameVi: "Ẩm thực", level: "A1", sentences: [{ id: "a2", text: "I like rice" }, { id: "a3", text: "I cook at home" }] },
+      { id: "t-food-b1", name: "Food", nameVi: "Ẩm thực", level: "B1", sentences: [{ id: "b1", text: "Street food shapes culture" }] },
+    ]);
+    expect(merged).toHaveLength(2);
+    expect(merged[0].id).toBe("t-food");
+    expect(merged[0].sentences.map((s) => s.id)).toEqual(["a1", "a3"]);
+    expect(merged[0].nameVi).toBe("Ẩm thực (A1)");
+    expect(merged[1].name).toBe("Food (B1)");
+  });
+
+  it("keeps every Speaking Coach theme name unique per language", () => {
+    for (const cfg of Object.values(speakingCoachLanguages)) {
+      const names = cfg.themes.map((t) => t.nameVi.toLocaleLowerCase().trim());
+      expect(new Set(names).size).toBe(names.length);
+    }
   });
 
   it("prioritises due weak words and supports source filters", () => {
