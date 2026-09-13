@@ -52,6 +52,8 @@ for (const l of langs) {
     if (x.a === x.b) p(`${l}: pair ${x.id} identical words`);
     if (!x.tipVi || !x.tipEn) p(`${l}: pair ${x.id} missing tips`);
     if (!x.sound) p(`${l}: pair ${x.id} missing sound label`);
+    if (!x.a?.trim() || !x.b?.trim()) p(`${l}: pair ${x.id} missing a word`);
+    if (l === "english" && (!x.aIpa || !x.bIpa)) p(`${l}: pair ${x.id} missing IPA`);
   });
   const seenWords = new Map<string,string>();
   pairs.forEach((x:any)=>{ const k = `${x.a}|${x.b}`; if (seenWords.has(k)) p(`${l}: duplicate pair words ${k}`); seenWords.set(k,x.id); });

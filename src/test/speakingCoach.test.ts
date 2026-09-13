@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { compareSentence, matchCandidate } from "@/lib/speakingModeShared";
 import { normalizeFreeTalkReport } from "@/lib/freeTalkReport";
 import { getSpeakingThemeIllustration } from "@/data/speakingCoachThemeIllustrations";
+import { classifySoundTip, shouldRecordWeakSound, splitWordDifference } from "@/lib/soundDrillCoach";
 
 describe("Speaking Coach safeguards", () => {
   it("grades Nordic diacritics and CJK units consistently", () => {
@@ -30,5 +31,16 @@ describe("Speaking Coach safeguards", () => {
   it("provides a themed illustration with a safe default", () => {
     expect(getSpeakingThemeIllustration({ id: "en-travel", name: "Travel", nameVi: "Du lịch" }).altEn).toContain("traveller");
     expect(getSpeakingThemeIllustration({ id: "unknown", name: "Other", nameVi: "Khác" }).src).toBeTruthy();
+  });
+
+  it("highlights safe Latin minimal-pair differences", () => {
+    expect(splitWordDifference("think", "sink")).toEqual({ prefix: "", focus: "th", suffix: "ink" });
+    expect(splitWordDifference("是", "四")).toBeNull();
+  });
+
+  it("classifies coaching tips and records only unresolved weak sounds", () => {
+    expect(classifySoundTip("/θ/ vs /s/", "Đặt lưỡi gần răng", "Put the tongue near the teeth")).toBe("tongue");
+    expect(shouldRecordWeakSound(true)).toBe(false);
+    expect(shouldRecordWeakSound(false)).toBe(true);
   });
 });
