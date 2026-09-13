@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 import PlacementCta from "@/components/personalization/PlacementCta";
 import SEO from "@/components/SEO";
 import { motion } from "framer-motion";
-import { BookOpen, CheckCircle, ArrowRight, Search, MessageCircle, Star, GraduationCap, Mic } from "lucide-react";
+import { BookOpen, ArrowRight, Search, GraduationCap, Mic, Sparkles, LibraryBig, ClipboardCheck } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useState } from "react";
@@ -12,17 +12,40 @@ import WordOfTheDay from "@/components/WordOfTheDay";
 import DailyFunFactWidget from "@/components/english/DailyFunFactWidget";
 import { englishResources } from "@/data/lessonData";
 import { allEnglishModules } from "@/data/languageCurriculum";
-import SongsBanner from "@/components/songs/SongsBanner";
 import { cn } from "@/lib/utils";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import CollapsibleDataDashboard from "@/components/CollapsibleDataDashboard";
 import FloatingEnglishParticles from "@/components/FloatingEnglishParticles";
 import EnglishHeroBanner from "@/components/EnglishHeroBanner";
+import EnglishOverviewBento from "@/components/english/EnglishOverviewBento";
+import { Button } from "@/components/ui/button";
+
+interface DictionaryDefinition {
+  definition: string;
+  example?: string;
+}
+
+interface DictionaryMeaning {
+  partOfSpeech: string;
+  definitions: DictionaryDefinition[];
+}
+
+interface DictionaryPhonetic {
+  audio?: string;
+}
+
+interface DictionaryResult {
+  word?: string;
+  phonetic?: string;
+  phonetics?: DictionaryPhonetic[];
+  meanings?: DictionaryMeaning[];
+  error?: boolean;
+}
 
 const English = () => {
   const { t } = useLanguage();
   const [dictWord, setDictWord] = useState("");
-  const [dictResult, setDictResult] = useState<any>(null);
+  const [dictResult, setDictResult] = useState<DictionaryResult | null>(null);
   const [dictLoading, setDictLoading] = useState(false);
 
   const programs = [
@@ -122,10 +145,10 @@ const English = () => {
     <div className="min-h-screen bg-background">
       <SEO title="Học Tiếng Anh Online: IELTS, TOEIC, SAT, Cambridge | HaiEduTech" description="Lộ trình học tiếng Anh toàn diện: IELTS, TOEIC, SAT, Cambridge, Grammar và Giao tiếp. Bài giảng AI cá nhân hóa, luyện đề, chấm Writing và Speaking miễn phí." path="/english" jsonLd={COURSE_LD} />
       <Navbar />
-      <div className="pt-6 pb-16 relative z-10">
+      <div className="purpose-course pt-6 pb-16 relative z-10">
         <div className="container mx-auto px-6">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-6xl mx-auto relative">
-            <div className="relative overflow-hidden rounded-2xl -mx-2 px-2 py-4 mb-2 min-h-[220px]">
+            <div className="relative overflow-hidden rounded-lg -mx-2 px-2 py-4 mb-6 min-h-[190px]">
               <EnglishHeroBanner heightClass="h-full" opacity={28} />
               <FloatingEnglishParticles count={6} />
               <div className="relative z-10">
@@ -147,85 +170,14 @@ const English = () => {
 
 
 
-            {/* IELTS Writing Practice Banner */}
-            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}
-              className="mb-4 p-4 bg-primary/5 border border-primary/20 rounded-xl flex flex-col sm:flex-row items-start sm:items-center gap-3">
-              <GraduationCap className="w-5 h-5 text-primary shrink-0" />
-              <div className="flex-1">
-                <p className="text-sm font-medium text-foreground">
-                  {t("Luyện viết IELTS Task 1 & Task 2 với hệ thống chấm điểm chuyên nghiệp", "IELTS Writing Practice with Expert Scoring System")}
-                </p>
-                <p className="text-xs text-muted-foreground">
-                  {t("Tạo đề tự động, hướng dẫn viết, ngân hàng từ vựng và chấm điểm theo 4 tiêu chí IELTS chính thức.", "Auto-generated prompts, writing guides, vocabulary banks, and scoring across 4 official IELTS criteria.")}
-                </p>
-              </div>
-              <Link to="/ielts-writing-practice" className="inline-flex items-center gap-1 px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors shrink-0">
-                {t("Luyện viết ngay", "Start Practice")} <ArrowRight className="w-4 h-4" />
-              </Link>
-            </motion.div>
+            <EnglishOverviewBento programs={programs} />
 
-            {/* Pronunciation & Intonation Banner */}
-            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.18 }}
-              className="mb-8 p-4 bg-gradient-to-r from-sky-500/10 via-primary/5 to-emerald-500/10 border border-primary/20 rounded-xl flex flex-col sm:flex-row items-start sm:items-center gap-3">
-              <Mic className="w-5 h-5 text-primary shrink-0" />
-              <div className="flex-1">
-                <p className="text-sm font-medium text-foreground">
-                  {t("🎙️ Pronunciation & Intonation: Phát âm chuẩn 🇬🇧 vs 🇺🇸", "🎙️ Pronunciation & Intonation: Master 🇬🇧 vs 🇺🇸")}
-                </p>
-                <p className="text-xs text-muted-foreground">
-                  {t("Bảng IPA, minimal pairs, nối âm, weak forms, intonation và quiz nghe phân biệt giọng Anh-Anh và Anh-Mỹ.", "IPA chart, minimal pairs, linking, weak forms, intonation, and listening quiz contrasting British vs American.")}
-                </p>
-              </div>
-              <Link to="/english/pronunciation" className="inline-flex items-center gap-1 px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors shrink-0">
-                {t("Học phát âm", "Start Pronunciation")} <ArrowRight className="w-4 h-4" />
-              </Link>
-            </motion.div>
+            {/* Interactive Data Dashboard - supporting reference */}
+            <CollapsibleDataDashboard language="english" className="mb-14" />
 
-            {/* Interactive Data Dashboard - Overview (collapsible) */}
-            <CollapsibleDataDashboard language="english" />
-
-            {/* Programs */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-              {programs.map((p, i) => (
-                <motion.div key={p.title} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }} className="glass-card rounded-2xl p-6">
-                  <div className="flex items-start justify-between mb-3">
-                    <h3 className="text-lg font-display font-bold text-foreground">{p.title}</h3>
-                    <span className="text-xs px-3 py-1 rounded-full bg-primary/10 text-primary font-semibold whitespace-nowrap">{p.level}</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground mb-4">{p.desc}</p>
-                  <ul className="space-y-2 mb-5">
-                    {p.features.map((f) => (
-                      <li key={f} className="flex items-center gap-2 text-sm text-secondary-foreground">
-                        <CheckCircle className="w-4 h-4 text-primary shrink-0" /> {f}
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="flex gap-3">
-                    <Link to={["/english/ielts", "/english/toeic", "/english/conversational/curriculum", "/english/sat"][i]} className="inline-flex items-center gap-2 text-sm text-primary font-semibold hover:underline">
-                      {t("Xem chi tiết", "View details")} <ArrowRight className="w-4 h-4" />
-                    </Link>
-                  </div>
-                </motion.div>
-              ))}
-
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className="glass-card rounded-2xl p-6 border-2 border-primary/25 bg-primary/5">
-                <div className="flex items-start justify-between mb-3">
-                  <h3 className="text-lg font-display font-bold text-foreground">🎵 {t("Học qua bài hát", "Learn through Songs")}</h3>
-                  <span className="text-xs px-3 py-1 rounded-full bg-primary text-primary-foreground font-semibold whitespace-nowrap">Songs</span>
-                </div>
-                <p className="text-sm text-muted-foreground mb-4">
-                  {t("Mục bài hát riêng cho tiếng Anh với lyrics song ngữ, karaoke highlight, từ vựng trọng tâm và bài tập điền từ.", "Dedicated song section for English with bilingual lyrics, karaoke highlight, key vocabulary, and fill-in-the-blank practice.")}
-                </p>
-                <ul className="space-y-2 mb-5 text-sm text-secondary-foreground">
-                  <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-primary shrink-0" /> Lemon Tree · Perfect · You Are My Sunshine</li>
-                  <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-primary shrink-0" /> Twinkle Twinkle · Old MacDonald · Row Your Boat</li>
-                </ul>
-                <div className="flex gap-3">
-                  <Link to="/songs/english" className="inline-flex items-center gap-2 text-sm text-primary font-semibold hover:underline">
-                    {t("Mở mục bài hát", "Open Songs")} <ArrowRight className="w-4 h-4" />
-                  </Link>
-                </div>
-              </motion.div>
+            <div className="mb-6 flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent/15 text-accent-foreground"><Sparkles className="h-5 w-5" /></div>
+              <div><p className="text-sm font-semibold text-primary">{t("Mỗi ngày một chút", "A little every day")}</p><h2 className="font-display text-2xl font-bold text-foreground">{t("Luyện tập hằng ngày", "Daily practice")}</h2></div>
             </div>
 
             {/* English Fun Fact of the Day */}
@@ -242,14 +194,13 @@ const English = () => {
               <p className="text-muted-foreground mb-6">
                 {t("Tra cứu nghĩa, phát âm, và ví dụ của từ tiếng Anh.", "Look up definitions, pronunciation, and examples of English words.")}
               </p>
-              <div className="flex gap-3 mb-6">
+              <div className="flex flex-col gap-3 mb-6 sm:flex-row">
                 <input value={dictWord} onChange={(e) => setDictWord(e.target.value)} onKeyDown={(e) => e.key === "Enter" && lookupWord()}
                   placeholder={t("Nhập từ cần tra...", "Enter a word...")}
-                  className="flex-1 px-4 py-3 rounded-xl bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none text-base" />
-                <button onClick={lookupWord} disabled={dictLoading}
-                  className="px-6 py-3 rounded-xl bg-primary text-primary-foreground font-semibold hover:brightness-110 transition-all flex items-center gap-2">
+                  className="min-w-0 flex-1 px-4 py-3 rounded-xl bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none text-base" />
+                <Button onClick={lookupWord} disabled={dictLoading} size="lg" className="w-full sm:w-auto">
                   <Search className="w-5 h-5" /> {t("Tra cứu", "Search")}
-                </button>
+                </Button>
               </div>
               {dictLoading && <p className="text-muted-foreground text-sm">{t("Đang tìm kiếm...", "Searching...")}</p>}
               {dictResult && !dictResult.error && (
@@ -257,15 +208,18 @@ const English = () => {
                   <div className="flex items-center gap-4">
                     <h3 className="text-2xl font-bold text-foreground">{dictResult.word}</h3>
                     {dictResult.phonetic && <span className="text-muted-foreground text-lg">{dictResult.phonetic}</span>}
-                    {dictResult.phonetics?.find((p: any) => p.audio) && (
-                      <button onClick={() => new Audio(dictResult.phonetics.find((p: any) => p.audio).audio).play()} className="p-2 rounded-full bg-primary/10 text-primary hover:bg-primary/20">🔊</button>
+                    {dictResult.phonetics?.find((p) => p.audio) && (
+                      <Button size="icon" variant="ghost" aria-label={t("Nghe phát âm", "Listen to pronunciation")} onClick={() => {
+                        const audioUrl = dictResult.phonetics?.find((p) => p.audio)?.audio;
+                        if (audioUrl) void new Audio(audioUrl).play();
+                      }}>🔊</Button>
                     )}
                   </div>
-                  {dictResult.meanings?.map((m: any, i: number) => (
+                  {dictResult.meanings?.map((m, i) => (
                     <div key={i}>
                       <span className="text-sm font-bold text-primary italic">{m.partOfSpeech}</span>
                       <ul className="mt-2 space-y-2">
-                        {m.definitions.slice(0, 3).map((d: any, j: number) => (
+                        {m.definitions.slice(0, 3).map((d, j) => (
                           <li key={j} className="text-sm text-secondary-foreground">
                             <span className="font-medium">{j + 1}.</span> {d.definition}
                             {d.example && <p className="text-muted-foreground italic mt-1 ml-4">"{d.example}"</p>}
@@ -278,6 +232,11 @@ const English = () => {
               )}
               {dictResult?.error && <p className="text-destructive text-sm">{t("Không tìm thấy từ này.", "Word not found.")}</p>}
             </motion.div>
+
+            <div className="mb-6 mt-14 flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary"><LibraryBig className="h-5 w-5" /></div>
+              <div><p className="text-sm font-semibold text-primary">{t("Học sâu theo mục tiêu", "Build skills by goal")}</p><h2 className="font-display text-2xl font-bold text-foreground">{t("Học theo kỹ năng", "Skill-based learning")}</h2></div>
+            </div>
 
             {/* Interactive Curriculum Modules - grouped by category */}
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }} className="glass-card rounded-2xl p-8 mb-10">
@@ -370,6 +329,11 @@ const English = () => {
                 <ArrowRight className="w-6 h-6 text-muted-foreground group-hover:text-primary shrink-0 transition-colors" />
               </Link>
             </motion.div>
+
+            <div className="mb-6 mt-14 flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-secondary text-primary"><ClipboardCheck className="h-5 w-5" /></div>
+              <div><p className="text-sm font-semibold text-primary">{t("Kiểm tra và mở rộng", "Assess and explore")}</p><h2 className="font-display text-2xl font-bold text-foreground">{t("Đánh giá và tài liệu", "Assessment and resources")}</h2></div>
+            </div>
 
             {/* Learning resources */}
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className="glass-card rounded-2xl p-8">
