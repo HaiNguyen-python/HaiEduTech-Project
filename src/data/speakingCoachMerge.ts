@@ -27,36 +27,37 @@ const normalizeName = (value: string): string =>
 const normalizeText = (value: string): string =>
   String(value ?? "").toLocaleLowerCase().replace(/[^\p{L}\p{N}]+/gu, " ").trim();
 
-/** Key used to decide which themes belong together: name plus level. */
-const mergeKey = (theme: MergeableTheme): string =>
-  `${normalizeName(theme.name)}|${normalizeName(theme.nameVi)}|${theme.level ?? "-"}`;
-
-/** Key used to detect a name spread over several levels. */
-const nameKey = (theme: MergeableTheme): string =>
-  `${normalizeName(theme.name)}|${normalizeName(theme.nameVi)}`;
+/** Lookup keys: a theme joins a group when either display name matches at the same level. */
+const lookupKeys = (theme: MergeableTheme): string[] => {
+  const level = theme.level ?? "-";
+  const en = normalizeName(theme.name);
+  const vi = normalizeName(theme.nameVi);
+  return [en ? `en:${en}|${level}` : "", vi ? `vi:${vi}|${level}` : ""].filter(Boolean);
+};
 
 export function mergeSpeakingThemes<T extends MergeableTheme>(themes: T[]): T[] {
-  const order: string[] = [];
-  const groups = new Map<string, T>();
+  const merged: T[] = [];
+  const groupIndex = new Map<string, number>();
 
   for (const theme of themes) {
-    const key = mergeKey(theme);
-    const existing = groups.get(key);
-    if (!existing) {
-      order.push(key);
-      groups.set(key, { ...theme, sentences: [...theme.sentences] });
+    const keys = lookupKeys(theme);
+    const foundKey = keys.find((k) => groupIndex.has(k));
+    if (foundKey === undefined) {
+      const index = merged.length;
+      merged.push({ ...theme, sentences: [...theme.sentences] });
+      keys.forEach((k) => groupIndex.set(k, index));
       continue;
     }
-    const seen = new Set(existing.sentences.map((s) => normalizeText(s.text)));
+    const target = merged[groupIndex.get(foundKey) as number];
+    keys.forEach((k) => { if (!groupIndex.has(k)) groupIndex.set(k, groupIndex.get(foundKey) as number); });
+    const seen = new Set(target.sentences.map((s) => normalizeText(s.text)));
     for (const sentence of theme.sentences) {
       const text = normalizeText(sentence.text);
       if (!text || seen.has(text)) continue;
       seen.add(text);
-      existing.sentences.push(sentence);
+      target.sentences.push(sentence);
     }
   }
-
-  const merged = order.map((key) => groups.get(key) as T);
 
   // Disambiguate names that survive at more than one level.
   const levelsByName = new Map<string, Set<string>>();
