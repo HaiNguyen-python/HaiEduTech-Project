@@ -61,16 +61,22 @@ export function mergeSpeakingThemes<T extends MergeableTheme>(themes: T[]): T[] 
 
   // Disambiguate names that survive at more than one level.
   const levelsByName = new Map<string, Set<string>>();
-  for (const theme of merged) {
-    const key = nameKey(theme);
+  const track = (key: string, level: string) => {
+    if (!key) return;
     const set = levelsByName.get(key) ?? new Set<string>();
-    set.add(theme.level ?? "-");
+    set.add(level);
     levelsByName.set(key, set);
+  };
+  for (const theme of merged) {
+    track(`en:${normalizeName(theme.name)}`, theme.level ?? "-");
+    track(`vi:${normalizeName(theme.nameVi)}`, theme.level ?? "-");
   }
 
   return merged.map((theme) => {
-    const levels = levelsByName.get(nameKey(theme));
-    if (!levels || levels.size < 2 || !theme.level) return theme;
+    const spread =
+      (levelsByName.get(`en:${normalizeName(theme.name)}`)?.size ?? 0) > 1 ||
+      (levelsByName.get(`vi:${normalizeName(theme.nameVi)}`)?.size ?? 0) > 1;
+    if (!spread || !theme.level) return theme;
     const suffix = ` (${theme.level})`;
     return {
       ...theme,
