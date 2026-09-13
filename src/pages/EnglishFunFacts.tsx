@@ -101,7 +101,11 @@ const EnglishFunFacts = () => {
   const toggleFlip = (id: string) => {
     setFlipped((prev) => {
       const next = new Set(prev);
-      next.has(id) ? next.delete(id) : next.add(id);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
       return next;
     });
   };
@@ -364,11 +368,14 @@ const EnglishFunFacts = () => {
                           {REACTIONS.map((r) => {
                             const isVoted = userVote === r.key;
                             return (
-                              <button
+                              <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
                                 key={r.key}
                                 onClick={() => handleReact(fact.id, r.key)}
                                 className={cn(
-                                  "inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold transition-all border",
+                                  "h-8 rounded-full px-2.5 text-xs font-semibold",
                                   isVoted
                                     ? "bg-amber-500/20 border-amber-500/50 text-amber-700 dark:text-amber-300 scale-105"
                                     : "bg-background/60 border-border/60 text-foreground/80 hover:bg-foreground/5 hover:scale-105",
@@ -378,7 +385,7 @@ const EnglishFunFacts = () => {
                               >
                                 <span className="text-sm leading-none">{r.emoji}</span>
                                 <span>{factReactions[r.key]}</span>
-                              </button>
+                              </Button>
                             );
                           })}
                         </div>
