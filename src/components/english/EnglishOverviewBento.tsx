@@ -17,7 +17,7 @@ interface EnglishOverviewBentoProps {
 }
 
 const secondaryCards = [
-  { index: 1, href: "/english/toeic", icon: Headphones, tone: "bg-accent/10 text-accent" },
+  { index: 1, href: "/english/toeic", icon: Headphones, tone: "bg-accent/15 text-foreground" },
   { index: 2, href: "/english/conversational/curriculum", icon: MessageCircle, tone: "bg-primary/10 text-primary" },
   { index: 3, href: "/english/sat", icon: GraduationCap, tone: "bg-secondary text-secondary-foreground" },
 ] as const;
@@ -120,13 +120,13 @@ export default function EnglishOverviewBento({ programs }: EnglishOverviewBentoP
         })}
 
         <motion.article {...enter(0.26)} className="flex min-h-[260px] flex-col rounded-lg border border-accent/35 bg-accent/10 p-5 lg:col-span-2">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent/20 text-accent-foreground"><Music2 className="h-5 w-5" /></div>
-          <span className="mt-5 text-xs font-semibold uppercase text-accent-foreground">{t("Học nhẹ nhàng", "Learn through music")}</span>
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent/20 text-foreground"><Music2 className="h-5 w-5" /></div>
+          <span className="mt-5 text-xs font-semibold uppercase text-foreground">{t("Học nhẹ nhàng", "Learn through music")}</span>
           <h3 className="mt-2 font-display text-lg font-bold text-card-foreground">{t("Học qua bài hát", "Learn through Songs")}</h3>
           <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
             {t("Lyrics song ngữ, karaoke highlight, từ vựng và bài tập điền từ.", "Bilingual lyrics, karaoke highlights, vocabulary, and fill-in practice.")}
           </p>
-          <Button asChild variant="link" className="mt-auto h-auto justify-start px-0 pt-5 text-accent-foreground">
+          <Button asChild variant="link" className="mt-auto h-auto justify-start px-0 pt-5 text-foreground">
             <Link to="/songs/english">{t("Mở mục bài hát", "Open Songs")} <ArrowRight /></Link>
           </Button>
         </motion.article>

@@ -20,10 +20,32 @@ import EnglishHeroBanner from "@/components/EnglishHeroBanner";
 import EnglishOverviewBento from "@/components/english/EnglishOverviewBento";
 import { Button } from "@/components/ui/button";
 
+interface DictionaryDefinition {
+  definition: string;
+  example?: string;
+}
+
+interface DictionaryMeaning {
+  partOfSpeech: string;
+  definitions: DictionaryDefinition[];
+}
+
+interface DictionaryPhonetic {
+  audio?: string;
+}
+
+interface DictionaryResult {
+  word?: string;
+  phonetic?: string;
+  phonetics?: DictionaryPhonetic[];
+  meanings?: DictionaryMeaning[];
+  error?: boolean;
+}
+
 const English = () => {
   const { t } = useLanguage();
   const [dictWord, setDictWord] = useState("");
-  const [dictResult, setDictResult] = useState<any>(null);
+  const [dictResult, setDictResult] = useState<DictionaryResult | null>(null);
   const [dictLoading, setDictLoading] = useState(false);
 
   const programs = [
@@ -172,11 +194,11 @@ const English = () => {
               <p className="text-muted-foreground mb-6">
                 {t("Tra cứu nghĩa, phát âm, và ví dụ của từ tiếng Anh.", "Look up definitions, pronunciation, and examples of English words.")}
               </p>
-              <div className="flex gap-3 mb-6">
+              <div className="flex flex-col gap-3 mb-6 sm:flex-row">
                 <input value={dictWord} onChange={(e) => setDictWord(e.target.value)} onKeyDown={(e) => e.key === "Enter" && lookupWord()}
                   placeholder={t("Nhập từ cần tra...", "Enter a word...")}
-                  className="flex-1 px-4 py-3 rounded-xl bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none text-base" />
-                <Button onClick={lookupWord} disabled={dictLoading} size="lg">
+                  className="min-w-0 flex-1 px-4 py-3 rounded-xl bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none text-base" />
+                <Button onClick={lookupWord} disabled={dictLoading} size="lg" className="w-full sm:w-auto">
                   <Search className="w-5 h-5" /> {t("Tra cứu", "Search")}
                 </Button>
               </div>
@@ -186,15 +208,18 @@ const English = () => {
                   <div className="flex items-center gap-4">
                     <h3 className="text-2xl font-bold text-foreground">{dictResult.word}</h3>
                     {dictResult.phonetic && <span className="text-muted-foreground text-lg">{dictResult.phonetic}</span>}
-                    {dictResult.phonetics?.find((p: any) => p.audio) && (
-                      <button onClick={() => new Audio(dictResult.phonetics.find((p: any) => p.audio).audio).play()} className="p-2 rounded-full bg-primary/10 text-primary hover:bg-primary/20">🔊</button>
+                    {dictResult.phonetics?.find((p) => p.audio) && (
+                      <Button size="icon" variant="ghost" aria-label={t("Nghe phát âm", "Listen to pronunciation")} onClick={() => {
+                        const audioUrl = dictResult.phonetics?.find((p) => p.audio)?.audio;
+                        if (audioUrl) void new Audio(audioUrl).play();
+                      }}>🔊</Button>
                     )}
                   </div>
-                  {dictResult.meanings?.map((m: any, i: number) => (
+                  {dictResult.meanings?.map((m, i) => (
                     <div key={i}>
                       <span className="text-sm font-bold text-primary italic">{m.partOfSpeech}</span>
                       <ul className="mt-2 space-y-2">
-                        {m.definitions.slice(0, 3).map((d: any, j: number) => (
+                        {m.definitions.slice(0, 3).map((d, j) => (
                           <li key={j} className="text-sm text-secondary-foreground">
                             <span className="font-medium">{j + 1}.</span> {d.definition}
                             {d.example && <p className="text-muted-foreground italic mt-1 ml-4">"{d.example}"</p>}
