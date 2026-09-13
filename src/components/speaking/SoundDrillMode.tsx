@@ -151,8 +151,9 @@ const SoundDrillMode = ({ language, onPerfectScore }: Props) => {
 
   const next = () => {
     const mastered = bestAttemptCorrect || verdict === "correct";
+    const nextCorrectCount = correctCount + (mastered ? 1 : 0);
     if (mastered) {
-      setCorrectCount((count) => count + 1);
+      setCorrectCount(nextCorrectCount);
       setStreak((value) => value + 1);
     } else {
       setStreak(0);
@@ -169,8 +170,7 @@ const SoundDrillMode = ({ language, onPerfectScore }: Props) => {
     rec.reset();
     if (index >= items.length - 1) {
       setFinished(true);
-      const finalCorrect = correctCount + (mastered ? 1 : 0);
-      if (finalCorrect >= Math.ceil(items.length * 0.8)) onPerfectScore?.();
+      if (nextCorrectCount >= Math.ceil(items.length * 0.8)) onPerfectScore?.();
     } else {
       setIndex((i) => i + 1);
     }
