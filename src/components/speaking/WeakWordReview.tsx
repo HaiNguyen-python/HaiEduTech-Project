@@ -14,6 +14,7 @@ import {
   CLEAN_STREAK,
   dueWeakWords,
   loadWeakWords,
+  normalizeWord,
   reviewWeakWord,
   type WeakWord,
 } from "@/lib/speakingWeakWords";
@@ -39,6 +40,7 @@ const WeakWordReview = ({ language, onChange }: Props) => {
   const [verdict, setVerdict] = useState<"correct" | "wrong" | null>(null);
   const [heard, setHeard] = useState("");
   const [cleared, setCleared] = useState(0);
+  const [displayClean, setDisplayClean] = useState<number | null>(null);
   const audioBusyRef = useRef(false);
   const [audioBusy, setAudioBusy] = useState(false);
 
@@ -51,7 +53,8 @@ const WeakWordReview = ({ language, onChange }: Props) => {
       const { accuracy } = compareSentence(card.word, transcript, language);
       const ok = accuracy >= 75;
       setVerdict(ok ? "correct" : "wrong");
-      reviewWeakWord(language, card.word, ok);
+      const updated = reviewWeakWord(language, card.word, ok);
+      setDisplayClean(updated[normalizeWord(card.word)]?.clean ?? (ok ? CLEAN_STREAK : 0));
       if (ok && card.clean + 1 >= CLEAN_STREAK) setCleared((c) => c + 1);
       onChange?.();
     },
@@ -65,6 +68,7 @@ const WeakWordReview = ({ language, onChange }: Props) => {
     setIndex(0);
     setVerdict(null);
     setHeard("");
+    setDisplayClean(null);
     setCleared(0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [language]);
@@ -82,6 +86,7 @@ const WeakWordReview = ({ language, onChange }: Props) => {
   const next = () => {
     setVerdict(null);
     setHeard("");
+    setDisplayClean(null);
     rec.reset();
     setIndex((i) => i + 1);
   };
@@ -131,7 +136,8 @@ const WeakWordReview = ({ language, onChange }: Props) => {
   }
 
   const errorText = micErrorMessage(rec.error, t);
-  const progress = Math.round((card.clean / CLEAN_STREAK) * 100);
+  const visibleClean = displayClean ?? card.clean;
+  const progress = Math.round((visibleClean / CLEAN_STREAK) * 100);
 
   return (
     <Card>
@@ -157,7 +163,7 @@ const WeakWordReview = ({ language, onChange }: Props) => {
           <div className="mt-3">
             <Progress value={progress} />
             <div className="text-xs text-muted-foreground mt-1">
-              {t(`Đọc đúng ${card.clean}/${CLEAN_STREAK} lần liên tiếp`, `${card.clean}/${CLEAN_STREAK} clean attempts`)}
+               {t(`Đọc đúng ${visibleClean}/${CLEAN_STREAK} lần liên tiếp`, `${visibleClean}/${CLEAN_STREAK} clean attempts`)}
             </div>
           </div>
         </div>
@@ -181,8 +187,8 @@ const WeakWordReview = ({ language, onChange }: Props) => {
           )}
         </div>
 
-        {errorText && (
-          <div className="rounded-lg border border-destructive/40 bg-destructive/10 p-3 text-sm text-destructive">
+          {errorText && (
+            <div role="alert" aria-live="assertive" className="rounded-lg border border-destructive/40 bg-destructive/10 p-3 text-sm text-destructive">
             {errorText}
           </div>
         )}

@@ -161,7 +161,7 @@ const ShadowingMode = ({ language, onPerfectScore }: Props) => {
           </div>
 
           {errorText && (
-            <div className="rounded-lg border border-destructive/40 bg-destructive/10 p-3 text-sm text-destructive">
+            <div role="alert" aria-live="assertive" className="rounded-lg border border-destructive/40 bg-destructive/10 p-3 text-sm text-destructive">
               {errorText}
             </div>
           )}

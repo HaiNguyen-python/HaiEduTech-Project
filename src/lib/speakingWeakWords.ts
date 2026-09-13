@@ -17,6 +17,7 @@ export interface WeakWord {
 export type WeakWordStore = Record<string, WeakWord>;
 
 export const CLEAN_STREAK = 3;
+export const SPEAKING_PROGRESS_EVENT = "speaking-progress-updated";
 const LADDER = [0, 1, 3];
 
 const key = (language: string) => `speaking-weak-words-${language}`;
@@ -35,6 +36,9 @@ export const loadWeakWords = (language: string): WeakWordStore =>
 
 export const saveWeakWords = (language: string, store: WeakWordStore) => {
   safeStorage.set(key(language), store);
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new CustomEvent(SPEAKING_PROGRESS_EVENT, { detail: { language } }));
+  }
 };
 
 /** Record misses coming out of any practice mode. */

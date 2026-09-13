@@ -11,10 +11,12 @@ import { toast } from "sonner";
 import { japaneseSoundTipsFor } from "@/lib/japaneseSoundTips";
 import confetti from "canvas-confetti";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { speakingCoachLanguages, pronunciationTips, type SpeakingSentence, type SpeakingTheme } from "@/data/speakingCoachData";
+import { speakingCoachLanguages, type SpeakingTheme } from "@/data/speakingCoachData";
 import { playSpeakingTts, stopSpeakingTts } from "@/lib/speakingModeShared";
 import { transcribeSwedishSentence, swedishSoundTipsFor } from "@/lib/swedishSentenceIpa";
 import { swedishSentenceEn } from "@/data/swedishSpeakingEnglishIndex";
+import SpeakingThemeIllustration from "@/components/speaking/SpeakingThemeIllustration";
+import { addWeakWords } from "@/lib/speakingWeakWords";
 
 import { supabase } from "@/integrations/supabase/client";
 import GameLeaderboard from "@/components/games/GameLeaderboard";
@@ -704,7 +706,6 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
       // This prevents 0% scores from being saved when the data hasn't loaded yet.
       const targetText = (currentSentence.text || "").trim();
       if (!targetText) {
-        console.warn("[AISpeakingCoach] Skipping grading: target sentence text is empty", currentSentence);
         return;
       }
 
@@ -715,6 +716,10 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
       setResults(wordResults);
       setAccuracy(acc);
       setTotalPracticed((p) => p + 1);
+      const missedWords = wordResults
+        .filter((result) => result.status === "wrong" || result.status === "missing")
+        .map((result) => ({ word: result.expected }));
+      if (missedWords.length) addWeakWords(language, missedWords, "sentence");
 
       // Update theme scores
       setThemeScores(prev => {
@@ -949,17 +954,16 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
             {t("Cấp độ", "Level")}:
           </span>
           {availableLevels.map((lv) => (
-            <button
+            <Button
               key={lv}
+              type="button"
+              size="sm"
+              variant={levelFilter === lv ? "default" : "outline"}
               onClick={() => setLevelFilter(lv)}
-              className={`text-xs px-3 py-1 rounded-full border transition-all ${
-                levelFilter === lv
-                  ? "bg-primary text-primary-foreground border-primary shadow-sm"
-                  : "bg-background hover:bg-muted border-border"
-              }`}
+              className="h-7 rounded-full px-3 text-xs"
             >
               {lv === "all" ? t("Tất cả", "All") : lv}
-            </button>
+            </Button>
           ))}
           <span className="text-xs text-muted-foreground ml-1">
             ({visibleThemes.length} {t("chủ đề", "themes")} · {totalSentences} {t("câu", "sentences")})
@@ -1043,16 +1047,17 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
                 whileTap={{ scale: 0.98 }}
               >
                 <Card
-                  className="cursor-pointer hover:shadow-md hover:border-primary/30 transition-all h-full"
+                  className="cursor-pointer overflow-hidden hover:shadow-md hover:border-primary/30 transition-all h-full"
                   onClick={() => {
                     setSelectedTheme(theme);
                     setCurrentIndex(0);
                     resetState();
                   }}
                 >
-                  <CardHeader className="pb-2">
+                  <SpeakingThemeIllustration theme={theme} variant="thumbnail" />
+                  <CardHeader className="pb-2 pt-4">
                     <CardTitle className="flex items-center gap-2 text-base">
-                      <span className="text-xl">{theme.icon}</span>
+                      <span className="text-xl" aria-hidden="true">{theme.icon}</span>
                       {theme.name}
                       {themeProgress === 100 && <span className="text-emerald-500 text-sm">✓</span>}
                     </CardTitle>
@@ -1146,18 +1151,20 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
 
         <div className="flex gap-1.5">
           {selectedTheme.sentences.map((_, i) => (
-            <button
+            <Button
               key={i}
+              type="button"
+              variant="ghost"
+              size="icon"
+              aria-label={t(`Đi tới câu ${i + 1}`, `Go to sentence ${i + 1}`)}
               onClick={() => {
                 setCurrentIndex(i);
                 resetState();
               }}
-              className={`w-2.5 h-2.5 rounded-full transition-all ${
-                i === currentIndex
-                  ? "bg-primary scale-125"
-                  : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
-              }`}
-            />
+              className="h-6 w-6 rounded-full p-0"
+            >
+              <span className={`block h-2.5 w-2.5 rounded-full transition-transform ${i === currentIndex ? "scale-125 bg-primary" : "bg-muted-foreground/30"}`} />
+            </Button>
           ))}
         </div>
 
@@ -1184,6 +1191,7 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
           >
             <Card className="border-2">
               <CardContent className="pt-6 space-y-6">
+                <SpeakingThemeIllustration theme={selectedTheme} />
                 {/* Target sentence */}
                 <div className="text-center space-y-3">
                   <div className="flex items-center justify-center gap-2 mb-1">
@@ -1350,8 +1358,10 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
                 )}
 
                 {/* Mic error */}
-                {micError && (
+                 {micError && (
                   <motion.div
+                     role="alert"
+                     aria-live="assertive"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     className="flex items-center gap-2 p-3 bg-red-50 dark:bg-red-950/20 rounded-xl text-sm text-red-700 dark:text-red-400"

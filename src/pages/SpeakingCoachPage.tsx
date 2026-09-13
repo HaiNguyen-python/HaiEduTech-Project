@@ -12,7 +12,7 @@ import SpeakingOverview from "@/components/speaking/SpeakingOverview";
 import { ActivityChips, type SpeakingActivity } from "@/components/speaking/ActivityPicker";
 import type { PlanMode } from "@/lib/speaking/pronunciationPlan";
 import { allPronWords, loadPronStats } from "@/lib/speaking/pronunciationStats";
-import { countWeakWords } from "@/lib/speakingWeakWords";
+import { countWeakWords, SPEAKING_PROGRESS_EVENT } from "@/lib/speakingWeakWords";
 import { stopSpeakingTts } from "@/lib/speakingModeShared";
 import { Badge } from "@/components/ui/badge";
 import MountainClimber from "@/components/MountainClimber";
@@ -51,6 +51,17 @@ const SpeakingCoachPage = () => {
     setHasStats(allPronWords(loadPronStats(lang)).length > 0);
     setWeakCount(countWeakWords(lang));
   }, [lang, view]);
+
+  useEffect(() => {
+    const refreshProgress = (event: Event) => {
+      const detail = (event as CustomEvent<{ language?: string }>).detail;
+      if (detail?.language && detail.language !== lang) return;
+      setHasStats(allPronWords(loadPronStats(lang)).length > 0);
+      setWeakCount(countWeakWords(lang));
+    };
+    window.addEventListener(SPEAKING_PROGRESS_EVENT, refreshProgress);
+    return () => window.removeEventListener(SPEAKING_PROGRESS_EVENT, refreshProgress);
+  }, [lang]);
 
   const pickActivity = useCallback((next: SpeakingActivity) => {
     stopSpeakingTts(lang);
