@@ -894,43 +894,47 @@ import { japaneseThemes2 } from "./speakingCoachJapaneseExpansion2";
 import { japaneseThemes3 } from "./speakingCoachJapaneseExpansion3";
 import { applyTopUps } from "./speakingCoachTopUp";
 import { dedupeSpeakingThemes } from "./speakingCoachDedupe";
+import { mergeSpeakingThemes } from "./speakingCoachMerge";
+
+const buildThemes = (themes: SpeakingTheme[]): SpeakingTheme[] =>
+  mergeSpeakingThemes(dedupeSpeakingThemes(themes));
 
 export const speakingCoachLanguages: Record<string, SpeakingLanguageConfig> = {
   english: {
     lang: "English",
     langCode: "en",
     speechLang: "en-US",
-    themes: dedupeSpeakingThemes(applyTopUps([...englishThemes, ...englishExtraThemes, ...englishExtraThemes2, ...englishExtraThemes3, ...englishExtraThemes4, ...englishExtraThemes5, ...englishExtraThemes6])),
+    themes: buildThemes(applyTopUps([...englishThemes, ...englishExtraThemes, ...englishExtraThemes2, ...englishExtraThemes3, ...englishExtraThemes4, ...englishExtraThemes5, ...englishExtraThemes6])),
   },
   finnish: {
     lang: "Suomi",
     langCode: "fi",
     speechLang: "fi-FI",
-    themes: dedupeSpeakingThemes(applyTopUps([...finnishThemes, ...finnishExtraThemes, ...finnishExtraThemes2, ...finnishExtraThemes3, ...finnishExtraThemes4, ...finnishExtraThemes5, ...finnishExtraThemes6])),
+    themes: buildThemes(applyTopUps([...finnishThemes, ...finnishExtraThemes, ...finnishExtraThemes2, ...finnishExtraThemes3, ...finnishExtraThemes4, ...finnishExtraThemes5, ...finnishExtraThemes6])),
   },
   swedish: {
     lang: "Svenska",
     langCode: "sv",
     speechLang: "sv-SE",
-    themes: dedupeSpeakingThemes(swedishThemes),
+    themes: buildThemes(swedishThemes),
   },
   japanese: {
     lang: "日本語",
     langCode: "ja",
     speechLang: "ja-JP",
-    themes: dedupeSpeakingThemes([...japaneseThemes1, ...japaneseThemes2, ...japaneseThemes3]),
+    themes: buildThemes([...japaneseThemes1, ...japaneseThemes2, ...japaneseThemes3]),
   },
   chinese: {
     lang: "中文",
     langCode: "zh",
     speechLang: "zh-CN",
-    themes: dedupeSpeakingThemes(applyTopUps([...chineseThemes, ...chineseExtraThemes, ...chineseExtraThemes2, ...chineseExtraThemes3, ...chineseExtraThemes4, ...chineseExtraThemes5])),
+    themes: buildThemes(applyTopUps([...chineseThemes, ...chineseExtraThemes, ...chineseExtraThemes2, ...chineseExtraThemes3, ...chineseExtraThemes4, ...chineseExtraThemes5])),
   },
   vietnamese: {
     lang: "Tiếng Việt",
     langCode: "vi",
     speechLang: "vi-VN",
-    themes: dedupeSpeakingThemes(applyTopUps([...vietnameseThemes, ...vietnameseExtraThemes, ...vietnameseExtraThemes2, ...vietnameseExtraThemes3, ...vietnameseExtraThemes4, ...vietnameseExtraThemes5])),
+    themes: buildThemes(applyTopUps([...vietnameseThemes, ...vietnameseExtraThemes, ...vietnameseExtraThemes2, ...vietnameseExtraThemes3, ...vietnameseExtraThemes4, ...vietnameseExtraThemes5])),
   },
 };
 
