@@ -94,7 +94,7 @@ const SoundDrillMode = ({ language, onPerfectScore }: Props) => {
       }
       setAttempted(true);
     },
-    [item, language, targetWord]
+    [item, language]
   );
 
   const rec = useSpeechRecognizer({ speechLang: config.speechLang, maxSeconds: 12, onFinal: handleFinal });
@@ -111,7 +111,6 @@ const SoundDrillMode = ({ language, onPerfectScore }: Props) => {
     setAttempted(false);
     setBestAttemptCorrect(false);
     setListened(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [language]);
 
   useEffect(() => () => stopSpeakingTts(language), [language]);
