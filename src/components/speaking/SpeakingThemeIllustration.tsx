@@ -17,7 +17,7 @@ const SpeakingThemeIllustration = ({ theme, variant = "practice" }: Props) => {
       <div
         className={variant === "thumbnail"
           ? "grid h-28 w-full place-items-center bg-primary/5 text-4xl"
-          : "grid h-40 w-full place-items-center rounded-md bg-primary/5 text-6xl sm:h-52"}
+          : "grid aspect-[8/5] w-full place-items-center bg-primary/5 text-6xl"}
         role="img"
         aria-label={t(theme.nameVi, theme.name)}
       >
@@ -27,7 +27,7 @@ const SpeakingThemeIllustration = ({ theme, variant = "practice" }: Props) => {
   }
 
   return (
-    <div className={variant === "thumbnail" ? "h-28 w-full overflow-hidden bg-muted" : "mx-auto h-40 w-full max-w-2xl overflow-hidden rounded-md bg-muted sm:h-52"}>
+    <div className={variant === "thumbnail" ? "h-28 w-full overflow-hidden bg-muted" : "aspect-[8/5] w-full overflow-hidden bg-muted"}>
       <img
         src={illustration.src}
         alt={t(illustration.altVi, illustration.altEn)}
