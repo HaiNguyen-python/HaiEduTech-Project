@@ -1,9 +1,13 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import {
   getPhraseExample,
+  getHighlightedExampleParts,
+  getStructureExample,
   normalizePhraseSpeakingGrade,
   phraseAppearsInTranscript,
   phrasePracticeId,
+  structureAppearsInTranscript,
+  structurePracticeId,
   savePhraseSpeakingResult,
   PHRASE_SPEAKING_STORAGE_KEY,
 } from "@/lib/ieltsSpeakingPhrasePractice";
@@ -39,6 +43,21 @@ describe("IELTS phrase speaking practice", () => {
     expect(phraseAppearsInTranscript("To meet deadlines", "I always meet my deadlines by planning ahead")).toBe(true);
     expect(phraseAppearsInTranscript("A hands-on approach", "Our course takes a practical approach to science")).toBe(false);
     expect(phraseAppearsInTranscript("To broaden one's horizons", "Travelling has broadened my horizons")).toBe(true);
+  });
+
+  it("builds complete structure examples and identifies fixed language", () => {
+    const structure = "What I enjoy most about... is the fact that...";
+    const example = getStructureExample(structure, "Work & Study", 1);
+    expect(example).not.toContain("...");
+    expect(example).toContain("What I enjoy most about");
+    expect(structureAppearsInTranscript(structure, "What I enjoy most about my course is the supportive environment")).toBe(true);
+    expect(structurePracticeId(1, "Work", structure)).toContain("structure|1|work|");
+  });
+
+  it("returns safe highlighted text parts for phrase examples", () => {
+    const parts = getHighlightedExampleParts("I hope to pursue a career in technology.", "To pursue a career in");
+    expect(parts.some((part) => part.highlighted && part.text.toLowerCase().includes("pursue a career in"))).toBe(true);
+    expect(parts.map((part) => part.text).join("")).toBe("I hope to pursue a career in technology.");
   });
 
   it("stores attempts while preserving the best score", () => {

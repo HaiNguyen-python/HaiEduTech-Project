@@ -4,10 +4,19 @@ import { buildSentenceGradePrompt, clampGrade, parseSentenceGradeInput } from ".
 Deno.test("validates and normalizes sentence grade input", () => {
   const parsed = parseSentenceGradeInput({ part: 2, topic: " Work & Study ", phrase: "To meet deadlines", meaning: "Đúng hạn", example: "I plan carefully.", transcript: "  I meet deadlines at work.  " });
   assertEquals(parsed?.part, 2);
+  assertEquals(parsed?.mode, "vocabulary");
   assertEquals(parsed?.transcript, "I meet deadlines at work.");
   assertEquals(parseSentenceGradeInput({ phrase: "test" }), null);
   assertEquals(parseSentenceGradeInput({ part: 1, topic: "Work", phrase: "meet deadlines", meaning: "", example: "I meet deadlines.", transcript: "I meet deadlines" }), null);
   assertEquals(parseSentenceGradeInput({ part: 1, topic: "Work", phrase: "meet deadlines", meaning: "đúng hạn", example: "I meet deadlines.", transcript: "only two" }), null);
+});
+
+Deno.test("builds a structure-specific grading prompt", () => {
+  const parsed = parseSentenceGradeInput({ mode: "structure", part: 1, topic: "Work", phrase: "What I enjoy most about... is...", meaning: "Giving an opinion", example: "What I enjoy most about my course is the teamwork.", transcript: "What I enjoy most about my course is the teamwork" });
+  if (!parsed) throw new Error("Expected valid input");
+  const prompt = buildSentenceGradePrompt(parsed);
+  assertStringIncludes(prompt, "Target structure:");
+  assertStringIncludes(prompt, "Structure use, Grammar");
 });
 
 Deno.test("builds a grounded grading prompt", () => {
