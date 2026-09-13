@@ -6,6 +6,8 @@ Deno.test("validates and normalizes sentence grade input", () => {
   assertEquals(parsed?.part, 2);
   assertEquals(parsed?.transcript, "I meet deadlines at work.");
   assertEquals(parseSentenceGradeInput({ phrase: "test" }), null);
+  assertEquals(parseSentenceGradeInput({ part: 1, topic: "Work", phrase: "meet deadlines", meaning: "", example: "I meet deadlines.", transcript: "I meet deadlines" }), null);
+  assertEquals(parseSentenceGradeInput({ part: 1, topic: "Work", phrase: "meet deadlines", meaning: "đúng hạn", example: "I meet deadlines.", transcript: "only two" }), null);
 });
 
 Deno.test("builds a grounded grading prompt", () => {
@@ -14,6 +16,7 @@ Deno.test("builds a grounded grading prompt", () => {
   const prompt = buildSentenceGradePrompt(parsed);
   assertStringIncludes(prompt, "Target phrase: meet deadlines");
   assertStringIncludes(prompt, "Do not claim to hear audio");
+  assertStringIncludes(prompt, "Return exactly four criteria");
 });
 
 Deno.test("clamps generated scores", () => {

@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import {
   getPhraseExample,
   normalizePhraseSpeakingGrade,
+  phraseAppearsInTranscript,
   phrasePracticeId,
   savePhraseSpeakingResult,
   PHRASE_SPEAKING_STORAGE_KEY,
@@ -21,13 +22,23 @@ describe("IELTS phrase speaking practice", () => {
     const grade = normalizePhraseSpeakingGrade({
       overall: 108,
       phraseUsedCorrectly: true,
-      criteria: [{ label: "Grammar", score: 76.4, feedback: "Clear sentence." }],
+      criteria: ["Phrase use", "Grammar", "Naturalness", "Recognition clarity"].map((label) => ({ label, score: 76.4, feedback: "Clear sentence." })),
       feedback: "Good work.",
       correction: "",
       upgradedSentence: "I meet every deadline by planning ahead.",
     });
     expect(grade?.overall).toBe(100);
     expect(grade?.criteria[0].score).toBe(76);
+  });
+
+  it("requires all four grading criteria", () => {
+    expect(normalizePhraseSpeakingGrade({ overall: 70, criteria: [], upgradedSentence: "A better sentence." })).toBeNull();
+  });
+
+  it("recognizes reasonable phrase variations without substring false positives", () => {
+    expect(phraseAppearsInTranscript("To meet deadlines", "I always meet my deadlines by planning ahead")).toBe(true);
+    expect(phraseAppearsInTranscript("A hands-on approach", "Our course takes a practical approach to science")).toBe(false);
+    expect(phraseAppearsInTranscript("To broaden one's horizons", "Travelling has broadened my horizons")).toBe(true);
   });
 
   it("stores attempts while preserving the best score", () => {
