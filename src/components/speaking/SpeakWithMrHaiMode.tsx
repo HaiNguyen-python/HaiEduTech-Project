@@ -27,7 +27,7 @@ import {
 } from "@/lib/mrHaiVoicePractice";
 import { micErrorMessage, playSpeakingTts, stopSpeakingTts, type SpeakingLang } from "@/lib/speakingModeShared";
 import { safeStorage } from "@/lib/safeStorage";
-import haiAvatar from "@/assets/hai-avatar.png.asset.json";
+import haiAvatar from "@/assets/mr-hai-speaking-avatar.png";
 
 interface Props { language: SpeakingLang; }
 const WAVEFORM = [4, 8, 5, 11, 7, 13, 6, 10, 4, 12, 8, 5, 11, 7, 4, 9, 6, 12, 5, 8];
@@ -234,8 +234,10 @@ const SpeakWithMrHaiMode = ({ language }: Props) => {
                 <motion.span key={ring} className="absolute rounded-full border border-primary/30" initial={false} animate={reduceMotion ? { width: 150, height: 150, opacity: 0.25 } : { width: [140, 190], height: [140, 190], opacity: [0.45, 0] }} transition={{ duration: 1.4, delay: ring * 0.25, repeat: Infinity }} />
               ))}
               <motion.img
-                src={haiAvatar.url}
+                src={haiAvatar}
                 alt={t("Avatar thầy Hải", "Mr. Hai avatar")}
+                width={768}
+                height={768}
                 className="relative z-10 h-32 w-32 rounded-full border-4 border-background object-cover shadow-lg"
                 animate={reduceMotion ? undefined : voiceState === "thinking" ? { rotate: [-2, 2, -2] } : voiceState === "speaking" ? { y: [0, -5, 0] } : rec.isRecording ? { scale: [1, 1.03, 1] } : { y: [0, -2, 0] }}
                 transition={{ duration: voiceState === "speaking" ? 0.55 : 2, repeat: Infinity }}
@@ -261,7 +263,7 @@ const SpeakWithMrHaiMode = ({ language }: Props) => {
               <Conversation>
                 <ConversationContent className="gap-5 p-4">
                   {messages.length === 0 ? (
-                    <ConversationEmptyState title={t("Chọn tình huống và bắt đầu", "Choose a situation and start")} description={t("Mr. Hai sẽ mở đầu bằng một câu hỏi ngắn. Microphone chỉ bật khi bạn nhấn nút.", "Mr. Hai will open with a short question. The microphone activates only when you press it.")} icon={<img src={haiAvatar.url} alt="" className="h-16 w-16 rounded-full object-cover" />} />
+                    <ConversationEmptyState title={t("Chọn tình huống và bắt đầu", "Choose a situation and start")} description={t("Mr. Hai sẽ mở đầu bằng một câu hỏi ngắn. Microphone chỉ bật khi bạn nhấn nút.", "Mr. Hai will open with a short question. The microphone activates only when you press it.")} icon={<img src={haiAvatar} alt="" loading="lazy" width={768} height={768} className="h-16 w-16 rounded-full object-cover" />} />
                   ) : messages.map((message) => (
                     <Message key={message.id} from={message.role}>
                       <MessageContent className={message.role === "user" ? "bg-primary text-primary-foreground" : undefined}>
