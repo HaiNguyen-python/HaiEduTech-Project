@@ -9,6 +9,8 @@ import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { supabase } from "@/integrations/supabase/client";
 import {
   normalizePhraseSpeakingGrade,
+  loadPhraseSpeakingResult,
+  phraseAppearsInTranscript,
   phrasePracticeId,
   savePhraseSpeakingResult,
   type PhraseSpeakingGrade,
@@ -35,7 +37,8 @@ const statusCode = (error: unknown) => {
 const PhraseSpeakingPractice = ({ part, topic, phrase, meaning, example, onClose }: Props) => {
   const { t } = useLanguage();
   const [grade, setGrade] = useState<PhraseSpeakingGrade | null>(null);
-  const [progress, setProgress] = useState<PhraseSpeakingProgress | null>(null);
+  const practiceId = phrasePracticeId(part, topic, phrase);
+  const [progress, setProgress] = useState<PhraseSpeakingProgress | null>(() => loadPhraseSpeakingResult(practiceId));
   const [grading, setGrading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const gradeRef = useRef<(transcript: string, elapsedMs: number) => void>(() => {});
@@ -44,6 +47,10 @@ const PhraseSpeakingPractice = ({ part, topic, phrase, meaning, example, onClose
     const spoken = transcript.normalize("NFC").trim().slice(0, 800);
     if (spoken.split(/\s+/).filter(Boolean).length < 3) {
       setError(t("Câu quá ngắn. Hãy nói ít nhất ba từ và dùng cụm từ mục tiêu.", "That sentence is too short. Say at least three words and use the target phrase."));
+      return;
+    }
+    if (!phraseAppearsInTranscript(phrase, spoken)) {
+      setError(t("Câu của bạn chưa có cụm từ mục tiêu hoặc một biến thể đủ rõ. Hãy bổ sung cụm từ rồi nói lại.", "Your sentence does not clearly include the target phrase or a valid variation. Add it and try again."));
       return;
     }
     setGrading(true);
@@ -57,10 +64,10 @@ const PhraseSpeakingPractice = ({ part, topic, phrase, meaning, example, onClose
       const normalized = normalizePhraseSpeakingGrade(data);
       if (!normalized) throw new Error("invalid_grade");
       setGrade(normalized);
-      setProgress(savePhraseSpeakingResult(phrasePracticeId(part, topic, phrase), normalized.overall));
+      setProgress(savePhraseSpeakingResult(practiceId, normalized.overall));
       void logStudentActivity({
         activityType: "ielts_speaking_phrase",
-        activityId: phrasePracticeId(part, topic, phrase),
+        activityId: practiceId,
         score: normalized.overall,
         maxScore: 100,
         timeSpentSeconds: Math.max(1, Math.round(elapsedMs / 1000)),
@@ -69,17 +76,23 @@ const PhraseSpeakingPractice = ({ part, topic, phrase, meaning, example, onClose
       });
     } catch (caught) {
       const status = statusCode(caught);
-      setError(status === 402
+      setError(status === 400
+        ? t("Câu gửi đi chưa hợp lệ. Hãy kiểm tra lại bản ghi rồi thử lại.", "The submitted sentence is not valid. Check the transcript and try again.")
+        : status === 401
+          ? t("Tính năng chấm AI chưa được cấu hình.", "AI grading is not configured.")
+          : status === 402
         ? t("Tính năng chấm AI đang tạm dừng vì tài khoản cần bổ sung tín dụng.", "AI grading is paused because the workspace needs more credits.")
         : status === 403
           ? t("Tính năng chấm AI đang bị quản trị viên tạm khóa.", "AI grading is currently blocked by an administrator.")
           : status === 429
             ? t("AI đang bận. Hãy chờ một chút rồi thử lại.", "The AI examiner is busy. Please wait a moment and try again.")
-            : t("Chưa chấm được câu này. Bản ghi vẫn được giữ để bạn thử lại.", "This sentence could not be graded. Your transcript is kept so you can try again."));
+            : status >= 500
+              ? t("Dịch vụ chấm đang tạm gián đoạn. Bản ghi vẫn được giữ để bạn chấm lại.", "The grading service is temporarily unavailable. Your transcript is kept for retrying.")
+              : t("Chưa chấm được câu này. Bản ghi vẫn được giữ để bạn thử lại.", "This sentence could not be graded. Your transcript is kept so you can try again."));
     } finally {
       setGrading(false);
     }
-  }, [example, meaning, part, phrase, t, topic]);
+  }, [example, meaning, part, phrase, practiceId, t, topic]);
   gradeRef.current = gradeSentence;
 
   const recognizer = useSpeechRecognizer({
@@ -114,7 +127,7 @@ const PhraseSpeakingPractice = ({ part, topic, phrase, meaning, example, onClose
 
       <div className="flex flex-wrap gap-2">
         {!recognizer.isRecording ? (
-          <Button onClick={() => { reset(); void recognizer.start(); }} disabled={grading}>
+          <Button onClick={() => { reset(); stopEnglishTts(); void recognizer.start(); }} disabled={grading}>
             <Mic className="h-4 w-4" /> {grade ? t("Nói lại", "Try again") : t("Bắt đầu nói", "Start speaking")}
           </Button>
         ) : (
@@ -125,6 +138,11 @@ const PhraseSpeakingPractice = ({ part, topic, phrase, meaning, example, onClose
         <Button variant="outline" onClick={() => void playEnglishTts(example)} disabled={recognizer.isRecording || grading}>
           <Volume2 className="h-4 w-4" /> {t("Nghe câu mẫu", "Hear example")}
         </Button>
+        {error && recognizer.transcript && (
+          <Button variant="secondary" onClick={() => void gradeSentence(recognizer.transcript, Math.max(1000, recognizer.seconds * 1000))} disabled={grading || recognizer.isRecording}>
+            <RotateCcw className="h-4 w-4" /> {t("Chấm lại bản ghi", "Retry grading")}
+          </Button>
+        )}
         {grade && (
           <Button variant="ghost" onClick={reset}>
             <RotateCcw className="h-4 w-4" /> {t("Làm lại", "Reset")}

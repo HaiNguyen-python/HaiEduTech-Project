@@ -25,6 +25,11 @@ export type PhraseSpeakingProgressStore = Record<string, PhraseSpeakingProgress>
 
 export const PHRASE_SPEAKING_STORAGE_KEY = "ielts-speaking-phrase-practice:v1";
 
+export const loadPhraseSpeakingResult = (id: string): PhraseSpeakingProgress | null => {
+  const store = safeStorage.get<PhraseSpeakingProgressStore>(PHRASE_SPEAKING_STORAGE_KEY, {}) ?? {};
+  return store[id] ?? null;
+};
+
 const EXAMPLE_OVERRIDES: Record<string, string> = {
   "to pursue a career in": "I hope to pursue a career in educational technology after graduation.",
   "a steep learning curve": "My first month at the company involved a steep learning curve.",
@@ -60,15 +65,22 @@ const cleanPhrase = (phrase: string) => phrase
 
 const lowerFirst = (value: string) => value ? `${value[0].toLowerCase()}${value.slice(1)}` : value;
 
+const phraseWithComplement = (phrase: string) => {
+  const trimmed = phrase.trim();
+  if (/\b(in|on|at|for|from|with|between|about|of|to)$/i.test(trimmed)) return `${trimmed} a meaningful goal`;
+  return trimmed;
+};
+
 export function getPhraseExample(phrase: string, topic: string, part: 1 | 2 | 3): string {
   const key = phrase.trim().toLowerCase().replace(/\.{2,}$/g, "");
   if (EXAMPLE_OVERRIDES[key]) return EXAMPLE_OVERRIDES[key];
 
-  const cleaned = cleanPhrase(phrase).replace(/\s*\/\s*/g, " or ");
+  const cleaned = phraseWithComplement(cleanPhrase(phrase).replace(/\s*\/\s*/g, " or "));
   const topicText = topic.toLowerCase().replace(/\s*&\s*/g, " and ");
   if (/^to\s+/i.test(cleaned)) {
     const infinitive = lowerFirst(cleaned);
-    if (part === 1) return `In my everyday life, I often try ${infinitive} whenever I can.`;
+    if (/^to be\b/i.test(cleaned)) return `It can be difficult ${infinitive}, but the experience taught me something valuable.`;
+    if (part === 1) return `In my everyday life, I make an effort ${infinitive} whenever it is appropriate.`;
     if (part === 2) return `That experience taught me how important it is ${infinitive}.`;
     return `Governments and individuals should work together ${infinitive}.`;
   }
@@ -88,6 +100,30 @@ export function getPhraseExample(phrase: string, topic: string, part: 1 | 2 | 3)
   return `${cleaned} is increasingly important when discussing ${topicText}.`;
 }
 
+const PHRASE_STOP_WORDS = new Set([
+  "a", "an", "and", "at", "be", "by", "for", "from", "in", "is", "it", "my", "of", "on", "one", "or", "the", "to", "with",
+]);
+
+const wordStem = (word: string) => word
+  .replace(/ies$/i, "y")
+  .replace(/(ing|ed|es|s)$/i, "");
+
+export function phraseAppearsInTranscript(phrase: string, transcript: string): boolean {
+  const tokens = (value: string) => value
+    .normalize("NFC")
+    .toLowerCase()
+    .replace(/one['’]s|someone['’]s/g, " ")
+    .replace(/[^a-z0-9 ]/g, " ")
+    .split(/\s+/)
+    .filter((word) => word.length > 2 && !PHRASE_STOP_WORDS.has(word))
+    .map(wordStem);
+  const required = [...new Set(tokens(phrase))];
+  if (!required.length) return transcript.trim().split(/\s+/).length >= 3;
+  const heard = new Set(tokens(transcript));
+  const hits = required.filter((word) => heard.has(word)).length;
+  return hits >= Math.max(1, Math.ceil(required.length * 0.6));
+}
+
 export const phrasePracticeId = (part: number, topic: string, phrase: string) =>
   `${part}|${topic.trim().toLowerCase()}|${phrase.trim().toLowerCase()}`;
 
@@ -105,6 +141,7 @@ export function normalizePhraseSpeakingGrade(value: unknown): PhraseSpeakingGrad
       return { label: text(criterion.label, 80), score: score(criterion.score), feedback: text(criterion.feedback) };
     }).filter((item) => item.label && item.feedback)
     : [];
+  if (criteria.length !== 4) return null;
   return {
     overall: score(raw.overall),
     phraseUsedCorrectly: raw.phraseUsedCorrectly === true,

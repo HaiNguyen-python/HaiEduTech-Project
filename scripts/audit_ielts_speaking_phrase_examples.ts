@@ -2,6 +2,7 @@ import { speakingPracticeData } from "../src/data/speakingPracticeData";
 import { getMergedVocabulary } from "../src/data/speakingVocabularyBank";
 import { getSupplementVocabulary } from "../src/data/speakingDrillsSupplement";
 import { getPhraseExample } from "../src/lib/ieltsSpeakingPhrasePractice";
+import { phraseAppearsInTranscript } from "../src/lib/ieltsSpeakingPhrasePractice";
 
 const errors: string[] = [];
 let rendered = 0;
@@ -24,6 +25,8 @@ for (const part of [1, 2, 3] as const) {
       const example = getPhraseExample(item.phrase, topic, part);
       if (!example || example.length < 25 || !/[.!?]$/.test(example)) errors.push(`Invalid example: Part ${part} / ${topic} / ${item.phrase}`);
       if (/\.{2,}|\bone's\b/i.test(example)) errors.push(`Unresolved placeholder: ${item.phrase} -> ${example}`);
+      if (!phraseAppearsInTranscript(item.phrase, example)) errors.push(`Phrase not represented in example: ${item.phrase} -> ${example}`);
+      if (/\btry to be over the moon\b|\btry to take me by surprise\b|\bis an important part of my experience with\b/i.test(example)) errors.push(`Unnatural template: ${item.phrase} -> ${example}`);
       const list = examples.get(example.toLowerCase()) ?? [];
       list.push(`${part}|${topic}|${item.phrase}`);
       examples.set(example.toLowerCase(), list);
@@ -36,6 +39,10 @@ console.log(`Audited ${rendered} rendered phrase cards across all IELTS Speaking
 console.log(`Unique examples: ${examples.size}; repeated template groups: ${duplicateGroups.length}.`);
 if (errors.length) {
   console.error(errors.slice(0, 30).join("\n"));
+  process.exit(1);
+}
+if (duplicateGroups.length > 120) {
+  console.error(`Too many repeated example groups: ${duplicateGroups.length}`);
   process.exit(1);
 }
 console.log("All phrase cards have complete English examples with resolved placeholders.");

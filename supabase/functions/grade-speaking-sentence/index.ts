@@ -13,7 +13,7 @@ const GradeSchema = z.object({
     label: z.string(),
     score: z.number(),
     feedback: z.string(),
-  })),
+  })).length(4),
   feedback: z.string(),
   correction: z.string(),
   upgradedSentence: z.string(),
@@ -22,8 +22,9 @@ const GradeSchema = z.object({
 type GradeOutput = z.infer<typeof GradeSchema>;
 
 const normalizeOutput = (value: GradeOutput): GradeOutput => {
-  const criteria = value.criteria.slice(0, 4).map((item) => ({
-    label: item.label.trim().slice(0, 80),
+  const criterionLabels = ["Phrase use", "Grammar", "Naturalness and collocation", "Recognition clarity"];
+  const criteria = value.criteria.map((item, index) => ({
+    label: criterionLabels[index],
     score: clampGrade(item.score),
     feedback: item.feedback.trim().slice(0, 600),
   }));
