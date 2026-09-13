@@ -435,7 +435,7 @@ const EnglishCourse = () => {
                         <button
                           key={card.to}
                           onClick={() => navigate(card.to)}
-                          className="group text-left p-4 rounded-2xl border-[3px] border-emerald-500 dark:border-emerald-400 bg-background hover:border-primary hover:shadow-xl hover:-translate-y-0.5 transition-all"
+                          className="group h-full flex flex-col text-left p-4 rounded-2xl border-2 border-border bg-card hover:border-primary hover:shadow-xl hover:-translate-y-0.5 transition-all"
                         >
                           <div className={`w-10 h-10 mb-3 rounded-xl bg-gradient-to-br ${card.iconBg} flex items-center justify-center shadow-md`}>
                             <card.icon className="w-5 h-5 text-white" />
