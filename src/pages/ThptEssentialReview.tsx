@@ -438,7 +438,7 @@ const ThptEssentialReview = () => {
                 <AccordionItem
                   key={g.id}
                   value={g.id}
-                  className="rounded-xl border-2 border-border bg-card px-4 data-[state=open]:border-primary/40"
+                  className="rounded-md border border-border bg-card px-4 shadow-sm data-[state=open]:border-primary/50"
                 >
                   <AccordionTrigger className="hover:no-underline py-4">
                     <div className="flex items-center gap-3 text-left">
@@ -767,15 +767,15 @@ const ThptEssentialReview = () => {
                         <AccordionItem
                           key={set.id}
                           value={set.id}
-                          className="rounded-xl border-2 border-border bg-card px-4 data-[state=open]:border-primary/40"
+                          className="rounded-md border border-border bg-card px-4 shadow-sm data-[state=open]:border-primary/50"
                         >
                           <AccordionTrigger className="hover:no-underline py-4">
                             <div className="flex items-center gap-3 text-left">
                               <span className="text-3xl">{set.icon}</span>
                               <div>
-                                <div className="font-bold text-base md:text-lg">
+                        <h3 className="font-bold text-base md:text-lg">
                                   {String(i + 1).padStart(2, "0")}. {lang === "vi" ? set.titleVi : set.titleEn}
-                                </div>
+                        </h3>
                                 <div className="text-xs md:text-sm text-muted-foreground font-normal mt-0.5">
                                   {set.exercises.length} {t("câu", "items")} · {lang === "vi" ? set.focusVi : set.focusEn}
                                 </div>
