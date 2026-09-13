@@ -26,6 +26,41 @@ export interface FunFact {
   exampleVi?: string;
 }
 
+const TYPOGRAPHY_FIELDS: (keyof Pick<
+  FunFact,
+  "headline" | "headlineVi" | "hook" | "hookVi" | "reveal" | "revealVi" | "example" | "exampleVi"
+>)[] = ["headline", "headlineVi", "hook", "hookVi", "reveal", "revealVi", "example", "exampleVi"];
+
+/**
+ * Converts straight single quotes to balanced typographic quotes while keeping
+ * apostrophes inside words (for example, I'm and world's) correctly oriented.
+ */
+export const normalizeFunFactQuotes = (value: string): string => {
+  let quoteIsOpen = false;
+
+  return value.replace(/'/g, (match, offset, source: string) => {
+    const previous = source[offset - 1] ?? "";
+    const next = source[offset + 1] ?? "";
+    const isApostrophe = /[\p{L}\p{N}]/u.test(previous) && /[\p{L}\p{N}]/u.test(next);
+
+    if (isApostrophe) return "’";
+
+    const isOpening = !quoteIsOpen && /[\p{L}\p{N}]/u.test(next);
+    quoteIsOpen = isOpening;
+    if (!isOpening) quoteIsOpen = false;
+    return isOpening ? "‘" : "’";
+  });
+};
+
+const normalizeFactTypography = (fact: FunFact): FunFact => {
+  const normalized = { ...fact };
+  TYPOGRAPHY_FIELDS.forEach((field) => {
+    const value = normalized[field];
+    if (value) normalized[field] = normalizeFunFactQuotes(value);
+  });
+  return normalized;
+};
+
 export const FUN_FACT_CATEGORIES: {
   key: FunFactCategory;
   labelEn: string;
@@ -370,7 +405,9 @@ const baseFunFacts: FunFact[] = [
   },
 ];
 
-export const englishFunFacts: FunFact[] = [...baseFunFacts, ...englishFunFactsExpansion];
+export const englishFunFacts: FunFact[] = [...baseFunFacts, ...englishFunFactsExpansion].map(
+  normalizeFactTypography,
+);
 
 /** Returns the fact for a given day, deterministically rotated. */
 export function getDailyFunFact(date: Date = new Date()): FunFact {

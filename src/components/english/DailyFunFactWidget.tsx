@@ -22,10 +22,6 @@ const DailyFunFactWidget = () => {
       transition={{ duration: 0.4 }}
       className="mb-10 relative overflow-hidden rounded-2xl border border-amber-500/30 bg-gradient-to-br from-amber-500/[0.10] via-teal-500/[0.06] to-sky-500/[0.10] p-6 sm:p-7"
     >
-      {/* Decorative blur blobs */}
-      <div className="pointer-events-none absolute -top-16 -right-16 w-56 h-56 rounded-full bg-amber-400/15 blur-3xl" />
-      <div className="pointer-events-none absolute -bottom-20 -left-12 w-56 h-56 rounded-full bg-teal-400/15 blur-3xl" />
-
       <div className="relative flex flex-col sm:flex-row gap-5 items-start">
         <div className="shrink-0 w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-3xl shadow-lg shadow-amber-500/30">
           {fact.emoji}

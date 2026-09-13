@@ -117,6 +117,14 @@
     letter-spacing: 0;
   }
 
+  .fun-facts-page {
+    --primary: 217 91% 60%;
+    --primary-foreground: 0 0% 100%;
+    --accent: 160 84% 39%;
+    --accent-foreground: 0 0% 100%;
+    --ring: 217 91% 60%;
+  }
+
   .font-classroom-heading { font-family: "Outfit", sans-serif; letter-spacing: 0; }
   .font-classroom-body { font-family: "Figtree", sans-serif; letter-spacing: 0; }
   .classroom-command-shadow { box-shadow: var(--classroom-shadow); }

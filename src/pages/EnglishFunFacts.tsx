@@ -18,6 +18,7 @@ import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import FloatingEnglishParticles from "@/components/FloatingEnglishParticles";
 import EnglishHeroBanner from "@/components/EnglishHeroBanner";
+import { Button } from "@/components/ui/button";
 import {
   englishFunFacts,
   FUN_FACT_CATEGORIES,
@@ -147,7 +148,7 @@ const EnglishFunFacts = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="fun-facts-page min-h-screen bg-background">
       <SEO
         title="English Fun Facts | Curious Things About English | HaiEduTech"
         description="Khám phá những điều thú vị về tiếng Anh: nguồn gốc từ vựng, logic kỳ lạ, idioms hài hước và những lỗi vui người Việt thường gặp. Học mà chơi cùng HaiEduTech."
@@ -198,58 +199,67 @@ const EnglishFunFacts = () => {
             <div className="flex items-center gap-2 mb-3 text-sm text-muted-foreground">
               <Filter className="w-4 h-4" />
               <span className="font-medium">{t("Lọc theo chuyên mục", "Filter by category")}</span>
-              <button
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
                 onClick={() => setShuffleSeed((s) => s + 1)}
-                className="ml-auto inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border bg-secondary hover:bg-primary/10 hover:border-primary/30 transition-colors text-xs font-medium text-foreground"
+                className="ml-auto rounded-full bg-secondary text-foreground hover:border-primary/40 hover:bg-primary/10"
                 title={t("Xáo trộn", "Shuffle")}
               >
                 <Shuffle className="w-3.5 h-3.5" />
                 {t("Xáo trộn", "Shuffle")}
-              </button>
+              </Button>
             </div>
 
             <div className="flex flex-wrap gap-2">
-              <button
+              <Button
+                type="button"
+                variant={activeCategory === "all" ? "default" : "outline"}
+                size="sm"
                 onClick={() => setActiveCategory("all")}
                 className={cn(
-                  "px-4 py-2 rounded-full text-sm font-semibold transition-all border",
+                  "h-10 rounded-full px-4 font-semibold",
                   activeCategory === "all"
-                    ? "bg-foreground text-background border-foreground shadow-md"
-                    : "bg-secondary text-foreground border-border hover:border-primary/40",
+                    ? "border-transparent bg-gradient-to-r from-primary to-accent text-primary-foreground shadow-md hover:opacity-90"
+                    : "bg-secondary text-foreground hover:border-primary/40 hover:bg-primary/10",
                 )}
               >
                 ✨ {t("Tất cả", "All")} · {englishFunFacts.length}
-              </button>
+              </Button>
               {FUN_FACT_CATEGORIES.map((cat) => {
                 const count = englishFunFacts.filter((f) => f.category === cat.key).length;
                 const isActive = activeCategory === cat.key;
                 return (
-                  <button
+                  <Button
+                    type="button"
+                    variant={isActive ? "default" : "outline"}
+                    size="sm"
                     key={cat.key}
                     onClick={() => setActiveCategory(cat.key)}
                     className={cn(
-                      "px-4 py-2 rounded-full text-sm font-semibold transition-all border",
+                      "h-10 rounded-full px-4 font-semibold",
                       isActive
-                        ? "bg-foreground text-background border-foreground shadow-md"
-                        : "bg-secondary text-foreground border-border hover:border-primary/40",
+                        ? "border-transparent bg-gradient-to-r from-primary to-accent text-primary-foreground shadow-md hover:opacity-90"
+                        : "bg-secondary text-foreground hover:border-primary/40 hover:bg-primary/10",
                     )}
                   >
                     <span className="mr-1.5">{cat.emoji}</span>
                     {t(cat.labelVi, cat.labelEn)}
                     <span className={cn(
                       "ml-2 text-[10px] px-1.5 py-0.5 rounded-full",
-                      isActive ? "bg-background/20 text-background" : "bg-foreground/10 text-muted-foreground",
+                      isActive ? "bg-primary-foreground/20 text-primary-foreground" : "bg-foreground/10 text-muted-foreground",
                     )}>
                       {count}
                     </span>
-                  </button>
+                  </Button>
                 );
               })}
             </div>
           </div>
 
-          {/* Masonry / Responsive grid */}
-          <div className="columns-1 md:columns-2 lg:columns-3 gap-5 [column-fill:_balance]">
+          {/* Responsive equal-row grid */}
+          <div className="grid grid-cols-1 items-stretch gap-5 md:grid-cols-2 lg:grid-cols-3">
             <AnimatePresence mode="popLayout">
               {visibleFacts.map((fact, idx) => {
                 const meta = FUN_FACT_CATEGORIES.find((c) => c.key === fact.category)!;
@@ -267,13 +277,13 @@ const EnglishFunFacts = () => {
                     exit={{ opacity: 0, scale: 0.96 }}
                     transition={{ duration: 0.32, delay: Math.min(idx * 0.03, 0.25) }}
                     className={cn(
-                      "mb-5 break-inside-avoid rounded-2xl border bg-gradient-to-br backdrop-blur-sm overflow-hidden hover:shadow-xl hover:-translate-y-0.5 transition-all",
+                      "h-full min-w-0 rounded-2xl border bg-gradient-to-br backdrop-blur-sm overflow-hidden hover:shadow-xl motion-safe:hover:-translate-y-0.5 transition-all",
                       meta.gradient,
                       "border-border/60",
                     )}
                   >
                     {/* Card head */}
-                    <div className="p-5 sm:p-6">
+                    <div className="flex h-full min-w-0 flex-col p-5 sm:p-6">
                       <div className="flex items-start justify-between gap-3 mb-3">
                         <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-background/60 backdrop-blur text-[11px] font-bold uppercase tracking-wide text-foreground/80 border border-border/50">
                           <span>{meta.emoji}</span>
@@ -282,10 +292,10 @@ const EnglishFunFacts = () => {
                         <div className="text-3xl sm:text-4xl leading-none drop-shadow-sm">{fact.emoji}</div>
                       </div>
 
-                      <h3 className="text-lg sm:text-xl font-display font-bold text-foreground leading-snug mb-2">
+                      <h3 className="min-w-0 break-words text-lg sm:text-xl font-display font-bold text-foreground leading-snug mb-2 md:min-h-[3.5rem]">
                         {t(fact.headlineVi, fact.headline)}
                       </h3>
-                      <p className="text-sm text-muted-foreground italic mb-4">
+                      <p className="text-sm text-muted-foreground italic mb-4 md:min-h-[3rem]">
                         {t(fact.hookVi, fact.hook)}
                       </p>
 
@@ -301,11 +311,11 @@ const EnglishFunFacts = () => {
                             className="overflow-hidden"
                           >
                             <div className="rounded-xl bg-background/55 backdrop-blur border border-border/50 p-4 mb-4">
-                              <p className="text-sm text-foreground leading-relaxed">
+                              <p className="break-words text-sm text-foreground leading-relaxed">
                                 {t(fact.revealVi, fact.reveal)}
                               </p>
                               {(fact.example || fact.exampleVi) && (
-                                <p className="mt-3 text-xs font-mono text-foreground/80 bg-foreground/[0.04] rounded-md px-3 py-2 border border-border/40">
+                                <p className="mt-3 break-words [overflow-wrap:anywhere] text-xs font-mono text-foreground/80 bg-foreground/[0.04] rounded-md px-3 py-2 border border-border/40">
                                   <Lightbulb className="inline w-3 h-3 mr-1 text-amber-500" />
                                   {t(fact.exampleVi ?? fact.example ?? "", fact.example ?? fact.exampleVi ?? "")}
                                 </p>
@@ -316,23 +326,27 @@ const EnglishFunFacts = () => {
                       </AnimatePresence>
 
                       {/* Action row */}
-                      <div className="flex items-center gap-2">
-                        <button
+                      <div className="mt-auto flex items-center gap-2">
+                        <Button
+                          type="button"
                           onClick={() => toggleFlip(fact.id)}
                           className={cn(
-                            "flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold transition-all",
+                            "h-10 flex-1 rounded-xl font-semibold shadow-md",
                             isFlipped
-                              ? "bg-foreground/10 text-foreground hover:bg-foreground/15"
-                              : "bg-foreground text-background hover:opacity-90 shadow-md",
+                              ? "border border-primary/30 bg-primary/10 text-primary shadow-none hover:bg-primary/15"
+                              : "bg-gradient-to-r from-primary to-accent text-primary-foreground hover:opacity-90",
                           )}
                         >
                           {isFlipped
                             ? t("Ẩn đáp án", "Hide answer")
                             : t("Khám phá", "Reveal")}
-                        </button>
-                        <button
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="icon"
                           onClick={() => handleShare(fact)}
-                          className="inline-flex items-center justify-center w-10 h-10 rounded-xl border border-border bg-background/60 backdrop-blur hover:bg-primary/10 hover:border-primary/40 transition-colors text-foreground"
+                          className="h-10 w-10 rounded-xl bg-background/60 text-foreground backdrop-blur hover:border-primary/40 hover:bg-primary/10"
                           title={t("Chia sẻ", "Share this fact")}
                           aria-label={t("Chia sẻ", "Share this fact")}
                         >
@@ -341,7 +355,7 @@ const EnglishFunFacts = () => {
                           ) : (
                             <Share2 className="w-4 h-4" />
                           )}
-                        </button>
+                        </Button>
                       </div>
 
                       {/* Reactions */}
