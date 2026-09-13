@@ -247,7 +247,7 @@ export const satExpansionModules2: LanguageModule[] = [
         ],
       },
       {
-        id: "parallel-structure",
+        id: "sat-parallel-structure",
         title: "Cấu trúc Song song (Parallel Structure)",
         titleEn: "Parallel Structure",
         level: 4,
