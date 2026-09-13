@@ -40,6 +40,7 @@ import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { safeStorage } from "@/lib/safeStorage";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
+import { balanceExerciseOptions } from "@/lib/balanceExerciseOptions";
 import chibiVocabCheer from "@/assets/chibi-vocab-cheer.png";
 
 const STORAGE_KEY = "thpt-essential-review-progress-v2";
@@ -233,12 +234,13 @@ interface ExerciseRunnerProps {
 
 const ExerciseRunner = ({ setId, exercises }: ExerciseRunnerProps) => {
   const { t } = useLanguage();
+  const balancedExercises = useMemo(() => balanceExerciseOptions(exercises), [exercises]);
   const saved = safeStorage.get<SavedAttempts>(STORAGE_KEY, {})?.[setId];
   const [answers, setAnswers] = useState<Record<number, number>>(saved?.answers ?? {});
   const [submitted, setSubmitted] = useState(saved?.submitted ?? false);
   const [submitMessage, setSubmitMessage] = useState("");
 
-  const correctCount = exercises.reduce(
+  const correctCount = balancedExercises.reduce(
     (acc, ex, i) => acc + (answers[i] === ex.answer ? 1 : 0),
     0
   );
@@ -258,25 +260,25 @@ const ExerciseRunner = ({ setId, exercises }: ExerciseRunnerProps) => {
   }, [answers, correctCount, setId, submitted]);
 
   const submit = () => {
-    const remaining = exercises.length - Object.keys(answers).length;
+    const remaining = balancedExercises.length - Object.keys(answers).length;
     if (remaining > 0) {
       setSubmitMessage(t(`Bạn còn ${remaining} câu chưa trả lời.`, `${remaining} questions remain unanswered.`));
       return;
     }
     setSubmitted(true);
-    setSubmitMessage(t(`Kết quả ${correctCount}/${exercises.length}.`, `Score: ${correctCount}/${exercises.length}.`));
+    setSubmitMessage(t(`Kết quả ${correctCount}/${balancedExercises.length}.`, `Score: ${correctCount}/${balancedExercises.length}.`));
     void logStudentActivity({
       activityType: "thpt_essential_review",
       activityId: setId,
       score: correctCount,
-      maxScore: exercises.length,
+      maxScore: balancedExercises.length,
       metadata: { section: setId.startsWith("vocab-quiz-") ? "vocabulary" : "exercises" },
     });
   };
 
   return (
     <div className="space-y-4">
-      {exercises.map((ex, i) => {
+      {balancedExercises.map((ex, i) => {
         const userAns = answers[i];
         const showResult = submitted;
         return (
@@ -331,12 +333,12 @@ const ExerciseRunner = ({ setId, exercises }: ExerciseRunnerProps) => {
             <span>
               {t("Kết quả: ", "Score: ")}
               <span className="font-bold text-primary">
-                {correctCount}/{exercises.length}
+                {correctCount}/{balancedExercises.length}
               </span>
             </span>
           ) : (
             <span>
-              {Object.keys(answers).length}/{exercises.length} {t("đã chọn", "answered")}
+              {Object.keys(answers).length}/{balancedExercises.length} {t("đã chọn", "answered")}
             </span>
           )}
         </div>
@@ -655,7 +657,7 @@ const ThptEssentialReview = () => {
                 <AccordionItem
                   key={v.id}
                   value={v.id}
-                  className="rounded-xl border-2 border-border bg-card px-4 data-[state=open]:border-primary/40"
+                  className="rounded-md border border-border bg-card px-4 shadow-sm data-[state=open]:border-primary/50"
                 >
                   <AccordionTrigger className="hover:no-underline py-4">
                     <div className="flex items-center gap-3 text-left">

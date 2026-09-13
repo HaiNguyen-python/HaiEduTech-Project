@@ -6,6 +6,7 @@ import { thptCollocationsExtraSets } from "../src/data/thptCollocationsExtra";
 import { thptCollocationsExtraSets2 } from "../src/data/thptCollocationsExtra2";
 import { thptMixedFinalExtraSets, thptWordFormationExtraSets } from "../src/data/thptWordFormationMixedExtra";
 import { thptGrammarStudyGuides } from "../src/data/thptEssentialStudyGuides";
+import { balanceExerciseOptions } from "../src/lib/balanceExerciseOptions";
 
 const errors: string[] = [];
 const warnings: string[] = [];
@@ -32,7 +33,7 @@ const uniqueSets = Array.from(new Map(sets.map((set) => [set.id, set])).values()
 const questionLocations = new Map<string, string[]>();
 const answerCounts = [0, 0, 0, 0];
 for (const set of uniqueSets) {
-  set.exercises.forEach((exercise, index) => {
+  balanceExerciseOptions(set.exercises).forEach((exercise, index) => {
     const location = `${set.id} question ${index + 1}`;
     if (exercise.answer < 0 || exercise.answer >= exercise.options.length) errors.push(`Answer outside options: ${location}`);
     if (new Set(exercise.options.map((option) => option.trim().toLowerCase())).size !== exercise.options.length) errors.push(`Duplicate options: ${location}`);
