@@ -5,6 +5,7 @@ import {
   speakingText,
   type MrHaiMessage,
 } from "@/lib/mrHaiVoicePractice";
+import { safeStorage } from "@/lib/safeStorage";
 
 describe("Mr. Hai voice practice helpers", () => {
   it("normalizes a valid AI response and limits feedback lists", () => {
@@ -41,5 +42,13 @@ describe("Mr. Hai voice practice helpers", () => {
   it("counts Chinese and Japanese characters", () => {
     const messages: MrHaiMessage[] = [{ id: "1", role: "user", content: "今天 很好" }];
     expect(countSpokenWords(messages, "chinese")).toBe(4);
+  });
+
+  it("stores summaries when the date uses a privacy-safe format", () => {
+    const storageKey = "mr-hai-summary-test";
+    const summary = { date: new Date().toUTCString(), turns: 2, words: 9 };
+    expect(safeStorage.set(storageKey, [summary])).toBe(true);
+    expect(safeStorage.get(storageKey, [])).toEqual([summary]);
+    safeStorage.remove(storageKey);
   });
 });

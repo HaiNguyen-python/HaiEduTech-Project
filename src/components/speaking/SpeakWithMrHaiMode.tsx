@@ -160,7 +160,7 @@ const SpeakWithMrHaiMode = ({ language }: Props) => {
       if (!report) return;
       const durationSec = Math.max(1, Math.round((Date.now() - startedAtRef.current) / 1000));
       const session: MrHaiSessionSummary = {
-        date: new Date().toISOString(),
+        date: new Date().toUTCString(),
         language,
         topic: topic.label,
         durationSec,
@@ -262,7 +262,7 @@ const SpeakWithMrHaiMode = ({ language }: Props) => {
               <Button className="mt-4 w-full" onClick={() => void startSession()} disabled={isInteractionBusy}><Play className="h-4 w-4" />{t("Bắt đầu hội thoại", "Start conversation")}</Button>
             ) : (
               <div className="mt-4 grid w-full grid-cols-2 gap-2">
-                {voiceState === "paused" ? <Button onClick={resumeSession}><Play className="h-4 w-4" />{t("Tiếp tục", "Resume")}</Button> : <Button variant="outline" onClick={pauseSession}><Pause className="h-4 w-4" />{t("Tạm dừng", "Pause")}</Button>}
+                {voiceState === "paused" ? <Button onClick={resumeSession}><Play className="h-4 w-4" />{t("Tiếp tục", "Resume")}</Button> : <Button variant="outline" onClick={pauseSession} disabled={isInteractionBusy || voiceState === "ended"}><Pause className="h-4 w-4" />{t("Tạm dừng", "Pause")}</Button>}
                 <Button variant="outline" onClick={() => void endSession()} disabled={isInteractionBusy || voiceState === "ended"}><Square className="h-4 w-4" />{t("Kết thúc", "Finish")}</Button>
               </div>
             )}
@@ -282,7 +282,7 @@ const SpeakWithMrHaiMode = ({ language }: Props) => {
                         {message.correction && <div className="mt-2 rounded-md border border-accent/50 bg-accent/10 p-2 text-xs text-foreground"><strong>{t("Gợi ý sửa:", "Correction:")}</strong> {message.correction}</div>}
                         {message.encouragement && <p className="text-xs font-semibold text-primary">{message.encouragement}</p>}
                       </MessageContent>
-                      {message.role === "assistant" && <MessageActions><MessageAction tooltip={t("Nghe lại", "Replay")} disabled={isInteractionBusy || voiceState === "paused" || voiceState === "ended"} onClick={() => void speakReply(message.content)}><Volume2 className="h-4 w-4" /></MessageAction></MessageActions>}
+                      {message.role === "assistant" && <MessageActions><MessageAction tooltip={t("Nghe lại", "Replay")} disabled={isInteractionBusy || voiceState === "paused"} onClick={() => void speakReply(message.content)}><Volume2 className="h-4 w-4" /></MessageAction></MessageActions>}
                     </Message>
                   ))}
                   {voiceState === "thinking" && <Message from="assistant"><MessageContent><Shimmer>{t("Mr. Hai đang suy nghĩ...", "Mr. Hai is thinking...")}</Shimmer></MessageContent></Message>}
