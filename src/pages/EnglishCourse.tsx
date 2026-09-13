@@ -379,25 +379,30 @@ const EnglishCourse = () => {
                           iconBg: "from-fuchsia-500 to-rose-500",
                         },
                       ].map((card) => (
-                        <button
-                          key={card.to}
-                          onClick={() => navigate(card.to)}
-                          className="group text-left p-4 rounded-2xl border-[3px] border-emerald-500 dark:border-emerald-400 bg-background hover:border-primary hover:shadow-xl hover:-translate-y-0.5 transition-all"
-                        >
-                          <div className={`w-10 h-10 mb-3 rounded-xl bg-gradient-to-br ${card.iconBg} flex items-center justify-center shadow-md`}>
-                            <card.icon className="w-5 h-5 text-white" />
-                          </div>
-                          <p className="text-sm font-display font-bold text-foreground group-hover:text-primary transition-colors leading-snug">
-                            {card.title}
-                          </p>
-                          <p className="text-xs text-muted-foreground mt-1.5 leading-snug">
-                            {card.sub}
-                          </p>
-                        </button>
-                      ))}
-                    </div>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3">
-                      {[
+                         <button
+                           key={card.to}
+                           onClick={() => navigate(card.to)}
+                           className="group h-full flex flex-col text-left p-4 rounded-2xl border-2 border-border bg-card hover:border-primary hover:shadow-xl hover:-translate-y-0.5 transition-all"
+                         >
+                           <div className={`w-10 h-10 mb-3 rounded-xl bg-gradient-to-br ${card.iconBg} flex items-center justify-center shadow-md`}>
+                             <card.icon className="w-5 h-5 text-white" />
+                           </div>
+                           <p className="text-sm font-display font-bold text-foreground group-hover:text-primary transition-colors leading-snug">
+                             {card.title}
+                           </p>
+                           <p className="text-xs text-muted-foreground mt-1.5 leading-snug">
+                             {card.sub}
+                           </p>
+                         </button>
+                       ))}
+                     </div>
+                     </div>
+                     <div>
+                     <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground mb-2.5">
+                       {t("Công cụ luyện tập hằng ngày", "Daily practice tools")}
+                     </p>
+                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 items-stretch">
+                       {[
                         {
                           to: "/sat/daily-warmup",
                           icon: Flame,
