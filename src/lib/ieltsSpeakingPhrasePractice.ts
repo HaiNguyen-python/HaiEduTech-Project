@@ -92,12 +92,21 @@ export function getPhraseExample(phrase: string, topic: string, part: 1 | 2 | 3)
   if (/^(in|on|at|from|by|with|without|despite|although|while)\b/i.test(cleaned)) {
     return `${cleaned}, people can make more thoughtful decisions about ${topicText}.`;
   }
+  if (/^(now and then|from time to time|once in a while)$/i.test(cleaned)) {
+    return `${cleaned.charAt(0).toUpperCase()}${cleaned.slice(1)}, I reflect on my experiences with ${topicText}.`;
+  }
+  if (/^(looking|thinking|speaking|generally|personally)\b/i.test(cleaned)) {
+    return `${cleaned.charAt(0).toUpperCase()}${cleaned.slice(1)}, I can see why ${topicText} matters to many people.`;
+  }
+  if (/^steeped in\b/i.test(cleaned)) {
+    return `My local area is ${lowerFirst(cleaned)}, which makes it memorable for visitors.`;
+  }
   if (/\b(is|are|has|have|plays?|affects?|creates?|helps?|allows?|means?|requires?)\b/i.test(cleaned)) {
     return `${cleaned.charAt(0).toUpperCase()}${cleaned.slice(1)} in many situations related to ${topicText}.`;
   }
-  if (part === 1) return `${cleaned} is an important part of my experience with ${topicText}.`;
-  if (part === 2) return `${cleaned} was one of the most memorable aspects of the experience.`;
-  return `${cleaned} is increasingly important when discussing ${topicText}.`;
+  if (part === 1) return `People often discuss ${lowerFirst(cleaned)} when talking about ${topicText}.`;
+  if (part === 2) return `I clearly remember ${lowerFirst(cleaned)} as part of that experience.`;
+  return `The issue of ${lowerFirst(cleaned)} deserves careful attention in discussions about ${topicText}.`;
 }
 
 const PHRASE_STOP_WORDS = new Set([

@@ -22,6 +22,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { safeStorage } from "@/lib/safeStorage";
 import { playEnglishTts, stopEnglishTts } from "@/lib/englishTts";
 import { useSpeechRecognizer } from "@/hooks/useSpeechRecognizer";
+import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { compareSentence, micErrorMessage } from "@/lib/speakingModeShared";
 import { getTopicsByPart, getQuestionsByPartAndTopic } from "@/data/speakingPracticeData";
 import { getMergedVocabulary } from "@/data/speakingVocabularyBank";
@@ -76,6 +77,7 @@ const StructureVocabPractice = () => {
   const [activeSpeakingPhrase, setActiveSpeakingPhrase] = useState<string | null>(null);
 
   const topRef = useRef<HTMLDivElement>(null);
+  const finishingRef = useRef(false);
 
   const topics = useMemo(() => getTopicsByPart(part), [part]);
   const activeTopic = topic && topics.includes(topic) ? topic : topics[0];
@@ -220,6 +222,7 @@ const StructureVocabPractice = () => {
     setCombo(0);
     setRetryQueue([]);
     setFinished(false);
+    finishingRef.current = false;
     resetItemState();
   };
 
@@ -233,6 +236,8 @@ const StructureVocabPractice = () => {
 
   const next = () => {
     if (idx + 1 >= items.length) {
+      if (finishingRef.current) return;
+      finishingRef.current = true;
       const score = Math.round((correctCount / Math.max(1, items.length)) * 100);
       const best = progress.bestScore[storeKey] || 0;
       saveProgress({
@@ -242,6 +247,14 @@ const StructureVocabPractice = () => {
       });
       setFinished(true);
       stopEnglishTts();
+      void logStudentActivity({
+        activityType: "ielts_speaking_drill",
+        activityId: storeKey,
+        score,
+        maxScore: 100,
+        domain: "english",
+        metadata: { part, topic: activeTopic, track, itemCount: items.length },
+      });
       return;
     }
     setIdx((i) => i + 1);

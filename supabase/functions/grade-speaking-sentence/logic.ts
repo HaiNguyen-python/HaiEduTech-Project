@@ -43,7 +43,7 @@ Vietnamese meaning: ${input.meaning}
 Reference example: ${input.example}
 Learner transcript: ${input.transcript}
 
-Return exactly four criteria in this order and with these labels: Phrase use, Grammar, Naturalness and collocation, Recognition clarity. Score each criterion from 0 to 100. Infer recognition clarity only from the transcript and never claim to hear audio. Give credit for valid grammatical variations of the phrase. The overall score is the rounded average of exactly these four scores. Feedback must be concise, specific, supportive, and written in English. If the phrase is missing or misused, state that clearly. Correction is the smallest natural correction. Upgraded sentence is one polished IELTS-ready sentence preserving the learner's meaning.`;
+Return exactly four criteria in this order and with these labels: Phrase use, Grammar, Naturalness and collocation, Recognition clarity. Score each criterion from 0 to 100. Infer recognition clarity only from the transcript. Do not claim to hear audio. Give credit for valid grammatical variations of the phrase. The overall score is the rounded average of exactly these four scores. Feedback must be concise, specific, supportive, and written in English. If the phrase is missing or misused, state that clearly. Correction is the smallest natural correction. Upgraded sentence is one polished IELTS-ready sentence preserving the learner's meaning.`;
 }
 
 export const clampGrade = (value: unknown) => Math.max(0, Math.min(100, Math.round(Number(value) || 0)));

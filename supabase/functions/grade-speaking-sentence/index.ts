@@ -96,7 +96,7 @@ Deno.serve(async (req) => {
       instructions: "You are a precise and encouraging IELTS speaking coach. Return only the requested structured assessment. Never use an em dash.",
       prompt: buildSentenceGradePrompt(input),
       output: Output.object({ schema: GradeSchema }),
-      maxRetries: 2,
+      maxRetries: 0,
       providerOptions: {
         openai: {
           forceReasoning: true,
