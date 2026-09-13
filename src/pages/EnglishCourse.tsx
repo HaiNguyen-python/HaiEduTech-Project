@@ -334,11 +334,15 @@ const EnglishCourse = () => {
                     <AccessDeniedModal open={showAccessModal} onOpenChange={setShowAccessModal} />
                   </div>
                 )}
-                {/* SAT - 4 entry-points as unified cards */}
-                {courseId === "sat" && (
-                  <div className="mt-5 pt-5 border-t">
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                      {[
+                 {/* SAT - entry-points grouped into two even card rows */}
+                 {courseId === "sat" && (
+                   <div className="mt-5 pt-5 border-t space-y-5">
+                     <div>
+                     <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground mb-2.5">
+                       {t("Học & luyện thi", "Study & test prep")}
+                     </p>
+                     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 items-stretch">
+                       {[
                         {
                           to: "/placement-test?subject=sat",
                           icon: ClipboardCheck,
