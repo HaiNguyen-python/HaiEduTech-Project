@@ -4,13 +4,13 @@
  * compact chip bar to switch quickly while practising.
  */
 import { motion } from "framer-motion";
-import { ArrowRight, Brain, MessageCircle, Mic, Repeat, Waves } from "lucide-react";
+import { ArrowRight, Brain, MessageCircle, Mic, Repeat, UserRound, Waves } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-export type SpeakingActivity = "sentences" | "shadow" | "drill" | "freetalk" | "review";
+export type SpeakingActivity = "sentences" | "shadow" | "drill" | "freetalk" | "mrhai" | "review";
 
 export const ACTIVITY_META = [
   {
@@ -48,6 +48,15 @@ export const ACTIVITY_META = [
     descVi: "Nói 30-90 giây theo chủ đề và nhận nhận xét chi tiết.",
     descEn: "Speak 30-90 seconds on a topic and get detailed feedback.",
     minutes: 4,
+  },
+  {
+    key: "mrhai" as const,
+    icon: UserRound,
+    vi: "Nói với thầy Hải",
+    en: "Speak with Mr. Hai",
+    descVi: "Hội thoại giọng nói hai chiều trong các tình huống tự do.",
+    descEn: "Two-way voice conversation across open-ended situations.",
+    minutes: 8,
   },
   {
     key: "review" as const,
