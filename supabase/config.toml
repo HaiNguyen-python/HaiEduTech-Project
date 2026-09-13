@@ -93,6 +93,9 @@ verify_jwt = false
 [functions.analyze-free-talk]
 verify_jwt = false
 
+[functions.speak-with-mr-hai]
+verify_jwt = false
+
 
 
 [functions.grade-cambridge-writing]
