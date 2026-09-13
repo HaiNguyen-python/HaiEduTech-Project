@@ -40,8 +40,10 @@ for (const l of langs) {
   const levels = new Set((((speakingFreeTalkTopics as any)[l]) ?? []).map((t: any) => t.level));
   ["A1","A2","B1","B2","C1"].forEach(lv => { if (!levels.has(lv)) p(`${l}: free talk missing level ${lv}`); });
   (((speakingFreeTalkTopics as any)[l]) ?? []).forEach((t: any) => {
+    if (!t.id?.trim() || !t.level) p(`${l}: free talk topic missing id/level`);
     if (!t.prompt || !t.promptVi) p(`${l}: topic ${t.id} missing prompt/promptVi`);
     if (!t.ideas?.length) p(`${l}: topic ${t.id} no ideas`);
+    if (t.ideas?.some((idea: unknown) => typeof idea !== "string" || !idea.trim())) p(`${l}: topic ${t.id} has invalid ideas`);
   });
 
   // minimal pairs
