@@ -375,7 +375,7 @@ const EnglishCourse = () => {
                           to: "/sat-exams",
                           icon: Award,
                           title: t("Đề thi SAT", "SAT Exams"),
-                          sub: t("10 mock test full", "10 full mock tests"),
+                          sub: t("46 đề thi thử", "46 mock tests"),
                           iconBg: "from-fuchsia-500 to-rose-500",
                         },
                       ].map((card) => (
