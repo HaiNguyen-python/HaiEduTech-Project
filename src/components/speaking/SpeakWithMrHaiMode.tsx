@@ -44,10 +44,11 @@ const SpeakWithMrHaiMode = ({ language }: Props) => {
   const [summary, setSummary] = useState<MrHaiSessionSummary | null>(null);
   const startedAtRef = useRef(Date.now());
   const messagesRef = useRef(messages);
+  const resetRecognitionRef = useRef<() => void>(() => {});
   messagesRef.current = messages;
 
   const topic = topics.find((item) => item.id === topicId) ?? topics[0];
-  const isBusy = voiceState === "thinking" || voiceState === "speaking";
+  const isAiBusy = voiceState === "thinking" || voiceState === "speaking";
   const hasStarted = messages.length > 0;
 
   const speakReply = useCallback(async (reply: string) => {
@@ -76,7 +77,8 @@ const SpeakWithMrHaiMode = ({ language }: Props) => {
 
   const addLearnerTurn = useCallback(async (rawText: string) => {
     const content = rawText.normalize("NFC").trim().slice(0, 1200);
-    if (!content || isBusy || voiceState === "ended") return;
+    if (!content || isAiBusy || voiceState === "ended") return;
+    resetRecognitionRef.current();
     const learnerMessage: MrHaiMessage = { id: crypto.randomUUID(), role: "user", content };
     const nextMessages = [...messagesRef.current, learnerMessage];
     setMessages(nextMessages);
@@ -96,7 +98,7 @@ const SpeakWithMrHaiMode = ({ language }: Props) => {
       setVoiceState("error");
       setError(t("Mr. Hai chưa thể trả lời. Câu nói của bạn vẫn được giữ lại để thử lại.", "Mr. Hai could not respond. Your turn is kept so you can retry."));
     }
-  }, [isBusy, requestMrHai, speakReply, t, voiceState]);
+  }, [isAiBusy, requestMrHai, speakReply, t, voiceState]);
 
   const rec = useSpeechRecognizer({
     speechLang: languageConfig.speechLang,
@@ -104,6 +106,15 @@ const SpeakWithMrHaiMode = ({ language }: Props) => {
     onFinal: (transcript) => void addLearnerTurn(transcript),
   });
   const resetRecognition = rec.reset;
+  resetRecognitionRef.current = resetRecognition;
+  const isInteractionBusy = isAiBusy || rec.isRecording;
+
+  const startListening = async () => {
+    setError(null);
+    setVoiceState("listening");
+    const started = await rec.start();
+    if (!started) setVoiceState("error");
+  };
 
   useEffect(() => () => stopSpeakingTts(language), [language]);
   useEffect(() => {
@@ -149,7 +160,7 @@ const SpeakWithMrHaiMode = ({ language }: Props) => {
       if (!report) return;
       const durationSec = Math.max(1, Math.round((Date.now() - startedAtRef.current) / 1000));
       const session: MrHaiSessionSummary = {
-        date: new Date().toISOString(),
+        date: new Date().toUTCString(),
         language,
         topic: topic.label,
         durationSec,
@@ -248,11 +259,11 @@ const SpeakWithMrHaiMode = ({ language }: Props) => {
               {WAVEFORM.map((height, index) => <motion.span key={`${height}-${index}`} className="speaking-waveform-bar" style={{ height: `${height * 2}px` }} animate={(rec.isRecording || voiceState === "speaking") && !reduceMotion ? { scaleY: [0.45, 1, 0.6] } : { scaleY: 0.5 }} transition={{ duration: 0.55, delay: index * 0.025, repeat: Infinity }} />)}
             </div>
             {!hasStarted ? (
-              <Button className="mt-4 w-full" onClick={() => void startSession()} disabled={isBusy}><Play className="h-4 w-4" />{t("Bắt đầu hội thoại", "Start conversation")}</Button>
+              <Button className="mt-4 w-full" onClick={() => void startSession()} disabled={isInteractionBusy}><Play className="h-4 w-4" />{t("Bắt đầu hội thoại", "Start conversation")}</Button>
             ) : (
               <div className="mt-4 grid w-full grid-cols-2 gap-2">
-                {voiceState === "paused" ? <Button onClick={resumeSession}><Play className="h-4 w-4" />{t("Tiếp tục", "Resume")}</Button> : <Button variant="outline" onClick={pauseSession}><Pause className="h-4 w-4" />{t("Tạm dừng", "Pause")}</Button>}
-                <Button variant="outline" onClick={() => void endSession()} disabled={isBusy || voiceState === "ended"}><Square className="h-4 w-4" />{t("Kết thúc", "Finish")}</Button>
+                {voiceState === "paused" ? <Button onClick={resumeSession}><Play className="h-4 w-4" />{t("Tiếp tục", "Resume")}</Button> : <Button variant="outline" onClick={pauseSession} disabled={isInteractionBusy || voiceState === "ended"}><Pause className="h-4 w-4" />{t("Tạm dừng", "Pause")}</Button>}
+                <Button variant="outline" onClick={() => void endSession()} disabled={isInteractionBusy || voiceState === "ended"}><Square className="h-4 w-4" />{t("Kết thúc", "Finish")}</Button>
               </div>
             )}
             <Button variant="ghost" size="sm" className="mt-2 text-muted-foreground" onClick={clearSession} disabled={!hasStarted}><Trash2 className="h-4 w-4" />{t("Xóa phiên", "Clear session")}</Button>
@@ -271,7 +282,7 @@ const SpeakWithMrHaiMode = ({ language }: Props) => {
                         {message.correction && <div className="mt-2 rounded-md border border-accent/50 bg-accent/10 p-2 text-xs text-foreground"><strong>{t("Gợi ý sửa:", "Correction:")}</strong> {message.correction}</div>}
                         {message.encouragement && <p className="text-xs font-semibold text-primary">{message.encouragement}</p>}
                       </MessageContent>
-                      {message.role === "assistant" && <MessageActions><MessageAction tooltip={t("Nghe lại", "Replay")} onClick={() => void speakReply(message.content)}><Volume2 className="h-4 w-4" /></MessageAction></MessageActions>}
+                      {message.role === "assistant" && <MessageActions><MessageAction tooltip={t("Nghe lại", "Replay")} disabled={isInteractionBusy || voiceState === "paused"} onClick={() => void speakReply(message.content)}><Volume2 className="h-4 w-4" /></MessageAction></MessageActions>}
                     </Message>
                   ))}
                   {voiceState === "thinking" && <Message from="assistant"><MessageContent><Shimmer>{t("Mr. Hai đang suy nghĩ...", "Mr. Hai is thinking...")}</Shimmer></MessageContent></Message>}
@@ -283,13 +294,13 @@ const SpeakWithMrHaiMode = ({ language }: Props) => {
             {(micError || error) && <div role="alert" className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-destructive/40 bg-destructive/10 p-3 text-sm text-destructive"><span>{micError || error}</span>{error && messages.at(-1)?.role === "user" && <Button size="sm" variant="outline" onClick={() => void retryLastTurn()}><RotateCcw className="h-4 w-4" />{t("Thử lại", "Retry")}</Button>}</div>}
 
             <PromptInput onSubmit={({ text }) => addLearnerTurn(text)} className="bg-background" accept="">
-              <PromptInputTextarea placeholder={t("Nói bằng microphone hoặc nhập câu trả lời...", "Speak with the microphone or type your reply...")} disabled={!hasStarted || isBusy || voiceState === "paused" || voiceState === "ended"} />
+              <PromptInputTextarea placeholder={t("Nói bằng microphone hoặc nhập câu trả lời...", "Speak with the microphone or type your reply...")} disabled={!hasStarted || isInteractionBusy || voiceState === "paused" || voiceState === "ended"} />
               <PromptInputFooter>
                 <div className="flex items-center gap-2">
-                  {rec.isRecording ? <Button type="button" size="sm" variant="destructive" onClick={rec.stop}><Square className="h-4 w-4" />{t("Dừng", "Stop")} {rec.seconds}s</Button> : <Button type="button" size="sm" variant="outline" disabled={!hasStarted || isBusy || voiceState === "paused" || voiceState === "ended"} onClick={() => { setVoiceState("listening"); void rec.start(); }}><Mic className="h-4 w-4" />{t("Nói", "Speak")}</Button>}
+                  {rec.isRecording ? <Button type="button" size="sm" variant="destructive" onClick={rec.stop}><Square className="h-4 w-4" />{t("Dừng", "Stop")} {rec.seconds}s</Button> : <Button type="button" size="sm" variant="outline" disabled={!hasStarted || isAiBusy || voiceState === "paused" || voiceState === "ended"} onClick={() => void startListening()}><Mic className="h-4 w-4" />{t("Nói", "Speak")}</Button>}
                   {rec.transcript && <span className="line-clamp-1 max-w-[210px] text-xs text-muted-foreground">{rec.transcript}</span>}
                 </div>
-                <PromptInputSubmit status={voiceState === "thinking" ? "submitted" : "ready"} disabled={!hasStarted || isBusy || voiceState === "paused" || voiceState === "ended"} />
+                <PromptInputSubmit status={voiceState === "thinking" ? "submitted" : "ready"} disabled={!hasStarted || isInteractionBusy || voiceState === "paused" || voiceState === "ended"} />
               </PromptInputFooter>
             </PromptInput>
           </section>

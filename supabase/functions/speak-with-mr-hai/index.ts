@@ -1,12 +1,10 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { buildTask, normalizeText, sanitizeMessages } from "./logic.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
-
-type ChatRole = "user" | "assistant";
-type SafeMessage = { role: ChatRole; content: string };
 
 const LANGUAGE_GUIDES: Record<string, string> = {
   english: "Use natural international English. Keep each reply to 1-2 short sentences.",
@@ -15,25 +13,6 @@ const LANGUAGE_GUIDES: Record<string, string> = {
   finnish: "Use natural learner-friendly Finnish. Keep vocabulary around A1-B1 unless the learner shows a higher level.",
   swedish: "Use natural learner-friendly Swedish. Keep vocabulary around A1-B1 unless the learner shows a higher level.",
   vietnamese: "Use natural Vietnamese appropriate to the learner's level.",
-};
-
-const normalizeText = (value: unknown, max = 1200): string =>
-  typeof value === "string" ? value.normalize("NFC").replace(/[\u0000-\u001F\u007F]/g, " ").trim().slice(0, max) : "";
-
-const sanitizeMessages = (value: unknown): SafeMessage[] => {
-  if (!Array.isArray(value)) return [];
-  const safe: SafeMessage[] = [];
-  for (const item of value.slice(-16)) {
-    if (!item || typeof item !== "object") continue;
-    const role = (item as { role?: unknown }).role;
-    if (role !== "user" && role !== "assistant") continue;
-    const content = normalizeText((item as { content?: unknown }).content);
-    if (!content) continue;
-    const previous = safe[safe.length - 1];
-    if (previous?.role === role) previous.content = `${previous.content}\n${content}`.slice(0, 1200);
-    else safe.push({ role, content });
-  }
-  return safe;
 };
 
 const outputSchema = {
@@ -94,13 +73,7 @@ serve(async (req) => {
     const topic = normalizeText(body.topic, 160) || "Free conversation";
     const mode = body.mode === "summary" ? "summary" : "turn";
     const messages = sanitizeMessages(body.messages);
-    const isOpening = messages.length === 0;
-    const history = messages.map((message) => `${message.role === "user" ? "Learner" : "Mr. Hai"}: ${message.content}`).join("\n");
-    const task = mode === "summary"
-      ? `Summarize this completed practice session. Put a short supportive closing in reply, leave correction empty, then provide 1-3 strengths, 1-3 corrections, and 1-3 upgraded model sentences.\n\nConversation:\n${history || "No completed turns."}`
-      : isOpening
-        ? "Open the roleplay with one warm sentence and one short question."
-        : `Continue this conversation naturally. Respond to the learner's latest turn, gently correct only the most important error, and end with exactly one short question.\n\nConversation:\n${history}`;
+    const task = buildTask(mode, messages);
 
     const instructions = `You are Mr. Hai, a warm and concise language teacher at HaiEduTech, running a voice roleplay.
 Topic: ${topic}.
