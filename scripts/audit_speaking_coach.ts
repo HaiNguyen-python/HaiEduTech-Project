@@ -36,6 +36,19 @@ for (const l of langs) {
   });
   themes.forEach((t: any) => { if ((t.sentences?.length ?? 0) < 6) p(`${l}: theme ${t.id} has ${t.sentences?.length} sentences`); });
 
+  // every theme name must appear exactly once per language
+  const normName = (s: string) => String(s ?? "").toLocaleLowerCase().replace(/[^\p{L}\p{N}]+/gu, " ").trim();
+  const nameSeen = new Map<string, string>();
+  const nameViSeen = new Map<string, string>();
+  themes.forEach((t: any) => {
+    const en = normName(t.name);
+    const vi = normName(t.nameVi);
+    if (nameSeen.has(en)) p(`${l}: duplicate theme name "${t.name}" (${nameSeen.get(en)} / ${t.id})`);
+    else nameSeen.set(en, t.id);
+    if (nameViSeen.has(vi)) p(`${l}: duplicate theme nameVi "${t.nameVi}" (${nameViSeen.get(vi)} / ${t.id})`);
+    else nameViSeen.set(vi, t.id);
+  });
+
   // topic levels
   const levels = new Set((((speakingFreeTalkTopics as any)[l]) ?? []).map((t: any) => t.level));
   ["A1","A2","B1","B2","C1"].forEach(lv => { if (!levels.has(lv)) p(`${l}: free talk missing level ${lv}`); });
