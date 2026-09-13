@@ -97,7 +97,7 @@ const SpeakingCoachPage = () => {
     },
     swedish: {
       title: "Speaking Coach - Svenska",
-      subtitle: t("Luyện phát âm tiếng Thụy Điển — sj-/tj- & ngữ điệu Bắc Âu", "Swedish pronunciation — sj-/tj- and Nordic intonation"),
+      subtitle: t("Luyện phát âm tiếng Thụy Điển - sj-/tj- & ngữ điệu Bắc Âu", "Swedish pronunciation - sj-/tj- and Nordic intonation"),
       back: "/swedish",
     },
     japanese: {

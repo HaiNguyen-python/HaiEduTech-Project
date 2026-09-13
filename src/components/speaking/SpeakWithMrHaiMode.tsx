@@ -103,17 +103,18 @@ const SpeakWithMrHaiMode = ({ language }: Props) => {
     maxSeconds: 45,
     onFinal: (transcript) => void addLearnerTurn(transcript),
   });
+  const resetRecognition = rec.reset;
 
   useEffect(() => () => stopSpeakingTts(language), [language]);
   useEffect(() => {
     stopSpeakingTts(language);
-    rec.reset();
+    resetRecognition();
     setMessages([]);
     setSummary(null);
     setVoiceState("idle");
     setError(null);
     startedAtRef.current = Date.now();
-  }, [language, topicId]);
+  }, [language, resetRecognition, topicId]);
 
   const startSession = async () => {
     setMessages([]);
