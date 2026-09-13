@@ -55,7 +55,7 @@ export const thptCollocationsExtraSets: ThptExerciseSet[] = [
     focusVi: "Chủ đề trường học, kỳ thi, văn phòng – nguồn ngữ liệu chính của Reading THPT.",
     focusEn: "School, exams and workplace contexts - core sources of THPT Reading texts.",
     exercises: [
-      { q: "We worked overtime to ___ the deadline.", options: ["catch", "meet", "make", "do"], answer: 1, explanation: "Fixed: meet a deadline." },
+      { q: "The team rearranged its schedule to ___ the project deadline.", options: ["catch", "meet", "make", "do"], answer: 1, explanation: "The fixed collocation is 'meet a deadline'. 'Catch', 'make', and 'do' do not express completing work by the required time." },
       { q: "Try to ___ realistic goals for each semester.", options: ["make", "do", "set", "take"], answer: 2, explanation: "Fixed: set goals." },
       { q: "Hard work and patience help us ___ success.", options: ["achieve", "get", "make", "do"], answer: 0, explanation: "Fixed: achieve success." },
       { q: "Please ___ attention to the safety rules.", options: ["take", "do", "pay", "make"], answer: 2, explanation: "Fixed: pay attention to." },

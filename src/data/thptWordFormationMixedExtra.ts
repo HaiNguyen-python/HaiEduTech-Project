@@ -35,7 +35,7 @@ export const thptWordFormationExtraSets: ThptExerciseSet[] = [
     focusVi: "Tiền tố/hậu tố tạo động từ (en-, -ize, -ify) và trạng từ (-ly, -wards).",
     focusEn: "Prefixes/suffixes that form verbs (en-, -ize, -ify) and adverbs (-ly, -wards).",
     exercises: [
-      { q: "Reading every day will ___ your vocabulary. (RICH)", options: ["rich", "rich", "enrich", "richness"], answer: 2, explanation: "en- + adj → verb: enrich." },
+      { q: "Reading every day will ___ your vocabulary. (RICH)", options: ["rich", "richly", "enrich", "richness"], answer: 2, explanation: "After 'will' we need a base-form verb. The prefix en- turns 'rich' into the verb 'enrich'; the other options are an adjective, adverb, and noun." },
       { q: "The teacher ___ the difficult lesson clearly. (SIMPLE)", options: ["simple", "simply", "simplify", "simplified"], answer: 3, explanation: "Past simple verb → simplified." },
       { q: "She speaks English ___. (FLUENT)", options: ["fluent", "fluently", "fluency", "fluentness"], answer: 1, explanation: "Modify verb → adverb: fluently." },
       { q: "Companies need to ___ to changing markets. (ADAPT)", options: ["adapt", "adaption", "adaptive", "adaptation"], answer: 0, explanation: "Modal need to + V → adapt." },
@@ -87,7 +87,7 @@ export const thptMixedFinalExtraSets: ThptExerciseSet[] = [
       { q: "We must ___ action to protect the environment.", options: ["take", "make", "do", "have"], answer: 0, explanation: "take action (collocation)." },
       { q: "She is the woman ___ helped me yesterday.", options: ["which", "who", "whom", "whose"], answer: 1, explanation: "Subject of relative clause + person → who." },
       { q: "Despite ___ tired, he kept working.", options: ["being", "was", "to be", "be"], answer: 0, explanation: "despite + V-ing/N." },
-      { q: "The new policy will ___ effect next month.", options: ["take", "make", "do", "give"], answer: 0, explanation: "take effect (collocation)." },
+      { q: "The revised policy is expected to ___ effect next month.", options: ["take", "make", "do", "give"], answer: 0, explanation: "The fixed collocation is 'take effect', meaning to begin operating. The other verbs do not combine naturally with 'effect' in this meaning." },
     ],
   },
   {

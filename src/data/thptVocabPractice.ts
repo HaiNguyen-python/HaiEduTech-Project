@@ -118,7 +118,7 @@ export const thptVocabPracticeByTheme: Record<string, VocabThemePractice> = {
       { q: "She got a ___ last week after only one year in the company.", options: ["promotion", "promote", "promoted", "promoting"], answer: 0, explanation: "Noun: a promotion = sự thăng chức." },
       { q: "Each ___ must submit a CV and a cover letter.", options: ["applicant", "applicable", "applied", "applying"], answer: 0, explanation: "applicant = người nộp đơn (noun)." },
       { q: "He earns a competitive ___ as a software engineer.", options: ["money", "salary", "wage", "fee"], answer: 1, explanation: "salary = lương cố định hằng tháng." },
-      { q: "We worked overtime to ___ the deadline.", options: ["catch", "meet", "make", "do"], answer: 1, explanation: "Collocation: meet a deadline." },
+      { q: "The project team stayed late to ___ a demanding deadline.", options: ["catch", "meet", "make", "do"], answer: 1, explanation: "The fixed collocation is 'meet a deadline', meaning to finish by the required time." },
       { q: "She works as a ___ designer from home.", options: ["free", "freelance", "freedom", "freely"], answer: 1, explanation: "freelance = tự do, không cố định." },
       { q: "All employees must ___ the weekly meeting.", options: ["assist", "attend", "attempt", "assistant"], answer: 1, explanation: "Collocation: attend a meeting." },
       { q: "There are two ___ in the marketing department.", options: ["vacant", "vacancies", "vacate", "vacation"], answer: 1, explanation: "Plural noun: vacancies = vị trí trống." },
@@ -346,7 +346,7 @@ export const thptVocabPracticeByTheme: Record<string, VocabThemePractice> = {
   "collocations-business": {
     extraWords: [],
     quiz: [
-      { q: "We worked overtime to ___ the deadline.", options: ["catch", "meet", "make", "do"], answer: 1, explanation: "Fixed: meet a deadline." },
+      { q: "Careful planning helped the department ___ its deadline.", options: ["catch", "meet", "make", "do"], answer: 1, explanation: "Use 'meet a deadline'. The other verbs do not form the required business collocation." },
       { q: "Try to ___ a clear goal for each week.", options: ["make", "do", "set", "take"], answer: 2, explanation: "Fixed: set a goal." },
       { q: "Hard work and discipline help students ___ success.", options: ["achieve", "make", "do", "get"], answer: 0, explanation: "Fixed: achieve success." },
       { q: "Please ___ attention to the safety instructions.", options: ["take", "do", "pay", "make"], answer: 2, explanation: "Fixed: pay attention to." },

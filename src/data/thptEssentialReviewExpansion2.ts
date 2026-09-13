@@ -207,7 +207,7 @@ export const thptExerciseSetsExpansion2: ThptExerciseSet[] = [
       { q: "Women now make up half the ___ in many sectors.", options: ["worker", "working", "workforce", "workshop"], answer: 2, explanation: "workforce = lực lượng lao động." },
       { q: "She works as a ___ designer from home.", options: ["free", "freelance", "freedom", "freely"], answer: 1, explanation: "freelance = tự do, không cố định (adjective)." },
       { q: "Youth ___ is a national priority.", options: ["employ", "employment", "employee", "employer"], answer: 1, explanation: "Noun: employment = việc làm." },
-      { q: "We worked overtime to ___ the deadline.", options: ["catch", "meet", "make", "do"], answer: 1, explanation: "Collocation: meet a deadline." },
+      { q: "Despite the delay, the designers managed to ___ the final deadline.", options: ["catch", "meet", "make", "do"], answer: 1, explanation: "The natural collocation is 'meet a deadline', meaning to complete work on time." },
       { q: "Set ___ goals to stay motivated all year.", options: ["realistic", "real", "realism", "really"], answer: 0, explanation: "Adjective before 'goals' → realistic." },
       { q: "All employees must ___ the weekly meeting.", options: ["assist", "attend", "attempt", "assistant"], answer: 1, explanation: "Collocation: attend a meeting." },
     ],

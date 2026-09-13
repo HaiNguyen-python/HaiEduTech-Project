@@ -112,8 +112,8 @@ const NationalExamPrep = () => {
                   </div>
                   <div className="text-sm text-muted-foreground">
                     {t(
-                      "12 chuyên đề ngữ pháp + 8 chủ đề từ vựng cao tần - bám sát đề thi THPT Quốc gia.",
-                      "12 grammar topics + 8 high-frequency vocab themes - aligned with the THPT National Exam."
+                      "18 chuyên đề ngữ pháp + 16 chủ đề từ vựng + 460 câu luyện tập - bám sát đề thi THPT Quốc gia.",
+                      "18 grammar topics + 16 vocabulary themes + 460 practice questions - aligned with the THPT National Exam."
                     )}
                   </div>
                 </div>
