@@ -1,6 +1,7 @@
 # Roadmap
 
 ## Done
+- [x] Speaking Coach: six-language stability audit, guarded AI feedback, live weak-word progress, accessible mic errors, theme-level chibi illustrations, and regression tests
 - [x] English Fun Facts: branded action colors, balanced quotation marks, and aligned responsive cards
 - [x] Essential Grammar & Vocabulary: Academic Editorial layout, structured guides for 18 topics, 16 vocabulary themes, 460 audited questions, saved attempts, balanced choices, audio, and responsive verification
 - [x] IELTS sample essays: band-aware analysis, evidence-based criteria, and a single padded Mini-Review heading

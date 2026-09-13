@@ -13,6 +13,7 @@ import { fillerPatterns, speakingFreeTalkTopics, type FreeTalkTopic } from "@/da
 import { useSpeechRecognizer } from "@/hooks/useSpeechRecognizer";
 import { micErrorMessage, playSpeakingTts, stopSpeakingTts, type SpeakingLang } from "@/lib/speakingModeShared";
 import { supabase } from "@/integrations/supabase/client";
+import { normalizeFreeTalkReport, type SafeFreeTalkReport } from "@/lib/freeTalkReport";
 
 interface Props {
   language: SpeakingLang;
@@ -26,16 +27,6 @@ interface LocalReport {
   fillers: string[];
   uniqueRatio: number;
   score: number;
-}
-
-interface AiReport {
-  score: number;
-  fluency: string;
-  vocabulary: string;
-  grammarFixes: string[];
-  strengths: string[];
-  modelAnswer: string;
-  followUps: string[];
 }
 
 const LEVELS = ["A1", "A2", "B1", "B2", "C1"] as const;
@@ -66,7 +57,7 @@ const FreeTalkMode = ({ language, onPerfectScore }: Props) => {
   const [limit, setLimit] = useState(60);
   const [topic, setTopic] = useState<FreeTalkTopic | null>(null);
   const [local, setLocal] = useState<LocalReport | null>(null);
-  const [ai, setAi] = useState<AiReport | null>(null);
+  const [ai, setAi] = useState<SafeFreeTalkReport | null>(null);
   const [aiLoading, setAiLoading] = useState(false);
   const [aiError, setAiError] = useState<string | null>(null);
   const [answer, setAnswer] = useState("");
@@ -113,9 +104,13 @@ const FreeTalkMode = ({ language, onPerfectScore }: Props) => {
           },
         });
         if (error) throw error;
-        if ((data as any)?.error) throw new Error(String((data as any).error));
-        setAi(data as AiReport);
-        if (((data as AiReport).score ?? 0) >= 80) onPerfectScore?.();
+        if (data && typeof data === "object" && "error" in data) {
+          throw new Error(String((data as { error: unknown }).error));
+        }
+        const aiReport = normalizeFreeTalkReport(data);
+        if (!aiReport) throw new Error("Invalid AI feedback response");
+        setAi(aiReport);
+        if (aiReport.score >= 80) onPerfectScore?.();
       } catch {
         setAiError(
           t(
@@ -227,7 +222,7 @@ const FreeTalkMode = ({ language, onPerfectScore }: Props) => {
 
           {rec.isRecording && <Progress value={(rec.seconds / limit) * 100} />}
           {errorText && (
-            <div className="rounded-lg border border-destructive/40 bg-destructive/10 p-3 text-sm text-destructive">
+            <div role="alert" aria-live="assertive" className="rounded-lg border border-destructive/40 bg-destructive/10 p-3 text-sm text-destructive">
               {errorText}
             </div>
           )}
@@ -281,7 +276,7 @@ const FreeTalkMode = ({ language, onPerfectScore }: Props) => {
           {t("AI đang phân tích câu trả lời...", "AI is analysing your answer...")}
         </div>
       )}
-      {aiError && <div className="text-sm text-muted-foreground">{aiError}</div>}
+      {aiError && <div role="status" aria-live="polite" className="text-sm text-muted-foreground">{aiError}</div>}
 
       {ai && (
         <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>

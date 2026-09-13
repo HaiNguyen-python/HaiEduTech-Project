@@ -1,6 +1,7 @@
 import { speakingCoachLanguages } from "../src/data/speakingCoachData";
 import { speakingMinimalPairs } from "../src/data/speakingMinimalPairs";
 import { speakingFreeTalkTopics, fillerPatterns } from "../src/data/speakingFreeTalkTopics";
+import { existsSync } from "node:fs";
 
 const langs = Object.keys(speakingCoachLanguages);
 let problems = 0;
@@ -26,6 +27,13 @@ for (const l of langs) {
     if (!s.text?.trim()) p(`${l}: empty text ${s.id}`);
     if (!s.translation?.trim()) p(`${l}: missing translation ${s.id}`);
   });
+  const textSeen = new Map<string, string>();
+  sentences.forEach((s: any) => {
+    const normalized = String(s.text ?? "").toLocaleLowerCase().replace(/[^\p{L}\p{N}]+/gu, " ").trim();
+    const previous = textSeen.get(normalized);
+    if (previous) console.warn(`WARN: ${l}: duplicate sentence text ${previous} / ${s.id}`);
+    else if (normalized) textSeen.set(normalized, s.id);
+  });
   themes.forEach((t: any) => { if ((t.sentences?.length ?? 0) < 6) p(`${l}: theme ${t.id} has ${t.sentences?.length} sentences`); });
 
   // topic levels
@@ -48,4 +56,12 @@ for (const l of langs) {
   const seenWords = new Map<string,string>();
   pairs.forEach((x:any)=>{ const k = `${x.a}|${x.b}`; if (seenWords.has(k)) p(`${l}: duplicate pair words ${k}`); seenWords.set(k,x.id); });
 }
+[
+  "greetings", "daily-life", "travel", "work", "education", "health",
+  "technology", "nature", "food", "culture", "shopping", "community",
+].forEach((name) => {
+  if (!existsSync(new URL(`../src/assets/speaking-chibi-${name}.jpg`, import.meta.url))) {
+    p(`missing speaking illustration: ${name}`);
+  }
+});
 console.log(problems ? `\n${problems} problems` : "\nOK - no problems found");
