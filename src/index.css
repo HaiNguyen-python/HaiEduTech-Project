@@ -187,6 +187,21 @@
     text-decoration-style: wavy;
   }
 
+  .speaking-feedback-success {
+    border-color: hsl(var(--speaking-success) / 0.4);
+    background: hsl(var(--speaking-success) / 0.1);
+  }
+
+  .speaking-feedback-warning {
+    border-color: hsl(var(--speaking-warning) / 0.4);
+    background: hsl(var(--speaking-warning) / 0.1);
+  }
+
+  .speaking-feedback-error {
+    border-color: hsl(var(--speaking-error) / 0.4);
+    background: hsl(var(--speaking-error) / 0.1);
+  }
+
   .font-classroom-heading { font-family: "Outfit", sans-serif; letter-spacing: 0; }
   .font-classroom-body { font-family: "Figtree", sans-serif; letter-spacing: 0; }
   .classroom-command-shadow { box-shadow: var(--classroom-shadow); }

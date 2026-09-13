@@ -191,6 +191,22 @@ const SoundDrillMode = ({ language, onPerfectScore }: Props) => {
     rec.reset();
   };
 
+  const practiseWeakSounds = () => {
+    const weakPairs = pairs.filter((pair) => weakSounds.includes(pair.sound));
+    setItems(buildDrill(weakPairs.length ? weakPairs : pairs));
+    setIndex(0);
+    setVerdict(null);
+    setHeardWord("");
+    setCorrectCount(0);
+    setStreak(0);
+    setWeakSounds([]);
+    setFinished(false);
+    setAttempted(false);
+    setBestAttemptCorrect(false);
+    setListened(false);
+    rec.reset();
+  };
+
   if (!pairs.length) {
     return (
       <Card className="speaking-studio overflow-hidden border-primary/20 bg-card/90 shadow-xl backdrop-blur-xl">
@@ -228,10 +244,10 @@ const SoundDrillMode = ({ language, onPerfectScore }: Props) => {
               </div>
             </div>
           )}
-          <Button onClick={restart} className="gap-1">
-            <RotateCcw className="w-4 h-4" />
-            {t("Luyện lại", "Practise again")}
-          </Button>
+          <div className="flex flex-wrap gap-2">
+            {weakSounds.length > 0 && <Button onClick={practiseWeakSounds} className="gap-1"><RotateCcw className="h-4 w-4" />{t("Luyện lại âm yếu", "Practise weak sounds")}</Button>}
+            <Button onClick={restart} variant="outline" className="gap-1"><RotateCcw className="h-4 w-4" />{t("Luyện bộ mới", "New drill")}</Button>
+          </div>
         </CardContent>
       </Card>
     );
@@ -240,7 +256,7 @@ const SoundDrillMode = ({ language, onPerfectScore }: Props) => {
   const errorText = micErrorMessage(rec.error, t);
   const coachCategory = classifySoundTip(item.pair.sound, item.pair.tipVi, item.pair.tipEn);
   const CoachIcon = COACH_ICONS[coachCategory];
-  const currentStep = attempted ? 3 : listened ? 2 : 1;
+  const currentStep = attempted || rec.isRecording ? 3 : listened ? 2 : 1;
   const waveformBars = [4, 7, 5, 10, 6, 12, 8, 5, 9, 6, 11, 7, 4, 8, 5, 9, 6, 10];
 
   const renderWord = (word: string, other: string, isTarget: boolean) => {
@@ -364,10 +380,10 @@ const SoundDrillMode = ({ language, onPerfectScore }: Props) => {
             animate={{ opacity: 1, y: 0 }}
             className={`rounded-md border p-4 text-sm ${
               verdict === "correct"
-                ? "border-emerald-500/40 bg-emerald-500/10"
+                ? "speaking-feedback-success"
                 : verdict === "wrong"
-                ? "border-rose-500/40 bg-rose-500/10"
-                : "border-amber-500/40 bg-amber-500/10"
+                ? "speaking-feedback-error"
+                : "speaking-feedback-warning"
             }`}
           >
             <div className="flex items-center gap-2 font-semibold">
