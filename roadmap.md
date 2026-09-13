@@ -1,6 +1,7 @@
 # Roadmap
 
 ## Done
+- [x] English Fun Facts: branded action colors, balanced quotation marks, and aligned responsive cards
 - [x] Essential Grammar & Vocabulary: Academic Editorial layout, structured guides for 18 topics, 16 vocabulary themes, 460 audited questions, saved attempts, balanced choices, audio, and responsive verification
 - [x] IELTS sample essays: band-aware analysis, evidence-based criteria, and a single padded Mini-Review heading
 - [x] Speaking and IELTS audio: prevent duplicate playback, overlapping players, and repeated fallback speech
