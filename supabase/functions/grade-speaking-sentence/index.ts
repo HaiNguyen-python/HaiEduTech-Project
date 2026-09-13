@@ -21,8 +21,8 @@ const GradeSchema = z.object({
 
 type GradeOutput = z.infer<typeof GradeSchema>;
 
-const normalizeOutput = (value: GradeOutput): GradeOutput => {
-  const criterionLabels = ["Phrase use", "Grammar", "Naturalness and collocation", "Recognition clarity"];
+const normalizeOutput = (value: GradeOutput, mode: "vocabulary" | "structure"): GradeOutput => {
+  const criterionLabels = [mode === "structure" ? "Structure use" : "Phrase use", "Grammar", "Naturalness and collocation", "Recognition clarity"];
   const criteria = value.criteria.map((item, index) => ({
     label: criterionLabels[index],
     score: clampGrade(item.score),
@@ -118,7 +118,7 @@ Deno.serve(async (req) => {
       output = recovered;
     }
 
-    return new Response(JSON.stringify(normalizeOutput(output)), {
+    return new Response(JSON.stringify(normalizeOutput(output, input.mode)), {
       headers: { ...jsonHeaders, ...(runId ? { "X-Lovable-AIG-Run-ID": runId } : {}) },
     });
   } catch (error) {

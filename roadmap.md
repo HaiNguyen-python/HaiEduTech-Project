@@ -1,6 +1,7 @@
 # Roadmap
 
 ## Done
+- [x] IELTS Speaking Structures: complete examples, highlighted target language, audio, voice practice, AI grading, and responsive verification
 - [x] IELTS Speaking phrase cards: English examples, per-phrase voice sentence practice, AI feedback, best-score history, and activity tracking
 - [x] Speaking Coach: illustrated header and Speak with Mr. Hai two-way voice practice with animated states, situational topics, transcript, corrections, session summary, and local history
 - [x] English Overview: reorganized into a prioritized bento grid with grouped daily practice, skill learning, assessment, and resources

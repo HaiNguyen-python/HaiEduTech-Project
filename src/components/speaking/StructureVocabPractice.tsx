@@ -29,7 +29,7 @@ import { getMergedVocabulary } from "@/data/speakingVocabularyBank";
 import { getMergedStructures } from "@/data/speakingStructuresIdeas";
 import { getSupplementVocabulary, getSupplementStructures } from "@/data/speakingDrillsSupplement";
 import PhraseSpeakingPractice from "@/components/speaking/PhraseSpeakingPractice";
-import { getPhraseExample } from "@/lib/ieltsSpeakingPhrasePractice";
+import { getHighlightedExampleParts, getPhraseExample, getStructureExample } from "@/lib/ieltsSpeakingPhrasePractice";
 import {
   buildSentenceCorpus, buildStructureRound, buildVocabRound, usedStructure,
   STRUCTURE_FN_LABEL, classifyStructure, type StructureDrill, type StructureFn, type VocabDrill,
@@ -127,6 +127,11 @@ const StructureVocabPractice = () => {
     }
     return out;
   }, [questions, part]);
+
+  const structureItems = useMemo(() => structures.map((structure) => ({
+    structure,
+    example: getStructureExample(structure, activeTopic, part),
+  })), [activeTopic, part, structures]);
 
 
   const corpus = useMemo(
@@ -393,21 +398,28 @@ const StructureVocabPractice = () => {
               <PlayCircle className="w-4 h-4 mr-2" /> {t("Bắt đầu quiz", "Start the quiz")}
             </Button>
             <div className="grid gap-2 md:grid-cols-2">
-              {(track === "vocab" ? vocabItems : structures).map((entry, i) => {
-                const text = typeof entry === "string" ? entry : entry.phrase;
-                const fn = typeof entry === "string" ? classifyStructure(entry) : null;
+              {(track === "vocab" ? vocabItems : structureItems).map((entry, i) => {
+                const isStructureEntry = "structure" in entry;
+                const text = isStructureEntry ? entry.structure : entry.phrase;
+                const fn = isStructureEntry ? classifyStructure(entry.structure) : null;
+                const example = entry.example;
                 return (
                   <div key={`${text}-${i}`} className="rounded-xl border bg-card/70 p-3">
                     <div className="flex items-start gap-2">
                     <span className="text-xs font-semibold text-muted-foreground mt-1 w-6 shrink-0">{i + 1}.</span>
                     <div className="flex-1 min-w-0">
                       <p className="text-base font-medium leading-relaxed">{text}</p>
-                      {typeof entry !== "string" && (
+                      {!isStructureEntry && (
                         <>
                           <p className="text-sm text-muted-foreground">{entry.vietnamese}</p>
                           <div className="mt-2 rounded-md border border-primary/15 bg-primary/5 p-2.5">
                             <div className="flex items-start gap-2">
-                              <p className="flex-1 text-sm leading-relaxed text-foreground"><span className="font-semibold text-primary">Example:</span> {entry.example}</p>
+                              <p className="flex-1 text-sm leading-relaxed text-foreground">
+                                <span className="font-semibold text-primary">Example:</span>{" "}
+                                {getHighlightedExampleParts(example, entry.phrase).map((part, partIndex) => part.highlighted
+                                  ? <strong key={`${part.text}-${partIndex}`}>{part.text}</strong>
+                                  : <span key={`${part.text}-${partIndex}`}>{part.text}</span>)}
+                              </p>
                               <Button variant="ghost" size="icon-sm" onClick={() => speak(entry.example)} aria-label={t("Nghe câu ví dụ", "Listen to the example sentence")}>
                                 <Volume2 className="w-4 h-4" />
                               </Button>
@@ -427,9 +439,35 @@ const StructureVocabPractice = () => {
                         </>
                       )}
                       {fn && (
-                        <Badge variant="outline" className="mt-1 text-xs">
-                          {t(STRUCTURE_FN_LABEL[fn].vi, STRUCTURE_FN_LABEL[fn].en)}
-                        </Badge>
+                        <>
+                          <Badge variant="outline" className="mt-1 text-xs">
+                            {t(STRUCTURE_FN_LABEL[fn].vi, STRUCTURE_FN_LABEL[fn].en)}
+                          </Badge>
+                          <div className="mt-2 rounded-md border border-primary/15 bg-primary/5 p-2.5">
+                            <div className="flex items-start gap-2">
+                              <p className="flex-1 text-sm leading-relaxed text-foreground">
+                                <span className="font-semibold text-primary">Example:</span>{" "}
+                                {getHighlightedExampleParts(example, text).map((part, partIndex) => part.highlighted
+                                  ? <strong key={`${part.text}-${partIndex}`}>{part.text}</strong>
+                                  : <span key={`${part.text}-${partIndex}`}>{part.text}</span>)}
+                              </p>
+                              <Button variant="ghost" size="icon-sm" onClick={() => speak(example)} aria-label={t("Nghe câu ví dụ", "Listen to the example sentence")}>
+                                <Volume2 className="w-4 h-4" />
+                              </Button>
+                            </div>
+                          </div>
+                          <Button
+                            variant={activeSpeakingPhrase === text ? "secondary" : "outline"}
+                            size="sm"
+                            className="mt-2"
+                            onClick={() => {
+                              stopEnglishTts();
+                              setActiveSpeakingPhrase((currentPhrase) => currentPhrase === text ? null : text);
+                            }}
+                          >
+                            <Mic className="h-4 w-4" /> {t("Nói câu của bạn", "Speak your sentence")}
+                          </Button>
+                        </>
                       )}
                     </div>
                     <div className="flex gap-0.5 shrink-0">
@@ -441,12 +479,23 @@ const StructureVocabPractice = () => {
                       </Button>
                     </div>
                     </div>
-                    {typeof entry !== "string" && activeSpeakingPhrase === entry.phrase && (
+                    {!isStructureEntry && activeSpeakingPhrase === entry.phrase && (
                       <PhraseSpeakingPractice
                         part={part}
                         topic={activeTopic}
                         phrase={entry.phrase}
                         meaning={entry.vietnamese}
+                        example={entry.example}
+                        onClose={() => setActiveSpeakingPhrase(null)}
+                      />
+                    )}
+                    {isStructureEntry && activeSpeakingPhrase === entry.structure && (
+                      <PhraseSpeakingPractice
+                        mode="structure"
+                        part={part}
+                        topic={activeTopic}
+                        phrase={entry.structure}
+                        meaning={t(STRUCTURE_FN_LABEL[classifyStructure(entry.structure)].vi, STRUCTURE_FN_LABEL[classifyStructure(entry.structure)].en)}
                         example={entry.example}
                         onClose={() => setActiveSpeakingPhrase(null)}
                       />
