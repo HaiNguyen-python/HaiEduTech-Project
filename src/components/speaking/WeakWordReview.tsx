@@ -47,6 +47,8 @@ const WeakWordReview = ({ language, onChange }: Props) => {
   const rec = useSpeechRecognizer({ speechLang: config.speechLang, maxSeconds: 12, onFinal: handleFinal });
 
   useEffect(() => { setAllDue(dueWeakWords(loadWeakWords(language))); setIndex(0); setVerdict(null); setHeard(""); setDisplayClean(null); setCleared(0); setReviewed(0); setListened(false); }, [language]);
+  // The recognizer object is intentionally excluded: it changes after each render.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { setIndex(0); setVerdict(null); setHeard(""); setDisplayClean(null); rec.reset(); }, [filter]);
   useEffect(() => () => stopSpeakingTts(language), [language]);
 

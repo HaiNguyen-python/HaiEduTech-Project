@@ -1,6 +1,7 @@
 # Roadmap
 
 ## Done
+- [x] Free Talk and Weak Words: guided practice flows, topic illustrations, retryable AI feedback, local progress history, actionable corrections, prioritized review filters, same-word retries, and six-language safeguards
 - [x] Sound Lab: guided listen-coach-speak flow, sequential pair audio, safe sound highlighting, same-item retries, best-attempt scoring, and actionable results
 - [x] Shadowing studio: Vibrant glass layout, theme chibi art, live waveform states, phrase pacing, accessible controls, and responsive score feedback
 - [x] Speaking Coach: six-language stability audit, guarded AI feedback, live weak-word progress, accessible mic errors, theme-level chibi illustrations, and regression tests

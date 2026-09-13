@@ -24,7 +24,6 @@ const WAVEFORM = [3, 6, 4, 8, 5, 10, 7, 4, 9, 6, 11, 5, 8, 4, 7, 3, 6, 9, 5, 7, 
 const FreeTalkMode = ({ language, onPerfectScore }: Props) => {
   const { t } = useLanguage();
   const config = speakingCoachLanguages[language];
-  const topics = speakingFreeTalkTopics[language] ?? [];
   const reduceMotion = useReducedMotion();
   const [level, setLevel] = useState<(typeof LEVELS)[number]>("B1");
   const [limit, setLimit] = useState(60);
@@ -40,9 +39,10 @@ const FreeTalkMode = ({ language, onPerfectScore }: Props) => {
   const [audioBusy, setAudioBusy] = useState(false);
 
   const pool = useMemo(() => {
+    const topics = speakingFreeTalkTopics[language] ?? [];
     const filtered = topics.filter((item) => item.level === level);
     return filtered.length ? filtered : topics;
-  }, [topics, level]);
+  }, [language, level]);
 
   useEffect(() => {
     setTopic(pool[Math.floor(Math.random() * pool.length)] ?? null);
@@ -96,7 +96,7 @@ const FreeTalkMode = ({ language, onPerfectScore }: Props) => {
   };
   const resetAnswer = () => { setLocal(null); setAi(null); setAiError(null); setAnswer(""); setPrep(null); rec.reset(); };
   const nextTopic = () => { setTopic(pool[Math.floor(Math.random() * pool.length)] ?? null); resetAnswer(); };
-  const useFollowUp = (prompt: string, position: number) => {
+  const handleFollowUp = (prompt: string, position: number) => {
     if (!topic) return;
     setTopic({ ...topic, id: `${topic.id}-follow-${position}`, prompt, promptVi: prompt, ideas: [] }); resetAnswer();
   };
@@ -149,7 +149,7 @@ const FreeTalkMode = ({ language, onPerfectScore }: Props) => {
       {ai.strengths.length > 0 && <div className="speaking-feedback-success rounded-md border p-4"><p className="mb-2 font-semibold">{t("Điểm mạnh", "Strengths")}</p><ul className="space-y-1 text-sm">{ai.strengths.map((item) => <li key={item} className="flex gap-2"><CheckCircle className="mt-0.5 h-4 w-4 shrink-0" />{item}</li>)}</ul></div>}
       {ai.grammarFixes.length > 0 && <div><p className="mb-2 font-semibold">{t("Sửa và áp dụng", "Fix and apply")}</p><div className="grid gap-2">{ai.grammarFixes.map((fix) => { const parts = splitGrammarFix(fix); return <div key={fix} className="rounded-md border p-3 text-sm">{parts ? <><p className="text-muted-foreground line-through">{parts.original}</p><div className="mt-1 flex items-start justify-between gap-2"><p className="font-semibold text-primary">{parts.improved}</p><Button size="icon" variant="ghost" aria-label={t("Nghe câu sửa", "Listen to correction")} disabled={audioBusy} onClick={() => void playText(parts.improved)}><Volume2 className="h-4 w-4" /></Button></div></> : fix}</div>; })}</div></div>}
       {ai.modelAnswer && <div className="rounded-md border border-primary/20 bg-primary/5 p-4"><div className="flex flex-wrap items-center justify-between gap-2"><p className="font-semibold">{t("Câu trả lời nâng cấp", "Upgraded answer")}</p><div className="flex gap-2"><Button size="sm" variant="outline" disabled={audioBusy} onClick={() => void playText(ai.modelAnswer)}><Headphones className="mr-1 h-4 w-4" />{t("Nghe", "Listen")}</Button><Button size="sm" onClick={() => void playText(ai.modelAnswer, 0.75)} disabled={audioBusy}><Mic className="mr-1 h-4 w-4" />{t("Luyện theo", "Practise")}</Button></div></div><p className="mt-3 whitespace-pre-wrap text-sm leading-relaxed">{ai.modelAnswer}</p></div>}
-      {ai.followUps.length > 0 && <div><p className="mb-2 font-semibold">{t("Nói tiếp để tiến bộ", "Keep the conversation going")}</p><div className="grid gap-2">{ai.followUps.map((question, i) => <Button key={question} variant="outline" className="h-auto justify-between gap-3 py-3 text-left whitespace-normal" onClick={() => useFollowUp(question, i)}><span>{question}</span><ArrowRight className="h-4 w-4 shrink-0" /></Button>)}</div></div>}
+      {ai.followUps.length > 0 && <div><p className="mb-2 font-semibold">{t("Nói tiếp để tiến bộ", "Keep the conversation going")}</p><div className="grid gap-2">{ai.followUps.map((question, i) => <Button key={question} variant="outline" className="h-auto justify-between gap-3 py-3 text-left whitespace-normal" onClick={() => handleFollowUp(question, i)}><span>{question}</span><ArrowRight className="h-4 w-4 shrink-0" /></Button>)}</div></div>}
     </CardContent></Card></motion.div>}
 
     {history.length > 0 && <Card><CardHeader className="pb-3"><CardTitle className="text-base">{t("Tiến bộ gần đây", "Recent progress")}</CardTitle></CardHeader><CardContent><div className="grid gap-2 sm:grid-cols-3">{history.slice(0, 3).map((entry, i) => <div key={`${entry.date}-${i}`} className="rounded-md border p-3"><div className="flex items-center justify-between"><Badge variant="outline">{entry.level}</Badge><span className="font-bold text-primary">{entry.aiScore ?? entry.score}</span></div><p className="mt-2 text-xs text-muted-foreground">{entry.wpm} WPM · {entry.words} {t("từ", "words")} · {entry.fillers} {t("từ đệm", "fillers")}</p></div>)}</div></CardContent></Card>}
