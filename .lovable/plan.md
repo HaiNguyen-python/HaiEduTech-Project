@@ -5,19 +5,21 @@
 - Toàn bộ 3.900 lượt hiển thị cụm từ theo Part và chủ đề đều có câu ví dụ; kiểm thử dữ liệu và 6 kiểm thử logic hiện có đều đạt.
 - Phần học đã có nghe câu mẫu, thu âm, bản ghi trực tiếp, AI chấm 4 tiêu chí, câu sửa, câu nâng cấp, nghe lại và lưu điểm tốt nhất.
 - Còn các điểm cần hoàn thiện trước khi coi là ổn định:
-  - Phần lớn câu ví dụ đang được tạo bằng mẫu chung; audit ghi nhận 108 nhóm mẫu lặp nên một số câu có thể đúng máy móc nhưng chưa tự nhiên theo từng cụm.
+  - Chỉ 21 cụm có câu viết riêng; phần còn lại dùng mẫu theo cấu trúc từ. Audit ghi nhận 108 nhóm mẫu lặp và phát hiện nguy cơ câu sai tự nhiên với thành ngữ, đại từ và cụm kết thúc bằng giới từ.
   - Chưa kiểm tra cụm từ ngay trên máy trước khi gửi chấm, nên câu không dùng cụm vẫn tạo một lượt AI không cần thiết.
   - Khi chấm lỗi, giao diện nói bản ghi được giữ nhưng chưa có nút chấm lại chính bản ghi đó; bấm nói lại sẽ xóa bản ghi.
   - Điểm tốt nhất cũ chưa được nạp khi mở lại ô luyện nói, chỉ hiện sau một lượt chấm mới.
   - Kết quả AI chưa bắt buộc phải trả đủ đúng 4 tiêu chí; giao diện có thể nhận danh sách thiếu.
+  - Kiểm tra đầu vào giữa giao diện và chức năng chấm chưa đồng nhất: giao diện yêu cầu ba từ nhưng phía dịch vụ mới yêu cầu ba ký tự và chưa bắt buộc nghĩa tiếng Việt.
   - Thông báo lỗi mới tách riêng 402, 403 và 429; lỗi câu gửi sai, cấu hình AI và lỗi tạm thời chưa có hướng dẫn riêng.
+  - Điểm đặt câu chỉ lưu trên thiết bị; hoạt động đăng nhập được ghi theo cách gửi nền nhưng lỗi ghi nhận chưa được phản hồi. Kết quả vòng quiz hiện chưa đi vào lịch sử học tập chung.
   - Chưa có kiểm thử giao diện cho microphone, chấm lại, tải lại trang và màn hình điện thoại.
 
 ## Kế hoạch hoàn thiện
 
 ### 1. Nâng chất lượng câu ví dụ
 
-- Mở rộng bộ câu mẫu riêng cho các cụm dễ tạo câu gượng, cụm có đại từ sở hữu, lựa chọn bằng dấu gạch chéo và cụm không phải động từ nguyên mẫu.
+- Thay các mẫu ghép máy móc bằng câu ví dụ được rà soát theo nghĩa và chủ đề, ưu tiên toàn bộ thành ngữ, cụm có đại từ, lựa chọn bằng dấu gạch chéo và cụm kết thúc bằng giới từ.
 - Nâng audit để kiểm tra cụm hoặc biến thể hợp lệ thật sự xuất hiện trong câu, phát hiện câu sai cấu trúc, câu quá chung chung và mức lặp vượt ngưỡng.
 - Giữ một câu ví dụ tiếng Anh ngắn, tự nhiên, đúng chủ đề và phù hợp IELTS cho mỗi cụm; không thay đổi ID hay dữ liệu tiến độ.
 
@@ -33,6 +35,7 @@
 
 - Bắt buộc phản hồi đủ bốn tiêu chí cố định: dùng cụm từ, ngữ pháp, độ tự nhiên/collocation và độ rõ dựa trên bản nhận diện.
 - Chuẩn hóa điểm tổng từ đúng bốn điểm thành phần; từ chối phản hồi thiếu hoặc sai cấu trúc thay vì hiển thị kết quả không đầy đủ.
+- Đồng nhất kiểm tra đầu vào ở cả hai phía: Part hợp lệ, chủ đề, cụm từ, nghĩa, câu mẫu và bản ghi tối thiểu ba từ.
 - Tách thông báo 400, 401, 402, 403, 429 và 5xx; chỉ cho phép thử lại có giới hạn với 429/5xx, không gửi lại lỗi cố định.
 - Giữ nội dung học sinh đã nói trong mọi lỗi, không trả điểm giả và không tuyên bố đã phân tích âm thanh khi hệ thống chỉ có bản nhận diện.
 - Kiểm tra giới hạn đầu vào, CORS, quyền gọi và chống lạm dụng cho chức năng chấm công khai.
@@ -44,7 +47,13 @@
 - Bổ sung trạng thái dễ hiểu cho đang nghe, đang thu, đang chấm, lỗi microphone, lỗi AI và đã chấm.
 - Bổ sung nhãn trợ năng và thông báo trạng thái cho trình đọc màn hình.
 
-### 5. Kiểm thử cuối
+### 5. Hoàn thiện lịch sử học tập
+
+- Tiếp tục lưu cục bộ cho khách và đồng bộ điểm tốt nhất của học sinh đăng nhập vào lịch sử hoạt động hiện có, không làm mất dữ liệu cũ.
+- Ghi kết quả vòng quiz từ vựng/cấu trúc vào lịch sử học tập chung đúng một lần khi kết thúc vòng.
+- Nếu việc ghi lịch sử thất bại, không làm mất kết quả đang xem; giữ lại để thử đồng bộ ở lần phù hợp tiếp theo.
+
+### 6. Kiểm thử cuối
 
 - Chạy audit toàn bộ Part 1-3, kiểm thử dữ liệu, bộ nhận diện biến thể, chuẩn hóa bốn tiêu chí và lưu điểm tốt nhất.
 - Gọi chức năng AI thật với bốn trường hợp: câu đúng, sai ngữ pháp, không dùng cụm và quá ngắn; đọc cả mã lỗi và nội dung phản hồi.
