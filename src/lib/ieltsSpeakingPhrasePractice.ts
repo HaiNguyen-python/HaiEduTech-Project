@@ -23,6 +23,11 @@ export interface PhraseSpeakingProgress {
 
 export type PhraseSpeakingProgressStore = Record<string, PhraseSpeakingProgress>;
 
+export interface HighlightPart {
+  text: string;
+  highlighted: boolean;
+}
+
 export const PHRASE_SPEAKING_STORAGE_KEY = "ielts-speaking-phrase-practice:v1";
 
 export const loadPhraseSpeakingResult = (id: string): PhraseSpeakingProgress | null => {
@@ -109,6 +114,50 @@ export function getPhraseExample(phrase: string, topic: string, part: 1 | 2 | 3)
   return `The issue of ${lowerFirst(cleaned)} deserves careful attention in discussions about ${topicText}.`;
 }
 
+const structureSlots: Record<1 | 2 | 3, string[]> = {
+  1: ["educational technology", "a university student", "rewarding", "it helps me grow", "in the future", "last year"],
+  2: ["a trip I took last year", "my closest friend", "truly memorable", "I learned something valuable", "the city centre", "several years ago"],
+  3: ["public education", "individual responsibility", "a balanced solution", "it benefits society", "in many countries", "over the next decade"],
+};
+
+/** Completes the open slots in an IELTS structure without changing its fixed language. */
+export function getStructureExample(structure: string, topic: string, part: 1 | 2 | 3): string {
+  const topicText = topic.replace(/\s*&\s*/g, " and ").toLowerCase();
+  const slots = [...structureSlots[part]];
+  slots[0] = part === 1 ? topicText : part === 2 ? `an experience related to ${topicText}` : topicText;
+  let slotIndex = 0;
+  let example = structure
+    .normalize("NFC")
+    .replace(/\.{2,}/g, () => slots[Math.min(slotIndex++, slots.length - 1)])
+    .replace(/\s+([,.;!?])/g, "$1")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (!/[.!?]$/.test(example)) example += ".";
+  return example.charAt(0).toUpperCase() + example.slice(1);
+}
+
+const escapeRegExp = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+/** Returns safe text segments so callers can emphasize a target without raw HTML. */
+export function getHighlightedExampleParts(example: string, target: string): HighlightPart[] {
+  const segments = target
+    .normalize("NFC")
+    .replace(/\bone['’]s\b/gi, "my")
+    .replace(/\bsomeone['’]s\b/gi, "a person's")
+    .replace(/\bsomeone\b/gi, "people")
+    .split(/\.{2,}/)
+    .map((part) => part.trim().replace(/^(to|a|an)\s+/i, ""))
+    .filter((part) => part.length >= 4)
+    .sort((a, b) => b.length - a.length);
+  if (!segments.length) return [{ text: example, highlighted: false }];
+
+  const pattern = new RegExp(`(${segments.map(escapeRegExp).join("|")})`, "gi");
+  const parts = example.split(pattern).filter(Boolean);
+  if (parts.length === 1) return [{ text: example, highlighted: false }];
+  const normalizedTargets = new Set(segments.map((segment) => segment.toLowerCase()));
+  return parts.map((text) => ({ text, highlighted: normalizedTargets.has(text.toLowerCase()) }));
+}
+
 const PHRASE_STOP_WORDS = new Set([
   "a", "an", "and", "at", "be", "by", "for", "from", "in", "is", "it", "my", "of", "on", "one", "or", "the", "to", "with",
 ]);
@@ -133,8 +182,14 @@ export function phraseAppearsInTranscript(phrase: string, transcript: string): b
   return hits >= Math.max(1, Math.ceil(required.length * 0.6));
 }
 
+export const structureAppearsInTranscript = (structure: string, transcript: string): boolean =>
+  phraseAppearsInTranscript(structure.replace(/\.{2,}/g, " "), transcript);
+
 export const phrasePracticeId = (part: number, topic: string, phrase: string) =>
   `${part}|${topic.trim().toLowerCase()}|${phrase.trim().toLowerCase()}`;
+
+export const structurePracticeId = (part: number, topic: string, structure: string) =>
+  `structure|${part}|${topic.trim().toLowerCase()}|${structure.trim().toLowerCase()}`;
 
 const text = (value: unknown, max = 600) => typeof value === "string" ? value.normalize("NFC").trim().slice(0, max) : "";
 const score = (value: unknown) => Math.max(0, Math.min(100, Math.round(Number(value) || 0)));
