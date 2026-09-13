@@ -334,11 +334,15 @@ const EnglishCourse = () => {
                     <AccessDeniedModal open={showAccessModal} onOpenChange={setShowAccessModal} />
                   </div>
                 )}
-                {/* SAT - 4 entry-points as unified cards */}
-                {courseId === "sat" && (
-                  <div className="mt-5 pt-5 border-t">
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                      {[
+                 {/* SAT - entry-points grouped into two even card rows */}
+                 {courseId === "sat" && (
+                   <div className="mt-5 pt-5 border-t space-y-5">
+                     <div>
+                     <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground mb-2.5">
+                       {t("Học & luyện thi", "Study & test prep")}
+                     </p>
+                     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 items-stretch">
+                       {[
                         {
                           to: "/placement-test?subject=sat",
                           icon: ClipboardCheck,
@@ -371,29 +375,34 @@ const EnglishCourse = () => {
                           to: "/sat-exams",
                           icon: Award,
                           title: t("Đề thi SAT", "SAT Exams"),
-                          sub: t("10 mock test full", "10 full mock tests"),
+                          sub: t("46 đề thi thử", "46 mock tests"),
                           iconBg: "from-fuchsia-500 to-rose-500",
                         },
                       ].map((card) => (
-                        <button
-                          key={card.to}
-                          onClick={() => navigate(card.to)}
-                          className="group text-left p-4 rounded-2xl border-[3px] border-emerald-500 dark:border-emerald-400 bg-background hover:border-primary hover:shadow-xl hover:-translate-y-0.5 transition-all"
-                        >
-                          <div className={`w-10 h-10 mb-3 rounded-xl bg-gradient-to-br ${card.iconBg} flex items-center justify-center shadow-md`}>
-                            <card.icon className="w-5 h-5 text-white" />
-                          </div>
-                          <p className="text-sm font-display font-bold text-foreground group-hover:text-primary transition-colors leading-snug">
-                            {card.title}
-                          </p>
-                          <p className="text-xs text-muted-foreground mt-1.5 leading-snug">
-                            {card.sub}
-                          </p>
-                        </button>
-                      ))}
-                    </div>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3">
-                      {[
+                         <button
+                           key={card.to}
+                           onClick={() => navigate(card.to)}
+                           className="group h-full flex flex-col text-left p-4 rounded-2xl border-2 border-border bg-card hover:border-primary hover:shadow-xl hover:-translate-y-0.5 transition-all"
+                         >
+                           <div className={`w-10 h-10 mb-3 rounded-xl bg-gradient-to-br ${card.iconBg} flex items-center justify-center shadow-md`}>
+                             <card.icon className="w-5 h-5 text-white" />
+                           </div>
+                           <p className="text-sm font-display font-bold text-foreground group-hover:text-primary transition-colors leading-snug">
+                             {card.title}
+                           </p>
+                           <p className="text-xs text-muted-foreground mt-1.5 leading-snug">
+                             {card.sub}
+                           </p>
+                         </button>
+                       ))}
+                     </div>
+                     </div>
+                     <div>
+                     <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground mb-2.5">
+                       {t("Công cụ luyện tập hằng ngày", "Daily practice tools")}
+                     </p>
+                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 items-stretch">
+                       {[
                         {
                           to: "/sat/daily-warmup",
                           icon: Flame,
@@ -426,7 +435,7 @@ const EnglishCourse = () => {
                         <button
                           key={card.to}
                           onClick={() => navigate(card.to)}
-                          className="group text-left p-4 rounded-2xl border-[3px] border-emerald-500 dark:border-emerald-400 bg-background hover:border-primary hover:shadow-xl hover:-translate-y-0.5 transition-all"
+                          className="group h-full flex flex-col text-left p-4 rounded-2xl border-2 border-border bg-card hover:border-primary hover:shadow-xl hover:-translate-y-0.5 transition-all"
                         >
                           <div className={`w-10 h-10 mb-3 rounded-xl bg-gradient-to-br ${card.iconBg} flex items-center justify-center shadow-md`}>
                             <card.icon className="w-5 h-5 text-white" />
@@ -439,9 +448,10 @@ const EnglishCourse = () => {
                           </p>
                         </button>
                       ))}
-                    </div>
-                  </div>
-                )}
+                     </div>
+                     </div>
+                   </div>
+                 )}
               </div>
             </div>
 

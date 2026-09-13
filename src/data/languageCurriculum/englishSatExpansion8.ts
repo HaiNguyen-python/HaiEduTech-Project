@@ -27,7 +27,7 @@ export const satExpansionModules8: LanguageModule[] = [
     language: "english",
     lessons: [
       {
-        id: "sva-traps",
+        id: "conv-sva-traps",
         title: "SVA Traps - Khi chủ ngữ ‘ẩn mình’",
         titleEn: "SVA Traps - When the Subject Hides",
         level: 3,
@@ -87,7 +87,7 @@ export const satExpansionModules8: LanguageModule[] = [
         ]
       },
       {
-        id: "modifier-placement",
+        id: "conv-modifier-placement",
         title: "Modifier Placement - Mũi tên ngắn nhất",
         titleEn: "Modifier Placement - The Shortest Arrow",
         level: 3,
@@ -146,7 +146,7 @@ export const satExpansionModules8: LanguageModule[] = [
         ]
       },
       {
-        id: "pronoun-clarity",
+        id: "conv-pronoun-clarity",
         title: "Pronoun Clarity - Mỗi đại từ một chủ nhân",
         titleEn: "Pronoun Clarity - One Pronoun, One Owner",
         level: 3,
