@@ -96,6 +96,9 @@ verify_jwt = false
 [functions.speak-with-mr-hai]
 verify_jwt = false
 
+[functions.grade-speaking-sentence]
+verify_jwt = false
+
 
 
 [functions.grade-cambridge-writing]
