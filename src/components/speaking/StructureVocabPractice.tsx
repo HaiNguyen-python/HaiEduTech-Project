@@ -202,7 +202,6 @@ const StructureVocabPractice = () => {
       setCombo(0);
       setRetryQueue((q) => (q.includes(key) ? q : [...q, key]));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [current, track, progress, storeKey, saveProgress, toast, t]);
 
   const resetItemState = () => {

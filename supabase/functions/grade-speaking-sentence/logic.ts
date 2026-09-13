@@ -9,7 +9,12 @@ export type SentenceGradeInput = {
 
 export const normalizeText = (value: unknown, max: number): string =>
   typeof value === "string"
-    ? value.normalize("NFC").replace(/[\u0000-\u001F\u007F]/g, " ").replace(/\s+/g, " ").trim().slice(0, max)
+    ? [...value.normalize("NFC")]
+      .map((character) => character.charCodeAt(0) < 32 || character.charCodeAt(0) === 127 ? " " : character)
+      .join("")
+      .replace(/\s+/g, " ")
+      .trim()
+      .slice(0, max)
     : "";
 
 export function parseSentenceGradeInput(value: unknown): SentenceGradeInput | null {
