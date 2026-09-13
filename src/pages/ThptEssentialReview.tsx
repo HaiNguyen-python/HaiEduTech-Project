@@ -4,7 +4,7 @@
  * @author Teacher Hai (HaiEduTech)
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
-import { useState } from "react";
+import { memo, useEffect, useMemo, useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
@@ -22,6 +22,7 @@ import {
   thptExerciseSetsExpansion2,
 } from "@/data/thptEssentialReviewExpansion2";
 import { thptVocabPracticeByTheme } from "@/data/thptVocabPractice";
+import { thptGrammarStudyGuides } from "@/data/thptEssentialStudyGuides";
 import { getVocabEmoji } from "@/data/thptVocabEmojis";
 import { thptCollocationsExtraSets } from "@/data/thptCollocationsExtra";
 import { thptCollocationsExtraSets2 } from "@/data/thptCollocationsExtra2";
@@ -37,16 +38,71 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, BookOpen, Sparkles, AlertTriangle, Volume2, CheckCircle2, XCircle, RotateCcw, Dumbbell } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import { safeStorage } from "@/lib/safeStorage";
+import { logStudentActivity } from "@/hooks/useActivityLogger";
 import chibiVocabCheer from "@/assets/chibi-vocab-cheer.png";
 
-const speak = (text: string) => {
-  if (typeof window === "undefined" || !window.speechSynthesis) return;
-  const utt = new SpeechSynthesisUtterance(text);
-  utt.lang = "en-US";
-  utt.rate = 0.9;
-  window.speechSynthesis.cancel();
-  window.speechSynthesis.speak(utt);
+const STORAGE_KEY = "thpt-essential-review-progress-v2";
+
+interface SavedAttempt {
+  answers: Record<number, number>;
+  submitted: boolean;
+  score?: number;
+  updatedAt: number;
+}
+
+type SavedAttempts = Record<string, SavedAttempt>;
+
+const AudioButton = ({ text, label }: { text: string; label: string }) => {
+  const [speaking, setSpeaking] = useState(false);
+  const supported = typeof window !== "undefined" && "speechSynthesis" in window;
+
+  const play = () => {
+    if (!supported) return;
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = "en-GB";
+    utterance.rate = 1;
+    utterance.onstart = () => setSpeaking(true);
+    utterance.onend = () => setSpeaking(false);
+    utterance.onerror = () => setSpeaking(false);
+    window.speechSynthesis.speak(utterance);
+  };
+
+  return (
+    <Button
+      type="button"
+      variant="ghost"
+      size="icon"
+      onClick={play}
+      disabled={!supported}
+      className={cn("h-8 w-8 shrink-0", speaking && "bg-primary/10 text-primary")}
+      aria-label={supported ? label : `${label} - audio unavailable`}
+      title={supported ? label : "Audio unavailable"}
+    >
+      <Volume2 className="h-4 w-4" />
+    </Button>
+  );
 };
+
+const HighlightedExample = memo(({ headword, example }: { headword: string; example: string }) => {
+  const parts = useMemo(() => {
+    const tokens = new Set<string>();
+    headword.split("/").map((item) => item.trim()).filter(Boolean).forEach((phrase) => {
+      tokens.add(phrase);
+      phrase.split(/\s+/).filter((token) => token.length > 2 && !/^(the|and|for|with|sth|ving)$/i.test(token)).forEach((token) => tokens.add(token));
+    });
+    const escaped = Array.from(tokens).sort((a, b) => b.length - a.length).map((item) => item.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+    if (!escaped.length) return [{ text: example, highlighted: false }];
+    const pattern = `(\\b(?:${escaped.join("|")})(?:s|es|ed|ing|ies|'s)?\\b)`;
+    const split = new RegExp(pattern, "gi");
+    const exact = new RegExp(`^${pattern}$`, "i");
+    return example.split(split).filter(Boolean).map((text) => ({ text, highlighted: exact.test(text) }));
+  }, [headword, example]);
+
+  return <>{parts.map((part, index) => part.highlighted ? <strong key={index}>{part.text}</strong> : <span key={index}>{part.text}</span>)}</>;
+});
+HighlightedExample.displayName = "HighlightedExample";
 
 const allGrammarTopics = [...thptGrammarTopics, ...thptGrammarTopicsExpansion];
 
@@ -67,7 +123,9 @@ const mergedVocabThemes = [
   })
   .map((theme) => {
     const extra = thptVocabPracticeByTheme[theme.id];
-    return extra ? { ...theme, words: [...theme.words, ...extra.extraWords] } : theme;
+    const words = extra ? [...theme.words, ...extra.extraWords] : theme.words;
+    const uniqueWords = Array.from(new Map(words.map((word) => [word.en.trim().toLowerCase(), word])).values());
+    return { ...theme, words: uniqueWords };
   });
 const allVocabThemes = mergedVocabThemes;
 
@@ -175,8 +233,10 @@ interface ExerciseRunnerProps {
 
 const ExerciseRunner = ({ setId, exercises }: ExerciseRunnerProps) => {
   const { t } = useLanguage();
-  const [answers, setAnswers] = useState<Record<number, number>>({});
-  const [submitted, setSubmitted] = useState(false);
+  const saved = safeStorage.get<SavedAttempts>(STORAGE_KEY, {})?.[setId];
+  const [answers, setAnswers] = useState<Record<number, number>>(saved?.answers ?? {});
+  const [submitted, setSubmitted] = useState(saved?.submitted ?? false);
+  const [submitMessage, setSubmitMessage] = useState("");
 
   const correctCount = exercises.reduce(
     (acc, ex, i) => acc + (answers[i] === ex.answer ? 1 : 0),
@@ -186,6 +246,32 @@ const ExerciseRunner = ({ setId, exercises }: ExerciseRunnerProps) => {
   const reset = () => {
     setAnswers({});
     setSubmitted(false);
+    setSubmitMessage("");
+  };
+
+  useEffect(() => {
+    const attempts = safeStorage.get<SavedAttempts>(STORAGE_KEY, {}) ?? {};
+    safeStorage.set(STORAGE_KEY, {
+      ...attempts,
+      [setId]: { answers, submitted, score: submitted ? correctCount : undefined, updatedAt: Date.now() },
+    });
+  }, [answers, correctCount, setId, submitted]);
+
+  const submit = () => {
+    const remaining = exercises.length - Object.keys(answers).length;
+    if (remaining > 0) {
+      setSubmitMessage(t(`Bạn còn ${remaining} câu chưa trả lời.`, `${remaining} questions remain unanswered.`));
+      return;
+    }
+    setSubmitted(true);
+    setSubmitMessage(t(`Kết quả ${correctCount}/${exercises.length}.`, `Score: ${correctCount}/${exercises.length}.`));
+    void logStudentActivity({
+      activityType: "thpt_essential_review",
+      activityId: setId,
+      score: correctCount,
+      maxScore: exercises.length,
+      metadata: { section: setId.startsWith("vocab-quiz-") ? "vocabulary" : "exercises" },
+    });
   };
 
   return (
@@ -207,13 +293,14 @@ const ExerciseRunner = ({ setId, exercises }: ExerciseRunnerProps) => {
                 const isCorrect = oi === ex.answer;
                 const isPicked = userAns === oi;
                 return (
-                  <button
+                  <Button
                     key={oi}
                     type="button"
                     disabled={submitted}
                     onClick={() => setAnswers((prev) => ({ ...prev, [i]: oi }))}
+                    variant="outline"
                     className={cn(
-                      "text-left text-sm px-3 py-2 rounded-lg border transition",
+                      "h-auto min-h-11 w-full justify-start whitespace-normal text-left text-sm px-3 py-2 rounded-md transition",
                       !showResult && isPicked && "border-primary bg-primary/10",
                       !showResult && !isPicked && "border-border hover:border-primary/50 hover:bg-primary/5",
                       showResult && isCorrect && "border-emerald-500/60 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300",
@@ -225,7 +312,7 @@ const ExerciseRunner = ({ setId, exercises }: ExerciseRunnerProps) => {
                     {opt}
                     {showResult && isCorrect && <CheckCircle2 className="inline w-4 h-4 ml-2" />}
                     {showResult && isPicked && !isCorrect && <XCircle className="inline w-4 h-4 ml-2" />}
-                  </button>
+                  </Button>
                 );
               })}
             </div>
@@ -260,15 +347,15 @@ const ExerciseRunner = ({ setId, exercises }: ExerciseRunnerProps) => {
             </Button>
           ) : (
             <Button
-              onClick={() => setSubmitted(true)}
+              onClick={submit}
               size="sm"
-              disabled={Object.keys(answers).length === 0}
-              className="bg-gradient-to-r from-primary to-emerald-500 text-white"
+              className="bg-primary text-primary-foreground"
             >
               {t("Nộp bài", "Submit")}
             </Button>
           )}
         </div>
+        <p className="min-h-6 text-sm font-medium text-muted-foreground" aria-live="polite">{submitMessage}</p>
       </div>
     </div>
   );
@@ -277,15 +364,15 @@ const ExerciseRunner = ({ setId, exercises }: ExerciseRunnerProps) => {
 const ThptEssentialReview = () => {
   const { t, lang } = useLanguage();
   const navigate = useNavigate();
-  const [tab, setTab] = useState<"grammar" | "vocabulary" | "exercises">("grammar");
+  const [tab, setTab] = useState<"grammar" | "vocabulary" | "exercises">(() => safeStorage.get("thpt-essential-tab", "grammar") ?? "grammar");
 
   const totalExercises = allExerciseSets.reduce((s, set) => s + set.exercises.length, 0);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="purpose-course min-h-screen bg-background">
       <SEO
         title="Ôn tập Ngữ pháp & Từ vựng THPT Quốc gia | HaiEduTech"
-        description="Hệ thống chuyên đề ngữ pháp trọng tâm, chủ đề từ vựng và hơn 80 bài tập (đặc biệt mảng Collocations) chuẩn bị cho kỳ thi THPT Quốc gia môn tiếng Anh."
+        description="Ôn 18 chuyên đề ngữ pháp, 16 chủ đề từ vựng và 460 câu luyện tập tiếng Anh THPT có giải thích rõ ràng."
         path="/national-exam/essential-review"
       />
       <Navbar />
@@ -295,17 +382,17 @@ const ThptEssentialReview = () => {
         </Button>
 
         {/* Hero */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-10">
+        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="border-b border-border pb-8 text-center mb-8">
           <Badge variant="secondary" className="mb-3">
             <Sparkles className="w-4 h-4 mr-2 inline" /> {t("Ôn tập trọng tâm", "Essential Review")}
           </Badge>
-          <h1 className="text-3xl md:text-5xl font-display font-bold mb-3 bg-gradient-to-r from-primary to-emerald-500 bg-clip-text text-transparent">
+          <h1 className="text-3xl md:text-5xl font-bold mb-3 text-foreground">
             Essential Grammar & Vocabulary
           </h1>
           <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
             {t(
-              `${allGrammarTopics.length} chuyên đề ngữ pháp, ${allVocabThemes.length} chủ đề từ vựng và ${totalExercises}+ bài tập - bám sát cấu trúc đề thi THPT Quốc gia, đặc biệt mạnh mảng Collocations.`,
-              `${allGrammarTopics.length} grammar topics, ${allVocabThemes.length} vocabulary themes and ${totalExercises}+ practice items - aligned with the THPT National Exam, with a strong Collocations focus.`
+              `${allGrammarTopics.length} chuyên đề ngữ pháp, ${allVocabThemes.length} chủ đề từ vựng, ${totalExercises} câu luyện tổng hợp và ${totalVocabQuiz} câu luyện theo chủ đề.`,
+              `${allGrammarTopics.length} grammar topics, ${allVocabThemes.length} vocabulary themes, ${totalExercises} general practice questions, and ${totalVocabQuiz} theme quizzes.`
             )}
           </p>
         </motion.div>
@@ -327,17 +414,19 @@ const ThptEssentialReview = () => {
             <div className="text-xs text-muted-foreground">{t("Từ cao tần", "Key words")}</div>
           </Card>
           <Card className="p-4 text-center">
-            <div className="text-2xl font-bold text-primary">{totalExercises}+</div>
-            <div className="text-xs text-muted-foreground">{t("Bài tập", "Practice items")}</div>
+            <div className="text-2xl font-bold text-primary">{totalExercises}</div>
+            <div className="text-xs text-muted-foreground">{t("Câu tổng hợp", "General questions")}</div>
           </Card>
         </div>
 
-        <Tabs value={tab} onValueChange={(v) => setTab(v as typeof tab)}>
-          <TabsList className="grid grid-cols-3 max-w-xl mx-auto mb-6">
-            <TabsTrigger value="grammar">📘 {t("Ngữ pháp", "Grammar")}</TabsTrigger>
-            <TabsTrigger value="vocabulary">📚 {t("Từ vựng", "Vocabulary")}</TabsTrigger>
-            <TabsTrigger value="exercises">🏋️ {t("Bài tập", "Exercises")}</TabsTrigger>
+        <Tabs value={tab} onValueChange={(v) => { const next = v as typeof tab; setTab(next); safeStorage.set("thpt-essential-tab", next); window.scrollTo({ top: 260, behavior: "smooth" }); }}>
+          <div className="sticky top-[60px] z-20 -mx-4 mb-6 border-y border-border bg-background/95 px-4 py-3 backdrop-blur md:top-[92px]">
+          <TabsList className="grid h-auto grid-cols-3 max-w-2xl mx-auto">
+            <TabsTrigger value="grammar" className="min-w-0 whitespace-normal px-2 py-2 text-sm md:text-base">📘 <span>{t("Ngữ pháp", "Grammar")}</span><Badge variant="secondary" className="hidden sm:inline-flex">{allGrammarTopics.length}</Badge></TabsTrigger>
+            <TabsTrigger value="vocabulary" className="min-w-0 whitespace-normal px-2 py-2 text-sm md:text-base">📚 <span>{t("Từ vựng", "Vocabulary")}</span><Badge variant="secondary" className="hidden sm:inline-flex">{allVocabThemes.length}</Badge></TabsTrigger>
+            <TabsTrigger value="exercises" className="min-w-0 whitespace-normal px-2 py-2 text-sm md:text-base">🏋️ <span>{t("Bài tập", "Exercises")}</span><Badge variant="secondary" className="hidden sm:inline-flex">{totalExercises}</Badge></TabsTrigger>
           </TabsList>
+          </div>
 
           {/* Grammar */}
           <TabsContent value="grammar" className="space-y-4">
