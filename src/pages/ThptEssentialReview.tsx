@@ -364,7 +364,10 @@ const ExerciseRunner = ({ setId, exercises }: ExerciseRunnerProps) => {
 const ThptEssentialReview = () => {
   const { t, lang } = useLanguage();
   const navigate = useNavigate();
-  const [tab, setTab] = useState<"grammar" | "vocabulary" | "exercises">(() => safeStorage.get("thpt-essential-tab", "grammar") ?? "grammar");
+  const [tab, setTab] = useState<"grammar" | "vocabulary" | "exercises">(() => {
+    const savedTab = safeStorage.get<string>("thpt-essential-tab", "grammar");
+    return savedTab === "vocabulary" || savedTab === "exercises" ? savedTab : "grammar";
+  });
 
   const totalExercises = allExerciseSets.reduce((s, set) => s + set.exercises.length, 0);
 
@@ -441,49 +444,56 @@ const ThptEssentialReview = () => {
                     <div className="flex items-center gap-3 text-left">
                       <span className="text-3xl">{g.icon}</span>
                       <div>
-                        <div className="font-bold text-base md:text-lg">
+                        <h3 className="font-bold text-base md:text-lg">
                           {String(i + 1).padStart(2, "0")}. {lang === "vi" ? g.titleVi : g.titleEn}
-                        </div>
+                        </h3>
                         <div className="text-xs md:text-sm text-muted-foreground font-normal mt-0.5">
                           {lang === "vi" ? g.summaryVi : g.summaryEn}
                         </div>
                       </div>
                     </div>
                   </AccordionTrigger>
-                  <AccordionContent className="pb-5 space-y-4">
+                  <AccordionContent className="pb-5">
+                    <div className="grid gap-4 lg:grid-cols-2 lg:items-start">
+                    {thptGrammarStudyGuides[g.id] && (
+                      <section className="rounded-md border border-primary/25 bg-primary/5 p-4 lg:col-span-2">
+                        <h4 className="mb-2 font-bold text-primary">{t("Mục tiêu bài học", "Learning objective")}</h4>
+                        <p className="leading-relaxed">{lang === "vi" ? thptGrammarStudyGuides[g.id].goalVi : thptGrammarStudyGuides[g.id].goalEn}</p>
+                      </section>
+                    )}
                     {/* In-depth explanation */}
                     {(g.detailVi || g.detailEn) && (
-                      <div className="rounded-lg border border-sky-500/20 bg-sky-500/5 p-4">
-                        <h4 className="font-bold text-sm uppercase tracking-wide text-sky-600 dark:text-sky-400 mb-2">
+                      <section className="rounded-md border border-border bg-card p-4">
+                        <h4 className="font-bold text-sm uppercase text-primary mb-2">
                           {t("Giải thích chi tiết", "In-depth Explanation")}
                         </h4>
                         <p className="text-sm md:text-[15px] leading-relaxed text-foreground/90">
                           {lang === "vi" ? g.detailVi : g.detailEn}
                         </p>
-                      </div>
+                      </section>
                     )}
 
                     {/* Formulas */}
                     {g.formulas && g.formulas.length > 0 && (
-                      <div className="rounded-lg border border-violet-500/30 bg-violet-500/5 p-4">
-                        <h4 className="font-bold text-sm uppercase tracking-wide text-violet-600 dark:text-violet-400 mb-3">
+                      <section className="rounded-md border border-border bg-secondary/40 p-4">
+                        <h4 className="font-bold text-sm uppercase text-primary mb-3">
                           📐 {t("Công thức cần nhớ", "Key Formulas")}
                         </h4>
                         <ul className="space-y-2">
                           {g.formulas.map((f, j) => (
                             <li
                               key={j}
-                              className="font-mono text-[13px] md:text-sm bg-background/70 border border-violet-500/20 rounded-md px-3 py-2 leading-relaxed break-words"
+                              className="font-mono text-[13px] md:text-sm bg-background/70 border border-border rounded-md px-3 py-2 leading-relaxed break-words"
                             >
                               {f}
                             </li>
                           ))}
                         </ul>
-                      </div>
+                      </section>
                     )}
 
                     {/* Rules */}
-                    <div className="rounded-lg border border-primary/20 bg-primary/5 p-4">
+                    <section className="rounded-md border border-primary/20 bg-primary/5 p-4">
                       <h4 className="font-bold text-sm uppercase tracking-wide text-primary mb-3 flex items-center gap-2">
                         <BookOpen className="w-4 h-4" /> {t("Quy tắc cốt lõi", "Core Rules")}
                       </h4>
@@ -514,37 +524,49 @@ const ThptEssentialReview = () => {
                           );
                         })}
                       </div>
-                    </div>
+                    </section>
+
+                    {thptGrammarStudyGuides[g.id] && (
+                      <section className="rounded-md border border-border bg-secondary/40 p-4">
+                        <h4 className="mb-3 font-bold text-primary">{t("Cách nhận diện trong đề", "How to identify it in the exam")}</h4>
+                        <ol className="space-y-2 text-sm leading-relaxed">
+                          {(lang === "vi" ? thptGrammarStudyGuides[g.id].recognitionVi : thptGrammarStudyGuides[g.id].recognitionEn).map((step, index) => (
+                            <li key={step} className="flex gap-3"><span className="font-bold text-primary">{index + 1}.</span><span>{step}</span></li>
+                          ))}
+                        </ol>
+                      </section>
+                    )}
 
                     {/* Examples */}
-                    <div className="rounded-lg border border-emerald-500/20 bg-emerald-500/5 p-4">
-                      <h4 className="font-bold text-sm uppercase tracking-wide text-emerald-600 mb-2">
-                        {t("Ví dụ minh họa", "Examples")}
+                    <section className="rounded-md border border-primary/20 bg-primary/5 p-4">
+                      <h4 className="font-bold text-sm uppercase text-primary mb-2">
+                        {t("Ví dụ có phân tích", "Analysed examples")}
                       </h4>
                       <div className="space-y-2">
                         {g.examples.map((ex, k) => (
                           <div key={k} className="flex items-start gap-2 text-sm">
-                            <button
-                              type="button"
-                              onClick={() => speak(ex.en)}
-                              className="shrink-0 p-1 rounded hover:bg-emerald-500/20 transition"
-                              aria-label="Listen"
-                            >
-                              <Volume2 className="w-4 h-4 text-emerald-600" />
-                            </button>
+                            <AudioButton text={ex.en} label={t(`Nghe câu: ${ex.en}`, `Listen to: ${ex.en}`)} />
                             <div>
                               <div className="font-medium">{ex.en}</div>
                               <div className="text-xs text-muted-foreground italic">→ {ex.vi}</div>
+                              <div className="mt-1 text-xs text-muted-foreground">{t("Câu này áp dụng trực tiếp công thức và quy tắc vừa học ở cột bên trái.", "This sentence directly applies the formula and rule shown in the study column.")}</div>
                             </div>
                           </div>
                         ))}
                       </div>
-                    </div>
+                    </section>
+
+                    {thptGrammarStudyGuides[g.id] && (
+                      <section className="rounded-md border border-border bg-card p-4">
+                        <h4 className="mb-2 font-bold text-primary">{t("So sánh dễ nhầm", "Important distinction")}</h4>
+                        <p className="text-sm leading-relaxed">{lang === "vi" ? thptGrammarStudyGuides[g.id].contrastVi : thptGrammarStudyGuides[g.id].contrastEn}</p>
+                      </section>
+                    )}
 
                     {/* Common Mistakes ✗ vs ✓ */}
                     {g.mistakes && g.mistakes.length > 0 && (
-                      <div className="rounded-lg border border-red-500/20 bg-red-500/5 p-4">
-                        <h4 className="font-bold text-sm uppercase tracking-wide text-red-600 dark:text-red-400 mb-3 flex items-center gap-2">
+                      <section className="rounded-md border border-destructive/25 bg-destructive/5 p-4">
+                        <h4 className="font-bold text-sm uppercase text-destructive mb-3 flex items-center gap-2">
                           <XCircle className="w-4 h-4" /> {t("Lỗi sai thường gặp", "Common Mistakes")}
                           <span className="text-xs font-normal text-muted-foreground normal-case">
                             ({t("✗ Sai vs ✓ Đúng", "✗ Wrong vs ✓ Right")})
@@ -569,28 +591,35 @@ const ThptEssentialReview = () => {
                             </div>
                           ))}
                         </div>
-                      </div>
+                      </section>
                     )}
 
                     {/* Trap */}
-                    <div className="rounded-lg border border-amber-500/30 bg-amber-500/10 p-4">
-                      <h4 className="font-bold text-sm uppercase tracking-wide text-amber-600 mb-2 flex items-center gap-2">
+                    <section className="rounded-md border border-accent/35 bg-accent/10 p-4">
+                      <h4 className="font-bold text-sm uppercase text-foreground mb-2 flex items-center gap-2">
                         <AlertTriangle className="w-4 h-4" /> {t("Bẫy thường gặp", "Common Trap")}
                       </h4>
                       <p className="text-sm leading-relaxed">{lang === "vi" ? g.trapVi : g.trapEn}</p>
-                    </div>
+                    </section>
 
                     {/* Mr Hai's exam tip */}
                     {(g.tipVi || g.tipEn) && (
-                      <div className="rounded-lg border border-rose-500/30 bg-gradient-to-br from-rose-500/10 to-amber-500/5 p-4">
-                        <h4 className="font-bold text-sm uppercase tracking-wide text-rose-600 dark:text-rose-400 mb-2 flex items-center gap-2">
+                      <section className="rounded-md border border-accent/35 bg-accent/10 p-4">
+                        <h4 className="font-bold text-sm uppercase text-foreground mb-2 flex items-center gap-2">
                           <Sparkles className="w-4 h-4" /> {t("Mẹo phòng thi của thầy Hải", "Mr. Hai's Exam Tip")}
                         </h4>
                         <p className="text-sm leading-relaxed text-foreground/90">
                           {lang === "vi" ? g.tipVi : g.tipEn}
                         </p>
-                      </div>
+                      </section>
                     )}
+                    {thptGrammarStudyGuides[g.id] && (
+                      <section className="rounded-md border border-primary/30 bg-primary/10 p-4 lg:col-span-2">
+                        <h4 className="mb-2 font-bold text-primary">{t("Tự kiểm tra nhanh", "Quick self-check")}</h4>
+                        <p className="leading-relaxed">{lang === "vi" ? thptGrammarStudyGuides[g.id].checkVi : thptGrammarStudyGuides[g.id].checkEn}</p>
+                      </section>
+                    )}
+                    </div>
                   </AccordionContent>
                 </AccordionItem>
               ))}
@@ -632,9 +661,9 @@ const ThptEssentialReview = () => {
                     <div className="flex items-center gap-3 text-left">
                       <span className="text-3xl">{v.icon}</span>
                       <div>
-                        <div className="font-bold text-base md:text-lg">
+                        <h3 className="font-bold text-base md:text-lg">
                           {lang === "vi" ? v.titleVi : v.titleEn}
-                        </div>
+                        </h3>
                         <div className="text-xs text-muted-foreground font-normal mt-0.5">
                           {v.words.length} {t("từ vựng", "words")}
                         </div>
@@ -656,14 +685,7 @@ const ThptEssentialReview = () => {
                           </span>
                           <div className="flex items-start justify-between gap-2 mb-1">
                             <div className="font-bold text-base">{w.en}</div>
-                            <button
-                              type="button"
-                              onClick={() => speak(w.en)}
-                              className="shrink-0 p-1 rounded hover:bg-primary/15 transition"
-                              aria-label="Listen"
-                            >
-                              <Volume2 className="w-4 h-4 text-primary" />
-                            </button>
+                            <AudioButton text={w.en} label={t(`Nghe từ ${w.en}`, `Listen to ${w.en}`)} />
                           </div>
                           <div className="text-xs text-muted-foreground mb-1">
                             <span className="px-1.5 py-0.5 rounded bg-primary/10 text-primary mr-1">{w.pos}</span>
@@ -671,42 +693,7 @@ const ThptEssentialReview = () => {
                           </div>
                           <div className="text-sm text-foreground/80">
                             <span className="not-italic font-semibold text-primary mr-1">E.g.</span>
-                            {(() => {
-                              // Bold any occurrence of the headword, its variants
-                              // (split by "/"), individual words inside multi-word
-                              // phrases, and common inflections (s/es/ed/ing/'s/ies).
-                              const raw = w.en
-                                .split("/")
-                                .map((s) => s.trim())
-                                .filter(Boolean);
-                              const tokens = new Set<string>();
-                              raw.forEach((phrase) => {
-                                tokens.add(phrase);
-                                phrase
-                                  .split(/\s+/)
-                                  .filter((tok) => tok.length > 2 && !/^(a|an|the|to|of|on|in|at|for|with|and|or|be|sb|sth|N|V|Ving)$/i.test(tok))
-                                  .forEach((tok) => tokens.add(tok));
-                              });
-                              const variants = Array.from(tokens).sort((a, b) => b.length - a.length);
-                              const escaped = variants.map((s) =>
-                                s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
-                              );
-                              // Allow common inflectional suffixes after each variant.
-                              const suffix = "(?:s|es|ed|ing|ies|'s)?";
-                              const pattern = `(\\b(?:${escaped.join("|")})${suffix}\\b)`;
-                              const splitRe = new RegExp(pattern, "gi");
-                              const matchRe = new RegExp(`^${pattern}$`, "i");
-                              const parts = w.example.split(splitRe);
-                              return parts.map((p, i) =>
-                                p && matchRe.test(p) ? (
-                                  <strong key={i} className="font-bold text-foreground">
-                                    {p}
-                                  </strong>
-                                ) : (
-                                  <span key={i}>{p}</span>
-                                )
-                              );
-                            })()}
+                            <HighlightedExample headword={w.en} example={w.example} />
                           </div>
                         </div>
                       ))}
