@@ -27,6 +27,8 @@ import { getTopicsByPart, getQuestionsByPartAndTopic } from "@/data/speakingPrac
 import { getMergedVocabulary } from "@/data/speakingVocabularyBank";
 import { getMergedStructures } from "@/data/speakingStructuresIdeas";
 import { getSupplementVocabulary, getSupplementStructures } from "@/data/speakingDrillsSupplement";
+import PhraseSpeakingPractice from "@/components/speaking/PhraseSpeakingPractice";
+import { getPhraseExample } from "@/lib/ieltsSpeakingPhrasePractice";
 import {
   buildSentenceCorpus, buildStructureRound, buildVocabRound, usedStructure,
   STRUCTURE_FN_LABEL, classifyStructure, type StructureDrill, type StructureFn, type VocabDrill,
@@ -71,6 +73,7 @@ const StructureVocabPractice = () => {
   const [finished, setFinished] = useState(false);
   /** Learners study the words / structures first, then take the quiz. */
   const [phase, setPhase] = useState<"study" | "quiz">("study");
+  const [activeSpeakingPhrase, setActiveSpeakingPhrase] = useState<string | null>(null);
 
   const topRef = useRef<HTMLDivElement>(null);
 
@@ -87,19 +90,25 @@ const StructureVocabPractice = () => {
 
   const vocabItems = useMemo(() => {
     const seen = new Set<string>();
-    const out: { phrase: string; vietnamese: string }[] = [];
+    const out: { phrase: string; vietnamese: string; example: string }[] = [];
     for (const q of questions) {
       for (const v of getMergedVocabulary(part, q.topic, q.useful_language.vocabulary_bank || [])) {
         const key = v.phrase.toLowerCase();
-        if (!seen.has(key) && v.vietnamese) { seen.add(key); out.push(v); }
+        if (!seen.has(key) && v.vietnamese) {
+          seen.add(key);
+          out.push({ ...v, example: getPhraseExample(v.phrase, activeTopic, part) });
+        }
       }
     }
     for (const v of getSupplementVocabulary(part)) {
       const key = v.phrase.toLowerCase();
-      if (!seen.has(key)) { seen.add(key); out.push(v); }
+      if (!seen.has(key)) {
+        seen.add(key);
+        out.push({ ...v, example: getPhraseExample(v.phrase, activeTopic, part) });
+      }
     }
     return out;
-  }, [questions, part]);
+  }, [activeTopic, questions, part]);
 
   const structures = useMemo(() => {
     const seen = new Set<string>();
@@ -218,6 +227,7 @@ const StructureVocabPractice = () => {
   useEffect(() => {
     restart(false);
     setPhase("study");
+    setActiveSpeakingPhrase(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [part, track, activeTopic]);
 
@@ -375,12 +385,34 @@ const StructureVocabPractice = () => {
                 const text = typeof entry === "string" ? entry : entry.phrase;
                 const fn = typeof entry === "string" ? classifyStructure(entry) : null;
                 return (
-                  <div key={`${text}-${i}`} className="rounded-xl border bg-card/70 p-3 flex items-start gap-2">
+                  <div key={`${text}-${i}`} className="rounded-xl border bg-card/70 p-3">
+                    <div className="flex items-start gap-2">
                     <span className="text-xs font-semibold text-muted-foreground mt-1 w-6 shrink-0">{i + 1}.</span>
                     <div className="flex-1 min-w-0">
                       <p className="text-base font-medium leading-relaxed">{text}</p>
                       {typeof entry !== "string" && (
-                        <p className="text-sm text-muted-foreground">{entry.vietnamese}</p>
+                        <>
+                          <p className="text-sm text-muted-foreground">{entry.vietnamese}</p>
+                          <div className="mt-2 rounded-md border border-primary/15 bg-primary/5 p-2.5">
+                            <div className="flex items-start gap-2">
+                              <p className="flex-1 text-sm leading-relaxed text-foreground"><span className="font-semibold text-primary">Example:</span> {entry.example}</p>
+                              <Button variant="ghost" size="icon-sm" onClick={() => speak(entry.example)} aria-label={t("Nghe câu ví dụ", "Listen to the example sentence")}>
+                                <Volume2 className="w-4 h-4" />
+                              </Button>
+                            </div>
+                          </div>
+                          <Button
+                            variant={activeSpeakingPhrase === entry.phrase ? "secondary" : "outline"}
+                            size="sm"
+                            className="mt-2"
+                            onClick={() => {
+                              stopEnglishTts();
+                              setActiveSpeakingPhrase((currentPhrase) => currentPhrase === entry.phrase ? null : entry.phrase);
+                            }}
+                          >
+                            <Mic className="h-4 w-4" /> {t("Nói câu của bạn", "Speak your sentence")}
+                          </Button>
+                        </>
                       )}
                       {fn && (
                         <Badge variant="outline" className="mt-1 text-xs">
@@ -396,6 +428,17 @@ const StructureVocabPractice = () => {
                         <Turtle className="w-4 h-4" />
                       </Button>
                     </div>
+                    </div>
+                    {typeof entry !== "string" && activeSpeakingPhrase === entry.phrase && (
+                      <PhraseSpeakingPractice
+                        part={part}
+                        topic={activeTopic}
+                        phrase={entry.phrase}
+                        meaning={entry.vietnamese}
+                        example={entry.example}
+                        onClose={() => setActiveSpeakingPhrase(null)}
+                      />
+                    )}
                   </div>
                 );
               })}
