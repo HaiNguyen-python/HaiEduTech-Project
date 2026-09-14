@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { Children, cloneElement, isValidElement, ReactNode } from "react";
 import { Lightbulb, AlertTriangle, Info, Quote, CheckCircle2 } from "lucide-react";
 
 // Adds 'success' (green) variant for optimization tips per 2026 design spec
@@ -42,15 +42,36 @@ const config: Record<Variant, { Icon: typeof Lightbulb; cls: string; label: stri
   },
 };
 
+const PREFIX_PATTERN = /^\s*(?:💡|⚠️|🚨|📝|ℹ️|🔵|✅|🟢)?\s*(?:pro\s+tip|tip|warning|note|info|optimization)\s*:\s*/i;
+
+function removeRepeatedPrefix(node: ReactNode, state = { cleaned: false }): ReactNode {
+  return Children.map(node, (child) => {
+    if (typeof child === "string" && !state.cleaned) {
+      const cleaned = child.replace(PREFIX_PATTERN, "");
+      if (cleaned !== child) state.cleaned = true;
+      return cleaned;
+    }
+    if (isValidElement<{ children?: ReactNode }>(child) && child.props.children) {
+      return cloneElement(child, undefined, removeRepeatedPrefix(child.props.children, state));
+    }
+    return child;
+  });
+}
+
 const Callout = ({ variant, children }: CalloutProps) => {
   const { Icon, cls, label } = config[variant];
   return (
-    <div className={`not-prose theory-callout my-4 rounded-r-lg border-l-4 ${cls} px-4 py-3 flex gap-3`}>
-      <Icon className="w-5 h-5 shrink-0 mt-0.5" />
-      <div className="flex-1 min-w-0">
-        <div className="text-xs font-bold uppercase tracking-wide opacity-80 mb-1">{label}</div>
-        <div className="text-sm leading-relaxed [&>p:first-child]:mt-0 [&>p:last-child]:mb-0">
-          {children}
+    <div
+      data-callout-variant={variant}
+      className={`not-prose theory-callout my-2 rounded-md border-l-[3px] ${cls} px-3 py-2.5 flex items-start gap-2.5`}
+    >
+      <Icon className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+      <div className="min-w-0 flex-1 sm:flex sm:items-start sm:gap-2.5">
+        <span className="mb-1 inline-flex shrink-0 text-[11px] font-bold uppercase text-current/75 sm:mb-0 sm:w-[76px]">
+          {label}
+        </span>
+        <div className="text-sm leading-6 text-foreground/90 [&>p:first-child]:mt-0 [&>p:last-child]:mb-0">
+          {removeRepeatedPrefix(children)}
         </div>
       </div>
     </div>
