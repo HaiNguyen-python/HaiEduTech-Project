@@ -1,0 +1,44 @@
+/**
+ * Repairs high-confidence Markdown structure issues in Programming theory.
+ * Code fences and inline code are preserved byte-for-byte.
+ */
+export const normalizeTheoryMarkdownStructure = (markdown: string): string => {
+  if (!markdown) return markdown;
+
+  let inFence = false;
+  const output: string[] = [];
+  const lines = markdown.split("\n");
+
+  for (let index = 0; index < lines.length; index += 1) {
+    const line = lines[index];
+    if (/^\s*```/.test(line)) {
+      inFence = !inFence;
+      output.push(line);
+      continue;
+    }
+    if (inFence) {
+      output.push(line);
+      continue;
+    }
+
+    const group = /^-\s+\*\*([^*\n]+)\*\*\s*:?\s*$/.exec(line);
+    const nextLine = lines[index + 1] ?? "";
+    // A single leading space does not form a nested Markdown list. This is the
+    // malformed shape emitted by older Deep Dives; 2-4 spaces are valid nesting.
+    if (group && /^ - \S/.test(nextLine)) {
+      if (output.length > 0 && output[output.length - 1]?.trim()) output.push("");
+      output.push(`### ${group[1].trim()}`);
+      output.push("");
+
+      while (index + 1 < lines.length && /^ - \S/.test(lines[index + 1] ?? "")) {
+        index += 1;
+        output.push((lines[index] ?? "").replace(/^ (?=-\s)/, ""));
+      }
+      continue;
+    }
+
+    output.push(line);
+  }
+
+  return output.join("\n").replace(/\n{3,}/g, "\n\n");
+};

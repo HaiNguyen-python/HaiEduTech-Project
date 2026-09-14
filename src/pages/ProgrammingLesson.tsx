@@ -109,6 +109,7 @@ const detectCodeLanguage = (code = "", declared?: string): string => {
 };
 import CodeTypingRace from "@/components/programming/CodeTypingRace";
 import TheorySections from "@/components/TheorySections";
+import { normalizeTheoryMarkdownStructure } from "@/lib/normalizeTheoryMarkdown";
 import GitBranchingSimulator from "@/components/se/GitBranchingSimulator";
 import { trackLessonCompletion, LEAD_ENGINEER_BADGE } from "@/lib/badgeAwards";
 import { useProgrammingXP, BADGE_DEFS } from "@/hooks/useProgrammingXP";
@@ -899,13 +900,15 @@ const ProgrammingLessonPage = () => {
                     )}
                     <TheorySections
                       markdown={injectLessonImage(
-                        normalizeTheoryDashes(enhancedMd
-                          ? enhancedMd
-                          : (() => {
-                              const base = lesson.theoryEn || lesson.theory || "";
-                              const ext = getTheoryExtension(lesson.id, "en");
-                              return ext ? `${base}\n\n${ext}` : base;
-                            })())
+                        normalizeTheoryMarkdownStructure(
+                          normalizeTheoryDashes(enhancedMd
+                            ? enhancedMd
+                            : (() => {
+                                const base = lesson.theoryEn || lesson.theory || "";
+                                const ext = getTheoryExtension(lesson.id, "en");
+                                return ext ? `${base}\n\n${ext}` : base;
+                              })()),
+                        )
                           .replace(/\\\$/g, "$")
                           // Strip a leading single "# Lesson Title" since the page already shows the title
                           .replace(/^\s*#\s+[^\n]+\n+/, ""),

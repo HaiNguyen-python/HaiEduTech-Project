@@ -23,16 +23,17 @@ OUTPUT RULES (STRICT):
 - Use this exact section structure with H2 (##) headings:
 
 ## 1. Executive Summary
-2-3 punchy sentences explaining what the concept is and why it matters in 2026.
+2-3 punchy prose sentences explaining what the concept is and why it matters in 2026. Do not use bullets here.
 
 ## 2. The "Why" & "When"
-Real-world use cases. When to choose this over alternatives. Use a comparison sentence.
+Use short prose paragraphs for real-world use cases and when to choose this over alternatives. Use a comparison sentence. Do not turn the whole section into a list.
 
 ## 3. Key Concepts & Terminology
-Define terms in **bold**. Use a bullet list.
+Define terms in **bold**. Use bullets only for short, independent definitions. If a definition needs more than two sentences, use a short paragraph under a ### term heading.
 
 ## 4. Detailed Breakdown
 Use ### sub-headings for each sub-topic. Include code snippets in fenced blocks with language tag.
+Use numbered lists only for procedures where order matters. Use unordered bullets only for three or more short parallel items. Never use a bullet as a category heading with indented bullets beneath it; use a ### heading instead. Use prose paragraphs for explanation and a table for multi-criteria comparisons.
 Where a visual genuinely helps comprehension, embed AT MOST ONE simple Mermaid diagram. Diagram rules (STRICT):
 - Prefer \`flowchart LR\` (left-right) or \`flowchart TD\` (top-down). Avoid complex graphs.
 - Maximum 6 nodes. Maximum 7 edges. No nested subgraphs.
@@ -63,19 +64,16 @@ flowchart LR
 A markdown table comparing this technology to 1-2 alternatives. Always include a table.
 
 ## 6. Best Practices & Anti-Patterns
-Two short bullet lists labeled **Best practices** and **Anti-patterns**.
+Use two ### sub-headings named "Best practices" and "Anti-patterns", each followed by a short bullet list. Keep each bullet concise and focused on one actionable idea.
 
 ## 7. Pro Tips & Pitfalls
 Use markdown blockquotes for highlights:
-- "> 💡 Tip: ..." for optimization tips
-- "> ⚠️ Warning: ..." for security/perf risks
-- "> 📝 Note: ..." for important context
+> 💡 Tip: ... for optimization tips
+> ⚠️ Warning: ... for security/perf risks
+> 📝 Note: ... for important context
+Write each callout as a standalone blockquote, never as a bullet containing a blockquote.
 
-## 8. Deep Dive (Optional)
-Wrap advanced material in a fenced \`:::deepdive title="..."\` block:
-:::deepdive title="Under the hood: how the runtime schedules tasks"
-Advanced explanation here.
-:::
+Do not add optional, bonus, appendix, or \`:::deepdive\` sections. Keep the lesson focused on the required material only.
 
 GROUND your content in current 2025-2026 industry standards (real frameworks, real services, real best practices).
 NEVER invent fake APIs.
@@ -142,6 +140,41 @@ function normalizeProseDashes(markdown: string): string {
         .join("");
     })
     .join("\n");
+}
+
+function normalizeMarkdownStructure(markdown: string): string {
+  let inFence = false;
+  const output: string[] = [];
+  const lines = markdown
+    .replace(/:::deepdive\s+title=["'][^"']+["']\s*\n[\s\S]*?:::/g, "")
+    .split("\n");
+
+  for (let index = 0; index < lines.length; index += 1) {
+    const line = lines[index];
+    if (/^\s*```/.test(line)) {
+      inFence = !inFence;
+      output.push(line);
+      continue;
+    }
+    if (inFence) {
+      output.push(line);
+      continue;
+    }
+
+    const group = /^-\s+\*\*([^*\n]+)\*\*\s*:?\s*$/.exec(line);
+    if (group && /^ - \S/.test(lines[index + 1] ?? "")) {
+      if (output.length > 0 && output[output.length - 1]?.trim()) output.push("");
+      output.push(`### ${group[1].trim()}`, "");
+      while (index + 1 < lines.length && /^ - \S/.test(lines[index + 1] ?? "")) {
+        index += 1;
+        output.push((lines[index] ?? "").replace(/^ (?=-\s)/, ""));
+      }
+      continue;
+    }
+    output.push(line);
+  }
+
+  return output.join("\n").replace(/\n{3,}/g, "\n\n").trim();
 }
 
 // Extract and remove ALL ```json {...} ``` blocks containing illustration
@@ -295,11 +328,11 @@ Deno.serve(async (req: Request) => {
         .maybeSingle();
       if (cached?.enhanced_markdown) {
         // Strip Perplexity citation markers from previously cached content (legacy data)
-        const cleanedCached = normalizeProseDashes(cached.enhanced_markdown
+        const cleanedCached = normalizeMarkdownStructure(normalizeProseDashes(cached.enhanced_markdown
           .replace(/\s*\[\d+(?:\s*[,\s]\s*\d+)*\]/g, "")
           .replace(/\n#{1,6}\s*(References|Sources|Citations|Tham khảo|Nguồn)[\s\S]*$/i, "")
           .replace(/[ \t]+([.,;:!?])/g, "$1")
-          .replace(/[ \t]{2,}/g, " "));
+          .replace(/[ \t]{2,}/g, " ")));
         return new Response(
           JSON.stringify({
             cached: true,
@@ -440,7 +473,7 @@ Now produce the full Deep-Dive Markdown using the strict structure, and append t
         .replace(/[ \t]+([.,;:!?])/g, "$1")
         .replace(/[ \t]{2,}/g, " ");
     const { markdown: rawCleaned, specs: aiSpecs } = extractIllustrationSpecs(markdown);
-    const cleanedMarkdown = normalizeProseDashes(stripCitations(rawCleaned));
+    const cleanedMarkdown = normalizeMarkdownStructure(normalizeProseDashes(stripCitations(rawCleaned)));
     const specs = aiSpecs.length > 0 ? aiSpecs : fallbackSpecs(body.lesson_title, body.module_title);
     let finalMarkdown = cleanedMarkdown;
     let illustrations: { anchor: string; url: string; caption: string }[] = [];
@@ -466,7 +499,7 @@ Now produce the full Deep-Dive Markdown using the strict structure, and append t
           const illData = await illResp.json();
           if (Array.isArray(illData?.illustrations)) {
             illustrations = illData.illustrations;
-            finalMarkdown = normalizeProseDashes(injectIllustrations(cleanedMarkdown, illustrations));
+            finalMarkdown = normalizeMarkdownStructure(normalizeProseDashes(injectIllustrations(cleanedMarkdown, illustrations)));
           }
         } else {
           console.warn("Illustration sub-call failed:", illResp.status, await illResp.text());
