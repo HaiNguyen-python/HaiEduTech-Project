@@ -128,10 +128,10 @@ export default function CodeGalaxy({ onExit, onScore }: Props) {
             </Button>
           ))}
         </div>
-        <Badge variant="outline" className="text-base"><Trophy className="mr-1 h-4 w-4" /> {score} XP</Badge>
+        <Badge variant="outline" className="border-[hsl(var(--arcade-line))] bg-[hsl(var(--arcade-panel))] text-base text-[hsl(var(--arcade-text))]"><Trophy className="mr-1 h-4 w-4 text-[hsl(var(--arcade-gold))]" /> {score} XP</Badge>
       </div>
 
-      <div className={`relative overflow-hidden rounded-2xl border border-emerald-500/30 bg-gradient-to-br from-slate-950 via-emerald-950/60 to-slate-900 p-6 transition-colors ${
+      <div className={`arcade-game-panel relative overflow-hidden p-5 transition-colors sm:p-6 ${
         flash === "ok" ? "ring-2 ring-emerald-400" : flash === "no" ? "ring-2 ring-red-400" : ""
       }`}>
         <div className="absolute inset-0 opacity-30 [background:radial-gradient(circle_at_20%_20%,hsl(var(--primary)/0.4),transparent_40%),radial-gradient(circle_at_80%_60%,hsl(var(--accent)/0.4),transparent_40%)]" />
@@ -139,28 +139,29 @@ export default function CodeGalaxy({ onExit, onScore }: Props) {
           {!done ? (
             <>
               <p className="mb-2 text-xs uppercase tracking-widest text-emerald-300">Snippet {idx + 1} / {t.items.length}</p>
-              <div className="rounded-lg border border-emerald-400/30 bg-black/60 p-4 font-mono text-lg text-emerald-200 shadow-inner">
+              <div className="arcade-terminal p-4 font-mono text-base text-[hsl(var(--arcade-green))] shadow-inner sm:text-lg">
                 <span className="text-emerald-500">$ </span>{item.snippet}
               </div>
-              <p className="mt-4 text-sm text-white/80">Which category does this snippet belong to?</p>
+              <p className="mt-4 text-sm text-[hsl(var(--arcade-text))]">Which category does this snippet belong to?</p>
               <div className="mt-3 flex flex-wrap gap-2">
                 {t.categories.map((c) => (
-                  <button
+                  <Button
                     key={c}
                     onClick={() => choose(c)}
-                    className="rounded-full border border-emerald-400/40 bg-emerald-500/10 px-4 py-2 text-sm font-medium text-emerald-100 transition hover:scale-105 hover:bg-emerald-500/30"
+                    variant="outline"
+                    className="min-h-11 border-[hsl(var(--arcade-green)/0.45)] bg-[hsl(var(--arcade-green)/0.1)] text-[hsl(var(--arcade-text))] hover:bg-[hsl(var(--arcade-green)/0.22)] hover:text-[hsl(var(--arcade-text))]"
                   >
                     {c}
-                  </button>
+                  </Button>
                 ))}
               </div>
             </>
           ) : (
-            <div className="flex flex-col items-center justify-center gap-3 py-6 text-center text-white">
+            <div className="flex flex-col items-center justify-center gap-3 py-6 text-center text-[hsl(var(--arcade-text))]">
               <Rocket className="h-10 w-10 text-emerald-300" />
               <h3 className="text-xl font-bold">Track Complete!</h3>
-              <p className="text-sm text-white/80">Final score: <span className="font-bold text-emerald-300">{score} XP</span></p>
-              <Button onClick={() => reset()} className="bg-emerald-500 text-white hover:bg-emerald-600">
+              <p className="text-sm text-[hsl(var(--arcade-muted))]">Final score: <span className="font-bold text-[hsl(var(--arcade-green))]">{score} XP</span></p>
+              <Button onClick={() => reset()} className="bg-[hsl(var(--arcade-green))] text-[hsl(var(--arcade-canvas))] hover:bg-[hsl(var(--arcade-green)/0.9)]">
                 Replay
               </Button>
             </div>
