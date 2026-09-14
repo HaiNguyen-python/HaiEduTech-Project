@@ -202,19 +202,14 @@ const LATEX_CMD_RE = new RegExp(`\\\\(?:${LATEX_CMDS})\\b`);
 function normalizeMath(input: string): string {
   if (!input) return input;
 
-  // Split by fenced code so we leave ``` blocks untouched.
-  const parts = input.split(/(```[\s\S]*?```)/g);
+  // Split by fenced and inline code so operators such as `a || b` are never
+  // mistaken for math notation.
+  const parts = input.split(/(```[\s\S]*?```|`[^`\n]+`)/g);
   return parts
     .map((part) => {
-      if (part.startsWith("```")) return part;
+      if (part.startsWith("`")) return part;
 
       let out = part;
-
-      // Four dollars normally mean one display formula closes and the next one
-      // opens. Preserve that boundary instead of collapsing both delimiters.
-      out = out.replace(/\${4}/g, "$$\n\n$$");
-      // Repair malformed triple-dollar wrappers such as `$$$expr$$$`.
-      out = out.replace(/\${3}/g, "$$$$");
 
       // \[ ... \]  → $$ ... $$
       out = out.replace(/\\\[([\s\S]+?)\\\]/g, (_, body) => `$$${body.trim()}$$`);
@@ -289,6 +284,8 @@ function normalizeMath(input: string): string {
 function wrapBareLatexInLine(line: string): string {
   // Quick-out: nothing that looks like LaTeX.
   if (!/\\[A-Za-z]+|[_^]\{/.test(line)) return line;
+  // Never reinterpret a GFM table row as a formula.
+  if (/^\s*\|.*\|\s*$/.test(line)) return line;
 
   // Tokenize: keep $$...$$, $...$, and `...` as opaque.
   const TOKEN_RE = /(\$\$[^$]+\$\$|\$[^$\n]+\$|`[^`\n]+`)/g;
@@ -355,23 +352,16 @@ function wrapLatexRuns(text: string): string {
     // Skip URLs / paths.
     if (/https?:\/\//.test(run)) return run;
     // Trim trailing punctuation we don't want inside the math.
-    const trailMatch = run.match(/^([\s\S]*?)([.,;:!?)\]]+)$/);
+    const trailMatch = run.match(/^([\s\S]*?)([.,;:!?]+)$/);
     let inner = run;
     let trail = "";
     if (trailMatch) {
       inner = trailMatch[1];
       trail = trailMatch[2];
     }
-    // Strip leading punctuation too (rare).
-    const leadMatch = inner.match(/^([([]+)([\s\S]+)$/);
-    let lead = "";
-    if (leadMatch) {
-      lead = leadMatch[1];
-      inner = leadMatch[2];
-    }
     const trimmed = inner.trim();
     if (!trimmed) return run;
-    return `${lead}$${trimmed}$${trail}`;
+    return `$${trimmed}$${trail}`;
   });
 }
 
