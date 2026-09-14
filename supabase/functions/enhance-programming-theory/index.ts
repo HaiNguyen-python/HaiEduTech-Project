@@ -111,6 +111,8 @@ interface Body {
   lesson_title: string;
   module_title: string;
   base_theory: string;
+  /** base64 of base_theory; used for security lessons whose raw text trips the edge firewall */
+  base_theory_b64?: string;
   code_language?: string;
   force_refresh?: boolean;
 }
