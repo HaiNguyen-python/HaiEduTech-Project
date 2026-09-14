@@ -71,6 +71,26 @@ const PILLAR_MASCOTS: Record<string, string> = {
   "professional-projects": mascotProjects,
 };
 
+const normalizeTheoryDashes = (markdown: string): string => {
+  let inFence = false;
+
+  return markdown
+    .split("\n")
+    .map((line) => {
+      if (/^\s*```/.test(line)) {
+        inFence = !inFence;
+        return line;
+      }
+      if (inFence) return line;
+
+      return line
+        .split(/(`[^`]*`)/g)
+        .map((segment, index) => (index % 2 === 0 ? segment.replace(/[—–]/g, "-") : segment))
+        .join("");
+    })
+    .join("\n");
+};
+
 /**
  * Pick a Prism language id for syntax highlighting. Prefer the lesson's
  * declared `codeLanguage`; otherwise sniff the snippet for obvious markers
@@ -357,7 +377,6 @@ const ProgrammingLessonPage = () => {
   // AI-enhanced theory state
   const [enhancedMd, setEnhancedMd] = useState<string | null>(null);
   const [enhanceLoading, setEnhanceLoading] = useState(false);
-  const [useEnhanced, setUseEnhanced] = useState(true);
   // True when the AI Deep-Dive could not be produced - the original English
   // theory is shown instead so the lesson is never blank.
   const [deepDiveUnavailable, setDeepDiveUnavailable] = useState(false);
@@ -383,8 +402,6 @@ const ProgrammingLessonPage = () => {
     if (!mod || !lesson) return;
     setEnhancedMd(null);
     setDeepDiveUnavailable(false);
-    // Deep-Dive by default. The toggle still lets students read the original.
-    setUseEnhanced(true);
     supabase
       .from("programming_theory_cache")
       .select("enhanced_markdown, illustrations")
@@ -394,7 +411,7 @@ const ProgrammingLessonPage = () => {
       .then(({ data }) => {
         if (!data?.enhanced_markdown) {
           // Generate the Deep-Dive now and switch to it when ready.
-          handleEnhanceTheory(false, { autoSwitch: true, silent: true });
+          handleEnhanceTheory(false, { silent: true });
           return;
         }
         const cleaned = data.enhanced_markdown
@@ -405,22 +422,22 @@ const ProgrammingLessonPage = () => {
         // A cached entry written before the English-only rule can still hold
         // Vietnamese prose - regenerate it instead of showing mixed language.
         if (hasVietnameseText(cleaned)) {
-          handleEnhanceTheory(true, { autoSwitch: true, silent: true });
+          handleEnhanceTheory(true, { silent: true });
           return;
         }
         setEnhancedMd(cleaned);
         // If cached markdown is missing inline illustrations, refresh in background.
         const hasIllustrations = /!\[[^\]]*\]\([^)]+\)/.test(cleaned);
         if (!hasIllustrations) {
-          handleEnhanceTheory(true, { autoSwitch: false, silent: true });
+          handleEnhanceTheory(true, { silent: true });
         }
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mod, lesson]);
 
-  const handleEnhanceTheory = async (forceRefresh = false, opts: { autoSwitch?: boolean; silent?: boolean } = {}) => {
+  const handleEnhanceTheory = async (forceRefresh = false, opts: { silent?: boolean } = {}) => {
     if (!mod || !lesson) return;
-    const { autoSwitch = true, silent = false } = opts;
+    const { silent = false } = opts;
     // The spinner always shows: Deep-Dive is the default view, so learners must
     // see that the deeper version is being prepared.
     setEnhanceLoading(true);
@@ -443,9 +460,8 @@ const ProgrammingLessonPage = () => {
         setDeepDiveUnavailable(true);
         if (!silent) toast.warning("AI Deep-Dive is temporarily unavailable. Showing base theory.");
       } else if (data?.markdown && !hasVietnameseText(data.markdown)) {
-        setEnhancedMd(data.markdown);
+        setEnhancedMd(normalizeTheoryDashes(data.markdown));
         setDeepDiveUnavailable(false);
-        if (autoSwitch) setUseEnhanced(true);
         if (!silent) toast.success(data.cached ? "Loaded enhanced theory from cache" : "AI Deep-Dive ready!");
       } else {
         setDeepDiveUnavailable(true);
@@ -837,16 +853,10 @@ const ProgrammingLessonPage = () => {
                   <div className="relative overflow-hidden rounded-2xl border-2 border-emerald-500/60 bg-card/90 shadow-[0_8px_30px_-10px_rgba(16,185,129,0.35)] p-6 sm:p-8 lg:p-10 ring-1 ring-emerald-500/10">
                     <LessonFloatingSymbols pillarId={pillar} count={35} className="opacity-30" />
                     <div className="relative z-10">
-                    <div className="flex items-center justify-between flex-wrap gap-3 mb-5 pb-3 border-b border-border">
+                    <div className="flex items-center flex-wrap gap-3 mb-5 pb-3 border-b border-border">
                       <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
                         <BookOpen className="w-5 h-5 text-primary" />
                         Theory
-                        {enhancedMd && useEnhanced && (
-                          <span className="ml-2 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide bg-violet-500/15 text-violet-600 dark:text-violet-300 border border-violet-500/30">
-                            <Sparkles className="w-3 h-3" />
-                            AI Deep-Dive
-                          </span>
-                        )}
                         {!enhancedMd && enhanceLoading && (
                           <span className="ml-2 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide bg-violet-500/10 text-violet-600 dark:text-violet-300 border border-violet-500/30">
                             <Loader2 className="w-3 h-3 animate-spin" />
@@ -854,18 +864,6 @@ const ProgrammingLessonPage = () => {
                           </span>
                         )}
                       </h2>
-                      <div className="flex items-center gap-2">
-                        {enhancedMd && (
-                          <button
-                            onClick={() => setUseEnhanced((v) => !v)}
-                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border border-border bg-secondary text-foreground hover:bg-muted transition-all active:scale-[0.97]"
-                            title={useEnhanced ? "Show original theory" : "Show AI Deep-Dive"}
-                          >
-                            {useEnhanced ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
-                            {useEnhanced ? "Original" : "Deep-Dive"}
-                          </button>
-                        )}
-                      </div>
                     </div>
                     {!enhancedMd && !enhanceLoading && deepDiveUnavailable && (
                       <p className="mb-5 rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-xs font-medium text-amber-700 dark:text-amber-300">
@@ -901,11 +899,11 @@ const ProgrammingLessonPage = () => {
                     )}
                     <TheorySections
                       markdown={injectLessonImage(
-                        (useEnhanced && enhancedMd
+                        normalizeTheoryDashes(enhancedMd
                           ? enhancedMd
                           : (() => {
-                               const base = lesson.theoryEn || lesson.theory || "";
-                               const ext = getTheoryExtension(lesson.id, "en");
+                              const base = lesson.theoryEn || lesson.theory || "";
+                              const ext = getTheoryExtension(lesson.id, "en");
                               return ext ? `${base}\n\n${ext}` : base;
                             })())
                           .replace(/\\\$/g, "$")

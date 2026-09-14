@@ -19,6 +19,7 @@ OUTPUT RULES (STRICT):
 - WRITE EVERYTHING IN ENGLISH ONLY: headings, explanations, bullet lists, tables,
   diagram labels, image captions and all comments inside code blocks.
   Never output Vietnamese or any other language, even if the source lesson contains it.
+- NEVER use em dashes or en dashes. Use the ASCII hyphen-minus character (-) instead.
 - Use this exact section structure with H2 (##) headings:
 
 ## 1. Executive Summary
@@ -121,6 +122,26 @@ interface IllustrationSpec {
   anchor: string;
   prompt: string;
   caption?: string;
+}
+
+function normalizeProseDashes(markdown: string): string {
+  let inFence = false;
+
+  return markdown
+    .split("\n")
+    .map((line) => {
+      if (/^\s*```/.test(line)) {
+        inFence = !inFence;
+        return line;
+      }
+      if (inFence) return line;
+
+      return line
+        .split(/(`[^`]*`)/g)
+        .map((segment, index) => (index % 2 === 0 ? segment.replace(/[—–]/g, "-") : segment))
+        .join("");
+    })
+    .join("\n");
 }
 
 // Extract and remove ALL ```json {...} ``` blocks containing illustration
@@ -274,11 +295,11 @@ Deno.serve(async (req: Request) => {
         .maybeSingle();
       if (cached?.enhanced_markdown) {
         // Strip Perplexity citation markers from previously cached content (legacy data)
-        const cleanedCached = cached.enhanced_markdown
+        const cleanedCached = normalizeProseDashes(cached.enhanced_markdown
           .replace(/\s*\[\d+(?:\s*[,\s]\s*\d+)*\]/g, "")
           .replace(/\n#{1,6}\s*(References|Sources|Citations|Tham khảo|Nguồn)[\s\S]*$/i, "")
           .replace(/[ \t]+([.,;:!?])/g, "$1")
-          .replace(/[ \t]{2,}/g, " ");
+          .replace(/[ \t]{2,}/g, " "));
         return new Response(
           JSON.stringify({
             cached: true,
@@ -419,7 +440,7 @@ Now produce the full Deep-Dive Markdown using the strict structure, and append t
         .replace(/[ \t]+([.,;:!?])/g, "$1")
         .replace(/[ \t]{2,}/g, " ");
     const { markdown: rawCleaned, specs: aiSpecs } = extractIllustrationSpecs(markdown);
-    const cleanedMarkdown = stripCitations(rawCleaned);
+    const cleanedMarkdown = normalizeProseDashes(stripCitations(rawCleaned));
     const specs = aiSpecs.length > 0 ? aiSpecs : fallbackSpecs(body.lesson_title, body.module_title);
     let finalMarkdown = cleanedMarkdown;
     let illustrations: { anchor: string; url: string; caption: string }[] = [];
@@ -445,7 +466,7 @@ Now produce the full Deep-Dive Markdown using the strict structure, and append t
           const illData = await illResp.json();
           if (Array.isArray(illData?.illustrations)) {
             illustrations = illData.illustrations;
-            finalMarkdown = injectIllustrations(cleanedMarkdown, illustrations);
+            finalMarkdown = normalizeProseDashes(injectIllustrations(cleanedMarkdown, illustrations));
           }
         } else {
           console.warn("Illustration sub-call failed:", illResp.status, await illResp.text());
