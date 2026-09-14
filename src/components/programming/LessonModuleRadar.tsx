@@ -100,7 +100,10 @@ const LessonModuleRadar = ({ module, currentLessonId, className = "" }: Props) =
           />
           <Tooltip
             formatter={(v: number) => [`${v}/100`, "Score"]}
-            labelFormatter={(_, payload) => (payload?.[0] as any)?.payload?.fullTitle || ""}
+            labelFormatter={(_, payload) => {
+              const item = payload?.[0]?.payload as { fullTitle?: string } | undefined;
+              return item?.fullTitle || "";
+            }}
             contentStyle={{
               backgroundColor: "hsl(var(--card))",
               border: "1px solid hsl(var(--border))",
