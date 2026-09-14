@@ -305,6 +305,15 @@ function getPillarModules(pillar: string): ProgrammingModule[] {
   return base;
 }
 
+// Detect Vietnamese prose in AI theory. Programming lessons are English-only,
+// so any Vietnamese-specific diacritic means the cached text must be rebuilt.
+const VIETNAMESE_CHARS = /[ăâđêôơưĂÂĐÊÔƠƯ]|[àáảãạằắẳẵặầấẩẫậèéẻẽẹềếểễệìíỉĩịòóỏõọồốổỗộờớởỡợùúủũụừứửữựỳýỷỹỵ]/;
+function hasVietnameseText(md: string): boolean {
+  // Ignore fenced code blocks and image/link URLs before testing.
+  const prose = md.replace(/```[\s\S]*?```/g, " ").replace(/\]\([^)]*\)/g, "]");
+  return VIETNAMESE_CHARS.test(prose);
+}
+
 
 const ProgrammingLessonPage = () => {
   const { moduleId, lessonId } = useParams();
