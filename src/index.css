@@ -232,7 +232,7 @@
   .arcade-mission {
     --mission-accent: var(--arcade-blue);
     position: relative;
-    min-height: 18rem;
+    min-height: 21rem;
     overflow: hidden;
     border: 1px solid hsl(var(--arcade-line));
     border-radius: 8px;
@@ -256,7 +256,6 @@
 
   @media (min-width: 768px) {
     .arcade-mission { padding: 1.5rem; }
-    .arcade-mission.md\:row-span-2 { min-height: 38rem; }
   }
 
   @media (prefers-reduced-motion: reduce) {

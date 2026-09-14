@@ -1,13 +1,13 @@
 /**
  * @file ProgrammingArcade.tsx
- * @description Tech & Code Game Hub - 3 mini-games: SQL Dungeon, Data Pipeline Plumber, AI Parameter Tuner.
+ * @description Tech & Code Game Hub - eight programming review games with shared XP tracking.
  * Dark terminal-style arcade dashboard for Learn Programming.
  * @author Teacher Hai (HaiEduTech)
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Code2, Database, Brain, Zap, Trophy, Loader2, Sparkles, Clock3, Gauge, Play, Target, ShieldCheck } from "lucide-react";
+import { ArrowLeft, Code2, Database, Brain, Zap, Trophy, Loader2, Sparkles, Clock3, Gauge, Play, Target, ShieldCheck, Keyboard, Bug, GitBranch, LockKeyhole } from "lucide-react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -16,9 +16,10 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import CodeGalaxy from "@/components/games/CodeGalaxy";
+import { BugHunter, CyberShield, GitBranchQuest, PythonSpeedRun } from "@/components/games/ProgrammingReviewGames";
 import { finishGame } from "@/lib/gameSession";
 
-type GameId = "menu" | "sql" | "pipeline" | "tuner" | "galaxy";
+type GameId = "menu" | "sql" | "pipeline" | "tuner" | "galaxy" | "python" | "bugs" | "git" | "cyber";
 
 interface LogLine {
   id: number;
@@ -599,15 +600,19 @@ const ProgrammingArcade = () => {
   };
 
   const cards = [
-    { id: "sql" as const, chibi: "🧙", title: "SQL Dungeon", skill: "DATABASE QUEST", desc: t("Đánh bại 10 quái vật bằng truy vấn SELECT, WHERE, hàm tổng hợp và sắp xếp.", "Defeat 10 monsters with SELECT, WHERE, aggregate, and sorting queries."), goal: t("Xây truy vấn đúng thứ tự", "Build queries in the right order"), difficulty: t("Tăng dần", "Progressive"), time: "8-12 min", reward: "Up to 660 XP", icon: Database, tone: "blue", featured: true },
+    { id: "sql" as const, chibi: "🧙", title: "SQL Dungeon", skill: "DATABASE QUEST", desc: t("Đánh bại 10 quái vật bằng truy vấn SELECT, WHERE, hàm tổng hợp và sắp xếp.", "Defeat 10 monsters with SELECT, WHERE, aggregate, and sorting queries."), goal: t("Xây truy vấn đúng thứ tự", "Build queries in the right order"), difficulty: t("Tăng dần", "Progressive"), time: "8-12 min", reward: "Up to 660 XP", icon: Database, tone: "blue" },
     { id: "pipeline" as const, chibi: "🤖", title: "Data Pipeline Plumber", skill: "DATA ENGINEERING", desc: t("Nối các khối xử lý để dữ liệu đi từ nguồn tới đích mà không bị tắc.", "Connect processing blocks so data flows cleanly from source to destination."), goal: "Extract → Filter → Transform → Load", difficulty: t("Cơ bản", "Beginner"), time: "3-5 min", reward: "60 XP", icon: Code2, tone: "green" },
     { id: "tuner" as const, chibi: "🧠", title: "AI Parameter Tuner", skill: "MACHINE LEARNING", desc: t("Điều chỉnh ba siêu tham số, đọc đường loss và tìm vùng mô hình hoạt động tốt nhất.", "Tune three hyperparameters, read the loss curves, and find the model's sweet spot."), goal: t("Đạt Sweet Spot từ 85%", "Reach an 85% Sweet Spot"), difficulty: t("Trung bình", "Intermediate"), time: "5-8 min", reward: "80 XP", icon: Brain, tone: "gold" },
     { id: "galaxy" as const, chibi: "🚀", title: "Code Galaxy", skill: "CODE RECOGNITION", desc: t("Phân loại 42 đoạn code thuộc Foundations, Data Engineering và AI/ML.", "Classify 42 code snippets across Foundations, Data Engineering, and AI/ML."), goal: t("Nhận diện mẫu code nhanh", "Recognize code patterns fast"), difficulty: t("3 đường chơi", "3 tracks"), time: "6-10 min", reward: "15 XP / answer", icon: Sparkles, tone: "pink" },
+    { id: "python" as const, chibi: "⌨️", title: "Python Speed Run", skill: "PYTHON FLUENCY", desc: t("Gõ chính xác năm đoạn Python theo độ khó tăng dần và đua với đồng hồ.", "Retype five Python snippets with rising difficulty and race the clock."), goal: t("Tăng tốc độ và độ chính xác", "Build speed and accuracy"), difficulty: t("Tăng dần", "Progressive"), time: "5-8 min", reward: "Up to 600 XP", icon: Keyboard, tone: "green" },
+    { id: "bugs" as const, chibi: "🐛", title: "Bug Hunter", skill: "DEBUGGING", desc: t("Săn lỗi cú pháp và logic phổ biến trong tám đoạn code Python.", "Find common syntax and logic errors across eight Python snippets."), goal: t("Chọn bản sửa đúng", "Choose the correct fix"), difficulty: t("Cơ bản", "Beginner"), time: "5-7 min", reward: "20 XP / answer", icon: Bug, tone: "pink" },
+    { id: "git" as const, chibi: "🌿", title: "Git Branch Quest", skill: "VERSION CONTROL", desc: t("Chọn đúng lệnh cho commit, branch, merge và khôi phục lịch sử.", "Choose the right commands for commits, branches, merges, and recovery."), goal: t("Hoàn thành quy trình Git", "Complete the Git workflow"), difficulty: t("Trung bình", "Intermediate"), time: "5-7 min", reward: "20 XP / answer", icon: GitBranch, tone: "blue" },
+    { id: "cyber" as const, chibi: "🛡️", title: "Cyber Shield", skill: "DIGITAL SAFETY", desc: t("Phản ứng đúng trước phishing, mật khẩu yếu, quyền truy cập và lộ bí mật.", "Respond safely to phishing, weak passwords, permissions, and exposed secrets."), goal: t("Bảo vệ tài khoản và dữ liệu", "Protect accounts and data"), difficulty: t("Cơ bản", "Beginner"), time: "5-7 min", reward: "20 XP / answer", icon: LockKeyhole, tone: "gold" },
   ];
 
   return (
     <div className="arcade-page min-h-screen">
-      <SEO title="Tech & Code Game Hub | Learn Programming - HaiEduTech" description="Arcade lập trình: SQL Dungeon, Data Pipeline Plumber, AI Parameter Tuner, Code Galaxy. Học code qua game." path="/programming/arcade" />
+      <SEO title="Tech & Code Game Hub | HaiEduTech" description="Eight programming games for practising Python, debugging, Git, cybersecurity, SQL, data engineering, AI and code recognition." path="/programming/arcade" />
       <Navbar />
       <div className="arcade-stage min-h-screen pb-16 pt-8 sm:pt-10">
         <div className="container relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
@@ -620,9 +625,9 @@ const ProgrammingArcade = () => {
               <h1 className="max-w-3xl font-display text-4xl font-black leading-tight text-[hsl(var(--arcade-text))] sm:text-5xl lg:text-6xl">
                 TECH &amp; CODE <span className="arcade-title-accent">GAME HUB</span>
               </h1>
-              <p className="mt-3 max-w-2xl text-base text-[hsl(var(--arcade-muted))] sm:text-lg">{t("Chọn nhiệm vụ, luyện kỹ năng thật và tích lũy XP qua bốn trò chơi lập trình.", "Choose a mission, practise real skills, and earn XP through four coding games.")}</p>
+              <p className="mt-3 max-w-2xl text-base text-[hsl(var(--arcade-muted))] sm:text-lg">{t("Chọn nhiệm vụ, luyện kỹ năng thật và tích lũy XP qua tám trò chơi lập trình.", "Choose a mission, practise real skills, and earn XP through eight coding games.")}</p>
             </div>
-            <div className="arcade-online-badge"><span className="arcade-live-dot" /> 4 MISSIONS READY</div>
+            <div className="arcade-online-badge"><span className="arcade-live-dot" /> 8 MISSIONS READY</div>
           </motion.div>
 
           <GameHeader xp={xp} log={log} current={game} onBack={() => setGame("menu")} />
@@ -635,7 +640,7 @@ const ProgrammingArcade = () => {
           )}
 
           {!loading && game === "menu" && (
-            <div className="grid grid-cols-1 gap-5 md:grid-cols-[1.05fr_0.95fr]">
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
               {cards.map((c, i) => {
                 const Icon = c.icon;
                 return (
@@ -644,17 +649,17 @@ const ProgrammingArcade = () => {
                     initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.1 }}
-                    className={`arcade-mission arcade-mission--${c.tone} group ${c.featured ? "md:row-span-3" : ""}`}
+                    className={`arcade-mission arcade-mission--${c.tone} group h-full`}
                   >
                     <div className="arcade-corner" aria-hidden />
                     <div className="relative z-10 flex h-full flex-col">
                       <div className="mb-5 flex items-start justify-between gap-4">
                         <div className="arcade-icon"><Icon className="h-6 w-6" /></div>
-                        <motion.div animate={{ y: [0, -6, 0], rotate: [-3, 3, -3] }} transition={{ duration: 3.5, repeat: Infinity }} className={`select-none drop-shadow-xl ${c.featured ? "text-7xl sm:text-8xl" : "text-6xl"}`} aria-hidden>{c.chibi}</motion.div>
+                        <motion.div animate={{ y: [0, -5, 0], rotate: [-3, 3, -3] }} transition={{ duration: 3.5, repeat: Infinity }} className="select-none text-5xl drop-shadow-xl" aria-hidden>{c.chibi}</motion.div>
                       </div>
                       <div className="arcade-skill">{c.skill}</div>
-                      <h2 className={`mt-2 font-display font-bold text-[hsl(var(--arcade-text))] ${c.featured ? "text-3xl" : "text-2xl"}`}>{c.title}</h2>
-                      <p className="mt-2 max-w-xl text-sm leading-relaxed text-[hsl(var(--arcade-muted))] sm:text-base">{c.desc}</p>
+                      <h2 className="mt-2 font-display text-2xl font-bold text-[hsl(var(--arcade-text))]">{c.title}</h2>
+                      <p className="mt-2 line-clamp-3 max-w-xl text-sm leading-relaxed text-[hsl(var(--arcade-muted))]">{c.desc}</p>
                       <div className="my-5 flex items-start gap-2 border-l-2 border-current pl-3 text-sm text-[hsl(var(--arcade-text))]">
                         <Target className="mt-0.5 h-4 w-4 shrink-0" /><span>{c.goal}</span>
                       </div>
@@ -677,6 +682,10 @@ const ProgrammingArcade = () => {
           {!loading && game === "pipeline" && <PipelinePlumber pushLog={pushLog} addXp={addXp} />}
           {!loading && game === "tuner" && <AiTuner pushLog={pushLog} addXp={addXp} />}
           {!loading && game === "galaxy" && <CodeGalaxy onExit={() => setGame("menu")} onScore={addXp} />}
+          {!loading && game === "python" && <PythonSpeedRun onScore={addXp} />}
+          {!loading && game === "bugs" && <BugHunter onScore={addXp} />}
+          {!loading && game === "git" && <GitBranchQuest onScore={addXp} />}
+          {!loading && game === "cyber" && <CyberShield onScore={addXp} />}
 
           <div className="mt-9 text-center">
             <Button asChild variant="ghost" className="text-[hsl(var(--arcade-muted))] hover:bg-[hsl(var(--arcade-panel))] hover:text-[hsl(var(--arcade-green))]">
