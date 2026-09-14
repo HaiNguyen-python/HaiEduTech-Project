@@ -32,6 +32,9 @@ function timeAgo(iso: string): string {
   return `${days} ngày trước`;
 }
 
+const prefersReducedMotion = () =>
+  typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+
 const NotificationBell = () => {
   const { user } = useUserRole();
   const navigate = useNavigate();
@@ -39,6 +42,8 @@ const NotificationBell = () => {
   const [loading, setLoading] = useState(false);
   const [items, setItems] = useState<NotificationRow[]>([]);
   const wrapRef = useRef<HTMLDivElement>(null);
+  // Bumped on every incoming notification to fire one stronger shake.
+  const [alertPulse, setAlertPulse] = useState(0);
 
   // Outside click to close
   useEffect(() => {
@@ -76,6 +81,7 @@ const NotificationBell = () => {
         (payload) => {
           const row = payload.new as NotificationRow;
           setItems((cur) => [row, ...cur].slice(0, 30));
+          setAlertPulse((n) => n + 1);
           toast.success(row.title, { description: row.body?.slice(0, 120) });
         },
       )
@@ -90,6 +96,7 @@ const NotificationBell = () => {
   }, [user?.id]);
 
   const unread = items.filter((n) => !n.is_read).length;
+  const reduceMotion = prefersReducedMotion();
 
   const handleClick = async (n: NotificationRow) => {
     if (!n.is_read) {
@@ -122,7 +129,18 @@ const NotificationBell = () => {
         aria-label="Notifications"
         className="relative flex items-center justify-center w-8 h-8 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
       >
-        <Bell className={`w-4 h-4 ${unread > 0 ? "text-rose-500" : ""}`} />
+        <motion.span
+          className="inline-flex"
+          animate={reduceMotion || unread === 0
+            ? { rotate: 0 }
+            : { rotate: [0, -14, 12, -8, 6, 0] }}
+          transition={reduceMotion || unread === 0
+            ? { duration: 0 }
+            : { duration: 0.7, repeat: Infinity, repeatDelay: 3.3, ease: "easeInOut" }}
+          key={`shake-${alertPulse}`}
+        >
+          <Bell className={`w-4 h-4 ${unread > 0 ? "text-rose-500" : ""}`} />
+        </motion.span>
         {unread > 0 && (
           <>
             <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-[16px] px-1 rounded-full bg-rose-500 text-white text-[10px] font-bold leading-[16px] text-center shadow-sm ring-2 ring-background z-10">
