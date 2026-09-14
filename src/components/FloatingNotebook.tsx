@@ -1177,8 +1177,8 @@ const FloatingNotebook = () => {
             )}
 
 
-            {/* Footer */}
-            <div className="flex items-center justify-between px-3 py-2 text-xs" style={{ borderTop: `1px solid ${theme.border}`, color: theme.text, opacity: 0.7 }}>
+            {/* Footer - note tools only, hidden on the read-only tabs */}
+            <div className={`flex items-center justify-between px-3 py-2 text-xs ${tab === "shared" || tab === "assignments" ? "hidden" : ""}`} style={{ borderTop: `1px solid ${theme.border}`, color: theme.text, opacity: 0.7 }}>
               <span>{wordCount} từ</span>
               <div className="flex items-center gap-2">
                 {selectedId && (
