@@ -199,6 +199,8 @@ const LATEX_CMD_RE = new RegExp(`\\\\(?:${LATEX_CMDS})\\b`);
  * We rewrite all of these to standard `$...$` / `$$...$$` so remark-math + KaTeX render them,
  * but ONLY outside fenced code blocks so we never corrupt code samples.
  */
+// Exported for regression tests that cover malformed AI-generated notation.
+// eslint-disable-next-line react-refresh/only-export-components
 export function normalizeMath(input: string): string {
   if (!input) return input;
 
@@ -242,6 +244,12 @@ export function normalizeMath(input: string): string {
       // Also handle one-sided whitespace.
       out = out.replace(/(^|[^$])\$\s+([^$\n]+?)\$(?!\$)/g, (_, pre, body) => `${pre}$${body}$`);
       out = out.replace(/(^|[^$])\$([^$\n]+?)\s+\$(?!\$)/g, (_, pre, body) => `${pre}$${body}$`);
+
+      // Markdown emphasis has no meaning inside KaTeX delimiters. Remove it
+      // without touching emphasis in ordinary lesson prose.
+      const removeMathMarkdown = (body: string) => body.replace(/\*\*([^*]+)\*\*/g, "$1");
+      out = out.replace(/\$\$([\s\S]+?)\$\$/g, (_, body) => `$$${removeMathMarkdown(body)}$$`);
+      out = out.replace(/(^|[^$])\$([^$\n]+?)\$(?!\$)/g, (_, pre, body) => `${pre}$${removeMathMarkdown(body)}$`);
 
       // Replace double-pipe norm bars `||x||` with KaTeX-friendly `\|x\|`
       // (KaTeX doesn't natively render `||...||`). Apply globally outside code.

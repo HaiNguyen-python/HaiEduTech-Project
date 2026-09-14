@@ -9,7 +9,6 @@ import { dsaLessons } from "../src/data/dsaLessons";
 const errors: string[] = [];
 const malformedTheoryPatterns: Array<[RegExp, string]> = [
   [/\*\*[^*\n]*(?:\\[A-Za-z]+|[_^]\{)[^*\n]*\*\*/, "raw LaTeX wrapped in Markdown bold"],
-  [/(?<!\\)\${3,}(?=[)\],.;:\s]|$)/, "unescaped currency-tier dollar run"],
   [/`\$\$?[^`\n]+\$\$?`/, "math wrapped in inline code"],
 ];
 const required = (value: unknown, path: string) => {

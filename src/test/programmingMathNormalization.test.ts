@@ -7,6 +7,11 @@ describe("Programming theory math normalization", () => {
       .toBe("Uses $\\hat{P}, \\hat{R}$ for planning.");
   });
 
+  it("removes Markdown emphasis accidentally placed inside math", () => {
+    expect(normalizeMath("Value: $**\\theta_t** = \\hat{x}$"))
+      .toBe("Value: $\\theta_t = \\hat{x}$");
+  });
+
   it("normalizes common inline and display delimiters", () => {
     expect(normalizeMath("\\(x_t = r_t\\) and \\[\\sum_i x_i\\]"))
       .toBe("$x_t = r_t$ and $$\\sum_i x_i$$");
