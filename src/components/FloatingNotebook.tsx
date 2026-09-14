@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { BookOpen, Plus, Save, X, Trash2, GripVertical, Bold, Italic, Underline, List, ListOrdered, ListChecks, Palette, RotateCcw, Highlighter, SwatchBook, ExternalLink, Download, Maximize2, Minimize2, PenLine, FileText, Share2, Users } from "lucide-react";
+import { BookOpen, Plus, Save, X, Trash2, GripVertical, Bold, Italic, Underline, List, ListOrdered, ListChecks, Palette, RotateCcw, Highlighter, SwatchBook, ExternalLink, Download, Maximize2, Minimize2, PenLine, FileText, Share2, Users, ClipboardCheck } from "lucide-react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
@@ -16,6 +16,7 @@ import Image from "@tiptap/extension-image";
 import NotebookWhiteboard from "@/components/notebook/NotebookWhiteboard";
 import ShareNotebookDialog from "@/components/notebook/ShareNotebookDialog";
 import SharedWithMeList from "@/components/notebook/SharedWithMeList";
+import NotebookAssignments from "@/components/notebook/NotebookAssignments";
 
 
 
@@ -113,7 +114,8 @@ const FloatingNotebook = () => {
   const [position, setPosition] = useState(() => getDefaultPosition(defaultSize.width, defaultSize.height));
   const [maximized, setMaximized] = useState(() => localStorage.getItem("notebook-maximized") === "1");
   // "notes" = rich text editor, "board" = live whiteboard, "shared" = notes others shared with me.
-  const [tab, setTab] = useState<"notes" | "board" | "shared">("notes");
+  const [tab, setTab] = useState<"notes" | "board" | "shared" | "assignments">("notes");
+  const [pendingAssignments, setPendingAssignments] = useState(0);
   const [shareOpen, setShareOpen] = useState(false);
 
   const preMaximize = useRef<{ size: { width: number; height: number }; position: { x: number; y: number } } | null>(null);
@@ -975,7 +977,7 @@ const FloatingNotebook = () => {
             </div>
 
             {/* Saved notes selector - compact dropdown */}
-            <div className={`px-3 pt-2 flex items-center gap-2 ${tab === "shared" ? "hidden" : ""}`}>
+            <div className={`px-3 pt-2 flex items-center gap-2 ${tab === "shared" || tab === "assignments" ? "hidden" : ""}`}>
 
               <select
                 value={selectedId || ""}
@@ -1018,7 +1020,7 @@ const FloatingNotebook = () => {
             </div>
 
             {/* Title + Subject */}
-            <div className={`px-3 pt-2 flex gap-2 ${tab === "shared" ? "hidden" : ""}`}>
+            <div className={`px-3 pt-2 flex gap-2 ${tab === "shared" || tab === "assignments" ? "hidden" : ""}`}>
 
               <input
                 value={title}
