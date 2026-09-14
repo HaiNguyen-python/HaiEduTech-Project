@@ -45,8 +45,9 @@ function sectionSubtopics(markdown: string): string[] {
 }
 
 function buildSpecs(markdown: string, lessonTitle: string) {
-  const concept = cleanConcept(lessonTitle) || "programming concept";
   const subtopics = sectionSubtopics(markdown);
+  const genericTitle = /^(executive summary|lesson overview|programming concept)$/i.test(cleanConcept(lessonTitle));
+  const concept = (genericTitle ? subtopics[0] : cleanConcept(lessonTitle)) || "programming concept";
   const detail = subtopics.length > 0 ? subtopics.join(" with ") : `${concept} workflow and core components`;
   return [
     {
