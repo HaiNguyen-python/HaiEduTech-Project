@@ -27,6 +27,7 @@ OUTPUT RULES (STRICT):
 - Prioritize the lesson's domain vocabulary (Python, SQL, data structures, web, cloud, cybersecurity, AI/ML/NLP, data engineering, software engineering, EdTech, or startup concepts) and terms defined under Key Concepts.
 - Keep emphasis restrained: usually 1-3 bold phrases per paragraph. Never bold a whole sentence.
 - Never add bold markers inside code, inline code, math, Mermaid diagrams, URLs, or link destinations.
+- Indent Python with exactly 4 spaces per nesting level. Indent JavaScript, TypeScript, JSON, CSS, HTML, YAML, Bash, Java, HCL and Mermaid with exactly 2 spaces per nesting level. Never use tabs or one-space structural indentation.
 - Use this exact section structure with H2 (##) headings:
 
 ## 1. Executive Summary
@@ -155,6 +156,47 @@ function normalizeProseDashes(markdown: string): string {
     .join("\n");
 }
 
+const FOUR_SPACE_LANGUAGES = new Set(["python", "py"]);
+const TWO_SPACE_LANGUAGES = new Set([
+  "javascript", "js", "typescript", "ts", "tsx", "jsx", "json", "css", "scss", "html", "xml",
+  "yaml", "yml", "bash", "sh", "shell", "java", "hcl", "terraform", "mermaid",
+]);
+
+function normalizeCodeBlock(code: string, language: string): string {
+  const lang = language.toLowerCase();
+  const tabWidth = FOUR_SPACE_LANGUAGES.has(lang) ? 4 : 2;
+  const lines = code.replace(/\r\n?/g, "\n").replace(/\t/g, " ".repeat(tabWidth)).split("\n");
+  while (lines.length && !lines[0]?.trim()) lines.shift();
+  while (lines.length && !lines[lines.length - 1]?.trim()) lines.pop();
+  const indent = (line: string) => line.match(/^ */)?.[0].length ?? 0;
+  const nonBlank = lines.filter((line) => line.trim());
+  const common = nonBlank.length ? Math.min(...nonBlank.map(indent)) : 0;
+  const dedented = lines.map((line) => line.slice(Math.min(common, indent(line))).trimEnd());
+  const target = FOUR_SPACE_LANGUAGES.has(lang) ? 4 : TWO_SPACE_LANGUAGES.has(lang) ? 2 : 0;
+  const joined = dedented.join("\n");
+  const sensitiveLiteral = FOUR_SPACE_LANGUAGES.has(lang)
+    ? /'''|"""/.test(joined)
+    : ["javascript", "js", "typescript", "ts", "tsx", "jsx"].includes(lang) && /(?:^|[^\\])`/.test(joined);
+  if (!target || sensitiveLiteral) return joined;
+  const widths = dedented.filter((line) => line.trim() && indent(line) > 0).map(indent);
+  const shallowest = widths.length ? Math.min(...widths) : target;
+  if (shallowest >= target) return joined;
+  return dedented.map((line) => {
+    const width = indent(line);
+    return !line.trim() || width === 0
+      ? line
+      : `${" ".repeat(Math.round(width * target / shallowest))}${line.slice(width)}`;
+  }).join("\n");
+}
+
+function normalizeFencedCode(markdown: string): string {
+  return markdown.replace(/```([^\n`]*)\n([\s\S]*?)```/g, (_whole, info: string, code: string) => {
+    const cleanInfo = info.trim();
+    const language = cleanInfo.split(/\s+/)[0] || "text";
+    return `\`\`\`${cleanInfo}\n${normalizeCodeBlock(code, language)}\n\`\`\``;
+  });
+}
+
 function normalizeMarkdownStructure(markdown: string): string {
   let inFence = false;
   const output: string[] = [];
@@ -193,7 +235,7 @@ function normalizeMarkdownStructure(markdown: string): string {
     output.push(line);
   }
 
-  return output.join("\n").replace(/\n{3,}/g, "\n\n").trim();
+  return normalizeFencedCode(output.join("\n").replace(/\n{3,}/g, "\n\n").trim());
 }
 
 // Extract and remove ALL ```json {...} ``` blocks containing illustration
