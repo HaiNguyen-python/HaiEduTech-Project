@@ -16,6 +16,8 @@ export default {
       fontFamily: {
         display: ["Space Grotesk", "sans-serif"],
         body: ["Inter", "sans-serif"],
+        sora: ["Sora", "Space Grotesk", "sans-serif"],
+        manrope: ["Manrope", "Inter", "sans-serif"],
         mono: ["JetBrains Mono", "monospace"],
       },
       colors: {
