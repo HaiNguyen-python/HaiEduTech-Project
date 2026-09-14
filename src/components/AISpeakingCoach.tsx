@@ -1182,7 +1182,7 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
           >
             <Card className="border-2">
               <CardContent className="pt-6 space-y-6">
-                <div className="mx-auto w-full max-w-[280px]">
+                <div className="mx-auto w-full max-w-[220px] sm:max-w-[260px] overflow-hidden rounded-xl shadow-sm">
                   <SpeakingThemeIllustration theme={selectedTheme} />
                 </div>
                 {/* Target sentence */}
