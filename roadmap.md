@@ -41,3 +41,4 @@
 - [x] Programming English-only curriculum: normalized lessons and Knowledge Checks across standard, Python, DSA, AI Academy, and Scratch surfaces; preserved IDs/scoring and added a permanent answer-integrity audit
 - [ ] Complete and audit all 49 bilingual songs: final six public-domain replacements and browser checks
 - [ ] Word Quest: study one word, complete 5 adaptive exercises, then advance; verify all 6 subjects
+- [x] Programming lessons default to the AI Deep-Dive view on open, with an English-only Deep-Dive prompt, stale Vietnamese cache regeneration, loading state, and readable English fallback when AI is unavailable
