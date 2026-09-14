@@ -28,7 +28,8 @@ import {
 } from "@/data/interviewQuestions";
 import {
   filterInterviewQuestions, groupInterviewQuestions, INTERVIEW_REVIEWED_STORAGE_KEY,
-  LEGACY_INTERVIEW_REVIEWED_STORAGE_KEY, parseReviewedQuestionIds,
+  LEGACY_INTERVIEW_REVIEWED_STORAGE_KEY, parseReviewedQuestionIds, splitNumberedText,
+  emphasizeInterviewTerms,
 } from "@/lib/interviewQuestionUtils";
 import { toast } from "sonner";
 import SEO from "@/components/SEO";
@@ -37,6 +38,31 @@ const difficultyClass: Record<InterviewDifficulty, string> = {
   Junior: "interview-badge interview-badge--junior",
   Mid: "interview-badge interview-badge--mid",
   Senior: "interview-badge interview-badge--senior",
+};
+
+const EmphasizedText = ({ text }: { text: string }) => (
+  <>{emphasizeInterviewTerms(text).map((part, index) => part.important
+    ? <strong key={`${part.text}-${index}`} className="font-bold text-foreground">{part.text}</strong>
+    : <span key={`${part.text}-${index}`}>{part.text}</span>)}</>
+);
+
+const StructuredAnswer = ({ text }: { text: string }) => {
+  const parts = splitNumberedText(text);
+  const hasNumbering = parts.some((part) => part.number !== undefined);
+  if (!hasNumbering) return <p className="whitespace-pre-wrap leading-7 text-foreground/90"><EmphasizedText text={text} /></p>;
+
+  return (
+    <div className="space-y-2 leading-7 text-foreground/90">
+      {parts.map((part, index) => part.number === undefined ? (
+        <p key={`intro-${index}`}><EmphasizedText text={part.text} /></p>
+      ) : (
+        <div key={`${part.number}-${index}`} className="interview-numbered-row">
+          <span className="interview-number-marker" aria-hidden="true">{part.number}</span>
+          <p><EmphasizedText text={part.text} /></p>
+        </div>
+      ))}
+    </div>
+  );
 };
 
 type ViewMode = InterviewRole | "cv-clinic";
@@ -274,25 +300,25 @@ const InterviewQuestionsPage = () => {
               {question.tldr && (
                 <section className="interview-callout interview-callout--primary">
                   <div className="interview-section-title"><BookOpen aria-hidden="true" />{t("Câu trả lời nhanh", "Quick answer")}</div>
-                  <p className="font-semibold text-foreground">{question.tldr}</p>
+                  <p className="font-semibold text-foreground"><EmphasizedText text={question.tldr} /></p>
                 </section>
               )}
               <section>
                 <div className="interview-section-title"><Lightbulb aria-hidden="true" />{t("Giải thích chi tiết", "Detailed explanation")}</div>
-                <p className="whitespace-pre-wrap leading-7 text-foreground/90">{question.answer}</p>
+                <StructuredAnswer text={question.answer} />
               </section>
               {question.keyPoints.length > 0 && (
                 <section className="interview-callout interview-callout--success">
                   <div className="interview-section-title"><ListChecks aria-hidden="true" />{t("Điểm nhà tuyển dụng muốn nghe", "What interviewers want to hear")}</div>
                   <ul className="space-y-2">
-                    {question.keyPoints.map((point) => <li key={point} className="flex gap-2"><Check className="mt-1 h-4 w-4 shrink-0 text-success" aria-hidden="true" /><span>{point}</span></li>)}
+                    {question.keyPoints.map((point) => <li key={point} className="flex gap-2"><Check className="mt-1 h-4 w-4 shrink-0 text-success" aria-hidden="true" /><span><EmphasizedText text={point} /></span></li>)}
                   </ul>
                 </section>
               )}
               {question.pitfalls && question.pitfalls.length > 0 && (
                 <section className="interview-callout interview-callout--warning">
                   <div className="interview-section-title"><AlertTriangle aria-hidden="true" />{t("Lỗi thường gặp", "Common pitfalls")}</div>
-                  <ul className="list-disc space-y-2 pl-5">{question.pitfalls.map((item) => <li key={item}>{item}</li>)}</ul>
+                  <ul className="list-disc space-y-2 pl-5">{question.pitfalls.map((item) => <li key={item}><EmphasizedText text={item} /></li>)}</ul>
                 </section>
               )}
               {question.codeExample && (
@@ -315,7 +341,7 @@ const InterviewQuestionsPage = () => {
               {question.interviewTip && (
                 <section className="interview-callout interview-callout--tip">
                   <div className="interview-section-title"><Target aria-hidden="true" />{t("Mẹo trả lời", "Interview tip")}</div>
-                  <p>{question.interviewTip}</p>
+                  <p><EmphasizedText text={question.interviewTip} /></p>
                 </section>
               )}
               <div className="flex justify-end border-t border-border pt-4">

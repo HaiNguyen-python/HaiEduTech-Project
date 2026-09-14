@@ -1433,6 +1433,28 @@
     background: hsl(188 86% 40% / 0.07);
   }
 
+  .interview-numbered-row {
+    display: grid;
+    grid-template-columns: 28px minmax(0, 1fr);
+    align-items: start;
+    gap: 10px;
+    padding-top: 4px;
+  }
+
+  .interview-number-marker {
+    display: inline-flex;
+    height: 24px;
+    width: 24px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    background: hsl(var(--primary) / 0.12);
+    color: hsl(var(--primary));
+    font-family: "Sora", sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
   .interview-empty {
     display: flex;
     min-height: 360px;
