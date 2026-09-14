@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "audit:programming-english": "bun scripts/validateProgrammingEnglish.ts"
   },
   "dependencies": {
     "@codemirror/lang-python": "^6.2.1",

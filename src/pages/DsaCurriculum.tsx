@@ -27,7 +27,7 @@ import {
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useLanguage } from "@/contexts/LanguageContext";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { dsaLessons, type DsaSectionId, type DsaQuiz } from "@/data/dsaLessons";
@@ -39,15 +39,15 @@ type Tier = "easy" | "medium" | "hard";
 
 interface DsaTopic {
   icon: typeof Network;
-  titleVi: string;
+  
   titleEn: string;
-  descVi: string;
+  
   descEn: string;
 }
 
 interface DsaSection {
   id: string;
-  titleVi: string;
+  
   titleEn: string;
   accent: string; // gradient classes
   topics: DsaTopic[];
@@ -55,34 +55,27 @@ interface DsaSection {
 
 interface DsaExercise {
   tier: Tier;
-  titleVi: string;
+  
   titleEn: string;
-  hintVi: string;
+  
   hintEn: string;
 }
 
 const sections: DsaSection[] = [
   {
     id: "linear",
-    titleVi: "Phần 1: Cấu trúc dữ liệu tuyến tính",
     titleEn: "Part 1: Linear Data Structures",
     accent: "from-blue-500 to-cyan-500",
     topics: [
       {
         icon: ListOrdered,
-        titleVi: "Mảng (Arrays) & Danh sách liên kết (Linked Lists)",
         titleEn: "Arrays & Linked Lists",
-        descVi:
-          "Lưu trữ tuần tự, truy cập theo chỉ số, thao tác chèn/xóa và so sánh hiệu năng giữa Array và Linked List.",
         descEn:
           "Sequential storage, indexed access, insertion/deletion patterns and performance trade-offs between arrays and linked lists.",
       },
       {
         icon: Layers,
-        titleVi: "Ngăn xếp (Stack) & Hàng đợi (Queue)",
         titleEn: "Stack & Queue",
-        descVi:
-          "Nguyên lý LIFO/FIFO, ứng dụng trong duyệt biểu thức, hoàn tác (undo), và mô phỏng tiến trình.",
         descEn:
           "LIFO/FIFO principles with applications in expression parsing, undo systems, and process simulations.",
       },
@@ -90,25 +83,18 @@ const sections: DsaSection[] = [
   },
   {
     id: "nonlinear",
-    titleVi: "Phần 2: Cấu trúc dữ liệu phi tuyến tính",
     titleEn: "Part 2: Non-Linear Data Structures",
     accent: "from-emerald-500 to-teal-500",
     topics: [
       {
         icon: GitBranch,
-        titleVi: "Cây bộ ba & Cây tìm kiếm nhị phân (BST)",
         titleEn: "Trees & Binary Search Trees",
-        descVi:
-          "Khái niệm cây, duyệt cây (in-order, pre-order, post-order) và tính chất tìm kiếm trên BST.",
         descEn:
           "Tree concepts, traversal strategies (in-order, pre-order, post-order) and BST search properties.",
       },
       {
         icon: Share2,
-        titleVi: "Đồ thị cơ bản (Graphs)",
         titleEn: "Graph Concepts",
-        descVi:
-          "Biểu diễn đồ thị bằng ma trận/danh sách kề, duyệt BFS/DFS và các ứng dụng thực tế.",
         descEn:
           "Adjacency matrix/list representations, BFS/DFS traversal and real-world use cases.",
       },
@@ -116,30 +102,22 @@ const sections: DsaSection[] = [
   },
   {
     id: "algos",
-    titleVi: "Phần 3: Các giải thuật nền tảng",
     titleEn: "Part 3: Essential Algorithms",
     accent: "from-violet-500 to-fuchsia-500",
     topics: [
       {
         icon: Search,
-        titleVi: "Giải thuật Tìm kiếm",
         titleEn: "Searching Algorithms",
-        descVi: "Tìm kiếm Tuyến tính (Linear Search) và Tìm kiếm Nhị phân (Binary Search).",
         descEn: "Linear Search and Binary Search techniques.",
       },
       {
         icon: ArrowDownAZ,
-        titleVi: "Giải thuật Sắp xếp",
         titleEn: "Sorting Algorithms",
-        descVi: "Bubble Sort, Selection Sort, Merge Sort và Quick Sort.",
         descEn: "Bubble Sort, Selection Sort, Merge Sort and Quick Sort.",
       },
       {
         icon: Repeat,
-        titleVi: "Tư duy Đệ quy & Big O Notation",
         titleEn: "Recursion & Big O Notation",
-        descVi:
-          "Phân rã bài toán bằng đệ quy và đánh giá độ phức tạp thuật toán theo Big O.",
         descEn:
           "Decomposing problems with recursion and reasoning about algorithmic complexity via Big O.",
       },
@@ -147,61 +125,42 @@ const sections: DsaSection[] = [
   },
   {
     id: "applied-math",
-    titleVi: "Phần 4: Toán ứng dụng cho CNTT",
     titleEn: "Part 4: Applied Math for IT",
     accent: "from-amber-500 to-orange-500",
     topics: [
       {
         icon: Hash,
-        titleVi: "Hashing & Hàm băm",
         titleEn: "Hashing & Hash Functions",
-        descVi:
-          "Hàm băm, va chạm (collision), bảng băm, MD5/SHA cho mật khẩu — nền tảng của HashMap, cache và blockchain.",
         descEn:
           "Hash functions, collisions, hash tables, MD5/SHA for passwords — the foundation of HashMaps, caches and blockchains.",
       },
       {
         icon: Sigma,
-        titleVi: "Số học modular & GCD/LCM",
         titleEn: "Modular Arithmetic & GCD/LCM",
-        descVi:
-          "Phép chia dư, nghịch đảo modulo, thuật toán Euclid, ứng dụng trong mật mã RSA và kiểm tra tính chia hết.",
         descEn:
           "Modulo, modular inverse, Euclid's algorithm, used in RSA cryptography and divisibility checks.",
       },
       {
         icon: Binary,
-        titleVi: "Bit manipulation",
         titleEn: "Bit Manipulation",
-        descVi:
-          "AND, OR, XOR, dịch bit, bitmask — tối ưu bộ nhớ, kiểm tra số chẵn lẻ, hoán đổi không dùng biến trung gian.",
         descEn:
           "AND, OR, XOR, shifts, bitmasks — memory tricks, parity checks, swap without temp variables.",
       },
       {
         icon: Dice5,
-        titleVi: "Xác suất & Tổ hợp",
         titleEn: "Probability & Combinatorics",
-        descVi:
-          "Hoán vị, tổ hợp, kỳ vọng, ứng dụng trong A/B testing, hashing xác suất (Bloom filter) và phân tích thuật toán ngẫu nhiên.",
         descEn:
           "Permutations, combinations, expectation, used in A/B testing, probabilistic hashing (Bloom filter) and randomized algorithm analysis.",
       },
       {
         icon: Calculator,
-        titleVi: "Đại số tuyến tính cho ML/AI",
         titleEn: "Linear Algebra for ML/AI",
-        descVi:
-          "Vector, ma trận, phép nhân ma trận, không gian vector — nền tảng của Machine Learning, đồ họa máy tính và tìm kiếm ngữ nghĩa.",
         descEn:
           "Vectors, matrices, matrix multiplication, vector spaces — the foundation of ML, computer graphics and semantic search.",
       },
       {
         icon: Network,
-        titleVi: "Lý thuyết đồ thị nâng cao",
         titleEn: "Advanced Graph Theory",
-        descVi:
-          "PageRank, network flow, Union-Find — ứng dụng trong xếp hạng web, mạng xã hội và phân tích cộng đồng.",
         descEn:
           "PageRank, network flow, Union-Find — used in web ranking, social networks and community detection.",
       },
@@ -213,216 +172,163 @@ const exercises: DsaExercise[] = [
   // Easy
   {
     tier: "easy",
-    titleVi: "Đảo ngược chuỗi sử dụng Stack",
     titleEn: "Reverse a string using Stack",
-    hintVi: "Đẩy từng ký tự vào stack rồi pop ra để dựng chuỗi ngược.",
     hintEn: "Push each character onto a stack then pop them out to rebuild the reversed string.",
   },
   {
     tier: "easy",
-    titleVi: "Tìm số lớn thứ hai trong mảng",
     titleEn: "Find the second largest element",
-    hintVi: "Duyệt mảng một lần, giữ hai biến max1 và max2.",
     hintEn: "Single pass through the array, keeping max1 and max2 trackers.",
   },
   {
     tier: "easy",
-    titleVi: "Kiểm tra chuỗi ngoặc hợp lệ",
     titleEn: "Valid Parentheses checking",
-    hintVi: "Dùng stack để khớp các cặp ngoặc mở-đóng.",
     hintEn: "Use a stack to match opening and closing bracket pairs.",
   },
   // Medium
   {
     tier: "medium",
-    titleVi: "Tìm kiếm nhị phân trên mảng đã sắp xếp",
     titleEn: "Binary Search implementation",
-    hintVi: "Chia đôi không gian tìm kiếm dựa trên so sánh với phần tử giữa.",
     hintEn: "Halve the search space by comparing against the middle element.",
   },
   {
     tier: "medium",
-    titleVi: "Phát hiện vòng lặp trong Danh sách liên kết",
     titleEn: "Linked List Cycle Detection",
-    hintVi: "Áp dụng kỹ thuật hai con trỏ Floyd (rùa & thỏ).",
     hintEn: "Apply Floyd's tortoise-and-hare two pointer technique.",
   },
   {
     tier: "medium",
-    titleVi: "Tìm đường đi ngắn nhất trên đồ thị (BFS cơ bản)",
     titleEn: "Shortest path on a graph (basic BFS)",
-    hintVi: "Dùng hàng đợi và mảng visited để duyệt từng tầng.",
     hintEn: "Use a queue and a visited set to traverse layer by layer.",
   },
   // Hard
   {
     tier: "hard",
-    titleVi: "Sắp xếp mảng tối ưu bằng Quick Sort / Merge Sort",
     titleEn: "Optimal sort with Quick Sort / Merge Sort",
-    hintVi: "Phân tích chia để trị và quản lý đệ quy cẩn thận.",
     hintEn: "Apply divide-and-conquer and manage recursion carefully.",
   },
   {
     tier: "hard",
-    titleVi: "Duyệt cây nhị phân và tìm chiều cao lớn nhất",
     titleEn: "Binary tree traversal and maximum depth",
-    hintVi: "Đệ quy DFS hoặc dùng stack thủ công.",
     hintEn: "Recursive DFS or an explicit stack-based traversal.",
   },
   {
     tier: "hard",
-    titleVi: "Ứng dụng Hai con trỏ (Two Pointers) hoặc Cửa sổ trượt (Sliding Window)",
     titleEn: "Two Pointers or Sliding Window applications",
-    hintVi: "Tối ưu chuỗi bài toán mảng/chuỗi từ O(n²) xuống O(n).",
     hintEn: "Optimise array/string problems from O(n²) down to O(n).",
   },
   // Extended easy
   {
     tier: "easy",
-    titleVi: "Đếm tần suất ký tự bằng Hash Map",
     titleEn: "Character frequency with Hash Map",
-    hintVi: "Duyệt chuỗi, tăng đếm cho mỗi ký tự trong dict.",
     hintEn: "Iterate through the string, increment a dict counter per character.",
   },
   {
     tier: "easy",
-    titleVi: "Kiểm tra Palindrome bằng hai con trỏ",
     titleEn: "Palindrome check with two pointers",
-    hintVi: "So sánh ký tự đầu và cuối, di chuyển hai con trỏ vào giữa.",
     hintEn: "Compare first and last characters, move both pointers toward the middle.",
   },
   {
     tier: "easy",
-    titleVi: "FizzBuzz cổ điển",
     titleEn: "Classic FizzBuzz",
-    hintVi: "Kiểm tra chia hết cho 3 và 5 theo thứ tự kết hợp trước.",
     hintEn: "Check divisibility by 15 first, then by 3 and 5 individually.",
   },
   // Extended medium
   {
     tier: "medium",
-    titleVi: "Top K phần tử lớn nhất bằng Heap",
     titleEn: "Top K largest elements with a Heap",
-    hintVi: "Duy trì min-heap kích thước K trong khi duyệt.",
     hintEn: "Maintain a size-K min-heap while iterating.",
   },
   {
     tier: "medium",
-    titleVi: "Leo cầu thang (Climbing Stairs)",
     titleEn: "Climbing Stairs",
-    hintVi: "DP cơ bản: dp[i] = dp[i-1] + dp[i-2].",
     hintEn: "Basic DP recurrence: dp[i] = dp[i-1] + dp[i-2].",
   },
   {
     tier: "medium",
-    titleVi: "Activity Selection (Tham lam)",
     titleEn: "Activity Selection (Greedy)",
-    hintVi: "Sắp xếp theo thời gian kết thúc, chọn từ sớm nhất.",
     hintEn: "Sort by end time, then pick greedily from the earliest.",
   },
   // Extended hard
   {
     tier: "hard",
-    titleVi: "Dãy con tăng dài nhất (LIS) O(n log n)",
     titleEn: "Longest Increasing Subsequence — O(n log n)",
-    hintVi: "Patience sorting kết hợp Binary Search trên mảng tails.",
     hintEn: "Patience sorting with Binary Search over the tails array.",
   },
   {
     tier: "hard",
-    titleVi: "Bài toán cái túi 0/1 (Knapsack)",
     titleEn: "0/1 Knapsack problem",
-    hintVi: "DP 2D dp[i][w] hoặc tối ưu 1D duyệt ngược trọng số.",
     hintEn: "2D DP dp[i][w] or 1D optimisation traversing weights in reverse.",
   },
   {
     tier: "hard",
-    titleVi: "Tìm đường ngắn nhất Dijkstra",
     titleEn: "Dijkstra shortest path",
-    hintVi: "Min-heap + danh sách kề có trọng số. Thư giãn cạnh.",
     hintEn: "Min-heap + weighted adjacency list. Relax edges.",
   },
   // Applied math
   {
     tier: "easy",
-    titleVi: "Tính GCD (UCLN) bằng thuật toán Euclid",
     titleEn: "Compute GCD via Euclid's algorithm",
-    hintVi: "gcd(a,b) = gcd(b, a mod b), dừng khi b = 0.",
     hintEn: "gcd(a,b) = gcd(b, a mod b), stop when b = 0.",
   },
   {
     tier: "easy",
-    titleVi: "Kiểm tra số chẵn/lẻ bằng phép AND bit",
     titleEn: "Check odd/even using bitwise AND",
-    hintVi: "n & 1 → 0 nếu chẵn, 1 nếu lẻ.",
     hintEn: "n & 1 → 0 if even, 1 if odd.",
   },
   {
     tier: "medium",
-    titleVi: "Đếm số bit 1 trong biểu diễn nhị phân",
     titleEn: "Count set bits (Hamming weight)",
-    hintVi: "Mẹo n & (n-1) xoá bit 1 thấp nhất mỗi vòng lặp.",
     hintEn: "Trick: n & (n-1) clears the lowest set bit each iteration.",
   },
   {
     tier: "medium",
-    titleVi: "Hash chuỗi bằng rolling hash (Rabin-Karp)",
     titleEn: "Rolling hash for string matching (Rabin-Karp)",
-    hintVi: "Hash cửa sổ trượt với modulo nguyên tố, so khớp O(n+m).",
     hintEn: "Sliding-window hash with prime modulus, O(n+m) matching.",
   },
   {
     tier: "medium",
-    titleVi: "Nghịch đảo modulo (modular inverse) bằng Fermat",
     titleEn: "Modular inverse via Fermat's little theorem",
-    hintVi: "Với p nguyên tố: a^(-1) ≡ a^(p-2) (mod p), dùng fast exponentiation.",
     hintEn: "When p is prime: a^(-1) ≡ a^(p-2) (mod p), via fast exponentiation.",
   },
   {
     tier: "hard",
-    titleVi: "PageRank đơn giản trên đồ thị web nhỏ",
     titleEn: "Simple PageRank on a small web graph",
-    hintVi: "Lặp nhân ma trận chuyển tiếp với vector điểm tới khi hội tụ.",
     hintEn: "Iterate matrix-vector multiplication until the score vector converges.",
   },
   {
     tier: "hard",
-    titleVi: "Union-Find (DSU) với path compression",
     titleEn: "Union-Find (DSU) with path compression",
-    hintVi: "find() nén đường, union theo rank — gần O(1) amortised.",
     hintEn: "find() compresses paths, union-by-rank — near O(1) amortised.",
   },
 ];
 
-const tierMeta: Record<Tier, { labelVi: string; labelEn: string; badge: string; border: string }> = {
+const tierMeta: Record<Tier, {  labelEn: string; badge: string; border: string }> = {
   easy: {
-    labelVi: "Cơ bản",
     labelEn: "Easy",
     badge: "bg-green-500/15 text-green-600 border-green-500/30 dark:text-green-400",
     border: "border-green-500/30 hover:border-green-500/60",
   },
   medium: {
-    labelVi: "Trung cấp",
     labelEn: "Medium",
     badge: "bg-yellow-500/15 text-yellow-700 border-yellow-500/30 dark:text-yellow-400",
     border: "border-yellow-500/30 hover:border-yellow-500/60",
   },
   hard: {
-    labelVi: "Nâng cao",
     labelEn: "Hard",
     badge: "bg-red-500/15 text-red-600 border-red-500/30 dark:text-red-400",
     border: "border-red-500/30 hover:border-red-500/60",
   },
 };
 
-const sectionLabel: Record<DsaSectionId, { vi: string; en: string }> = {
-  linear: { vi: "Tuyến tính", en: "Linear" },
-  nonlinear: { vi: "Phi tuyến tính", en: "Non-linear" },
-  algos: { vi: "Giải thuật", en: "Algorithms" },
+const sectionLabel: Record<DsaSectionId, string> = {
+  linear: "Linear",
+  nonlinear: "Non-linear",
+  algos: "Algorithms",
 };
 
 const DsaCurriculum = () => {
-  const { t, lang } = useLanguage();
+  
   const [tier, setTier] = useState<Tier | "all">("all");
   const [lessonFilter, setLessonFilter] = useState<DsaSectionId | "all">("all");
   const [openLesson, setOpenLesson] = useState<string | null>(dsaLessons[0]?.id ?? null);
@@ -438,18 +344,18 @@ const DsaCurriculum = () => {
     [tier],
   );
 
-  const tierTabs: Array<{ id: Tier | "all"; labelVi: string; labelEn: string }> = [
-    { id: "all", labelVi: "Tất cả", labelEn: "All" },
-    { id: "easy", labelVi: "Cơ bản", labelEn: "Easy" },
-    { id: "medium", labelVi: "Trung cấp", labelEn: "Medium" },
-    { id: "hard", labelVi: "Nâng cao", labelEn: "Hard" },
+  const tierTabs: Array<{ id: Tier | "all"; labelEn: string }> = [
+    { id: "all", labelEn: "All" },
+    { id: "easy", labelEn: "Easy" },
+    { id: "medium", labelEn: "Medium" },
+    { id: "hard", labelEn: "Hard" },
   ];
 
-  const lessonTabs: Array<{ id: DsaSectionId | "all"; vi: string; en: string }> = [
-    { id: "all", vi: "Tất cả", en: "All" },
-    { id: "linear", vi: "Tuyến tính", en: "Linear" },
-    { id: "nonlinear", vi: "Phi tuyến tính", en: "Non-linear" },
-    { id: "algos", vi: "Giải thuật", en: "Algorithms" },
+  const lessonTabs: Array<{ id: DsaSectionId | "all"; en: string }> = [
+    { id: "all", en: "All" },
+    { id: "linear", en: "Linear" },
+    { id: "nonlinear", en: "Non-linear" },
+    { id: "algos", en: "Algorithms" },
   ];
 
   return (
@@ -461,7 +367,7 @@ const DsaCurriculum = () => {
             to="/programming"
             className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-1 mb-6"
           >
-            <ArrowLeft className="w-4 h-4" /> {t("Quay lại Lập trình", "Back to Programming")}
+            <ArrowLeft className="w-4 h-4" /> {"Back to Programming"}
           </Link>
 
           {/* Hero */}
@@ -470,13 +376,10 @@ const DsaCurriculum = () => {
               <Network className="w-8 h-8 text-white" />
             </div>
             <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-3">
-              {t("Cấu trúc dữ liệu & Giải thuật", "Data Structures & Algorithms")}
+              {"Data Structures & Algorithms"}
             </h1>
             <p className="text-muted-foreground max-w-2xl mx-auto text-base sm:text-lg">
-              {t(
-                "Lộ trình nền tảng giúp bạn xây dựng tư duy thuật toán vững chắc, từ cấu trúc dữ liệu tuyến tính tới đồ thị, cây và các giải thuật kinh điển.",
-                "A foundation roadmap to build solid algorithmic thinking — from linear structures to graphs, trees and classic algorithms.",
-              )}
+              A foundation roadmap to build solid algorithmic thinking — from linear structures to graphs, trees and classic algorithms.
             </p>
 
             {/* Quick navigation */}
@@ -485,19 +388,19 @@ const DsaCurriculum = () => {
                 href="#curriculum"
                 className="px-4 py-2 rounded-lg text-sm font-medium bg-secondary text-foreground hover:bg-primary/10 hover:text-primary transition-colors"
               >
-                📚 {t("Lộ trình", "Curriculum")}
+                📚 {"Curriculum"}
               </a>
               <a
                 href="#lessons"
                 className="px-4 py-2 rounded-lg text-sm font-medium bg-secondary text-foreground hover:bg-primary/10 hover:text-primary transition-colors"
               >
-                📖 {t("Bài học", "Lessons")}
+                📖 {"Lessons"}
               </a>
               <a
                 href="#practice"
                 className="px-4 py-2 rounded-lg text-sm font-medium bg-gradient-to-r from-primary to-emerald-500 text-white shadow hover:opacity-90 transition-opacity"
               >
-                💪 {t("Kho luyện tập", "Practice Bank")}
+                💪 {"Practice Bank"}
               </a>
             </div>
           </section>
@@ -518,7 +421,7 @@ const DsaCurriculum = () => {
                     className={`inline-block w-1.5 h-8 rounded-full bg-gradient-to-b ${sec.accent}`}
                   />
                   <h2 className="text-xl sm:text-2xl font-bold text-foreground">
-                    {lang === "vi" ? sec.titleVi : sec.titleEn}
+                    {sec.titleEn}
                   </h2>
                 </div>
                 <div className="grid sm:grid-cols-2 gap-4">
@@ -537,10 +440,10 @@ const DsaCurriculum = () => {
                           </div>
                           <div className="min-w-0">
                             <h3 className="font-semibold text-foreground mb-1">
-                              {lang === "vi" ? topic.titleVi : topic.titleEn}
+                              {topic.titleEn}
                             </h3>
                             <p className="text-sm text-muted-foreground leading-relaxed">
-                              {lang === "vi" ? topic.descVi : topic.descEn}
+                              {topic.descEn}
                             </p>
                           </div>
                         </div>
@@ -557,14 +460,11 @@ const DsaCurriculum = () => {
             <div className="flex items-center gap-2 mb-2">
               <BookOpen className="w-5 h-5 text-primary" />
               <h2 className="text-2xl font-bold text-foreground">
-                {t("Bài học chi tiết", "Detailed Lessons")}
+                {"Detailed Lessons"}
               </h2>
             </div>
             <p className="text-sm text-muted-foreground mb-5">
-              {t(
-                "15 bài học có lý thuyết, ví dụ Python, phân tích độ phức tạp và quiz củng cố.",
-                "Fifteen lessons with theory, Python examples, complexity analysis and reinforcement quizzes.",
-              )}
+              Fifteen lessons with theory, Python examples, complexity analysis and reinforcement quizzes.
             </p>
 
             <div className="flex flex-wrap gap-2 mb-5">
@@ -580,7 +480,7 @@ const DsaCurriculum = () => {
                         : "bg-secondary text-muted-foreground hover:text-foreground"
                     }`}
                   >
-                    {lang === "vi" ? tab.vi : tab.en}
+                    {tab.en}
                   </button>
                 );
               })}
@@ -610,19 +510,17 @@ const DsaCurriculum = () => {
                       <div className="min-w-0 flex-1">
                         <div className="flex flex-wrap items-center gap-2 mb-1">
                           <Badge variant="outline" className="text-[10px] uppercase">
-                            {lang === "vi"
-                              ? sectionLabel[lesson.sectionId].vi
-                              : sectionLabel[lesson.sectionId].en}
+                            {sectionLabel[lesson.sectionId]}
                           </Badge>
                           <h3 className="font-semibold text-foreground">
-                            {lang === "vi" ? lesson.titleVi : lesson.titleEn}
+                            {lesson.titleEn}
                           </h3>
                           <Badge variant="secondary" className="text-[10px]">
-                            {allQuizzes.length} {t("câu quiz", "quizzes")}
+                            {allQuizzes.length} {"quizzes"}
                           </Badge>
                         </div>
                         <p className="text-sm text-muted-foreground">
-                          {lang === "vi" ? lesson.summaryVi : lesson.summaryEn}
+                          {lesson.summaryEn}
                         </p>
                       </div>
                       <span className="text-xs text-muted-foreground shrink-0">
@@ -633,8 +531,8 @@ const DsaCurriculum = () => {
                     {open && (
                       <div className="px-5 pb-5 space-y-4 border-t border-border/60 pt-4">
                         <DsaTheoryText
-                          text={lang === "vi" ? lesson.theoryVi : lesson.theoryEn}
-                          lang={lang}
+                          text={lesson.theoryEn}
+                          lang="en"
                         />
 
                         <CodeBlock
@@ -645,7 +543,7 @@ const DsaCurriculum = () => {
                         <div className="flex items-start gap-2 text-sm bg-primary/5 border border-primary/20 rounded-lg p-3">
                           <Gauge className="w-4 h-4 text-primary mt-0.5 shrink-0" />
                           <span className="text-foreground">
-                            {lang === "vi" ? lesson.complexityVi : lesson.complexityEn}
+                            {lesson.complexityEn}
                           </span>
                         </div>
 
@@ -653,7 +551,7 @@ const DsaCurriculum = () => {
                           <div className="flex items-center gap-2 mb-3">
                             <Lightbulb className="w-4 h-4 text-amber-500" />
                             <span className="text-sm font-semibold text-foreground">
-                              {t(`Quiz củng cố (${allQuizzes.length} câu)`, `Reinforcement Quiz (${allQuizzes.length} questions)`)}
+                              {`Reinforcement Quiz (${allQuizzes.length} questions)`}
                             </span>
                           </div>
                           <div className="space-y-5">
@@ -665,7 +563,7 @@ const DsaCurriculum = () => {
                                 <div key={qKey} className="pb-4 border-b border-border/40 last:border-0 last:pb-0">
                                   <p className="text-sm text-foreground mb-3">
                                     <span className="font-semibold text-primary mr-1">{qi + 1}.</span>
-                                    {lang === "vi" ? q.questionVi : q.questionEn}
+                                    {q.questionEn}
                                   </p>
                                   <div className="grid sm:grid-cols-2 gap-2">
                                     {q.options.map((opt, idx) => {
@@ -704,7 +602,7 @@ const DsaCurriculum = () => {
                                         <XCircle className="w-4 h-4 mt-0.5 shrink-0" />
                                       )}
                                       <span>
-                                        {lang === "vi" ? q.explanationVi : q.explanationEn}
+                                        {q.explanationEn}
                                       </span>
                                     </div>
                                   )}
@@ -721,7 +619,7 @@ const DsaCurriculum = () => {
                                         })
                                       }
                                     >
-                                      {t("Thử lại", "Try again")}
+                                      {"Try again"}
                                     </Button>
                                   )}
                                 </div>
@@ -743,21 +641,18 @@ const DsaCurriculum = () => {
             <div className="flex items-center gap-2 mb-2">
               <Sparkles className="w-5 h-5 text-primary" />
               <h2 className="text-2xl font-bold text-foreground">
-                {t("Kho Bài Luyện Tập", "Practice Exercise Bank")}
+                {"Practice Exercise Bank"}
               </h2>
             </div>
             <p className="text-sm text-muted-foreground mb-5">
-              {t(
-                "Chọn cấp độ phù hợp và rèn luyện tư duy giải thuật của bạn.",
-                "Pick the right difficulty tier and sharpen your algorithmic thinking.",
-              )}
+              Pick the right difficulty tier and sharpen your algorithmic thinking.
             </p>
 
             <div className="glass-card rounded-xl p-4 mb-5">
               <div className="flex items-center gap-2 mb-3">
                 <Filter className="w-4 h-4 text-muted-foreground" />
                 <span className="text-sm font-medium text-foreground">
-                  {t("Phân loại theo cấp độ", "Filter by difficulty")}
+                  {"Filter by difficulty"}
                 </span>
               </div>
               <div className="flex flex-wrap gap-2">
@@ -773,7 +668,7 @@ const DsaCurriculum = () => {
                           : "bg-secondary text-muted-foreground hover:text-foreground"
                       }`}
                     >
-                      {lang === "vi" ? tab.labelVi : tab.labelEn}
+                      {tab.labelEn}
                     </button>
                   );
                 })}
@@ -796,14 +691,14 @@ const DsaCurriculum = () => {
                         <Code2 className="w-4 h-4 text-primary" />
                       </div>
                       <Badge variant="outline" className={`text-[10px] font-bold uppercase ${meta.badge}`}>
-                        {lang === "vi" ? meta.labelVi : meta.labelEn}
+                        {meta.labelEn}
                       </Badge>
                     </div>
                     <h3 className="font-semibold text-foreground text-sm leading-snug mb-2">
-                      {lang === "vi" ? ex.titleVi : ex.titleEn}
+                      {ex.titleEn}
                     </h3>
                     <p className="text-xs text-muted-foreground leading-relaxed">
-                      {lang === "vi" ? ex.hintVi : ex.hintEn}
+                      {ex.hintEn}
                     </p>
                   </motion.div>
                 );

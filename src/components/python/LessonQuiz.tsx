@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { Check, X, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useLanguage } from "@/contexts/LanguageContext";
+
 import type { QuizQuestion } from "@/data/curriculum/pythonPathway";
 import { cn } from "@/lib/utils";
 
@@ -16,8 +16,8 @@ interface Props {
 }
 
 const LessonQuiz = ({ questions, onComplete }: Props) => {
-  const { lang } = useLanguage();
-  const language = lang;
+  
+  
   const [answers, setAnswers] = useState<(string | number | null)[]>(questions.map(() => null));
   const [submitted, setSubmitted] = useState(false);
 
@@ -56,13 +56,13 @@ const LessonQuiz = ({ questions, onComplete }: Props) => {
             <div className="flex items-start gap-2 mb-3">
               <span className="text-xs font-bold text-primary shrink-0 mt-0.5">Q{i + 1}.</span>
               <p className="text-sm font-medium text-foreground">
-                {language === "vi" ? q.q : q.qEn}
+                {q.qEn}
               </p>
             </div>
 
             {q.type === "mcq" && (
               <div className="space-y-2">
-                {(language === "vi" ? q.options : q.optionsEn).map((opt, idx) => {
+                {(q.optionsEn).map((opt, idx) => {
                   const selected = a === idx;
                   const showCorrect = submitted && idx === q.answer;
                   const showWrong = submitted && selected && idx !== q.answer;
@@ -125,7 +125,7 @@ const LessonQuiz = ({ questions, onComplete }: Props) => {
       <div className="flex items-center gap-3">
         {!submitted ? (
           <Button onClick={handleSubmit} disabled={answers.some((a) => a === null || a === "")} className="flex-1">
-            {language === "vi" ? "Nộp bài" : "Submit"}
+            {"Submit"}
           </Button>
         ) : (
           <>
@@ -134,11 +134,11 @@ const LessonQuiz = ({ questions, onComplete }: Props) => {
               passed ? "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400" : "bg-amber-500/10 text-amber-700 dark:text-amber-400",
             )}>
               {passed ? "🎉 " : "📝 "}
-              {language === "vi" ? `Điểm: ${score}/${questions.length}` : `Score: ${score}/${questions.length}`}
-              {passed ? (language === "vi" ? " - Đạt!" : " - Passed!") : (language === "vi" ? " - Cần ≥2" : " - Need ≥2")}
+              {`Score: ${score}/${questions.length}`}
+              {passed ? " - Passed!" : " - Need ≥2"}
             </div>
             <Button variant="outline" onClick={handleReset}>
-              <RotateCcw className="w-4 h-4 mr-1" /> {language === "vi" ? "Làm lại" : "Retry"}
+              <RotateCcw className="w-4 h-4 mr-1" /> {"Retry"}
             </Button>
           </>
         )}

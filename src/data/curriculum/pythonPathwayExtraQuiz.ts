@@ -40,7 +40,7 @@ export const extraQuiz: Record<string, QuizQuestion[]> = {
   ],
   "m1-l5-fstring": [
     mc("Which prefix marks an f-string?", ['"', "f", "r", "b"], 1, "f\"...\" enables interpolation."),
-    fl("Format pi with 2 decimals", 'print(f"', '{pi:.2f}")', "", "Use :.2f format spec."),
+    fl("Add the label before pi, formatted to 2 decimal places", 'print(f"', '{pi:.2f}")', "Pi: ", "The completed output template is Pi: {pi:.2f}."),
   ],
   "m1-l6-comments": [
     mc("Single-line comment in Python?", ["//", "#", "--", "/* */"], 1),
