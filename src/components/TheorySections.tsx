@@ -307,7 +307,7 @@ function wrapBareLatexInLine(line: string): string {
 
 function wrapStandaloneLatexLine(line: string): string {
   const trimmed = line.trim();
-  if (!trimmed || trimmed.includes("$") || /^([>#\-]|\d+\.)\s/.test(trimmed)) return line;
+  if (!trimmed || trimmed.includes("$") || /^([>#-]|\d+\.)\s/.test(trimmed)) return line;
 
   const candidate = trimmed.replace(/^\(+\s*/, "").replace(/\s*\)+$/, "");
   const startsMathy = /^\\[A-Za-z]+/.test(candidate);
@@ -363,7 +363,7 @@ function wrapLatexRuns(text: string): string {
       trail = trailMatch[2];
     }
     // Strip leading punctuation too (rare).
-    const leadMatch = inner.match(/^([(\[]+)([\s\S]+)$/);
+    const leadMatch = inner.match(/^([([]+)([\s\S]+)$/);
     let lead = "";
     if (leadMatch) {
       lead = leadMatch[1];
@@ -441,18 +441,19 @@ function splitBody(body: string): Chunk[] {
 
 // ── Markdown components: blockquote → Callout, code → CodeBlock, table → wrapper ──
 const markdownComponents = (defaultLang: string) => ({
-  table: ({ children }: any) => (
+  table: ({ children }: { children?: React.ReactNode }) => (
     <div className="theory-table-wrap">
       <table>{children}</table>
     </div>
   ),
-  blockquote: ({ children }: any) => {
+  blockquote: ({ children }: { children?: React.ReactNode }) => {
     const text = (() => {
       try {
-        const collect = (n: any): string => {
+        const collect = (n: unknown): string => {
           if (typeof n === "string") return n;
           if (Array.isArray(n)) return n.map(collect).join("");
-          if (n?.props?.children) return collect(n.props.children);
+          const props = (n as { props?: { children?: unknown } })?.props;
+          if (props?.children) return collect(props.children);
           return "";
         };
         return collect(children).toLowerCase();
@@ -467,7 +468,7 @@ const markdownComponents = (defaultLang: string) => ({
     else if (/^(\s|📝|ℹ️)*(lưu ý|note|ghi chú|chú thích)/i.test(text) || /📝|ℹ️/.test(text)) variant = "note";
     return <Callout variant={variant}>{children}</Callout>;
   },
-  code({ inline, className, children, ...props }: any) {
+  code({ inline, className, children, ...props }: { inline?: boolean; className?: string; children?: React.ReactNode } & Record<string, unknown>) {
     const match = /language-(\w+)/.exec(className || "");
     const codeStr = String(children).replace(/\n$/, "");
     // Mermaid is handled by splitBody before reaching here, but guard just in case.
@@ -480,7 +481,7 @@ const markdownComponents = (defaultLang: string) => ({
   // with a soft border, rounded corners, drop shadow, and italic caption.
   // Reserves a 1:1 aspect ratio so the page layout doesn't shift while loading
   // (preserves the scrollbar-stability behavior).
-  img({ src, alt }: any) {
+  img({ src, alt }: { src?: string; alt?: string }) {
     if (!src) return null;
     const caption = (alt || "").trim();
     // Use <span>s (inline) instead of <figure>/<figcaption> because react-markdown
