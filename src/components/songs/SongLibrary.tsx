@@ -560,7 +560,7 @@ function BlanksQuiz({ song }: { song: Song }) {
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
 
-  const items = song.blanks_quiz ?? [];
+  const items = useMemo(() => song.blanks_quiz ?? [], [song.blanks_quiz]);
   const totalBlanks = useMemo(
     () => items.reduce((sum, it) => sum + it.blanks.length, 0),
     [items],
