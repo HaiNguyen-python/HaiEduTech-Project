@@ -512,9 +512,9 @@ function groupRepeatedCallouts(markdown: string): string {
 
       const replacements = new Map<number, string>();
       grouped.forEach((entries, variant) => {
-        if (entries.length < 2) return;
         const { marker, label } = GROUPED_CALLOUT_CONFIG[variant];
-        replacements.set(entries[0].index, `> ${marker} ${label}: ${entries.map((entry) => entry.content).join(" • ")}\n`);
+        const bulletLines = entries.map((entry) => `> - ${entry.content}`).join("\n");
+        replacements.set(entries[0].index, `> ${marker} ${label}:\n>\n${bulletLines}\n`);
         entries.slice(1).forEach((entry) => replacements.set(entry.index, ""));
       });
 
