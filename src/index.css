@@ -117,6 +117,51 @@
     letter-spacing: 0;
   }
 
+  .english-learning-modules {
+    font-family: "Manrope", sans-serif;
+    letter-spacing: 0;
+    --primary: 217 91% 60%;
+    --primary-foreground: 0 0% 100%;
+    --ring: 217 91% 60%;
+    --module-tint: 217 91% 60%;
+  }
+
+  .english-learning-modules h2,
+  .english-learning-modules [class*="font-display"] {
+    font-family: "Sora", sans-serif;
+    letter-spacing: 0;
+  }
+
+  .english-learning-modules .module-category {
+    border-color: hsl(var(--module-tint) / 0.34);
+    background: linear-gradient(135deg, hsl(var(--module-tint) / 0.1), hsl(var(--card)) 58%);
+  }
+
+  .english-learning-modules .module-category--ielts {
+    --module-tint: 217 91% 60%;
+  }
+
+  .english-learning-modules .module-category--toeic,
+  .english-learning-modules .module-category--national {
+    --module-tint: 38 92% 50%;
+  }
+
+  .english-learning-modules .module-category--cambridge {
+    --module-tint: 340 82% 62%;
+  }
+
+  .english-learning-modules .module-category--grammar {
+    --module-tint: 268 74% 62%;
+  }
+
+  .english-learning-modules .module-category--sat {
+    --module-tint: 160 84% 39%;
+  }
+
+  .english-learning-modules .learning-cluster > h3 {
+    min-width: 0;
+  }
+
   .fun-facts-page {
     --primary: 217 91% 60%;
     --primary-foreground: 0 0% 100%;

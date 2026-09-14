@@ -1,6 +1,7 @@
 # Roadmap
 
 ## Done
+- [x] English learning modules: chibi illustrated skill clusters, larger Sora/Manrope typography, condensed IELTS/TOEIC/Cambridge/National Exam/Grammar/SAT navigation, with all existing module links preserved
 - [x] Speaking Coach stabilisation: 24 duplicated practice sentences rewritten (ids kept), ref warnings fixed in the conversation scroll button and weak-word panel, duplicate text now a blocking audit error plus a regression test
 - [x] English modules readability: 93 module card colors normalized to soft gradients (/15), invalid bare color tokens replaced, card border + font-semibold lesson links; verified on desktop/mobile, lesson detail and SAT curriculum
 - [x] Assignments in the floating notebook: student tick list with progress bar, realtime sync, shaking notification bell, and teacher completion charts
