@@ -2610,36 +2610,6 @@ export type Database = {
         }
         Relationships: []
       }
-      programming_lesson_index: {
-        Row: {
-          base_theory: string
-          code_language: string | null
-          lesson_id: string
-          lesson_title: string
-          module_id: string
-          module_title: string
-          updated_at: string
-        }
-        Insert: {
-          base_theory?: string
-          code_language?: string | null
-          lesson_id: string
-          lesson_title?: string
-          module_id: string
-          module_title?: string
-          updated_at?: string
-        }
-        Update: {
-          base_theory?: string
-          code_language?: string | null
-          lesson_id?: string
-          lesson_title?: string
-          module_id?: string
-          module_title?: string
-          updated_at?: string
-        }
-        Relationships: []
-      }
       programming_theory_cache: {
         Row: {
           citations: Json
