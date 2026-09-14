@@ -1,6 +1,7 @@
 # Roadmap
 
 ## Done
+- [x] Assignments in the floating notebook: student tick list with progress bar, realtime sync, shaking notification bell, and teacher completion charts
 - [x] IELTS Speaking Structures: complete examples, highlighted target language, audio, voice practice, AI grading, and responsive verification
 - [x] IELTS Speaking phrase cards: English examples, per-phrase voice sentence practice, AI feedback, best-score history, and activity tracking
 - [x] Speaking Coach: illustrated header and Speak with Mr. Hai two-way voice practice with animated states, situational topics, transcript, corrections, session summary, and local history

@@ -15,6 +15,13 @@
       "when": 1789148541033,
       "tag": "0001_tighten_content_and_hsk_translation_access",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1789366028296,
+      "tag": "0002_assignment_tick_support",
+      "breakpoints": true
     }
   ]
 }

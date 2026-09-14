@@ -43,6 +43,7 @@ import {
 import { ASSIGNMENT_LESSON_CATALOG } from "@/lib/assignmentLessonCatalog";
 import { fetchAllRows } from "@/lib/adminData";
 import { dedupeStudentProfiles, fetchAllProfiles } from "@/lib/adminStudents";
+import AssignmentCompletionCharts from "@/components/admin/AssignmentCompletionCharts";
 
 type StatusFilter = "all" | "in_progress" | "completed" | "overdue";
 type SubjectFilter = "all" | keyof typeof SUBJECT_LABELS;
@@ -152,6 +153,27 @@ const AdminAssignments = () => {
     if (isTeacher) fetchAll();
   }, [isTeacher, fetchAll]);
 
+  // Live refresh: a student ticking a task in the notebook updates this table
+  // and the charts without a manual reload. Debounced so a class-wide burst of
+  // ticks triggers one refetch, not one per row.
+  useEffect(() => {
+    if (!isTeacher) return;
+    let timer: ReturnType<typeof setTimeout> | null = null;
+    const schedule = () => {
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(() => fetchAll(), 800);
+    };
+    const channel = supabase
+      .channel("admin_assignments_live")
+      .on("postgres_changes", { event: "*", schema: "public", table: "student_submissions" }, schedule)
+      .on("postgres_changes", { event: "*", schema: "public", table: "assignments" }, schedule)
+      .subscribe();
+    return () => {
+      if (timer) clearTimeout(timer);
+      supabase.removeChannel(channel);
+    };
+  }, [isTeacher, fetchAll]);
+
   const rows = useMemo(
     () => buildAssignmentRows(assignments, submissions),
     [assignments, submissions],
@@ -171,6 +193,11 @@ const AdminAssignments = () => {
     rows.forEach((r) => r.level && set.add(r.level));
     return Array.from(set);
   }, [rows]);
+
+  const studentName = useCallback(
+    (id: string) => students.find((s) => s.id === id)?.full_name || id.slice(0, 8),
+    [students],
+  );
 
   const activeCount = rows.filter((r) => r.derivedStatus !== "completed").length;
   const runtimeHours = totalRuntimeHours(submissions);
@@ -239,6 +266,9 @@ const AdminAssignments = () => {
             hint="Total time logged by students"
           />
         </div>
+
+        {/* Completion analytics */}
+        <AssignmentCompletionCharts rows={filteredRows} studentName={studentName} />
 
         {/* Filter bar */}
         <div className="rounded-xl border border-slate-100 bg-white p-4 flex flex-wrap items-center gap-3">
@@ -766,6 +796,28 @@ function DetailSheet({
               <Field label="Progress" value={`${row.progressPct.toFixed(2)}%`} />
               <Field label="Avg accuracy" value={row.averageAccuracy != null ? `${Math.round(row.averageAccuracy)}%` : "—"} />
             </div>
+
+            {(() => {
+              const doneIds = row.target_student_ids.filter((sid) =>
+                row.submissions.some((s) => s.student_id === sid && s.status === "completed"));
+              const pendingIds = row.target_student_ids.filter((sid) => !doneIds.includes(sid));
+              return (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="rounded-lg border border-emerald-200 bg-emerald-50/60 p-3">
+                    <p className="text-xs font-semibold text-emerald-800">Đã tick ({doneIds.length})</p>
+                    <p className="mt-1 text-sm text-emerald-900 break-words">
+                      {doneIds.length ? doneIds.map(nameOf).join(", ") : "—"}
+                    </p>
+                  </div>
+                  <div className="rounded-lg border border-amber-200 bg-amber-50/60 p-3">
+                    <p className="text-xs font-semibold text-amber-800">Chưa làm ({pendingIds.length})</p>
+                    <p className="mt-1 text-sm text-amber-900 break-words">
+                      {pendingIds.length ? pendingIds.map(nameOf).join(", ") : "—"}
+                    </p>
+                  </div>
+                </div>
+              );
+            })()}
 
             <div>
               <p className="text-xs uppercase tracking-wider text-slate-500 mb-2">

@@ -61,6 +61,26 @@ export function buildAssignmentRows(
   });
 }
 
+export interface StudentCompletion {
+  studentId: string;
+  assigned: number;
+  done: number;
+}
+
+/** Per-student totals across every assignment they were targeted with. */
+export function buildStudentCompletion(rows: AssignmentRow[]): StudentCompletion[] {
+  const map = new Map<string, StudentCompletion>();
+  for (const row of rows) {
+    for (const sid of row.target_student_ids ?? []) {
+      const entry = map.get(sid) ?? { studentId: sid, assigned: 0, done: 0 };
+      entry.assigned += 1;
+      if (row.submissions.some((s) => s.student_id === sid && s.status === "completed")) entry.done += 1;
+      map.set(sid, entry);
+    }
+  }
+  return Array.from(map.values());
+}
+
 export function totalRuntimeHours(submissions: Submission[]): number {
   const seconds = submissions.reduce((sum, s) => sum + (s.time_spent_seconds ?? 0), 0);
   return seconds / 3600;

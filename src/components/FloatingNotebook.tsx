@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { BookOpen, Plus, Save, X, Trash2, GripVertical, Bold, Italic, Underline, List, ListOrdered, ListChecks, Palette, RotateCcw, Highlighter, SwatchBook, ExternalLink, Download, Maximize2, Minimize2, PenLine, FileText, Share2, Users } from "lucide-react";
+import { BookOpen, Plus, Save, X, Trash2, GripVertical, Bold, Italic, Underline, List, ListOrdered, ListChecks, Palette, RotateCcw, Highlighter, SwatchBook, ExternalLink, Download, Maximize2, Minimize2, PenLine, FileText, Share2, Users, ClipboardCheck } from "lucide-react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
@@ -16,6 +16,7 @@ import Image from "@tiptap/extension-image";
 import NotebookWhiteboard from "@/components/notebook/NotebookWhiteboard";
 import ShareNotebookDialog from "@/components/notebook/ShareNotebookDialog";
 import SharedWithMeList from "@/components/notebook/SharedWithMeList";
+import NotebookAssignments from "@/components/notebook/NotebookAssignments";
 
 
 
@@ -113,7 +114,8 @@ const FloatingNotebook = () => {
   const [position, setPosition] = useState(() => getDefaultPosition(defaultSize.width, defaultSize.height));
   const [maximized, setMaximized] = useState(() => localStorage.getItem("notebook-maximized") === "1");
   // "notes" = rich text editor, "board" = live whiteboard, "shared" = notes others shared with me.
-  const [tab, setTab] = useState<"notes" | "board" | "shared">("notes");
+  const [tab, setTab] = useState<"notes" | "board" | "shared" | "assignments">("notes");
+  const [pendingAssignments, setPendingAssignments] = useState(0);
   const [shareOpen, setShareOpen] = useState(false);
 
   const preMaximize = useRef<{ size: { width: number; height: number }; position: { x: number; y: number } } | null>(null);
@@ -947,29 +949,35 @@ const FloatingNotebook = () => {
               </div>
             </div>
 
-            {/* Tabs: rich text notes, live whiteboard, notes shared with me */}
-            <div className="px-3 pt-2 flex items-center gap-1">
+            {/* Tabs: rich text notes, live whiteboard, notes shared with me, assignments */}
+            <div className="px-3 pt-2 flex items-center gap-1 flex-wrap">
               {([
                 { key: "notes" as const, label: "Ghi chú", Icon: FileText },
                 { key: "board" as const, label: "Bảng trắng", Icon: PenLine },
                 { key: "shared" as const, label: "Được chia sẻ", Icon: Users },
+                { key: "assignments" as const, label: "Bài tập", Icon: ClipboardCheck },
               ]).map(({ key, label, Icon }) => (
 
                 <button
                   key={key}
                   type="button"
                   onClick={() => setTab(key)}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
+                  className={`relative flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
                     tab === key ? "bg-primary text-primary-foreground" : "hover:bg-muted hover:text-foreground text-muted-foreground"
                   }`}
                 >
                   <Icon size={13} /> {label}
+                  {key === "assignments" && pendingAssignments > 0 && (
+                    <span className="ml-0.5 min-w-[16px] h-[16px] px-1 rounded-full bg-rose-500 text-white text-[10px] font-bold leading-[16px] text-center">
+                      {pendingAssignments > 9 ? "9+" : pendingAssignments}
+                    </span>
+                  )}
                 </button>
               ))}
             </div>
 
             {/* Saved notes selector - compact dropdown */}
-            <div className={`px-3 pt-2 flex items-center gap-2 ${tab === "shared" ? "hidden" : ""}`}>
+            <div className={`px-3 pt-2 flex items-center gap-2 ${tab === "shared" || tab === "assignments" ? "hidden" : ""}`}>
 
               <select
                 value={selectedId || ""}
@@ -1012,7 +1020,7 @@ const FloatingNotebook = () => {
             </div>
 
             {/* Title + Subject */}
-            <div className={`px-3 pt-2 flex gap-2 ${tab === "shared" ? "hidden" : ""}`}>
+            <div className={`px-3 pt-2 flex gap-2 ${tab === "shared" || tab === "assignments" ? "hidden" : ""}`}>
 
               <input
                 value={title}
@@ -1154,6 +1162,14 @@ const FloatingNotebook = () => {
               <div className="px-3 pt-2 flex-1 min-h-0">
                 <NotebookWhiteboard onInsert={handleInsertDrawing} />
               </div>
+            ) : tab === "assignments" ? (
+              <div className="px-3 pt-2 flex-1 min-h-0 overflow-auto">
+                <NotebookAssignments
+                  userId={user?.id ?? null}
+                  onCountChange={setPendingAssignments}
+                  onNavigate={() => setOpen(false)}
+                />
+              </div>
             ) : (
               <div className="px-3 pt-2 flex-1 min-h-0 overflow-auto">
                 <SharedWithMeList compact />
@@ -1161,8 +1177,8 @@ const FloatingNotebook = () => {
             )}
 
 
-            {/* Footer */}
-            <div className="flex items-center justify-between px-3 py-2 text-xs" style={{ borderTop: `1px solid ${theme.border}`, color: theme.text, opacity: 0.7 }}>
+            {/* Footer - note tools only, hidden on the read-only tabs */}
+            <div className={`flex items-center justify-between px-3 py-2 text-xs ${tab === "shared" || tab === "assignments" ? "hidden" : ""}`} style={{ borderTop: `1px solid ${theme.border}`, color: theme.text, opacity: 0.7 }}>
               <span>{wordCount} từ</span>
               <div className="flex items-center gap-2">
                 {selectedId && (
