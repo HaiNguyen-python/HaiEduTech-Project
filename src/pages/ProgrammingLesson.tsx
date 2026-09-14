@@ -305,6 +305,15 @@ function getPillarModules(pillar: string): ProgrammingModule[] {
   return base;
 }
 
+// Detect Vietnamese prose in AI theory. Programming lessons are English-only,
+// so any Vietnamese-specific diacritic means the cached text must be rebuilt.
+const VIETNAMESE_CHARS = /[ăâđêôơưĂÂĐÊÔƠƯ]|[àáảãạằắẳẵặầấẩẫậèéẻẽẹềếểễệìíỉĩịòóỏõọồốổỗộờớởỡợùúủũụừứửữựỳýỷỹỵ]/;
+function hasVietnameseText(md: string): boolean {
+  // Ignore fenced code blocks and image/link URLs before testing.
+  const prose = md.replace(/```[\s\S]*?```/g, " ").replace(/\]\([^)]*\)/g, "]");
+  return VIETNAMESE_CHARS.test(prose);
+}
+
 
 const ProgrammingLessonPage = () => {
   const { moduleId, lessonId } = useParams();
@@ -338,6 +347,9 @@ const ProgrammingLessonPage = () => {
   const [enhancedMd, setEnhancedMd] = useState<string | null>(null);
   const [enhanceLoading, setEnhanceLoading] = useState(false);
   const [useEnhanced, setUseEnhanced] = useState(true);
+  // True when the AI Deep-Dive could not be produced - the original English
+  // theory is shown instead so the lesson is never blank.
+  const [deepDiveUnavailable, setDeepDiveUnavailable] = useState(false);
   // Set of cached lesson keys "moduleId::lessonId" - drives the sidebar ✨ Enhanced badge
   const [cachedLessonKeys, setCachedLessonKeys] = useState<Set<string>>(new Set());
   // Admin batch illustration generation
@@ -352,17 +364,16 @@ const ProgrammingLessonPage = () => {
   const isSQL = mod?.id === "prog-sql" || mod?.course === "sql";
 
   // Load cached AI theory whenever the lesson changes.
-  // Auto-trigger Enhance with AI when:
-  //   (a) no cached entry exists at all, OR
-  //   (b) cached markdown exists but is missing inline illustrations.
-  // This guarantees every lesson (especially NLP) opens with the AI Deep-Dive
-  // and cute infographic illustrations rendered.
+  // Deep-Dive is the DEFAULT reading mode for every Programming lesson:
+  //   (a) cached English Deep-Dive -> shown immediately,
+  //   (b) no cache (or a stale Vietnamese cache) -> generated now and switched in,
+  //   (c) AI unavailable -> original English theory stays readable.
   useEffect(() => {
     if (!mod || !lesson) return;
     setEnhancedMd(null);
-    // Show ORIGINAL theory by default. Students can opt into AI Deep-Dive
-    // explicitly via the toggle button - do NOT auto-switch them.
-    setUseEnhanced(false);
+    setDeepDiveUnavailable(false);
+    // Deep-Dive by default. The toggle still lets students read the original.
+    setUseEnhanced(true);
     supabase
       .from("programming_theory_cache")
       .select("enhanced_markdown, illustrations")
@@ -371,9 +382,8 @@ const ProgrammingLessonPage = () => {
       .maybeSingle()
       .then(({ data }) => {
         if (!data?.enhanced_markdown) {
-          // Pre-warm cache in background so Deep-Dive is ready when clicked,
-          // but DO NOT switch the view away from Original.
-          handleEnhanceTheory(false, { autoSwitch: false, silent: true });
+          // Generate the Deep-Dive now and switch to it when ready.
+          handleEnhanceTheory(false, { autoSwitch: true, silent: true });
           return;
         }
         const cleaned = data.enhanced_markdown
@@ -381,6 +391,12 @@ const ProgrammingLessonPage = () => {
           .replace(/\n#{1,6}\s*(References|Sources|Citations|Tham khảo|Nguồn)[\s\S]*$/i, "")
           .replace(/[ \t]+([.,;:!?])/g, "$1")
           .replace(/[ \t]{2,}/g, " ");
+        // A cached entry written before the English-only rule can still hold
+        // Vietnamese prose - regenerate it instead of showing mixed language.
+        if (hasVietnameseText(cleaned)) {
+          handleEnhanceTheory(true, { autoSwitch: true, silent: true });
+          return;
+        }
         setEnhancedMd(cleaned);
         // If cached markdown is missing inline illustrations, refresh in background.
         const hasIllustrations = /!\[[^\]]*\]\([^)]+\)/.test(cleaned);
@@ -394,7 +410,9 @@ const ProgrammingLessonPage = () => {
   const handleEnhanceTheory = async (forceRefresh = false, opts: { autoSwitch?: boolean; silent?: boolean } = {}) => {
     if (!mod || !lesson) return;
     const { autoSwitch = true, silent = false } = opts;
-    if (!silent) setEnhanceLoading(true);
+    // The spinner always shows: Deep-Dive is the default view, so learners must
+    // see that the deeper version is being prepared.
+    setEnhanceLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke("enhance-programming-theory", {
         body: {
@@ -409,16 +427,21 @@ const ProgrammingLessonPage = () => {
       });
       if (error) throw error;
       if (data?.fallback) {
+        setDeepDiveUnavailable(true);
         if (!silent) toast.warning("AI Deep-Dive is temporarily unavailable. Showing base theory.");
-      } else if (data?.markdown) {
+      } else if (data?.markdown && !hasVietnameseText(data.markdown)) {
         setEnhancedMd(data.markdown);
+        setDeepDiveUnavailable(false);
         if (autoSwitch) setUseEnhanced(true);
         if (!silent) toast.success(data.cached ? "Loaded enhanced theory from cache" : "AI Deep-Dive ready!");
+      } else {
+        setDeepDiveUnavailable(true);
       }
     } catch (e) {
+      setDeepDiveUnavailable(true);
       if (!silent) toast.error("Could not enhance theory. Please try again later.");
     }
-    if (!silent) setEnhanceLoading(false);
+    setEnhanceLoading(false);
   };
 
   // Admin-only: pre-generate AI illustrations for every Programming lesson.
@@ -811,6 +834,12 @@ const ProgrammingLessonPage = () => {
                             AI Deep-Dive
                           </span>
                         )}
+                        {!enhancedMd && enhanceLoading && (
+                          <span className="ml-2 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide bg-violet-500/10 text-violet-600 dark:text-violet-300 border border-violet-500/30">
+                            <Loader2 className="w-3 h-3 animate-spin" />
+                            Preparing Deep-Dive
+                          </span>
+                        )}
                       </h2>
                       <div className="flex items-center gap-2">
                         {enhancedMd && (
@@ -825,6 +854,11 @@ const ProgrammingLessonPage = () => {
                         )}
                       </div>
                     </div>
+                    {!enhancedMd && !enhanceLoading && deepDiveUnavailable && (
+                      <p className="mb-5 rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-xs font-medium text-amber-700 dark:text-amber-300">
+                        The AI Deep-Dive is temporarily unavailable - you are reading the full base lesson in English.
+                      </p>
+                    )}
                     {getModuleHero(mod.id) && (
                       <img
                         src={getModuleHero(mod.id)!}
