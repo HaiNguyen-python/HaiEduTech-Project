@@ -381,7 +381,7 @@ const PIPELINE_BLOCKS: { id: PipelineBlockId; label: string; color: string }[] =
 ];
 const CORRECT_PIPELINE: PipelineBlockId[] = ["extract", "filter", "transform", "load"];
 
-const PipelinePlumber = ({ pushLog, addXp }: { pushLog: (t: LogLine["type"], text: string) => void; addXp: (n: number) => void }) => {
+const PipelinePlumber = ({ pushLog, addXp, record }: { pushLog: (t: LogLine["type"], text: string) => void; addXp: (n: number) => void; record: RecordRun }) => {
   const { t } = useLanguage();
   const [chain, setChain] = useState<PipelineBlockId[]>([]);
   const [running, setRunning] = useState(false);
