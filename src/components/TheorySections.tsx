@@ -620,7 +620,13 @@ function splitIntoSentences(text: string): string[] {
 
 const TheorySections = ({ markdown, storageKey, defaultCodeLanguage = "text" }: TheorySectionsProps) => {
   const sections = useMemo(
-    () => splitByH2(splitLongParagraphs(normalizeMath(stripOuterMarkdownFence(removeOptionalDeepDives(markdown))))),
+    () =>
+      splitByH2(
+        splitLongParagraphs(
+          normalizeMath(repairEscapedText(stripOuterMarkdownFence(removeOptionalDeepDives(markdown)))),
+        ),
+      ),
+
     [markdown],
   );
   const components = useMemo(() => markdownComponents(defaultCodeLanguage), [defaultCodeLanguage]);
