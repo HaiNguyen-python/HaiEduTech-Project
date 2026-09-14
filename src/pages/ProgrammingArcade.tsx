@@ -1,6 +1,6 @@
 /**
  * @file ProgrammingArcade.tsx
- * @description Tech & Code Game Hub - 3 mini-games: SQL Dungeon, Data Pipeline Plumber, AI Parameter Tuner.
+ * @description Tech & Code Game Hub - eight programming review games with shared XP tracking.
  * Dark terminal-style arcade dashboard for Learn Programming.
  * @author Teacher Hai (HaiEduTech)
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
@@ -612,7 +612,7 @@ const ProgrammingArcade = () => {
 
   return (
     <div className="arcade-page min-h-screen">
-      <SEO title="Tech & Code Game Hub | Learn Programming - HaiEduTech" description="Arcade lập trình: SQL Dungeon, Data Pipeline Plumber, AI Parameter Tuner, Code Galaxy. Học code qua game." path="/programming/arcade" />
+      <SEO title="Tech & Code Game Hub | HaiEduTech" description="Eight programming games for practising Python, debugging, Git, cybersecurity, SQL, data engineering, AI and code recognition." path="/programming/arcade" />
       <Navbar />
       <div className="arcade-stage min-h-screen pb-16 pt-8 sm:pt-10">
         <div className="container relative z-10 mx-auto max-w-6xl px-4 sm:px-6">

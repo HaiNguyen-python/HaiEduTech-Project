@@ -84,7 +84,7 @@ function ReviewGame({ title, gameType, questions, icon, onScore, accent = "blue"
   useEffect(() => {
     if (!done || savedRef.current) return;
     savedRef.current = true;
-    void finishGame({ gameType, score, accuracy: Math.round((score / questions.length) * 100) });
+    void finishGame({ gameType, score: score * 20, accuracy: Math.round((score / questions.length) * 100) });
   }, [done, gameType, questions.length, score]);
 
   const choose = (choice: number) => {
