@@ -11,7 +11,6 @@ import {
   PanelRightClose, PanelRightOpen, Wand2, RefreshCw,
 } from "lucide-react";
 import { toast } from "sonner";
-import { useLanguage } from "@/contexts/LanguageContext";
 import { allProgrammingModules, type ProgrammingModule, type ProgrammingLesson as PLType } from "@/data/programmingLessonData";
 import { updateSkillScore } from "@/components/SkillRadarChart";
 import SkillRadarChart from "@/components/SkillRadarChart";
@@ -309,7 +308,6 @@ function getPillarModules(pillar: string): ProgrammingModule[] {
 
 const ProgrammingLessonPage = () => {
   const { moduleId, lessonId } = useParams();
-  useLanguage();
   const isMobile = useIsMobile();
   const [mod, setMod] = useState<ProgrammingModule | null>(null);
   const [lesson, setLesson] = useState<PLType | null>(null);
