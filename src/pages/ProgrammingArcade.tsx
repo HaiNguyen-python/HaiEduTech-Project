@@ -7,7 +7,7 @@
  */
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Code2, Database, Brain, Zap, Trophy, Loader2, Sparkles, Clock3, Gauge, Play, Target, ShieldCheck, Keyboard, Bug, GitBranch, LockKeyhole } from "lucide-react";
+import { ArrowLeft, Code2, Database, Brain, Zap, Trophy, Loader2, Sparkles, Clock3, Gauge, Play, Target, ShieldCheck, Keyboard, Bug, GitBranch, LockKeyhole, RotateCcw } from "lucide-react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -252,8 +252,10 @@ const SqlDungeon = ({ pushLog, addXp }: { pushLog: (t: LogLine["type"], text: st
   const [hp, setHp] = useState(SQL_RIDDLES[0].hp);
   const [picked, setPicked] = useState<string[]>([]);
   const [shake, setShake] = useState(false);
+  const [cleared, setCleared] = useState<number | null>(null);
   const riddle = SQL_RIDDLES[idx];
   const runScoreRef = useRef(0);
+  const totalXp = SQL_RIDDLES.reduce((sum, r) => sum + r.reward, 0);
 
   useEffect(() => {
     setHp(riddle.hp);
@@ -272,20 +274,45 @@ const SqlDungeon = ({ pushLog, addXp }: { pushLog: (t: LogLine["type"], text: st
         else {
           pushLog("ok", "Dungeon cleared! All monsters defeated.");
           void finishGame({ gameType: "prog_sql_dungeon", score: runScoreRef.current });
-          runScoreRef.current = 0;
-          setIdx(0);
+          setCleared(runScoreRef.current);
         }
       }, 900);
     } else {
-      pushLog("err", `Syntax Error near ${picked[picked.length - 1] ?? "?"}. -10 HP from your spell.`);
+      pushLog("err", `Syntax Error near ${picked[picked.length - 1] ?? "?"}. Rebuild the query and run again.`);
       setShake(true);
-      setHp(h => Math.max(0, h - 0)); // monster keeps HP, but visual shake
       setTimeout(() => setShake(false), 350);
     }
   };
 
+  const replay = () => {
+    runScoreRef.current = 0;
+    setCleared(null);
+    setIdx(0);
+    setPicked([]);
+    setHp(SQL_RIDDLES[0].hp);
+  };
+
+  if (cleared !== null) {
+    return (
+      <div className="arcade-game-panel flex min-h-[320px] flex-col items-center justify-center gap-4 p-6 text-center">
+        <div className="text-6xl" aria-hidden>🏆</div>
+        <div>
+          <h2 className="font-display text-2xl font-bold text-[hsl(var(--arcade-text))]">{t("Đã phá đảo hầm ngục", "Dungeon cleared")}</h2>
+          <p className="mt-2 text-lg font-bold text-[hsl(var(--arcade-gold))]">{cleared} / {totalXp} XP</p>
+          <p className="mt-1 text-sm text-[hsl(var(--arcade-muted))]">
+            {t(`Đã hạ ${SQL_RIDDLES.length}/${SQL_RIDDLES.length} quái vật`, `${SQL_RIDDLES.length} of ${SQL_RIDDLES.length} monsters defeated`)}
+          </p>
+        </div>
+        <Button onClick={replay} className="min-h-11 bg-[hsl(var(--arcade-blue))] text-[hsl(var(--arcade-canvas))] hover:bg-[hsl(var(--arcade-blue)/0.9)]">
+          <RotateCcw className="h-4 w-4" /> {t("Chơi lại", "Play again")}
+        </Button>
+      </div>
+    );
+  }
+
   return (
     <div className="grid lg:grid-cols-2 gap-4">
+
       {/* Battle screen */}
       <motion.div animate={shake ? { x: [-8, 8, -6, 6, 0] } : {}} transition={{ duration: 0.35 }} className="arcade-game-panel flex min-h-[280px] flex-col items-center justify-center p-6 font-mono">
         <div className="text-xs text-fuchsia-300 mb-2">{t("⚔️ TRẬN ĐẤU", "⚔️ BATTLE")}</div>
@@ -604,10 +631,10 @@ const ProgrammingArcade = () => {
     { id: "pipeline" as const, chibi: "🤖", title: "Data Pipeline Plumber", skill: "DATA ENGINEERING", desc: t("Nối các khối xử lý để dữ liệu đi từ nguồn tới đích mà không bị tắc.", "Connect processing blocks so data flows cleanly from source to destination."), goal: "Extract → Filter → Transform → Load", difficulty: t("Cơ bản", "Beginner"), time: "3-5 min", reward: "60 XP", icon: Code2, tone: "green" },
     { id: "tuner" as const, chibi: "🧠", title: "AI Parameter Tuner", skill: "MACHINE LEARNING", desc: t("Điều chỉnh ba siêu tham số, đọc đường loss và tìm vùng mô hình hoạt động tốt nhất.", "Tune three hyperparameters, read the loss curves, and find the model's sweet spot."), goal: t("Đạt Sweet Spot từ 85%", "Reach an 85% Sweet Spot"), difficulty: t("Trung bình", "Intermediate"), time: "5-8 min", reward: "80 XP", icon: Brain, tone: "gold" },
     { id: "galaxy" as const, chibi: "🚀", title: "Code Galaxy", skill: "CODE RECOGNITION", desc: t("Phân loại 42 đoạn code thuộc Foundations, Data Engineering và AI/ML.", "Classify 42 code snippets across Foundations, Data Engineering, and AI/ML."), goal: t("Nhận diện mẫu code nhanh", "Recognize code patterns fast"), difficulty: t("3 đường chơi", "3 tracks"), time: "6-10 min", reward: "15 XP / answer", icon: Sparkles, tone: "pink" },
-    { id: "python" as const, chibi: "⌨️", title: "Python Speed Run", skill: "PYTHON FLUENCY", desc: t("Gõ chính xác năm đoạn Python theo độ khó tăng dần và đua với đồng hồ.", "Retype five Python snippets with rising difficulty and race the clock."), goal: t("Tăng tốc độ và độ chính xác", "Build speed and accuracy"), difficulty: t("Tăng dần", "Progressive"), time: "5-8 min", reward: "Up to 600 XP", icon: Keyboard, tone: "green" },
-    { id: "bugs" as const, chibi: "🐛", title: "Bug Hunter", skill: "DEBUGGING", desc: t("Săn lỗi cú pháp và logic phổ biến trong tám đoạn code Python.", "Find common syntax and logic errors across eight Python snippets."), goal: t("Chọn bản sửa đúng", "Choose the correct fix"), difficulty: t("Cơ bản", "Beginner"), time: "5-7 min", reward: "20 XP / answer", icon: Bug, tone: "pink" },
-    { id: "git" as const, chibi: "🌿", title: "Git Branch Quest", skill: "VERSION CONTROL", desc: t("Chọn đúng lệnh cho commit, branch, merge và khôi phục lịch sử.", "Choose the right commands for commits, branches, merges, and recovery."), goal: t("Hoàn thành quy trình Git", "Complete the Git workflow"), difficulty: t("Trung bình", "Intermediate"), time: "5-7 min", reward: "20 XP / answer", icon: GitBranch, tone: "blue" },
-    { id: "cyber" as const, chibi: "🛡️", title: "Cyber Shield", skill: "DIGITAL SAFETY", desc: t("Phản ứng đúng trước phishing, mật khẩu yếu, quyền truy cập và lộ bí mật.", "Respond safely to phishing, weak passwords, permissions, and exposed secrets."), goal: t("Bảo vệ tài khoản và dữ liệu", "Protect accounts and data"), difficulty: t("Cơ bản", "Beginner"), time: "5-7 min", reward: "20 XP / answer", icon: LockKeyhole, tone: "gold" },
+    { id: "python" as const, chibi: "⌨️", title: "Python Speed Run", skill: "PYTHON FLUENCY", desc: t("Gõ chính xác năm đoạn Python theo độ khó tăng dần và đua với đồng hồ.", "Retype five Python snippets with rising difficulty and race the clock."), goal: t("Tăng tốc độ và độ chính xác", "Build speed and accuracy"), difficulty: t("Tăng dần", "Progressive"), time: "5-8 min", reward: "Up to 595 XP", icon: Keyboard, tone: "green" },
+    { id: "bugs" as const, chibi: "🐛", title: "Bug Hunter", skill: "DEBUGGING", desc: t("Săn lỗi cú pháp và logic phổ biến trong tám đoạn code Python.", "Find common syntax and logic errors across eight Python snippets."), goal: t("Chọn bản sửa đúng", "Choose the correct fix"), difficulty: t("Cơ bản", "Beginner"), time: "5-7 min", reward: "Up to 160 XP", icon: Bug, tone: "pink" },
+    { id: "git" as const, chibi: "🌿", title: "Git Branch Quest", skill: "VERSION CONTROL", desc: t("Chọn đúng lệnh cho commit, branch, merge và khôi phục lịch sử.", "Choose the right commands for commits, branches, merges, and recovery."), goal: t("Hoàn thành quy trình Git", "Complete the Git workflow"), difficulty: t("Trung bình", "Intermediate"), time: "5-7 min", reward: "Up to 160 XP", icon: GitBranch, tone: "blue" },
+    { id: "cyber" as const, chibi: "🛡️", title: "Cyber Shield", skill: "DIGITAL SAFETY", desc: t("Phản ứng đúng trước phishing, mật khẩu yếu, quyền truy cập và lộ bí mật.", "Respond safely to phishing, weak passwords, permissions, and exposed secrets."), goal: t("Bảo vệ tài khoản và dữ liệu", "Protect accounts and data"), difficulty: t("Cơ bản", "Beginner"), time: "5-7 min", reward: "Up to 160 XP", icon: LockKeyhole, tone: "gold" },
   ];
 
   return (
