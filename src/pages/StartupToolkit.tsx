@@ -5,7 +5,6 @@ import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
 import {
   ArrowLeft,
-  BadgeDollarSign,
   CheckCircle2,
   CircleAlert,
   Coins,
