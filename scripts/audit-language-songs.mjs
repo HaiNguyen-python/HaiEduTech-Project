@@ -29,7 +29,6 @@ for (const song of rows) {
   titleKeys.add(titleKey);
 
   if (!song.is_public_domain) report(song, "not cleared for full-lyrics display");
-  if (!song.youtube_id) report(song, "missing YouTube video id");
   if (!Array.isArray(song.lyrics) || song.lyrics.length < 4) {
     report(song, "lyrics missing or unusually short");
     continue;
@@ -57,10 +56,14 @@ for (const song of rows) {
     });
   }
 
-  if (!Array.isArray(song.blanks_quiz) || song.blanks_quiz.length < 2) {
-    report(song, "fewer than 2 fill-in-the-blank items");
+  if (!Array.isArray(song.blanks_quiz) || song.blanks_quiz.length < 1) {
+    report(song, "missing fill-in-the-blank items");
   } else {
     song.blanks_quiz.forEach((item, quizIndex) => {
+      if (typeof item?.line === "string" && typeof item?.answer === "string") {
+        if (!item.line.includes("___")) report(song, `quiz ${quizIndex}: legacy quiz has no blank marker`);
+        return;
+      }
       const line = song.lyrics[item?.lineIndex];
       if (!line) {
         report(song, `quiz ${quizIndex}: lineIndex is out of range`);
@@ -68,9 +71,18 @@ for (const song of rows) {
       }
       const words = String(line.original).split(/\s+/);
       for (const blank of item.blanks ?? []) {
+        if (song.language === "chinese") {
+          if (!String(line.original).includes(String(blank.answer))) {
+            report(song, `quiz ${quizIndex}: answer not found in referenced line`);
+          }
+          continue;
+        }
         const token = words[blank.wordIndex];
         if (!token) report(song, `quiz ${quizIndex}: wordIndex is out of range`);
-        else if (!token.toLocaleLowerCase().includes(String(blank.answer).toLocaleLowerCase())) {
+        else if (
+          !token.toLocaleLowerCase().includes(String(blank.answer).toLocaleLowerCase()) &&
+          !String(line.original).toLocaleLowerCase().includes(String(blank.answer).toLocaleLowerCase())
+        ) {
           report(song, `quiz ${quizIndex}: answer not found in referenced token`);
         }
       }

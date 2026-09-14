@@ -31,10 +31,16 @@ interface CoreVocab {
   meaning: string;
   example: string;
 }
-interface BlankItem {
+interface IndexedBlankItem {
   lineIndex: number;
   blanks: { wordIndex: number; answer: string }[];
 }
+interface LegacyBlankItem {
+  line: string;
+  answer: string;
+  hint?: string;
+}
+type BlankItem = IndexedBlankItem | LegacyBlankItem;
 interface Song {
   id: string;
   language: SongLanguage;
@@ -562,16 +568,20 @@ function BlanksQuiz({ song }: { song: Song }) {
 
   const items = useMemo(() => song.blanks_quiz ?? [], [song.blanks_quiz]);
   const totalBlanks = useMemo(
-    () => items.reduce((sum, it) => sum + it.blanks.length, 0),
+    () => items.reduce((sum, item) => sum + ("blanks" in item ? item.blanks.length : 1), 0),
     [items],
   );
   const correctCount = useMemo(() => {
     if (!submitted) return 0;
     let c = 0;
-    items.forEach((it) => {
-      it.blanks.forEach((b) => {
-        const key = `${it.lineIndex}-${b.wordIndex}`;
-        if ((answers[key] ?? "").trim().toLowerCase() === b.answer.toLowerCase()) c++;
+    items.forEach((item, itemIndex) => {
+      if ("line" in item) {
+        if ((answers[`legacy-${itemIndex}`] ?? "").trim().toLowerCase() === item.answer.toLowerCase()) c++;
+        return;
+      }
+      item.blanks.forEach((blank) => {
+        const key = `${item.lineIndex}-${blank.wordIndex}`;
+        if ((answers[key] ?? "").trim().toLowerCase() === blank.answer.toLowerCase()) c++;
       });
     });
     return c;
@@ -596,7 +606,38 @@ function BlanksQuiz({ song }: { song: Song }) {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        {items.map((item) => {
+        {items.map((item, itemIndex) => {
+          if ("line" in item) {
+            const [before = "", after = ""] = item.line.split("___");
+            const key = `legacy-${itemIndex}`;
+            const userVal = answers[key] ?? "";
+            const isCorrect = submitted && userVal.trim().toLowerCase() === item.answer.toLowerCase();
+            return (
+              <div key={key} className="p-3 rounded-lg bg-muted/40">
+                <div className="flex flex-wrap items-center gap-1.5 text-base">
+                  <span>{before}</span>
+                  <input
+                    type="text"
+                    value={userVal}
+                    disabled={submitted}
+                    onChange={(event) => setAnswers((previous) => ({ ...previous, [key]: event.target.value }))}
+                    className={`inline-block w-24 px-2 py-1 text-sm rounded border-2 bg-background ${
+                      isCorrect
+                        ? "border-emerald-500 text-emerald-700"
+                        : submitted
+                          ? "border-rose-500 text-rose-700"
+                          : "border-primary/40 focus:border-primary"
+                    } focus:outline-none`}
+                    placeholder="___"
+                  />
+                  <span>{after}</span>
+                  {submitted && isCorrect && <CheckCircle2 className="w-4 h-4 text-emerald-500" />}
+                  {submitted && !isCorrect && <span className="text-xs text-emerald-600">→ {item.answer}</span>}
+                </div>
+                {item.hint && <p className="text-xs text-muted-foreground italic mt-1">{item.hint}</p>}
+              </div>
+            );
+          }
           const line = song.lyrics[item.lineIndex];
           if (!line) return null;
           const words = line.original.split(/\s+/);
