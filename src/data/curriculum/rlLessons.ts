@@ -185,7 +185,7 @@ In Lesson 1, we described RL informally. To **prove** algorithms converge and **
 
 A process is **Markov** if the future depends only on the present, not the past:
 
-> **P(s_{t+1} | s_t, a_t, s_{t-1}, a_{t-1}, ...) = P(s_{t+1} | s_t, a_t)**
+> $P(s_{t+1} \\mid s_t, a_t, s_{t-1}, a_{t-1}, ...) = P(s_{t+1} \\mid s_t, a_t)$
 
 In plain English: **"Given the current state, the past is irrelevant for predicting the future."** This dramatically simplifies the math.
 
@@ -221,17 +221,17 @@ flowchart TB
 
 The **value** of being in state \`s\` under policy \`π\` is the expected discounted return:
 
-> **V^π(s) = Σ_a π(a|s) Σ_{s'} P(s'|s,a) [R(s,a,s') + γ·V^π(s')]**
+> $V^π(s) = Σ_a π(a \\mid s) Σ_{s'} P(s' \\mid s,a) [R(s,a,s') + γ·V^π(s')]$
 
 This recursive equation says: *"The value of a state equals the immediate reward plus the discounted value of where you end up."*
 
 The **optimal value function** \`V*(s)\` satisfies the **Bellman optimality equation**:
 
-> **V*(s) = max_a Σ_{s'} P(s'|s,a) [R(s,a,s') + γ·V*(s')]**
+> $V*(s) = max_a Σ_{s'} P(s' \\mid s,a) [R(s,a,s') + γ·V*(s')]$
 
 Once we have \`V*\`, the optimal policy is to pick the action that maximizes expected return:
 
-> **π*(s) = argmax_a Σ_{s'} P(s'|s,a) [R(s,a,s') + γ·V*(s')]**
+> $π*(s) = argmax_a Σ_{s'} P(s' \\mid s,a) [R(s,a,s') + γ·V*(s')]$
 
 ## Solving Small MDPs: Value Iteration
 
@@ -404,7 +404,7 @@ Once we know \`Q*\`, the optimal policy is trivial: \`π*(s) = argmax_a Q*(s, a)
 
 After observing transition \`(s, a, r, s')\`, update Q toward the **TD target**:
 
-> **Q(s, a) ← Q(s, a) + α · [r + γ · max_{a'} Q(s', a') − Q(s, a)]**
+> $Q(s, a) ← Q(s, a) + α · [r + γ · max_{a'} Q(s', a') − Q(s, a)]$
 
 Where:
 - **α** = learning rate (e.g., 0.1)
