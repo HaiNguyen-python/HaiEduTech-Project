@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import type { UIMessage } from "ai";
 import { ArrowDownIcon, DownloadIcon } from "lucide-react";
 import type { ComponentProps } from "react";
-import { useCallback } from "react";
+import { forwardRef, useCallback } from "react";
 import { StickToBottom, useStickToBottomContext } from "use-stick-to-bottom";
 
 export type ConversationProps = ComponentProps<typeof StickToBottom>;
@@ -71,10 +71,10 @@ export const ConversationEmptyState = ({
 
 export type ConversationScrollButtonProps = ComponentProps<typeof Button>;
 
-export const ConversationScrollButton = ({
-  className,
-  ...props
-}: ConversationScrollButtonProps) => {
+export const ConversationScrollButton = forwardRef<
+  HTMLButtonElement,
+  ConversationScrollButtonProps
+>(({ className, ...props }, ref) => {
   const { isAtBottom, scrollToBottom } = useStickToBottomContext();
 
   const handleScrollToBottom = useCallback(() => {
@@ -89,6 +89,7 @@ export const ConversationScrollButton = ({
           className
         )}
         onClick={handleScrollToBottom}
+        ref={ref}
         size="icon"
         type="button"
         variant="outline"
@@ -98,7 +99,8 @@ export const ConversationScrollButton = ({
       </Button>
     )
   );
-};
+});
+ConversationScrollButton.displayName = "ConversationScrollButton";
 
 const getMessageText = (message: UIMessage): string =>
   message.parts
