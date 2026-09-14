@@ -834,6 +834,12 @@ const ProgrammingLessonPage = () => {
                             AI Deep-Dive
                           </span>
                         )}
+                        {!enhancedMd && enhanceLoading && (
+                          <span className="ml-2 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide bg-violet-500/10 text-violet-600 dark:text-violet-300 border border-violet-500/30">
+                            <Loader2 className="w-3 h-3 animate-spin" />
+                            Preparing Deep-Dive
+                          </span>
+                        )}
                       </h2>
                       <div className="flex items-center gap-2">
                         {enhancedMd && (
@@ -848,6 +854,11 @@ const ProgrammingLessonPage = () => {
                         )}
                       </div>
                     </div>
+                    {!enhancedMd && !enhanceLoading && deepDiveUnavailable && (
+                      <p className="mb-5 rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-xs font-medium text-amber-700 dark:text-amber-300">
+                        The AI Deep-Dive is temporarily unavailable - you are reading the full base lesson in English.
+                      </p>
+                    )}
                     {getModuleHero(mod.id) && (
                       <img
                         src={getModuleHero(mod.id)!}
