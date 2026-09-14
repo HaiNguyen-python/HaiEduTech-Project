@@ -212,14 +212,14 @@ function normalizeMath(input: string): string {
       let out = part;
 
       // \[ ... \]  → $$ ... $$
-      out = out.replace(/\\\[([\s\S]+?)\\\]/g, (_, body) => `$$\n${body.trim()}\n$$`);
+      out = out.replace(/\\\[([\s\S]+?)\\\]/g, (_, body) => `$$${body.trim()}$$`);
       // \( ... \)  → $ ... $
       out = out.replace(/\\\(([\s\S]+?)\\\)/g, (_, body) => `$${body.trim()}$`);
 
       // Trim each complete display formula in one pass. Separate opening-only
       // and closing-only regexes can mistake the close of formula A for the
       // open of formula B and produce `$$$$` between adjacent equations.
-      out = out.replace(/\$\$([\s\S]*?)\$\$/g, (_, body) => `$$\n${body.trim()}\n$$`);
+      out = out.replace(/\$\$([\s\S]*?)\$\$/g, (_, body) => `$$${body.trim()}$$`);
       out = out.replace(/(^|[^$])\$\s+([^$\n]+?)\s+\$(?!\$)/g, (_, pre, body) => `${pre}$${body}$`);
       // Also handle one-sided whitespace.
       out = out.replace(/(^|[^$])\$\s+([^$\n]+?)\$(?!\$)/g, (_, pre, body) => `${pre}$${body}$`);
