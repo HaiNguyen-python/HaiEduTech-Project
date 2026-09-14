@@ -79,7 +79,7 @@ const AssignmentCompletionCharts = ({ rows, studentName }: Props) => {
             <p className="text-xs uppercase tracking-wider text-slate-500 mb-2">Tỉ lệ hoàn thành theo bài</p>
             <div className="h-[280px]">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={byAssignment} layout="vertical" margin={{ left: 8, right: 24 }}>
+                <BarChart data={byAssignment} layout="vertical" margin={{ left: 8, right: 44 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
                   <XAxis type="number" domain={[0, 100]} unit="%" tick={{ fontSize: 11 }} />
                   <YAxis type="category" dataKey="name" width={120} tick={{ fontSize: 11 }} />
