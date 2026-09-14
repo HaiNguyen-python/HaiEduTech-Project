@@ -281,6 +281,7 @@ const SqlDungeon = ({ pushLog, addXp, record }: { pushLog: (t: LogLine["type"], 
         else {
           pushLog("ok", "Dungeon cleared! All monsters defeated.");
           void finishGame({ gameType: "prog_sql_dungeon", score: runScoreRef.current });
+          record("prog_sql_dungeon", runScoreRef.current, runScoreRef.current >= totalXp);
           setCleared(runScoreRef.current);
         }
       }, 900);
