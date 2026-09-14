@@ -21,7 +21,7 @@ export const normalizeTheoryMarkdownStructure = (markdown: string): string => {
       continue;
     }
 
-    const group = /^-\s+\*\*([^*\n]+)\*\*\s*:??\s*$/.exec(line);
+    const group = /^-\s+\*\*([^*\n]+)\*\*\s*:?\s*$/.exec(line);
     const nextLine = lines[index + 1] ?? "";
     if (group && /^ {1,3}-\s+\S/.test(nextLine)) {
       if (output.length > 0 && output[output.length - 1]?.trim()) output.push("");
