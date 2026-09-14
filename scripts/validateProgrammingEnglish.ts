@@ -7,8 +7,21 @@ import { pythonLessons } from "../src/data/curriculum/pythonPathway";
 import { dsaLessons } from "../src/data/dsaLessons";
 
 const errors: string[] = [];
+const malformedTheoryPatterns: Array<[RegExp, string]> = [
+  [/\*\*[^*\n]*(?:\\[A-Za-z]+|[_^]\{)[^*\n]*\*\*/, "raw LaTeX wrapped in Markdown bold"],
+  [/(?<!\\)\${3,}(?=[)\],.;:\s]|$)/, "unescaped currency-tier dollar run"],
+  [/`\$\$?[^`\n]+\$\$?`/, "math wrapped in inline code"],
+];
 const required = (value: unknown, path: string) => {
   if (typeof value !== "string" || !value.trim()) errors.push(`${path}: missing English content`);
+};
+
+const validateTheoryFormatting = (value: unknown, path: string) => {
+  if (typeof value !== "string") return;
+  const proseOnly = value.replace(/```[\s\S]*?```/g, "");
+  malformedTheoryPatterns.forEach(([pattern, label]) => {
+    if (pattern.test(proseOnly)) errors.push(`${path}: ${label}`);
+  });
 };
 
 const standardKeys = new Set<string>();
@@ -17,7 +30,9 @@ for (const module of allProgrammingModules) {
   required(module.titleEn, `${module.id}.titleEn`);
   for (const lesson of module.lessons) {
     required(lesson.titleEn, `${module.id}/${lesson.id}.titleEn`);
-    required(lesson.theoryEn || lesson.theory, `${module.id}/${lesson.id}.theory`);
+    const theory = lesson.theoryEn || lesson.theory;
+    required(theory, `${module.id}/${lesson.id}.theory`);
+    validateTheoryFormatting(theory, `${module.id}/${lesson.id}.theory`);
     required(lesson.exerciseEn || lesson.exercise, `${module.id}/${lesson.id}.exercise`);
     lesson.quiz.forEach((question, index) => {
       standardQuestions++;
@@ -48,6 +63,7 @@ let pythonQuestions = 0;
 for (const lesson of pythonLessons) {
   required(lesson.titleEn, `python/${lesson.id}.titleEn`);
   required(lesson.conceptEn, `python/${lesson.id}.conceptEn`);
+  validateTheoryFormatting(lesson.conceptEn, `python/${lesson.id}.conceptEn`);
   required(lesson.pitfallsEn, `python/${lesson.id}.pitfallsEn`);
   required(lesson.practiceTaskEn, `python/${lesson.id}.practiceTaskEn`);
   lesson.quiz.forEach((question, index) => {
@@ -67,6 +83,7 @@ for (const lesson of dsaLessons) {
   required(lesson.titleEn, `dsa/${lesson.id}.titleEn`);
   required(lesson.summaryEn, `dsa/${lesson.id}.summaryEn`);
   required(lesson.theoryEn, `dsa/${lesson.id}.theoryEn`);
+  validateTheoryFormatting(lesson.theoryEn, `dsa/${lesson.id}.theoryEn`);
   required(lesson.complexityEn, `dsa/${lesson.id}.complexityEn`);
   dsaQuestions++;
   required(lesson.quiz.questionEn, `dsa/${lesson.id}.quiz.questionEn`);
