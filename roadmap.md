@@ -33,4 +33,5 @@
       preserving subject audio, meanings, examples, mastery, and Japanese SRS behavior
 
 ## Open
+- [ ] Complete and audit all 49 bilingual songs: full cleared lyrics, replacements for copyrighted songs, Pinyin/translations, vocabulary, blanks, video checks, and line-aware karaoke timing
 - [ ] Word Quest: study one word, complete 5 adaptive exercises, then advance; verify all 6 subjects

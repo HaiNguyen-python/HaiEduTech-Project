@@ -19,7 +19,9 @@ interface LyricWord {
 }
 interface LyricLine {
   original: string;
+  pinyin?: string;
   translation: string;
+  durationMs?: number;
   words?: LyricWord[];
 }
 interface CoreVocab {
@@ -221,20 +223,29 @@ function SongDetail({
   const [karaokeIndex, setKaraokeIndex] = useState<number>(-1);
   const [karaokePlaying, setKaraokePlaying] = useState(false);
 
-  // Karaoke: simple line-based highlight with manual timer (auto-advance)
+  // Karaoke advances using each line's timing, with a reading-speed fallback for old data.
   useEffect(() => {
     if (!karaokePlaying) return;
-    const interval = setInterval(() => {
+    const activeLine = song.lyrics[karaokeIndex];
+    if (!activeLine) {
+      setKaraokePlaying(false);
+      return;
+    }
+    const fallbackDuration = Math.min(
+      8000,
+      Math.max(2800, 1700 + activeLine.original.replace(/\s/g, "").length * 105),
+    );
+    const timer = window.setTimeout(() => {
       setKaraokeIndex((prev) => {
         if (prev >= song.lyrics.length - 1) {
           setKaraokePlaying(false);
-          return -1;
+          return Math.max(0, song.lyrics.length - 1);
         }
         return prev + 1;
       });
-    }, 4000); // ~4s per line
-    return () => clearInterval(interval);
-  }, [karaokePlaying, song.lyrics.length]);
+    }, activeLine.durationMs ?? fallbackDuration);
+    return () => window.clearTimeout(timer);
+  }, [karaokeIndex, karaokePlaying, song.lyrics]);
 
   return (
     <motion.div
@@ -350,6 +361,11 @@ function SongDetail({
                         <div className="text-base md:text-lg font-medium leading-relaxed flex flex-wrap gap-x-1 gap-y-0.5">
                           {renderInteractiveLine(line)}
                         </div>
+                        {line.pinyin && (
+                          <p className="mt-1 text-sm font-medium leading-relaxed text-amber-700 dark:text-amber-300">
+                            {line.pinyin}
+                          </p>
+                        )}
                         <p className="text-sm text-muted-foreground italic mt-1">{line.translation}</p>
                       </div>
                     </motion.div>
@@ -544,7 +560,7 @@ function BlanksQuiz({ song }: { song: Song }) {
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
 
-  const items = song.blanks_quiz ?? [];
+  const items = useMemo(() => song.blanks_quiz ?? [], [song.blanks_quiz]);
   const totalBlanks = useMemo(
     () => items.reduce((sum, it) => sum + it.blanks.length, 0),
     [items],
@@ -591,7 +607,8 @@ function BlanksQuiz({ song }: { song: Song }) {
                 {words.map((w, wi) => {
                   if (blankMap.has(wi)) {
                     const key = `${item.lineIndex}-${wi}`;
-                    const correct = blankMap.get(wi)!;
+                    const correct = blankMap.get(wi);
+                    if (!correct) return <span key={wi}>{w}</span>;
                     const userVal = answers[key] ?? "";
                     const isCorrect =
                       submitted && userVal.trim().toLowerCase() === correct.toLowerCase();
