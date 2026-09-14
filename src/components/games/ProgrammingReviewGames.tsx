@@ -10,7 +10,6 @@ import { Bug, CheckCircle2, GitBranch, Keyboard, RotateCcw, ShieldCheck, Timer, 
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Textarea } from "@/components/ui/textarea";
-import { TOPIC_SNIPPETS } from "@/data/programming/typingSnippetBank";
 import { finishGame } from "@/lib/gameSession";
 import { useLanguage } from "@/contexts/LanguageContext";
 
