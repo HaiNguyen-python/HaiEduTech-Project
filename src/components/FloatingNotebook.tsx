@@ -947,23 +947,29 @@ const FloatingNotebook = () => {
               </div>
             </div>
 
-            {/* Tabs: rich text notes, live whiteboard, notes shared with me */}
-            <div className="px-3 pt-2 flex items-center gap-1">
+            {/* Tabs: rich text notes, live whiteboard, notes shared with me, assignments */}
+            <div className="px-3 pt-2 flex items-center gap-1 flex-wrap">
               {([
                 { key: "notes" as const, label: "Ghi chú", Icon: FileText },
                 { key: "board" as const, label: "Bảng trắng", Icon: PenLine },
                 { key: "shared" as const, label: "Được chia sẻ", Icon: Users },
+                { key: "assignments" as const, label: "Bài tập", Icon: ClipboardCheck },
               ]).map(({ key, label, Icon }) => (
 
                 <button
                   key={key}
                   type="button"
                   onClick={() => setTab(key)}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
+                  className={`relative flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
                     tab === key ? "bg-primary text-primary-foreground" : "hover:bg-muted hover:text-foreground text-muted-foreground"
                   }`}
                 >
                   <Icon size={13} /> {label}
+                  {key === "assignments" && pendingAssignments > 0 && (
+                    <span className="ml-0.5 min-w-[16px] h-[16px] px-1 rounded-full bg-rose-500 text-white text-[10px] font-bold leading-[16px] text-center">
+                      {pendingAssignments > 9 ? "9+" : pendingAssignments}
+                    </span>
+                  )}
                 </button>
               ))}
             </div>
@@ -1153,6 +1159,14 @@ const FloatingNotebook = () => {
             ) : tab === "board" ? (
               <div className="px-3 pt-2 flex-1 min-h-0">
                 <NotebookWhiteboard onInsert={handleInsertDrawing} />
+              </div>
+            ) : tab === "assignments" ? (
+              <div className="px-3 pt-2 flex-1 min-h-0 overflow-auto">
+                <NotebookAssignments
+                  userId={user?.id ?? null}
+                  onCountChange={setPendingAssignments}
+                  onNavigate={() => setOpen(false)}
+                />
               </div>
             ) : (
               <div className="px-3 pt-2 flex-1 min-h-0 overflow-auto">
