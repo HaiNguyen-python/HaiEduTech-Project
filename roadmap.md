@@ -3,6 +3,7 @@
 ## In Progress
 
 ## Done
+- [x] Interview Questions: unique IDs, stronger Junior coverage, Polished Layered Learning layout, grouped topics, desktop sidebar/mobile filters, accessible reviewed progress, resilient copy, content audits, and responsive verification
 - [x] Programming code indentation: normalized all 310 cached lesson code blocks by language, preserved exact spacing in display/copy, added generation safeguards and responsive verification
 - [x] Programming Theory enrichment: section-aware key-term emphasis and image-only backfill completed for all 310 cached lessons, with 616 illustrations and responsive verification
 - [x] Programming lesson sections: every section now starts collapsed, including section 1 and introductory content; key technical terms receive restrained bold emphasis while code, math, links, and diagrams remain unchanged
