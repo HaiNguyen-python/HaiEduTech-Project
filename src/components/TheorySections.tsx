@@ -133,12 +133,19 @@ function splitByH2(md: string): Section[] {
   }
   flush();
 
-  // If there's only ONE numbered section (typically a lone "1."), drop the number -
-  // showing a solo "1" badge looks awkward. Fall back to icon-only badge.
+  // Renumber the surviving numbered sections so removing an empty section never
+  // leaves a gap in the badges (e.g. 1,2,3,4,5,6,7 instead of 1,2,3,4,5,6,8).
   const numbered = sections.filter((s) => s.stepNumber !== null);
   if (numbered.length <= 1) {
+    // A solo "1" badge looks awkward - fall back to icon-only badges.
     for (const s of sections) s.stepNumber = null;
+  } else {
+    numbered.forEach((s, i) => {
+      s.stepNumber = String(i + 1);
+      if (s.rawTitle && s.title) s.rawTitle = `${i + 1}. ${s.title}`;
+    });
   }
+
 
   return sections;
 }
