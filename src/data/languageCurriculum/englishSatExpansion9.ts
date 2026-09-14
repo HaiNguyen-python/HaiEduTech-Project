@@ -40,7 +40,7 @@ export const satExpansionModules9: LanguageModule[] = [
     title: "SAT Khởi Động - Tuần 0 nhẹ nhàng",
     titleEn: "SAT Starter Kit - A Gentle Week 0",
     icon: "🌱",
-    color: "from-emerald-400 to-teal-500",
+    color: "from-emerald-400/15 to-teal-500/15",
     description:
       "Bộ bài đầu tiên dành cho học sinh chưa từng học SAT. Mỗi bài chỉ ~10 phút, không áp lực, giúp làm quen format và thuật ngữ trước khi bước vào Tuần 1.",
     descriptionEn:
@@ -292,7 +292,7 @@ export const satExpansionModules9: LanguageModule[] = [
     title: "Reading Khởi Động - Trước Tuần 2",
     titleEn: "Reading Soft Start - Before Week 2",
     icon: "📖",
-    color: "from-sky-400 to-blue-500",
+    color: "from-sky-400/15 to-blue-500/15",
     description:
       "Ba bài đọc rất ngắn (80–120 từ) để học sinh quen cảm giác đọc-rồi-trả-lời mà không bị nản với passage SAT thật.",
     descriptionEn:
@@ -474,7 +474,7 @@ export const satExpansionModules9: LanguageModule[] = [
     title: "Math Khởi Động - Ôn nền tảng lớp 8–9",
     titleEn: "Math Soft Start - Grade 8–9 Refresh",
     icon: "🧮",
-    color: "from-amber-400 to-orange-500",
+    color: "from-amber-400/15 to-orange-500/15",
     description:
       "Ba bài Math 'không sợ' giúp ôn lại số hữu tỷ, % và phương trình bậc 1 - nền tảng vững trước khi vào Algebra Tuần 6.",
     descriptionEn:
