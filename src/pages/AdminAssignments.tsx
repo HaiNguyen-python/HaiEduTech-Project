@@ -797,6 +797,28 @@ function DetailSheet({
               <Field label="Avg accuracy" value={row.averageAccuracy != null ? `${Math.round(row.averageAccuracy)}%` : "—"} />
             </div>
 
+            {(() => {
+              const doneIds = row.target_student_ids.filter((sid) =>
+                row.submissions.some((s) => s.student_id === sid && s.status === "completed"));
+              const pendingIds = row.target_student_ids.filter((sid) => !doneIds.includes(sid));
+              return (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="rounded-lg border border-emerald-200 bg-emerald-50/60 p-3">
+                    <p className="text-xs font-semibold text-emerald-800">Đã tick ({doneIds.length})</p>
+                    <p className="mt-1 text-sm text-emerald-900 break-words">
+                      {doneIds.length ? doneIds.map(nameOf).join(", ") : "—"}
+                    </p>
+                  </div>
+                  <div className="rounded-lg border border-amber-200 bg-amber-50/60 p-3">
+                    <p className="text-xs font-semibold text-amber-800">Chưa làm ({pendingIds.length})</p>
+                    <p className="mt-1 text-sm text-amber-900 break-words">
+                      {pendingIds.length ? pendingIds.map(nameOf).join(", ") : "—"}
+                    </p>
+                  </div>
+                </div>
+              );
+            })()}
+
             <div>
               <p className="text-xs uppercase tracking-wider text-slate-500 mb-2">
                 Students ({row.assigneesCount})
