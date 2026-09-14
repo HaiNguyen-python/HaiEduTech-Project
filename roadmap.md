@@ -1,6 +1,7 @@
 # Roadmap
 
 ## Done
+- [x] Speaking Coach stabilisation: 24 duplicated practice sentences rewritten (ids kept), ref warnings fixed in the conversation scroll button and weak-word panel, duplicate text now a blocking audit error plus a regression test
 - [x] Assignments in the floating notebook: student tick list with progress bar, realtime sync, shaking notification bell, and teacher completion charts
 - [x] IELTS Speaking Structures: complete examples, highlighted target language, audio, voice practice, AI grading, and responsive verification
 - [x] IELTS Speaking phrase cards: English examples, per-phrase voice sentence practice, AI feedback, best-score history, and activity tracking
