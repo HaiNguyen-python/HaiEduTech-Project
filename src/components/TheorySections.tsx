@@ -520,6 +520,27 @@ function stripOuterMarkdownFence(md: string): string {
 }
 
 /**
+ * Repair escaped text artifacts from AI output, OUTSIDE fenced code blocks:
+ *  - literal "\n" sequences that should be real line breaks
+ *  - math wrapped in backticks (`$x_t$`) which renders as code instead of a formula
+ */
+function repairEscapedText(md: string): string {
+  if (!md) return md;
+  return md
+    .split(/(```[\s\S]*?```)/g)
+    .map((part) => {
+      if (part.startsWith("```")) return part;
+      return part
+        // "\n" written as text (never touch LaTeX commands like \nabla or \newline)
+        .replace(/\\n(?![a-zA-Z])/g, "\n")
+        // `$ ... $` inside a code span -> real math
+        .replace(/`\s*(\$\$?[^`\n]+?\$\$?)\s*`/g, "$1");
+    })
+    .join("");
+}
+
+
+/**
  * Break long, dense paragraphs into smaller ones for readability.
  * Splits a paragraph into sub-paragraphs of ~2 sentences each when it's long
  * (>= 280 chars OR >= 3 sentences). Skips lists, headings, blockquotes, code,
