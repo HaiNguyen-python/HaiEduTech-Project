@@ -294,7 +294,8 @@ const clampZoom = (z: number) => Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, z));
 
 const MermaidDiagram = ({ code, id }: MermaidDiagramProps) => {
   const ref = useRef<HTMLDivElement>(null);
-  const stageRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement | null>(null);
+  const [stageNode, setStageNode] = useState<HTMLDivElement | null>(null);
   const viewportRef = useRef<HTMLDivElement>(null);
   const generatedIdRef = useRef(`mmd${Math.random().toString(36).slice(2, 10)}`);
   const [error, setError] = useState<string | null>(null);
@@ -388,9 +389,9 @@ const MermaidDiagram = ({ code, id }: MermaidDiagramProps) => {
 
   // Inject the SVG at its natural pixel size, then fit it to the viewport.
   useEffect(() => {
-    if (!isFullscreen || !stageRef.current || !svgMarkup) return;
-    stageRef.current.innerHTML = svgMarkup;
-    const svg = stageRef.current.querySelector("svg");
+    if (!isFullscreen || !stageNode || !svgMarkup) return;
+    stageNode.innerHTML = svgMarkup;
+    const svg = stageNode.querySelector("svg");
     if (!svg) return;
     const vb = svg.getAttribute("viewBox")?.split(/\s+/).map(Number) ?? [];
     const w = vb.length === 4 && Number.isFinite(vb[2]) ? vb[2] : svg.clientWidth || 800;
@@ -402,7 +403,7 @@ const MermaidDiagram = ({ code, id }: MermaidDiagramProps) => {
     svg.style.aspectRatio = "auto";
     sizeRef.current = { width: w, height: h };
     setSvgSize({ width: w, height: h });
-  }, [isFullscreen, svgMarkup]);
+  }, [isFullscreen, svgMarkup, stageNode]);
 
   useEffect(() => {
     if (!isFullscreen || !svgSize.width) return;
@@ -560,7 +561,10 @@ const MermaidDiagram = ({ code, id }: MermaidDiagramProps) => {
             }`}
           >
             <div
-              ref={stageRef}
+              ref={(node) => {
+                stageRef.current = node;
+                setStageNode(node);
+              }}
               style={{
                 position: "absolute",
                 left: 0,
