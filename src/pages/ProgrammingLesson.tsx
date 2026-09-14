@@ -425,7 +425,7 @@ const ProgrammingLessonPage = () => {
           handleEnhanceTheory(true, { silent: true });
           return;
         }
-        setEnhancedMd(cleaned);
+        setEnhancedMd(normalizeTheoryDashes(cleaned));
         // If cached markdown is missing inline illustrations, refresh in background.
         const hasIllustrations = /!\[[^\]]*\]\([^)]+\)/.test(cleaned);
         if (!hasIllustrations) {

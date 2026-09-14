@@ -7,6 +7,9 @@ import { pythonLessons } from "../src/data/curriculum/pythonPathway";
 import { dsaLessons } from "../src/data/dsaLessons";
 
 const errors: string[] = [];
+const hasLongDash = (value: string) => /[—–]/.test(value);
+const withoutCodeFences = (value: string) =>
+  value.replace(/```[\s\S]*?```/g, "").replace(/`[^`]*`/g, "");
 const required = (value: unknown, path: string) => {
   if (typeof value !== "string" || !value.trim()) errors.push(`${path}: missing English content`);
 };
@@ -18,6 +21,10 @@ for (const module of allProgrammingModules) {
   for (const lesson of module.lessons) {
     required(lesson.titleEn, `${module.id}/${lesson.id}.titleEn`);
     required(lesson.theoryEn || lesson.theory, `${module.id}/${lesson.id}.theory`);
+    const theory = lesson.theoryEn || lesson.theory;
+    if (hasLongDash(withoutCodeFences(theory))) {
+      errors.push(`${module.id}/${lesson.id}.theory: contains an em dash or en dash in prose`);
+    }
     required(lesson.exerciseEn || lesson.exercise, `${module.id}/${lesson.id}.exercise`);
     lesson.quiz.forEach((question, index) => {
       standardQuestions++;
