@@ -895,9 +895,10 @@ import { japaneseThemes3 } from "./speakingCoachJapaneseExpansion3";
 import { applyTopUps } from "./speakingCoachTopUp";
 import { dedupeSpeakingThemes } from "./speakingCoachDedupe";
 import { mergeSpeakingThemes } from "./speakingCoachMerge";
+import { applySpeakingTextFixes } from "./speakingCoachTextFixes";
 
 const buildThemes = (themes: SpeakingTheme[]): SpeakingTheme[] =>
-  mergeSpeakingThemes(dedupeSpeakingThemes(themes));
+  applySpeakingTextFixes(mergeSpeakingThemes(dedupeSpeakingThemes(themes)));
 
 export const speakingCoachLanguages: Record<string, SpeakingLanguageConfig> = {
   english: {
