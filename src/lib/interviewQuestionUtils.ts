@@ -65,7 +65,7 @@ export const splitNumberedText = (text: string): NumberedTextPart[] => {
   matches.forEach((match, index) => {
     const start = (match.index ?? 0) + match[0].length;
     const end = matches[index + 1]?.index ?? text.length;
-    const content = text.slice(start, end).trim().replace(/^[,;]\s*/, "");
+    const content = text.slice(start, end).trim().replace(/^[,;]\s*/, "").replace(/[,;]\s*$/, "");
     if (content) parts.push({ number: Number(match[1]), text: content });
   });
   return parts;
