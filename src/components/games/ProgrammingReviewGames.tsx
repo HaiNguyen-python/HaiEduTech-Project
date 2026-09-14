@@ -220,7 +220,7 @@ function Results({ xp, maxXp, detail, best, isRecord, newBadges, wrong, onRetry 
   wrong: ReviewQuestion[];
   onRetry: () => void;
 }) {
-  const { t, language } = useLanguage();
+  const { t, lang } = useLanguage();
   const reduced = usePrefersReducedMotion();
   const percent = maxXp > 0 ? Math.round((xp / maxXp) * 100) : 0;
   return (
