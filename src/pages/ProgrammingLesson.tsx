@@ -352,17 +352,16 @@ const ProgrammingLessonPage = () => {
   const isSQL = mod?.id === "prog-sql" || mod?.course === "sql";
 
   // Load cached AI theory whenever the lesson changes.
-  // Auto-trigger Enhance with AI when:
-  //   (a) no cached entry exists at all, OR
-  //   (b) cached markdown exists but is missing inline illustrations.
-  // This guarantees every lesson (especially NLP) opens with the AI Deep-Dive
-  // and cute infographic illustrations rendered.
+  // Deep-Dive is the DEFAULT reading mode for every Programming lesson:
+  //   (a) cached English Deep-Dive -> shown immediately,
+  //   (b) no cache (or a stale Vietnamese cache) -> generated now and switched in,
+  //   (c) AI unavailable -> original English theory stays readable.
   useEffect(() => {
     if (!mod || !lesson) return;
     setEnhancedMd(null);
-    // Show ORIGINAL theory by default. Students can opt into AI Deep-Dive
-    // explicitly via the toggle button - do NOT auto-switch them.
-    setUseEnhanced(false);
+    setDeepDiveUnavailable(false);
+    // Deep-Dive by default. The toggle still lets students read the original.
+    setUseEnhanced(true);
     supabase
       .from("programming_theory_cache")
       .select("enhanced_markdown, illustrations")
@@ -371,9 +370,8 @@ const ProgrammingLessonPage = () => {
       .maybeSingle()
       .then(({ data }) => {
         if (!data?.enhanced_markdown) {
-          // Pre-warm cache in background so Deep-Dive is ready when clicked,
-          // but DO NOT switch the view away from Original.
-          handleEnhanceTheory(false, { autoSwitch: false, silent: true });
+          // Generate the Deep-Dive now and switch to it when ready.
+          handleEnhanceTheory(false, { autoSwitch: true, silent: true });
           return;
         }
         const cleaned = data.enhanced_markdown
@@ -381,6 +379,12 @@ const ProgrammingLessonPage = () => {
           .replace(/\n#{1,6}\s*(References|Sources|Citations|Tham khảo|Nguồn)[\s\S]*$/i, "")
           .replace(/[ \t]+([.,;:!?])/g, "$1")
           .replace(/[ \t]{2,}/g, " ");
+        // A cached entry written before the English-only rule can still hold
+        // Vietnamese prose - regenerate it instead of showing mixed language.
+        if (hasVietnameseText(cleaned)) {
+          handleEnhanceTheory(true, { autoSwitch: true, silent: true });
+          return;
+        }
         setEnhancedMd(cleaned);
         // If cached markdown is missing inline illustrations, refresh in background.
         const hasIllustrations = /!\[[^\]]*\]\([^)]+\)/.test(cleaned);
