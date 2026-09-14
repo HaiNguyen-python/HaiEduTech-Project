@@ -344,18 +344,18 @@ const DsaCurriculum = () => {
     [tier],
   );
 
-  const tierTabs: Array<{ id: Tier | "all";  labelEn: string }> = [
-    { id: "all", labelVi: "All", labelEn: "All" },
-    { id: "easy", labelVi: "Easy", labelEn: "Easy" },
-    { id: "medium", labelVi: "Medium", labelEn: "Medium" },
-    { id: "hard", labelVi: "Hard", labelEn: "Hard" },
+  const tierTabs: Array<{ id: Tier | "all"; labelEn: string }> = [
+    { id: "all", labelEn: "All" },
+    { id: "easy", labelEn: "Easy" },
+    { id: "medium", labelEn: "Medium" },
+    { id: "hard", labelEn: "Hard" },
   ];
 
   const lessonTabs: Array<{ id: DsaSectionId | "all"; en: string }> = [
-    { id: "all", vi: "All", en: "All" },
-    { id: "linear", vi: "Linear", en: "Linear" },
-    { id: "nonlinear", vi: "Non-linear", en: "Non-linear" },
-    { id: "algos", vi: "Algorithms", en: "Algorithms" },
+    { id: "all", en: "All" },
+    { id: "linear", en: "Linear" },
+    { id: "nonlinear", en: "Non-linear" },
+    { id: "algos", en: "Algorithms" },
   ];
 
   return (
