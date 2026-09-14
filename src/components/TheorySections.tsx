@@ -781,7 +781,7 @@ const TheorySections = ({ markdown, storageKey, defaultCodeLanguage = "text" }: 
   return (
     <div className="theory-content">
       {totalMarkable > 0 && (
-        <div className="not-prose mb-5 flex items-center gap-3 px-3.5 py-2.5 rounded-lg bg-primary/5 border border-primary/15">
+        <div className="not-prose mb-5 flex flex-wrap items-center gap-3 px-3.5 py-2.5 rounded-lg bg-primary/5 border border-primary/15">
           <BookOpenCheck className="w-4 h-4 text-primary shrink-0" />
           <span className="text-sm font-medium text-foreground">
             Section progress: {readCount}/{totalMarkable}
@@ -792,6 +792,18 @@ const TheorySections = ({ markdown, storageKey, defaultCodeLanguage = "text" }: 
           <span className={`text-xs font-semibold ${allDone ? "text-green-600" : "text-primary"}`}>
             {pct}%
           </span>
+          <button
+            type="button"
+            onClick={toggleAll}
+            aria-expanded={allExpanded}
+            className="inline-flex min-h-11 items-center gap-1.5 rounded-md border border-border bg-background px-3 text-xs font-semibold text-muted-foreground transition-colors hover:border-primary/50 hover:bg-primary/5 hover:text-primary"
+          >
+            {allExpanded ? (
+              <><ChevronsDownUp className="h-3.5 w-3.5" />{t("Thu gọn tất cả", "Collapse all")}</>
+            ) : (
+              <><ChevronsUpDown className="h-3.5 w-3.5" />{t("Mở tất cả", "Expand all")}</>
+            )}
+          </button>
         </div>
       )}
 
@@ -807,6 +819,9 @@ const TheorySections = ({ markdown, storageKey, defaultCodeLanguage = "text" }: 
         }
 
         const Icon = pickIconForTitle(section.title);
+        const isOpen = openSlugs.has(section.slug);
+        const preview = isOpen ? "" : buildPreview(section.body);
+        const bodyId = `${section.slug}-body`;
 
         return (
           <motion.div
@@ -830,7 +845,13 @@ const TheorySections = ({ markdown, storageKey, defaultCodeLanguage = "text" }: 
             )}
 
             <div className="not-prose flex items-start justify-between gap-3 mt-2 mb-3">
-              <div className="flex items-start gap-3 flex-1 min-w-0">
+              <button
+                type="button"
+                onClick={() => toggleOpen(section.slug)}
+                aria-expanded={isOpen}
+                aria-controls={bodyId}
+                className="flex min-h-11 flex-1 items-start gap-3 min-w-0 rounded-lg px-1 py-1 text-left transition-colors hover:bg-primary/5"
+              >
                 {section.stepNumber ? (
                   <StepBadge number={section.stepNumber} />
                 ) : (
@@ -841,20 +862,37 @@ const TheorySections = ({ markdown, storageKey, defaultCodeLanguage = "text" }: 
                     <Icon className="w-4 h-4" />
                   </span>
                 )}
-                <h2
-                  className={`text-[1.15rem] font-bold leading-tight tracking-tight flex items-center gap-2 ${
-                    isRead ? "text-foreground/70 line-through decoration-primary/40 decoration-1" : "text-primary"
-                  }`}
-                >
-                  {section.stepNumber && <Icon className="w-4 h-4 opacity-70 shrink-0" aria-hidden="true" />}
-                  <span>{section.title}</span>
-                </h2>
-              </div>
+                <span className="min-w-0 flex-1">
+                  <h2
+                    className={`text-[1.15rem] font-bold leading-tight tracking-tight flex items-center gap-2 ${
+                      isRead ? "text-foreground/70 line-through decoration-primary/40 decoration-1" : "text-primary"
+                    }`}
+                  >
+                    {section.stepNumber && <Icon className="w-4 h-4 opacity-70 shrink-0" aria-hidden="true" />}
+                    <span>{section.title}</span>
+                  </h2>
+                  {!isOpen && preview && (
+                    <span className="mt-1.5 block text-sm leading-relaxed text-muted-foreground line-clamp-2">
+                      {preview}
+                    </span>
+                  )}
+                  {!isOpen && (
+                    <span className="mt-1.5 inline-flex items-center gap-1 text-xs font-semibold text-primary">
+                      <ChevronDown className="h-3.5 w-3.5" aria-hidden="true" />
+                      {t("Đọc tiếp", "Read more")}
+                    </span>
+                  )}
+                </span>
+                <ChevronDown
+                  className={`mt-1.5 h-4 w-4 shrink-0 text-muted-foreground transition-transform ${isOpen ? "rotate-180" : ""}`}
+                  aria-hidden="true"
+                />
+              </button>
               <button
                 type="button"
-                onClick={() => toggleRead(section.slug)}
+                onClick={(e) => { e.stopPropagation(); toggleRead(section.slug); }}
                 aria-pressed={isRead}
-                className={`shrink-0 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium border transition-all active:scale-[0.97] ${
+                className={`mt-1.5 shrink-0 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium border transition-all active:scale-[0.97] ${
                   isRead
                     ? "bg-green-500/10 border-green-500/40 text-green-700 hover:bg-green-500/15"
                     : "bg-background border-border text-muted-foreground hover:border-primary/50 hover:text-primary hover:bg-primary/5"
@@ -868,10 +906,25 @@ const TheorySections = ({ markdown, storageKey, defaultCodeLanguage = "text" }: 
               </button>
             </div>
 
-            {renderBody(section.body)}
+            <AnimatePresence initial={false}>
+              {isOpen && (
+                <motion.div
+                  id={bodyId}
+                  key="body"
+                  initial={prefersReducedMotion ? undefined : { height: 0, opacity: 0 }}
+                  animate={prefersReducedMotion ? undefined : { height: "auto", opacity: 1 }}
+                  exit={prefersReducedMotion ? undefined : { height: 0, opacity: 0 }}
+                  transition={{ duration: 0.25, ease: "easeOut" }}
+                  className="overflow-hidden"
+                >
+                  {renderBody(section.body)}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </motion.div>
         );
       })}
+
     </div>
   );
 };
