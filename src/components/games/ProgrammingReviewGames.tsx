@@ -250,7 +250,7 @@ function Results({ xp, maxXp, detail, best, isRecord, newBadges, wrong, onRetry 
           <div className="flex flex-wrap gap-2">
             {newBadges.map((badge) => (
               <span key={badge.id} className="arcade-meta text-[hsl(var(--arcade-text))]">
-                <span aria-hidden>{badge.emoji}</span> {language === "vi" ? badge.vi : badge.en}
+                <span aria-hidden>{badge.emoji}</span> {lang === "vi" ? badge.vi : badge.en}
               </span>
             ))}
           </div>
