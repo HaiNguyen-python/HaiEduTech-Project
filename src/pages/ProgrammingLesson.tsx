@@ -314,6 +314,17 @@ function hasVietnameseText(md: string): boolean {
   return VIETNAMESE_CHARS.test(prose);
 }
 
+// Base64 (UTF-8 safe) so security lesson samples survive the edge firewall.
+function encodeTheory(text: string): string {
+  const bytes = new TextEncoder().encode(text);
+  let binary = "";
+  bytes.forEach((b) => {
+    binary += String.fromCharCode(b);
+  });
+  return btoa(binary);
+}
+
+
 
 const ProgrammingLessonPage = () => {
   const { moduleId, lessonId } = useParams();
