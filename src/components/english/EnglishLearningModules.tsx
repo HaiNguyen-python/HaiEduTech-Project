@@ -48,6 +48,13 @@ const ART: Record<ArtKey, { url: string; altVi: string; altEn: string }> = {
   business: { url: businessArt.url, altVi: "Học viên chibi luyện tiếng Anh công việc", altEn: "Chibi learner practising workplace English" },
 };
 
+const resolveAssetUrl = (url: string) => {
+  if (import.meta.env.DEV && window.location.hostname === "localhost") {
+    return `https://id-preview--69bf04b5-2aaf-44a8-ab3b-d9285d8ce64b.lovable.app${url}`;
+  }
+  return url;
+};
+
 const includesAny = (id: string, terms: string[]) => terms.some((term) => id.includes(term));
 
 const CLUSTER_DEFINITIONS: CategoryDefinition[] = [
@@ -128,7 +135,7 @@ const LearningCluster = ({ definition, modules }: { definition: ClusterDefinitio
     <AccordionItem value={definition.id} className="learning-cluster overflow-hidden rounded-lg border border-border bg-card shadow-sm">
       <AccordionTrigger className="group relative min-h-52 overflow-hidden px-5 py-5 text-left hover:no-underline sm:min-h-60 sm:px-6">
         <img
-          src={art.url}
+          src={resolveAssetUrl(art.url)}
           alt={t(art.altVi, art.altEn)}
           width={1024}
           height={640}
