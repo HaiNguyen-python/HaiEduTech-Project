@@ -420,7 +420,9 @@ const ProgrammingLessonPage = () => {
           lesson_id: lesson.id,
           lesson_title: lesson.titleEn || lesson.title,
           module_title: mod.titleEn || mod.title,
-          base_theory: lesson.theoryEn || lesson.theory || "",
+          // Sent base64-encoded: raw security lesson text (injection/XSS samples)
+          // is rejected by the edge firewall.
+          base_theory_b64: encodeTheory(lesson.theoryEn || lesson.theory || ""),
           code_language: lesson.codeLanguage,
           force_refresh: forceRefresh,
         },
