@@ -135,7 +135,7 @@ const MISSIONS: Mission[] = [
       "Count correct and incorrect answers",
     ],
     steps: [
-      "Create 2 lists: 'English Words' and 'Vietnamese Meanings'.",
+      "Create 2 lists: 'English Words' and 'Definitions'.",
       "Create variable 'i' = random index in the word list.",
       "Ask 'item i of English' and compare with 'item i of Meaning'.",
       "If correct → add score and play applause; if wrong → sad sound.",

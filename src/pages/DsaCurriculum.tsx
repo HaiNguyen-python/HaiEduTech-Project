@@ -379,7 +379,7 @@ const DsaCurriculum = () => {
               {"Data Structures & Algorithms"}
             </h1>
             <p className="text-muted-foreground max-w-2xl mx-auto text-base sm:text-lg">
-              {\"A foundation roadmap to build solid algorithmic thinking — from linear structures to graphs, trees and classic algorithms.\"}
+              A foundation roadmap to build solid algorithmic thinking — from linear structures to graphs, trees and classic algorithms.
             </p>
 
             {/* Quick navigation */}
@@ -464,7 +464,7 @@ const DsaCurriculum = () => {
               </h2>
             </div>
             <p className="text-sm text-muted-foreground mb-5">
-              {\"Fifteen lessons with theory, Python examples, complexity analysis and reinforcement quizzes.\"}
+              Fifteen lessons with theory, Python examples, complexity analysis and reinforcement quizzes.
             </p>
 
             <div className="flex flex-wrap gap-2 mb-5">
@@ -532,7 +532,7 @@ const DsaCurriculum = () => {
                       <div className="px-5 pb-5 space-y-4 border-t border-border/60 pt-4">
                         <DsaTheoryText
                           text={lesson.theoryEn}
-                          lang={lang}
+                          lang="en"
                         />
 
                         <CodeBlock
@@ -645,7 +645,7 @@ const DsaCurriculum = () => {
               </h2>
             </div>
             <p className="text-sm text-muted-foreground mb-5">
-              {\"Pick the right difficulty tier and sharpen your algorithmic thinking.\"}
+              Pick the right difficulty tier and sharpen your algorithmic thinking.
             </p>
 
             <div className="glass-card rounded-xl p-4 mb-5">

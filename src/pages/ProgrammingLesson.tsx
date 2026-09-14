@@ -309,7 +309,7 @@ function getPillarModules(pillar: string): ProgrammingModule[] {
 
 const ProgrammingLessonPage = () => {
   const { moduleId, lessonId } = useParams();
-  const { t } = useLanguage();
+  useLanguage();
   const isMobile = useIsMobile();
   const [mod, setMod] = useState<ProgrammingModule | null>(null);
   const [lesson, setLesson] = useState<PLType | null>(null);
@@ -1029,9 +1029,9 @@ const ProgrammingLessonPage = () => {
                             to={`/programming/${mod.id}/${nextLesson.id}`}
                             onClick={() => { resetQuiz(); setAiChallenge(null); setShowSolution(false); setShowHints(false); window.scrollTo({ top: 0, behavior: "smooth" }); }}
                             className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold text-sm hover:brightness-110 transition-all active:scale-[0.97] shadow-md"
-                            aria-label={t("Đi tới bài học tiếp theo", "Go to next lesson")}
+                            aria-label="Go to next lesson"
                           >
-                            {t("Bài tiếp theo", "Next lesson")}: {lang === "vi" ? nextLesson.title : (nextLesson.titleEn || nextLesson.title)}
+                            Next lesson: {nextLesson.titleEn || nextLesson.title}
                             <ChevronRight className="w-4 h-4" />
                           </Link>
                         );
@@ -1039,7 +1039,7 @@ const ProgrammingLessonPage = () => {
                       return (
                         <div className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 font-semibold text-sm border border-emerald-500/30">
                           <Trophy className="w-4 h-4" />
-                          {t("Bạn đã hoàn thành module này!", "You completed this module!")}
+                          You completed this module!
                         </div>
                       );
                     })()}
@@ -1155,9 +1155,9 @@ const ProgrammingLessonPage = () => {
                             to={`/programming/${mod.id}/${prevLesson.id}`}
                             onClick={() => { resetQuiz(); setAiChallenge(null); setShowSolution(false); setShowHints(false); window.scrollTo({ top: 0, behavior: "smooth" }); }}
                             className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-secondary text-foreground font-semibold text-sm border border-border hover:bg-secondary/70 transition-all active:scale-[0.97]"
-                            aria-label={t("Bài học trước", "Previous lesson")}
+                            aria-label="Previous lesson"
                           >
-                            ← {t("Bài trước", "Previous")}
+                            ← Previous
                           </Link>
                         ) : <span />}
                         {nextLesson ? (
@@ -1165,15 +1165,15 @@ const ProgrammingLessonPage = () => {
                             to={`/programming/${mod.id}/${nextLesson.id}`}
                             onClick={() => { resetQuiz(); setAiChallenge(null); setShowSolution(false); setShowHints(false); window.scrollTo({ top: 0, behavior: "smooth" }); }}
                             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold text-sm hover:brightness-110 transition-all active:scale-[0.97] shadow-md"
-                            aria-label={t("Đi tới bài học tiếp theo", "Go to next lesson")}
+                            aria-label="Go to next lesson"
                           >
-                            {t("Bài tiếp theo", "Next lesson")}: {lang === "vi" ? nextLesson.title : (nextLesson.titleEn || nextLesson.title)}
+                            Next lesson: {nextLesson.titleEn || nextLesson.title}
                             <ChevronRight className="w-4 h-4" />
                           </Link>
                         ) : (
                           <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 font-semibold text-sm border border-emerald-500/30">
                             <Trophy className="w-4 h-4" />
-                            {t("Bạn đã hoàn thành module này!", "You completed this module!")}
+                            You completed this module!
                           </div>
                         )}
                       </div>
@@ -1204,7 +1204,7 @@ const ProgrammingLessonPage = () => {
             </div>
           </div>
       </div>
-      <BackToTopButton label={t("Về đầu trang", "Back to top")} />
+      <BackToTopButton label="Back to top" />
       <Footer />
     </div>
   );
