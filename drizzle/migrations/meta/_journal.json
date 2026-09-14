@@ -22,6 +22,20 @@
       "when": 1789366028296,
       "tag": "0002_assignment_tick_support",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1789395693700,
+      "tag": "0003_programming_lesson_index",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1789395854142,
+      "tag": "0004_warm_programming_deep_dives_cron",
+      "breakpoints": true
     }
   ]
 }

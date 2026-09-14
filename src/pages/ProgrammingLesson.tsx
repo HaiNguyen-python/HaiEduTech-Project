@@ -859,6 +859,23 @@ const ProgrammingLessonPage = () => {
                         The AI Deep-Dive is temporarily unavailable - you are reading the full base lesson in English.
                       </p>
                     )}
+                    {/* While the Deep-Dive is being prepared, show a soft skeleton above the
+                        readable English base lesson so the page never feels empty. */}
+                    {!enhancedMd && enhanceLoading && (
+                      <div className="mb-6 rounded-xl border border-violet-500/25 bg-violet-500/5 p-4" aria-hidden="true">
+                        <div className="space-y-2.5 animate-pulse">
+                          <div className="h-4 w-2/5 rounded bg-violet-500/20" />
+                          <div className="h-3 w-full rounded bg-muted" />
+                          <div className="h-3 w-11/12 rounded bg-muted" />
+                          <div className="h-3 w-4/5 rounded bg-muted" />
+                          <div className="h-20 w-full rounded-lg bg-muted/70" />
+                          <div className="h-3 w-3/4 rounded bg-muted" />
+                        </div>
+                        <p className="mt-3 text-xs font-medium text-violet-700 dark:text-violet-300">
+                          Preparing the AI Deep-Dive - keep reading the full English lesson below.
+                        </p>
+                      </div>
+                    )}
                     {getModuleHero(mod.id) && (
                       <img
                         src={getModuleHero(mod.id)!}
