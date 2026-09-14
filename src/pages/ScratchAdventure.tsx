@@ -375,7 +375,7 @@ const ScratchAdventure = () => {
       return;
     }
     persist({ ...stars, [m.id]: current + 1 });
-    toast.success(`+1 sao cho "${m.title}"! 🌟`);
+    toast.success(`"+1 star for "${m.title}"! 🌟`);
   };
 
   const handleResetMission = (m: Mission) => {
