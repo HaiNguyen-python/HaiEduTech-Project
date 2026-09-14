@@ -33,11 +33,15 @@ const XP_PER_ANSWER = 20;
 /** Highest XP a single typing snippet can award (see scoreFor). */
 const MAX_SNIPPET_XP = 119;
 
-const PYTHON_SNIPPETS = TOPIC_SNIPPETS
-  .filter((topic) => topic.language === "python")
-  .flatMap((topic) => topic.snippets)
-  .filter((snippet, index, all) => all.indexOf(snippet) === index)
-  .slice(0, 5);
+/** Core Python typing ladder: variables -> conditions -> loops -> functions -> data. */
+const PYTHON_SNIPPETS = [
+  "name = 'Mai'\nprint('Hello', name)",
+  "score = 82\nif score >= 80:\n    print('Pass')\nelse:\n    print('Retry')",
+  "total = 0\nfor number in range(1, 6):\n    total += number\nprint(total)",
+  "def average(values):\n    return sum(values) / len(values)\n\nprint(average([8, 9, 10]))",
+  "students = {'Mai': 9, 'Nam': 7}\nfor name, score in students.items():\n    print(name, score)",
+];
+
 
 const BUG_QUESTIONS: ReviewQuestion[] = [
   { tag: "Loops", prompt: "Why does this loop never stop?", code: "count = 5\nwhile count > 0:\n    print(count)\n    count += 1", options: ["The condition needs ==", "count should decrease", "print must be outside", "while cannot use numbers"], answer: 1, explanation: "The condition stays true because count increases. Use count -= 1." },
