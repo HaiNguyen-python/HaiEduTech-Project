@@ -32,4 +32,14 @@ describe("normalizeTheoryMarkdownStructure", () => {
     const input = "```python\nquery = \"\"\"\n SELECT *\n FROM users\n\"\"\"\n```";
     expect(normalizeTheoryMarkdownStructure(input)).toBe(input);
   });
+
+  it.each([
+    ["yaml", "service:\n image: api:latest\n ports:\n  - 8080:80", "service:\n  image: api:latest\n  ports:\n    - 8080:80"],
+    ["mermaid", "flowchart TD\n A[Input] --> B{Valid}\n  B --> C[Store]", "flowchart TD\n  A[Input] --> B{Valid}\n    B --> C[Store]"],
+    ["sql", "SELECT id\n  FROM users\n  WHERE active = true", "SELECT id\n  FROM users\n  WHERE active = true"],
+    ["", "root\n child", "root\n child"],
+  ])("normalizes %s fenced code conservatively", (language, source, expected) => {
+    const fence = `\`\`\`${language}\n${source}\n\`\`\``;
+    expect(normalizeTheoryMarkdownStructure(fence)).toBe(`\`\`\`${language}\n${expected}\n\`\`\``);
+  });
 });
