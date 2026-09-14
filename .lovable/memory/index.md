@@ -1,6 +1,8 @@
 # Project Memory
 
 ## Memories
+## Core
+- Module card colors: languageCurriculum `color` must be soft `/15` gradients, never saturated or bare tokens.
 - [Assignment Tick Tracking](mem://features/admin/assignment-tick-tracking) - Notebook "Bài tập" tab checkboxes on student_submissions feed realtime completion charts in Assignment Management
 - [Memory Brain Data Flow](mem://features/vocab/memory-brain-data-flow) - All study flows write reviews; retention-based colours, lapses/ease, brain on 9 subjects
 - [Game score & brain integration](mem://features/games/score-and-brain-integration) - finishGame helper saves every arcade run + feeds words to the brain; replay remounts, never reloads
