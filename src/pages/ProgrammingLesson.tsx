@@ -1,5 +1,4 @@
 import LessonFeedback from "@/components/LessonFeedback";
-import { boldAndSanitize } from "@/lib/utils";
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -8,7 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft, ChevronRight, Sparkles, CheckCircle, XCircle, Clock, Trophy,
   Loader2, Play, Lightbulb, Code2, BookOpen, ChevronDown, Eye, EyeOff,
-  PanelRightClose, PanelRightOpen, Wand2, RefreshCw,
+  PanelRightClose, PanelRightOpen,
 } from "lucide-react";
 import { toast } from "sonner";
 import { allProgrammingModules, type ProgrammingModule, type ProgrammingLesson as PLType } from "@/data/programmingLessonData";
@@ -34,7 +33,6 @@ import { Progress } from "@/components/ui/progress";
 import SqlEditor from "@/components/SqlEditor";
 import PythonIDEPanel from "@/components/PythonIDEPanel";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { useUserRole } from "@/hooks/useUserRole";
 import CodeBlock from "@/components/CodeBlock";
 import LessonFloatingSymbols from "@/components/programming/LessonFloatingSymbols";
 import mascotPythonPathway from "@/assets/programming/mascot-python-pathway.png";
@@ -383,10 +381,6 @@ const ProgrammingLessonPage = () => {
   const [deepDiveUnavailable, setDeepDiveUnavailable] = useState(false);
   // Set of cached lesson keys "moduleId::lessonId" - drives the sidebar ✨ Enhanced badge
   const [cachedLessonKeys, setCachedLessonKeys] = useState<Set<string>>(new Set());
-  // Admin batch illustration generation
-  const { isTeacher } = useUserRole();
-  const [batchRunning, setBatchRunning] = useState(false);
-  const [batchProgress, setBatchProgress] = useState({ done: 0, total: 0 });
   // Track if learner has had a wrong attempt - used to award Bug Slayer badge
   const [hadWrongAttempt, setHadWrongAttempt] = useState(false);
   // Unified Programming gamification - XP, streak, badges across all pillars
@@ -427,11 +421,8 @@ const ProgrammingLessonPage = () => {
           return;
         }
         setEnhancedMd(normalizeTheoryDashes(cleaned));
-        // If cached markdown is missing inline illustrations, refresh in background.
-        const hasIllustrations = /!\[[^\]]*\]\([^)]+\)/.test(cleaned);
-        if (!hasIllustrations) {
-          handleEnhanceTheory(true, { silent: true });
-        }
+        // Illustration backfill is managed separately so opening a lesson never
+        // rewrites otherwise valid cached theory.
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mod, lesson]);
@@ -472,74 +463,6 @@ const ProgrammingLessonPage = () => {
       if (!silent) toast.error("Could not enhance theory. Please try again later.");
     }
     setEnhanceLoading(false);
-  };
-
-  // Admin-only: pre-generate AI illustrations for every Programming lesson.
-  // Loops through all modules sequentially with a 4s delay to avoid 429 limits.
-  // Skips lessons already cached (the edge function returns cached results
-  // instantly so re-runs are safe and free).
-  const generateAllIllustrations = async () => {
-    if (batchRunning) return;
-    const allLessons: { mod: ProgrammingModule; lesson: PLType }[] = [];
-    for (const m of allProgrammingModules) {
-      for (const l of m.lessons) allLessons.push({ mod: m, lesson: l });
-    }
-    if (allLessons.length === 0) return;
-
-    setBatchRunning(true);
-    setBatchProgress({ done: 0, total: allLessons.length });
-    toast.info(`🎨 Starting illustration generation for ${allLessons.length} lessons. This will take ~${Math.ceil(allLessons.length * 4 / 60)} min.`);
-
-    let successCount = 0;
-    let failCount = 0;
-    for (let i = 0; i < allLessons.length; i++) {
-      const { mod: m, lesson: l } = allLessons[i];
-      try {
-        const { data, error } = await supabase.functions.invoke("enhance-programming-theory", {
-          body: {
-            module_id: m.id,
-            lesson_id: l.id,
-            lesson_title: l.titleEn || l.title,
-            module_title: m.titleEn || m.title,
-            base_theory: l.theoryEn || l.theory || "",
-            code_language: l.codeLanguage,
-            force_refresh: false,
-          },
-        });
-        if (error) throw error;
-        if (data) successCount++;
-      } catch (e) {
-        // Silently track failures in batch run; surfaced via toast at end
-        failCount++;
-      }
-      setBatchProgress({ done: i + 1, total: allLessons.length });
-      // Throttle: skip the wait on the last item
-      if (i < allLessons.length - 1) {
-        await new Promise((r) => setTimeout(r, 4000));
-      }
-    }
-
-    setBatchRunning(false);
-    toast.success(`🎨 Illustrations done - ${successCount} ok, ${failCount} failed.`);
-    // Refresh sidebar badges
-    const moduleIds = pillarModules.map((mm) => mm.id);
-    if (moduleIds.length > 0) {
-      const { data } = await supabase
-        .from("programming_theory_cache")
-        .select("module_id,lesson_id")
-        .in("module_id", moduleIds);
-      if (data) setCachedLessonKeys(new Set(data.map((r) => `${r.module_id}::${r.lesson_id}`)));
-    }
-    // Reload current lesson's enhanced markdown if user is viewing one
-    if (mod && lesson) {
-      const { data: cur } = await supabase
-        .from("programming_theory_cache")
-        .select("enhanced_markdown")
-        .eq("module_id", mod.id)
-        .eq("lesson_id", lesson.id)
-        .maybeSingle();
-      if (cur?.enhanced_markdown) setEnhancedMd(cur.enhanced_markdown);
-    }
   };
 
   // Get all sibling modules for same pillar

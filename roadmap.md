@@ -1,6 +1,7 @@
 # Roadmap
 
 ## In Progress
+- [ ] Programming Theory enrichment: section-aware key-term emphasis and image-only backfill for every cached lesson missing illustrations
 
 ## Done
 - [x] Programming lesson sections: every section now starts collapsed, including section 1 and introductory content; key technical terms receive restrained bold emphasis while code, math, links, and diagrams remain unchanged

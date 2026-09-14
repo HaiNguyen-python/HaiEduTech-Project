@@ -581,37 +581,64 @@ const KEY_TERM_PATTERNS = [
   "recursion", "iteration", "inheritance", "encapsulation", "polymorphism", "abstraction", "scalability",
   "latency", "throughput", "concurrency", "parallelism", "API", "SQL", "NoSQL", "HTTP", "JSON", "Git",
   "Python", "JavaScript", "TypeScript", "Docker", "Kubernetes",
+  "list comprehension", "dictionary comprehension", "generator expression", "decorator", "context manager",
+  "exception handling", "type annotation", "virtual environment", "package manager", "garbage collection",
+  "binary search tree", "linked list", "hash table", "priority queue", "dynamic programming", "greedy algorithm",
+  "breadth-first search", "depth-first search", "Big O notation", "normalization", "transaction isolation",
+  "atomicity", "consistency", "isolation", "durability", "database index", "query plan", "common table expression",
+  "window function", "stored procedure", "responsive design", "semantic HTML", "document object model",
+  "event loop", "state management", "single-page application", "server-side rendering", "accessibility",
+  "load balancer", "serverless computing", "virtual machine", "availability zone", "fault tolerance",
+  "zero trust", "least privilege", "threat model", "attack surface", "SQL injection", "cross-site scripting",
+  "multi-factor authentication", "public key infrastructure", "supervised learning", "unsupervised learning",
+  "reinforcement learning", "loss function", "activation function", "attention mechanism", "transformer architecture",
+  "retrieval-augmented generation", "prompt engineering", "embedding", "tokenization", "fine-tuning",
+  "precision", "recall", "F1 score", "confusion matrix", "receiver operating characteristic", "data warehouse",
+  "data lake", "stream processing", "batch processing", "change data capture", "data governance",
+  "data lineage", "microservice", "dependency injection", "test-driven development", "technical debt",
+  "minimum viable product", "product-market fit", "unit economics", "customer acquisition cost",
+  "lifetime value", "monthly recurring revenue", "total addressable market", "learning management system",
+  "adaptive learning", "learning analytics", "instructional design",
 ] as const;
 
 /** Add restrained emphasis to prose only. Code, math, links and existing Markdown emphasis stay byte-for-byte intact. */
 function emphasizeKeyTerms(markdown: string): string {
-  const protectedPattern = /(```[\s\S]*?```|`[^`\n]+`|\$\$[\s\S]*?\$\$|\$[^$\n]+\$|!\[[^\]]*\]\([^)]*\)|\[[^\]]+\]\([^)]*\)|\*\*[^*\n]+\*\*)/g;
-  const seen = new Set<string>();
-  const escapedTerms = [...KEY_TERM_PATTERNS]
-    .sort((a, b) => b.length - a.length)
-    .map((term) => term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
-  const termPattern = new RegExp(`\\b(${escapedTerms.join("|")})\\b`, "gi");
+  const protectedPattern = /(```[\s\S]*?```|`[^`\n]+`|\$\$[\s\S]*?\$\$|\$[^$\n]+\$|!\[[^\]]*\]\([^)]*\)|\[[^\]]+\]\([^)]*\)|https?:\/\/\S+|\*\*[^*\n]+\*\*|^#{1,6}\s+.+$)/gm;
+  const genericHeadings = /^(executive summary|lesson overview|detailed breakdown|key concepts|terminology|comparative table|best practices|anti-patterns|pro tips|pitfalls|summary|example|examples)$/i;
 
-  return markdown
-    .split(protectedPattern)
-    .map((part, index) => {
-      if (index % 2 === 1) return part;
+  // Reset term tracking at every H2 so a core concept can be highlighted once
+  // in each self-contained, collapsible section rather than only once per lesson.
+  return markdown.split(/(?=^##\s+)/m).map((section) => {
+    const seen = new Set<string>();
+    const headingTerms = Array.from(section.matchAll(/^###\s+(?:\d+\.\s*)?([^\n]{3,60})$/gm))
+      .map((match) => match[1].replace(/[*_`]/g, "").trim())
+      .filter((term) => !genericHeadings.test(term) && term.split(/\s+/).length <= 6);
+    const escapedTerms = [...new Set([...KEY_TERM_PATTERNS, ...headingTerms])]
+      .sort((a, b) => b.length - a.length)
+      .map((term) => term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+    const termPattern = new RegExp(`\\b(${escapedTerms.join("|")})\\b`, "gi");
 
-      let emphasized = part.replace(
-        /(^|\n)(\s*(?:[-*+]\s+|\d+\.\s+)?)([A-Z][A-Za-z0-9+/# -]{1,48})(?=:\s)/g,
-        (_match, lineStart: string, prefix: string, label: string) =>
-          `${lineStart}${prefix}**${label.trim()}**`,
-      );
+    return section
+      .split(protectedPattern)
+      .map((part, index) => {
+        if (index % 2 === 1) return part;
 
-      emphasized = emphasized.replace(termPattern, (match) => {
-        const key = match.toLowerCase();
-        if (seen.has(key)) return match;
-        seen.add(key);
-        return `**${match}**`;
-      });
-      return emphasized;
-    })
-    .join("");
+        let emphasized = part.replace(
+          /(^|\n)(\s*(?:[-*+]\s+|\d+\.\s+)?)([A-Z][A-Za-z0-9+/# -]{1,48})(?=:\s)/g,
+          (_match, lineStart: string, prefix: string, label: string) =>
+            `${lineStart}${prefix}**${label.trim()}**`,
+        );
+
+        emphasized = emphasized.replace(termPattern, (match) => {
+          const key = match.toLowerCase();
+          if (seen.has(key)) return match;
+          seen.add(key);
+          return `**${match}**`;
+        });
+        return emphasized;
+      })
+      .join("");
+  }).join("");
 }
 
 
