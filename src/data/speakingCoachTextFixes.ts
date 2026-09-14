@@ -46,8 +46,8 @@ export const speakingCoachTextFixes: Record<string, TextFix> = {
     translation: "Tôi và anh họ lớn lên trong cùng một khu phố.",
   },
   "en6-fa2": {
-    text: "We usually have dinner together on Sunday evenings.",
-    translation: "Chúng tôi thường ăn tối cùng nhau vào tối Chủ nhật.",
+    text: "My best friend always supports me when I feel stressed.",
+    translation: "Người bạn thân nhất luôn ủng hộ tôi khi tôi căng thẳng.",
   },
 
   // Finnish
