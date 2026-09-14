@@ -23,14 +23,16 @@ export const normalizeTheoryMarkdownStructure = (markdown: string): string => {
 
     const group = /^-\s+\*\*([^*\n]+)\*\*\s*:?\s*$/.exec(line);
     const nextLine = lines[index + 1] ?? "";
-    if (group && /^ {1,3}-\s+\S/.test(nextLine)) {
+    // A single leading space does not form a nested Markdown list. This is the
+    // malformed shape emitted by older Deep Dives; 2-4 spaces are valid nesting.
+    if (group && /^ -(?! )\s*\S/.test(nextLine)) {
       if (output.length > 0 && output[output.length - 1]?.trim()) output.push("");
       output.push(`### ${group[1].trim()}`);
       output.push("");
 
-      while (index + 1 < lines.length && /^ {1,3}-\s+\S/.test(lines[index + 1] ?? "")) {
+      while (index + 1 < lines.length && /^ -(?! )\s*\S/.test(lines[index + 1] ?? "")) {
         index += 1;
-        output.push((lines[index] ?? "").replace(/^ {1,3}(?=-\s)/, ""));
+        output.push((lines[index] ?? "").replace(/^ (?=-\s)/, ""));
       }
       continue;
     }

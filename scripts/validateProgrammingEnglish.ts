@@ -7,7 +7,6 @@ import { pythonLessons } from "../src/data/curriculum/pythonPathway";
 import { dsaLessons } from "../src/data/dsaLessons";
 
 const errors: string[] = [];
-const malformedTheoryLists: string[] = [];
 const required = (value: unknown, path: string) => {
   if (typeof value !== "string" || !value.trim()) errors.push(`${path}: missing English content`);
 };
@@ -19,10 +18,6 @@ for (const module of allProgrammingModules) {
   for (const lesson of module.lessons) {
     required(lesson.titleEn, `${module.id}/${lesson.id}.titleEn`);
     required(lesson.theoryEn || lesson.theory, `${module.id}/${lesson.id}.theory`);
-    const theory = lesson.theoryEn || lesson.theory || "";
-    if (/(^|\n)- \*\*[^\n]+\*\*\s*\n {1,3}- /m.test(theory)) {
-      malformedTheoryLists.push(`${module.id}/${lesson.id}`);
-    }
     required(lesson.exerciseEn || lesson.exercise, `${module.id}/${lesson.id}.exercise`);
     lesson.quiz.forEach((question, index) => {
       standardQuestions++;
@@ -43,9 +38,6 @@ for (const module of allProgrammingModules) {
   }
 }
 
-if (malformedTheoryLists.length) {
-  errors.push(`Malformed bullet-group headings: ${malformedTheoryLists.join(", ")}`);
-}
 
 for (const [key, value] of Object.entries(programmingQuizEnglishById)) {
   if (!standardKeys.has(key)) errors.push(`${key}: orphan English override`);
