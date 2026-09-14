@@ -42,9 +42,11 @@ const KATEX_OPTIONS = {
 import {
   Check, Circle, BookOpenCheck, Lightbulb, Code2, FileCode, AlertTriangle,
   ListChecks, HelpCircle, Zap, GitCompare, Dumbbell, Sparkles, BookOpen,
+  ChevronDown, ChevronsDownUp, ChevronsUpDown,
   type LucideIcon,
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { useLanguage } from "@/contexts/LanguageContext";
 import CodeBlock from "@/components/CodeBlock";
 import { Progress } from "@/components/ui/progress";
 import StepBadge from "@/components/lesson-visuals/StepBadge";
@@ -437,6 +439,31 @@ function splitBody(body: string): Chunk[] {
   }
   if (out.length === 0) out.push({ kind: "md", value: body });
   return out;
+}
+
+/**
+ * Build a short plain-text teaser for a collapsed section: first real prose
+ * paragraph with markdown syntax stripped. Skips headings, lists, code, tables,
+ * math blocks, diagrams and images so nothing heavy renders while collapsed.
+ */
+function buildPreview(body: string, limit = 170): string {
+  const withoutCode = body.replace(/```[\s\S]*?```/g, "").replace(/:::diagram[\s\S]*?:::/g, "");
+  const blocks = withoutCode.split(/\n\s*\n/);
+  for (const block of blocks) {
+    const line = block.trim();
+    if (!line) continue;
+    if (/^(#|>|-|\*|\d+\.|\||\$\$|!\[)/.test(line)) continue;
+    const text = line
+      .replace(/!\[[^\]]*\]\([^)]*\)/g, "")
+      .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
+      .replace(/\$\$?[^$]*\$\$?/g, "")
+      .replace(/[*_`#]/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
+    if (text.length < 24) continue;
+    return text.length > limit ? `${text.slice(0, limit).trimEnd()}…` : text;
+  }
+  return "";
 }
 
 // ── Markdown components: blockquote → Callout, code → CodeBlock, table → wrapper ──
