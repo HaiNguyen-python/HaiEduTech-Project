@@ -210,26 +210,23 @@ function normalizeMath(input: string): string {
 
       let out = part;
 
-      // Collapse runs of 3+ dollar signs to the canonical `$$` block delimiter.
-      // The AI sometimes emits `$$$expr$$$` which remark-math can't parse and
-      // ends up rendering the raw text (seen in conditional probability snippets).
-      out = out.replace(/\${3,}/g, "$$$$");
+      // Four dollars normally mean one display formula closes and the next one
+      // opens. Preserve that boundary instead of collapsing both delimiters.
+      out = out.replace(/\${4}/g, "$$\n\n$$");
+      // Repair malformed triple-dollar wrappers such as `$$$expr$$$`.
+      out = out.replace(/\${3}/g, "$$$$");
 
       // \[ ... \]  → $$ ... $$
       out = out.replace(/\\\[([\s\S]+?)\\\]/g, (_, body) => `$$${body.trim()}$$`);
       // \( ... \)  → $ ... $
       out = out.replace(/\\\(([\s\S]+?)\\\)/g, (_, body) => `$${body.trim()}$`);
 
-      // CRITICAL: remark-math requires NO whitespace immediately after the
-      // opening `$` or before the closing `$`. The AI frequently emits
-      // `$ \frac{1}{n} \sum ... $` which silently fails to parse and then
-      // gets clobbered by the paren-repair pass below. Trim it here so the
-      // delimiters work and the paren-repair sees the math as already wrapped.
-      out = out.replace(/\$\$\s+([\s\S]+?)\s+\$\$/g, (_, body) => `$$${body}$$`);
+      // Trim each complete display formula in one pass. Separate opening-only
+      // and closing-only regexes can mistake the close of formula A for the
+      // open of formula B and produce `$$$$` between adjacent equations.
+      out = out.replace(/\$\$([\s\S]*?)\$\$/g, (_, body) => `$$${body.trim()}$$`);
       out = out.replace(/(^|[^$])\$\s+([^$\n]+?)\s+\$(?!\$)/g, (_, pre, body) => `${pre}$${body}$`);
       // Also handle one-sided whitespace.
-      out = out.replace(/\$\$\s+([\s\S]+?)\$\$/g, (_, body) => `$$${body}$$`);
-      out = out.replace(/\$\$([\s\S]+?)\s+\$\$/g, (_, body) => `$$${body}$$`);
       out = out.replace(/(^|[^$])\$\s+([^$\n]+?)\$(?!\$)/g, (_, pre, body) => `${pre}$${body}$`);
       out = out.replace(/(^|[^$])\$([^$\n]+?)\s+\$(?!\$)/g, (_, pre, body) => `${pre}$${body}$`);
 
