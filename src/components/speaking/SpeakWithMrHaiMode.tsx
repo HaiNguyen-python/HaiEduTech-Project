@@ -1,9 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { CheckCircle2, Headphones, Mic, Pause, Play, RotateCcw, Square, Trash2, Volume2 } from "lucide-react";
+import { CheckCircle2, Gauge, Headphones, Mic, Pause, Play, RotateCcw, Square, Trash2, Volume2 } from "lucide-react";
 import { Conversation, ConversationContent, ConversationEmptyState, ConversationScrollButton } from "@/components/ai-elements/conversation";
 import { Message, MessageAction, MessageActions, MessageContent, MessageResponse } from "@/components/ai-elements/message";
-import { PromptInput, PromptInputFooter, PromptInputSubmit, PromptInputTextarea } from "@/components/ai-elements/prompt-input";
 import { Shimmer } from "@/components/ai-elements/shimmer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -15,6 +14,7 @@ import { useSpeechRecognizer } from "@/hooks/useSpeechRecognizer";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { supabase } from "@/integrations/supabase/client";
 import {
+  cleanSpokenTranscript,
   countSpokenWords,
   MR_HAI_TOPICS,
   normalizeMrHaiResponse,
@@ -25,7 +25,8 @@ import {
   type MrHaiSessionSummary,
   type MrHaiVoiceState,
 } from "@/lib/mrHaiVoicePractice";
-import { micErrorMessage, playSpeakingTts, stopSpeakingTts, type SpeakingLang } from "@/lib/speakingModeShared";
+import { micErrorMessage, type SpeakingLang } from "@/lib/speakingModeShared";
+import { playMrHaiVoice, stopMrHaiVoice } from "@/lib/mrHaiTts";
 import { safeStorage } from "@/lib/safeStorage";
 import haiAvatar from "@/assets/mr-hai-speaking-avatar.png";
 
@@ -51,9 +52,9 @@ const SpeakWithMrHaiMode = ({ language }: Props) => {
   const isAiBusy = voiceState === "thinking" || voiceState === "speaking";
   const hasStarted = messages.length > 0;
 
-  const speakReply = useCallback(async (reply: string) => {
+  const speakReply = useCallback(async (reply: string, rate = 0.95) => {
     setVoiceState("speaking");
-    await playSpeakingTts(language, speakingText(reply), 0.95);
+    await playMrHaiVoice(language, speakingText(reply), rate);
     setVoiceState((current) => current === "paused" || current === "ended" ? current : "idle");
   }, [language]);
 
@@ -76,7 +77,7 @@ const SpeakWithMrHaiMode = ({ language }: Props) => {
   }, [language, topic]);
 
   const addLearnerTurn = useCallback(async (rawText: string) => {
-    const content = rawText.normalize("NFC").trim().slice(0, 1200);
+    const content = cleanSpokenTranscript(rawText).slice(0, 1200);
     if (!content || isAiBusy || voiceState === "ended") return;
     resetRecognitionRef.current();
     const learnerMessage: MrHaiMessage = { id: crypto.randomUUID(), role: "user", content };
@@ -102,12 +103,16 @@ const SpeakWithMrHaiMode = ({ language }: Props) => {
 
   const rec = useSpeechRecognizer({
     speechLang: languageConfig.speechLang,
-    maxSeconds: 45,
+    maxSeconds: 120,
+    manualStopOnly: true,
     onFinal: (transcript) => void addLearnerTurn(transcript),
   });
   const resetRecognition = rec.reset;
   resetRecognitionRef.current = resetRecognition;
   const isInteractionBusy = isAiBusy || rec.isRecording;
+  const learnerTurns = messages.filter((message) => message.role === "user").length;
+  const learnerWords = countSpokenWords(messages, language);
+  const isMyTurn = hasStarted && !rec.isRecording && voiceState === "idle" && messages.at(-1)?.role === "assistant";
 
   const startListening = async () => {
     setError(null);
@@ -116,9 +121,9 @@ const SpeakWithMrHaiMode = ({ language }: Props) => {
     if (!started) setVoiceState("error");
   };
 
-  useEffect(() => () => stopSpeakingTts(language), [language]);
+  useEffect(() => () => stopMrHaiVoice(language), [language]);
   useEffect(() => {
-    stopSpeakingTts(language);
+    stopMrHaiVoice(language);
     resetRecognition();
     setMessages([]);
     setSummary(null);
@@ -145,7 +150,7 @@ const SpeakWithMrHaiMode = ({ language }: Props) => {
 
   const pauseSession = () => {
     rec.reset();
-    stopSpeakingTts(language);
+    stopMrHaiVoice(language);
     setVoiceState("paused");
   };
 
@@ -153,7 +158,7 @@ const SpeakWithMrHaiMode = ({ language }: Props) => {
 
   const endSession = async () => {
     rec.reset();
-    stopSpeakingTts(language);
+    stopMrHaiVoice(language);
     if (!topic || messages.length === 0) return;
     try {
       const report = await requestMrHai(messages, "summary");
@@ -270,11 +275,17 @@ const SpeakWithMrHaiMode = ({ language }: Props) => {
           </aside>
 
           <section className="min-w-0 space-y-3">
-            <div className="relative h-[430px] overflow-hidden rounded-md border bg-background/80">
-              <Conversation>
+            <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+              <Badge variant="outline">{t("Lượt đã nói", "Turns spoken")}: {learnerTurns}</Badge>
+              <Badge variant="outline">{t("Từ đã nói", "Words spoken")}: {learnerWords}</Badge>
+              {isMyTurn && <span className="font-semibold text-primary">{t("Đến lượt bạn nói", "Your turn to speak")}</span>}
+            </div>
+
+            <div className="relative flex h-[430px] flex-col overflow-hidden rounded-md border bg-background/80">
+              <Conversation className="h-full">
                 <ConversationContent className="gap-5 p-4">
                   {messages.length === 0 ? (
-                    <ConversationEmptyState title={t("Chọn tình huống và bắt đầu", "Choose a situation and start")} description={t("Mr. Hai sẽ mở đầu bằng một câu hỏi ngắn. Microphone chỉ bật khi bạn nhấn nút.", "Mr. Hai will open with a short question. The microphone activates only when you press it.")} icon={<img src={haiAvatar} alt="" loading="lazy" width={768} height={768} className="h-16 w-16 rounded-full object-cover" />} />
+                    <ConversationEmptyState title={t("Chọn tình huống và bắt đầu", "Choose a situation and start")} description={t("Mr. Hai sẽ mở đầu bằng một câu hỏi ngắn. Đây là phần luyện nói: chỉ dùng microphone, không nhập chữ.", "Mr. Hai will open with a short question. This activity is voice-only: use the microphone, no typing.")} icon={<img src={haiAvatar} alt="" loading="lazy" width={768} height={768} className="h-16 w-16 rounded-full object-cover" />} />
                   ) : messages.map((message) => (
                     <Message key={message.id} from={message.role}>
                       <MessageContent className={message.role === "user" ? "bg-primary text-primary-foreground" : undefined}>
@@ -282,27 +293,38 @@ const SpeakWithMrHaiMode = ({ language }: Props) => {
                         {message.correction && <div className="mt-2 rounded-md border border-accent/50 bg-accent/10 p-2 text-xs text-foreground"><strong>{t("Gợi ý sửa:", "Correction:")}</strong> {message.correction}</div>}
                         {message.encouragement && <p className="text-xs font-semibold text-primary">{message.encouragement}</p>}
                       </MessageContent>
-                      {message.role === "assistant" && <MessageActions><MessageAction tooltip={t("Nghe lại", "Replay")} disabled={isInteractionBusy || voiceState === "paused"} onClick={() => void speakReply(message.content)}><Volume2 className="h-4 w-4" /></MessageAction></MessageActions>}
+                      {message.role === "assistant" && (
+                        <MessageActions>
+                          <MessageAction tooltip={t("Nghe lại", "Replay")} disabled={isInteractionBusy || voiceState === "paused"} onClick={() => void speakReply(message.content)}><Volume2 className="h-4 w-4" /></MessageAction>
+                          <MessageAction tooltip={t("Nghe chậm", "Listen slowly")} disabled={isInteractionBusy || voiceState === "paused"} onClick={() => void speakReply(message.content, 0.75)}><Gauge className="h-4 w-4" /></MessageAction>
+                        </MessageActions>
+                      )}
                     </Message>
                   ))}
                   {voiceState === "thinking" && <Message from="assistant"><MessageContent><Shimmer>{t("Mr. Hai đang suy nghĩ...", "Mr. Hai is thinking...")}</Shimmer></MessageContent></Message>}
                 </ConversationContent>
-                <ConversationScrollButton />
+                <ConversationScrollButton aria-label={t("Xuống câu mới nhất", "Jump to the latest message")} />
               </Conversation>
             </div>
 
             {(micError || error) && <div role="alert" className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-destructive/40 bg-destructive/10 p-3 text-sm text-destructive"><span>{micError || error}</span>{error && messages.at(-1)?.role === "user" && <Button size="sm" variant="outline" onClick={() => void retryLastTurn()}><RotateCcw className="h-4 w-4" />{t("Thử lại", "Retry")}</Button>}</div>}
 
-            <PromptInput onSubmit={({ text }) => addLearnerTurn(text)} className="bg-background" accept="">
-              <PromptInputTextarea placeholder={t("Nói bằng microphone hoặc nhập câu trả lời...", "Speak with the microphone or type your reply...")} disabled={!hasStarted || isInteractionBusy || voiceState === "paused" || voiceState === "ended"} />
-              <PromptInputFooter>
-                <div className="flex items-center gap-2">
-                  {rec.isRecording ? <Button type="button" size="sm" variant="destructive" onClick={rec.stop}><Square className="h-4 w-4" />{t("Dừng", "Stop")} {rec.seconds}s</Button> : <Button type="button" size="sm" variant="outline" disabled={!hasStarted || isAiBusy || voiceState === "paused" || voiceState === "ended"} onClick={() => void startListening()}><Mic className="h-4 w-4" />{t("Nói", "Speak")}</Button>}
-                  {rec.transcript && <span className="line-clamp-1 max-w-[210px] text-xs text-muted-foreground">{rec.transcript}</span>}
-                </div>
-                <PromptInputSubmit status={voiceState === "thinking" ? "submitted" : "ready"} disabled={!hasStarted || isInteractionBusy || voiceState === "paused" || voiceState === "ended"} />
-              </PromptInputFooter>
-            </PromptInput>
+            <div className="rounded-md border bg-background p-3">
+              <div className="min-h-[46px] rounded-md bg-muted/50 p-2 text-sm">
+                {rec.transcript
+                  ? <p className="whitespace-pre-wrap break-words">{rec.transcript}</p>
+                  : <p className="text-muted-foreground">{hasStarted ? t("Nhấn Nói và trả lời Mr. Hai. Cứ nói hết câu, hệ thống chỉ gửi khi bạn nhấn Dừng.", "Press Speak and answer Mr. Hai. Take your time - your turn is sent only when you press Stop.") : t("Bắt đầu hội thoại để luyện nói.", "Start the conversation to begin speaking.")}</p>}
+              </div>
+              <div className="mt-3 flex flex-wrap items-center gap-2">
+                {rec.isRecording ? (
+                  <Button type="button" size="lg" variant="destructive" className="min-w-[150px]" onClick={rec.stop}><Square className="h-4 w-4" />{t("Dừng & gửi", "Stop & send")} {rec.seconds}s</Button>
+                ) : (
+                  <Button type="button" size="lg" className="min-w-[150px]" disabled={!hasStarted || isAiBusy || voiceState === "paused" || voiceState === "ended"} onClick={() => void startListening()}><Mic className="h-4 w-4" />{t("Nói", "Speak")}</Button>
+                )}
+                <Button type="button" size="sm" variant="outline" disabled={!rec.isRecording && !rec.transcript} onClick={() => { rec.reset(); setVoiceState("idle"); }}><RotateCcw className="h-4 w-4" />{t("Nói lại lượt này", "Redo this turn")}</Button>
+                {rec.isRecording && rec.seconds >= 100 && <span className="text-xs font-semibold text-destructive">{t("Gần hết thời lượng lượt nói", "Almost at the turn time limit")}</span>}
+              </div>
+            </div>
           </section>
         </CardContent>
       </Card>

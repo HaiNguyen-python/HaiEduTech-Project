@@ -96,6 +96,10 @@ verify_jwt = false
 [functions.speak-with-mr-hai]
 verify_jwt = false
 
+[functions.mr-hai-voice]
+verify_jwt = false
+
+
 [functions.grade-speaking-sentence]
 verify_jwt = false
 

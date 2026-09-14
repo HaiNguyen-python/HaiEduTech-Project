@@ -49,6 +49,24 @@ export const speakingText = (value: string): string => value
   .replace(/\s+/g, " ")
   .trim();
 
+/**
+ * Join the recogniser fragments into one clean sentence: collapse whitespace,
+ * drop the word/character repeated at a restart seam, and tidy punctuation.
+ */
+export const cleanSpokenTranscript = (value: string): string => {
+  const collapsed = value.normalize("NFC").replace(/\s+/g, " ").trim();
+  if (!collapsed) return "";
+  const words = collapsed.split(" ");
+  const deduped: string[] = [];
+  for (const word of words) {
+    const previous = deduped[deduped.length - 1];
+    const same = previous && previous.toLowerCase().replace(/[.,!?;:]/g, "") === word.toLowerCase().replace(/[.,!?;:]/g, "");
+    if (same) continue;
+    deduped.push(word);
+  }
+  return deduped.join(" ").replace(/\s+([,.!?;:])/g, "$1").trim();
+};
+
 export const countSpokenWords = (messages: MrHaiMessage[], language: SpeakingLang): number => messages
   .filter((message) => message.role === "user")
   .reduce((total, message) => total + ((language === "chinese" || language === "japanese")
