@@ -102,7 +102,9 @@ function splitByH2(md: string): Section[] {
 
   const flush = () => {
     const body = current.bodyLines.join("\n").trim();
-    if (current.title === null && !body) return;
+    // Drop headings with no content at all (e.g. leftover "8. Deep Dive" stubs)
+    // so students never see an empty numbered step badge.
+    if (!body) return;
     sections.push({
       title: current.title,
       rawTitle: current.rawTitle,
@@ -111,6 +113,7 @@ function splitByH2(md: string): Section[] {
       body,
     });
   };
+
 
   for (const line of lines) {
     const m = /^##\s+(.+?)\s*$/.exec(line);
@@ -130,12 +133,19 @@ function splitByH2(md: string): Section[] {
   }
   flush();
 
-  // If there's only ONE numbered section (typically a lone "1."), drop the number -
-  // showing a solo "1" badge looks awkward. Fall back to icon-only badge.
+  // Renumber the surviving numbered sections so removing an empty section never
+  // leaves a gap in the badges (e.g. 1,2,3,4,5,6,7 instead of 1,2,3,4,5,6,8).
   const numbered = sections.filter((s) => s.stepNumber !== null);
   if (numbered.length <= 1) {
+    // A solo "1" badge looks awkward - fall back to icon-only badges.
     for (const s of sections) s.stepNumber = null;
+  } else {
+    numbered.forEach((s, i) => {
+      s.stepNumber = String(i + 1);
+      if (s.rawTitle && s.title) s.rawTitle = `${i + 1}. ${s.title}`;
+    });
   }
+
 
   return sections;
 }
@@ -147,7 +157,11 @@ const MERMAID_RE = /```mermaid\s*\n([\s\S]*?)```/g;
 const removeOptionalDeepDives = (markdown: string): string =>
   markdown
     .replace(/:::deepdive\s+title=["'][^"']+["']\s*\n[\s\S]*?:::/g, "")
+    .replace(/```deepdive[\s\S]*$/g, "")
+    // Leftover empty "8. Deep Dive" style headings with no body content.
+    .replace(/(?:^|\n)#{1,6}[ \t]*\d*\.?[ \t]*Deep[ -]?Dive[^\n]*(?=\s*(?:\n#{1,6}\s|$))/gi, "")
     .replace(/\n{3,}/g, "\n\n")
+
     .trim();
 
 /**
@@ -293,7 +307,7 @@ function wrapBareLatexInLine(line: string): string {
 
 function wrapStandaloneLatexLine(line: string): string {
   const trimmed = line.trim();
-  if (!trimmed || trimmed.includes("$") || /^([>#\-]|\d+\.)\s/.test(trimmed)) return line;
+  if (!trimmed || trimmed.includes("$") || /^([>#-]|\d+\.)\s/.test(trimmed)) return line;
 
   const candidate = trimmed.replace(/^\(+\s*/, "").replace(/\s*\)+$/, "");
   const startsMathy = /^\\[A-Za-z]+/.test(candidate);
@@ -349,7 +363,7 @@ function wrapLatexRuns(text: string): string {
       trail = trailMatch[2];
     }
     // Strip leading punctuation too (rare).
-    const leadMatch = inner.match(/^([(\[]+)([\s\S]+)$/);
+    const leadMatch = inner.match(/^([([]+)([\s\S]+)$/);
     let lead = "";
     if (leadMatch) {
       lead = leadMatch[1];
@@ -427,18 +441,19 @@ function splitBody(body: string): Chunk[] {
 
 // ── Markdown components: blockquote → Callout, code → CodeBlock, table → wrapper ──
 const markdownComponents = (defaultLang: string) => ({
-  table: ({ children }: any) => (
+  table: ({ children }: { children?: React.ReactNode }) => (
     <div className="theory-table-wrap">
       <table>{children}</table>
     </div>
   ),
-  blockquote: ({ children }: any) => {
+  blockquote: ({ children }: { children?: React.ReactNode }) => {
     const text = (() => {
       try {
-        const collect = (n: any): string => {
+        const collect = (n: unknown): string => {
           if (typeof n === "string") return n;
           if (Array.isArray(n)) return n.map(collect).join("");
-          if (n?.props?.children) return collect(n.props.children);
+          const props = (n as { props?: { children?: unknown } })?.props;
+          if (props?.children) return collect(props.children);
           return "";
         };
         return collect(children).toLowerCase();
@@ -453,7 +468,7 @@ const markdownComponents = (defaultLang: string) => ({
     else if (/^(\s|📝|ℹ️)*(lưu ý|note|ghi chú|chú thích)/i.test(text) || /📝|ℹ️/.test(text)) variant = "note";
     return <Callout variant={variant}>{children}</Callout>;
   },
-  code({ inline, className, children, ...props }: any) {
+  code({ inline, className, children, ...props }: { inline?: boolean; className?: string; children?: React.ReactNode } & Record<string, unknown>) {
     const match = /language-(\w+)/.exec(className || "");
     const codeStr = String(children).replace(/\n$/, "");
     // Mermaid is handled by splitBody before reaching here, but guard just in case.
@@ -466,7 +481,7 @@ const markdownComponents = (defaultLang: string) => ({
   // with a soft border, rounded corners, drop shadow, and italic caption.
   // Reserves a 1:1 aspect ratio so the page layout doesn't shift while loading
   // (preserves the scrollbar-stability behavior).
-  img({ src, alt }: any) {
+  img({ src, alt }: { src?: string; alt?: string }) {
     if (!src) return null;
     const caption = (alt || "").trim();
     // Use <span>s (inline) instead of <figure>/<figcaption> because react-markdown
@@ -504,6 +519,27 @@ function stripOuterMarkdownFence(md: string): string {
   const m = trimmed.match(/^```(?:markdown|md)?\s*\n([\s\S]*?)\n?```\s*$/i);
   return m ? m[1].trim() : trimmed;
 }
+
+/**
+ * Repair escaped text artifacts from AI output, OUTSIDE fenced code blocks:
+ *  - literal "\n" sequences that should be real line breaks
+ *  - math wrapped in backticks (`$x_t$`) which renders as code instead of a formula
+ */
+function repairEscapedText(md: string): string {
+  if (!md) return md;
+  return md
+    .split(/(```[\s\S]*?```)/g)
+    .map((part) => {
+      if (part.startsWith("```")) return part;
+      return part
+        // "\n" written as text (never touch LaTeX commands like \nabla or \newline)
+        .replace(/\\n(?![a-zA-Z])/g, "\n")
+        // `$ ... $` inside a code span -> real math
+        .replace(/`\s*(\$\$?[^`\n]+?\$\$?)\s*`/g, "$1");
+    })
+    .join("");
+}
+
 
 /**
  * Break long, dense paragraphs into smaller ones for readability.
@@ -585,7 +621,13 @@ function splitIntoSentences(text: string): string[] {
 
 const TheorySections = ({ markdown, storageKey, defaultCodeLanguage = "text" }: TheorySectionsProps) => {
   const sections = useMemo(
-    () => splitByH2(splitLongParagraphs(normalizeMath(stripOuterMarkdownFence(removeOptionalDeepDives(markdown))))),
+    () =>
+      splitByH2(
+        splitLongParagraphs(
+          normalizeMath(repairEscapedText(stripOuterMarkdownFence(removeOptionalDeepDives(markdown)))),
+        ),
+      ),
+
     [markdown],
   );
   const components = useMemo(() => markdownComponents(defaultCodeLanguage), [defaultCodeLanguage]);
