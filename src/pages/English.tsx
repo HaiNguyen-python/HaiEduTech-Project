@@ -287,13 +287,13 @@ const English = () => {
                                 <Link
                                   key={mod.id}
                                   to={`/english/learn/${mod.id}`}
-                                  className={cn("rounded-xl p-5 bg-gradient-to-br transition-all cursor-pointer group hover:shadow-lg hover:scale-[1.02]", mod.color)}
-                                >
+                                  className={cn("rounded-xl p-5 border border-border/60 bg-card bg-gradient-to-br transition-all cursor-pointer group hover:shadow-lg hover:scale-[1.02]", mod.color)}
+                                  >
                                   <span className="text-3xl mb-3 block">{mod.icon}</span>
                                   <h4 className="font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">{t(mod.title, mod.titleEn)}</h4>
                                   <p className="text-xs text-muted-foreground mb-3 line-clamp-2">{t(mod.description, mod.descriptionEn)}</p>
                                   <div className="flex items-center justify-end">
-                                    <span className="inline-flex items-center gap-1 text-xs text-primary font-medium">
+                                    <span className="inline-flex items-center gap-1 text-xs text-primary font-semibold">
                                       {mod.lessons.length} {t("bài", "lessons")} <ArrowRight className="w-3 h-3" />
                                     </span>
                                   </div>
