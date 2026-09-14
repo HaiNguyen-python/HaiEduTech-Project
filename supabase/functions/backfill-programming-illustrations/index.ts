@@ -11,6 +11,7 @@ interface Body {
   lesson_id: string;
   lesson_title: string;
   force?: boolean;
+  repair_metadata?: boolean;
 }
 
 interface Illustration {
@@ -131,6 +132,33 @@ Deno.serve(async (req: Request) => {
     if (!cached?.enhanced_markdown) return json({ error: "Cached theory not found" }, 404);
 
     const existing = Array.isArray(cached.illustrations) ? cached.illustrations : [];
+    if (body.repair_metadata && existing.length > 0) {
+      const subtopics = sectionSubtopics(cached.enhanced_markdown);
+      const concept = cleanConcept(body.lesson_title) || subtopics[0] || "programming concept";
+      const repaired = existing.slice(0, 2).map((item: Illustration) => ({
+        ...item,
+        caption: item.anchor === "comparative-table"
+          ? `Comparing ${concept} approaches`
+          : `How ${concept} works`,
+      }));
+      let repairedMarkdown = cached.enhanced_markdown;
+      for (let index = 0; index < repaired.length; index += 1) {
+        const oldItem = existing[index] as Illustration | undefined;
+        const newItem = repaired[index];
+        if (!oldItem?.url || !newItem?.caption) continue;
+        repairedMarkdown = repairedMarkdown.replace(
+          `![${oldItem.caption || "Lesson illustration"}](${oldItem.url})`,
+          `![${newItem.caption}](${oldItem.url})`,
+        );
+      }
+      const { error: repairError } = await admin
+        .from("programming_theory_cache")
+        .update({ enhanced_markdown: repairedMarkdown, illustrations: repaired })
+        .eq("module_id", body.module_id)
+        .eq("lesson_id", body.lesson_id);
+      if (repairError) return json({ error: repairError.message }, 500);
+      return json({ ok: true, repaired: true, illustrations: repaired });
+    }
     if (!body.force && (existing.length > 0 || /!\[[^\]]*\]\([^)]+\)/.test(cached.enhanced_markdown))) {
       return json({ skipped: true, illustrations: existing });
     }
