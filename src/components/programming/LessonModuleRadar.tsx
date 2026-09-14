@@ -12,7 +12,6 @@ import {
   Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis,
   ResponsiveContainer, Tooltip,
 } from "recharts";
-import { useLanguage } from "@/contexts/LanguageContext";
 import type { ProgrammingModule } from "@/data/programmingLessonData";
 
 interface Props {
@@ -44,11 +43,9 @@ const shortLabel = (s: string, max = 18) =>
   s.length > max ? s.slice(0, max - 1) + "…" : s;
 
 const LessonModuleRadar = ({ module, currentLessonId, className = "" }: Props) => {
-  const { t, lang } = useLanguage();
-
   const data = useMemo(() => {
     return module.lessons.map((l) => {
-      const title = lang === "vi" ? l.title : (l.titleEn || l.title);
+      const title = l.titleEn || l.title;
       const score = readLessonScore(module.id, l.id);
       const isCurrent = l.id === currentLessonId;
       return {
@@ -58,7 +55,7 @@ const LessonModuleRadar = ({ module, currentLessonId, className = "" }: Props) =
         fullMark: 100,
       };
     });
-  }, [module, currentLessonId, lang]);
+  }, [module, currentLessonId]);
 
   const totalScore = data.reduce((s, d) => s + d.score, 0);
   const maxTotal = data.length * 100;

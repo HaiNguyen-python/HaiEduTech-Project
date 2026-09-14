@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ChevronRight, Award, BookOpen } from "lucide-react";
 import { pythonModules, pythonLessons, getLessonsByModule } from "@/data/curriculum/pythonPathway";
-import { useLanguage } from "@/contexts/LanguageContext";
 import ModuleProgressBar from "./ModuleProgressBar";
 import { cn } from "@/lib/utils";
 
@@ -31,7 +30,6 @@ export const setLessonComplete = (lessonId: string) => {
 };
 
 const PythonPathwayHub = () => {
-  const { lang: language } = useLanguage();
   const [progress, setProgress] = useState<Record<string, boolean>>(getPythonPathwayProgress());
 
   useEffect(() => {
@@ -58,15 +56,13 @@ const PythonPathwayHub = () => {
               💻 Introduction to Programming: Beginner → Mastery
             </h2>
             <p className="text-sm text-muted-foreground max-w-2xl">
-              {language === "vi"
-                ? "Lộ trình lập trình 6 module (~47 bài) bằng Python chạy thật trong trình duyệt - quiz, dự án nhỏ, badge và AI giải thích code."
-                : "Programming pathway with 6 modules (~47 lessons) running real Python in your browser - quizzes, mini-projects, badges, and AI code explainer."}
+              Programming pathway with 6 modules (~47 lessons) running real Python in your browser - quizzes, mini-projects, badges, and AI code explainer.
             </p>
           </div>
           <div className="text-right">
             <div className="text-3xl font-display font-bold text-emerald-600">{overallPct}%</div>
             <div className="text-xs text-muted-foreground">
-              {totalCompleted}/{totalLessons} {language === "vi" ? "bài" : "lessons"}
+              {totalCompleted}/{totalLessons} lessons
             </div>
           </div>
         </div>
@@ -109,24 +105,24 @@ const PythonPathwayHub = () => {
                     {m.level}
                   </div>
                   <h3 className="font-display font-bold text-foreground mb-1 group-hover:text-primary transition-colors">
-                    {language === "vi" ? m.title : m.titleEn}
+                    {m.titleEn}
                   </h3>
                   <p className="text-xs text-muted-foreground mb-4 line-clamp-2">
-                    {language === "vi" ? m.description : m.descriptionEn}
+                    {m.descriptionEn}
                   </p>
 
                   <ModuleProgressBar
                     completed={completed}
                     total={lessons.length}
                     moduleEmoji={m.emoji}
-                    moduleTitle={`${lessons.length} ${language === "vi" ? "bài" : "lessons"}`}
+                    moduleTitle={`${lessons.length} lessons`}
                     certified={certified}
                   />
 
                   <div className="mt-4 flex items-center justify-between text-xs">
                     <span className="text-muted-foreground flex items-center gap-1">
                       <BookOpen className="w-3 h-3" />
-                      {language === "vi" ? "Bắt đầu" : "Start"}
+                      Start
                     </span>
                     <ChevronRight className="w-4 h-4 text-primary group-hover:translate-x-1 transition-transform" />
                   </div>
@@ -144,20 +140,20 @@ const PythonPathwayHub = () => {
                       {m.emoji}
                     </div>
                     <span className="text-[10px] font-bold text-muted-foreground bg-muted px-2 py-1 rounded-full">
-                      {language === "vi" ? "Sắp ra mắt" : "Coming soon"}
+                      Coming soon
                     </span>
                   </div>
                   <div className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold mb-1">
                     {m.level}
                   </div>
                   <h3 className="font-display font-bold text-foreground mb-1">
-                    {language === "vi" ? m.title : m.titleEn}
+                    {m.titleEn}
                   </h3>
                   <p className="text-xs text-muted-foreground mb-4 line-clamp-2">
-                    {language === "vi" ? m.description : m.descriptionEn}
+                    {m.descriptionEn}
                   </p>
                   <p className="text-[11px] text-muted-foreground italic">
-                    {language === "vi" ? "Nội dung đang được biên soạn, sẽ ra mắt sớm." : "Content is being prepared, coming soon."}
+                    Content is being prepared, coming soon.
                   </p>
                 </div>
               )}
@@ -169,20 +165,14 @@ const PythonPathwayHub = () => {
       {/* All lessons list */}
       <div className="rounded-2xl p-5 border border-border bg-card">
         <h3 className="font-display font-bold text-foreground mb-3 flex items-center gap-2">
-          📚 {language === "vi" ? "Tất cả bài học" : "All lessons"}
+          📚 All lessons
         </h3>
         <div className="grid sm:grid-cols-2 gap-2">
           {pythonLessons.map((l) => {
             const done = progress[l.id];
             const m = pythonModules.find((mm) => mm.id === l.moduleId);
             const moduleEmoji = m?.emoji ?? "📘";
-            const moduleTitle = m
-              ? language === "vi"
-                ? m.title
-                : m.titleEn
-              : language === "vi"
-                ? "Module đang cập nhật"
-                : "Module updating";
+            const moduleTitle = m?.titleEn ?? "Module updating";
 
             return (
               <Link
@@ -196,7 +186,7 @@ const PythonPathwayHub = () => {
                 <span className="text-lg shrink-0">{l.emoji}</span>
                 <div className="min-w-0 flex-1">
                   <div className="font-medium text-foreground truncate">
-                    {language === "vi" ? l.title : l.titleEn}
+                    {l.titleEn}
                   </div>
                   <div className="text-[10px] text-muted-foreground">
                     {moduleEmoji} {moduleTitle}
