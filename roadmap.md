@@ -1,6 +1,7 @@
 # Roadmap
 
 ## Done
+- [x] Programming Theory cleanup: removed the AI Deep-Dive and Original controls, kept Deep Dive as the automatic view, and normalized long dashes in prose while preserving code
 - [x] Startup Case Studies: Modern Illustrated Bento layout, 12 custom educational illustrations, clearer Vietnam/global grouping, stronger content hierarchy, and responsive presentation
 - [x] Tech & Code Game Hub upgrade: mission board with lifetime XP/level, daily streak, 9 badges, per-game personal bests, 4 new games (Big-O Detective, Terminal Rescue, Data Type Sorter, Prompt Architect), difficulty modes with combo and hints, sound cues with toggle, reduced-motion support
 - [x] Tech & Code Game Hub review: SQL Dungeon completion screen, XP labels matched to real scores, per-question skill tags, bilingual game UI, core Python typing ladder, full playthrough verification
