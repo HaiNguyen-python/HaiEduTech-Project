@@ -244,6 +244,15 @@ Deno.serve(async (req: Request) => {
     }
 
     const body = (await req.json()) as Body;
+    if (!body.base_theory && body.base_theory_b64) {
+      try {
+        body.base_theory = new TextDecoder().decode(
+          Uint8Array.from(atob(body.base_theory_b64), (c) => c.charCodeAt(0)),
+        );
+      } catch {
+        body.base_theory = "";
+      }
+    }
     if (!body.module_id || !body.lesson_id || !body.lesson_title) {
       return new Response(JSON.stringify({ error: "Missing required fields" }), {
         status: 400,
