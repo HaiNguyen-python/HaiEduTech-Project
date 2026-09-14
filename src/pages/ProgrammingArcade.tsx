@@ -7,7 +7,7 @@
  */
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Code2, Database, Brain, Zap, Trophy, Loader2, CheckCircle2, XCircle, Sparkles, Clock3, Gauge, Play, Target, Terminal, ShieldCheck } from "lucide-react";
+import { ArrowLeft, Code2, Database, Brain, Zap, Trophy, Loader2, Sparkles, Clock3, Gauge, Play, Target, ShieldCheck } from "lucide-react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -286,47 +286,47 @@ const SqlDungeon = ({ pushLog, addXp }: { pushLog: (t: LogLine["type"], text: st
   return (
     <div className="grid lg:grid-cols-2 gap-4">
       {/* Battle screen */}
-      <motion.div animate={shake ? { x: [-8, 8, -6, 6, 0] } : {}} transition={{ duration: 0.35 }} className="rounded-xl border border-fuchsia-500/30 bg-gradient-to-b from-slate-900 via-slate-950 to-black p-6 min-h-[280px] flex flex-col items-center justify-center font-mono">
+      <motion.div animate={shake ? { x: [-8, 8, -6, 6, 0] } : {}} transition={{ duration: 0.35 }} className="arcade-game-panel flex min-h-[280px] flex-col items-center justify-center p-6 font-mono">
         <div className="text-xs text-fuchsia-300 mb-2">{t("⚔️ TRẬN ĐẤU", "⚔️ BATTLE")}</div>
         <motion.div key={idx} animate={{ y: [0, -6, 0] }} transition={{ repeat: Infinity, duration: 2 }} className="text-7xl mb-3">
           {riddle.emoji}
         </motion.div>
         <div className="text-emerald-300 text-lg font-bold mb-2">{riddle.monster}</div>
-        <div className="w-full max-w-xs h-3 bg-slate-800 rounded-full overflow-hidden border border-slate-700">
+        <div className="h-3 w-full max-w-xs overflow-hidden rounded-full border border-[hsl(var(--arcade-line))] bg-[hsl(var(--arcade-panel))]">
           <motion.div className="h-full bg-gradient-to-r from-rose-500 to-amber-400" animate={{ width: `${(hp / riddle.hp) * 100}%` }} />
         </div>
-        <div className="text-xs text-slate-400 mt-1">HP: {hp}/{riddle.hp}</div>
+        <div className="mt-1 text-xs text-[hsl(var(--arcade-muted))]">HP: {hp}/{riddle.hp}</div>
       </motion.div>
 
       {/* Query builder */}
-      <div className="rounded-xl border border-emerald-500/30 bg-slate-950 p-5 font-mono">
+      <div className="arcade-game-panel p-5 font-mono">
         <div className="text-xs text-emerald-300 mb-2">{t("📜 Câu đố", "📜 Riddle")}</div>
-        <div className="text-slate-200 text-sm mb-3">{t(riddle.prompt, riddle.promptEn)}</div>
-        <div className="rounded-md bg-black/60 border border-slate-800 p-3 mb-3 overflow-x-auto">
-          <div className="text-xs text-slate-500 mb-1">/* table: {riddle.table.name} */</div>
-          <table className="text-xs text-slate-300 min-w-full">
+        <div className="mb-3 text-sm text-[hsl(var(--arcade-text))]">{t(riddle.prompt, riddle.promptEn)}</div>
+        <div className="arcade-terminal mb-3 overflow-x-auto">
+          <div className="mb-1 text-xs text-[hsl(var(--arcade-muted))]">/* table: {riddle.table.name} */</div>
+          <table className="min-w-[600px] text-xs text-[hsl(var(--arcade-text))]">
             <thead><tr>{riddle.table.cols.map(c => <th key={c} className="text-left pr-4 text-cyan-300">{c}</th>)}</tr></thead>
             <tbody>{riddle.table.rows.map((r, i) => <tr key={i}>{r.map((v, j) => <td key={j} className="pr-4 py-0.5">{v}</td>)}</tr>)}</tbody>
           </table>
         </div>
-        <div className="rounded-md bg-black/80 border border-emerald-500/40 p-3 mb-3 min-h-[48px] text-emerald-300 text-sm">
-          <span className="text-slate-500">sql&gt; </span>
-          {picked.length === 0 ? <span className="text-slate-600">{t("...nhấn token bên dưới", "...click tokens below")}</span> : picked.join(" ")}
+        <div className="arcade-terminal mb-3 min-h-[52px] text-sm text-[hsl(var(--arcade-green))]">
+          <span className="text-[hsl(var(--arcade-muted))]">sql&gt; </span>
+          {picked.length === 0 ? <span className="text-[hsl(var(--arcade-muted))]">{t("...nhấn token bên dưới", "...click tokens below")}</span> : picked.join(" ")}
         </div>
         <div className="flex flex-wrap gap-2 mb-3">
           {SQL_TOKENS.map(tok => (
-            <button key={tok} onClick={() => setPicked(p => [...p, tok])}
-              className="px-3 py-1.5 rounded-md bg-slate-800 hover:bg-emerald-500/20 border border-slate-700 hover:border-emerald-400/50 text-emerald-200 text-xs transition-all active:scale-95">
+            <Button key={tok} variant="outline" onClick={() => setPicked(p => [...p, tok])}
+              className="min-h-11 border-[hsl(var(--arcade-line))] bg-[hsl(var(--arcade-panel))] px-3 text-xs text-[hsl(var(--arcade-green))] hover:border-[hsl(var(--arcade-green)/0.5)] hover:bg-[hsl(var(--arcade-green)/0.12)] hover:text-[hsl(var(--arcade-green))]">
               {tok}
-            </button>
+            </Button>
           ))}
         </div>
         <div className="flex gap-2">
           <Button onClick={submit} className="bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-900 font-bold hover:brightness-110">
             ▶ RUN
           </Button>
-          <Button variant="outline" onClick={() => setPicked([])} className="border-slate-700 bg-slate-800/60 text-slate-200 hover:bg-slate-700 hover:text-white">Clear</Button>
-          <Button variant="ghost" onClick={() => setPicked(p => p.slice(0, -1))} className="text-slate-400">⌫</Button>
+          <Button variant="outline" onClick={() => setPicked([])} className="border-[hsl(var(--arcade-line))] bg-[hsl(var(--arcade-panel))] text-[hsl(var(--arcade-text))] hover:bg-[hsl(var(--arcade-line))] hover:text-[hsl(var(--arcade-text))]">Clear</Button>
+          <Button variant="ghost" aria-label="Remove last SQL token" onClick={() => setPicked(p => p.slice(0, -1))} className="min-h-11 text-[hsl(var(--arcade-muted))]">⌫</Button>
         </div>
       </div>
     </div>
@@ -354,9 +354,10 @@ const PipelinePlumber = ({ pushLog, addXp }: { pushLog: (t: LogLine["type"], tex
 
   // Never leave the flow animation running after the player leaves the game
   useEffect(() => {
+    const timers = timersRef.current;
     return () => {
-      if (timersRef.current.interval) clearInterval(timersRef.current.interval);
-      if (timersRef.current.timeout) clearTimeout(timersRef.current.timeout);
+      if (timers.interval) clearInterval(timers.interval);
+      if (timers.timeout) clearTimeout(timers.timeout);
     };
   }, []);
 
@@ -390,32 +391,31 @@ const PipelinePlumber = ({ pushLog, addXp }: { pushLog: (t: LogLine["type"], tex
 
   return (
     <div className="space-y-4">
-      <div className="rounded-xl border border-cyan-500/30 bg-slate-950 p-5">
+      <div className="arcade-game-panel p-5">
         <div className="text-xs text-cyan-300 font-mono mb-3">{t("🔧 KÉO KHỐI ETL THEO THỨ TỰ ĐÚNG", "🔧 ARRANGE ETL BLOCKS IN CORRECT ORDER")}</div>
 
         {/* Pipeline canvas */}
-        <div className="relative rounded-lg bg-black/60 border border-slate-800 p-4 min-h-[140px] overflow-hidden">
+        <div className="arcade-terminal relative min-h-[140px] overflow-hidden p-4">
           <div className="flex items-center gap-2 flex-wrap relative z-10">
-            <div className="px-3 py-2 rounded-md bg-slate-800 border border-cyan-400/50 text-cyan-300 font-mono text-xs">📡 SOURCE</div>
+            <div className="rounded-md border border-cyan-400/50 bg-[hsl(var(--arcade-panel))] px-3 py-2 font-mono text-xs text-cyan-300">📡 SOURCE</div>
             <AnimatePresence>
               {chain.map((id, i) => {
                 const block = PIPELINE_BLOCKS.find(b => b.id === id)!;
                 return (
-                  <motion.button
+                  <motion.div
                     key={`${id}-${i}`}
                     layout
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.6 }}
-                    onClick={() => removeBlock(i)}
-                    className={`px-3 py-2 rounded-md bg-gradient-to-r ${block.color} text-white font-mono text-xs font-bold shadow-lg hover:brightness-110`}
+                    className="flex items-center gap-1"
                   >
-                    {block.label} ✕
-                  </motion.button>
+                    <Button onClick={() => removeBlock(i)} className={`min-h-11 bg-gradient-to-r ${block.color} font-mono text-xs font-bold text-primary-foreground shadow-lg hover:brightness-110`}>{block.label} ✕</Button>
+                  </motion.div>
                 );
               })}
             </AnimatePresence>
-            <div className="px-3 py-2 rounded-md bg-slate-800 border border-emerald-400/50 text-emerald-300 font-mono text-xs">🎯 DEST</div>
+            <div className="rounded-md border border-emerald-400/50 bg-[hsl(var(--arcade-panel))] px-3 py-2 font-mono text-xs text-emerald-300">🎯 DEST</div>
           </div>
           {/* Flowing particles when running */}
           {running && particles.map(p => (
@@ -430,13 +430,13 @@ const PipelinePlumber = ({ pushLog, addXp }: { pushLog: (t: LogLine["type"], tex
 
         {/* Block palette */}
         <div className="mt-4">
-          <div className="text-xs text-slate-400 font-mono mb-2">{t("Khối có sẵn:", "Available blocks:")}</div>
+          <div className="mb-2 font-mono text-xs text-[hsl(var(--arcade-muted))]">{t("Khối có sẵn:", "Available blocks:")}</div>
           <div className="flex flex-wrap gap-2">
             {PIPELINE_BLOCKS.map(b => (
-              <button key={b.id} onClick={() => addBlock(b.id)} disabled={chain.includes(b.id)}
-                className={`px-4 py-2 rounded-md bg-gradient-to-r ${b.color} text-white font-mono text-xs font-bold shadow hover:brightness-110 disabled:opacity-40 disabled:cursor-not-allowed active:scale-95 transition-all`}>
+              <Button key={b.id} onClick={() => addBlock(b.id)} disabled={chain.includes(b.id)}
+                className={`min-h-11 bg-gradient-to-r ${b.color} px-4 font-mono text-xs font-bold text-primary-foreground shadow hover:brightness-110`}>
                 + {b.label}
-              </button>
+              </Button>
             ))}
           </div>
         </div>
@@ -445,7 +445,7 @@ const PipelinePlumber = ({ pushLog, addXp }: { pushLog: (t: LogLine["type"], tex
           <Button onClick={run} disabled={running} className="bg-gradient-to-r from-cyan-500 to-emerald-500 text-slate-900 font-bold">
             {running ? <Loader2 className="w-4 h-4 mr-1 animate-spin" /> : "▶"} RUN PIPELINE
           </Button>
-          <Button variant="outline" onClick={() => setChain([])} className="border-slate-700 bg-slate-800/60 text-slate-200 hover:bg-slate-700 hover:text-white">Reset</Button>
+          <Button variant="outline" onClick={() => setChain([])} className="border-[hsl(var(--arcade-line))] bg-[hsl(var(--arcade-panel))] text-[hsl(var(--arcade-text))] hover:bg-[hsl(var(--arcade-line))] hover:text-[hsl(var(--arcade-text))]">Reset</Button>
         </div>
       </div>
     </div>
@@ -529,16 +529,16 @@ const AiTuner = ({ pushLog, addXp }: { pushLog: (t: LogLine["type"], text: strin
 
   return (
     <div className="grid lg:grid-cols-2 gap-4">
-      <div className="rounded-xl border border-fuchsia-500/30 bg-slate-950 p-5">
+      <div className="arcade-game-panel p-5">
         <div className="text-xs text-fuchsia-300 font-mono mb-3">{t("📈 LOSS CURVE", "📈 LOSS CURVE")}</div>
-        <canvas ref={canvasRef} width={460} height={260} className="w-full rounded-md border border-slate-800 bg-slate-950" />
+        <canvas ref={canvasRef} width={460} height={260} className="w-full rounded-md border border-[hsl(var(--arcade-line))] bg-[hsl(var(--arcade-canvas))]" />
         <div className="flex items-center gap-4 mt-3 text-xs font-mono">
           <span className="flex items-center gap-1 text-emerald-300"><span className="w-3 h-0.5 bg-emerald-400" /> train</span>
           <span className="flex items-center gap-1 text-pink-300"><span className="w-3 h-0.5 bg-pink-400" /> val</span>
           <span className="ml-auto text-amber-300">Sweet: {score}%</span>
         </div>
       </div>
-      <div className="rounded-xl border border-emerald-500/30 bg-slate-950 p-5 space-y-5 font-mono text-sm">
+      <div className="arcade-game-panel space-y-5 p-5 font-mono text-sm">
         <div>
           <div className="flex justify-between text-emerald-300 mb-1"><span>Learning Rate</span><span>{lr.toFixed(4)}</span></div>
           <input type="range" min={0.0001} max={0.5} step={0.0001} value={lr} onChange={e => setLr(parseFloat(e.target.value))} className="w-full accent-emerald-400" />
@@ -551,7 +551,7 @@ const AiTuner = ({ pushLog, addXp }: { pushLog: (t: LogLine["type"], text: strin
           <div className="flex justify-between text-fuchsia-300 mb-1"><span>Regularization</span><span>{reg.toFixed(4)}</span></div>
           <input type="range" min={0} max={0.2} step={0.001} value={reg} onChange={e => setReg(parseFloat(e.target.value))} className="w-full accent-fuchsia-400" />
         </div>
-        <div className="rounded-md bg-black/60 border border-slate-800 p-3 text-xs text-slate-400">
+        <div className="arcade-terminal text-xs text-[hsl(var(--arcade-muted))]">
           <div>{t("Mục tiêu: Đạt Sweet Spot ≥ 85% bằng cách cân bằng 3 siêu tham số.", "Goal: Reach Sweet Spot ≥ 85% by balancing the 3 hyperparameters.")}</div>
         </div>
       </div>

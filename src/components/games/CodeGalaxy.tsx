@@ -160,8 +160,8 @@ export default function CodeGalaxy({ onExit, onScore }: Props) {
             <div className="flex flex-col items-center justify-center gap-3 py-6 text-center text-[hsl(var(--arcade-text))]">
               <Rocket className="h-10 w-10 text-emerald-300" />
               <h3 className="text-xl font-bold">Track Complete!</h3>
-              <p className="text-sm text-white/80">Final score: <span className="font-bold text-emerald-300">{score} XP</span></p>
-              <Button onClick={() => reset()} className="bg-emerald-500 text-white hover:bg-emerald-600">
+              <p className="text-sm text-[hsl(var(--arcade-muted))]">Final score: <span className="font-bold text-[hsl(var(--arcade-green))]">{score} XP</span></p>
+              <Button onClick={() => reset()} className="bg-[hsl(var(--arcade-green))] text-[hsl(var(--arcade-canvas))] hover:bg-[hsl(var(--arcade-green)/0.9)]">
                 Replay
               </Button>
             </div>
