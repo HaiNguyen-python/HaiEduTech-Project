@@ -1,9 +1,9 @@
 # Roadmap
 
 ## In Progress
-- [ ] Programming Theory enrichment: section-aware key-term emphasis and image-only backfill for every cached lesson missing illustrations
 
 ## Done
+- [x] Programming Theory enrichment: section-aware key-term emphasis and image-only backfill completed for all 310 cached lessons, with 616 illustrations and responsive verification
 - [x] Programming lesson sections: every section now starts collapsed, including section 1 and introductory content; key technical terms receive restrained bold emphasis while code, math, links, and diagrams remain unchanged
 - [x] Removed redundant "Deep Dive (Optional)" blocks from all Programming lessons and stopped generating them in future lessons
 - [x] Programming theory list structure: converted malformed bullet-group labels into headings, clarified paragraph/list/table rules for new Deep Dives, improved nested-list spacing, and added regression coverage
