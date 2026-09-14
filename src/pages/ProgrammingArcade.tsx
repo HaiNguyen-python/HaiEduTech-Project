@@ -528,6 +528,7 @@ const AiTuner = ({ pushLog, addXp, record }: { pushLog: (t: LogLine["type"], tex
       pushLog("ok", `Sweet Spot found! Accuracy ${Math.round(sweetness)}%. +80 XP`);
       addXp(80);
       void finishGame({ gameType: "prog_ai_tuner", score: Math.round(sweetness) });
+      record("prog_ai_tuner", Math.round(sweetness), sweetness >= 95);
     } else if (sweetness < 80) {
       claimedRef.current = false;
     }
