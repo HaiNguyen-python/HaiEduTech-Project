@@ -635,7 +635,7 @@ const ProgrammingArcade = () => {
           )}
 
           {!loading && game === "menu" && (
-            <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-[1.05fr_0.95fr]">
               {cards.map((c, i) => {
                 const Icon = c.icon;
                 return (
@@ -644,7 +644,7 @@ const ProgrammingArcade = () => {
                     initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.1 }}
-                    className={`arcade-mission arcade-mission--${c.tone} group ${c.featured ? "md:row-span-2" : ""}`}
+                    className={`arcade-mission arcade-mission--${c.tone} group ${c.featured ? "md:row-span-3" : ""}`}
                   >
                     <div className="arcade-corner" aria-hidden />
                     <div className="relative z-10 flex h-full flex-col">

@@ -1,6 +1,7 @@
 # Roadmap
 
 ## Done
+- [x] Tech & Code Game Hub: cyber-neon mission bento redesign, clearer game content, responsive game screens, and browser verification
 - [x] English learning modules: chibi illustrated skill clusters, larger Sora/Manrope typography, condensed IELTS/TOEIC/Cambridge/National Exam/Grammar/SAT navigation, with all existing module links preserved
 - [x] Speaking Coach stabilisation: 24 duplicated practice sentences rewritten (ids kept), ref warnings fixed in the conversation scroll button and weak-word panel, duplicate text now a blocking audit error plus a regression test
 - [x] English modules readability: 93 module card colors normalized to soft gradients (/15), invalid bare color tokens replaced, card border + font-semibold lesson links; verified on desktop/mobile, lesson detail and SAT curriculum
@@ -33,7 +34,6 @@
       preserving subject audio, meanings, examples, mastery, and Japanese SRS behavior
 
 ## Open
-- [ ] Tech & Code Game Hub: cyber-neon mission bento redesign, clearer game content, responsive game screens, and browser verification
 - [x] Programming English-only curriculum: normalized lessons and Knowledge Checks across standard, Python, DSA, AI Academy, and Scratch surfaces; preserved IDs/scoring and added a permanent answer-integrity audit
 - [ ] Complete and audit all 49 bilingual songs: final six public-domain replacements and browser checks
 - [ ] Word Quest: study one word, complete 5 adaptive exercises, then advance; verify all 6 subjects
