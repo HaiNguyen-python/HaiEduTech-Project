@@ -157,7 +157,11 @@ const MERMAID_RE = /```mermaid\s*\n([\s\S]*?)```/g;
 const removeOptionalDeepDives = (markdown: string): string =>
   markdown
     .replace(/:::deepdive\s+title=["'][^"']+["']\s*\n[\s\S]*?:::/g, "")
+    .replace(/```deepdive[\s\S]*$/g, "")
+    // Leftover empty "8. Deep Dive" style headings with no body content.
+    .replace(/(?:^|\n)#{1,6}[ \t]*\d*\.?[ \t]*Deep[ -]?Dive[^\n]*(?=\s*(?:\n#{1,6}\s|$))/gi, "")
     .replace(/\n{3,}/g, "\n\n")
+
     .trim();
 
 /**
