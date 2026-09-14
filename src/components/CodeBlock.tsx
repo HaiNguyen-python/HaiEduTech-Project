@@ -2,6 +2,7 @@ import { useState, memo } from "react";
 import { Check, Copy } from "lucide-react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { normalizeCodeIndentation } from "@/lib/normalizeCodeIndentation";
 
 interface CodeBlockProps {
   code: string;
@@ -19,7 +20,7 @@ const CodeBlock = ({ code, language = "text", showHeader = true, className = "" 
 
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(code);
+      await navigator.clipboard.writeText(displayText);
       setCopied(true);
       setTimeout(() => setCopied(false), 1800);
     } catch {
@@ -59,7 +60,7 @@ const CodeBlock = ({ code, language = "text", showHeader = true, className = "" 
       asciiBoxLines >= 3
     ));
   const preserveLayout = isDiagram;
-  const codeText = code.replace(/\n$/, "");
+  const codeText = normalizeCodeIndentation(code.replace(/\n$/, ""), normalizedLang);
   const stripOuterDiagramFrame = (value: string) => {
     const lines = value.split("\n");
     if (lines.length < 3) return value;
@@ -158,20 +159,22 @@ const CodeBlock = ({ code, language = "text", showHeader = true, className = "" 
               fontFamily:
                 "'JetBrains Mono', 'Fira Code', 'Source Code Pro', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
               fontFeatureSettings: '"liga" 1, "calt" 1',
-              whiteSpace: "pre-wrap",
-              wordBreak: "break-word",
+               whiteSpace: "pre",
+               wordBreak: "normal",
+               overflowWrap: "normal",
             }}
             codeTagProps={{
               style: {
                 fontFamily:
                   "'JetBrains Mono', 'Fira Code', 'Source Code Pro', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
                 fontFeatureSettings: '"liga" 1, "calt" 1',
-                whiteSpace: "pre-wrap",
-                wordBreak: "break-word",
+                 whiteSpace: "pre",
+                 wordBreak: "normal",
+                 overflowWrap: "normal",
               },
             }}
             showLineNumbers={false}
-            wrapLongLines
+            wrapLongLines={false}
           >
             {displayText}
           </SyntaxHighlighter>

@@ -1,7 +1,10 @@
 /**
  * Repairs high-confidence Markdown structure issues in Programming theory.
- * Code fences and inline code are preserved byte-for-byte.
+ * Prose and inline code are preserved; fenced code receives conservative
+ * language-aware indentation repair.
  */
+import { normalizeFencedCodeIndentation } from "@/lib/normalizeCodeIndentation";
+
 export const normalizeTheoryMarkdownStructure = (markdown: string): string => {
   if (!markdown) return markdown;
 
@@ -40,5 +43,5 @@ export const normalizeTheoryMarkdownStructure = (markdown: string): string => {
     output.push(line);
   }
 
-  return output.join("\n").replace(/\n{3,}/g, "\n\n");
+  return normalizeFencedCodeIndentation(output.join("\n").replace(/\n{3,}/g, "\n\n"));
 };

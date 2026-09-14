@@ -3,6 +3,7 @@
 ## In Progress
 
 ## Done
+- [x] Programming code indentation: normalized all 310 cached lesson code blocks by language, preserved exact spacing in display/copy, added generation safeguards and responsive verification
 - [x] Programming Theory enrichment: section-aware key-term emphasis and image-only backfill completed for all 310 cached lessons, with 616 illustrations and responsive verification
 - [x] Programming lesson sections: every section now starts collapsed, including section 1 and introductory content; key technical terms receive restrained bold emphasis while code, math, links, and diagrams remain unchanged
 - [x] Removed redundant "Deep Dive (Optional)" blocks from all Programming lessons and stopped generating them in future lessons
