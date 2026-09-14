@@ -71,6 +71,12 @@ for (const song of rows) {
       }
       const words = String(line.original).split(/\s+/);
       for (const blank of item.blanks ?? []) {
+        if (song.language === "chinese") {
+          if (!String(line.original).includes(String(blank.answer))) {
+            report(song, `quiz ${quizIndex}: answer not found in referenced line`);
+          }
+          continue;
+        }
         const token = words[blank.wordIndex];
         if (!token) report(song, `quiz ${quizIndex}: wordIndex is out of range`);
         else if (
