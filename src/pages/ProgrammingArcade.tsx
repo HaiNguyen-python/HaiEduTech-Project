@@ -252,8 +252,10 @@ const SqlDungeon = ({ pushLog, addXp }: { pushLog: (t: LogLine["type"], text: st
   const [hp, setHp] = useState(SQL_RIDDLES[0].hp);
   const [picked, setPicked] = useState<string[]>([]);
   const [shake, setShake] = useState(false);
+  const [cleared, setCleared] = useState<number | null>(null);
   const riddle = SQL_RIDDLES[idx];
   const runScoreRef = useRef(0);
+  const totalXp = SQL_RIDDLES.reduce((sum, r) => sum + r.reward, 0);
 
   useEffect(() => {
     setHp(riddle.hp);
@@ -272,20 +274,45 @@ const SqlDungeon = ({ pushLog, addXp }: { pushLog: (t: LogLine["type"], text: st
         else {
           pushLog("ok", "Dungeon cleared! All monsters defeated.");
           void finishGame({ gameType: "prog_sql_dungeon", score: runScoreRef.current });
-          runScoreRef.current = 0;
-          setIdx(0);
+          setCleared(runScoreRef.current);
         }
       }, 900);
     } else {
-      pushLog("err", `Syntax Error near ${picked[picked.length - 1] ?? "?"}. -10 HP from your spell.`);
+      pushLog("err", `Syntax Error near ${picked[picked.length - 1] ?? "?"}. Rebuild the query and run again.`);
       setShake(true);
-      setHp(h => Math.max(0, h - 0)); // monster keeps HP, but visual shake
       setTimeout(() => setShake(false), 350);
     }
   };
 
+  const replay = () => {
+    runScoreRef.current = 0;
+    setCleared(null);
+    setIdx(0);
+    setPicked([]);
+    setHp(SQL_RIDDLES[0].hp);
+  };
+
+  if (cleared !== null) {
+    return (
+      <div className="arcade-game-panel flex min-h-[320px] flex-col items-center justify-center gap-4 p-6 text-center">
+        <div className="text-6xl" aria-hidden>🏆</div>
+        <div>
+          <h2 className="font-display text-2xl font-bold text-[hsl(var(--arcade-text))]">{t("Đã phá đảo hầm ngục", "Dungeon cleared")}</h2>
+          <p className="mt-2 text-lg font-bold text-[hsl(var(--arcade-gold))]">{cleared} / {totalXp} XP</p>
+          <p className="mt-1 text-sm text-[hsl(var(--arcade-muted))]">
+            {t(`Đã hạ ${SQL_RIDDLES.length}/${SQL_RIDDLES.length} quái vật`, `${SQL_RIDDLES.length} of ${SQL_RIDDLES.length} monsters defeated`)}
+          </p>
+        </div>
+        <Button onClick={replay} className="min-h-11 bg-[hsl(var(--arcade-blue))] text-[hsl(var(--arcade-canvas))] hover:bg-[hsl(var(--arcade-blue)/0.9)]">
+          <RotateCcw className="h-4 w-4" /> {t("Chơi lại", "Play again")}
+        </Button>
+      </div>
+    );
+  }
+
   return (
     <div className="grid lg:grid-cols-2 gap-4">
+
       {/* Battle screen */}
       <motion.div animate={shake ? { x: [-8, 8, -6, 6, 0] } : {}} transition={{ duration: 0.35 }} className="arcade-game-panel flex min-h-[280px] flex-col items-center justify-center p-6 font-mono">
         <div className="text-xs text-fuchsia-300 mb-2">{t("⚔️ TRẬN ĐẤU", "⚔️ BATTLE")}</div>
