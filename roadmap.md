@@ -30,9 +30,4 @@
       preserving subject audio, meanings, examples, mastery, and Japanese SRS behavior
 
 ## Open
-- [x] IELTS Speaking phrase practice: curated examples, hardened retry/grading, synced activity, and verified desktop/mobile
 - [ ] Word Quest: study one word, complete 5 adaptive exercises, then advance; verify all 6 subjects
-- [x] Specialized Language Hub: six languages, five-lesson pathway, 75% quizzes, audio, speaking and progress sync
-- [x] Hover contrast: no invisible text on hover (shared button/toggle/nav-menu variants
-      now hover to a muted surface with foreground text; dark-section buttons set their own
-      hover background; guarded by scripts/audit_hover_contrast.mjs)
