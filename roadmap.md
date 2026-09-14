@@ -1,9 +1,9 @@
 # Roadmap
 
 ## In Progress
-- [ ] Remove redundant “Deep Dive (Optional)” sections appended to Programming lessons
 
 ## Done
+- [x] Removed redundant "Deep Dive (Optional)" blocks from all Programming lessons and stopped generating them in future lessons
 - [x] Programming theory list structure: converted malformed bullet-group labels into headings, clarified paragraph/list/table rules for new Deep Dives, improved nested-list spacing, and added regression coverage
 - [x] Startup Toolkit: Modern Minimalist dashboard, clearer financial terms, separated inputs and results, visual runway/ownership/market states, and responsive usability
 - [x] Programming Theory cleanup: removed the AI Deep-Dive and Original controls, kept Deep Dive as the automatic view, and normalized long dashes in prose while preserving code

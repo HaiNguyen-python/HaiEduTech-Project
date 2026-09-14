@@ -54,7 +54,6 @@ import EdTechArchDiagram from "@/components/lesson-visuals/EdTechArchDiagram";
 import JoinVennDiagram from "@/components/lesson-visuals/JoinVennDiagram";
 import SubqueryDiagram from "@/components/lesson-visuals/SubqueryDiagram";
 import MermaidDiagram from "@/components/lesson-visuals/MermaidDiagram";
-import DeepDive from "@/components/lesson-visuals/DeepDive";
 
 interface TheorySectionsProps {
   markdown: string;
@@ -141,12 +140,15 @@ function splitByH2(md: string): Section[] {
   return sections;
 }
 
-// ── Detect & render embedded blocks: legacy diagrams, Mermaid, DeepDive ──
+// ── Detect & render embedded diagrams and Mermaid blocks ──
 const DIAGRAM_RE = /:::diagram\s+type=["']([\w-]+)["']\s*:::/g;
 // Mermaid fenced block: ```mermaid ... ```
 const MERMAID_RE = /```mermaid\s*\n([\s\S]*?)```/g;
-// Deep Dive block: :::deepdive title="..." ... :::
-const DEEPDIVE_RE = /:::deepdive\s+title=["']([^"']+)["']\s*\n([\s\S]*?):::/g;
+const removeOptionalDeepDives = (markdown: string): string =>
+  markdown
+    .replace(/:::deepdive\s+title=["'][^"']+["']\s*\n[\s\S]*?:::/g, "")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
 
 /**
  * Normalize math notation so KaTeX can render it.
@@ -362,8 +364,7 @@ function wrapLatexRuns(text: string): string {
 type Chunk =
   | { kind: "md"; value: string }
   | { kind: "diagram"; value: string }
-  | { kind: "mermaid"; value: string }
-  | { kind: "deepdive"; title: string; body: string };
+  | { kind: "mermaid"; value: string };
 
 function renderDiagram(type: string): ReactNode {
   switch (type) {
@@ -377,9 +378,8 @@ function renderDiagram(type: string): ReactNode {
 
 /**
  * Splits a body into ordered chunks. Order of detection:
- * 1) DeepDive (:::deepdive title="...")
- * 2) Mermaid (```mermaid)
- * 3) Legacy diagram tokens (:::diagram type="...")
+ * 1) Mermaid (```mermaid)
+ * 2) Legacy diagram tokens (:::diagram type="...")
  * Remaining text is markdown.
  */
 function splitBody(body: string): Chunk[] {
@@ -387,10 +387,6 @@ function splitBody(body: string): Chunk[] {
   type M = { start: number; end: number; chunk: Chunk };
   const matches: M[] = [];
 
-  body.replace(DEEPDIVE_RE, (m, title: string, inner: string, offset: number) => {
-    matches.push({ start: offset, end: offset + m.length, chunk: { kind: "deepdive", title, body: inner } });
-    return m;
-  });
   body.replace(MERMAID_RE, (m, code: string, offset: number) => {
     matches.push({ start: offset, end: offset + m.length, chunk: { kind: "mermaid", value: code } });
     return m;
@@ -589,7 +585,7 @@ function splitIntoSentences(text: string): string[] {
 
 const TheorySections = ({ markdown, storageKey, defaultCodeLanguage = "text" }: TheorySectionsProps) => {
   const sections = useMemo(
-    () => splitByH2(splitLongParagraphs(normalizeMath(stripOuterMarkdownFence(markdown)))),
+    () => splitByH2(splitLongParagraphs(normalizeMath(stripOuterMarkdownFence(removeOptionalDeepDives(markdown))))),
     [markdown],
   );
   const components = useMemo(() => markdownComponents(defaultCodeLanguage), [defaultCodeLanguage]);
@@ -648,19 +644,6 @@ const TheorySections = ({ markdown, storageKey, defaultCodeLanguage = "text" }: 
     return chunks.map((c, i) => {
       if (c.kind === "diagram") return <div key={`d-${i}`}>{renderDiagram(c.value)}</div>;
       if (c.kind === "mermaid") return <MermaidDiagram key={`mmd-${i}`} code={c.value} />;
-      if (c.kind === "deepdive") {
-        return (
-          <DeepDive key={`dd-${i}`} title={c.title}>
-            <ReactMarkdown
-              remarkPlugins={[remarkGfm, remarkMath]}
-              rehypePlugins={[[rehypeKatex, KATEX_OPTIONS]]}
-              components={components}
-            >
-              {c.body}
-            </ReactMarkdown>
-          </DeepDive>
-        );
-      }
       return (
         <ReactMarkdown
           key={`m-${i}`}
