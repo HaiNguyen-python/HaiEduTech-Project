@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  cleanSpokenTranscript,
   countSpokenWords,
   normalizeMrHaiResponse,
   speakingText,
@@ -50,5 +51,18 @@ describe("Mr. Hai voice practice helpers", () => {
     expect(safeStorage.set(storageKey, [summary])).toBe(true);
     expect(safeStorage.get(storageKey, [])).toEqual([summary]);
     safeStorage.remove(storageKey);
+  });
+});
+describe("spoken transcript cleanup", () => {
+  it("collapses whitespace and removes seam repetitions", () => {
+    expect(cleanSpokenTranscript("  I went  went to to the market ")).toBe("I went to the market");
+  });
+
+  it("tidies punctuation spacing and keeps the whole sentence", () => {
+    expect(cleanSpokenTranscript("Yes , I think the weather is nice today")).toBe("Yes, I think the weather is nice today");
+  });
+
+  it("returns an empty string for silence", () => {
+    expect(cleanSpokenTranscript("   ")).toBe("");
   });
 });

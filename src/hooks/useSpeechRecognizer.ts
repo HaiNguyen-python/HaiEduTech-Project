@@ -7,6 +7,12 @@ export interface UseSpeechRecognizerOptions {
   speechLang: string;
   maxSeconds?: number;
   onFinal?: (transcript: string, elapsedMs: number) => void;
+  /**
+   * When true the turn ends only on an explicit stop() (or the maxSeconds
+   * ceiling): the recognizer keeps restarting through natural pauses so long
+   * sentences are captured whole. Used by "Speak with Mr. Hai".
+   */
+  manualStopOnly?: boolean;
 }
 
 export const isAppleWebkitBrowser = (): boolean => {
@@ -17,7 +23,7 @@ export const isAppleWebkitBrowser = (): boolean => {
   return isIOS || isSafari;
 };
 
-export function useSpeechRecognizer({ speechLang, maxSeconds = 90, onFinal }: UseSpeechRecognizerOptions) {
+export function useSpeechRecognizer({ speechLang, maxSeconds = 90, onFinal, manualStopOnly = false }: UseSpeechRecognizerOptions) {
   const [isRecording, setIsRecording] = useState(false);
   const [transcript, setTranscript] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -25,6 +31,9 @@ export function useSpeechRecognizer({ speechLang, maxSeconds = 90, onFinal }: Us
 
   const recognitionRef = useRef<any>(null);
   const accumulatedRef = useRef("");
+  const interimRef = useRef("");
+  const manualOnlyRef = useRef(manualStopOnly);
+  manualOnlyRef.current = manualStopOnly;
   const manualStopRef = useRef(false);
   const startedAtRef = useRef(0);
   const finalRef = useRef(onFinal);
@@ -73,7 +82,9 @@ export function useSpeechRecognizer({ speechLang, maxSeconds = 90, onFinal }: Us
 
 
   const finish = useCallback(() => {
-    const text = accumulatedRef.current.trim();
+    // Keep the not-yet-final tail so the last words of a sentence are never lost.
+    const text = `${accumulatedRef.current} ${interimRef.current}`.replace(/\s+/g, " ").trim();
+    interimRef.current = "";
     const elapsed = Date.now() - startedAtRef.current;
     setIsRecording(false);
     if (text && finalRef.current) finalRef.current(text, elapsed);
@@ -115,6 +126,7 @@ export function useSpeechRecognizer({ speechLang, maxSeconds = 90, onFinal }: Us
     setTranscript("");
     setSeconds(0);
     accumulatedRef.current = "";
+    interimRef.current = "";
     manualStopRef.current = false;
     startedAtRef.current = Date.now();
 
@@ -132,7 +144,8 @@ export function useSpeechRecognizer({ speechLang, maxSeconds = 90, onFinal }: Us
         if (event.results[i].isFinal) accumulatedRef.current = `${accumulatedRef.current} ${chunk}`.trim();
         else interim += chunk;
       }
-      if (mountedRef.current) setTranscript(`${accumulatedRef.current} ${interim}`.trim());
+      interimRef.current = interim.trim();
+      if (mountedRef.current) setTranscript(`${accumulatedRef.current} ${interim}`.replace(/\s+/g, " ").trim());
     };
 
     rec.onerror = (event: any) => {
@@ -144,8 +157,14 @@ export function useSpeechRecognizer({ speechLang, maxSeconds = 90, onFinal }: Us
     rec.onend = () => {
       if (!mountedRef.current) return;
       if (manualStopRef.current || recognitionRef.current !== rec) return;
-      // Continuous sessions end on their own; restart while the learner is still speaking.
-      if (rec.continuous && Date.now() - startedAtRef.current < maxSeconds * 1000) {
+      // Continuous sessions end on their own; restart while the learner is still
+      // speaking so a pause in the middle of a sentence does not end the turn.
+      const withinCeiling = Date.now() - startedAtRef.current < maxSeconds * 1000;
+      if ((rec.continuous || manualOnlyRef.current) && withinCeiling) {
+        if (interimRef.current) {
+          accumulatedRef.current = `${accumulatedRef.current} ${interimRef.current}`.replace(/\s+/g, " ").trim();
+          interimRef.current = "";
+        }
         try { rec.start(); return; } catch { /* fall through to finish */ }
       }
       finish();
@@ -171,6 +190,7 @@ export function useSpeechRecognizer({ speechLang, maxSeconds = 90, onFinal }: Us
     setSeconds(0);
     setError(null);
     accumulatedRef.current = "";
+    interimRef.current = "";
   }, [teardown]);
 
   return { supported, isRecording, transcript, error, seconds, start, stop, reset };
