@@ -467,6 +467,71 @@ function buildPreview(body: string, limit = 170): string {
   return "";
 }
 
+type GroupableCalloutVariant = "tip" | "warning" | "note" | "info" | "success";
+
+const GROUPED_CALLOUT_CONFIG: Record<GroupableCalloutVariant, { marker: string; label: string }> = {
+  tip: { marker: "💡", label: "Tip" },
+  warning: { marker: "⚠️", label: "Warning" },
+  note: { marker: "📝", label: "Note" },
+  info: { marker: "ℹ️", label: "Info" },
+  success: { marker: "✅", label: "Optimization" },
+};
+
+function detectGroupableCallout(text: string): GroupableCalloutVariant | null {
+  const value = text.toLowerCase();
+  if (/^(\s|✅|🟢)*(optim|tối ưu|best practice|success|hiệu quả)/i.test(value) || /✅|🟢/.test(value)) return "success";
+  if (/^(\s|💡)*(mẹo|tip|pro tip|gợi ý)/i.test(value) || value.includes("💡")) return "tip";
+  if (/^(\s|⚠️|🚨)*(cảnh báo|warning|danger|nguy hiểm|chú ý|coi chừng|risk)/i.test(value) || /⚠️|🚨/.test(value)) return "warning";
+  if (/^(\s|🔵)*(info|definition|định nghĩa)/i.test(value) || value.includes("🔵")) return "info";
+  if (/^(\s|📝|ℹ️)*(lưu ý|note|ghi chú|chú thích)/i.test(value) || /📝|ℹ️/.test(value)) return "note";
+  return null;
+}
+
+const CALLOUT_PREFIX_PATTERN = /^\s*(?:💡|⚠️|🚨|📝|ℹ️|🔵|✅|🟢)?\s*(?:pro\s+tip|tip|warning|note|info|optimization|best practice|success|mẹo|gợi ý|cảnh báo|chú ý|lưu ý|ghi chú|tối ưu)\s*:\s*/i;
+
+/** Combine repeated callouts of the same kind inside one lesson section. */
+function groupRepeatedCallouts(markdown: string): string {
+  return markdown
+    .split(/(?=^##\s+)/m)
+    .map((section) => {
+      const blockPattern = /^(?:>[^\n]*(?:\n|$))+/gm;
+      const matches = Array.from(section.matchAll(blockPattern));
+      const grouped = new Map<GroupableCalloutVariant, Array<{ index: number; content: string }>>();
+
+      matches.forEach((match) => {
+        const raw = match[0];
+        const plain = raw.replace(/^>\s?/gm, "").trim();
+        const variant = detectGroupableCallout(plain);
+        if (!variant || match.index === undefined) return;
+        const content = plain.replace(CALLOUT_PREFIX_PATTERN, "").replace(/\s*\n\s*/g, " ").trim();
+        if (!content) return;
+        const entries = grouped.get(variant) ?? [];
+        entries.push({ index: match.index, content });
+        grouped.set(variant, entries);
+      });
+
+      const replacements = new Map<number, string>();
+      grouped.forEach((entries, variant) => {
+        if (entries.length < 2) return;
+        const { marker, label } = GROUPED_CALLOUT_CONFIG[variant];
+        replacements.set(entries[0].index, `> ${marker} ${label}: ${entries.map((entry) => entry.content).join(" • ")}\n`);
+        entries.slice(1).forEach((entry) => replacements.set(entry.index, ""));
+      });
+
+      if (replacements.size === 0) return section;
+      let output = "";
+      let cursor = 0;
+      matches.forEach((match) => {
+        if (match.index === undefined) return;
+        output += section.slice(cursor, match.index);
+        output += replacements.has(match.index) ? replacements.get(match.index) : match[0];
+        cursor = match.index + match[0].length;
+      });
+      return `${output}${section.slice(cursor)}`.replace(/\n{3,}/g, "\n\n");
+    })
+    .join("");
+}
+
 // ── Markdown components: blockquote → Callout, code → CodeBlock, table → wrapper ──
 const markdownComponents = (defaultLang: string) => ({
   table: ({ children }: { children?: React.ReactNode }) => (
@@ -726,7 +791,9 @@ const TheorySections = ({ markdown, storageKey, defaultCodeLanguage = "text" }: 
       splitByH2(
         splitLongParagraphs(
           emphasizeKeyTerms(
-            normalizeMath(repairEscapedText(stripOuterMarkdownFence(removeOptionalDeepDives(markdown)))),
+            groupRepeatedCallouts(
+              normalizeMath(repairEscapedText(stripOuterMarkdownFence(removeOptionalDeepDives(markdown)))),
+            ),
           ),
         ),
       ),
