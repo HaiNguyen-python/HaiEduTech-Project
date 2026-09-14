@@ -1,6 +1,7 @@
 # Roadmap
 
 ## Done
+- [x] Tech & Code Game Hub upgrade: mission board with lifetime XP/level, daily streak, 9 badges, per-game personal bests, 4 new games (Big-O Detective, Terminal Rescue, Data Type Sorter, Prompt Architect), difficulty modes with combo and hints, sound cues with toggle, reduced-motion support
 - [x] Tech & Code Game Hub review: SQL Dungeon completion screen, XP labels matched to real scores, per-question skill tags, bilingual game UI, core Python typing ladder, full playthrough verification
 - [x] Tech & Code Game Hub expansion: balanced 8-card grid plus Python Speed Run, Bug Hunter, Git Branch Quest, and Cyber Shield with score saving and responsive verification
 - [x] Tech & Code Game Hub: cyber-neon mission bento redesign, clearer game content, responsive game screens, and browser verification
