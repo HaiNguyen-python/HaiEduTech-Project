@@ -16,10 +16,15 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import CodeGalaxy from "@/components/games/CodeGalaxy";
-import { BugHunter, CyberShield, GitBranchQuest, PythonSpeedRun } from "@/components/games/ProgrammingReviewGames";
+import { BigODetective, BugHunter, CyberShield, DataTypeSorter, GitBranchQuest, PromptArchitect, PythonSpeedRun, TerminalRescue } from "@/components/games/ProgrammingReviewGames";
 import { finishGame } from "@/lib/gameSession";
+import { ARCADE_BADGES, arcadeLevel, loadArcadeProgress, recordArcadeRun, setArcadeSound, type ArcadeProgress } from "@/lib/arcadeProgress";
+import { playArcadeCue, setArcadeSoundEnabled } from "@/lib/arcadeSound";
 
-type GameId = "menu" | "sql" | "pipeline" | "tuner" | "galaxy" | "python" | "bugs" | "git" | "cyber";
+type GameId = "menu" | "sql" | "pipeline" | "tuner" | "galaxy" | "python" | "bugs" | "git" | "cyber" | "bigo" | "terminal" | "types" | "prompt";
+
+/** Total number of missions in the hub, shared with badge unlocking. */
+const TOTAL_GAMES = 12;
 
 interface LogLine {
   id: number;
