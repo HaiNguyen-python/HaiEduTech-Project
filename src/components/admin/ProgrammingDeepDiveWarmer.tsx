@@ -184,22 +184,11 @@ const ProgrammingDeepDiveWarmer = () => {
               {t("Dừng", "Stop")}
             </Button>
           )}
-          <Button variant="outline" className="min-h-11" onClick={syncIndex} disabled={syncing}>
-            {syncing ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <RefreshCw className="w-4 h-4 mr-2" />}
-            {t("Đồng bộ danh sách cho việc chạy đêm", "Sync index for nightly job")}
-          </Button>
           <Button variant="ghost" className="min-h-11" onClick={loadCache} disabled={loading || running}>
             <RefreshCw className="w-4 h-4 mr-2" />
             {t("Làm mới số liệu", "Refresh counts")}
           </Button>
         </div>
-
-        <p className="text-xs text-muted-foreground">
-          {t(
-            "Việc chạy tự động mỗi đêm sẽ tạo bản giảng sâu cho những bài còn thiếu. Sau khi thêm bài học mới, hãy bấm Đồng bộ danh sách.",
-            "A nightly job generates Deep-Dives for any lesson still missing one. After adding new lessons, press Sync index.",
-          )}
-        </p>
       </CardContent>
     </Card>
   );
