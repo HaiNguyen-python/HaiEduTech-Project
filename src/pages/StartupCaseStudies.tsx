@@ -2,7 +2,7 @@ import { Helmet } from "react-helmet-async";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
-import { ArrowLeft, ArrowUpRight, BarChart3, Compass, Lightbulb, Sparkles, Target } from "lucide-react";
+import { ArrowLeft, BarChart3, Compass, Lightbulb, Sparkles, Target } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { motion } from "framer-motion";
 import elsaImage from "@/assets/cases/elsa-speak.jpg";
@@ -117,8 +117,7 @@ const CaseCard = ({ item, index }: { item: Case; index: number }) => (
     <div className="case-study-card__visual">
       <img src={item.image} alt={`${item.name} case study illustration`} width={768} height={512} loading="lazy" />
       <div className="absolute inset-x-0 top-0 flex items-start justify-between gap-3 p-4">
-        <span className="rounded-md border border-card/80 bg-card/90 px-2.5 py-1 text-xs font-extrabold text-foreground shadow-sm backdrop-blur-sm">{item.flag} {item.vertical}</span>
-        <span className="grid h-9 w-9 place-items-center rounded-md bg-card/90 text-foreground shadow-sm backdrop-blur-sm" aria-hidden="true"><ArrowUpRight className="h-4 w-4" /></span>
+        <span className="rounded-md border border-card/80 bg-card/90 px-2.5 py-1 text-xs font-extrabold text-foreground shadow-sm backdrop-blur-sm">{item.flag === "🇻🇳" ? "VN" : "GLOBAL"} · {item.vertical}</span>
       </div>
     </div>
     <div className="flex flex-1 flex-col p-5 sm:p-6">
