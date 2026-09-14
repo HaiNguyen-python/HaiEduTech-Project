@@ -5,6 +5,7 @@ import { nlpQuizEn } from "../src/data/curriculum/nlpQuizI18n";
 import { programmingQuizExtraEn } from "../src/data/curriculum/programmingQuizExtraI18n";
 import { pythonLessons } from "../src/data/curriculum/pythonPathway";
 import { dsaLessons } from "../src/data/dsaLessons";
+import { inspectFencedCodeIndentation } from "../src/lib/normalizeCodeIndentation";
 
 const errors: string[] = [];
 const malformedTheoryPatterns: Array<[RegExp, string]> = [
@@ -21,6 +22,7 @@ const validateTheoryFormatting = (value: unknown, path: string) => {
   malformedTheoryPatterns.forEach(([pattern, label]) => {
     if (pattern.test(proseOnly)) errors.push(`${path}: ${label}`);
   });
+  inspectFencedCodeIndentation(value).forEach((issue) => errors.push(`${path}: ${issue}`));
 };
 
 const standardKeys = new Set<string>();

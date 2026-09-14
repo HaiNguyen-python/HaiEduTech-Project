@@ -1,6 +1,7 @@
 # Roadmap
 
 ## In Progress
+- [ ] Programming code indentation: normalize all lesson code and cached fenced blocks by language, preserve exact spacing in display/copy, and prevent regressions in generated content
 
 ## Done
 - [x] Programming Theory enrichment: section-aware key-term emphasis and image-only backfill completed for all 310 cached lessons, with 616 illustrations and responsive verification
