@@ -7,7 +7,7 @@
  */
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Code2, Database, Brain, Zap, Trophy, Loader2, Sparkles, Clock3, Gauge, Play, Target, ShieldCheck, Keyboard, Bug, GitBranch, LockKeyhole, RotateCcw } from "lucide-react";
+import { ArrowLeft, Code2, Database, Brain, Zap, Trophy, Loader2, Sparkles, Clock3, Gauge, Play, Target, ShieldCheck, Keyboard, Bug, GitBranch, LockKeyhole, RotateCcw, Binary, Terminal, Wand2, Flame, Volume2, VolumeX, Medal } from "lucide-react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
