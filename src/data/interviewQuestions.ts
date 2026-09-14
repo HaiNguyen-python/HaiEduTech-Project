@@ -18,6 +18,7 @@ export interface InterviewQuestion {
   tldr?: string;
   pitfalls?: string[];
   interviewTip?: string;
+  followUpQuestions?: string[];
   codeExample?: { language: string; code: string };
   tags?: string[];
 }
@@ -38,6 +39,7 @@ export const interviewCategories: Record<InterviewRole, string[]> = {
 };
 
 import { interviewQuestionsExpansion } from "./interviewQuestionsExpansion";
+import { interviewQuestionsJunior } from "./interviewQuestionsJunior";
 
 const baseInterviewQuestions: InterviewQuestion[] = [
   // ============================================================
@@ -1832,4 +1834,5 @@ joined = big.join(broadcast(small), "country_code", "left")`,
 export const interviewQuestions: InterviewQuestion[] = [
   ...baseInterviewQuestions,
   ...interviewQuestionsExpansion,
+  ...interviewQuestionsJunior,
 ];
