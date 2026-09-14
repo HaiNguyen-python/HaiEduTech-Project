@@ -34,6 +34,7 @@
       preserving subject audio, meanings, examples, mastery, and Japanese SRS behavior
 
 ## Open
+- [ ] Tech & Code Game Hub: balance the 8-card grid and add Python Speed Run, Bug Hunter, Git Branch Quest, and Cyber Shield with score saving and responsive verification
 - [x] Programming English-only curriculum: normalized lessons and Knowledge Checks across standard, Python, DSA, AI Academy, and Scratch surfaces; preserved IDs/scoring and added a permanent answer-integrity audit
 - [ ] Complete and audit all 49 bilingual songs: final six public-domain replacements and browser checks
 - [ ] Word Quest: study one word, complete 5 adaptive exercises, then advance; verify all 6 subjects

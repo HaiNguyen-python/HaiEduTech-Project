@@ -187,7 +187,7 @@ export function PythonSpeedRun({ onScore }: GameProps) {
     void finishGame({ gameType: "prog_python_speed_run", score: totalScore, accuracy: 100 });
   }, [complete, totalScore]);
 
-  const elapsed = startedAt ? ((finishedAt ?? clock || Date.now()) - startedAt) / 1000 : 0;
+  const elapsed = startedAt ? ((finishedAt ?? (clock || Date.now())) - startedAt) / 1000 : 0;
   const correctChars = snippet ? [...typed].filter((char, i) => char === snippet[i]).length : 0;
   const accuracy = typed.length ? Math.round((correctChars / typed.length) * 100) : 100;
 
