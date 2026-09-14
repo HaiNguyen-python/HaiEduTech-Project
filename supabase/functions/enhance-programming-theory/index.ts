@@ -23,7 +23,8 @@ OUTPUT RULES (STRICT):
 - NEVER write literal "\\n" escape sequences. Use real line breaks.
 - NEVER wrap math in backticks. Inline math is $...$ and display math is $$...$$ with no surrounding backticks.
 - NEVER add a "Deep Dive", "Optional", "Bonus" or "Appendix" section, and never leave an empty heading.
-- Bold the most important technical terms and key phrases with **...** when they first appear in a section.
+- Bold the most important technical terms and key phrases with **...** when they first appear in EACH section.
+- Prioritize the lesson's domain vocabulary (Python, SQL, data structures, web, cloud, cybersecurity, AI/ML/NLP, data engineering, software engineering, EdTech, or startup concepts) and terms defined under Key Concepts.
 - Keep emphasis restrained: usually 1-3 bold phrases per paragraph. Never bold a whole sentence.
 - Never add bold markers inside code, inline code, math, Mermaid diagrams, URLs, or link destinations.
 - Use this exact section structure with H2 (##) headings:

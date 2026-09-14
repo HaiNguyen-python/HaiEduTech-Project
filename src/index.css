@@ -889,7 +889,14 @@
   color: hsl(var(--foreground) / 0.92);
 }
 
-.theory-content strong { font-weight: 600; color: hsl(var(--foreground)); }
+.theory-content strong {
+  font-weight: 700;
+  color: hsl(var(--primary));
+  text-decoration: underline;
+  text-decoration-color: hsl(var(--primary) / 0.22);
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.16em;
+}
 .theory-content em { font-style: italic; color: hsl(var(--foreground) / 0.9); }
 
 /* Inline code */

@@ -1,5 +1,5 @@
-// Admin tool: keep an English AI Deep-Dive cached for every Programming lesson
-// so learners never wait for generation when they open a lesson.
+// Admin tool: monitor cached Programming theory and fill missing illustrations
+// without rewriting lesson content.
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -9,7 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { allProgrammingModules } from "@/data/programmingLessonData";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { toast } from "sonner";
-import { Loader2, RefreshCw, Sparkles, Square } from "lucide-react";
+import { Image, Loader2, RefreshCw, Sparkles, Square } from "lucide-react";
 
 interface LessonRow {
   module_id: string;
@@ -18,6 +18,13 @@ interface LessonRow {
   lesson_title: string;
   base_theory: string;
   code_language: string | null;
+}
+
+interface CacheRow {
+  module_id: string;
+  lesson_id: string;
+  enhanced_markdown: string;
+  illustrations: unknown;
 }
 
 const CONCURRENCY = 2;
@@ -52,20 +59,21 @@ const ProgrammingDeepDiveWarmer = () => {
     [],
   );
 
-  const [cachedKeys, setCachedKeys] = useState<Set<string>>(new Set());
+  const [cacheRows, setCacheRows] = useState<CacheRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [running, setRunning] = useState(false);
   const [progress, setProgress] = useState({ done: 0, total: 0, ok: 0, failed: 0 });
   const [currentLabel, setCurrentLabel] = useState("");
+  const [failedKeys, setFailedKeys] = useState<Set<string>>(new Set());
   const stopRef = useRef(false);
 
   const loadCache = useCallback(async () => {
     setLoading(true);
     const { data, error } = await supabase
       .from("programming_theory_cache")
-      .select("module_id, lesson_id");
+      .select("module_id, lesson_id, enhanced_markdown, illustrations");
     if (!error && data) {
-      setCachedKeys(new Set(data.map((r) => `${r.module_id}::${r.lesson_id}`)));
+      setCacheRows(data as CacheRow[]);
     }
     setLoading(false);
   }, []);
@@ -74,13 +82,26 @@ const ProgrammingDeepDiveWarmer = () => {
     loadCache();
   }, [loadCache]);
 
-  const missing = allLessons.filter((l) => !cachedKeys.has(`${l.module_id}::${l.lesson_id}`));
+  const cachedKeys = new Set(cacheRows.map((row) => `${row.module_id}::${row.lesson_id}`));
+  const missingTheory = allLessons.filter((lesson) => !cachedKeys.has(`${lesson.module_id}::${lesson.lesson_id}`));
+  const illustrationReadyKeys = new Set(
+    cacheRows
+      .filter((row) =>
+        (Array.isArray(row.illustrations) && row.illustrations.length > 0) ||
+        /!\[[^\]]*\]\([^)]+\)/.test(row.enhanced_markdown || ""),
+      )
+      .map((row) => `${row.module_id}::${row.lesson_id}`),
+  );
+  const missingIllustrations = allLessons.filter((lesson) =>
+    cachedKeys.has(`${lesson.module_id}::${lesson.lesson_id}`) &&
+    !illustrationReadyKeys.has(`${lesson.module_id}::${lesson.lesson_id}`),
+  );
 
   const generateMissing = async () => {
-    if (running || missing.length === 0) return;
+    if (running || missingTheory.length === 0) return;
     stopRef.current = false;
     setRunning(true);
-    setProgress({ done: 0, total: missing.length, ok: 0, failed: 0 });
+    setProgress({ done: 0, total: missingTheory.length, ok: 0, failed: 0 });
 
     let cursor = 0;
     let ok = 0;
@@ -88,8 +109,8 @@ const ProgrammingDeepDiveWarmer = () => {
     let done = 0;
 
     const worker = async () => {
-      while (!stopRef.current && cursor < missing.length) {
-        const row = missing[cursor++];
+      while (!stopRef.current && cursor < missingTheory.length) {
+        const row = missingTheory[cursor++];
         setCurrentLabel(`${row.module_id} / ${row.lesson_id}`);
         try {
           const { data, error } = await supabase.functions.invoke("enhance-programming-theory", {
@@ -110,7 +131,7 @@ const ProgrammingDeepDiveWarmer = () => {
           failed++;
         }
         done++;
-        setProgress({ done, total: missing.length, ok, failed });
+        setProgress({ done, total: missingTheory.length, ok, failed });
       }
     };
 
@@ -123,32 +144,80 @@ const ProgrammingDeepDiveWarmer = () => {
     );
   };
 
-  const readyCount = allLessons.length - missing.length;
-  const readyPercent = allLessons.length ? Math.round((readyCount / allLessons.length) * 100) : 0;
+  const generateMissingIllustrations = async () => {
+    const queue = failedKeys.size > 0
+      ? missingIllustrations.filter((row) => failedKeys.has(`${row.module_id}::${row.lesson_id}`))
+      : missingIllustrations;
+    if (running || queue.length === 0) return;
+    stopRef.current = false;
+    setRunning(true);
+    setFailedKeys(new Set());
+    setProgress({ done: 0, total: queue.length, ok: 0, failed: 0 });
+
+    let ok = 0;
+    let failed = 0;
+    const nextFailures = new Set<string>();
+    for (let index = 0; index < queue.length && !stopRef.current; index += 1) {
+      const row = queue[index];
+      const key = `${row.module_id}::${row.lesson_id}`;
+      setCurrentLabel(`${row.module_id} / ${row.lesson_id}`);
+      try {
+        const { data, error } = await supabase.functions.invoke("backfill-programming-illustrations", {
+          body: {
+            module_id: row.module_id,
+            lesson_id: row.lesson_id,
+            lesson_title: row.lesson_title,
+          },
+        });
+        if (error || (!data?.ok && !data?.skipped)) throw error || new Error(data?.error || "Generation failed");
+        ok += 1;
+      } catch {
+        failed += 1;
+        nextFailures.add(key);
+      }
+      setProgress({ done: index + 1, total: queue.length, ok, failed });
+    }
+
+    setFailedKeys(nextFailures);
+    setCurrentLabel("");
+    setRunning(false);
+    await loadCache();
+    toast[failed > 0 ? "warning" : "success"](
+      t(`Hình minh họa: ${ok} thành công, ${failed} lỗi.`, `Illustrations: ${ok} succeeded, ${failed} failed.`),
+    );
+  };
+
+  const theoryReadyCount = allLessons.length - missingTheory.length;
+  const illustrationReadyCount = illustrationReadyKeys.size;
+  const readyPercent = allLessons.length ? Math.round((illustrationReadyCount / allLessons.length) * 100) : 0;
 
   return (
     <Card className="border border-border/60 bg-card">
       <CardHeader>
         <CardTitle className="flex flex-wrap items-center gap-2 text-lg">
           <Sparkles className="w-5 h-5 text-primary" />
-          {t("Bản giảng sâu Programming", "Programming Deep-Dive cache")}
+          {t("Nội dung & hình Programming", "Programming content & illustrations")}
           <Badge variant="secondary">{readyPercent}%</Badge>
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="grid gap-3 sm:grid-cols-3">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           <div className="rounded-lg border border-border/60 p-3">
             <div className="text-xs text-muted-foreground">{t("Tổng bài học", "Total lessons")}</div>
             <div className="text-2xl font-bold">{allLessons.length}</div>
           </div>
           <div className="rounded-lg border border-border/60 p-3">
-            <div className="text-xs text-muted-foreground">{t("Đã có bản giảng sâu", "Deep-Dive ready")}</div>
-            <div className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">{readyCount}</div>
+            <div className="text-xs text-muted-foreground">{t("Theory đã sẵn sàng", "Theory ready")}</div>
+            <div className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">{theoryReadyCount}</div>
           </div>
           <div className="rounded-lg border border-border/60 p-3">
-            <div className="text-xs text-muted-foreground">{t("Còn thiếu", "Missing")}</div>
+            <div className="text-xs text-muted-foreground">{t("Đã có hình", "Illustrated")}</div>
+            <div className="text-2xl font-bold text-primary">{loading ? "..." : illustrationReadyCount}</div>
+          </div>
+          <div className="rounded-lg border border-border/60 p-3">
+            <div className="text-xs text-muted-foreground">{t("Còn thiếu hình", "Missing illustrations")}</div>
             <div className="text-2xl font-bold text-amber-600 dark:text-amber-400">
-              {loading ? "..." : missing.length}
+              {loading ? "..." : missingIllustrations.length}
             </div>
           </div>
         </div>
@@ -172,11 +241,22 @@ const ProgrammingDeepDiveWarmer = () => {
         <div className="flex flex-wrap gap-2">
           <Button
             onClick={generateMissing}
-            disabled={running || loading || missing.length === 0}
+            disabled={running || loading || missingTheory.length === 0}
+            variant="outline"
             className="min-h-11"
           >
             <Sparkles className="w-4 h-4 mr-2" />
-            {t("Tạo sẵn các bài còn thiếu", "Generate missing Deep-Dives")}
+            {t("Tạo Theory còn thiếu", "Generate missing theory")}
+          </Button>
+          <Button
+            onClick={generateMissingIllustrations}
+            disabled={running || loading || missingIllustrations.length === 0}
+            className="min-h-11"
+          >
+            <Image className="w-4 h-4 mr-2" />
+            {failedKeys.size > 0
+              ? t(`Thử lại ${failedKeys.size} hình lỗi`, `Retry ${failedKeys.size} failed`)
+              : t("Tạo hình còn thiếu", "Generate missing illustrations")}
           </Button>
           {running && (
             <Button variant="outline" className="min-h-11" onClick={() => { stopRef.current = true; }}>
