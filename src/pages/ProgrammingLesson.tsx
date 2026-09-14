@@ -314,6 +314,17 @@ function hasVietnameseText(md: string): boolean {
   return VIETNAMESE_CHARS.test(prose);
 }
 
+// Base64 (UTF-8 safe) so security lesson samples survive the edge firewall.
+function encodeTheory(text: string): string {
+  const bytes = new TextEncoder().encode(text);
+  let binary = "";
+  bytes.forEach((b) => {
+    binary += String.fromCharCode(b);
+  });
+  return btoa(binary);
+}
+
+
 
 const ProgrammingLessonPage = () => {
   const { moduleId, lessonId } = useParams();
@@ -420,7 +431,9 @@ const ProgrammingLessonPage = () => {
           lesson_id: lesson.id,
           lesson_title: lesson.titleEn || lesson.title,
           module_title: mod.titleEn || mod.title,
-          base_theory: lesson.theoryEn || lesson.theory || "",
+          // Sent base64-encoded: raw security lesson text (injection/XSS samples)
+          // is rejected by the edge firewall.
+          base_theory_b64: encodeTheory(lesson.theoryEn || lesson.theory || ""),
           code_language: lesson.codeLanguage,
           force_refresh: forceRefresh,
         },
@@ -858,6 +871,23 @@ const ProgrammingLessonPage = () => {
                       <p className="mb-5 rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-xs font-medium text-amber-700 dark:text-amber-300">
                         The AI Deep-Dive is temporarily unavailable - you are reading the full base lesson in English.
                       </p>
+                    )}
+                    {/* While the Deep-Dive is being prepared, show a soft skeleton above the
+                        readable English base lesson so the page never feels empty. */}
+                    {!enhancedMd && enhanceLoading && (
+                      <div className="mb-6 rounded-xl border border-violet-500/25 bg-violet-500/5 p-4" aria-hidden="true">
+                        <div className="space-y-2.5 animate-pulse">
+                          <div className="h-4 w-2/5 rounded bg-violet-500/20" />
+                          <div className="h-3 w-full rounded bg-muted" />
+                          <div className="h-3 w-11/12 rounded bg-muted" />
+                          <div className="h-3 w-4/5 rounded bg-muted" />
+                          <div className="h-20 w-full rounded-lg bg-muted/70" />
+                          <div className="h-3 w-3/4 rounded bg-muted" />
+                        </div>
+                        <p className="mt-3 text-xs font-medium text-violet-700 dark:text-violet-300">
+                          Preparing the AI Deep-Dive - keep reading the full English lesson below.
+                        </p>
+                      </div>
                     )}
                     {getModuleHero(mod.id) && (
                       <img

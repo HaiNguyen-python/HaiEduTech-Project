@@ -111,6 +111,8 @@ interface Body {
   lesson_title: string;
   module_title: string;
   base_theory: string;
+  /** base64 of base_theory; used for security lessons whose raw text trips the edge firewall */
+  base_theory_b64?: string;
   code_language?: string;
   force_refresh?: boolean;
 }
@@ -234,14 +236,23 @@ Deno.serve(async (req: Request) => {
 
   try {
     const PERPLEXITY_API_KEY = Deno.env.get("PERPLEXITY_API_KEY");
-    if (!PERPLEXITY_API_KEY) {
-      return new Response(JSON.stringify({ error: "PERPLEXITY_API_KEY not configured" }), {
+    if (!PERPLEXITY_API_KEY && !Deno.env.get("LOVABLE_API_KEY")) {
+      return new Response(JSON.stringify({ error: "No AI provider configured" }), {
         status: 500,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
     const body = (await req.json()) as Body;
+    if (!body.base_theory && body.base_theory_b64) {
+      try {
+        body.base_theory = new TextDecoder().decode(
+          Uint8Array.from(atob(body.base_theory_b64), (c) => c.charCodeAt(0)),
+        );
+      } catch {
+        body.base_theory = "";
+      }
+    }
     if (!body.module_id || !body.lesson_id || !body.lesson_title) {
       return new Response(JSON.stringify({ error: "Missing required fields" }), {
         status: 400,
@@ -303,33 +314,68 @@ ${(body.base_theory || "").slice(0, 3000)}
 
 Now produce the full Deep-Dive Markdown using the strict structure, and append the illustrations JSON block at the very end.`;
 
-    // 3. Call Perplexity
-    const ppxResp = await fetch("https://api.perplexity.ai/chat/completions", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${PERPLEXITY_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model: "sonar-pro",
-        messages: [
-          { role: "system", content: SYSTEM_PROMPT },
-          { role: "user", content: userPrompt },
-        ],
-        temperature: 0.3,
-        max_tokens: 2600,
-      }),
-    });
+    // 3. Call Perplexity, then fall back to Lovable AI when it is unavailable
+    //    (out of quota, rate limited, provider outage) so pre-generation never stalls.
+    let data: Record<string, unknown> | null = null;
+    let ppxStatus = 0;
 
-    if (!ppxResp.ok) {
-      const txt = await ppxResp.text();
-      console.error("Perplexity error:", ppxResp.status, txt);
+    if (PERPLEXITY_API_KEY) {
+      const ppxResp = await fetch("https://api.perplexity.ai/chat/completions", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${PERPLEXITY_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "sonar-pro",
+          messages: [
+            { role: "system", content: SYSTEM_PROMPT },
+            { role: "user", content: userPrompt },
+          ],
+          temperature: 0.3,
+          max_tokens: 2600,
+        }),
+      });
+      ppxStatus = ppxResp.status;
+      if (ppxResp.ok) {
+        data = await ppxResp.json();
+      } else {
+        console.error("Perplexity error:", ppxResp.status, await ppxResp.text());
+      }
+    }
+
+    if (!data) {
+      const lovableKey = Deno.env.get("LOVABLE_API_KEY");
+      if (lovableKey) {
+        const aiResp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Lovable-API-Key": lovableKey,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            model: "google/gemini-3.8-flash",
+            messages: [
+              { role: "system", content: SYSTEM_PROMPT },
+              { role: "user", content: userPrompt },
+            ],
+          }),
+        });
+        if (aiResp.ok) {
+          data = await aiResp.json();
+        } else {
+          console.error("Lovable AI error:", aiResp.status, await aiResp.text());
+        }
+      }
+    }
+
+    if (!data) {
       return new Response(
         JSON.stringify({
           cached: false,
           fallback: true,
           error: "AI provider temporarily unavailable",
-          status: ppxResp.status,
+          status: ppxStatus || 503,
           markdown: "",
           citations: [],
           illustrations: [],
@@ -338,9 +384,10 @@ Now produce the full Deep-Dive Markdown using the strict structure, and append t
       );
     }
 
-    const data = await ppxResp.json();
-    let markdown: string = data?.choices?.[0]?.message?.content || "";
-    const citations: string[] = data?.citations || [];
+    const choices = (data as { choices?: Array<{ message?: { content?: string } }> }).choices;
+    let markdown: string = choices?.[0]?.message?.content || "";
+    const citations: string[] = ((data as { citations?: string[] }).citations) || [];
+
 
     // Some Perplexity responses wrap the whole output in a ```markdown ... ``` fence.
     markdown = markdown.trim();
@@ -427,8 +474,9 @@ Now produce the full Deep-Dive Markdown using the strict structure, and append t
       model: "sonar-pro",
       domain: "programming",
       user_id: userId,
-      tokens_used: data?.usage?.total_tokens || 0,
-      estimated_cost: ((data?.usage?.total_tokens || 0) / 1000) * 0.005,
+      tokens_used: (data as { usage?: { total_tokens?: number } })?.usage?.total_tokens || 0,
+      estimated_cost:
+        (((data as { usage?: { total_tokens?: number } })?.usage?.total_tokens || 0) / 1000) * 0.005,
       status: "success",
     }).then(() => {}).catch(() => {});
 

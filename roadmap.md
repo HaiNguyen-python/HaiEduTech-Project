@@ -42,3 +42,4 @@
 - [ ] Complete and audit all 49 bilingual songs: final six public-domain replacements and browser checks
 - [ ] Word Quest: study one word, complete 5 adaptive exercises, then advance; verify all 6 subjects
 - [x] Programming lessons default to the AI Deep-Dive view on open, with an English-only Deep-Dive prompt, stale Vietnamese cache regeneration, loading state, and readable English fallback when AI is unavailable
+- [x] Programming Deep-Dive pre-generation: all 309 lessons cached in English, admin "Deep-Dives" tab (counts, generate missing, sync index), nightly warm-up cron, Lovable AI fallback when Perplexity quota is exhausted, base64 theory payload to pass the edge firewall, loading skeleton over the readable English base lesson

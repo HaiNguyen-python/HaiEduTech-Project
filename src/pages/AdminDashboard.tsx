@@ -55,6 +55,7 @@ const RLInterventionsTab = lazy(() => import("@/components/admin/RLInterventions
 const EnglishDictionaryAdmin = lazy(() => import("@/components/admin/EnglishDictionaryAdmin"));
 const ServiceRequestsTab = lazy(() => import("@/components/admin/ServiceRequestsTab"));
 const HealthMonitorTab = lazy(() => import("@/components/admin/HealthMonitorTab"));
+const ProgrammingDeepDiveWarmer = lazy(() => import("@/components/admin/ProgrammingDeepDiveWarmer"));
 const PhdResearchTab = lazy(() => import("@/components/admin/PhdResearchTab"));
 const EdTechResearchInsightsTab = lazy(() => import("@/components/admin/EdTechResearchInsightsTab"));
 const ResearchProjectsAdminTab = lazy(() => import("@/components/admin/ResearchProjectsAdminTab"));
@@ -637,6 +638,7 @@ const AdminDashboard = () => {
                     <TabsTrigger value="report-logs" className="gap-1.5"><ClipboardList className="w-3.5 h-3.5" /> {t("Báo cáo Email", "Report Logs")}</TabsTrigger>
                     <TabsTrigger value="service-requests" className="gap-1.5"><ClipboardList className="w-3.5 h-3.5" /> {t("Đơn đăng ký Web", "Service Requests")}</TabsTrigger>
                     <TabsTrigger value="health" className="gap-1.5"><Activity className="w-3.5 h-3.5" /> 🩺 Health Monitor</TabsTrigger>
+                    <TabsTrigger value="deep-dives" className="gap-1.5"><BookOpen className="w-3.5 h-3.5" /> {t("Bản giảng sâu", "Deep-Dives")}</TabsTrigger>
                     <TabsTrigger value="phd-research" className="gap-1.5"><Brain className="w-3.5 h-3.5" /> 🎓 PhD Research</TabsTrigger>
                     <TabsTrigger value="edtech-insights" className="gap-1.5"><Search className="w-3.5 h-3.5" /> 🧪 EdTech Research Insights</TabsTrigger>
                   </>
@@ -1265,6 +1267,11 @@ const AdminDashboard = () => {
               <TabsContent value="health">
                 <HealthMonitorTab />
               </TabsContent>
+
+              <TabsContent value="deep-dives">
+                <ProgrammingDeepDiveWarmer />
+              </TabsContent>
+
 
               <TabsContent value="phd-research">
                 <PhdResearchTab />
