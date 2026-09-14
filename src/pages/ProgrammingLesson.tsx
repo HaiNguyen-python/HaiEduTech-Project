@@ -338,6 +338,9 @@ const ProgrammingLessonPage = () => {
   const [enhancedMd, setEnhancedMd] = useState<string | null>(null);
   const [enhanceLoading, setEnhanceLoading] = useState(false);
   const [useEnhanced, setUseEnhanced] = useState(true);
+  // True when the AI Deep-Dive could not be produced - the original English
+  // theory is shown instead so the lesson is never blank.
+  const [deepDiveUnavailable, setDeepDiveUnavailable] = useState(false);
   // Set of cached lesson keys "moduleId::lessonId" - drives the sidebar ✨ Enhanced badge
   const [cachedLessonKeys, setCachedLessonKeys] = useState<Set<string>>(new Set());
   // Admin batch illustration generation
