@@ -659,6 +659,8 @@ const TheorySections = ({ markdown, storageKey, defaultCodeLanguage = "text" }: 
   );
   const components = useMemo(() => markdownComponents(defaultCodeLanguage), [defaultCodeLanguage]);
 
+  const { t } = useLanguage();
+  const prefersReducedMotion = useReducedMotion();
   const [readSlugs, setReadSlugs] = useState<Set<string>>(new Set());
 
   useEffect(() => {
@@ -693,20 +695,70 @@ const TheorySections = ({ markdown, storageKey, defaultCodeLanguage = "text" }: 
     try { localStorage.setItem(storageKey, JSON.stringify(Array.from(next))); } catch { /* ignore */ }
   }, [storageKey]);
 
+  // ── Collapsed / expanded sections ──
+  const openKey = `${storageKey}:open`;
+  const firstTitledSlug = sections.find((s) => s.title !== null)?.slug ?? null;
+  const [openSlugs, setOpenSlugs] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    let restored: string[] | null = null;
+    try {
+      const raw = localStorage.getItem(openKey);
+      if (raw) {
+        const arr = JSON.parse(raw);
+        if (Array.isArray(arr)) restored = arr.filter((x): x is string => typeof x === "string");
+      }
+    } catch { /* ignore */ }
+    // First visit: open the first section so students can start reading right away.
+    setOpenSlugs(new Set(restored ?? (firstTitledSlug ? [firstTitledSlug] : [])));
+  }, [openKey, firstTitledSlug]);
+
+  const persistOpen = useCallback((next: Set<string>) => {
+    try { localStorage.setItem(openKey, JSON.stringify(Array.from(next))); } catch { /* ignore */ }
+  }, [openKey]);
+
+  const toggleOpen = useCallback((slug: string) => {
+    setOpenSlugs((prev) => {
+      const next = new Set(prev);
+      if (next.has(slug)) next.delete(slug); else next.add(slug);
+      persistOpen(next);
+      return next;
+    });
+  }, [persistOpen]);
+
   const toggleRead = useCallback((slug: string) => {
     setReadSlugs((prev) => {
       const next = new Set(prev);
-      if (next.has(slug)) next.delete(slug); else next.add(slug);
+      if (next.has(slug)) {
+        next.delete(slug);
+      } else {
+        next.add(slug);
+        // Finishing a section collapses it to keep the page tidy.
+        setOpenSlugs((open) => {
+          if (!open.has(slug)) return open;
+          const nextOpen = new Set(open);
+          nextOpen.delete(slug);
+          persistOpen(nextOpen);
+          return nextOpen;
+        });
+      }
       persist(next);
       return next;
     });
-  }, [persist]);
+  }, [persist, persistOpen]);
 
   const markableSections = sections.filter((s) => s.title !== null);
   const totalMarkable = markableSections.length;
   const readCount = markableSections.filter((s) => readSlugs.has(s.slug)).length;
   const pct = totalMarkable > 0 ? Math.round((readCount / totalMarkable) * 100) : 0;
   const allDone = totalMarkable > 0 && readCount === totalMarkable;
+  const allExpanded = totalMarkable > 0 && markableSections.every((s) => openSlugs.has(s.slug));
+
+  const toggleAll = useCallback(() => {
+    const next = allExpanded ? new Set<string>() : new Set(markableSections.map((s) => s.slug));
+    setOpenSlugs(next);
+    persistOpen(next);
+  }, [allExpanded, markableSections, persistOpen]);
 
   const renderBody = (body: string) => {
     const chunks = splitBody(body);
