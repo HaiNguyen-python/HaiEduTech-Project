@@ -10,6 +10,7 @@ interface Body {
   module_id: string;
   lesson_id: string;
   lesson_title: string;
+  force?: boolean;
 }
 
 interface Illustration {
@@ -129,7 +130,7 @@ Deno.serve(async (req: Request) => {
     if (!cached?.enhanced_markdown) return json({ error: "Cached theory not found" }, 404);
 
     const existing = Array.isArray(cached.illustrations) ? cached.illustrations : [];
-    if (existing.length > 0 || /!\[[^\]]*\]\([^)]+\)/.test(cached.enhanced_markdown)) {
+    if (!body.force && (existing.length > 0 || /!\[[^\]]*\]\([^)]+\)/.test(cached.enhanced_markdown))) {
       return json({ skipped: true, illustrations: existing });
     }
 
@@ -157,7 +158,10 @@ Deno.serve(async (req: Request) => {
       : [];
     if (illustrations.length === 0) return json({ error: "Image provider returned no illustration" }, 502);
 
-    const enhancedMarkdown = injectIllustrations(cached.enhanced_markdown, illustrations);
+    const markdownWithoutManagedImages = body.force
+      ? cached.enhanced_markdown.replace(/\n*!\[[^\]]*\]\([^)]*\/lesson-illustrations\/[^)]*\)\n*/g, "\n\n")
+      : cached.enhanced_markdown;
+    const enhancedMarkdown = injectIllustrations(markdownWithoutManagedImages, illustrations);
     const { error: updateError } = await admin
       .from("programming_theory_cache")
       .update({ enhanced_markdown: enhancedMarkdown, illustrations })
