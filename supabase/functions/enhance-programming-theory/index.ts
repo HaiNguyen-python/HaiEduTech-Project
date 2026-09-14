@@ -16,7 +16,9 @@ Your job: rewrite a programming/data/cloud lesson into a deep, modern, 2026-grad
 OUTPUT RULES (STRICT):
 - Output Markdown only. No prose around it. No "Here is..." preface.
 - Length: 800-1100 words.
-- All comments inside code blocks must be in English.
+- WRITE EVERYTHING IN ENGLISH ONLY: headings, explanations, bullet lists, tables,
+  diagram labels, image captions and all comments inside code blocks.
+  Never output Vietnamese or any other language, even if the source lesson contains it.
 - Use this exact section structure with H2 (##) headings:
 
 ## 1. Executive Summary
