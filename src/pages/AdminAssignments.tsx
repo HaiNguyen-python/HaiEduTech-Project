@@ -43,6 +43,7 @@ import {
 import { ASSIGNMENT_LESSON_CATALOG } from "@/lib/assignmentLessonCatalog";
 import { fetchAllRows } from "@/lib/adminData";
 import { dedupeStudentProfiles, fetchAllProfiles } from "@/lib/adminStudents";
+import AssignmentCompletionCharts from "@/components/admin/AssignmentCompletionCharts";
 
 type StatusFilter = "all" | "in_progress" | "completed" | "overdue";
 type SubjectFilter = "all" | keyof typeof SUBJECT_LABELS;
@@ -152,6 +153,27 @@ const AdminAssignments = () => {
     if (isTeacher) fetchAll();
   }, [isTeacher, fetchAll]);
 
+  // Live refresh: a student ticking a task in the notebook updates this table
+  // and the charts without a manual reload. Debounced so a class-wide burst of
+  // ticks triggers one refetch, not one per row.
+  useEffect(() => {
+    if (!isTeacher) return;
+    let timer: ReturnType<typeof setTimeout> | null = null;
+    const schedule = () => {
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(() => fetchAll(), 800);
+    };
+    const channel = supabase
+      .channel("admin_assignments_live")
+      .on("postgres_changes", { event: "*", schema: "public", table: "student_submissions" }, schedule)
+      .on("postgres_changes", { event: "*", schema: "public", table: "assignments" }, schedule)
+      .subscribe();
+    return () => {
+      if (timer) clearTimeout(timer);
+      supabase.removeChannel(channel);
+    };
+  }, [isTeacher, fetchAll]);
+
   const rows = useMemo(
     () => buildAssignmentRows(assignments, submissions),
     [assignments, submissions],
@@ -171,6 +193,11 @@ const AdminAssignments = () => {
     rows.forEach((r) => r.level && set.add(r.level));
     return Array.from(set);
   }, [rows]);
+
+  const studentName = useCallback(
+    (id: string) => students.find((s) => s.id === id)?.full_name || id.slice(0, 8),
+    [students],
+  );
 
   const activeCount = rows.filter((r) => r.derivedStatus !== "completed").length;
   const runtimeHours = totalRuntimeHours(submissions);
@@ -239,6 +266,9 @@ const AdminAssignments = () => {
             hint="Total time logged by students"
           />
         </div>
+
+        {/* Completion analytics */}
+        <AssignmentCompletionCharts rows={filteredRows} studentName={studentName} />
 
         {/* Filter bar */}
         <div className="rounded-xl border border-slate-100 bg-white p-4 flex flex-wrap items-center gap-3">
