@@ -303,7 +303,7 @@ const SpeakWithMrHaiMode = ({ language }: Props) => {
                   ))}
                   {voiceState === "thinking" && <Message from="assistant"><MessageContent><Shimmer>{t("Mr. Hai đang suy nghĩ...", "Mr. Hai is thinking...")}</Shimmer></MessageContent></Message>}
                 </ConversationContent>
-                <ConversationScrollButton />
+                <ConversationScrollButton aria-label={t("Xuống câu mới nhất", "Jump to the latest message")} />
               </Conversation>
             </div>
 
