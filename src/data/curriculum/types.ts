@@ -15,11 +15,21 @@ export interface ExtendedProgrammingLesson {
   codeLanguage: string;
   exercise: string;
   exerciseEn: string;
-  quiz: { question: string; options: string[]; answer: number; explanation: string; questionEn?: string; optionsEn?: string[]; explanationEn?: string }[];
+  quiz: ProgrammingQuizQuestion[];
   level?: 1 | 2 | 3 | 4 | 5;
   difficulty?: "beginner" | "intermediate" | "advanced";
   testCases?: TestCase[];
   solutionExplanation?: string;
+}
+
+export interface ProgrammingQuizQuestion {
+  question: string;
+  options: string[];
+  answer: number;
+  explanation: string;
+  questionEn?: string;
+  optionsEn?: string[];
+  explanationEn?: string;
 }
 
 export interface ExtendedProgrammingModule {

@@ -1,5 +1,5 @@
 import { expandedModules } from "./curriculum";
-import type { ExtendedProgrammingModule } from "./curriculum/types";
+import type { ExtendedProgrammingModule, ProgrammingQuizQuestion } from "./curriculum/types";
 
 export interface ProgrammingModule {
   id: string;
@@ -23,7 +23,7 @@ export interface ProgrammingLesson {
   codeLanguage: string;
   exercise: string;
   exerciseEn: string;
-  quiz: { question: string; options: string[]; answer: number; explanation: string }[];
+  quiz: ProgrammingQuizQuestion[];
   level?: 1 | 2 | 3 | 4 | 5;
   difficulty?: "beginner" | "intermediate" | "advanced";
   testCases?: { input: string; expectedOutput: string; description: string }[];

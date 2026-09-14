@@ -33,5 +33,6 @@
       preserving subject audio, meanings, examples, mastery, and Japanese SRS behavior
 
 ## Open
+- [ ] Programming English-only curriculum: normalize all lessons and Knowledge Checks, audit answer correctness, and verify desktop/mobile learning flows
 - [ ] Complete and audit all 49 bilingual songs: final six public-domain replacements and browser checks
 - [ ] Word Quest: study one word, complete 5 adaptive exercises, then advance; verify all 6 subjects

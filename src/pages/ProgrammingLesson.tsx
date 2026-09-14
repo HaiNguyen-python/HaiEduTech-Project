@@ -28,6 +28,7 @@ import { expandedModules as curriculumExpandedModules } from "@/data/curriculum"
 import { edtechQuizEn } from "@/data/curriculum/edtechQuizI18n";
 import { nlpQuizEn } from "@/data/curriculum/nlpQuizI18n";
 import { programmingQuizExtraEn } from "@/data/curriculum/programmingQuizExtraI18n";
+import { programmingQuizEnglishById } from "@/data/curriculum/programmingQuizEnglishById";
 import { getTheoryExtension } from "@/data/curriculum/theoryExtensions";
 import { supabase } from "@/integrations/supabase/client";
 import { Progress } from "@/components/ui/progress";
@@ -308,7 +309,7 @@ function getPillarModules(pillar: string): ProgrammingModule[] {
 
 const ProgrammingLessonPage = () => {
   const { moduleId, lessonId } = useParams();
-  const { t, lang } = useLanguage();
+  const { t } = useLanguage();
   const isMobile = useIsMobile();
   const [mod, setMod] = useState<ProgrammingModule | null>(null);
   const [lesson, setLesson] = useState<PLType | null>(null);
@@ -573,7 +574,7 @@ const ProgrammingLessonPage = () => {
       const { data, error } = await supabase.functions.invoke("generate-code-challenge", {
         body: {
           topic: `${mod.titleEn} - ${lesson.titleEn}`,
-          language: "vi",
+          language: "en",
           codeLanguage: lesson.codeLanguage,
         },
       });
@@ -624,7 +625,7 @@ const ProgrammingLessonPage = () => {
                   Programming
                 </Link>
                 <ChevronRight className="w-3 h-3" />
-                <span className="text-foreground font-medium">{t(mod.title, mod.titleEn)}</span>
+                <span className="text-foreground font-medium">{mod.titleEn}</span>
               </div>
             </div>
 
@@ -683,7 +684,7 @@ const ProgrammingLessonPage = () => {
                              }`}
                            >
                              <span className="text-base shrink-0">{pm.icon}</span>
-                             <span className="truncate flex-1">{t(pm.title, pm.titleEn)}</span>
+                              <span className="truncate flex-1">{pm.titleEn}</span>
                              {!isFlagship && (
                                <ChevronDown className={`w-3 h-3 shrink-0 transition-transform ${isExpanded ? "rotate-180" : ""}`} />
                              )}
@@ -716,7 +717,7 @@ const ProgrammingLessonPage = () => {
                                          {i + 1}
                                        </span>
                                      )}
-                                     <span className="truncate flex-1">{t(l.title, l.titleEn)}</span>
+                                      <span className="truncate flex-1">{l.titleEn}</span>
                                      {isEnhanced && (
                                        <span
                                          title="AI Deep-Dive ready"
@@ -770,7 +771,7 @@ const ProgrammingLessonPage = () => {
                   ) : (
                   <>
                   <h1 className="text-2xl sm:text-3xl font-display font-bold text-foreground tracking-tight">
-                    {mod.icon} {t(lesson.title, lesson.titleEn)}
+                     {mod.icon} {lesson.titleEn}
                   </h1>
 
 
@@ -831,17 +832,15 @@ const ProgrammingLessonPage = () => {
                         (useEnhanced && enhancedMd
                           ? enhancedMd
                           : (() => {
-                              const base = lang === "vi"
-                                ? (lesson.theory || lesson.theoryEn || "")
-                                : (lesson.theoryEn || lesson.theory || "");
-                              const ext = getTheoryExtension(lesson.id, lang === "vi" ? "vi" : "en");
+                               const base = lesson.theoryEn || lesson.theory || "";
+                               const ext = getTheoryExtension(lesson.id, "en");
                               return ext ? `${base}\n\n${ext}` : base;
                             })())
                           .replace(/\\\$/g, "$")
                           // Strip a leading single "# Lesson Title" since the page already shows the title
                           .replace(/^\s*#\s+[^\n]+\n+/, ""),
                         lesson.id,
-                        lang === "vi" ? "vi" : "en"
+                         "en"
                       )}
                       storageKey={`theory-read:${mod.id}:${lesson.id}`}
                       defaultCodeLanguage={lesson.codeLanguage || "text"}
@@ -855,9 +854,9 @@ const ProgrammingLessonPage = () => {
                       <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
                         🌿 Interactive Git Playground
                       </h2>
-                      <p className="text-sm text-muted-foreground">
-                        Bấm các nút bên dưới để commit, tạo branch, hoặc merge - rồi xem đồ thị Gitflow tự cập nhật cùng terminal log JetBrains Mono.
-                      </p>
+                       <p className="text-sm text-muted-foreground">
+                         Use the controls below to commit, create a branch, or merge, then watch the Gitflow graph and terminal log update instantly.
+                       </p>
                       <GitBranchingSimulator />
                   </div>
 
@@ -876,10 +875,10 @@ const ProgrammingLessonPage = () => {
                       <Lightbulb className="w-5 h-5 text-amber-500" />
                       Practice Exercise
                     </h2>
-                    <p className="text-sm text-secondary-foreground mb-4">{t(lesson.exercise, lesson.exerciseEn || lesson.exercise)}</p>
+                     <p className="text-sm text-secondary-foreground mb-4">{lesson.exerciseEn || lesson.exercise}</p>
                     <ExerciseWorkspace
                       lessonId={`${moduleId}-${lessonId}`}
-                      exercise={t(lesson.exercise, lesson.exerciseEn || lesson.exercise)}
+                       exercise={lesson.exerciseEn || lesson.exercise}
                       sampleCode={lesson.code}
                       language={detectCodeLanguage(lesson.code, lesson.codeLanguage)}
                     />
@@ -901,10 +900,11 @@ const ProgrammingLessonPage = () => {
                     </div>
                     <div className="space-y-5">
                       {lesson.quiz.map((q, qi) => {
-                        const en = lang === "en" ? (edtechQuizEn[q.question] ?? nlpQuizEn[q.question] ?? programmingQuizExtraEn[q.question]) : undefined;
-                        const questionText = lang === "en" ? ((q as any).questionEn ?? en?.q ?? q.question) : q.question;
-                        const optionTexts = lang === "en" ? ((q as any).optionsEn ?? en?.opts ?? q.options) : q.options;
-                        const explanationText = lang === "en" ? ((q as any).explanationEn ?? en?.exp ?? q.explanation) : q.explanation;
+                         const stableEnglish = programmingQuizEnglishById[`${mod.id}::${lesson.id}::${qi}`];
+                         const legacyEnglish = edtechQuizEn[q.question] ?? nlpQuizEn[q.question] ?? programmingQuizExtraEn[q.question];
+                         const questionText = stableEnglish?.question ?? q.questionEn ?? legacyEnglish?.q ?? q.question;
+                         const optionTexts = stableEnglish?.options ?? q.optionsEn ?? legacyEnglish?.opts ?? q.options;
+                         const explanationText = stableEnglish?.explanation ?? q.explanationEn ?? legacyEnglish?.exp ?? q.explanation;
                         // Permute display order (deterministic per lesson+question) so the
                         // correct answer isn't always at position B. answers[qi] still stores
                         // the ORIGINAL option index, so all scoring logic below is unchanged.
@@ -931,7 +931,7 @@ const ProgrammingLessonPage = () => {
                                   onClick={() => handleAnswer(qi, originalIdx)}
                                   role="radio"
                                   aria-checked={selected}
-                                  aria-label={`${t("Đáp án", "Option")} ${String.fromCharCode(65 + displayIdx)}: ${opt}${showResults ? (isCorrect ? ` - ${t("đúng", "correct")}` : selected ? ` - ${t("sai", "wrong")}` : "") : ""}`}
+                                   aria-label={`Option ${String.fromCharCode(65 + displayIdx)}: ${opt}${showResults ? (isCorrect ? " - correct" : selected ? " - wrong" : "") : ""}`}
                                   disabled={showResults}
                                   className={cls}
                                 >
@@ -981,13 +981,13 @@ const ProgrammingLessonPage = () => {
                             const pillarId = pillar || mod.course || mod.id;
                             awardXP(50);
                             markPillarLesson(pillarId);
-                            toast.success(t("🎉 +50 XP! Tuyệt vời!", "🎉 +50 XP! Great work!"));
+                             toast.success("🎉 +50 XP! Great work!");
                             // Bug Slayer badge: passed after having wrong answers earlier
                             const hadWrongNow = Object.entries(answers).some(([i, v]) => lesson.quiz[+i]?.answer !== v);
                             if ((hadWrongAttempt || hadWrongNow) && awardBadge("bug-slayer")) {
                               const def = BADGE_DEFS["bug-slayer"];
-                              toast(`${def.emoji} ${lang === "vi" ? def.nameVi : def.name}`, {
-                                description: lang === "vi" ? def.descriptionVi : def.description,
+                               toast(`${def.emoji} ${def.name}`, {
+                                 description: def.description,
                               });
                             }
                           } else {
@@ -1005,8 +1005,8 @@ const ProgrammingLessonPage = () => {
                                 LEAD_ENGINEER_BADGE
                               );
                               if (awarded) {
-                                toast.success("⚙️ Bạn đã nhận huy hiệu Lead Engineer!", {
-                                  description: "Hoàn thành toàn bộ module Software Engineering.",
+                               toast.success("⚙️ You earned the Lead Engineer badge!", {
+                                   description: "You completed the full Software Engineering module.",
                                   duration: 6000,
                                 });
                               }

@@ -46,7 +46,7 @@ interface Mission {
   icon: typeof Apple;
   emoji: string;
   gradient: string;       // header gradient
-  goals: string[];        // learning goals (Vietnamese)
+  goals: string[];        // learning goals
   steps: string[];        // step-by-step block instructions
   scratchUrl: string;     // Scratch project or editor URL
 }
@@ -389,7 +389,7 @@ const ScratchAdventure = () => {
     <div className="min-h-screen bg-gradient-to-b from-[#FFF7EC] via-background to-background dark:from-[#1a120a]">
       <SEO
         title="Scratch Coding Adventure | HaiEduTech"
-        description="12 nhiệm vụ lập trình Scratch sáng tạo cho học sinh cấp 2: từ hứng táo, Flappy Cat, mê cung, vòng quay từ vựng, né thiên thạch đến chatbot và đồ án tự do."
+        description="12 creative Scratch coding missions for middle-school learners, from catching apples and building mazes to chatbots and original capstone projects."
         path="/programming/scratch-adventure"
       />
       <Navbar />
@@ -426,7 +426,7 @@ const ScratchAdventure = () => {
 
               <div className="flex-1 min-w-0">
                 <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/25 backdrop-blur text-[10px] sm:text-xs font-extrabold uppercase tracking-wider mb-2">
-                  <Sparkles className="w-3 h-3" /> Scratch Coding Adventure · Cấp 2
+                   <Sparkles className="w-3 h-3" /> Scratch Coding Adventure · Middle School
                 </div>
                 <h1 className="font-display font-black text-2xl sm:text-4xl leading-tight mb-1 drop-shadow">
                   Scratch Coding Adventure{" "}
@@ -526,7 +526,7 @@ const ScratchAdventure = () => {
                       </p>
 
                       <div className="mt-4 flex items-center justify-between">
-                        <div className="flex gap-1" aria-label={`Đã đạt ${earned} trên 3 sao`}>
+                         <div className="flex gap-1" aria-label={`${earned} of 3 stars earned`}>
                           {[0, 1, 2].map((i) => (
                             <Star
                               key={i}
@@ -581,7 +581,7 @@ const ScratchAdventure = () => {
                 <button
                   onClick={() => setOpenMission(null)}
                   className="absolute top-3 right-3 p-1.5 rounded-full bg-white/20 hover:bg-white/30 transition"
-                  aria-label="Đóng"
+                   aria-label="Close"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -668,7 +668,7 @@ const ScratchAdventure = () => {
                       onClick={() => handleEarnStar(openMission)}
                       className="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-white text-xs font-extrabold shadow hover:brightness-110 transition flex items-center gap-1.5"
                     >
-                      <Star className="w-4 h-4 fill-white" /> +1 Sao
+                       <Star className="w-4 h-4 fill-white" /> +1 Star
                     </button>
                   </div>
                 </div>

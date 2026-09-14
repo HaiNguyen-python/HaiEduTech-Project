@@ -321,10 +321,10 @@ const tierMeta: Record<Tier, {  labelEn: string; badge: string; border: string }
   },
 };
 
-const sectionLabel: Record<DsaSectionId, { en: string }> = {
-  linear: { vi: "Linear", en: "Linear" },
-  nonlinear: { vi: "Non-linear", en: "Non-linear" },
-  algos: { vi: "Algorithms", en: "Algorithms" },
+const sectionLabel: Record<DsaSectionId, string> = {
+  linear: "Linear",
+  nonlinear: "Non-linear",
+  algos: "Algorithms",
 };
 
 const DsaCurriculum = () => {
@@ -510,9 +510,7 @@ const DsaCurriculum = () => {
                       <div className="min-w-0 flex-1">
                         <div className="flex flex-wrap items-center gap-2 mb-1">
                           <Badge variant="outline" className="text-[10px] uppercase">
-                            {lang === "vi"
-                              ? sectionLabel[lesson.sectionId].vi
-                              : sectionLabel[lesson.sectionId].en}
+                            {sectionLabel[lesson.sectionId]}
                           </Badge>
                           <h3 className="font-semibold text-foreground">
                             {lesson.titleEn}
