@@ -55,7 +55,6 @@ const ProgrammingDeepDiveWarmer = () => {
   const [cachedKeys, setCachedKeys] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(true);
   const [running, setRunning] = useState(false);
-  const [syncing, setSyncing] = useState(false);
   const [progress, setProgress] = useState({ done: 0, total: 0, ok: 0, failed: 0 });
   const [currentLabel, setCurrentLabel] = useState("");
   const stopRef = useRef(false);
@@ -76,28 +75,6 @@ const ProgrammingDeepDiveWarmer = () => {
   }, [loadCache]);
 
   const missing = allLessons.filter((l) => !cachedKeys.has(`${l.module_id}::${l.lesson_id}`));
-
-  const syncIndex = async () => {
-    setSyncing(true);
-    try {
-      for (let i = 0; i < allLessons.length; i += 100) {
-        const chunk = allLessons.slice(i, i + 100).map((l) => ({ ...l, updated_at: new Date().toISOString() }));
-        const { error } = await supabase
-          .from("programming_lesson_index")
-          .upsert(chunk, { onConflict: "module_id,lesson_id" });
-        if (error) throw error;
-      }
-      toast.success(
-        t(
-          `Đã đồng bộ ${allLessons.length} bài học cho việc tạo tự động mỗi đêm.`,
-          `Synced ${allLessons.length} lessons for the nightly warm-up.`,
-        ),
-      );
-    } catch (e) {
-      toast.error(t("Không đồng bộ được danh sách bài học.", "Could not sync the lesson index."));
-    }
-    setSyncing(false);
-  };
 
   const generateMissing = async () => {
     if (running || missing.length === 0) return;
@@ -207,22 +184,11 @@ const ProgrammingDeepDiveWarmer = () => {
               {t("Dừng", "Stop")}
             </Button>
           )}
-          <Button variant="outline" className="min-h-11" onClick={syncIndex} disabled={syncing}>
-            {syncing ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <RefreshCw className="w-4 h-4 mr-2" />}
-            {t("Đồng bộ danh sách cho việc chạy đêm", "Sync index for nightly job")}
-          </Button>
           <Button variant="ghost" className="min-h-11" onClick={loadCache} disabled={loading || running}>
             <RefreshCw className="w-4 h-4 mr-2" />
             {t("Làm mới số liệu", "Refresh counts")}
           </Button>
         </div>
-
-        <p className="text-xs text-muted-foreground">
-          {t(
-            "Việc chạy tự động mỗi đêm sẽ tạo bản giảng sâu cho những bài còn thiếu. Sau khi thêm bài học mới, hãy bấm Đồng bộ danh sách.",
-            "A nightly job generates Deep-Dives for any lesson still missing one. After adding new lessons, press Sync index.",
-          )}
-        </p>
       </CardContent>
     </Card>
   );
