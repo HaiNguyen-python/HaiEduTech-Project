@@ -1,415 +1,426 @@
 /**
  * @file InterviewQuestions.tsx
- * @description Interview questions hub for AI Engineer & Data Engineer roles.
+ * @description Professional interview preparation workspace for AI and Data Engineer roles.
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import {
-  Briefcase, Search, ChevronLeft, Check, Copy, BookmarkCheck, Bookmark,
-  BookOpen, Lightbulb, ListChecks, AlertTriangle, Code2, Target,
+  AlertTriangle, BookOpen, Bookmark, BookmarkCheck, BriefcaseBusiness, Check,
+  ChevronLeft, CircleHelp, Code2, Copy, Filter, Lightbulb, ListChecks, Menu,
+  PanelLeftClose, PanelLeftOpen, RotateCcw, Search, Stethoscope, Target, X,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CVClinic from "@/components/CVClinic";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Progress } from "@/components/ui/progress";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import CodeBlock from "@/components/CodeBlock";
 import { useLanguage } from "@/contexts/LanguageContext";
 import {
-  interviewQuestions,
-  interviewCategories,
+  interviewCategories, interviewQuestions, type InterviewDifficulty, type InterviewQuestion,
   type InterviewRole,
-  type InterviewDifficulty,
 } from "@/data/interviewQuestions";
+import {
+  filterInterviewQuestions, groupInterviewQuestions, INTERVIEW_REVIEWED_STORAGE_KEY,
+  LEGACY_INTERVIEW_REVIEWED_STORAGE_KEY, parseReviewedQuestionIds,
+} from "@/lib/interviewQuestionUtils";
 import { toast } from "sonner";
 import SEO from "@/components/SEO";
 
-const STORAGE_KEY = "haiedu_interview_reviewed";
-
-const difficultyStyle: Record<InterviewDifficulty, string> = {
-  Junior: "bg-emerald-500/10 text-emerald-600 border-emerald-500/30",
-  Mid: "bg-amber-500/10 text-amber-600 border-amber-500/30",
-  Senior: "bg-rose-500/10 text-rose-600 border-rose-500/30",
+const difficultyClass: Record<InterviewDifficulty, string> = {
+  Junior: "interview-badge interview-badge--junior",
+  Mid: "interview-badge interview-badge--mid",
+  Senior: "interview-badge interview-badge--senior",
 };
 
-const InterviewQuestions = () => {
+type ViewMode = InterviewRole | "cv-clinic";
+
+type FilterPanelProps = {
+  role: InterviewRole;
+  category: string;
+  difficulty: InterviewDifficulty | "all";
+  reviewed: number;
+  total: number;
+  counts: Record<InterviewDifficulty, number>;
+  unreviewedOnly: boolean;
+  onCategoryChange: (value: string) => void;
+  onDifficultyChange: (value: InterviewDifficulty | "all") => void;
+  onUnreviewedChange: (value: boolean) => void;
+  onReset: () => void;
+  t: (vi: string, en: string) => string;
+};
+
+const FilterPanel = ({
+  role, category, difficulty, reviewed, total, counts, unreviewedOnly,
+  onCategoryChange, onDifficultyChange, onUnreviewedChange, onReset, t,
+}: FilterPanelProps) => {
+  const percent = total ? Math.round((reviewed / total) * 100) : 0;
+  const hasFilters = category !== "all" || difficulty !== "all" || unreviewedOnly;
+
+  return (
+    <div className="space-y-7">
+      <section aria-labelledby="interview-progress-heading">
+        <h2 id="interview-progress-heading" className="interview-kicker mb-3">{t("Tiến độ của bạn", "Your journey")}</h2>
+        <div className="interview-progress-panel">
+          <div className="mb-2 flex items-end justify-between gap-3">
+            <strong className="font-sora text-2xl text-foreground">{percent}%</strong>
+            <span className="text-sm font-semibold text-muted-foreground">{reviewed}/{total}</span>
+          </div>
+          <Progress value={percent} className="h-2 bg-secondary [&>div]:bg-accent" aria-label={`${percent}% reviewed`} />
+          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+            {t("Đã hoàn thành", "Reviewed")} <strong className="text-primary">{reviewed}</strong> {t("câu hỏi", "questions")}
+          </p>
+        </div>
+      </section>
+
+      <section aria-labelledby="interview-level-heading">
+        <h2 id="interview-level-heading" className="interview-kicker mb-3">{t("Cấp độ", "Difficulty")}</h2>
+        <div className="space-y-1" role="group" aria-label={t("Lọc theo cấp độ", "Filter by difficulty")}>
+          {(["all", "Junior", "Mid", "Senior"] as const).map((level) => (
+            <Button
+              key={level}
+              variant="ghost"
+              className={`interview-filter-row ${difficulty === level ? "interview-filter-row--active" : ""}`}
+              aria-pressed={difficulty === level}
+              onClick={() => onDifficultyChange(level)}
+            >
+              <span>{level === "all" ? t("Tất cả cấp độ", "All levels") : level}</span>
+              <span className="interview-count">{level === "all" ? total : counts[level]}</span>
+            </Button>
+          ))}
+        </div>
+      </section>
+
+      <section aria-labelledby="interview-topic-heading">
+        <h2 id="interview-topic-heading" className="interview-kicker mb-3">{t("Chủ đề", "Topics")}</h2>
+        <div className="space-y-1" role="group" aria-label={t("Lọc theo chủ đề", "Filter by topic")}>
+          <Button
+            variant="ghost"
+            className={`interview-filter-row ${category === "all" ? "interview-filter-row--active" : ""}`}
+            aria-pressed={category === "all"}
+            onClick={() => onCategoryChange("all")}
+          >
+            <span>{t("Tất cả chủ đề", "All topics")}</span>
+          </Button>
+          {interviewCategories[role].map((item) => (
+            <Button
+              key={item}
+              variant="ghost"
+              className={`interview-filter-row ${category === item ? "interview-filter-row--active" : ""}`}
+              aria-pressed={category === item}
+              onClick={() => onCategoryChange(item)}
+            >
+              <span className="whitespace-normal text-left leading-snug">{item}</span>
+            </Button>
+          ))}
+        </div>
+      </section>
+
+      <section className="border-t border-border pt-5">
+        <Button
+          variant={unreviewedOnly ? "secondary" : "outline"}
+          className="w-full justify-start"
+          aria-pressed={unreviewedOnly}
+          onClick={() => onUnreviewedChange(!unreviewedOnly)}
+        >
+          <Bookmark className="mr-2 h-4 w-4" aria-hidden="true" />
+          {t("Chỉ câu chưa ôn", "Unreviewed only")}
+        </Button>
+        {hasFilters && (
+          <Button variant="ghost" className="mt-2 w-full justify-start text-muted-foreground" onClick={onReset}>
+            <RotateCcw className="mr-2 h-4 w-4" aria-hidden="true" />
+            {t("Đặt lại bộ lọc", "Reset filters")}
+          </Button>
+        )}
+      </section>
+    </div>
+  );
+};
+
+const InterviewQuestionsPage = () => {
   const { t } = useLanguage();
+  const reduceMotion = useReducedMotion();
+  const [view, setView] = useState<ViewMode>("ai-engineer");
   const [role, setRole] = useState<InterviewRole>("ai-engineer");
-  const [category, setCategory] = useState<string>("all");
+  const [category, setCategory] = useState("all");
   const [difficulty, setDifficulty] = useState<InterviewDifficulty | "all">("all");
   const [search, setSearch] = useState("");
+  const [unreviewedOnly, setUnreviewedOnly] = useState(false);
   const [reviewed, setReviewed] = useState<Set<string>>(new Set());
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const validIds = useMemo(() => new Set(interviewQuestions.map((item) => item.id)), []);
 
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) setReviewed(new Set(JSON.parse(raw)));
-    } catch { /* ignore */ }
-  }, []);
+    const load = () => {
+      const current = localStorage.getItem(INTERVIEW_REVIEWED_STORAGE_KEY);
+      const legacy = localStorage.getItem(LEGACY_INTERVIEW_REVIEWED_STORAGE_KEY);
+      const next = parseReviewedQuestionIds(current ?? legacy, validIds);
+      setReviewed(next);
+      if (!current && legacy) localStorage.setItem(INTERVIEW_REVIEWED_STORAGE_KEY, JSON.stringify([...next]));
+    };
+    load();
+    const sync = (event: StorageEvent) => {
+      if (event.key === INTERVIEW_REVIEWED_STORAGE_KEY) setReviewed(parseReviewedQuestionIds(event.newValue, validIds));
+    };
+    window.addEventListener("storage", sync);
+    return () => window.removeEventListener("storage", sync);
+  }, [validIds]);
 
-  const persist = (next: Set<string>) => {
+  const roleQuestions = useMemo(() => interviewQuestions.filter((item) => item.role === role), [role]);
+  const filtered = useMemo(() => filterInterviewQuestions(interviewQuestions, {
+    role, category, difficulty, search, unreviewedOnly,
+  }, reviewed), [role, category, difficulty, search, unreviewedOnly, reviewed]);
+  const grouped = useMemo(() => groupInterviewQuestions(filtered, interviewCategories[role]), [filtered, role]);
+  const reviewedForRole = roleQuestions.filter((item) => reviewed.has(item.id)).length;
+  const counts = useMemo(() => ({
+    Junior: roleQuestions.filter((item) => item.difficulty === "Junior").length,
+    Mid: roleQuestions.filter((item) => item.difficulty === "Mid").length,
+    Senior: roleQuestions.filter((item) => item.difficulty === "Senior").length,
+  }), [roleQuestions]);
+
+  const persistReviewed = (next: Set<string>) => {
     setReviewed(next);
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(Array.from(next))); } catch { /* ignore */ }
+    try {
+      localStorage.setItem(INTERVIEW_REVIEWED_STORAGE_KEY, JSON.stringify([...next]));
+    } catch {
+      toast.error(t("Không thể lưu tiến độ trên thiết bị này", "Progress could not be saved on this device"));
+    }
   };
 
   const toggleReviewed = (id: string) => {
     const next = new Set(reviewed);
     if (next.has(id)) next.delete(id); else next.add(id);
-    persist(next);
+    persistReviewed(next);
   };
 
-  const filtered = useMemo(() => {
-    const q = search.trim().toLowerCase();
-    return interviewQuestions.filter(qst =>
-      qst.role === role &&
-      (category === "all" || qst.category === category) &&
-      (difficulty === "all" || qst.difficulty === difficulty) &&
-      (!q || qst.question.toLowerCase().includes(q) || qst.answer.toLowerCase().includes(q) ||
-       qst.tags?.some(tag => tag.toLowerCase().includes(q)))
+  const selectView = (next: ViewMode) => {
+    setView(next);
+    if (next !== "cv-clinic") {
+      setRole(next);
+      setCategory("all");
+      setDifficulty("all");
+      setSearch("");
+      setUnreviewedOnly(false);
+    }
+  };
+
+  const resetFilters = () => {
+    setCategory("all");
+    setDifficulty("all");
+    setUnreviewedOnly(false);
+    setSearch("");
+  };
+
+  const copyCode = async (code: string) => {
+    try {
+      await navigator.clipboard.writeText(code);
+      toast.success(t("Đã sao chép code", "Code copied"));
+    } catch {
+      toast.error(t("Không thể sao chép code", "Could not copy code"));
+    }
+  };
+
+  const filters = (
+    <FilterPanel
+      role={role}
+      category={category}
+      difficulty={difficulty}
+      reviewed={reviewedForRole}
+      total={roleQuestions.length}
+      counts={counts}
+      unreviewedOnly={unreviewedOnly}
+      onCategoryChange={setCategory}
+      onDifficultyChange={setDifficulty}
+      onUnreviewedChange={setUnreviewedOnly}
+      onReset={resetFilters}
+      t={t}
+    />
+  );
+
+  const renderQuestion = (question: InterviewQuestion, index: number) => {
+    const isReviewed = reviewed.has(question.id);
+    return (
+      <motion.div
+        key={question.id}
+        initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.2, delay: reduceMotion ? 0 : Math.min(index * 0.02, 0.18) }}
+      >
+        <AccordionItem value={question.id} className={`interview-question ${isReviewed ? "interview-question--reviewed" : ""}`}>
+          <AccordionTrigger className="px-4 py-4 hover:no-underline sm:px-5">
+            <div className="min-w-0 flex-1 text-left">
+              <div className="mb-2 flex flex-wrap items-center gap-2">
+                <span className={difficultyClass[question.difficulty]}>{question.difficulty}</span>
+                <Badge variant="secondary" className="text-xs font-semibold">{question.category}</Badge>
+                {isReviewed && (
+                  <span className="interview-reviewed-label"><Check className="h-3.5 w-3.5" aria-hidden="true" />{t("Đã ôn", "Reviewed")}</span>
+                )}
+              </div>
+              <h3 className="font-sora text-base font-semibold leading-relaxed text-foreground sm:text-lg">
+                <span className="mr-2 text-sm text-muted-foreground">{String(index + 1).padStart(2, "0")}</span>
+                {question.question}
+              </h3>
+              <span className="sr-only">{isReviewed ? t("Câu hỏi đã ôn", "Reviewed question") : t("Câu hỏi chưa ôn", "Unreviewed question")}</span>
+            </div>
+          </AccordionTrigger>
+          <AccordionContent className="px-4 pb-5 sm:px-5">
+            <div className="interview-answer space-y-5 border-t border-border pt-5">
+              {question.tldr && (
+                <section className="interview-callout interview-callout--primary">
+                  <div className="interview-section-title"><BookOpen aria-hidden="true" />{t("Câu trả lời nhanh", "Quick answer")}</div>
+                  <p className="font-semibold text-foreground">{question.tldr}</p>
+                </section>
+              )}
+              <section>
+                <div className="interview-section-title"><Lightbulb aria-hidden="true" />{t("Giải thích chi tiết", "Detailed explanation")}</div>
+                <p className="whitespace-pre-wrap leading-7 text-foreground/90">{question.answer}</p>
+              </section>
+              {question.keyPoints.length > 0 && (
+                <section className="interview-callout interview-callout--success">
+                  <div className="interview-section-title"><ListChecks aria-hidden="true" />{t("Điểm nhà tuyển dụng muốn nghe", "What interviewers want to hear")}</div>
+                  <ul className="space-y-2">
+                    {question.keyPoints.map((point) => <li key={point} className="flex gap-2"><Check className="mt-1 h-4 w-4 shrink-0 text-success" aria-hidden="true" /><span>{point}</span></li>)}
+                  </ul>
+                </section>
+              )}
+              {question.pitfalls && question.pitfalls.length > 0 && (
+                <section className="interview-callout interview-callout--warning">
+                  <div className="interview-section-title"><AlertTriangle aria-hidden="true" />{t("Lỗi thường gặp", "Common pitfalls")}</div>
+                  <ul className="list-disc space-y-2 pl-5">{question.pitfalls.map((item) => <li key={item}>{item}</li>)}</ul>
+                </section>
+              )}
+              {question.codeExample && (
+                <section>
+                  <div className="mb-2 flex items-center justify-between gap-3">
+                    <div className="interview-section-title mb-0"><Code2 aria-hidden="true" />{t("Ví dụ code", "Code example")} <span className="font-mono text-xs normal-case text-muted-foreground">{question.codeExample.language}</span></div>
+                    <Button size="sm" variant="ghost" onClick={() => copyCode(question.codeExample?.code ?? "")}>
+                      <Copy className="mr-1.5 h-4 w-4" aria-hidden="true" />{t("Sao chép", "Copy")}
+                    </Button>
+                  </div>
+                  <CodeBlock code={question.codeExample.code} language={question.codeExample.language || "python"} showHeader={false} className="!my-0" />
+                </section>
+              )}
+              {question.followUpQuestions && question.followUpQuestions.length > 0 && (
+                <section>
+                  <div className="interview-section-title"><CircleHelp aria-hidden="true" />{t("Câu hỏi nối tiếp", "Follow-up questions")}</div>
+                  <ul className="space-y-2">{question.followUpQuestions.map((item) => <li key={item} className="border-l-2 border-primary/30 pl-3">{item}</li>)}</ul>
+                </section>
+              )}
+              {question.interviewTip && (
+                <section className="interview-callout interview-callout--tip">
+                  <div className="interview-section-title"><Target aria-hidden="true" />{t("Mẹo trả lời", "Interview tip")}</div>
+                  <p>{question.interviewTip}</p>
+                </section>
+              )}
+              <div className="flex justify-end border-t border-border pt-4">
+                <Button size="sm" variant={isReviewed ? "default" : "outline"} onClick={() => toggleReviewed(question.id)}>
+                  {isReviewed ? <BookmarkCheck className="mr-2 h-4 w-4" aria-hidden="true" /> : <Bookmark className="mr-2 h-4 w-4" aria-hidden="true" />}
+                  {isReviewed ? t("Đã ôn", "Reviewed") : t("Đánh dấu đã ôn", "Mark as reviewed")}
+                </Button>
+              </div>
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+      </motion.div>
     );
-  }, [role, category, difficulty, search]);
-
-  const roleQs = useMemo(() => interviewQuestions.filter(q => q.role === role), [role]);
-  const totalForRole = roleQs.length;
-  const reviewedForRole = roleQs.filter(q => reviewed.has(q.id)).length;
-  const juniorCount = roleQs.filter(q => q.difficulty === "Junior").length;
-  const midCount = roleQs.filter(q => q.difficulty === "Mid").length;
-  const seniorCount = roleQs.filter(q => q.difficulty === "Senior").length;
-  const categoriesCount = interviewCategories[role]?.length ?? 0;
-
-  const copyCode = (code: string) => {
-    navigator.clipboard.writeText(code);
-    toast.success(t("Đã sao chép code", "Code copied"));
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <SEO
-        title="AI & Data Engineer Interview Questions"
-        description="Curated AI Engineer and Data Engineer interview questions with answers, key points, and code examples - Junior to Senior level."
-        path="/programming/interview-questions"
-        jsonLd={{
-          "@context": "https://schema.org",
-          "@type": "FAQPage",
-          mainEntity: interviewQuestions.slice(0, 30).map(q => ({
-            "@type": "Question",
-            name: q.question,
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: (q.tldr || q.answer || "").slice(0, 500),
-            },
-          })),
-        }}
-      />
+    <div className="interview-page min-h-screen bg-background">
+      <SEO title="AI & Data Engineer Interview Questions" description="Professional AI Engineer and Data Engineer interview questions with structured answers, code examples, and study progress." path="/programming/interview-questions" jsonLd={{ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: interviewQuestions.slice(0, 30).map((item) => ({ "@type": "Question", name: item.question, acceptedAnswer: { "@type": "Answer", text: (item.tldr || item.answer).slice(0, 500) } })) }} />
       <Navbar />
-      <div className="pt-6 pb-16">
-        <div className="container mx-auto px-4 sm:px-6 max-w-5xl">
-          <Link to="/programming" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-primary mb-4">
-            <ChevronLeft className="w-4 h-4" /> {t("Quay lại Lập trình", "Back to Programming")}
+      <main className="pb-16 pt-5">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6">
+          <Link to="/programming" className="mb-4 inline-flex items-center gap-1 text-sm font-semibold text-muted-foreground hover:text-primary">
+            <ChevronLeft className="h-4 w-4" aria-hidden="true" />{t("Quay lại Lập trình", "Back to Programming")}
           </Link>
 
-          {/* Header */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            className="text-center mb-8"
-          >
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/30 bg-primary/5 text-primary text-xs font-medium mb-4">
-              <Briefcase className="w-3 h-3" /> {t("Phỏng vấn việc làm", "Job Interview Prep")}
-            </div>
-            <h1 className="text-3xl sm:text-4xl font-display font-bold mb-3">
-              Interview <span className="text-gradient">Questions</span>
-            </h1>
-            <p className="text-muted-foreground text-sm max-w-2xl mx-auto">
-              {t(
-                "Bộ câu hỏi phỏng vấn thực tế cho AI Engineer và Data Engineer kèm câu trả lời chi tiết, mã ví dụ và điểm mấu chốt.",
-                "Curated real-world interview questions for AI Engineer and Data Engineer roles, with in-depth answers, code examples and key talking points."
-              )}
-            </p>
-          </motion.div>
-
-          {/* Role tabs */}
-          <Tabs value={role} onValueChange={(v) => { if (v !== "cv-clinic") { setRole(v as InterviewRole); setCategory("all"); } else { setRole(v as any); } }}>
-            <TabsList className="grid grid-cols-3 w-full max-w-xl mx-auto mb-6">
-              <TabsTrigger value="ai-engineer">🧠 AI Engineer</TabsTrigger>
-              <TabsTrigger value="data-engineer">🔄 Data Engineer</TabsTrigger>
-              <TabsTrigger value="cv-clinic">🩺 CV Clinic</TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="cv-clinic">
-              <CVClinic />
-            </TabsContent>
-
-            {(["ai-engineer", "data-engineer"] as InterviewRole[]).map(r => (
-              <TabsContent key={r} value={r}>
-                {/* Quick Stats Bar */}
-                <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 mb-5">
-                  <div className="glass-card rounded-lg p-3 border border-primary/20 text-center">
-                    <div className="text-xl font-bold text-primary">{totalForRole}</div>
-                    <div className="text-[10px] uppercase tracking-wide text-muted-foreground">{t("Tổng câu", "Total Q's")}</div>
+          <section className="interview-shell">
+            {view !== "cv-clinic" && sidebarOpen && <aside className="interview-sidebar hidden lg:block">{filters}</aside>}
+            <div className="min-w-0 flex-1">
+              <header className="interview-header">
+                <div className="flex flex-col gap-5">
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <div className="interview-role-switch" role="tablist" aria-label={t("Khu vực luyện phỏng vấn", "Interview preparation areas")}>
+                      <Button size="sm" variant={view === "ai-engineer" ? "default" : "ghost"} role="tab" aria-selected={view === "ai-engineer"} onClick={() => selectView("ai-engineer")}>AI Engineer</Button>
+                      <Button size="sm" variant={view === "data-engineer" ? "default" : "ghost"} role="tab" aria-selected={view === "data-engineer"} onClick={() => selectView("data-engineer")}>Data Engineer</Button>
+                      <Button size="sm" variant={view === "cv-clinic" ? "default" : "ghost"} role="tab" aria-selected={view === "cv-clinic"} onClick={() => selectView("cv-clinic")}><Stethoscope className="mr-1.5 h-4 w-4" aria-hidden="true" />CV Clinic</Button>
+                    </div>
+                    {view !== "cv-clinic" && (
+                      <Button variant="ghost" size="icon" className="hidden lg:inline-flex" onClick={() => setSidebarOpen((open) => !open)} aria-label={sidebarOpen ? t("Thu gọn bộ lọc", "Collapse filters") : t("Mở bộ lọc", "Open filters")}>
+                        {sidebarOpen ? <PanelLeftClose aria-hidden="true" /> : <PanelLeftOpen aria-hidden="true" />}
+                      </Button>
+                    )}
                   </div>
-                  <div className="glass-card rounded-lg p-3 border border-emerald-500/20 text-center">
-                    <div className="text-xl font-bold text-emerald-600">{juniorCount}</div>
-                    <div className="text-[10px] uppercase tracking-wide text-muted-foreground">Junior</div>
-                  </div>
-                  <div className="glass-card rounded-lg p-3 border border-amber-500/20 text-center">
-                    <div className="text-xl font-bold text-amber-600">{midCount}</div>
-                    <div className="text-[10px] uppercase tracking-wide text-muted-foreground">Mid</div>
-                  </div>
-                  <div className="glass-card rounded-lg p-3 border border-rose-500/20 text-center">
-                    <div className="text-xl font-bold text-rose-600">{seniorCount}</div>
-                    <div className="text-[10px] uppercase tracking-wide text-muted-foreground">Senior</div>
-                  </div>
-                  <div className="glass-card rounded-lg p-3 border border-border text-center col-span-2 sm:col-span-1">
-                    <div className="text-xl font-bold text-foreground">{categoriesCount}</div>
-                    <div className="text-[10px] uppercase tracking-wide text-muted-foreground">{t("Chủ đề", "Topics")}</div>
-                  </div>
-                </div>
 
-                {/* Progress */}
-                <div className="flex items-center justify-between text-xs text-muted-foreground mb-4">
-                  <span>
-                    {t("Đã ôn", "Reviewed")}: <span className="font-semibold text-primary">{reviewedForRole}/{totalForRole}</span>
-                  </span>
-                  <span>
-                    {t("Hiển thị", "Showing")}: <span className="font-semibold text-foreground">{filtered.length}</span>
-                  </span>
-                </div>
+                  <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+                    <div>
+                      <div className="mb-2 inline-flex items-center gap-2 text-sm font-bold text-primary"><BriefcaseBusiness className="h-4 w-4" aria-hidden="true" />{t("Luyện phỏng vấn nghề nghiệp", "Career interview practice")}</div>
+                      <h1 className="font-sora text-3xl font-bold text-foreground sm:text-4xl">Interview Questions</h1>
+                      <p className="mt-2 max-w-2xl text-base leading-relaxed text-muted-foreground">
+                        {view === "cv-clinic" ? t("Đánh giá CV theo vị trí mục tiêu và nhận gợi ý cải thiện cụ thể.", "Review your CV against a target role and get specific improvements.") : t("Luyện câu trả lời có cấu trúc, nắm điểm mấu chốt và theo dõi tiến độ của bạn.", "Practice structured answers, master key talking points, and track your progress.")}
+                      </p>
+                    </div>
+                    {view !== "cv-clinic" && <div className="shrink-0 text-sm text-muted-foreground"><strong className="font-sora text-2xl text-foreground">{filtered.length}</strong> {t("câu phù hợp", "matching questions")}</div>}
+                  </div>
 
-                {/* Search */}
-                <div className="relative mb-4">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                  <Input
-                    placeholder={t("Tìm theo từ khóa, tag...", "Search by keyword, tag...")}
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    className="pl-9"
-                  />
+                  {view !== "cv-clinic" && (
+                    <div className="flex gap-2">
+                      <div className="relative flex-1">
+                        <label htmlFor="interview-search" className="sr-only">{t("Tìm câu hỏi", "Search questions")}</label>
+                        <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
+                        <Input id="interview-search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder={t("Tìm khái niệm, công nghệ hoặc từ khóa...", "Search a concept, technology, or keyword...")} className="h-11 bg-secondary/60 pl-10 pr-10 text-base" />
+                        {search && <Button variant="ghost" size="icon" className="absolute right-1 top-1/2 h-9 w-9 -translate-y-1/2" onClick={() => setSearch("")} aria-label={t("Xóa tìm kiếm", "Clear search")}><X className="h-4 w-4" /></Button>}
+                      </div>
+                      <Sheet>
+                        <SheetTrigger asChild><Button variant="outline" className="h-11 lg:hidden"><Filter className="mr-2 h-4 w-4" />{t("Bộ lọc", "Filters")}</Button></SheetTrigger>
+                        <SheetContent side="left" className="overflow-y-auto">
+                          <SheetHeader className="mb-6"><SheetTitle className="font-sora">{t("Bộ lọc học tập", "Study filters")}</SheetTitle></SheetHeader>
+                          {filters}
+                        </SheetContent>
+                      </Sheet>
+                    </div>
+                  )}
                 </div>
+              </header>
 
-                {/* Filters */}
-                <div className="flex flex-wrap gap-2 mb-3">
-                  <Button
-                    size="sm"
-                    variant={category === "all" ? "default" : "outline"}
-                    onClick={() => setCategory("all")}
-                  >
-                    {t("Tất cả chủ đề", "All Topics")}
-                  </Button>
-                  {interviewCategories[r].map(cat => (
-                    <Button
-                      key={cat}
-                      size="sm"
-                      variant={category === cat ? "default" : "outline"}
-                      onClick={() => setCategory(cat)}
-                    >
-                      {cat}
-                    </Button>
-                  ))}
-                </div>
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {(["all", "Junior", "Mid", "Senior"] as const).map(d => (
-                    <Button
-                      key={d}
-                      size="sm"
-                      variant={difficulty === d ? "default" : "outline"}
-                      onClick={() => setDifficulty(d)}
-                    >
-                      {d === "all" ? t("Tất cả cấp độ", "All Levels") : d}
-                    </Button>
-                  ))}
-                </div>
-
-                {/* Questions */}
-                {filtered.length === 0 ? (
-                  <div className="text-center py-12 text-muted-foreground text-sm">
-                    {t("Không có câu hỏi phù hợp.", "No matching questions.")}
+              <div className="interview-content">
+                {view === "cv-clinic" ? <CVClinic /> : filtered.length === 0 ? (
+                  <div className="interview-empty">
+                    <Search className="h-9 w-9 text-muted-foreground" aria-hidden="true" />
+                    <h2 className="font-sora text-xl font-bold">{t("Không tìm thấy câu hỏi", "No questions found")}</h2>
+                    <p className="text-muted-foreground">{t("Hãy thử từ khóa khác hoặc đặt lại bộ lọc.", "Try another keyword or reset your filters.")}</p>
+                    <Button variant="outline" onClick={resetFilters}><RotateCcw className="mr-2 h-4 w-4" />{t("Đặt lại", "Reset")}</Button>
                   </div>
                 ) : (
-                  <Accordion type="multiple" className="space-y-3">
-                    {filtered.map((q, idx) => {
-                      const isReviewed = reviewed.has(q.id);
-                      return (
-                        <motion.div
-                          key={q.id}
-                          initial={{ opacity: 0, y: 8 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: Math.min(idx * 0.03, 0.3), duration: 0.25 }}
-                        >
-                          <AccordionItem
-                            value={q.id}
-                            className="glass-card rounded-xl border border-border px-4 data-[state=open]:border-primary/40"
-                          >
-                            <AccordionTrigger className="hover:no-underline py-4">
-                              <div className="flex items-start gap-3 text-left flex-1">
-                                <div className="flex flex-col items-center gap-1 shrink-0 mt-0.5">
-                                  <span className="text-xs font-bold text-muted-foreground">#{idx + 1}</span>
-                                  {isReviewed && <Check className="w-3 h-3 text-emerald-600" />}
-                                </div>
-                                <div className="flex-1 min-w-0">
-                                  <p className="font-medium text-foreground text-sm sm:text-base leading-snug">
-                                    {q.question}
-                                  </p>
-                                  <div className="flex flex-wrap gap-1.5 mt-2">
-                                    <Badge variant="outline" className={`text-[10px] ${difficultyStyle[q.difficulty]}`}>
-                                      {q.difficulty}
-                                    </Badge>
-                                    <Badge variant="outline" className="text-[10px]">
-                                      {q.category}
-                                    </Badge>
-                                    {q.tags?.slice(0, 3).map(tag => (
-                                      <Badge key={tag} variant="secondary" className="text-[10px]">{tag}</Badge>
-                                    ))}
-                                  </div>
-                                </div>
-                              </div>
-                            </AccordionTrigger>
-                            <AccordionContent className="pb-5">
-                              <div className="space-y-4 pt-3 border-t border-border">
-
-                                {/* TL;DR */}
-                                {q.tldr && (
-                                  <div className="rounded-lg border-l-4 border-primary bg-primary/5 p-3">
-                                    <div className="flex items-center gap-2 mb-1">
-                                      <BookOpen className="w-4 h-4 text-primary" />
-                                      <h4 className="text-xs font-bold uppercase tracking-wide text-primary">
-                                        TL;DR
-                                      </h4>
-                                    </div>
-                                    <p className="text-sm text-foreground/90 leading-relaxed font-medium">
-                                      {q.tldr}
-                                    </p>
-                                  </div>
-                                )}
-
-                                {/* Detailed Explanation */}
-                                <div>
-                                  <div className="flex items-center gap-2 mb-2">
-                                    <Lightbulb className="w-4 h-4 text-primary" />
-                                    <h4 className="text-xs font-bold uppercase tracking-wide text-primary">
-                                      {t("Giải thích chi tiết", "Detailed Explanation")}
-                                    </h4>
-                                  </div>
-                                  <p className="text-sm text-foreground/90 leading-relaxed whitespace-pre-wrap">
-                                    {q.answer}
-                                  </p>
-                                </div>
-
-                                {/* Key Points */}
-                                {q.keyPoints?.length > 0 && (
-                                  <div className="rounded-lg border border-emerald-500/20 bg-emerald-500/5 p-3">
-                                    <div className="flex items-center gap-2 mb-2">
-                                      <ListChecks className="w-4 h-4 text-emerald-600" />
-                                      <h4 className="text-xs font-bold uppercase tracking-wide text-emerald-700 dark:text-emerald-500">
-                                        {t("Điểm mấu chốt", "Key Points")}
-                                      </h4>
-                                    </div>
-                                    <ul className="space-y-1.5">
-                                      {q.keyPoints.map((kp, i) => (
-                                        <li key={i} className="flex items-start gap-2 text-sm text-foreground/85">
-                                          <Check className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" />
-                                          <span>{kp}</span>
-                                        </li>
-                                      ))}
-                                    </ul>
-                                  </div>
-                                )}
-
-                                {/* Pitfalls */}
-                                {q.pitfalls && q.pitfalls.length > 0 && (
-                                  <div className="rounded-lg border border-amber-500/30 bg-amber-500/5 p-3">
-                                    <div className="flex items-center gap-2 mb-2">
-                                      <AlertTriangle className="w-4 h-4 text-amber-600" />
-                                      <h4 className="text-xs font-bold uppercase tracking-wide text-amber-700 dark:text-amber-500">
-                                        {t("Sai lầm thường gặp", "Common Pitfalls")}
-                                      </h4>
-                                    </div>
-                                    <ul className="space-y-1.5">
-                                      {q.pitfalls.map((p, i) => (
-                                        <li key={i} className="flex items-start gap-2 text-sm text-foreground/85">
-                                          <span className="text-amber-600 mt-0.5 shrink-0">⚠</span>
-                                          <span>{p}</span>
-                                        </li>
-                                      ))}
-                                    </ul>
-                                  </div>
-                                )}
-
-                                {/* Code Example */}
-                                {q.codeExample && (
-                                  <div>
-                                    <div className="flex items-center justify-between mb-2">
-                                      <div className="flex items-center gap-2">
-                                        <Code2 className="w-4 h-4 text-primary" />
-                                        <h4 className="text-xs font-bold uppercase tracking-wide text-primary">
-                                          {t("Ví dụ code", "Code Example")}
-                                        </h4>
-                                        <span className="text-[10px] text-muted-foreground font-mono px-1.5 py-0.5 rounded bg-muted">
-                                          {q.codeExample.language}
-                                        </span>
-                                      </div>
-                                      <Button
-                                        size="sm"
-                                        variant="ghost"
-                                        className="h-7 text-xs"
-                                        onClick={() => copyCode(q.codeExample!.code)}
-                                      >
-                                        <Copy className="w-3 h-3 mr-1" /> {t("Sao chép", "Copy")}
-                                      </Button>
-                                    </div>
-                                    <CodeBlock code={q.codeExample.code} language={q.codeExample.language || "python"} showHeader={false} className="!my-0" />
-                                  </div>
-                                )}
-
-                                {/* Interview Tip */}
-                                {q.interviewTip && (
-                                  <div className="rounded-lg border-l-4 border-emerald-500 bg-gradient-to-r from-emerald-500/10 to-transparent p-3">
-                                    <div className="flex items-center gap-2 mb-1">
-                                      <Target className="w-4 h-4 text-emerald-600" />
-                                      <h4 className="text-xs font-bold uppercase tracking-wide text-emerald-700 dark:text-emerald-500">
-                                        {t("Mẹo phỏng vấn", "Interview Tip")}
-                                      </h4>
-                                    </div>
-                                    <p className="text-sm text-foreground/90 leading-relaxed italic">
-                                      {q.interviewTip}
-                                    </p>
-                                  </div>
-                                )}
-
-                                <div className="flex justify-end pt-2">
-                                  <Button
-                                    size="sm"
-                                    variant={isReviewed ? "default" : "outline"}
-                                    onClick={() => toggleReviewed(q.id)}
-                                  >
-                                    {isReviewed
-                                      ? <><BookmarkCheck className="w-4 h-4 mr-1.5" /> {t("Đã ôn", "Reviewed")}</>
-                                      : <><Bookmark className="w-4 h-4 mr-1.5" /> {t("Đánh dấu đã ôn", "Mark as Reviewed")}</>
-                                    }
-                                  </Button>
-                                </div>
-                              </div>
-                            </AccordionContent>
-                          </AccordionItem>
-                        </motion.div>
-                      );
-                    })}
-                  </Accordion>
+                  <div className="space-y-8">
+                    {grouped.map((group) => (
+                      <section key={group.category} aria-labelledby={`group-${group.category.replace(/\W+/g, "-")}`}>
+                        <div className="interview-group-heading">
+                          <h2 id={`group-${group.category.replace(/\W+/g, "-")}`} className="font-sora text-lg font-bold text-foreground">{group.category}</h2>
+                          <Badge variant="outline">{group.questions.length}</Badge>
+                        </div>
+                        <Accordion type="multiple" className="space-y-3">
+                          {group.questions.map((question, index) => renderQuestion(question, filtered.indexOf(question)))}
+                        </Accordion>
+                      </section>
+                    ))}
+                  </div>
                 )}
-              </TabsContent>
-            ))}
-          </Tabs>
+              </div>
+            </div>
+          </section>
         </div>
-      </div>
+      </main>
       <Footer />
     </div>
   );
 };
 
-export default InterviewQuestions;
+export default InterviewQuestionsPage;
