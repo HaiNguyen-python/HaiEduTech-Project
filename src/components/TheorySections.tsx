@@ -42,9 +42,11 @@ const KATEX_OPTIONS = {
 import {
   Check, Circle, BookOpenCheck, Lightbulb, Code2, FileCode, AlertTriangle,
   ListChecks, HelpCircle, Zap, GitCompare, Dumbbell, Sparkles, BookOpen,
+  ChevronDown, ChevronsDownUp, ChevronsUpDown,
   type LucideIcon,
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { useLanguage } from "@/contexts/LanguageContext";
 import CodeBlock from "@/components/CodeBlock";
 import { Progress } from "@/components/ui/progress";
 import StepBadge from "@/components/lesson-visuals/StepBadge";
@@ -439,6 +441,31 @@ function splitBody(body: string): Chunk[] {
   return out;
 }
 
+/**
+ * Build a short plain-text teaser for a collapsed section: first real prose
+ * paragraph with markdown syntax stripped. Skips headings, lists, code, tables,
+ * math blocks, diagrams and images so nothing heavy renders while collapsed.
+ */
+function buildPreview(body: string, limit = 170): string {
+  const withoutCode = body.replace(/```[\s\S]*?```/g, "").replace(/:::diagram[\s\S]*?:::/g, "");
+  const blocks = withoutCode.split(/\n\s*\n/);
+  for (const block of blocks) {
+    const line = block.trim();
+    if (!line) continue;
+    if (/^(#|>|-|\*|\d+\.|\||\$\$|!\[)/.test(line)) continue;
+    const text = line
+      .replace(/!\[[^\]]*\]\([^)]*\)/g, "")
+      .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
+      .replace(/\$\$?[^$]*\$\$?/g, "")
+      .replace(/[*_`#]/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
+    if (text.length < 24) continue;
+    return text.length > limit ? `${text.slice(0, limit).trimEnd()}…` : text;
+  }
+  return "";
+}
+
 // ── Markdown components: blockquote → Callout, code → CodeBlock, table → wrapper ──
 const markdownComponents = (defaultLang: string) => ({
   table: ({ children }: { children?: React.ReactNode }) => (
@@ -632,6 +659,8 @@ const TheorySections = ({ markdown, storageKey, defaultCodeLanguage = "text" }: 
   );
   const components = useMemo(() => markdownComponents(defaultCodeLanguage), [defaultCodeLanguage]);
 
+  const { t } = useLanguage();
+  const prefersReducedMotion = useReducedMotion();
   const [readSlugs, setReadSlugs] = useState<Set<string>>(new Set());
 
   useEffect(() => {
@@ -666,20 +695,70 @@ const TheorySections = ({ markdown, storageKey, defaultCodeLanguage = "text" }: 
     try { localStorage.setItem(storageKey, JSON.stringify(Array.from(next))); } catch { /* ignore */ }
   }, [storageKey]);
 
+  // ── Collapsed / expanded sections ──
+  const openKey = `${storageKey}:open`;
+  const firstTitledSlug = sections.find((s) => s.title !== null)?.slug ?? null;
+  const [openSlugs, setOpenSlugs] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    let restored: string[] | null = null;
+    try {
+      const raw = localStorage.getItem(openKey);
+      if (raw) {
+        const arr = JSON.parse(raw);
+        if (Array.isArray(arr)) restored = arr.filter((x): x is string => typeof x === "string");
+      }
+    } catch { /* ignore */ }
+    // First visit: open the first section so students can start reading right away.
+    setOpenSlugs(new Set(restored ?? (firstTitledSlug ? [firstTitledSlug] : [])));
+  }, [openKey, firstTitledSlug]);
+
+  const persistOpen = useCallback((next: Set<string>) => {
+    try { localStorage.setItem(openKey, JSON.stringify(Array.from(next))); } catch { /* ignore */ }
+  }, [openKey]);
+
+  const toggleOpen = useCallback((slug: string) => {
+    setOpenSlugs((prev) => {
+      const next = new Set(prev);
+      if (next.has(slug)) next.delete(slug); else next.add(slug);
+      persistOpen(next);
+      return next;
+    });
+  }, [persistOpen]);
+
   const toggleRead = useCallback((slug: string) => {
     setReadSlugs((prev) => {
       const next = new Set(prev);
-      if (next.has(slug)) next.delete(slug); else next.add(slug);
+      if (next.has(slug)) {
+        next.delete(slug);
+      } else {
+        next.add(slug);
+        // Finishing a section collapses it to keep the page tidy.
+        setOpenSlugs((open) => {
+          if (!open.has(slug)) return open;
+          const nextOpen = new Set(open);
+          nextOpen.delete(slug);
+          persistOpen(nextOpen);
+          return nextOpen;
+        });
+      }
       persist(next);
       return next;
     });
-  }, [persist]);
+  }, [persist, persistOpen]);
 
   const markableSections = sections.filter((s) => s.title !== null);
   const totalMarkable = markableSections.length;
   const readCount = markableSections.filter((s) => readSlugs.has(s.slug)).length;
   const pct = totalMarkable > 0 ? Math.round((readCount / totalMarkable) * 100) : 0;
   const allDone = totalMarkable > 0 && readCount === totalMarkable;
+  const allExpanded = totalMarkable > 0 && markableSections.every((s) => openSlugs.has(s.slug));
+
+  const toggleAll = useCallback(() => {
+    const next = allExpanded ? new Set<string>() : new Set(markableSections.map((s) => s.slug));
+    setOpenSlugs(next);
+    persistOpen(next);
+  }, [allExpanded, markableSections, persistOpen]);
 
   const renderBody = (body: string) => {
     const chunks = splitBody(body);
@@ -702,7 +781,7 @@ const TheorySections = ({ markdown, storageKey, defaultCodeLanguage = "text" }: 
   return (
     <div className="theory-content">
       {totalMarkable > 0 && (
-        <div className="not-prose mb-5 flex items-center gap-3 px-3.5 py-2.5 rounded-lg bg-primary/5 border border-primary/15">
+        <div className="not-prose mb-5 flex flex-wrap items-center gap-3 px-3.5 py-2.5 rounded-lg bg-primary/5 border border-primary/15">
           <BookOpenCheck className="w-4 h-4 text-primary shrink-0" />
           <span className="text-sm font-medium text-foreground">
             Section progress: {readCount}/{totalMarkable}
@@ -713,6 +792,18 @@ const TheorySections = ({ markdown, storageKey, defaultCodeLanguage = "text" }: 
           <span className={`text-xs font-semibold ${allDone ? "text-green-600" : "text-primary"}`}>
             {pct}%
           </span>
+          <button
+            type="button"
+            onClick={toggleAll}
+            aria-expanded={allExpanded}
+            className="inline-flex min-h-11 items-center gap-1.5 rounded-md border border-border bg-background px-3 text-xs font-semibold text-muted-foreground transition-colors hover:border-primary/50 hover:bg-primary/5 hover:text-primary"
+          >
+            {allExpanded ? (
+              <><ChevronsDownUp className="h-3.5 w-3.5" />{t("Thu gọn tất cả", "Collapse all")}</>
+            ) : (
+              <><ChevronsUpDown className="h-3.5 w-3.5" />{t("Mở tất cả", "Expand all")}</>
+            )}
+          </button>
         </div>
       )}
 
@@ -728,6 +819,9 @@ const TheorySections = ({ markdown, storageKey, defaultCodeLanguage = "text" }: 
         }
 
         const Icon = pickIconForTitle(section.title);
+        const isOpen = openSlugs.has(section.slug);
+        const preview = isOpen ? "" : buildPreview(section.body);
+        const bodyId = `${section.slug}-body`;
 
         return (
           <motion.div
@@ -751,7 +845,13 @@ const TheorySections = ({ markdown, storageKey, defaultCodeLanguage = "text" }: 
             )}
 
             <div className="not-prose flex items-start justify-between gap-3 mt-2 mb-3">
-              <div className="flex items-start gap-3 flex-1 min-w-0">
+              <button
+                type="button"
+                onClick={() => toggleOpen(section.slug)}
+                aria-expanded={isOpen}
+                aria-controls={bodyId}
+                className="flex min-h-11 flex-1 items-start gap-3 min-w-0 rounded-lg px-1 py-1 text-left transition-colors hover:bg-primary/5"
+              >
                 {section.stepNumber ? (
                   <StepBadge number={section.stepNumber} />
                 ) : (
@@ -762,20 +862,37 @@ const TheorySections = ({ markdown, storageKey, defaultCodeLanguage = "text" }: 
                     <Icon className="w-4 h-4" />
                   </span>
                 )}
-                <h2
-                  className={`text-[1.15rem] font-bold leading-tight tracking-tight flex items-center gap-2 ${
-                    isRead ? "text-foreground/70 line-through decoration-primary/40 decoration-1" : "text-primary"
-                  }`}
-                >
-                  {section.stepNumber && <Icon className="w-4 h-4 opacity-70 shrink-0" aria-hidden="true" />}
-                  <span>{section.title}</span>
-                </h2>
-              </div>
+                <span className="min-w-0 flex-1">
+                  <h2
+                    className={`text-[1.15rem] font-bold leading-tight tracking-tight flex items-center gap-2 ${
+                      isRead ? "text-foreground/70 line-through decoration-primary/40 decoration-1" : "text-primary"
+                    }`}
+                  >
+                    {section.stepNumber && <Icon className="w-4 h-4 opacity-70 shrink-0" aria-hidden="true" />}
+                    <span>{section.title}</span>
+                  </h2>
+                  {!isOpen && preview && (
+                    <span className="mt-1.5 block text-sm leading-relaxed text-muted-foreground line-clamp-2">
+                      {preview}
+                    </span>
+                  )}
+                  {!isOpen && (
+                    <span className="mt-1.5 inline-flex items-center gap-1 text-xs font-semibold text-primary">
+                      <ChevronDown className="h-3.5 w-3.5" aria-hidden="true" />
+                      {t("Đọc tiếp", "Read more")}
+                    </span>
+                  )}
+                </span>
+                <ChevronDown
+                  className={`mt-1.5 h-4 w-4 shrink-0 text-muted-foreground transition-transform ${isOpen ? "rotate-180" : ""}`}
+                  aria-hidden="true"
+                />
+              </button>
               <button
                 type="button"
-                onClick={() => toggleRead(section.slug)}
+                onClick={(e) => { e.stopPropagation(); toggleRead(section.slug); }}
                 aria-pressed={isRead}
-                className={`shrink-0 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium border transition-all active:scale-[0.97] ${
+                className={`mt-1.5 shrink-0 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium border transition-all active:scale-[0.97] ${
                   isRead
                     ? "bg-green-500/10 border-green-500/40 text-green-700 hover:bg-green-500/15"
                     : "bg-background border-border text-muted-foreground hover:border-primary/50 hover:text-primary hover:bg-primary/5"
@@ -789,10 +906,25 @@ const TheorySections = ({ markdown, storageKey, defaultCodeLanguage = "text" }: 
               </button>
             </div>
 
-            {renderBody(section.body)}
+            <AnimatePresence initial={false}>
+              {isOpen && (
+                <motion.div
+                  id={bodyId}
+                  key="body"
+                  initial={prefersReducedMotion ? undefined : { height: 0, opacity: 0 }}
+                  animate={prefersReducedMotion ? undefined : { height: "auto", opacity: 1 }}
+                  exit={prefersReducedMotion ? undefined : { height: 0, opacity: 0 }}
+                  transition={{ duration: 0.25, ease: "easeOut" }}
+                  className="overflow-hidden"
+                >
+                  {renderBody(section.body)}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </motion.div>
         );
       })}
+
     </div>
   );
 };
