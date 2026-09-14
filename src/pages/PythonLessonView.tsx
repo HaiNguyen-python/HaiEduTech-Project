@@ -15,7 +15,7 @@ import confetti from "canvas-confetti";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { useLanguage } from "@/contexts/LanguageContext";
+
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import {
@@ -70,7 +70,7 @@ const StepBadge = ({ n, label, color }: { n: number; label: string; color: strin
 const PythonLessonView = () => {
   const { lessonId } = useParams<{ lessonId: string }>();
   const navigate = useNavigate();
-  const { lang: language } = useLanguage();
+  
   const lesson = useMemo(() => (lessonId ? getLessonById(lessonId) : undefined), [lessonId]);
   const module = useMemo(() => pythonModules.find((m) => m.id === lesson?.moduleId), [lesson]);
   const moduleLessons = useMemo(() => (module ? getLessonsByModule(module.id) : []), [module]);
@@ -96,8 +96,8 @@ const PythonLessonView = () => {
       setCompleted(true);
       confetti({ particleCount: 80, spread: 70, origin: { y: 0.7 } });
       toast({
-        title: language === "vi" ? "🎉 Hoàn thành bài học!" : "🎉 Lesson complete!",
-        description: language === "vi" ? `Điểm: ${score}/${lesson.quiz.length}` : `Score: ${score}/${lesson.quiz.length}`,
+        title: "🎉 Lesson complete!",
+        description: `Score: ${score}/${lesson.quiz.length}`,
       });
 
       try {
@@ -122,8 +122,8 @@ const PythonLessonView = () => {
         if (done) {
           confetti({ particleCount: 200, spread: 120, origin: { y: 0.5 } });
           toast({
-            title: language === "vi" ? `🏆 Programming Certified: ${module.titleEn}` : `🏆 Programming Certified: ${module.titleEn}`,
-            description: language === "vi" ? "Bạn đã chinh phục module này!" : "You've conquered this module!",
+            title: `🏆 Programming Certified: ${module.titleEn}`,
+            description: "You've conquered this module!",
           });
           window.dispatchEvent(new CustomEvent("python-module-certified", { detail: { moduleId: module.id } }));
         }
@@ -151,14 +151,14 @@ const PythonLessonView = () => {
           {/* Breadcrumb */}
           <div className="flex items-center gap-2 text-xs text-muted-foreground mb-4 flex-wrap">
             <Link to="/programming?pillar=python-pathway" className="hover:text-primary flex items-center gap-1">
-              <ArrowLeft className="w-3 h-3" /> {language === "vi" ? "Lập trình" : "Programming"}
+              <ArrowLeft className="w-3 h-3" /> {"Programming"}
             </Link>
             <span>/</span>
             <span>💻 Introduction to Programming</span>
             <span>/</span>
-            <span>{module.emoji} {language === "vi" ? module.title : module.titleEn}</span>
+            <span>{module.emoji} {module.titleEn}</span>
             <span>/</span>
-            <span className="text-foreground font-medium">{lesson.emoji} {language === "vi" ? lesson.title : lesson.titleEn}</span>
+            <span className="text-foreground font-medium">{lesson.emoji} {lesson.titleEn}</span>
           </div>
 
           {/* Hero header */}
@@ -173,7 +173,7 @@ const PythonLessonView = () => {
                   "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border",
                   `bg-gradient-to-r ${module.color} text-white border-transparent shadow-sm`,
                 )}>
-                  {module.emoji} {language === "vi" ? module.title : module.titleEn}
+                  {module.emoji} {module.titleEn}
                 </span>
                 <span className={cn(
                   "inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold border",
@@ -183,16 +183,16 @@ const PythonLessonView = () => {
                 </span>
                 {completed && (
                   <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[11px] font-bold bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30">
-                    <Trophy className="w-3 h-3" /> {language === "vi" ? "Đã hoàn thành" : "Completed"}
+                    <Trophy className="w-3 h-3" /> {"Completed"}
                   </span>
                 )}
               </div>
               <div className="text-[11px] text-muted-foreground">
-                {language === "vi" ? "Bài" : "Lesson"} {idx + 1}/{moduleLessons.length}
+                {"Lesson"} {idx + 1}/{moduleLessons.length}
               </div>
             </div>
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-display font-extrabold text-foreground leading-tight tracking-tight">
-              {lesson.emoji} {language === "vi" ? lesson.title : lesson.titleEn}
+              {lesson.emoji} {lesson.titleEn}
             </h1>
           </motion.div>
 
@@ -223,10 +223,10 @@ const PythonLessonView = () => {
                 transition={{ delay: 0.05 }}
                 className="p-5 rounded-2xl border-2 border-blue-500/50 bg-gradient-to-br from-blue-500/5 to-cyan-500/5 shadow-[0_4px_16px_-6px_rgba(59,130,246,0.3)] ring-1 ring-emerald-500/15"
               >
-                <StepBadge n={1} label={language === "vi" ? "Khái niệm" : "Concept"} color="bg-gradient-to-br from-blue-500 to-cyan-600" />
+                <StepBadge n={1} label={"Concept"} color="bg-gradient-to-br from-blue-500 to-cyan-600" />
                 <h2 className="font-display font-bold text-foreground mb-3 flex items-center gap-2 text-base">
                   <Sparkles className="w-4 h-4 text-blue-600" />
-                  📘 {language === "vi" ? "Hiểu khái niệm" : "Understand the concept"}
+                  📘 {"Understand the concept"}
                 </h2>
                 {moduleHeroImages[lesson.moduleId] && (
                   <div className="mb-4 overflow-hidden rounded-xl border-2 border-emerald-500/40 bg-white shadow-sm">
@@ -242,7 +242,7 @@ const PythonLessonView = () => {
                 )}
                 <div className="prose prose-base sm:prose-lg max-w-none dark:prose-invert leading-[1.75] font-sans [&>*]:my-4 [&>*:first-child]:mt-0 [&>*:last-child]:mb-0 [&>h2]:font-display [&>h2]:font-extrabold [&>h2]:tracking-tight [&>h2]:text-xl [&>h3]:font-display [&>h3]:font-bold [&>h3]:text-lg [&>p]:my-4 [&>p]:text-[15px] sm:[&>p]:text-base [&>ol]:my-4 [&>ul]:my-4 [&>pre]:my-4 [&>table]:my-4 [&_strong]:text-foreground [&_strong]:font-bold [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_code]:font-mono [&_code]:text-[0.92em] [&_code]:bg-blue-500/10 [&_code]:text-blue-700 dark:[&_code]:text-blue-300 [&_code]:before:content-none [&_code]:after:content-none [&_pre]:font-mono [&_pre_code]:bg-transparent [&_pre_code]:text-inherit [&_pre]:rounded-lg [&_pre]:border-2 [&_pre]:border-emerald-500/30 [&_th]:bg-blue-500/10 [&_th]:px-3 [&_th]:py-2 [&_td]:px-3 [&_td]:py-2 [&_li]:my-1.5 [&_ol]:list-decimal [&_ol]:pl-6 [&_ul]:list-disc [&_ul]:pl-6">
                   <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                    {language === "vi" ? lesson.concept : lesson.conceptEn}
+                    {lesson.conceptEn}
                   </ReactMarkdown>
                 </div>
               </motion.div>
@@ -254,14 +254,14 @@ const PythonLessonView = () => {
                 transition={{ delay: 0.1 }}
                 className="p-5 rounded-2xl border-2 border-emerald-500/70 border-l-[6px] bg-emerald-500/5 shadow-[0_4px_16px_-6px_rgba(16,185,129,0.35)]"
               >
-                <StepBadge n={2} label={language === "vi" ? "Cạm bẫy" : "Pitfalls"} color="bg-gradient-to-br from-red-500 to-rose-600" />
+                <StepBadge n={2} label={"Pitfalls"} color="bg-gradient-to-br from-red-500 to-rose-600" />
                 <h3 className="font-bold text-foreground text-sm mb-3 flex items-center gap-2">
                   <AlertTriangle className="w-4 h-4 text-red-600" />
-                  ⚠️ {language === "vi" ? "Cạm bẫy thường gặp" : "Common pitfalls"}
+                  ⚠️ {"Common pitfalls"}
                 </h3>
                 <div className="prose prose-sm max-w-none dark:prose-invert prose-p:my-2 prose-strong:text-foreground prose-strong:font-bold prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:bg-red-500/10 prose-code:before:content-none prose-code:after:content-none text-foreground/90 leading-relaxed [&>p]:mb-2 [&>p:last-child]:mb-0">
                   <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                    {(language === "vi" ? lesson.pitfalls : lesson.pitfallsEn).replace(/\n(?!\n)/g, "\n\n")}
+                    {(lesson.pitfallsEn).replace(/\n(?!\n)/g, "\n\n")}
                   </ReactMarkdown>
                 </div>
               </motion.div>
@@ -273,14 +273,14 @@ const PythonLessonView = () => {
                 transition={{ delay: 0.15 }}
                 className="p-5 rounded-2xl border-2 border-emerald-500/50 border-l-[6px] bg-emerald-500/5 shadow-[0_4px_16px_-6px_rgba(16,185,129,0.3)] ring-1 ring-emerald-500/15"
               >
-                <StepBadge n={3} label={language === "vi" ? "Thực hành" : "Practice"} color="bg-gradient-to-br from-emerald-500 to-green-600" />
+                <StepBadge n={3} label={"Practice"} color="bg-gradient-to-br from-emerald-500 to-green-600" />
                 <h3 className="font-bold text-foreground text-sm mb-3 flex items-center gap-2">
                   <Wrench className="w-4 h-4 text-emerald-600" />
-                  🛠️ {language === "vi" ? "Bài tập thực hành" : "Practice task"}
+                  🛠️ {"Practice task"}
                 </h3>
                 <div className="prose prose-sm max-w-none dark:prose-invert prose-p:my-2 prose-strong:text-foreground prose-strong:font-bold prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:bg-emerald-500/10 prose-code:before:content-none prose-code:after:content-none text-foreground/90 leading-relaxed [&>p]:mb-2 [&>p:last-child]:mb-0">
                   <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                    {(language === "vi" ? lesson.practiceTask : lesson.practiceTaskEn).replace(/\n(?!\n)/g, "\n\n")}
+                    {(lesson.practiceTaskEn).replace(/\n(?!\n)/g, "\n\n")}
                   </ReactMarkdown>
                 </div>
               </motion.div>
@@ -289,9 +289,9 @@ const PythonLessonView = () => {
             {/* Right: playground (sticky on desktop) */}
             <div className="space-y-4 lg:sticky lg:top-4 lg:self-start lg:max-h-[calc(100vh-2rem)] lg:overflow-y-auto">
               <div className="p-5 rounded-2xl border-2 border-violet-500/50 bg-gradient-to-br from-violet-500/5 to-fuchsia-500/5 shadow-[0_4px_16px_-6px_rgba(139,92,246,0.3)] ring-1 ring-emerald-500/15">
-                <StepBadge n={4} label={language === "vi" ? "Chạy thử" : "Try it"} color="bg-gradient-to-br from-violet-500 to-fuchsia-600" />
+                <StepBadge n={4} label={"Try it"} color="bg-gradient-to-br from-violet-500 to-fuchsia-600" />
                 <h3 className="font-bold text-foreground text-sm mb-3 flex items-center gap-2">
-                  ▶️ {language === "vi" ? "Sân chơi Code" : "Code Playground"}
+                  ▶️ {"Code Playground"}
                 </h3>
                 <CodePlayground
                   initialCode={lesson.codeExample}
@@ -306,14 +306,14 @@ const PythonLessonView = () => {
                   <div className="flex items-center gap-2 mb-2">
                     <Target className="w-4 h-4 text-amber-600" />
                     <div className="text-[10px] uppercase tracking-wider text-amber-700 dark:text-amber-500 font-bold">
-                      🎯 {language === "vi" ? "Mini Project" : "Mini Project"}
+                      🎯 {"Mini Project"}
                     </div>
                   </div>
                   <h3 className="font-bold text-foreground text-base mb-2">
-                    {language === "vi" ? lesson.miniProject.title : lesson.miniProject.titleEn}
+                    {lesson.miniProject.titleEn}
                   </h3>
                   <p className="text-sm text-foreground/80 mb-3 leading-relaxed">
-                    {language === "vi" ? lesson.miniProject.description : lesson.miniProject.descriptionEn}
+                    {lesson.miniProject.descriptionEn}
                   </p>
                   <CodePlayground
                     initialCode={lesson.miniProject.starterCode}
@@ -344,7 +344,7 @@ const PythonLessonView = () => {
             <Button variant="outline" disabled={!prev} onClick={() => prev && navigate(`/programming/python/${prev.id}`)}>
               <ChevronLeft className="w-4 h-4 mr-1" /> <span className="truncate max-w-[200px]">{prev ? (language === "vi" ? prev.title : prev.titleEn) : "-"}</span>
             </Button>
-            <Button asChild variant="ghost"><Link to="/programming?pillar=python-pathway">{language === "vi" ? "Tất cả module" : "All modules"}</Link></Button>
+            <Button asChild variant="ghost"><Link to="/programming?pillar=python-pathway">{"All modules"}</Link></Button>
             <Button disabled={!next} onClick={() => next && navigate(`/programming/python/${next.id}`)}>
               <span className="truncate max-w-[200px]">{next ? (language === "vi" ? next.title : next.titleEn) : "-"}</span> <ChevronRight className="w-4 h-4 ml-1" />
             </Button>

@@ -57,265 +57,265 @@ interface Mission {
 const MISSIONS: Mission[] = [
   {
     id: 1,
-    title: "Hứng táo rơi",
-    subLabel: "BIẾN SỐ ĐẦU TAY",
-    description: "Tập làm quen với việc tính điểm khi hứng vật thể.",
+    title: "Catching Falling Apples",
+    subLabel: "MY FIRST VARIABLE",
+    description: "Get familiar with scoring by catching objects.",
     icon: Apple,
     emoji: "🍎",
     gradient: "from-[#FF8C1A] to-[#FFB347]",
     goals: [
-      "Hiểu biến (variable) và cách +1 điểm",
-      "Dùng khối cảm biến chạm",
-      "Khái niệm tọa độ X/Y cơ bản",
+      "Understand variables and how to +1 score",
+      "Use sensing blocks for touching",
+      "Basic X/Y coordinate concepts",
     ],
     steps: [
-      "Tạo nhân vật Giỏ ở đáy màn hình, di chuyển theo phím Trái/Phải.",
-      "Tạo Sprite Quả Táo, dùng 'go to random position' và 'glide' xuống.",
-      "Tạo biến 'Điểm'. Khi táo chạm giỏ → 'change Điểm by 1'.",
-      "Khi táo chạm mép dưới → 'change Điểm by -1' (trừ mạng).",
-      "Trang trí nền và thêm âm thanh 'pop' khi hứng được.",
+      "Create a Bucket at the bottom, move with Left/Right keys.",
+      "Create an Apple sprite, use 'go to random position' and 'glide' down.",
+      "Create a 'Score' variable. When apple touches bucket → 'change Score by 1'.",
+      "When apple touches bottom edge → 'change Score by -1' (lose life).",
+      "Decorate the background and add a 'pop' sound when caught.",
     ],
     scratchUrl: "https://scratch.mit.edu/search/projects?q=catch%20apple%20game",
   },
   {
     id: 2,
-    title: "Mèo bay vượt chướng ngại vật",
-    subLabel: "TỌA ĐỘ & TRỌNG LỰC",
-    description: "Tự chế tạo một tựa game giống Flappy Bird.",
+    title: "Flappy Cat Adventure",
+    subLabel: "COORDINATES & GRAVITY",
+    description: "Build your own Flappy Bird style game.",
     icon: Cat,
     emoji: "🐱",
     gradient: "from-[#1E90FF] to-[#38BDF8]",
     goals: [
-      "Mô phỏng trọng lực bằng biến vận tốc",
-      "Sinh chướng ngại di chuyển liên tục",
-      "Phát hiện va chạm với ống cản",
+      "Simulate gravity with a velocity variable",
+      "Spawn obstacles that move continuously",
+      "Detect collisions with obstacles",
     ],
     steps: [
-      "Tạo Mèo. Khi nhấn phím Space → đặt 'velocity = 8'.",
-      "Lặp mãi: 'change y by velocity' và 'change velocity by -1' (trọng lực).",
-      "Tạo Sprite Ống xanh, clone mỗi 1.5s và glide từ phải sang trái.",
-      "Khi Mèo chạm ống hoặc rơi xuống đáy → 'stop all' và hiện 'Game Over'.",
-      "Cộng điểm mỗi lần ống biến mất khỏi màn hình.",
+      "Create a Cat. When Space key is pressed → set 'velocity to 8'.",
+      "Repeat forever: 'change y by velocity' and 'change velocity by -1' (gravity).",
+      "Create a Green Pipe sprite, clone every 1.5s and glide right to left.",
+      "When Cat touches pipe or bottom → 'stop all' and show 'Game Over'.",
+      "Add score every time a pipe leaves the screen.",
     ],
     scratchUrl: "https://scratch.mit.edu/search/projects?q=flappy%20cat",
   },
   {
     id: 3,
-    title: "Đấu trường mê cung",
-    subLabel: "ĐIỀU KHIỂN HƯỚNG",
-    description: "Lập trình phím mũi tên để dẫn đường cho nhân vật.",
+    title: "Maze Arena",
+    subLabel: "DIRECTIONAL CONTROLS",
+    description: "Program arrow keys to navigate your character.",
     icon: Map,
     emoji: "🗺️",
     gradient: "from-[#FFD400] to-[#FFA500]",
     goals: [
-      "Điều khiển 4 hướng bằng phím mũi tên",
-      "Dò va chạm theo màu (tường mê cung)",
-      "Mục tiêu thắng/thua rõ ràng",
+      "Control 4 directions using arrow keys",
+      "Detect collisions by color (maze walls)",
+      "Clear win/loss conditions",
     ],
     steps: [
-      "Vẽ phông nền mê cung bằng các bức tường màu đen.",
-      "Tạo Sprite chính nhỏ. Khi mũi tên Phải → 'change x by 4'… (4 hướng).",
-      "Sau mỗi bước, nếu 'touching color đen' → 'change x/y' ngược lại.",
-      "Đặt một ngôi sao 🌟 đích. Khi chạm sao → hiện 'Bạn thắng!'.",
-      "Thêm đồng hồ đếm ngược 30s để tăng độ căng thẳng.",
+      "Draw a maze background with black walls.",
+      "Create a small player sprite. Arrow keys to change x/y by 4.",
+      "If 'touching color black' → 'change x/y' in reverse to stay back.",
+      "Place a goal star 🌟. When touched → show 'You Win!'.",
+      "Add a 30s countdown timer to increase challenge.",
     ],
     scratchUrl: "https://scratch.mit.edu/search/projects?q=maze%20game",
   },
   {
     id: 4,
-    title: "Vòng quay tiếng Anh",
-    subLabel: "GAME TỪ VỰNG",
-    description: "Chế tạo trò chơi trắc nghiệm tiếng Anh tương tác vui nhộn.",
+    title: "English Spin-Off",
+    subLabel: "VOCABULARY GAME",
+    description: "Create a fun interactive English vocabulary quiz game.",
     icon: BookOpen,
     emoji: "🎡",
     gradient: "from-[#10B981] to-[#34D399]",
     goals: [
-      "Dùng danh sách (list) chứa từ vựng",
-      "Dùng khối 'ask … and wait' để nhận câu trả lời",
-      "Đếm số câu đúng / sai",
+      "Use lists to store vocabulary",
+      "Use 'ask ... and wait' blocks for user input",
+      "Count correct and incorrect answers",
     ],
     steps: [
-      "Tạo 2 list: 'Từ EN' và 'Nghĩa VN' (cùng thứ tự).",
-      "Tạo biến 'i' = ngẫu nhiên trong khoảng số từ.",
-      "'ask (item i of Từ EN) and wait' rồi so sánh với 'item i of Nghĩa VN'.",
-      "Nếu đúng → cộng điểm và phát tiếng vỗ tay; sai → hiệu ứng buồn.",
-      "Tạo vòng lặp 10 câu rồi hiện điểm tổng kết.",
+      "Create 2 lists: 'English Words' and 'Vietnamese Meanings'.",
+      "Create variable 'i' = random index in the word list.",
+      "Ask 'item i of English' and compare with 'item i of Meaning'.",
+      "If correct → add score and play applause; if wrong → sad sound.",
+      "Loop 10 questions then show the final score summary.",
     ],
     scratchUrl: "https://scratch.mit.edu/search/projects?q=english%20vocabulary%20quiz",
   },
   {
     id: 5,
-    title: "Né thiên thạch",
+    title: "Asteroid Dodger",
     subLabel: "CLONE BULLETS",
-    description: "Học cách nhân bản thực thể để làm game bắn tàu vũ trụ.",
+    description: "Learn how to clone entities to make a space shooter game.",
     icon: Zap,
     emoji: "☄️",
     gradient: "from-[#A855F7] to-[#EC4899]",
     goals: [
-      "Sử dụng 'create clone of myself'",
-      "Quản lý nhiều thực thể cùng lúc",
-      "Game vòng lặp với HP và điểm số",
+      "Use 'create clone of myself'",
+      "Manage multiple entities simultaneously",
+      "Game loop with HP and scoring system",
     ],
     steps: [
-      "Tạo Tàu vũ trụ, di chuyển ngang bằng phím mũi tên.",
-      "Khi nhấn Space → 'create clone of Đạn'. Clone bay lên trên.",
-      "Tạo Thiên thạch ở trên, clone mỗi 1s và rơi xuống.",
-      "Khi đạn chạm thiên thạch → 'delete this clone' + cộng điểm.",
-      "Khi tàu chạm thiên thạch → mất HP, HP=0 thì 'Game Over'.",
+      "Create a Spaceship, move horizontally with arrow keys.",
+      "Press Space → 'create clone of Bullet'. Clone flies upward.",
+      "Create Asteroids at the top, clone every 1s and drop down.",
+      "When bullet hits asteroid → 'delete this clone' + add score.",
+      "When spaceship hits asteroid → lose HP; if HP=0, 'Game Over'.",
     ],
     scratchUrl: "https://scratch.mit.edu/search/projects?q=space%20shooter%20asteroid",
   },
   {
     id: 6,
-    title: "Sáng tạo tự do",
-    subLabel: "ĐỒ ÁN CUỐI KHÓA",
-    description: "Nơi học sinh tự nộp link sản phẩm game của riêng mình.",
+    title: "Creative Project",
+    subLabel: "FINAL CAPSTONE",
+    description: "Students submit links to their own original games.",
     icon: Trophy,
     emoji: "🏆",
     gradient: "from-[#F43F5E] to-[#FB7185]",
     goals: [
-      "Tự lên ý tưởng game",
-      "Áp dụng kỹ năng đã học từ 5 nhiệm vụ trước",
-      "Trình bày & chia sẻ link sản phẩm",
+      "Come up with your own game idea",
+      "Apply skills learned from the previous 5 missions",
+      "Present & share your project link",
     ],
     steps: [
-      "Chọn 1 thể loại: arcade, mê cung, quiz, platformer…",
-      "Vẽ ít nhất 2 sprite và 2 phông nền riêng.",
-      "Có biến điểm số + điều kiện thắng/thua rõ ràng.",
-      "Thêm âm thanh và hiệu ứng đẹp mắt.",
-      "Bấm 'Share' trên Scratch rồi gửi link cho Thầy Hải.",
+      "Pick a genre: arcade, maze, quiz, platformer...",
+      "Draw at least 2 sprites and 2 unique backgrounds.",
+      "Include a score variable + clear win/loss conditions.",
+      "Add sounds and polished visual effects.",
+      "Click 'Share' on Scratch and send the link to Teacher Hai.",
     ],
     scratchUrl: "https://scratch.mit.edu/ideas",
   },
   {
     id: 7,
-    title: "Ban nhạc Scratch",
-    subLabel: "ÂM NHẠC & LẶP",
-    description: "Lập trình một dàn trống tự động phát giai điệu vui tai.",
+    title: "Scratch Band",
+    subLabel: "MUSIC & LOOPS",
+    description: "Program an automatic drum set that plays catchy tunes.",
     icon: Music,
     emoji: "🥁",
     gradient: "from-[#06B6D4] to-[#0EA5E9]",
     goals: [
-      "Sử dụng extension Music của Scratch",
-      "Vòng lặp 'repeat' để tạo nhịp",
-      "Phối hợp nhiều sprite cùng lúc",
+      "Use Scratch's Music extension",
+      "'repeat' loops to create rhythms",
+      "Coordinating multiple sprites simultaneously",
     ],
     steps: [
-      "Bật extension 'Music' ở góc dưới trái.",
-      "Tạo 3 sprite: Trống, Phách, Piano. Mỗi sprite có vòng lặp riêng.",
-      "Dùng 'play drum (1) for 0.25 beats' theo mẫu nhịp 4/4.",
-      "Cho Piano chơi giai điệu C-D-E-F-G bằng 'play note'.",
-      "Khi nhấn cờ xanh → cả 3 sprite cùng phát nhạc liên tục.",
+      "Enable the 'Music' extension in the bottom left.",
+      "Create 3 sprites: Drum, Beat, Piano. Each has its own loop.",
+      "Use 'play drum (1) for 0.25 beats' in 4/4 time.",
+      "Have the Piano play notes C-D-E-F-G.",
+      "Press the green flag → all 3 sprites play music together.",
     ],
     scratchUrl: "https://scratch.mit.edu/search/projects?q=music%20drum%20band",
   },
   {
     id: 8,
-    title: "Săn ma trong đêm",
-    subLabel: "HIỆN/ẨN & ĐIỂM",
-    description: "Game whack-a-mole phiên bản Halloween đầy bí ẩn.",
+    title: "Ghost Hunter Night",
+    subLabel: "SHOW/HIDE & SCORE",
+    description: "A mysterious Halloween version of whack-a-mole.",
     icon: Ghost,
     emoji: "👻",
     gradient: "from-[#7C3AED] to-[#A855F7]",
     goals: [
-      "Dùng 'show' / 'hide' và 'go to random position'",
-      "Lắng nghe sự kiện click chuột",
-      "Đồng hồ đếm ngược",
+      "Use 'show' / 'hide' and 'go to random position'",
+      "Listen for mouse click events",
+      "Countdown timer",
     ],
     steps: [
-      "Tạo Sprite Ma. Lặp: hiện, đợi 0.8s, ẩn, đợi ngẫu nhiên.",
-      "Mỗi lần hiện, 'go to random position' trong khung sân.",
-      "Khi 'this sprite clicked' → cộng điểm + phát âm 'boom'.",
-      "Tạo biến 'Thời gian' = 30, mỗi giây giảm 1.",
-      "Khi Thời gian = 0 → 'stop all' và hiện điểm cuối.",
+      "Create a Ghost. Loop: show, wait 0.8s, hide, random wait.",
+      "Each show, 'go to random position' within the field.",
+      "When 'this sprite clicked' → add score + play 'boom'.",
+      "Create variable 'Time' = 30, decrease by 1 each second.",
+      "When Time = 0 → 'stop all' and show final score.",
     ],
     scratchUrl: "https://scratch.mit.edu/search/projects?q=whack%20a%20ghost",
   },
   {
     id: 9,
-    title: "Studio vẽ tự do",
-    subLabel: "BÚT VẼ (PEN)",
-    description: "Biến chuột thành cây cọ vẽ với bảng màu cầu vồng.",
+    title: "Free Drawing Studio",
+    subLabel: "PEN TOOL",
+    description: "Turn your mouse into a paintbrush with a rainbow palette.",
     icon: Paintbrush,
     emoji: "🎨",
     gradient: "from-[#F59E0B] to-[#EF4444]",
     goals: [
-      "Sử dụng extension Pen",
-      "Theo dõi vị trí chuột",
-      "Thay đổi màu và độ dày nét vẽ",
+      "Use the Pen extension",
+      "Track mouse position",
+      "Change stroke color and thickness",
     ],
     steps: [
-      "Bật extension 'Pen'. Tạo Sprite Cọ nhỏ.",
-      "Lặp mãi: 'go to mouse pointer'.",
-      "Nếu 'mouse down?' → 'pen down', ngược lại → 'pen up'.",
-      "Mỗi tick → 'change pen color by 2' để có cầu vồng.",
-      "Phím C → 'erase all' để xóa toàn bộ tranh.",
+      "Enable 'Pen' extension. Create a small Brush sprite.",
+      "Repeat forever: 'go to mouse pointer'.",
+      "If 'mouse down?' → 'pen down', otherwise 'pen up'.",
+      "Each tick → 'change pen color by 2' for a rainbow effect.",
+      "Press C key → 'erase all' to clear the canvas.",
     ],
     scratchUrl: "https://scratch.mit.edu/search/projects?q=pen%20drawing%20rainbow",
   },
   {
     id: 10,
-    title: "Đua xe đếm giờ",
-    subLabel: "TIMER & TỐC ĐỘ",
-    description: "Lập trình một game đua xe tính thời gian về đích nhanh nhất.",
+    title: "Time Trial Racing",
+    subLabel: "TIMER & SPEED",
+    description: "Program a racing game that tracks the fastest lap time.",
     icon: Timer,
     emoji: "🏎️",
     gradient: "from-[#EF4444] to-[#F97316]",
     goals: [
-      "Dùng 'timer' và 'reset timer'",
-      "Cập nhật tốc độ theo gia tốc",
-      "Phát hiện vạch đích bằng màu",
+      "Use 'timer' and 'reset timer'",
+      "Update speed based on acceleration",
+      "Detect the finish line by color",
     ],
     steps: [
-      "Vẽ đường đua hình bầu dục với vạch xuất phát màu trắng.",
-      "Tạo Xe với biến 'tốc độ' = 0; phím Lên → 'change tốc độ by 0.5'.",
-      "Lặp: 'move (tốc độ) steps' và 'change tốc độ by -0.05' (ma sát).",
-      "Mũi tên Trái/Phải → 'turn ±5 degrees'.",
-      "Sau khi rời vạch, khi chạm lại vạch → hiện 'timer' rồi 'reset timer'.",
+      "Draw an oval track with a white starting line.",
+      "Create a Car with 'speed' = 0; Up key → 'change speed by 0.5'.",
+      "Loop: 'move (speed) steps' and 'change speed by -0.05' (friction).",
+      "Left/Right arrows → 'turn ±5 degrees'.",
+      "After leaving the line, on re-touch → show 'timer' then 'reset'.",
     ],
     scratchUrl: "https://scratch.mit.edu/search/projects?q=racing%20car%20timer",
   },
   {
     id: 11,
-    title: "Toán Ninja",
-    subLabel: "TOÁN HỌC TRONG GAME",
-    description: "Trò chơi rèn nhẩm phép tính cho người chơi mọi lứa tuổi.",
+    title: "Math Ninja",
+    subLabel: "MATH IN GAMING",
+    description: "A mental math practice game for all ages.",
     icon: Bug,
     emoji: "🧮",
     gradient: "from-[#22C55E] to-[#16A34A]",
     goals: [
-      "Sinh số ngẫu nhiên",
-      "So sánh đáp án người dùng nhập",
-      "Quản lý điểm & combo",
+      "Generate random numbers",
+      "Compare user-input answers",
+      "Manage score and combos",
     ],
     steps: [
-      "Tạo biến 'a', 'b' = random 1..20; chọn ngẫu nhiên phép +, −, ×.",
-      "Hiển thị 'a ? b = ?' và 'ask … and wait'.",
-      "Tự tính đáp án đúng và so với câu trả lời.",
-      "Đúng → +10 điểm, combo +1; Sai → reset combo về 0.",
-      "Lặp 10 câu rồi tổng kết điểm theo cấp bậc (Ninja Trắng → Đỏ).",
+      "Variables 'a', 'b' = random 1-20; pick random +, -, *.",
+      "Display 'a ? b = ?' and 'ask ... and wait'.",
+      "Calculate correct answer and compare with user input.",
+      "Correct → +10 score, combo +1; Incorrect → reset combo.",
+      "Loop 10 times then show final rank (White → Red Ninja).",
     ],
     scratchUrl: "https://scratch.mit.edu/search/projects?q=math%20ninja%20quiz",
   },
   {
     id: 12,
-    title: "Chatbot mèo thông minh",
-    subLabel: "AI ĐẦU TAY",
-    description: "Lập trình một chatbot biết trả lời những câu hỏi đơn giản.",
+    title: "Smart Cat Chatbot",
+    subLabel: "MY FIRST AI",
+    description: "Program a chatbot that answers simple questions.",
     icon: Bot,
     emoji: "🤖",
     gradient: "from-[#0EA5E9] to-[#6366F1]",
     goals: [
-      "Dùng cấu trúc 'if/else if'",
-      "Nhận đầu vào từ người dùng",
-      "Khái niệm 'pattern matching' đơn giản",
+      "Use 'if/else if' structures",
+      "Accept user input",
+      "Simple 'pattern matching' concept",
     ],
     steps: [
-      "Mèo nói 'Xin chào! Bạn muốn hỏi gì?' rồi 'ask … and wait'.",
-      "Nếu 'answer contains tên' → trả lời 'Tớ tên là Scratchy'.",
-      "Nếu 'contains thời tiết' → 'Hôm nay nắng đẹp lắm!'.",
-      "Nếu không khớp → 'Xin lỗi, tớ chưa hiểu, hỏi lại nhé.'",
-      "Lặp lại vòng hỏi-đáp cho tới khi người dùng gõ 'bye'.",
+      "Cat says 'Hello! What do you want to ask?' then 'ask... and wait'.",
+      "If 'answer contains name' → reply 'My name is Scratchy'.",
+      "If 'contains weather' → 'The weather is beautiful today!'.",
+      "If no match → 'Sorry, I don't understand, try again.'",
+      "Repeat loop until user types 'bye'.",
     ],
     scratchUrl: "https://scratch.mit.edu/search/projects?q=chatbot%20cat",
   },
@@ -371,7 +371,7 @@ const ScratchAdventure = () => {
   const handleEarnStar = (m: Mission) => {
     const current = stars[m.id] || 0;
     if (current >= 3) {
-      toast.success("Bạn đã đạt 3 sao tối đa cho nhiệm vụ này! 🌟");
+      toast.success("You've reached the 3-star maximum for this mission! 🌟");
       return;
     }
     persist({ ...stars, [m.id]: current + 1 });
@@ -382,7 +382,7 @@ const ScratchAdventure = () => {
     const next = { ...stars };
     delete next[m.id];
     persist(next);
-    toast.message("Đã đặt lại tiến độ nhiệm vụ.");
+    toast.message("Mission progress reset.");
   };
 
   return (
@@ -429,25 +429,25 @@ const ScratchAdventure = () => {
                   <Sparkles className="w-3 h-3" /> Scratch Coding Adventure · Cấp 2
                 </div>
                 <h1 className="font-display font-black text-2xl sm:text-4xl leading-tight mb-1 drop-shadow">
-                  Phiêu lưu lập trình Scratch{" "}
+                  Scratch Coding Adventure{" "}
                   <Rocket className="inline-block w-7 h-7 sm:w-9 sm:h-9 -mt-1" />
                 </h1>
                 <p className="text-white/95 text-xs sm:text-sm max-w-xl">
-                  {MISSIONS.length} nhiệm vụ chế tạo game thật - tất cả đã mở khóa hoàn toàn! Bấm vào bất kỳ thẻ nào để bắt đầu.
+                  {MISSIONS.length} real game-building missions - all fully unlocked! Click any card to start.
                 </p>
 
                 <div className="mt-4 flex flex-wrap gap-2 sm:gap-3">
                   <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/95 text-[#FF8C1A] font-extrabold text-xs sm:text-sm shadow-md">
                     <Rocket className="w-4 h-4" />
-                    Nhiệm vụ hoàn thành: {completedMissions}/{MISSIONS.length}
+                    Missions completed: {completedMissions}/{MISSIONS.length}
                   </div>
                   <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/95 text-[#1E40AF] font-extrabold text-xs sm:text-sm shadow-md">
                     <Star className="w-4 h-4 fill-[#FFD400] text-[#FFB300]" />
-                    Sao Scratch: {totalStars}/{MISSIONS.length * 3}
+                    Scratch Stars: {totalStars}/{MISSIONS.length * 3}
                   </div>
                   <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500 text-white font-extrabold text-xs sm:text-sm shadow-md">
                     <Gamepad2 className="w-4 h-4" />
-                    100% MIỄN PHÍ
+                    100% FREE
                   </div>
                 </div>
 
@@ -467,7 +467,7 @@ const ScratchAdventure = () => {
           <section aria-label="Coding missions">
             <h2 className="font-display font-extrabold text-lg sm:text-xl text-foreground mb-4 flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-[#FF8C1A]" />
-              {MISSIONS.length} Nhiệm vụ chế tạo game
+              {MISSIONS.length} Game building missions
             </h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
@@ -500,7 +500,7 @@ const ScratchAdventure = () => {
                         </div>
                         <div className="text-white">
                           <div className="text-[10px] font-extrabold uppercase tracking-wider opacity-95">
-                            Nhiệm vụ {m.id}
+                            Mission {m.id}
                           </div>
                           <div className="text-[10px] font-bold uppercase tracking-wider bg-black/15 inline-block px-1.5 py-0.5 rounded mt-0.5">
                             {m.subLabel}
@@ -539,7 +539,7 @@ const ScratchAdventure = () => {
                           ))}
                         </div>
                         <span className="text-[11px] font-bold text-[#FF8C1A] group-hover:translate-x-0.5 transition">
-                          Bắt đầu →
+                          Start →
                         </span>
                       </div>
                     </div>
@@ -591,7 +591,7 @@ const ScratchAdventure = () => {
                   </div>
                   <div className="min-w-0">
                     <div className="text-[10px] font-extrabold uppercase tracking-wider opacity-95">
-                      Nhiệm vụ {openMission.id} · {openMission.subLabel}
+                      Mission {openMission.id} · {openMission.subLabel}
                     </div>
                     <h3 className="font-display font-black text-xl sm:text-2xl leading-tight">
                       {openMission.title}
@@ -609,7 +609,7 @@ const ScratchAdventure = () => {
                 {/* Goals */}
                 <div>
                   <div className="text-xs font-extrabold uppercase tracking-wider text-[#FF8C1A] mb-2">
-                    🎯 Mục tiêu học tập
+                    🎯 Learning goals
                   </div>
                   <ul className="space-y-1.5">
                     {openMission.goals.map((g, i) => (
@@ -624,7 +624,7 @@ const ScratchAdventure = () => {
                 {/* Steps */}
                 <div>
                   <div className="text-xs font-extrabold uppercase tracking-wider text-[#1E90FF] mb-2">
-                    🧱 Hướng dẫn từng bước
+                    🧱 Step-by-step instructions
                   </div>
                   <ol className="space-y-2">
                     {openMission.steps.map((s, i) => (
@@ -641,7 +641,7 @@ const ScratchAdventure = () => {
                 {/* Stars row */}
                 <div className="rounded-2xl border-2 border-amber-300/50 bg-amber-50 dark:bg-amber-950/20 p-4 flex items-center justify-between gap-3 flex-wrap">
                   <div>
-                    <div className="text-xs font-bold text-foreground">Tiến độ của bạn</div>
+                    <div className="text-xs font-bold text-foreground">Your progress</div>
                     <div className="flex gap-1 mt-1">
                       {[0, 1, 2].map((i) => (
                         <Star
@@ -661,7 +661,7 @@ const ScratchAdventure = () => {
                         onClick={() => handleResetMission(openMission)}
                         className="px-3 py-2 rounded-xl border border-border bg-background text-xs font-bold text-muted-foreground hover:text-foreground transition"
                       >
-                        Đặt lại
+                        Reset
                       </button>
                     )}
                     <button
@@ -681,10 +681,10 @@ const ScratchAdventure = () => {
                   className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-gradient-to-r from-[#FF8C1A] to-[#F43F5E] text-white font-extrabold text-sm shadow-lg hover:brightness-110 active:scale-[0.98] transition"
                 >
                   <ExternalLink className="w-4 h-4" />
-                  Mở Scratch & bắt đầu code
+                  Open Scratch & start coding
                 </a>
                 <p className="text-[11px] text-center text-muted-foreground -mt-2">
-                  Sẽ mở trình soạn thảo Scratch chính thức trong tab mới.
+                  Will open the official Scratch editor in a new tab.
                 </p>
               </div>
             </motion.div>
