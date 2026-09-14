@@ -413,6 +413,7 @@ const PipelinePlumber = ({ pushLog, addXp, record }: { pushLog: (t: LogLine["typ
     pushLog("ok", "Pipeline flowing at 100k rows/sec!");
     addXp(60);
     void finishGame({ gameType: "prog_pipeline_plumber", score: 60 });
+    record("prog_pipeline_plumber", 60, true);
     let n = 0;
     const interval = window.setInterval(() => {
       n++;
