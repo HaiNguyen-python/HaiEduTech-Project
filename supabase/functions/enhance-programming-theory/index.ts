@@ -162,10 +162,10 @@ function normalizeMarkdownStructure(markdown: string): string {
     }
 
     const group = /^-\s+\*\*([^*\n]+)\*\*\s*:?\s*$/.exec(line);
-    if (group && /^ -(?! )\s*\S/.test(lines[index + 1] ?? "")) {
+    if (group && /^ - \S/.test(lines[index + 1] ?? "")) {
       if (output.length > 0 && output[output.length - 1]?.trim()) output.push("");
       output.push(`### ${group[1].trim()}`, "");
-      while (index + 1 < lines.length && /^ -(?! )\s*\S/.test(lines[index + 1] ?? "")) {
+      while (index + 1 < lines.length && /^ - \S/.test(lines[index + 1] ?? "")) {
         index += 1;
         output.push((lines[index] ?? "").replace(/^ (?=-\s)/, ""));
       }
