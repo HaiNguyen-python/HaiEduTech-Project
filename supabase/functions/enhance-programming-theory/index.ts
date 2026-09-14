@@ -23,16 +23,17 @@ OUTPUT RULES (STRICT):
 - Use this exact section structure with H2 (##) headings:
 
 ## 1. Executive Summary
-2-3 punchy sentences explaining what the concept is and why it matters in 2026.
+2-3 punchy prose sentences explaining what the concept is and why it matters in 2026. Do not use bullets here.
 
 ## 2. The "Why" & "When"
-Real-world use cases. When to choose this over alternatives. Use a comparison sentence.
+Use short prose paragraphs for real-world use cases and when to choose this over alternatives. Use a comparison sentence. Do not turn the whole section into a list.
 
 ## 3. Key Concepts & Terminology
-Define terms in **bold**. Use a bullet list.
+Define terms in **bold**. Use bullets only for short, independent definitions. If a definition needs more than two sentences, use a short paragraph under a ### term heading.
 
 ## 4. Detailed Breakdown
 Use ### sub-headings for each sub-topic. Include code snippets in fenced blocks with language tag.
+Use numbered lists only for procedures where order matters. Use unordered bullets only for three or more short parallel items. Never use a bullet as a category heading with indented bullets beneath it; use a ### heading instead. Use prose paragraphs for explanation and a table for multi-criteria comparisons.
 Where a visual genuinely helps comprehension, embed AT MOST ONE simple Mermaid diagram. Diagram rules (STRICT):
 - Prefer \`flowchart LR\` (left-right) or \`flowchart TD\` (top-down). Avoid complex graphs.
 - Maximum 6 nodes. Maximum 7 edges. No nested subgraphs.
@@ -63,13 +64,14 @@ flowchart LR
 A markdown table comparing this technology to 1-2 alternatives. Always include a table.
 
 ## 6. Best Practices & Anti-Patterns
-Two short bullet lists labeled **Best practices** and **Anti-patterns**.
+Use two ### sub-headings named "Best practices" and "Anti-patterns", each followed by a short bullet list. Keep each bullet concise and focused on one actionable idea.
 
 ## 7. Pro Tips & Pitfalls
 Use markdown blockquotes for highlights:
-- "> 💡 Tip: ..." for optimization tips
-- "> ⚠️ Warning: ..." for security/perf risks
-- "> 📝 Note: ..." for important context
+> 💡 Tip: ... for optimization tips
+> ⚠️ Warning: ... for security/perf risks
+> 📝 Note: ... for important context
+Write each callout as a standalone blockquote, never as a bullet containing a blockquote.
 
 ## 8. Deep Dive (Optional)
 Wrap advanced material in a fenced \`:::deepdive title="..."\` block:

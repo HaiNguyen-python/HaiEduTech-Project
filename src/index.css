@@ -907,20 +907,34 @@
 /* Lists */
 .theory-content ul,
 .theory-content ol {
-  margin: 0.85rem 0;
-  padding-left: 1.6rem;
+  margin: 0.9rem 0 1.1rem;
+  padding-left: 1.75rem;
 }
 .theory-content ul { list-style: disc; }
 .theory-content ol { list-style: decimal; }
 .theory-content li {
-  margin: 0.4rem 0;
+  margin: 0.48rem 0;
   font-size: 1rem;
   line-height: 1.7;
   color: hsl(var(--foreground) / 0.92);
 }
 .theory-content li::marker { color: hsl(var(--primary)); font-weight: 600; }
 .theory-content li > ul,
-.theory-content li > ol { margin: 0.35rem 0; }
+.theory-content li > ol {
+  margin: 0.45rem 0 0.65rem;
+  padding-left: 1.35rem;
+}
+.theory-content li > ul { list-style: circle; }
+.theory-content li > ul > li > ul { list-style: square; }
+.theory-content h3 + ul,
+.theory-content h3 + ol { margin-top: 0.55rem; }
+
+@media (max-width: 640px) {
+  .theory-content ul,
+  .theory-content ol { padding-left: 1.35rem; }
+  .theory-content li > ul,
+  .theory-content li > ol { padding-left: 1.1rem; }
+}
 
 /* Blockquote */
 .theory-content blockquote {
