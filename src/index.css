@@ -237,6 +237,119 @@
     background: hsl(var(--case-soft-gold));
   }
 
+  .startup-toolkit-page {
+    --primary: 217 91% 53%;
+    --primary-foreground: 0 0% 100%;
+    --accent: 38 92% 50%;
+    --ring: 217 91% 53%;
+    --toolkit-blue: 217 91% 53%;
+    --toolkit-emerald: 160 84% 39%;
+    --toolkit-gold: 38 92% 50%;
+    font-family: "Manrope", "Inter", sans-serif;
+    letter-spacing: 0;
+  }
+
+  .startup-toolkit-page :is(h1, h2, h3) {
+    font-family: "Sora", "Space Grotesk", sans-serif;
+    letter-spacing: 0;
+  }
+
+  .toolkit-card {
+    --toolkit-accent: var(--toolkit-blue);
+    min-width: 0;
+    border: 1px solid hsl(var(--border));
+    border-radius: 8px;
+    background: hsl(var(--card));
+    padding: 1.25rem;
+    box-shadow: 0 10px 30px hsl(var(--foreground) / 0.06);
+    transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+  }
+
+  .toolkit-card:hover {
+    border-color: hsl(var(--toolkit-accent) / 0.42);
+    box-shadow: 0 16px 38px hsl(var(--foreground) / 0.09);
+    transform: translateY(-2px);
+  }
+
+  .toolkit-card--emerald { --toolkit-accent: var(--toolkit-emerald); }
+  .toolkit-card--gold { --toolkit-accent: var(--toolkit-gold); }
+
+  .toolkit-icon {
+    display: grid;
+    height: 2.75rem;
+    width: 2.75rem;
+    flex: 0 0 auto;
+    place-items: center;
+    border-radius: 8px;
+    background: hsl(var(--toolkit-accent) / 0.12);
+    color: hsl(var(--toolkit-accent));
+  }
+
+  .toolkit-results {
+    border-top: 1px solid hsl(var(--border));
+    padding-top: 1.25rem;
+  }
+
+  .toolkit-metric {
+    --metric-accent: var(--toolkit-blue);
+    min-width: 0;
+    border-left: 3px solid hsl(var(--metric-accent));
+    padding: 0.25rem 0 0.25rem 0.75rem;
+    color: hsl(var(--metric-accent));
+  }
+
+  .toolkit-metric--emerald { --metric-accent: var(--toolkit-emerald); }
+  .toolkit-metric--gold { --metric-accent: var(--toolkit-gold); }
+
+  .toolkit-runway {
+    display: flex;
+    min-height: 7.5rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    border-left: 4px solid hsl(var(--toolkit-emerald));
+    background: hsl(var(--toolkit-emerald) / 0.07);
+    padding: 1.25rem;
+    color: hsl(var(--toolkit-emerald));
+  }
+
+  .toolkit-runway--warning {
+    border-left-color: hsl(var(--toolkit-gold));
+    background: hsl(var(--toolkit-gold) / 0.09);
+    color: hsl(var(--toolkit-gold));
+  }
+
+  .toolkit-ownership-bar {
+    display: flex;
+    height: 0.75rem;
+    overflow: hidden;
+    border-radius: 4px;
+    background: hsl(var(--muted));
+  }
+
+  .toolkit-ownership-bar > span { transition: width 260ms ease; }
+  .toolkit-ownership-founders { background: hsl(var(--toolkit-gold)); }
+  .toolkit-ownership-esop { background: hsl(var(--toolkit-blue)); }
+  .toolkit-ownership-investor { background: hsl(var(--toolkit-emerald)); }
+
+  .toolkit-market .toolkit-metric strong {
+    font-size: clamp(0.95rem, 1.3vw, 1.15rem);
+    overflow-wrap: anywhere;
+  }
+
+  @media (min-width: 640px) {
+    .toolkit-card { padding: 1.5rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .toolkit-card,
+    .toolkit-card:hover,
+    .toolkit-ownership-bar > span {
+      transition: none;
+      transform: none;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .case-study-card,
     .case-study-card__visual img { transition: none; }
