@@ -75,6 +75,20 @@ describe("Speaking Coach safeguards", () => {
     }
   });
 
+  it("never repeats the same practice sentence within a language", () => {
+    for (const [language, cfg] of Object.entries(speakingCoachLanguages)) {
+      const seen = new Map<string, string>();
+      for (const theme of cfg.themes) {
+        for (const sentence of theme.sentences) {
+          const key = sentence.text.toLocaleLowerCase().replace(/[^\p{L}\p{N}]+/gu, " ").trim();
+          if (!key) continue;
+          expect(seen.has(key), `${language}: ${seen.get(key)} / ${sentence.id} share text "${sentence.text}"`).toBe(false);
+          seen.set(key, sentence.id);
+        }
+      }
+    }
+  });
+
   it("prioritises due weak words and supports source filters", () => {
     const words = [
       { word: "ship", misses: 2, clean: 0, lastSeen: "2026-09-12", dueOn: "2026-09-13", source: "drill" as const },

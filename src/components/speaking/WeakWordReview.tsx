@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { forwardRef, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Brain, CheckCircle, Clock3, Ear, Mic, PartyPopper, Rabbit, RotateCcw, Square, Volume2, XCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -16,7 +16,7 @@ interface Props { language: SpeakingLang; onChange?: () => void; }
 const WAVEFORM = [3, 6, 4, 8, 5, 10, 7, 4, 9, 6, 11, 5, 8, 4, 7, 3, 6, 9];
 const FILTERS: WeakWordFilter[] = ["due", "missed", "sentence", "shadow", "drill", "freetalk"];
 
-const WeakWordReview = ({ language, onChange }: Props) => {
+const WeakWordReviewPanel = ({ language, onChange }: Props) => {
   const { t } = useLanguage();
   const config = speakingCoachLanguages[language];
   const reduceMotion = useReducedMotion();
@@ -87,4 +87,14 @@ const WeakWordReview = ({ language, onChange }: Props) => {
     </CardContent>
   </Card>;
 };
+
+// Wrapped so a parent may hold a ref to this panel without React warning about
+// refs on a function component.
+const WeakWordReview = forwardRef<HTMLDivElement, Props>((props, ref) => (
+  <div ref={ref}>
+    <WeakWordReviewPanel {...props} />
+  </div>
+));
+WeakWordReview.displayName = "WeakWordReview";
+
 export default WeakWordReview;

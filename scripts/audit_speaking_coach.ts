@@ -31,7 +31,7 @@ for (const l of langs) {
   sentences.forEach((s: any) => {
     const normalized = String(s.text ?? "").toLocaleLowerCase().replace(/[^\p{L}\p{N}]+/gu, " ").trim();
     const previous = textSeen.get(normalized);
-    if (previous) console.warn(`WARN: ${l}: duplicate sentence text ${previous} / ${s.id}`);
+    if (previous) p(`${l}: duplicate sentence text ${previous} / ${s.id}`);
     else if (normalized) textSeen.set(normalized, s.id);
   });
   themes.forEach((t: any) => { if ((t.sentences?.length ?? 0) < 6) p(`${l}: theme ${t.id} has ${t.sentences?.length} sentences`); });
