@@ -38,15 +38,19 @@ const NotebookAssignments = ({ userId, onCountChange, onNavigate }: Props) => {
       const rows = await fetchMyAssignments(userId);
       setItems(rows);
       setError(null);
-      onCountChange?.(rows.filter((r) => !r.done).length);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Không tải được bài tập");
     } finally {
       setLoading(false);
     }
-  }, [userId, onCountChange]);
+  }, [userId]);
 
   useEffect(() => { load(); }, [load]);
+
+  // Report the pending count upward from one place so the badge cannot drift.
+  useEffect(() => {
+    onCountChange?.(items.filter((i) => !i.done).length);
+  }, [items, onCountChange]);
 
   // New tasks and teacher edits appear without a reload.
   useEffect(() => {
@@ -73,7 +77,6 @@ const NotebookAssignments = ({ userId, onCountChange, onNavigate }: Props) => {
       : i));
     try {
       await setAssignmentDone(userId, item.assignmentId, next);
-      onCountChange?.(items.filter((i) => i.assignmentId !== item.assignmentId ? !i.done : !next).length);
       if (next) toast({ title: "Đã đánh dấu hoàn thành", description: item.title });
     } catch (e) {
       setItems((cur) => cur.map((i) => i.assignmentId === item.assignmentId ? item : i));
