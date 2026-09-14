@@ -410,7 +410,9 @@ const ProgrammingLessonPage = () => {
   const handleEnhanceTheory = async (forceRefresh = false, opts: { autoSwitch?: boolean; silent?: boolean } = {}) => {
     if (!mod || !lesson) return;
     const { autoSwitch = true, silent = false } = opts;
-    if (!silent) setEnhanceLoading(true);
+    // The spinner always shows: Deep-Dive is the default view, so learners must
+    // see that the deeper version is being prepared.
+    setEnhanceLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke("enhance-programming-theory", {
         body: {
@@ -425,16 +427,21 @@ const ProgrammingLessonPage = () => {
       });
       if (error) throw error;
       if (data?.fallback) {
+        setDeepDiveUnavailable(true);
         if (!silent) toast.warning("AI Deep-Dive is temporarily unavailable. Showing base theory.");
-      } else if (data?.markdown) {
+      } else if (data?.markdown && !hasVietnameseText(data.markdown)) {
         setEnhancedMd(data.markdown);
+        setDeepDiveUnavailable(false);
         if (autoSwitch) setUseEnhanced(true);
         if (!silent) toast.success(data.cached ? "Loaded enhanced theory from cache" : "AI Deep-Dive ready!");
+      } else {
+        setDeepDiveUnavailable(true);
       }
     } catch (e) {
+      setDeepDiveUnavailable(true);
       if (!silent) toast.error("Could not enhance theory. Please try again later.");
     }
-    if (!silent) setEnhanceLoading(false);
+    setEnhanceLoading(false);
   };
 
   // Admin-only: pre-generate AI illustrations for every Programming lesson.
