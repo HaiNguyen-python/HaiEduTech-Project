@@ -1168,15 +1168,6 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
           ))}
         </div>
 
-        <Button
-          variant="outline"
-          onClick={goNext}
-          disabled={selectedTheme && currentIndex >= selectedTheme.sentences.length - 1}
-          className="gap-1"
-        >
-          {t("Tiếp", "Next")}
-          <ChevronRight className="w-4 h-4" />
-        </Button>
       </div>
 
       {/* Main practice card */}
@@ -1191,7 +1182,9 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
           >
             <Card className="border-2">
               <CardContent className="pt-6 space-y-6">
-                <SpeakingThemeIllustration theme={selectedTheme} />
+                <div className="mx-auto w-full max-w-[280px]">
+                  <SpeakingThemeIllustration theme={selectedTheme} />
+                </div>
                 {/* Target sentence */}
                 <div className="text-center space-y-3">
                   <div className="flex items-center justify-center gap-2 mb-1">
@@ -1490,6 +1483,19 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
                       {t("Thử lại", "Retry")}
                     </Button>
                   )}
+
+                  {/* Next */}
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    onClick={goNext}
+                    disabled={selectedTheme && currentIndex >= selectedTheme.sentences.length - 1}
+                    className="gap-2"
+                    aria-label={t("Câu tiếp theo", "Next sentence")}
+                  >
+                    {t("Tiếp", "Next")}
+                    <ChevronRight className="w-5 h-5" />
+                  </Button>
                 </div>
 
                 {/* Transcript display */}
