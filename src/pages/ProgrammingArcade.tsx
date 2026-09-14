@@ -251,7 +251,9 @@ const SQL_TOKENS = [
   "COUNT(*)", "SUM(power)", "AVG(power)", "*", "AND", "id",
 ];
 
-const SqlDungeon = ({ pushLog, addXp }: { pushLog: (t: LogLine["type"], text: string) => void; addXp: (n: number) => void }) => {
+type RecordRun = (gameType: string, score: number, perfect: boolean) => void;
+
+const SqlDungeon = ({ pushLog, addXp, record }: { pushLog: (t: LogLine["type"], text: string) => void; addXp: (n: number) => void; record: RecordRun }) => {
   const { t } = useLanguage();
   const [idx, setIdx] = useState(0);
   const [hp, setHp] = useState(SQL_RIDDLES[0].hp);
