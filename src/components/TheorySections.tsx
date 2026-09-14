@@ -211,21 +211,15 @@ function normalizeMath(input: string): string {
 
       let out = part;
 
-      // Four dollars normally mean one display formula closes and the next one
-      // opens. Preserve that boundary instead of collapsing both delimiters.
-      out = out.replace(/\${4}/g, "$$\n\n$$");
-      // Repair malformed triple-dollar wrappers such as `$$$expr$$$`.
-      out = out.replace(/\${3}/g, "$$$$");
-
       // \[ ... \]  → $$ ... $$
-      out = out.replace(/\\\[([\s\S]+?)\\\]/g, (_, body) => `$$${body.trim()}$$`);
+      out = out.replace(/\\\[([\s\S]+?)\\\]/g, (_, body) => `$$\n${body.trim()}\n$$`);
       // \( ... \)  → $ ... $
       out = out.replace(/\\\(([\s\S]+?)\\\)/g, (_, body) => `$${body.trim()}$`);
 
       // Trim each complete display formula in one pass. Separate opening-only
       // and closing-only regexes can mistake the close of formula A for the
       // open of formula B and produce `$$$$` between adjacent equations.
-      out = out.replace(/\$\$([\s\S]*?)\$\$/g, (_, body) => `$$${body.trim()}$$`);
+      out = out.replace(/\$\$([\s\S]*?)\$\$/g, (_, body) => `$$\n${body.trim()}\n$$`);
       out = out.replace(/(^|[^$])\$\s+([^$\n]+?)\s+\$(?!\$)/g, (_, pre, body) => `${pre}$${body}$`);
       // Also handle one-sided whitespace.
       out = out.replace(/(^|[^$])\$\s+([^$\n]+?)\$(?!\$)/g, (_, pre, body) => `${pre}$${body}$`);
