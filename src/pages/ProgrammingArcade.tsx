@@ -7,7 +7,7 @@
  */
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Code2, Database, Brain, Zap, Trophy, Loader2, CheckCircle2, XCircle, Sparkles } from "lucide-react";
+import { ArrowLeft, Code2, Database, Brain, Zap, Trophy, Loader2, CheckCircle2, XCircle, Sparkles, Clock3, Gauge, Play, Target, Terminal, ShieldCheck } from "lucide-react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -41,33 +41,36 @@ const GameHeader = ({ xp, log, current, onBack }: GameHeaderProps) => {
   const level = xpToLevel(xp);
   const xpInLevel = xp % 100;
   return (
-    <div className="rounded-xl border border-emerald-500/30 bg-slate-950/80 backdrop-blur-md p-4 mb-6 font-mono text-sm shadow-[0_0_40px_-15px_rgba(16,185,129,0.5)]">
-      <div className="flex flex-wrap items-center gap-3 mb-3">
+    <div className="arcade-status mb-7 font-mono text-sm">
+      <div className="flex flex-wrap items-center gap-3">
         {current !== "menu" && (
-          <Button variant="ghost" size="sm" onClick={onBack} className="text-emerald-300 hover:text-emerald-200 hover:bg-emerald-500/10">
-            <ArrowLeft className="w-4 h-4 mr-1" /> ./back
+          <Button variant="ghost" onClick={onBack} className="min-h-11 text-[hsl(var(--arcade-green))] hover:bg-[hsl(var(--arcade-green)/0.1)] hover:text-[hsl(var(--arcade-green))]">
+            <ArrowLeft className="w-4 h-4" /> Mission board
           </Button>
         )}
-        <div className="flex items-center gap-2 px-3 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30">
-          <Zap className="w-4 h-4 text-amber-400" />
-          <span className="text-amber-300">XP:</span>
-          <span className="text-emerald-200 font-bold">{xp}</span>
+        <div className="arcade-stat">
+          <Zap className="w-4 h-4 text-[hsl(var(--arcade-gold))]" />
+          <span className="text-[hsl(var(--arcade-muted))]">TOTAL XP</span>
+          <span className="font-bold text-[hsl(var(--arcade-text))]">{xp}</span>
         </div>
-        <div className="flex items-center gap-2 px-3 py-1 rounded-md bg-cyan-500/10 border border-cyan-500/30">
-          <Trophy className="w-4 h-4 text-cyan-400" />
-          <span className="text-cyan-300">LVL:</span>
-          <span className="text-cyan-100 font-bold">{level}</span>
+        <div className="arcade-stat">
+          <Trophy className="w-4 h-4 text-[hsl(var(--arcade-blue))]" />
+          <span className="text-[hsl(var(--arcade-muted))]">LEVEL</span>
+          <span className="font-bold text-[hsl(var(--arcade-text))]">{level}</span>
         </div>
-        <div className="flex-1 min-w-[140px] h-2 rounded-full bg-slate-800 overflow-hidden border border-slate-700">
-          <div className="h-full bg-gradient-to-r from-emerald-400 via-cyan-400 to-fuchsia-400 transition-all" style={{ width: `${xpInLevel}%` }} />
+        <div className="min-w-[150px] flex-1">
+          <div className="mb-1 flex justify-between text-[11px] text-[hsl(var(--arcade-muted))]"><span>NEXT LEVEL</span><span>{xpInLevel}/100 XP</span></div>
+          <div className="h-2 overflow-hidden rounded-full bg-[hsl(var(--arcade-line))]">
+            <div className="arcade-progress h-full transition-all" style={{ width: `${xpInLevel}%` }} />
+          </div>
         </div>
       </div>
-      <div className="rounded-md bg-black/60 border border-slate-800 p-3 max-h-32 overflow-y-auto text-xs">
+      <div className={`arcade-terminal mt-3 max-h-24 overflow-y-auto text-xs ${log.length === 0 && current === "menu" ? "hidden sm:block" : ""}`} aria-live="polite">
         {log.length === 0 ? (
-          <div className="text-slate-500">{">> terminal ready..."}</div>
+          <div className="text-[hsl(var(--arcade-muted))]">{"> mission control ready - choose your challenge"}</div>
         ) : (
           log.slice(-8).map(l => (
-            <div key={l.id} className={l.type === "ok" ? "text-emerald-300" : l.type === "err" ? "text-rose-400" : "text-slate-400"}>
+            <div key={l.id} className={l.type === "ok" ? "text-[hsl(var(--arcade-green))]" : l.type === "err" ? "text-destructive" : "text-[hsl(var(--arcade-muted))]"}>
               {l.type === "ok" ? ">> " : l.type === "err" ? "!! " : ">> "}{l.text}
             </div>
           ))
@@ -596,27 +599,30 @@ const ProgrammingArcade = () => {
   };
 
   const cards = [
-    { id: "sql" as const, chibi: "🧙", title: "SQL Dungeon", desc: t("Trận đấu RPG dùng SELECT/WHERE/COUNT để hạ quái.", "Retro RPG: defeat monsters with SQL queries."), icon: Database, color: "from-violet-500 to-purple-600" },
-    { id: "pipeline" as const, chibi: "🤖", title: "Data Pipeline Plumber", desc: t("Kéo thả Extract → Filter → Transform → Load.", "Drag Extract → Filter → Transform → Load."), icon: Code2, color: "from-cyan-500 to-emerald-500" },
-    { id: "tuner" as const, chibi: "🧠", title: "AI Parameter Tuner", desc: t("Tinh chỉnh siêu tham số để chạm Sweet Spot.", "Tune hyperparameters to hit the Sweet Spot."), icon: Brain, color: "from-fuchsia-500 to-pink-500" },
-    { id: "galaxy" as const, chibi: "🚀", title: "Code Galaxy", desc: t("Sắp xếp snippet code đúng category - Foundations, Data, AI.", "Sort code snippets by category - Foundations, Data, AI."), icon: Sparkles, color: "from-emerald-500 to-cyan-500" },
+    { id: "sql" as const, chibi: "🧙", title: "SQL Dungeon", skill: "DATABASE QUEST", desc: t("Đánh bại 10 quái vật bằng truy vấn SELECT, WHERE, hàm tổng hợp và sắp xếp.", "Defeat 10 monsters with SELECT, WHERE, aggregate, and sorting queries."), goal: t("Xây truy vấn đúng thứ tự", "Build queries in the right order"), difficulty: t("Tăng dần", "Progressive"), time: "8-12 min", reward: "Up to 660 XP", icon: Database, tone: "blue", featured: true },
+    { id: "pipeline" as const, chibi: "🤖", title: "Data Pipeline Plumber", skill: "DATA ENGINEERING", desc: t("Nối các khối xử lý để dữ liệu đi từ nguồn tới đích mà không bị tắc.", "Connect processing blocks so data flows cleanly from source to destination."), goal: "Extract → Filter → Transform → Load", difficulty: t("Cơ bản", "Beginner"), time: "3-5 min", reward: "60 XP", icon: Code2, tone: "green" },
+    { id: "tuner" as const, chibi: "🧠", title: "AI Parameter Tuner", skill: "MACHINE LEARNING", desc: t("Điều chỉnh ba siêu tham số, đọc đường loss và tìm vùng mô hình hoạt động tốt nhất.", "Tune three hyperparameters, read the loss curves, and find the model's sweet spot."), goal: t("Đạt Sweet Spot từ 85%", "Reach an 85% Sweet Spot"), difficulty: t("Trung bình", "Intermediate"), time: "5-8 min", reward: "80 XP", icon: Brain, tone: "gold" },
+    { id: "galaxy" as const, chibi: "🚀", title: "Code Galaxy", skill: "CODE RECOGNITION", desc: t("Phân loại 42 đoạn code thuộc Foundations, Data Engineering và AI/ML.", "Classify 42 code snippets across Foundations, Data Engineering, and AI/ML."), goal: t("Nhận diện mẫu code nhanh", "Recognize code patterns fast"), difficulty: t("3 đường chơi", "3 tracks"), time: "6-10 min", reward: "15 XP / answer", icon: Sparkles, tone: "pink" },
   ];
 
   return (
-    <div className="min-h-screen bg-slate-900 text-slate-100">
+    <div className="arcade-page min-h-screen">
       <SEO title="Tech & Code Game Hub | Learn Programming - HaiEduTech" description="Arcade lập trình: SQL Dungeon, Data Pipeline Plumber, AI Parameter Tuner, Code Galaxy. Học code qua game." path="/programming/arcade" />
       <Navbar />
-      <div className="pt-6 pb-16 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 min-h-screen">
-        <div className="container mx-auto px-3 sm:px-6 max-w-6xl">
+      <div className="arcade-stage min-h-screen pb-16 pt-8 sm:pt-10">
+        <div className="container relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
           {/* Hero */}
-          <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-6">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-500/40 bg-emerald-500/5 text-emerald-300 text-xs font-mono mb-3">
-              <Sparkles className="w-3 h-3" /> &gt; tech_arcade.boot
+          <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} className="mb-7 flex flex-col justify-between gap-5 md:flex-row md:items-end">
+            <div>
+              <div className="mb-3 flex items-center gap-2 font-mono text-xs font-bold text-[hsl(var(--arcade-green))]">
+                <ShieldCheck className="h-4 w-4" /> SYSTEM STATUS: ONLINE
+              </div>
+              <h1 className="max-w-3xl font-display text-4xl font-black leading-tight text-[hsl(var(--arcade-text))] sm:text-5xl lg:text-6xl">
+                TECH &amp; CODE <span className="arcade-title-accent">GAME HUB</span>
+              </h1>
+              <p className="mt-3 max-w-2xl text-base text-[hsl(var(--arcade-muted))] sm:text-lg">{t("Chọn nhiệm vụ, luyện kỹ năng thật và tích lũy XP qua bốn trò chơi lập trình.", "Choose a mission, practise real skills, and earn XP through four coding games.")}</p>
             </div>
-            <h1 className="text-3xl sm:text-4xl font-display font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 via-cyan-300 to-fuchsia-300">
-              Tech &amp; Code Game Hub
-            </h1>
-            <p className="text-slate-400 text-sm">{t("Học SQL, Data Engineering và AI qua 4 mini-game tương tác.", "Learn SQL, Data Engineering, and AI through 4 interactive mini-games.")}</p>
+            <div className="arcade-online-badge"><span className="arcade-live-dot" /> 4 MISSIONS READY</div>
           </motion.div>
 
           <GameHeader xp={xp} log={log} current={game} onBack={() => setGame("menu")} />
@@ -629,26 +635,39 @@ const ProgrammingArcade = () => {
           )}
 
           {!loading && game === "menu" && (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
               {cards.map((c, i) => {
                 const Icon = c.icon;
                 return (
-                  <motion.button
+                  <motion.div
                     key={c.id}
                     initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.1 }}
-                    onClick={() => switchTo(c.id)}
-                    className="relative overflow-hidden text-left rounded-xl border border-slate-700 bg-slate-950/80 hover:border-emerald-400/50 hover:shadow-[0_0_40px_-15px_rgba(16,185,129,0.6)] transition-all p-5 group min-h-[180px]"
+                    className={`arcade-mission arcade-mission--${c.tone} group ${c.featured ? "md:row-span-2" : ""}`}
                   >
-                    <motion.div animate={{ y: [0, -6, 0], rotate: [-3, 3, -3] }} transition={{ duration: 3, repeat: Infinity }} className="absolute -bottom-2 -right-2 text-6xl drop-shadow-xl select-none opacity-90" aria-hidden>{c.chibi}</motion.div>
-                    <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${c.color} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform`}>
-                      <Icon className="w-6 h-6 text-white" />
+                    <div className="arcade-corner" aria-hidden />
+                    <div className="relative z-10 flex h-full flex-col">
+                      <div className="mb-5 flex items-start justify-between gap-4">
+                        <div className="arcade-icon"><Icon className="h-6 w-6" /></div>
+                        <motion.div animate={{ y: [0, -6, 0], rotate: [-3, 3, -3] }} transition={{ duration: 3.5, repeat: Infinity }} className={`select-none drop-shadow-xl ${c.featured ? "text-7xl sm:text-8xl" : "text-6xl"}`} aria-hidden>{c.chibi}</motion.div>
+                      </div>
+                      <div className="arcade-skill">{c.skill}</div>
+                      <h2 className={`mt-2 font-display font-bold text-[hsl(var(--arcade-text))] ${c.featured ? "text-3xl" : "text-2xl"}`}>{c.title}</h2>
+                      <p className="mt-2 max-w-xl text-sm leading-relaxed text-[hsl(var(--arcade-muted))] sm:text-base">{c.desc}</p>
+                      <div className="my-5 flex items-start gap-2 border-l-2 border-current pl-3 text-sm text-[hsl(var(--arcade-text))]">
+                        <Target className="mt-0.5 h-4 w-4 shrink-0" /><span>{c.goal}</span>
+                      </div>
+                      <div className="mt-auto flex flex-wrap gap-2 text-xs text-[hsl(var(--arcade-muted))]">
+                        <span className="arcade-meta"><Gauge className="h-3.5 w-3.5" />{c.difficulty}</span>
+                        <span className="arcade-meta"><Clock3 className="h-3.5 w-3.5" />{c.time}</span>
+                        <span className="arcade-meta arcade-reward"><Zap className="h-3.5 w-3.5" />{c.reward}</span>
+                      </div>
+                      <Button onClick={() => switchTo(c.id)} className="arcade-play mt-5 min-h-11 w-full sm:w-auto sm:self-start">
+                        <Play className="h-4 w-4 fill-current" /> {t("Bắt đầu nhiệm vụ", "Play mission")}
+                      </Button>
                     </div>
-                    <h3 className="text-lg font-bold text-slate-100 mb-1 font-mono">{c.title}</h3>
-                    <p className="text-xs text-slate-400 mb-3 max-w-[75%]">{c.desc}</p>
-                    <div className="text-xs text-emerald-300 font-mono group-hover:text-emerald-200">&gt; ./run</div>
-                  </motion.button>
+                  </motion.div>
                 );
               })}
             </div>
@@ -659,8 +678,10 @@ const ProgrammingArcade = () => {
           {!loading && game === "tuner" && <AiTuner pushLog={pushLog} addXp={addXp} />}
           {!loading && game === "galaxy" && <CodeGalaxy onExit={() => setGame("menu")} onScore={addXp} />}
 
-          <div className="text-center mt-8">
-            <Link to="/programming" className="text-xs font-mono text-slate-500 hover:text-emerald-300">&lt; ../programming</Link>
+          <div className="mt-9 text-center">
+            <Button asChild variant="ghost" className="text-[hsl(var(--arcade-muted))] hover:bg-[hsl(var(--arcade-panel))] hover:text-[hsl(var(--arcade-green))]">
+              <Link to="/programming"><ArrowLeft className="h-4 w-4" /> {t("Quay lại Programming", "Back to Programming")}</Link>
+            </Button>
           </div>
         </div>
       </div>
