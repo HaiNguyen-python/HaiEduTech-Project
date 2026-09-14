@@ -20,6 +20,9 @@ OUTPUT RULES (STRICT):
   diagram labels, image captions and all comments inside code blocks.
   Never output Vietnamese or any other language, even if the source lesson contains it.
 - NEVER use em dashes or en dashes. Use the ASCII hyphen-minus character (-) instead.
+- NEVER write literal "\\n" escape sequences. Use real line breaks.
+- NEVER wrap math in backticks. Inline math is $...$ and display math is $$...$$ with no surrounding backticks.
+- NEVER add a "Deep Dive", "Optional", "Bonus" or "Appendix" section, and never leave an empty heading.
 - Use this exact section structure with H2 (##) headings:
 
 ## 1. Executive Summary
@@ -147,6 +150,12 @@ function normalizeMarkdownStructure(markdown: string): string {
   const output: string[] = [];
   const lines = markdown
     .replace(/:::deepdive\s+title=["'][^"']+["']\s*\n[\s\S]*?:::/g, "")
+    .replace(/```deepdive[\s\S]*$/g, "")
+    // Empty "8. Deep Dive" style stubs left with no body.
+    .replace(/(?:^|\n)#{1,6}[ \t]*\d*\.?[ \t]*Deep[ -]?Dive[^\n]*(?=\s*(?:\n#{1,6}\s|$))/gi, "")
+    // Literal "\\n" escapes and backtick-wrapped math break rendering.
+    .replace(/\\n(?![a-zA-Z])/g, "\n")
+    .replace(/`\s*(\$\$?[^`\n]+?\$\$?)\s*`/g, "$1")
     .split("\n");
 
   for (let index = 0; index < lines.length; index += 1) {
