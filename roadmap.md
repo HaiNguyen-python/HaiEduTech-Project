@@ -6,6 +6,7 @@
 - [x] IELTS Speaking phrase cards: English examples, per-phrase voice sentence practice, AI feedback, best-score history, and activity tracking
 - [x] Speaking Coach: illustrated header and Speak with Mr. Hai two-way voice practice with animated states, situational topics, transcript, corrections, session summary, and local history
 - [x] Speak with Mr. Hai upgrade: voice-only turns (no typing box), male Mr. Hai voice via `mr-hai-voice`, manual-stop long speech capture with transcript cleanup, slow replay, live turn/word badges, and auto-scrolling conversation
+- [x] Speaking Coach sentences: smaller theme illustration, Next button moved next to Record, responsive sizing on mobile so Record and Next stay side-by-side
 - [x] English Overview: reorganized into a prioritized bento grid with grouped daily practice, skill learning, assessment, and resources
 - [x] Free Talk and Weak Words: guided practice flows, topic illustrations, retryable AI feedback, local progress history, actionable corrections, prioritized review filters, same-word retries, and six-language safeguards
 - [x] Sound Lab: guided listen-coach-speak flow, sequential pair audio, safe sound highlighting, same-item retries, best-attempt scoring, and actionable results
@@ -29,9 +30,4 @@
       preserving subject audio, meanings, examples, mastery, and Japanese SRS behavior
 
 ## Open
-- [x] IELTS Speaking phrase practice: curated examples, hardened retry/grading, synced activity, and verified desktop/mobile
 - [ ] Word Quest: study one word, complete 5 adaptive exercises, then advance; verify all 6 subjects
-- [x] Specialized Language Hub: six languages, five-lesson pathway, 75% quizzes, audio, speaking and progress sync
-- [x] Hover contrast: no invisible text on hover (shared button/toggle/nav-menu variants
-      now hover to a muted surface with foreground text; dark-section buttons set their own
-      hover background; guarded by scripts/audit_hover_contrast.mjs)

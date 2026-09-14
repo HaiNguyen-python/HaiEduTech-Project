@@ -1168,15 +1168,6 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
           ))}
         </div>
 
-        <Button
-          variant="outline"
-          onClick={goNext}
-          disabled={selectedTheme && currentIndex >= selectedTheme.sentences.length - 1}
-          className="gap-1"
-        >
-          {t("Tiếp", "Next")}
-          <ChevronRight className="w-4 h-4" />
-        </Button>
       </div>
 
       {/* Main practice card */}
@@ -1191,7 +1182,9 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
           >
             <Card className="border-2">
               <CardContent className="pt-6 space-y-6">
-                <SpeakingThemeIllustration theme={selectedTheme} />
+                <div className="mx-auto w-full max-w-[220px] sm:max-w-[260px] overflow-hidden rounded-xl shadow-sm">
+                  <SpeakingThemeIllustration theme={selectedTheme} />
+                </div>
                 {/* Target sentence */}
                 <div className="text-center space-y-3">
                   <div className="flex items-center justify-center gap-2 mb-1">
@@ -1411,7 +1404,7 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
                     size="lg"
                     onClick={() => playDemo(false)}
                     disabled={isPlayingDemo}
-                    className="gap-2"
+                    className="gap-2 h-10 px-4 text-sm sm:h-12 sm:px-6 sm:text-base"
                   >
                     <Volume2 className={`w-5 h-5 ${isPlayingDemo ? "animate-pulse text-primary" : ""}`} />
                     {t("Nghe mẫu", "Listen")}
@@ -1423,7 +1416,7 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
                     size="lg"
                     onClick={() => playDemo(true)}
                     disabled={isPlayingDemo}
-                    className="gap-2"
+                    className="gap-2 h-10 px-4 text-sm sm:h-12 sm:px-6 sm:text-base"
                   >
                     <Volume2 className="w-4 h-4" />
                     {t("Nghe chậm", "Slow")}
@@ -1438,7 +1431,7 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
                       size="lg"
                       onClick={isRecording ? stopRecognition : startRecognition}
                       disabled={!speechSupported}
-                      className={`gap-2 min-w-[160px] ${
+                      className={`gap-2 min-w-[120px] sm:min-w-[160px] h-10 px-4 text-sm sm:h-12 sm:px-6 sm:text-base ${
                         isRecording
                           ? "bg-red-500 hover:bg-red-600 text-white"
                           : "bg-primary hover:bg-primary/90"
@@ -1484,12 +1477,25 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
                         resetState();
                         startRecognition();
                       }}
-                      className="gap-2"
+                      className="gap-2 h-10 px-4 text-sm sm:h-12 sm:px-6 sm:text-base"
                     >
                       <RotateCcw className="w-5 h-5" />
                       {t("Thử lại", "Retry")}
                     </Button>
                   )}
+
+                  {/* Next */}
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    onClick={goNext}
+                    disabled={selectedTheme && currentIndex >= selectedTheme.sentences.length - 1}
+                    className="gap-2 h-10 px-4 text-sm sm:h-12 sm:px-6 sm:text-base"
+                    aria-label={t("Câu tiếp theo", "Next sentence")}
+                  >
+                    {t("Tiếp", "Next")}
+                    <ChevronRight className="w-5 h-5" />
+                  </Button>
                 </div>
 
                 {/* Transcript display */}
