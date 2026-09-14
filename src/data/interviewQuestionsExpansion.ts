@@ -271,7 +271,7 @@ response = client.chat.completions.create(
   // AI ENGINEER - AI System Design & Ethics
   // ============================================================
   {
-    id: "ai-sys-1",
+    id: "ai-sys-exp-1",
     role: "ai-engineer",
     category: "AI System Design & Ethics",
     difficulty: "Senior",
@@ -294,7 +294,7 @@ response = client.chat.completions.create(
     tags: ["system-design", "RAG", "production"],
   },
   {
-    id: "ai-sys-2",
+    id: "ai-sys-exp-2",
     role: "ai-engineer",
     category: "AI System Design & Ethics",
     difficulty: "Senior",
@@ -311,7 +311,7 @@ response = client.chat.completions.create(
     tags: ["fairness", "ethics", "bias"],
   },
   {
-    id: "ai-sys-3",
+    id: "ai-sys-exp-3",
     role: "ai-engineer",
     category: "AI System Design & Ethics",
     difficulty: "Mid",
@@ -329,7 +329,7 @@ response = client.chat.completions.create(
     tags: ["cost-optimization", "production"],
   },
   {
-    id: "ai-sys-4",
+    id: "ai-sys-exp-4",
     role: "ai-engineer",
     category: "AI System Design & Ethics",
     difficulty: "Senior",
@@ -350,7 +350,7 @@ response = client.chat.completions.create(
   // DATA ENGINEER - SQL & Databases (advanced)
   // ============================================================
   {
-    id: "de-sql-6",
+    id: "de-sql-exp-6",
     role: "data-engineer",
     category: "SQL & Databases",
     difficulty: "Mid",
