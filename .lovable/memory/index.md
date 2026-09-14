@@ -1,6 +1,7 @@
 # Project Memory
 
 ## Memories
+- [Assignment Tick Tracking](mem://features/admin/assignment-tick-tracking) - Notebook "Bài tập" tab checkboxes on student_submissions feed realtime completion charts in Assignment Management
 - [Memory Brain Data Flow](mem://features/vocab/memory-brain-data-flow) - All study flows write reviews; retention-based colours, lapses/ease, brain on 9 subjects
 - [Game score & brain integration](mem://features/games/score-and-brain-integration) - finishGame helper saves every arcade run + feeds words to the brain; replay remounts, never reloads
 - [Lifestyle Pillars](mem://features/lifestyle/self-study-pillar) - 6 pillars / 102 lessons incl. Partying pty-01..pty-15, Self-Study ss-01..ss-15
