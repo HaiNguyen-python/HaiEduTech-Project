@@ -23,6 +23,9 @@ OUTPUT RULES (STRICT):
 - NEVER write literal "\\n" escape sequences. Use real line breaks.
 - NEVER wrap math in backticks. Inline math is $...$ and display math is $$...$$ with no surrounding backticks.
 - NEVER add a "Deep Dive", "Optional", "Bonus" or "Appendix" section, and never leave an empty heading.
+- Bold the most important technical terms and key phrases with **...** when they first appear in a section.
+- Keep emphasis restrained: usually 1-3 bold phrases per paragraph. Never bold a whole sentence.
+- Never add bold markers inside code, inline code, math, Mermaid diagrams, URLs, or link destinations.
 - Use this exact section structure with H2 (##) headings:
 
 ## 1. Executive Summary
@@ -125,6 +128,12 @@ interface IllustrationSpec {
   caption?: string;
 }
 
+function isIllustrationSpec(value: unknown): value is IllustrationSpec {
+  if (!value || typeof value !== "object") return false;
+  const candidate = value as Record<string, unknown>;
+  return typeof candidate.anchor === "string" && typeof candidate.prompt === "string";
+}
+
 function normalizeProseDashes(markdown: string): string {
   let inFence = false;
 
@@ -202,8 +211,8 @@ function extractIllustrationSpecs(md: string): { markdown: string; specs: Illust
       const parsed = JSON.parse(b.json);
       const arr = Array.isArray(parsed?.illustrations) ? parsed.illustrations : [];
       specs = arr
-        .filter((s: any) => s && typeof s.anchor === "string" && typeof s.prompt === "string")
-        .map((s: any) => ({
+        .filter(isIllustrationSpec)
+        .map((s) => ({
           anchor: String(s.anchor),
           prompt: String(s.prompt),
           caption: typeof s.caption === "string" ? s.caption : "",
@@ -269,7 +278,7 @@ function injectIllustrations(
       const heading = parts[i];
       if (matcher.test(heading)) {
         const body = parts[i + 1] || "";
-        const safeAlt = (ill.caption || "Illustration").replace(/[\[\]]/g, "");
+        const safeAlt = (ill.caption || "Illustration").replace(/[[\]]/g, "");
         const imgMd = `\n\n![${safeAlt}](${ill.url})\n\n`;
         // Insert the image after the first paragraph of the section so it
         // appears inline with the explanation.
@@ -286,7 +295,7 @@ function injectIllustrations(
     }
     // Fallback: append at the end if no matching section found
     if (!injected) {
-      const safeAlt = (ill.caption || "Illustration").replace(/[\[\]]/g, "");
+      const safeAlt = (ill.caption || "Illustration").replace(/[[\]]/g, "");
       parts.push(`\n\n![${safeAlt}](${ill.url})\n`);
     }
   }

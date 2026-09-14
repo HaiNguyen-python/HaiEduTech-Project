@@ -107,9 +107,10 @@ function splitByH2(md: string): Section[] {
     // Drop headings with no content at all (e.g. leftover "8. Deep Dive" stubs)
     // so students never see an empty numbered step badge.
     if (!body) return;
+    const isIntro = current.title === null;
     sections.push({
-      title: current.title,
-      rawTitle: current.rawTitle,
+      title: isIntro ? "Lesson Overview" : current.title,
+      rawTitle: isIntro ? "Lesson Overview" : current.rawTitle,
       stepNumber: current.stepNumber,
       slug: slugify(current.title || "intro", sections.length),
       body,
@@ -567,6 +568,52 @@ function repairEscapedText(md: string): string {
     .join("");
 }
 
+const KEY_TERM_PATTERNS = [
+  "application programming interface", "artificial intelligence", "machine learning", "deep learning",
+  "data structure", "algorithmic complexity", "time complexity", "space complexity", "object-oriented programming",
+  "functional programming", "version control", "continuous integration", "continuous deployment", "unit testing",
+  "integration testing", "database management system", "relational database", "primary key", "foreign key",
+  "query optimization", "cloud computing", "container orchestration", "infrastructure as code", "operating system",
+  "computer network", "cybersecurity", "authentication", "authorization", "encryption", "hash function",
+  "large language model", "natural language processing", "neural network", "gradient descent", "feature engineering",
+  "cross-validation", "hyperparameter tuning", "model evaluation", "overfitting", "underfitting", "data pipeline",
+  "extract transform load", "software development lifecycle", "design pattern", "runtime", "compiler", "interpreter",
+  "recursion", "iteration", "inheritance", "encapsulation", "polymorphism", "abstraction", "scalability",
+  "latency", "throughput", "concurrency", "parallelism", "API", "SQL", "NoSQL", "HTTP", "JSON", "Git",
+  "Python", "JavaScript", "TypeScript", "Docker", "Kubernetes",
+] as const;
+
+/** Add restrained emphasis to prose only. Code, math, links and existing Markdown emphasis stay byte-for-byte intact. */
+function emphasizeKeyTerms(markdown: string): string {
+  const protectedPattern = /(```[\s\S]*?```|`[^`\n]+`|\$\$[\s\S]*?\$\$|\$[^$\n]+\$|!\[[^\]]*\]\([^)]*\)|\[[^\]]+\]\([^)]*\)|\*\*[^*\n]+\*\*)/g;
+  const seen = new Set<string>();
+  const escapedTerms = [...KEY_TERM_PATTERNS]
+    .sort((a, b) => b.length - a.length)
+    .map((term) => term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+  const termPattern = new RegExp(`\\b(${escapedTerms.join("|")})\\b`, "gi");
+
+  return markdown
+    .split(protectedPattern)
+    .map((part, index) => {
+      if (index % 2 === 1) return part;
+
+      let emphasized = part.replace(
+        /(^|\n)(\s*(?:[-*+]\s+|\d+\.\s+)?)([A-Z][A-Za-z0-9+/# -]{1,48})(?=:\s)/g,
+        (_match, lineStart: string, prefix: string, label: string) =>
+          `${lineStart}${prefix}**${label.trim()}**`,
+      );
+
+      emphasized = emphasized.replace(termPattern, (match) => {
+        const key = match.toLowerCase();
+        if (seen.has(key)) return match;
+        seen.add(key);
+        return `**${match}**`;
+      });
+      return emphasized;
+    })
+    .join("");
+}
+
 
 /**
  * Break long, dense paragraphs into smaller ones for readability.
@@ -651,7 +698,9 @@ const TheorySections = ({ markdown, storageKey, defaultCodeLanguage = "text" }: 
     () =>
       splitByH2(
         splitLongParagraphs(
-          normalizeMath(repairEscapedText(stripOuterMarkdownFence(removeOptionalDeepDives(markdown)))),
+          emphasizeKeyTerms(
+            normalizeMath(repairEscapedText(stripOuterMarkdownFence(removeOptionalDeepDives(markdown)))),
+          ),
         ),
       ),
 
@@ -697,7 +746,6 @@ const TheorySections = ({ markdown, storageKey, defaultCodeLanguage = "text" }: 
 
   // ── Collapsed / expanded sections ──
   const openKey = `${storageKey}:open`;
-  const firstTitledSlug = sections.find((s) => s.title !== null)?.slug ?? null;
   const [openSlugs, setOpenSlugs] = useState<Set<string>>(new Set());
 
   useEffect(() => {
@@ -709,9 +757,9 @@ const TheorySections = ({ markdown, storageKey, defaultCodeLanguage = "text" }: 
         if (Array.isArray(arr)) restored = arr.filter((x): x is string => typeof x === "string");
       }
     } catch { /* ignore */ }
-    // First visit: open the first section so students can start reading right away.
-    setOpenSlugs(new Set(restored ?? (firstTitledSlug ? [firstTitledSlug] : [])));
-  }, [openKey, firstTitledSlug]);
+    // First visit: every section starts collapsed, including section 1.
+    setOpenSlugs(new Set(restored ?? []));
+  }, [openKey]);
 
   const persistOpen = useCallback((next: Set<string>) => {
     try { localStorage.setItem(openKey, JSON.stringify(Array.from(next))); } catch { /* ignore */ }
@@ -809,16 +857,8 @@ const TheorySections = ({ markdown, storageKey, defaultCodeLanguage = "text" }: 
 
       {sections.map((section, idx) => {
         const isRead = section.title !== null && readSlugs.has(section.slug);
-
-        if (section.title === null) {
-          return (
-            <div key={`intro-${idx}`} className="theory-section">
-              {renderBody(section.body)}
-            </div>
-          );
-        }
-
-        const Icon = pickIconForTitle(section.title);
+        const sectionTitle = section.title ?? "Lesson Overview";
+        const Icon = pickIconForTitle(sectionTitle);
         const isOpen = openSlugs.has(section.slug);
         const preview = isOpen ? "" : buildPreview(section.body);
         const bodyId = `${section.slug}-body`;
@@ -869,7 +909,7 @@ const TheorySections = ({ markdown, storageKey, defaultCodeLanguage = "text" }: 
                     }`}
                   >
                     {section.stepNumber && <Icon className="w-4 h-4 opacity-70 shrink-0" aria-hidden="true" />}
-                    <span>{section.title}</span>
+                    <span>{sectionTitle}</span>
                   </h2>
                   {!isOpen && preview && (
                     <span className="mt-1.5 block text-sm leading-relaxed text-muted-foreground line-clamp-2">
