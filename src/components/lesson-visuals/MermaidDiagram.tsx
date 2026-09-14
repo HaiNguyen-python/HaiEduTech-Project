@@ -63,7 +63,7 @@ function initMermaid() {
     suppressErrorRendering: true,
     // Use stable system fonts to avoid post-render font swaps changing label width.
     fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
-    fontSize: 18,
+    fontSize: 20,
     flowchart: {
       curve: "linear",
       padding: 38,
@@ -77,9 +77,9 @@ function initMermaid() {
     sequence: {
       useMaxWidth: false,
       wrap: true,
-      messageFontSize: 17,
-      noteFontSize: 16,
-      actorFontSize: 17,
+      messageFontSize: 18,
+      noteFontSize: 17,
+      actorFontSize: 18,
       boxMargin: 16,
       boxTextMargin: 10,
       noteMargin: 14,
@@ -103,7 +103,7 @@ function initMermaid() {
       /* SVG-side text rendering for crispness */
       .nodeLabel, .edgeLabel, .messageText, .noteText, text, text.actor, text.actor-man, .titleText, .loopText, .labelText {
         font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
-        font-size: 17px !important;
+        font-size: 19px !important;
         font-weight: 600 !important;
         line-height: 1.45 !important;
         text-rendering: geometricPrecision;
@@ -119,7 +119,7 @@ function initMermaid() {
         line-height: 1.45 !important;
         padding: 6px 12px !important;
         max-width: 360px !important;
-        font-size: 17px !important;
+        font-size: 19px !important;
       }
 
       foreignObject {
@@ -137,7 +137,7 @@ function initMermaid() {
         color: ${isDark ? "hsl(210 40% 98%)" : "hsl(222 47% 11%)"} !important;
         padding: 4px 8px !important;
         border-radius: 4px !important;
-        font-size: 15px !important;
+        font-size: 17px !important;
       }
 
       .edgeLabel rect, .edgeLabel foreignObject div {
@@ -188,7 +188,7 @@ function initMermaid() {
           clusterBkg: "hsl(160 40% 15%)",
           clusterBorder: "hsl(160 84% 50%)",
           titleColor: "hsl(40 100% 96%)",
-          fontSize: "16px",
+          fontSize: "18px",
         }
       : {
           primaryColor: "hsl(35 100% 90%)",
@@ -203,7 +203,7 @@ function initMermaid() {
           clusterBkg: "hsl(155 75% 95%)",
           clusterBorder: "hsl(160 84% 39%)",
           titleColor: "hsl(20 80% 18%)",
-          fontSize: "16px",
+          fontSize: "18px",
         },
   });
 }
