@@ -1,5 +1,8 @@
 # Roadmap
 
+## In Progress
+- [ ] Remove redundant “Deep Dive (Optional)” sections appended to Programming lessons
+
 ## Done
 - [x] Programming theory list structure: converted malformed bullet-group labels into headings, clarified paragraph/list/table rules for new Deep Dives, improved nested-list spacing, and added regression coverage
 - [x] Startup Toolkit: Modern Minimalist dashboard, clearer financial terms, separated inputs and results, visual runway/ownership/market states, and responsive usability
