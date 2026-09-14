@@ -492,7 +492,7 @@ const PipelinePlumber = ({ pushLog, addXp, record }: { pushLog: (t: LogLine["typ
 // ============================================================
 // GAME 3: AI Parameter Tuner
 // ============================================================
-const AiTuner = ({ pushLog, addXp }: { pushLog: (t: LogLine["type"], text: string) => void; addXp: (n: number) => void }) => {
+const AiTuner = ({ pushLog, addXp, record }: { pushLog: (t: LogLine["type"], text: string) => void; addXp: (n: number) => void; record: RecordRun }) => {
   const { t } = useLanguage();
   const [lr, setLr] = useState(0.05);
   const [batch, setBatch] = useState(32);
