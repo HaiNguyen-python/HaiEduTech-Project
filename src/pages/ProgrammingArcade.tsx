@@ -532,7 +532,7 @@ const AiTuner = ({ pushLog, addXp, record }: { pushLog: (t: LogLine["type"], tex
     } else if (sweetness < 80) {
       claimedRef.current = false;
     }
-  }, [sweetness, pushLog, addXp]);
+  }, [sweetness, pushLog, addXp, record]);
 
   useEffect(() => {
     const cvs = canvasRef.current;
