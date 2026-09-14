@@ -102,7 +102,9 @@ function splitByH2(md: string): Section[] {
 
   const flush = () => {
     const body = current.bodyLines.join("\n").trim();
-    if (current.title === null && !body) return;
+    // Drop headings with no content at all (e.g. leftover "8. Deep Dive" stubs)
+    // so students never see an empty numbered step badge.
+    if (!body) return;
     sections.push({
       title: current.title,
       rawTitle: current.rawTitle,
@@ -111,6 +113,7 @@ function splitByH2(md: string): Section[] {
       body,
     });
   };
+
 
   for (const line of lines) {
     const m = /^##\s+(.+?)\s*$/.exec(line);
