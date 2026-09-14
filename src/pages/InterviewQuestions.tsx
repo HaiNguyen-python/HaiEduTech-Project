@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
 import {
   AlertTriangle, BookOpen, Bookmark, BookmarkCheck, BriefcaseBusiness, Check,
-  ChevronLeft, CircleHelp, Code2, Copy, Filter, Lightbulb, ListChecks, Menu,
+  ChevronLeft, CircleHelp, Code2, Copy, Filter, Lightbulb, ListChecks,
   PanelLeftClose, PanelLeftOpen, RotateCcw, Search, Stethoscope, Target, X,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
