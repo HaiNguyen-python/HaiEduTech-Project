@@ -314,7 +314,17 @@ const ProgrammingLessonPage = () => {
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [showResults, setShowResults] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [aiChallenge, setAiChallenge] = useState<any>(null);
+  const [aiChallenge, setAiChallenge] = useState<{
+    title: string;
+    difficulty?: "easy" | "medium" | "hard";
+    description: string;
+    sampleInput?: string;
+    sampleOutput?: string;
+    starterCode?: string;
+    hints?: string[];
+    solution?: string;
+    explanation?: string;
+  } | null>(null);
   const [aiLoading, setAiLoading] = useState(false);
   const [showSolution, setShowSolution] = useState(false);
   const [showHints, setShowHints] = useState(false);
@@ -465,7 +475,7 @@ const ProgrammingLessonPage = () => {
         .from("programming_theory_cache")
         .select("module_id,lesson_id")
         .in("module_id", moduleIds);
-      if (data) setCachedLessonKeys(new Set(data.map((r: any) => `${r.module_id}::${r.lesson_id}`)));
+      if (data) setCachedLessonKeys(new Set(data.map((r) => `${r.module_id}::${r.lesson_id}`)));
     }
     // Reload current lesson's enhanced markdown if user is viewing one
     if (mod && lesson) {
@@ -494,7 +504,7 @@ const ProgrammingLessonPage = () => {
       .in("module_id", moduleIds)
       .then(({ data }) => {
         if (cancelled || !data) return;
-        setCachedLessonKeys(new Set(data.map((r: any) => `${r.module_id}::${r.lesson_id}`)));
+        setCachedLessonKeys(new Set(data.map((r) => `${r.module_id}::${r.lesson_id}`)));
       });
     return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
