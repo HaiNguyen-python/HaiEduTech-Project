@@ -55,7 +55,6 @@ const ProgrammingDeepDiveWarmer = () => {
   const [cachedKeys, setCachedKeys] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(true);
   const [running, setRunning] = useState(false);
-  const [syncing, setSyncing] = useState(false);
   const [progress, setProgress] = useState({ done: 0, total: 0, ok: 0, failed: 0 });
   const [currentLabel, setCurrentLabel] = useState("");
   const stopRef = useRef(false);
@@ -76,28 +75,6 @@ const ProgrammingDeepDiveWarmer = () => {
   }, [loadCache]);
 
   const missing = allLessons.filter((l) => !cachedKeys.has(`${l.module_id}::${l.lesson_id}`));
-
-  const syncIndex = async () => {
-    setSyncing(true);
-    try {
-      for (let i = 0; i < allLessons.length; i += 100) {
-        const chunk = allLessons.slice(i, i + 100).map((l) => ({ ...l, updated_at: new Date().toISOString() }));
-        const { error } = await supabase
-          .from("programming_lesson_index")
-          .upsert(chunk, { onConflict: "module_id,lesson_id" });
-        if (error) throw error;
-      }
-      toast.success(
-        t(
-          `Đã đồng bộ ${allLessons.length} bài học cho việc tạo tự động mỗi đêm.`,
-          `Synced ${allLessons.length} lessons for the nightly warm-up.`,
-        ),
-      );
-    } catch (e) {
-      toast.error(t("Không đồng bộ được danh sách bài học.", "Could not sync the lesson index."));
-    }
-    setSyncing(false);
-  };
 
   const generateMissing = async () => {
     if (running || missing.length === 0) return;
