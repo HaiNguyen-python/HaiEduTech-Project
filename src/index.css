@@ -170,6 +170,80 @@
     --ring: 217 91% 60%;
   }
 
+  .case-studies-page {
+    --case-blue: 217 91% 53%;
+    --case-emerald: 160 84% 39%;
+    --case-gold: 38 92% 50%;
+    --case-canvas: 210 40% 98%;
+    --case-ink: 222 47% 14%;
+    --case-soft-gold: 38 92% 95%;
+    background: hsl(var(--case-canvas));
+    color: hsl(var(--case-ink));
+    font-family: "Manrope", "Inter", sans-serif;
+    letter-spacing: 0;
+  }
+
+  .case-studies-page :is(h1, h2, h3) {
+    font-family: "Sora", "Space Grotesk", sans-serif;
+    letter-spacing: 0;
+  }
+
+  .case-section--vietnam { --case-accent: var(--case-emerald); }
+  .case-section--global { --case-accent: var(--case-blue); }
+
+  .case-study-card {
+    position: relative;
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid hsl(var(--case-accent) / 0.24);
+    border-radius: 8px;
+    background: hsl(var(--card));
+    box-shadow: 0 16px 42px hsl(var(--case-ink) / 0.08);
+    transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+  }
+
+  .case-study-card:hover {
+    transform: translateY(-3px);
+    border-color: hsl(var(--case-accent) / 0.52);
+    box-shadow: 0 22px 54px hsl(var(--case-ink) / 0.13);
+  }
+
+  .case-study-card__visual {
+    position: relative;
+    min-height: 11rem;
+    overflow: hidden;
+    background: linear-gradient(135deg, hsl(var(--case-accent) / 0.1), hsl(var(--case-gold) / 0.1));
+  }
+
+  .case-study-card__visual img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    transition: transform 500ms ease;
+  }
+
+  .case-study-card:hover .case-study-card__visual img { transform: scale(1.035); }
+  .case-study-card--featured .case-study-card__visual { min-height: 16rem; }
+
+  .case-study-card__metric {
+    border-left: 3px solid hsl(var(--case-accent));
+    background: hsl(var(--case-accent) / 0.075);
+  }
+
+  .case-study-card__lesson {
+    border-top: 1px solid hsl(var(--case-gold) / 0.32);
+    background: hsl(var(--case-soft-gold));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .case-study-card,
+    .case-study-card__visual img { transition: none; }
+    .case-study-card:hover,
+    .case-study-card:hover .case-study-card__visual img { transform: none; }
+  }
+
   .arcade-page {
     --arcade-canvas: 226 55% 7%;
     --arcade-surface: 224 45% 10%;
