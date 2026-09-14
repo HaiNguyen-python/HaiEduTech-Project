@@ -857,8 +857,8 @@ const TheorySections = ({ markdown, storageKey, defaultCodeLanguage = "text" }: 
 
       {sections.map((section, idx) => {
         const isRead = section.title !== null && readSlugs.has(section.slug);
-
-        const Icon = pickIconForTitle(section.title);
+        const sectionTitle = section.title ?? "Lesson Overview";
+        const Icon = pickIconForTitle(sectionTitle);
         const isOpen = openSlugs.has(section.slug);
         const preview = isOpen ? "" : buildPreview(section.body);
         const bodyId = `${section.slug}-body`;
@@ -909,7 +909,7 @@ const TheorySections = ({ markdown, storageKey, defaultCodeLanguage = "text" }: 
                     }`}
                   >
                     {section.stepNumber && <Icon className="w-4 h-4 opacity-70 shrink-0" aria-hidden="true" />}
-                    <span>{section.title}</span>
+                    <span>{sectionTitle}</span>
                   </h2>
                   {!isOpen && preview && (
                     <span className="mt-1.5 block text-sm leading-relaxed text-muted-foreground line-clamp-2">
