@@ -1372,37 +1372,45 @@ const enhanceLesson = (rawLesson: LanguageLesson): LanguageLesson => {
   const registry = new SentenceRegistry();
   const existing = dedupeExisting(repaired.exercises, registry);
 
-  const candidates: (InteractiveExercise | null)[] = [];
-  const push = (value: InteractiveExercise | null | InteractiveExercise[]) => {
-    if (Array.isArray(value)) candidates.push(...value);
-    else candidates.push(value);
-  };
-
-  // Generation order = source allocation order. Earlier generators get first
-  // claim on the lesson's model sentences; later ones must find fresh material.
-  push(buildFillInBlanks(repaired, registry));
-  push(buildMultipleChoice(repaired, registry));
-  push(buildQuizFillInBlank(repaired, registry));
-  push(buildErrorCorrection(repaired, registry));
-  push(buildCorrectSentenceMcq(repaired, registry));
-  push(buildTransformation(repaired, registry));
-  push(buildReorders(repaired, registry));
-  push(buildDictations(repaired, registry));
-  push(buildSentenceMatching(repaired, registry));
-  push(buildPhraseDrills(repaired, registry));
-  push(buildVocabMcq(repaired, registry));
-  push(buildMatching(repaired, registry));
+  // Generation order = source allocation order, evaluated lazily so a drill we
+  // do not need never consumes the lesson's sentences.
+  const generators: (() => InteractiveExercise | InteractiveExercise[] | null)[] = [
+    () => buildWrongRightErrorCorrection(repaired, registry),
+    () => buildExampleFillInBlank(repaired, registry),
+    () => buildFillInBlanks(repaired, registry),
+    () => buildArrowTransformation(repaired, registry),
+    () => buildMultipleChoice(repaired, registry),
+    () => buildLabelMatching(repaired, registry),
+    () => buildQuizFillInBlank(repaired, registry),
+    () => buildErrorCorrection(repaired, registry),
+    () => buildTableMatching(repaired),
+    () => buildCorrectSentenceMcq(repaired, registry),
+    () => buildTransformation(repaired, registry),
+    () => buildLabelMcq(repaired, registry),
+    () => buildReorders(repaired, registry),
+    () => buildSentenceMatching(repaired, registry),
+    () => buildVocabMcq(repaired, registry),
+    () => buildPhraseDrills(repaired, registry),
+    () => buildMatching(repaired, registry),
+    () => buildDictations(repaired, registry),
+  ];
 
   const signatures = new Set(existing.map(signature));
   const additions: InteractiveExercise[] = [];
-  for (const candidate of candidates) {
-    if (!candidate) continue;
+
+  for (const generate of generators) {
     if (existing.length + additions.length >= MIN_EXERCISES) break;
-    const key = signature(candidate);
-    if (signatures.has(key)) continue;
-    signatures.add(key);
-    additions.push(candidate);
+    const produced = generate();
+    if (!produced) continue;
+    for (const candidate of Array.isArray(produced) ? produced : [produced]) {
+      if (existing.length + additions.length >= MIN_EXERCISES) break;
+      const key = signature(candidate);
+      if (signatures.has(key)) continue;
+      signatures.add(key);
+      additions.push(candidate);
+    }
   }
+
 
   if (additions.length === 0 && existing.length === repaired.exercises.length) return repaired;
   return { ...repaired, exercises: [...existing, ...additions] };
