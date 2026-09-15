@@ -51,6 +51,7 @@ import { clarifyGrammarModules } from "@/lib/grammarExerciseClarity";
 import { enhanceGrammarModulesWithTheoryUpgrade } from "./grammarUpgrade";
 import { applyGrammarExerciseSupplement } from "./grammarExerciseSupplement";
 import { mergeDuplicateGrammarModules } from "./grammarModuleMerge";
+import { applyNewGrammarLessons } from "./grammarLessonsNew";
 import type { LanguageModule, LanguageLesson, InteractiveExercise, FillInBlankExercise, SentenceReorderExercise, DictationExercise, MCQExercise, VocabEntry } from "./types";
 
 export type { LanguageModule, LanguageLesson, InteractiveExercise, FillInBlankExercise, SentenceReorderExercise, DictationExercise, MCQExercise, VocabEntry };
@@ -76,14 +77,14 @@ export const allGrammarModules: LanguageModule[] = clarifyGrammarModules(
   enhanceGrammarModulesWithExercises(
   applyGrammarExerciseSupplement(
   enhanceGrammarModulesWithTheoryUpgrade(
-    enhanceGrammarModulesWithQuizDepth(mergeDuplicateGrammarModules([
+    enhanceGrammarModulesWithQuizDepth(applyNewGrammarLessons(mergeDuplicateGrammarModules([
   ...expandedGrammarModules,
   ...grammarExpansionModules,
   ...grammarExpansionModules2,
   ...grammarExpansionModules3,
   ...grammarExpansionModules4,
   ...grammarExpansionModules5,
-    ]))
+    ])))
     )
   )
   )
