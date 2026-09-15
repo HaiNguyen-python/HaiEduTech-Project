@@ -1455,6 +1455,28 @@
     font-weight: 700;
   }
 
+  .interview-question-number {
+    display: inline-flex;
+    min-width: 32px;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 2px solid hsl(var(--interview-gold));
+    padding-bottom: 2px;
+    color: hsl(var(--primary));
+    font-family: "Sora", sans-serif;
+    font-size: 0.875rem;
+    font-weight: 800;
+  }
+
+  .interview-keyword {
+    color: hsl(var(--foreground));
+    font-weight: 700;
+    text-decoration-line: underline;
+    text-decoration-color: hsl(var(--accent) / 0.7);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+  }
+
   .interview-empty {
     display: flex;
     min-height: 360px;
