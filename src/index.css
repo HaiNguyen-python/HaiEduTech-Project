@@ -125,6 +125,11 @@
     --ring: 217 91% 60%;
     --accent: 38 92% 50%;
     --border: 214 32% 84%;
+    --muted-foreground: 215 25% 32%;
+    --conversation-a: 217 72% 36%;
+    --conversation-a-surface: 217 100% 96%;
+    --conversation-b: 160 72% 27%;
+    --conversation-b-surface: 152 55% 95%;
     --radius: 0.5rem;
   }
 
