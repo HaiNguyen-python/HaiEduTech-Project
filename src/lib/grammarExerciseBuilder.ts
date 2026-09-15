@@ -648,27 +648,29 @@ const collectErrorPairs = (lesson: LanguageLesson, registry: SentenceRegistry, l
 
   for (const question of lesson.quiz) {
     if (items.length >= limit) break;
-    const correctOption = question.options[question.answer];
+    const correctOption = sanitizeOption(question.options[question.answer] ?? "");
     if (!correctOption) continue;
-    const wrongOption = question.options.find((option, idx) => idx !== question.answer && option.trim());
+    const wrongOption = question.options
+      .map((option, idx) => (idx === question.answer ? "" : sanitizeOption(option)))
+      .find((option) => option.length > 0);
     if (!wrongOption) continue;
 
     const stem = question.question.trim();
     const explanation =
       question.explanation && isEnglishOnly(question.explanation) && !BAD_STEM_RE.test(question.explanation)
-        ? clean(question.explanation)
+        ? clean(question.explanation.replace(/\*/g, ""))
         : undefined;
 
     const push = (wrong: string, correct: string) => {
       if (!isCleanSentence(wrong) || !isCleanSentence(correct)) return;
       if (!differsIgnoringCase(wrong, correct)) return;
-      if (!registry.claim(correct)) return;
+      if (!registry.claimAll([correct, wrong])) return;
       items.push({ wrong: clean(wrong), correct: clean(correct), explanation });
     };
 
     // Case A: options are complete sentences.
     if (isCleanSentence(correctOption) && isCleanSentence(wrongOption)) {
-      push(clean(wrongOption), clean(correctOption));
+      push(wrongOption, correctOption);
       continue;
     }
 
@@ -680,6 +682,7 @@ const collectErrorPairs = (lesson: LanguageLesson, registry: SentenceRegistry, l
     if (!isInlineForm(correctOption) || !isInlineForm(wrongOption)) continue;
     push(base.replace("___", wrongOption), base.replace("___", correctOption));
   }
+
 
   return items;
 };
