@@ -123,15 +123,18 @@ const EnglishGrammar = () => {
   }, [activeLevel, searchTerm]);
 
   // Searching or filtering should reveal every group that still has results.
+  const beginnerCount = groupedModules.beginner.length;
+  const intermediateCount = groupedModules.intermediate.length;
+  const advancedCount = groupedModules.advanced.length;
   useEffect(() => {
     const isFiltering = searchTerm.trim().length > 0 || activeLevel !== "all";
     if (!isFiltering) return;
     setOpenLevels({
-      beginner: groupedModules.beginner.length > 0,
-      intermediate: groupedModules.intermediate.length > 0,
-      advanced: groupedModules.advanced.length > 0,
+      beginner: beginnerCount > 0,
+      intermediate: intermediateCount > 0,
+      advanced: advancedCount > 0,
     });
-  }, [searchTerm, activeLevel, groupedModules]);
+  }, [searchTerm, activeLevel, beginnerCount, intermediateCount, advancedCount]);
 
   const totalLessons = allGrammarModules.reduce((sum, mod) => sum + mod.lessons.length, 0);
   const levelFilters: Array<{ key: "all" | keyof typeof levelMeta; label: string }> = [
