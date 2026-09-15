@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import FloatingEnglishParticles from "@/components/FloatingEnglishParticles";
 import EnglishHeroBanner from "@/components/EnglishHeroBanner";
+import { getGrammarModuleVisual } from "@/lib/grammarModuleVisuals";
 
 const EnglishGrammar = () => {
   const { t } = useLanguage();
@@ -219,18 +220,34 @@ const EnglishGrammar = () => {
                     >
                       <Link
                         to={`/english/learn/${mod.id}`}
-                        className="block rounded-xl border bg-card hover:shadow-lg transition-shadow p-6 h-full"
+                        className="group block rounded-xl border bg-card hover:shadow-lg transition-shadow h-full overflow-hidden"
                       >
-                        <div className="flex items-start justify-between gap-3 mb-4">
-                          <div className={cn("w-12 h-12 rounded-lg bg-gradient-to-br flex items-center justify-center text-2xl shrink-0", mod.color)}>
-                            {mod.icon}
-                          </div>
-                          <Badge variant="outline" className="text-xs whitespace-nowrap">
-                            {getModuleTrack(mod.id)}
-                          </Badge>
-                        </div>
+                        {(() => {
+                          const visual = getGrammarModuleVisual(mod.id, mod.title, mod.titleEn);
+                          return (
+                            <div className="relative h-36 overflow-hidden bg-muted">
+                              <img
+                                src={visual.src}
+                                alt={t(visual.altVi, visual.altEn)}
+                                loading="lazy"
+                                width={1152}
+                                height={576}
+                                className="h-full w-full object-cover transition-transform duration-500 motion-safe:group-hover:scale-105 motion-reduce:transition-none"
+                              />
+                              <div className="absolute inset-0 bg-gradient-to-t from-card/90 via-card/25 to-transparent" />
+                              <div className={cn("absolute bottom-3 left-4 w-11 h-11 rounded-lg bg-gradient-to-br bg-card/90 backdrop-blur flex items-center justify-center text-2xl shadow-sm", mod.color)}>
+                                {mod.icon}
+                              </div>
+                              <Badge variant="outline" className="absolute top-3 right-3 text-xs whitespace-nowrap bg-card/90 backdrop-blur">
+                                {getModuleTrack(mod.id)}
+                              </Badge>
+                            </div>
+                          );
+                        })()}
 
+                        <div className="p-6 pt-4">
                         <h3 className="font-bold text-lg mb-1">{t(mod.title, mod.titleEn)}</h3>
+
                         <p className="text-sm text-muted-foreground mb-4 min-h-[3.5rem]">
                           {t(mod.description, mod.descriptionEn)}
                         </p>
@@ -252,6 +269,7 @@ const EnglishGrammar = () => {
                               </li>
                             ))}
                           </ul>
+                        </div>
                         </div>
                       </Link>
                     </motion.div>
