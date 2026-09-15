@@ -449,8 +449,8 @@ export const balanceMcqKeys = (exercises: InteractiveExercise[]): InteractiveExe
         const count = question.options.length;
         if (count < 2) return question;
 
-        const shift = (hashString(question.question) + index) % count;
-        if (shift === 0) return question;
+        const raw = (hashString(question.question) + index) % count;
+        const shift = raw === 0 ? 1 + (index % (count - 1)) : raw;
 
         const options = [
           ...question.options.slice(count - shift),
