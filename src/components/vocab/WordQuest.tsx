@@ -826,6 +826,8 @@ const WordQuest = ({
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -12 }}
+          data-testid="quest-drill"
+          data-kind={kind}
           className="rounded-2xl border border-border bg-card p-6 sm:p-8"
         >
           {/* Meet the word */}
