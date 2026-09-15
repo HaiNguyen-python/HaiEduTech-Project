@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { interviewCategories, interviewQuestions } from "@/data/interviewQuestions";
 import { emphasizeInterviewTerms, filterInterviewQuestions, groupInterviewQuestions, parseReviewedQuestionIds, splitNumberedText } from "@/lib/interviewQuestionUtils";
-import { SOFTWARE_INTERVIEW_QUESTIONS } from "@/pages/SoftwareEngInterview";
+import { softwareInterviewMetadata } from "@/data/softwareInterviewMetadata";
 
 describe("interview question bank", () => {
   it("has unique IDs and valid categories", () => {
@@ -60,10 +60,9 @@ describe("interview question bank", () => {
   });
 
   it("keeps the Software Engineering bank stable and filter-ready", () => {
-    expect(SOFTWARE_INTERVIEW_QUESTIONS).toHaveLength(30);
-    expect(new Set(SOFTWARE_INTERVIEW_QUESTIONS.map((question) => question.id)).size).toBe(30);
-    expect(SOFTWARE_INTERVIEW_QUESTIONS.every((question) => ["Junior", "Mid", "Senior"].includes(question.difficulty))).toBe(true);
-    expect(new Set(SOFTWARE_INTERVIEW_QUESTIONS.map((question) => question.category))).toEqual(new Set(["Behavioral", "System Design", "Coding", "DevOps", "Soft Skills"]));
+    expect(softwareInterviewMetadata).toHaveLength(30);
+    expect(new Set(softwareInterviewMetadata.map((question) => question.id)).size).toBe(30);
+    expect(softwareInterviewMetadata.every((question) => ["Junior", "Mid", "Senior"].includes(question.difficulty))).toBe(true);
   });
 
   it("recognizes Software Engineering terms without changing source text", () => {

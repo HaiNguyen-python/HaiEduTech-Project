@@ -20,8 +20,9 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/co
 import CodeBlock from "@/components/CodeBlock";
 import SEO from "@/components/SEO";
 import { emphasizeInterviewTerms, splitNumberedText } from "@/lib/interviewQuestionUtils";
+import { softwareInterviewMetadata, type SoftwareInterviewDifficulty } from "@/data/softwareInterviewMetadata";
 
-type Difficulty = "Junior" | "Mid" | "Senior";
+type Difficulty = SoftwareInterviewDifficulty;
 
 interface Question {
   id: string;
@@ -773,43 +774,10 @@ const QUESTION_CONTENT: Omit<Question, "id" | "difficulty">[] = [
   },
 ];
 
-const QUESTION_META: ReadonlyArray<Pick<Question, "id" | "difficulty">> = [
-  { id: "se-behavioral-disagreement", difficulty: "Mid" },
-  { id: "se-behavioral-failed-project", difficulty: "Mid" },
-  { id: "se-behavioral-code-review", difficulty: "Mid" },
-  { id: "se-behavioral-achievement", difficulty: "Mid" },
-  { id: "se-behavioral-say-no", difficulty: "Senior" },
-  { id: "se-system-url-shortener", difficulty: "Mid" },
-  { id: "se-system-chat-app", difficulty: "Senior" },
-  { id: "se-system-rate-limiter", difficulty: "Mid" },
-  { id: "se-system-news-feed", difficulty: "Senior" },
-  { id: "se-system-payment", difficulty: "Senior" },
-  { id: "se-system-drive", difficulty: "Senior" },
-  { id: "se-system-search-suggestions", difficulty: "Senior" },
-  { id: "se-coding-reverse-list", difficulty: "Junior" },
-  { id: "se-coding-longest-substring", difficulty: "Junior" },
-  { id: "se-coding-lru", difficulty: "Mid" },
-  { id: "se-coding-directed-cycle", difficulty: "Mid" },
-  { id: "se-coding-merge-lists", difficulty: "Mid" },
-  { id: "se-coding-anagrams", difficulty: "Junior" },
-  { id: "se-coding-tree-serialization", difficulty: "Mid" },
-  { id: "se-coding-debounce-throttle", difficulty: "Junior" },
-  { id: "se-devops-deployment-strategies", difficulty: "Mid" },
-  { id: "se-devops-cicd-security", difficulty: "Senior" },
-  { id: "se-devops-kubernetes-basics", difficulty: "Junior" },
-  { id: "se-devops-immutable-infrastructure", difficulty: "Junior" },
-  { id: "se-devops-gitops", difficulty: "Mid" },
-  { id: "se-soft-skills-mentoring", difficulty: "Mid" },
-  { id: "se-soft-skills-incident", difficulty: "Senior" },
-  { id: "se-soft-skills-prioritization", difficulty: "Senior" },
-  { id: "se-soft-skills-stakeholder-conflict", difficulty: "Mid" },
-  { id: "se-soft-skills-learning", difficulty: "Junior" },
-];
-
-export const SOFTWARE_INTERVIEW_QUESTIONS: Question[] = QUESTION_CONTENT.map((question, index) => ({
+const SOFTWARE_INTERVIEW_QUESTIONS: Question[] = QUESTION_CONTENT.map((question, index) => ({
   ...question,
-  id: QUESTION_META[index]?.id ?? `se-question-${index + 1}`,
-  difficulty: QUESTION_META[index]?.difficulty ?? "Mid",
+  id: softwareInterviewMetadata[index]?.id ?? `se-question-${index + 1}`,
+  difficulty: softwareInterviewMetadata[index]?.difficulty ?? "Mid",
 }));
 
 const CATEGORIES = ["All", "Behavioral", "System Design", "Coding", "DevOps", "Soft Skills"] as const;
