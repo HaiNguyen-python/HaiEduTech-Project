@@ -73,6 +73,7 @@ const ChineseConversationalLessonView = () => {
   const [listeningSubmitted, setListeningSubmitted] = useState(false);
   const [listeningScore, setListeningScore] = useState<{ correct: number; total: number; percent: number } | null>(null);
   const [isCompleted, setIsCompleted] = useState(false);
+  const [illustrationFailed, setIllustrationFailed] = useState(false);
   const { hasAccess, loading: accessLoading } = useCourseAccess("conversational-chinese");
   const [showAccessModal, setShowAccessModal] = useState(false);
 
@@ -98,6 +99,7 @@ const ChineseConversationalLessonView = () => {
     setListeningAnswers({});
     setListeningSubmitted(false);
     setListeningScore(null);
+    setIllustrationFailed(false);
   }, [lesson, pillar, hasAccess, allLessons, requestedTab]);
 
   useEffect(() => () => stopChineseDialog(), []);
@@ -266,15 +268,22 @@ const ChineseConversationalLessonView = () => {
               <div className="mt-5 grid gap-4 border border-primary/20 bg-primary/5 p-4 sm:grid-cols-[1fr_auto] sm:items-center"><div className="flex gap-3"><Target className="mt-0.5 h-5 w-5 shrink-0 text-primary" /><p className="font-bold leading-7">{t("Luyện giao tiếp thực tế qua tình huống, từ vựng, cấu trúc, nghe và nhập vai.", "Build real communication through situations, vocabulary, structures, listening and roleplay.")}</p></div><span className="inline-flex items-center gap-1.5 text-sm font-bold text-foreground/75"><Clock3 className="h-4 w-4 text-primary" />{estimateChineseLessonMinutes(lesson)} min</span></div>
             </div>
             <div className="order-1 aspect-[16/7] overflow-hidden bg-muted lg:order-2 lg:aspect-auto lg:min-h-full">
-              <img
-                src={lessonIllustration.src}
-                alt={t(lessonIllustration.altVi, lessonIllustration.altEn)}
-                width={1024}
-                height={640}
-                loading="eager"
-                decoding="async"
-                className="h-full w-full object-cover"
-              />
+              {illustrationFailed ? (
+                <div className="grid h-full min-h-40 w-full place-items-center bg-primary/5 text-primary" role="img" aria-label={t(`Minh họa bài ${lesson.titleVi}`, `Illustration for ${lesson.title}`)}>
+                  <LIcon className="h-14 w-14" />
+                </div>
+              ) : (
+                <img
+                  src={lessonIllustration.src}
+                  alt={t(lessonIllustration.altVi, lessonIllustration.altEn)}
+                  width={1024}
+                  height={640}
+                  loading="eager"
+                  decoding="async"
+                  onError={() => setIllustrationFailed(true)}
+                  className="h-full w-full object-cover"
+                />
+              )}
             </div>
           </div>
         </motion.header>
@@ -319,13 +328,14 @@ const ChineseConversationalLessonView = () => {
                       {/* Sample dialogue - chat bubble style */}
                       <div className="space-y-4">
                         {situation.sampleDialogue.map((line, i) => {
-                          // Alternate sides: even index = left, odd = right (zig-zag for readability)
-                          const isRight = i % 2 === 1;
+                          const speakerIndex = situation.sampleDialogue.findIndex((entry) => entry.speaker === line.speaker);
+                          // Keep each named speaker on one side throughout the conversation.
+                          const isRight = speakerIndex % 2 === 1;
                           const palette = [
                             { bubble: "border-primary/20 bg-primary/10 text-foreground", ring: "border-primary/30 bg-primary/10" },
                             { bubble: "border-border bg-muted text-foreground", ring: "border-secondary/40 bg-secondary/20" },
                           ];
-                          const { bubble: bubbleColor, ring: avatarRing } = palette[i % 2];
+                          const { bubble: bubbleColor, ring: avatarRing } = palette[isRight ? 1 : 0];
                           const avatarSrc = dialogueAvatarFor(`${lesson.id}::${line.speaker}`, !isRight);
                           // Prefer English translation; if absent, keep dialogue without translation rather than showing Vietnamese
                           const translationEn = line.translationEn;
@@ -345,7 +355,10 @@ const ChineseConversationalLessonView = () => {
                                   onError={(event) => {
                                     event.currentTarget.style.display = "none";
                                     const fallback = event.currentTarget.nextElementSibling;
-                                    if (fallback instanceof HTMLElement) fallback.classList.remove("hidden");
+                                    if (fallback instanceof HTMLElement) {
+                                      fallback.classList.remove("hidden");
+                                      fallback.classList.add("flex");
+                                    }
                                   }}
                                 />
                                 <span className="hidden h-full w-full items-center justify-center text-sm font-extrabold text-primary" aria-hidden="true">
