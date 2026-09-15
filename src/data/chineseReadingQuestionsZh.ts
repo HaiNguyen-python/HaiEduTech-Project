@@ -3,6 +3,7 @@
  * @description Chinese (Hanzi) translations for reading comprehension questions.
  * Keyed by `${passageId}#${questionIndex}`.
  */
+import { chineseReadingExpansion2QuestionsZh } from "./chineseReadingExpansion2";
 
 export interface ZhQuestion {
   qZh: string;
@@ -10,6 +11,7 @@ export interface ZhQuestion {
 }
 
 export const chineseReadingQuestionsZh: Record<string, ZhQuestion> = {
+  ...chineseReadingExpansion2QuestionsZh,
   // ===== HSK 1 =====
   "hsk1-my-family#0": { qZh: "小明家有几口人？", optionsZh: ["3口人", "4口人", "5口人", "6口人"] },
   "hsk1-my-family#1": { qZh: "爸爸做什么工作？", optionsZh: ["老师", "医生", "学生", "司机"] },

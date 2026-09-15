@@ -15,6 +15,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { chineseReadingLevels, type ChineseReadingPassage, type ChineseReadingLevel } from "@/data/chineseReadingPractice";
 import { chineseReadingQuestionsZh } from "@/data/chineseReadingQuestionsZh";
+import { getChineseReadingIllustration } from "@/lib/chineseReadingVisuals";
+import readingHero from "@/assets/chinese-reading-hero.jpg";
 
 import { playChineseTts, stopChineseTts } from "@/lib/chineseTts";
 const speak = (text: string) => {
@@ -22,13 +24,15 @@ const speak = (text: string) => {
   void playChineseTts(text, { playbackRate: 0.9, speechRate: 0.85 });
 };
 
-const PassageCard = ({ passage, chibi }: { passage: ChineseReadingPassage; chibi: string }) => {
+const PassageCard = ({ passage }: { passage: ChineseReadingPassage }) => {
   const { t } = useLanguage();
   const [open, setOpen] = useState(false);
   const [showPinyin, setShowPinyin] = useState(true);
   const [showVi, setShowVi] = useState(false);
   const [selected, setSelected] = useState<Record<number, number>>({});
   const [submitted, setSubmitted] = useState(false);
+  const [imageFailed, setImageFailed] = useState(false);
+  const illustration = getChineseReadingIllustration(passage);
 
   const hanziLines = passage.hanzi.split("\n");
   const pinyinLines = passage.pinyin.split("\n");
@@ -40,14 +44,21 @@ const PassageCard = ({ passage, chibi }: { passage: ChineseReadingPassage; chibi
     <Card className="overflow-hidden border-2">
       <CardContent className="p-5 sm:p-6 space-y-5">
         <div className="flex items-start gap-4">
-          <img
-            src={chibi}
-            alt={passage.title}
-            loading="lazy"
-            width={96}
-            height={96}
-            className="w-20 h-20 sm:w-24 sm:h-24 object-contain shrink-0 drop-shadow-md"
-          />
+          <div className="h-20 w-24 shrink-0 overflow-hidden rounded-lg border bg-muted sm:h-24 sm:w-32">
+            {imageFailed ? (
+              <div className="flex h-full items-center justify-center text-3xl" aria-hidden="true">{passage.emoji}</div>
+            ) : (
+              <img
+                src={illustration.src}
+                alt={t(illustration.altVi, illustration.altEn)}
+                loading="lazy"
+                width={128}
+                height={96}
+                onError={() => setImageFailed(true)}
+                className="h-full w-full object-cover"
+              />
+            )}
+          </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center justify-between gap-3 flex-wrap">
               <button
@@ -257,7 +268,7 @@ const LevelSection = ({ lvl, open, onToggle }: { lvl: ChineseReadingLevel; open:
             className="overflow-hidden"
           >
             <div className="grid grid-cols-1 gap-5 pt-5">
-              {lvl.passages.map(p => <PassageCard key={p.id} passage={p} chibi={lvl.chibi} />)}
+              {lvl.passages.map(p => <PassageCard key={p.id} passage={p} />)}
             </div>
           </motion.div>
         )}
@@ -268,7 +279,7 @@ const LevelSection = ({ lvl, open, onToggle }: { lvl: ChineseReadingLevel; open:
 
 const ChineseReading = () => {
   const { t } = useLanguage();
-  const [open, setOpen] = useState<Record<number, boolean>>({ 1: true });
+  const [open, setOpen] = useState<Record<number, boolean>>({});
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -283,25 +294,35 @@ const ChineseReading = () => {
           <ArrowLeft className="w-4 h-4" /> {t("Tiếng Trung", "Chinese")}
         </Link>
 
-        <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
-          <div className="flex items-center gap-3 mb-2">
+        <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} className="mb-8 grid items-center gap-5 lg:grid-cols-[minmax(0,1fr)_20rem]">
+          <div>
+            <div className="flex items-center gap-3 mb-2">
             <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-red-500 to-rose-500 flex items-center justify-center">
               <BookOpen className="w-6 h-6 text-white" />
             </div>
             <h1 className="text-3xl sm:text-4xl font-bold">
               {t("Luyện đọc tiếng Trung", "Chinese Reading Practice")}
             </h1>
+            </div>
+            <p className="text-muted-foreground">
+              {t(
+                "50 bài đọc theo cấp độ từ HSK 1 đến HSK 5 - kèm Pinyin, dịch tiếng Việt, từ mới, câu hỏi trắc nghiệm và minh họa chibi.",
+                "50 graded passages from HSK 1 to HSK 5 - with Pinyin, Vietnamese translation, vocabulary, quiz questions and chibi illustrations."
+              )}
+            </p>
+            <div className="mt-4 inline-flex items-center gap-2 text-xs text-muted-foreground bg-muted/50 px-3 py-1.5 rounded-full">
+              <CheckCircle className="w-3.5 h-3.5 text-green-500" />
+              {t("Mở/đóng từng cấp độ - bật Pinyin/dịch tuỳ ý", "Toggle Pinyin & translation freely")}
+            </div>
           </div>
-          <p className="text-muted-foreground">
-            {t(
-              "25 bài đọc theo cấp độ từ HSK 1 đến HSK 5 - kèm Pinyin, dịch tiếng Việt, từ mới, câu hỏi trắc nghiệm và chibi minh hoạ vui.",
-              "25 graded passages from HSK 1 to HSK 5 - with Pinyin, Vietnamese translation, vocabulary, quiz questions and cute chibi illustrations."
-            )}
-          </p>
-          <div className="mt-4 inline-flex items-center gap-2 text-xs text-muted-foreground bg-muted/50 px-3 py-1.5 rounded-full">
-            <CheckCircle className="w-3.5 h-3.5 text-green-500" />
-            {t("Mở/đóng từng cấp độ - bật Pinyin/dịch tuỳ ý", "Toggle Pinyin & translation freely")}
-          </div>
+          <img
+            src={readingHero}
+            alt={t("Hai học viên đọc sách tiếng Trung", "Two learners reading a Chinese book")}
+            width={1400}
+            height={800}
+            decoding="async"
+            className="aspect-[7/4] w-full rounded-lg border object-cover shadow-sm"
+          />
         </motion.div>
 
         {chineseReadingLevels.map(lvl => (

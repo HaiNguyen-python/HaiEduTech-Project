@@ -161,8 +161,8 @@ const hsk2: ChineseReadingPassage[] = [
     emoji: "🍜",
     title: "At the Restaurant",
     titleVi: "Ở nhà hàng",
-    hanzi: "昨天晚上，我和朋友去了一家中国饭馆。\n服务员给我们看了菜单。\n我点了一碗牛肉面，朋友点了米饭和一个鱼。\n我们还要了两杯茶。\n菜很好吃，价格也不贵。\n我们一定会再来！",
-    pinyin: "Zuótiān wǎnshang, wǒ hé péngyǒu qù le yì jiā Zhōngguó fànguǎn.\nFúwùyuán gěi wǒmen kàn le càidān.\nWǒ diǎn le yì wǎn niúròu miàn, péngyǒu diǎn le mǐfàn hé yí gè yú.\nWǒmen hái yào le liǎng bēi chá.\nCài hěn hǎochī, jiàgé yě bú guì.\nWǒmen yídìng huì zài lái!",
+    hanzi: "昨天晚上，我和朋友去了一家中国饭馆。\n服务员给我们看了菜单。\n我点了一碗牛肉面，朋友点了米饭和一条鱼。\n我们还要了两杯茶。\n菜很好吃，价格也不贵。\n我们一定会再来！",
+    pinyin: "Zuótiān wǎnshang, wǒ hé péngyǒu qù le yì jiā Zhōngguó fànguǎn.\nFúwùyuán gěi wǒmen kàn le càidān.\nWǒ diǎn le yì wǎn niúròu miàn, péngyǒu diǎn le mǐfàn hé yì tiáo yú.\nWǒmen hái yào le liǎng bēi chá.\nCài hěn hǎochī, jiàgé yě bú guì.\nWǒmen yídìng huì zài lái!",
     vi: "Tối hôm qua, tôi và bạn tôi đã đến một nhà hàng Trung Quốc.\nNhân viên đưa cho chúng tôi xem thực đơn.\nTôi gọi một tô mì bò, bạn tôi gọi cơm và một con cá.\nChúng tôi còn gọi hai ly trà.\nMón ăn rất ngon, giá cả cũng không đắt.\nNhất định sẽ quay lại!",
     newWords: [
       { hanzi: "饭馆", pinyin: "fànguǎn", vi: "nhà hàng" },
@@ -416,6 +416,7 @@ const hsk5: ChineseReadingPassage[] = [
 // LEVELS EXPORT
 // =================================================================
 import { hsk1Extra, hsk2Extra, hsk3Extra, hsk4Extra, hsk5Extra } from "./chineseReadingExpansion";
+import { hsk1Expansion2, hsk2Expansion2, hsk3Expansion2, hsk4Expansion2, hsk5Expansion2 } from "./chineseReadingExpansion2";
 import chibiHsk1 from "@/assets/chibi-cn-hsk1.png";
 import chibiHsk2 from "@/assets/chibi-cn-hsk2.png";
 import chibiHsk3 from "@/assets/chibi-cn-hsk3.png";
@@ -432,7 +433,7 @@ export const chineseReadingLevels: ChineseReadingLevel[] = [
     colorFrom: "from-emerald-500",
     colorTo: "to-teal-500",
     chibi: chibiHsk1,
-    passages: [...hsk1, ...hsk1Extra],
+    passages: [...hsk1, ...hsk1Extra, ...hsk1Expansion2],
   },
   {
     level: 2,
@@ -443,7 +444,7 @@ export const chineseReadingLevels: ChineseReadingLevel[] = [
     colorFrom: "from-sky-500",
     colorTo: "to-cyan-500",
     chibi: chibiHsk2,
-    passages: [...hsk2, ...hsk2Extra],
+    passages: [...hsk2, ...hsk2Extra, ...hsk2Expansion2],
   },
   {
     level: 3,
@@ -454,7 +455,7 @@ export const chineseReadingLevels: ChineseReadingLevel[] = [
     colorFrom: "from-indigo-500",
     colorTo: "to-blue-600",
     chibi: chibiHsk3,
-    passages: [...hsk3, ...hsk3Extra],
+    passages: [...hsk3, ...hsk3Extra, ...hsk3Expansion2],
   },
   {
     level: 4,
@@ -465,7 +466,7 @@ export const chineseReadingLevels: ChineseReadingLevel[] = [
     colorFrom: "from-purple-500",
     colorTo: "to-violet-600",
     chibi: chibiHsk4,
-    passages: [...hsk4, ...hsk4Extra],
+    passages: [...hsk4, ...hsk4Extra, ...hsk4Expansion2],
   },
   {
     level: 5,
@@ -476,6 +477,6 @@ export const chineseReadingLevels: ChineseReadingLevel[] = [
     colorFrom: "from-rose-500",
     colorTo: "to-red-600",
     chibi: chibiHsk5,
-    passages: [...hsk5, ...hsk5Extra],
+    passages: [...hsk5, ...hsk5Extra, ...hsk5Expansion2],
   },
 ];
