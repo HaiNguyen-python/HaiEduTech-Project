@@ -5,6 +5,8 @@
  *              reach the required variety (min 7 exercises, min 4 types).
  */
 import type { InteractiveExercise, LanguageModule } from "./types";
+import { authoredGrammarExercisesPart1 } from "./grammarExercisesAuthored/part1";
+
 
 export const grammarExerciseSupplement: Record<string, InteractiveExercise[]> = {
   "adjective-order": [
@@ -424,8 +426,12 @@ export const applyGrammarExerciseSupplement = (
   modules.map((module) => ({
     ...module,
     lessons: module.lessons.map((lesson) => {
-      const extra = grammarExerciseSupplement[lesson.id];
-      if (!extra) return lesson;
+      const extra = [
+        ...(grammarExerciseSupplement[lesson.id] ?? []),
+        ...(authoredGrammarExercisesPart1[lesson.id] ?? []),
+      ];
+      if (extra.length === 0) return lesson;
       return { ...lesson, exercises: [...lesson.exercises, ...extra] };
     }),
   }));
+
