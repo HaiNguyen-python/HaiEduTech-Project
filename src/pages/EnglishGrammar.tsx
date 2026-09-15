@@ -329,6 +329,9 @@ const EnglishGrammar = () => {
                     </motion.div>
                   ))}
                 </div>
+                </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             );
           })}
