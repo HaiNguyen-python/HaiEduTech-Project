@@ -133,7 +133,7 @@ export const authoredGrammarExercisesPart1: Record<string, InteractiveExercise[]
           explanation: "Whose links the nurse to father, showing possession.",
         },
         {
-          question: "The café ___ we studied last night closes at ten.",
+          question: "The coffee shop ___ we studied last night closes at ten.",
           options: ["where", "which", "who", "whose"],
           answer: 0,
           explanation: "Where replaces in which for a place.",

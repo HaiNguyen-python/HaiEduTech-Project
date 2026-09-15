@@ -439,7 +439,7 @@ const hashString = (value: string) => {
  * Rotate the options deterministically so the answer key is spread across
  * positions instead of always being A.
  */
-const balanceMcqKeys = (exercises: InteractiveExercise[]): InteractiveExercise[] =>
+export const balanceMcqKeys = (exercises: InteractiveExercise[]): InteractiveExercise[] =>
   exercises.map((exercise) => {
     if (exercise.type !== "multiple-choice") return exercise;
 
@@ -481,8 +481,10 @@ export const applyGrammarExerciseSupplement = (
         ...(authoredGrammarExercisesPart5[lesson.id] ?? []),
       ]);
 
-      if (extra.length === 0) return lesson;
-      return { ...lesson, exercises: [...lesson.exercises, ...extra] };
+      return {
+        ...lesson,
+        exercises: balanceMcqKeys([...lesson.exercises, ...extra]),
+      };
     }),
   }));
 
