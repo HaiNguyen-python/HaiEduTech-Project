@@ -24,6 +24,8 @@ import {
   CHINESE_CURRICULUM_PROGRESS_EVENT, estimateChineseLessonMinutes, flattenChineseLessons,
   readChineseProgress, writeChineseProgress,
 } from "@/lib/chineseCurriculumProgress";
+import { dialogueAvatarFor } from "@/lib/dialogueAvatars";
+import { getChineseLessonIllustration } from "@/lib/chineseLessonVisuals";
 
 const getIcon = (name: string): LucideIcon => icons[name as keyof typeof icons] ?? BookOpen;
 const markLessonComplete = (id: string) => {
@@ -159,6 +161,7 @@ const ChineseConversationalLessonView = () => {
   const nextLesson = currentIndex < allLessons.length - 1 ? allLessons[currentIndex + 1] : null;
   const availableTabs = ["situations", "vocabulary", "structures", ...(lesson.fillInBlankExercises?.length ? ["exercises"] : []), "listening", "roleplay"];
   const activeStep = Math.max(1, availableTabs.indexOf(activeTab) + 1);
+  const lessonIllustration = getChineseLessonIllustration(lesson);
 
   const handleComplete = () => {
     markLessonComplete(lesson.id);
@@ -243,23 +246,36 @@ const ChineseConversationalLessonView = () => {
 
         <motion.header initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="mb-6 overflow-hidden rounded-lg border border-border border-l-4 border-l-primary bg-card shadow-md">
           <div className="border-b border-border bg-primary/5 px-5 py-3 sm:px-7"><p className="text-sm font-extrabold text-primary">{pillar.title} · {pillar.titleZh} / {t("Bài", "Lesson")} {currentIndex + 1}</p></div>
-          <div className="p-5 sm:p-7">
-          <div className="flex flex-wrap items-start gap-3">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
-              <LIcon className="h-6 w-6" />
+          <div className="grid lg:grid-cols-[minmax(0,1fr)_19rem]">
+            <div className="order-2 p-5 sm:p-7 lg:order-1">
+              <div className="flex flex-wrap items-start gap-3">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                  <LIcon className="h-6 w-6" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <h1 className="text-2xl font-extrabold sm:text-3xl">{lesson.title} <span className="block text-xl text-muted-foreground sm:inline">({lesson.titleZh})</span></h1>
+                  <p className="mt-2 font-medium leading-7 text-muted-foreground">{lesson.description}</p>
+                </div>
+                <Badge variant="outline">HSK {lesson.hskLevel}</Badge>
+                {isCompleted && (
+                  <Badge variant="secondary">
+                    <Award className="mr-1 h-3 w-3" /> {lesson.badge}
+                  </Badge>
+                )}
+              </div>
+              <div className="mt-5 grid gap-4 border border-primary/20 bg-primary/5 p-4 sm:grid-cols-[1fr_auto] sm:items-center"><div className="flex gap-3"><Target className="mt-0.5 h-5 w-5 shrink-0 text-primary" /><p className="font-bold leading-7">{t("Luyện giao tiếp thực tế qua tình huống, từ vựng, cấu trúc, nghe và nhập vai.", "Build real communication through situations, vocabulary, structures, listening and roleplay.")}</p></div><span className="inline-flex items-center gap-1.5 text-sm font-bold text-foreground/75"><Clock3 className="h-4 w-4 text-primary" />{estimateChineseLessonMinutes(lesson)} min</span></div>
             </div>
-            <div className="min-w-0 flex-1">
-              <h1 className="text-2xl font-extrabold sm:text-3xl">{lesson.title} <span className="text-xl text-muted-foreground">({lesson.titleZh})</span></h1>
-              <p className="mt-2 font-medium leading-7 text-muted-foreground">{lesson.description}</p>
+            <div className="order-1 aspect-[16/7] overflow-hidden bg-muted lg:order-2 lg:aspect-auto lg:min-h-full">
+              <img
+                src={lessonIllustration.src}
+                alt={t(lessonIllustration.altVi, lessonIllustration.altEn)}
+                width={1024}
+                height={640}
+                loading="eager"
+                decoding="async"
+                className="h-full w-full object-cover"
+              />
             </div>
-            <Badge variant="outline">HSK {lesson.hskLevel}</Badge>
-            {isCompleted && (
-              <Badge variant="secondary">
-                <Award className="h-3 w-3 mr-1" /> {lesson.badge}
-              </Badge>
-            )}
-          </div>
-          <div className="mt-5 grid gap-4 border border-primary/20 bg-primary/5 p-4 sm:grid-cols-[1fr_auto] sm:items-center"><div className="flex gap-3"><Target className="mt-0.5 h-5 w-5 shrink-0 text-primary" /><p className="font-bold leading-7">{t("Luyện giao tiếp thực tế qua tình huống, từ vựng, cấu trúc, nghe và nhập vai.", "Build real communication through situations, vocabulary, structures, listening and roleplay.")}</p></div><span className="inline-flex items-center gap-1.5 text-sm font-bold text-foreground/75"><Clock3 className="h-4 w-4 text-primary" />{estimateChineseLessonMinutes(lesson)} min</span></div>
           </div>
         </motion.header>
 
@@ -306,18 +322,35 @@ const ChineseConversationalLessonView = () => {
                           // Alternate sides: even index = left, odd = right (zig-zag for readability)
                           const isRight = i % 2 === 1;
                           const palette = [
-                            { bubble: "border-primary/20 bg-primary/10 text-foreground", label: "bg-primary text-primary-foreground" },
-                            { bubble: "border-border bg-muted text-foreground", label: "bg-secondary text-secondary-foreground" },
+                            { bubble: "border-primary/20 bg-primary/10 text-foreground", ring: "border-primary/30 bg-primary/10" },
+                            { bubble: "border-border bg-muted text-foreground", ring: "border-secondary/40 bg-secondary/20" },
                           ];
-                          const { bubble: bubbleColor, label: labelColor } = palette[i % 2];
+                          const { bubble: bubbleColor, ring: avatarRing } = palette[i % 2];
+                          const avatarSrc = dialogueAvatarFor(`${lesson.id}::${line.speaker}`, !isRight);
                           // Prefer English translation; if absent, keep dialogue without translation rather than showing Vietnamese
                           const translationEn = line.translationEn;
 
                           return (
                             <div key={i} className={`flex gap-3 ${isRight ? "flex-row-reverse" : ""}`}>
-                              {/* Avatar circle */}
-                              <div className={`flex-shrink-0 w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold ${labelColor}`}>
-                                {line.speaker.charAt(0)}
+                              {/* Stable chibi avatar for each speaker */}
+                              <div className={`relative h-12 w-12 flex-shrink-0 overflow-hidden rounded-full border-2 shadow-sm sm:h-14 sm:w-14 ${avatarRing}`}>
+                                <img
+                                  src={avatarSrc}
+                                  alt={`${line.speaker} dialogue character`}
+                                  width={56}
+                                  height={56}
+                                  loading="lazy"
+                                  decoding="async"
+                                  className="h-full w-full object-cover"
+                                  onError={(event) => {
+                                    event.currentTarget.style.display = "none";
+                                    const fallback = event.currentTarget.nextElementSibling;
+                                    if (fallback instanceof HTMLElement) fallback.classList.remove("hidden");
+                                  }}
+                                />
+                                <span className="hidden h-full w-full items-center justify-center text-sm font-extrabold text-primary" aria-hidden="true">
+                                  {line.speaker.charAt(0)}
+                                </span>
                               </div>
                               {/* Bubble */}
                               <div className={`max-w-[82%] rounded-lg border px-4 py-3 shadow-sm ${bubbleColor}`}>
