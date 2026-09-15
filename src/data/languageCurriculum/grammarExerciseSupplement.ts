@@ -425,20 +425,61 @@ export const grammarExerciseSupplement: Record<string, InteractiveExercise[]> = 
   ],
 };
 
+/** Deterministic small hash so option order is stable across renders. */
+const hashString = (value: string) => {
+  let hash = 0;
+  for (let i = 0; i < value.length; i += 1) {
+    hash = (hash * 31 + value.charCodeAt(i)) % 100000;
+  }
+  return hash;
+};
+
+/**
+ * Hand-written MCQs are authored with the correct option first for readability.
+ * Rotate the options deterministically so the answer key is spread across
+ * positions instead of always being A.
+ */
+const balanceMcqKeys = (exercises: InteractiveExercise[]): InteractiveExercise[] =>
+  exercises.map((exercise) => {
+    if (exercise.type !== "multiple-choice") return exercise;
+
+    return {
+      ...exercise,
+      questions: exercise.questions.map((question) => {
+        const count = question.options.length;
+        if (count < 2) return question;
+
+        const shift = hashString(question.question) % count;
+        if (shift === 0) return question;
+
+        const options = [
+          ...question.options.slice(count - shift),
+          ...question.options.slice(0, count - shift),
+        ];
+
+        return {
+          ...question,
+          options,
+          answer: (question.answer + shift) % count,
+        };
+      }),
+    };
+  });
+
 export const applyGrammarExerciseSupplement = (
   modules: LanguageModule[]
 ): LanguageModule[] =>
   modules.map((module) => ({
     ...module,
     lessons: module.lessons.map((lesson) => {
-      const extra = [
+      const extra = balanceMcqKeys([
         ...(grammarExerciseSupplement[lesson.id] ?? []),
         ...(authoredGrammarExercisesPart1[lesson.id] ?? []),
         ...(authoredGrammarExercisesPart2[lesson.id] ?? []),
         ...(authoredGrammarExercisesPart3[lesson.id] ?? []),
         ...(authoredGrammarExercisesPart4[lesson.id] ?? []),
         ...(authoredGrammarExercisesPart5[lesson.id] ?? []),
-      ];
+      ]);
 
       if (extra.length === 0) return lesson;
       return { ...lesson, exercises: [...lesson.exercises, ...extra] };
