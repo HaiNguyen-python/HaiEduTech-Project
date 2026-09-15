@@ -99,6 +99,20 @@ for (const mod of allGrammarModules) {
   }
 }
 
+// Module-level checks: no thin modules, no leftover duplicate module IDs.
+const MERGED_AWAY = ["grammar-modals-deep", "grammar-punctuation", "grammar-question-forms", "grammar-sv-agreement-advanced"];
+for (const mod of allGrammarModules) {
+  if (mod.lessons.length < 3) errors.push(`${mod.id}: only ${mod.lessons.length} lessons (min 3)`);
+  if (MERGED_AWAY.includes(mod.id)) errors.push(`${mod.id}: duplicate module should be merged away`);
+}
+const seenLessonIds = new Set();
+for (const mod of allGrammarModules) {
+  for (const l of mod.lessons) {
+    if (seenLessonIds.has(l.id)) errors.push(`${l.id}: duplicate lesson id`);
+    seenLessonIds.add(l.id);
+  }
+}
+
 console.log(`Lessons audited: ${lessons}`);
 console.log("Exercise types:", typeCount);
 if (errors.length) {
