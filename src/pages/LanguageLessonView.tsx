@@ -2,6 +2,8 @@
 import { useState, useEffect, useMemo } from "react";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { boldAndSanitize } from "@/lib/utils";
+import { getGrammarModuleVisual } from "@/lib/grammarModuleVisuals";
+import { resolveGrammarModuleId } from "@/data/languageCurriculum/grammarModuleMerge";
 import { useParams, Link, useSearchParams, useNavigate } from "react-router-dom";
 import { satTeachingSequence, findSatSequenceIndex, satSequenceUrl } from "@/lib/satTeachingSequence";
 import Navbar from "@/components/Navbar";
