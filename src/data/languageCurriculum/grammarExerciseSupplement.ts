@@ -6,6 +6,13 @@
  */
 import type { InteractiveExercise, LanguageModule } from "./types";
 import { authoredGrammarExercisesPart1 } from "./grammarExercisesAuthored/part1";
+import { authoredGrammarExercisesPart2 } from "./grammarExercisesAuthored/part2";
+import { authoredGrammarExercisesPart3 } from "./grammarExercisesAuthored/part3";
+import { authoredGrammarExercisesPart4 } from "./grammarExercisesAuthored/part4";
+import { authoredGrammarExercisesPart5 } from "./grammarExercisesAuthored/part5";
+import { authoredGrammarExercisesPart6 } from "./grammarExercisesAuthored/part6";
+import { authoredGrammarExercisesPart7 } from "./grammarExercisesAuthored/part7";
+
 
 
 export const grammarExerciseSupplement: Record<string, InteractiveExercise[]> = {
@@ -420,18 +427,71 @@ export const grammarExerciseSupplement: Record<string, InteractiveExercise[]> = 
   ],
 };
 
+/** Deterministic small hash so option order is stable across renders. */
+const hashString = (value: string) => {
+  let hash = 0;
+  for (let i = 0; i < value.length; i += 1) {
+    hash = (hash * 31 + value.charCodeAt(i)) % 100000;
+  }
+  return hash;
+};
+
+/**
+ * Hand-written MCQs are authored with the correct option first for readability.
+ * Rotate the options deterministically so the answer key is spread across
+ * positions instead of always being A.
+ */
+export const balanceMcqKeys = (exercises: InteractiveExercise[]): InteractiveExercise[] =>
+  exercises.map((exercise) => {
+    if (exercise.type !== "multiple-choice") return exercise;
+
+    const base = hashString(exercise.questions.map((q) => q.question).join("|"));
+
+    return {
+      ...exercise,
+      questions: exercise.questions.map((question, index) => {
+        const count = question.options.length;
+        if (count < 2) return question;
+
+        // Spread the key across positions: question i keeps a distinct slot.
+        const target = (base + index) % count;
+        const shift = (target - question.answer + count) % count;
+        if (shift === 0) return question;
+
+        const options = [
+          ...question.options.slice(count - shift),
+          ...question.options.slice(0, count - shift),
+        ];
+
+        return { ...question, options, answer: target };
+      }),
+    };
+  });
+
 export const applyGrammarExerciseSupplement = (
   modules: LanguageModule[]
 ): LanguageModule[] =>
   modules.map((module) => ({
     ...module,
     lessons: module.lessons.map((lesson) => {
-      const extra = [
+      const extra = ([
         ...(grammarExerciseSupplement[lesson.id] ?? []),
         ...(authoredGrammarExercisesPart1[lesson.id] ?? []),
-      ];
-      if (extra.length === 0) return lesson;
-      return { ...lesson, exercises: [...lesson.exercises, ...extra] };
+        ...(authoredGrammarExercisesPart2[lesson.id] ?? []),
+        ...(authoredGrammarExercisesPart3[lesson.id] ?? []),
+        ...(authoredGrammarExercisesPart4[lesson.id] ?? []),
+        ...(authoredGrammarExercisesPart5[lesson.id] ?? []),
+        ...(authoredGrammarExercisesPart6[lesson.id] ?? []),
+        ...(authoredGrammarExercisesPart7[lesson.id] ?? []),
+        ...(authoredGrammarExercisesPart6[`${lesson.id}-extra`] ?? []),
+        ...(authoredGrammarExercisesPart7[`${lesson.id}-extra`] ?? []),
+        ...(authoredGrammarExercisesPart7[`${lesson.id}-extra2`] ?? []),
+      ]);
+
+      return {
+        ...lesson,
+        exercises: balanceMcqKeys([...lesson.exercises, ...extra]),
+      };
     }),
   }));
 
