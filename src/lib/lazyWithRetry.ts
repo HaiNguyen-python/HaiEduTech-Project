@@ -34,7 +34,8 @@ const reloadOnce = () => {
   return true;
 };
 
-export function lazyWithRetry<T extends ComponentType<never>>(
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function lazyWithRetry<T extends ComponentType<any>>(
   factory: () => Promise<{ default: T }>,
 ) {
   return lazy(async () => {
