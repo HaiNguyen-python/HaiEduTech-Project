@@ -605,13 +605,20 @@ const isCleanSentence = (value: string) => {
 
 /** Strip quiz scaffolding around a gap-fill stem: quotes and trailing prompts. */
 const sanitizeStem = (raw: string) => {
-  let stem = raw.trim().replace(/_{2,}/g, "___");
+  let stem = raw.trim().replace(/\*/g, "").replace(/_{2,}/g, "___");
   stem = stem.replace(/\s*-\s*(choose|select|pick)[^.]*:?\s*$/i, "");
-  stem = stem.replace(/^(complete the sentence correctly|fill in the blank|complete the sentence)\s*:?\s*/i, "");
+  stem = stem.replace(
+    /^(complete the sentence correctly|fill in the blank|complete the sentence|choose the correct form)\s*:?\s*/i,
+    ""
+  );
   stem = stem.replace(/^["'“”']+/, "").replace(/["'“”']+$/, "");
   stem = stem.replace(/\s*\([^)]*\)/g, "");
   return clean(stem);
 };
+
+/** Quiz options carry italic markers; practice sentences must not. */
+const sanitizeOption = (raw: string) => clean(raw.replace(/\*/g, "").trim());
+
 
 const isInlineForm = (option: string) => {
   const text = option.trim();
