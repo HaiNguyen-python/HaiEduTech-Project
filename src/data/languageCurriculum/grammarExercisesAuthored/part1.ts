@@ -69,17 +69,17 @@ export const authoredGrammarExercisesPart1: Record<string, InteractiveExercise[]
       instructionEn: "Reorder the words into a correctly patterned sentence.",
       items: [
         {
-          words: ["her", "the", "students", "teacher", "showed", "a", "shortcut"],
+          scrambled: ["her", "the", "students", "teacher", "showed", "a", "shortcut"],
           correct: "The teacher showed her students a shortcut",
           correctEn: "The teacher showed her students a shortcut",
         },
         {
-          words: ["silent", "the", "audience", "remained", "completely"],
+          scrambled: ["silent", "the", "audience", "remained", "completely"],
           correct: "The audience remained completely silent",
           correctEn: "The audience remained completely silent",
         },
         {
-          words: ["the", "judges", "declared", "match", "the", "invalid"],
+          scrambled: ["the", "judges", "declared", "match", "the", "invalid"],
           correct: "The judges declared the match invalid",
           correctEn: "The judges declared the match invalid",
         },
