@@ -3,6 +3,7 @@
 ## In Progress
 
 ## Done
+- [x] Unified all Interview Questions with stable numbering, Junior/Mid/Senior levels, underlined keywords, and desktop/mobile topic filters
 - [x] Interview Questions: unique IDs, stronger Junior coverage, Polished Layered Learning layout, grouped topics, desktop sidebar/mobile filters, accessible reviewed progress, resilient copy, content audits, and responsive verification
 - [x] Programming code indentation: normalized all 310 cached lesson code blocks by language, preserved exact spacing in display/copy, added generation safeguards and responsive verification
 - [x] Programming Theory enrichment: section-aware key-term emphasis and image-only backfill completed for all 310 cached lessons, with 616 illustrations and responsive verification

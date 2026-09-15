@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { interviewCategories, interviewQuestions } from "@/data/interviewQuestions";
 import { emphasizeInterviewTerms, filterInterviewQuestions, groupInterviewQuestions, parseReviewedQuestionIds, splitNumberedText } from "@/lib/interviewQuestionUtils";
+import { softwareInterviewMetadata } from "@/data/softwareInterviewMetadata";
 
 describe("interview question bank", () => {
   it("has unique IDs and valid categories", () => {
@@ -56,5 +57,18 @@ describe("interview question bank", () => {
     const parts = emphasizeInterviewTerms("Use RAG with schema validation and monitor latency.");
     expect(parts.filter((part) => part.important).map((part) => part.text)).toEqual(["RAG", "schema validation", "latency"]);
     expect(parts.map((part) => part.text).join("")).toBe("Use RAG with schema validation and monitor latency.");
+  });
+
+  it("keeps the Software Engineering bank stable and filter-ready", () => {
+    expect(softwareInterviewMetadata).toHaveLength(30);
+    expect(new Set(softwareInterviewMetadata.map((question) => question.id)).size).toBe(30);
+    expect(softwareInterviewMetadata.every((question) => ["Junior", "Mid", "Senior"].includes(question.difficulty))).toBe(true);
+  });
+
+  it("recognizes Software Engineering terms without changing source text", () => {
+    const source = "Use a load balancer, consistent hashing, and a circuit breaker.";
+    const parts = emphasizeInterviewTerms(source);
+    expect(parts.filter((part) => part.important).map((part) => part.text)).toEqual(["load balancer", "consistent hashing", "circuit breaker"]);
+    expect(parts.map((part) => part.text).join("")).toBe(source);
   });
 });
