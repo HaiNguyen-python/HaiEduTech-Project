@@ -22,3 +22,8 @@ Architecture:
 - Every lesson must have >= 7 exercises across >= 4 types (fill-in-blank, sentence-reorder, dictation, error-correction, transformation, multiple-choice, matching).
 - Exercises are derived at runtime in `src/lib/grammarExerciseBuilder.ts`; thin lessons get hand-written items in `src/data/languageCurriculum/grammarExerciseSupplement.ts`.
 - Validate with `bun scripts/audit_grammar_exercises.mjs` - must report zero issues (no Vietnamese leaks, no duplicate options/pairs, scramble word sets must match answers).
+
+## Exercise banks and answer-key balance (2026-09)
+- Hand-written practice lives in `src/data/languageCurriculum/grammarExercisesAuthored/part1..part7.ts`; `applyGrammarExerciseSupplement` also merges `${lessonId}-extra` and `-extra2` keys.
+- MCQ options are rotated deterministically by `balanceMcqKeys` so the answer key is never always A.
+- `bunx tsx scripts/audit_grammar_exercises.mjs` must report "All grammar exercises passed the audit" (min 7 exercises, min 4 types, no repeated items, no Vietnamese leaks, no identical mcq keys).
