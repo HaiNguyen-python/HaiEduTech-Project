@@ -630,7 +630,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
         <div className="text-center p-4 bg-gradient-to-r from-emerald-500/10 to-blue-500/10 rounded-xl border border-primary/20">
           <Sparkles className="h-8 w-8 text-primary mx-auto mb-2" />
           <h3 className="font-bold text-lg">{t("Luyện nói với AI", "Roleplay Practice")}</h3>
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="mt-1 text-base font-medium text-muted-foreground">
             {t(
               "Chọn một tình huống bên dưới để bắt đầu trò chuyện với AI bằng tiếng Anh",
               "Choose a scenario below to start chatting in English"
@@ -652,7 +652,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
               <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white text-sm font-bold shrink-0">
                 {i + 1}
               </div>
-              <span className="text-sm flex-1">{topic}</span>
+              <span className="flex-1 text-base font-semibold">{topic}</span>
               <Sparkles className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
             </motion.button>
           ))}
@@ -709,7 +709,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
           />
         )}
       </div>
-      <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${speaking ? "bg-emerald-500 text-white" : "bg-muted text-muted-foreground"}`}>
+      <span className={`rounded-full px-2 py-1 text-sm font-bold ${speaking ? "bg-primary text-primary-foreground" : "bg-muted text-foreground"}`}>
         {speaking ? t("🗣 Đang nói", "🗣 Speaking") : label}
       </span>
     </div>
@@ -737,7 +737,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
       <button
         type="button"
         onClick={() => insertHelper(text)}
-        className="text-sm font-semibold text-foreground text-left hover:underline focus-visible:outline-none focus-visible:underline"
+        className="text-left text-base font-semibold text-foreground hover:underline focus-visible:outline-none focus-visible:underline"
         title={t("Chèn vào câu trả lời", "Insert into your reply")}
       >
         {text}
@@ -759,7 +759,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
         <button
           type="button"
           onClick={() => setHelpersOpen((open) => !open)}
-          className="flex items-center gap-2 text-sm font-extrabold uppercase tracking-wide text-primary"
+          className="flex items-center gap-2 text-base font-extrabold uppercase tracking-wide text-primary"
         >
           {helpersOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
           {t("Trợ giúp nói", "Speaking helper")}
@@ -771,13 +771,13 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
       {helpersOpen && (
         <div className="grid gap-4 border-t px-4 py-3 md:grid-cols-2">
           <div>
-            <p className="mb-2 text-xs font-bold uppercase tracking-wide text-primary">
+            <p className="mb-2 text-sm font-extrabold uppercase tracking-wide text-primary">
               {t("💬 Cấu trúc hữu ích", "💬 Handy structures")}
             </p>
             <div className="space-y-2.5">
               {structureGroups.map((group) => (
                 <div key={group.key}>
-                  <p className="mb-1 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
+                  <p className="mb-1 text-sm font-bold uppercase tracking-wide text-muted-foreground">
                     {t(group.labelVi, group.labelEn)}
                   </p>
                   <div className="flex flex-wrap gap-1.5">
@@ -790,7 +790,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
             </div>
           </div>
           <div>
-            <p className="mb-2 text-xs font-bold uppercase tracking-wide text-emerald-600">
+            <p className="mb-2 text-sm font-extrabold uppercase tracking-wide text-primary">
               {t("📚 Từ vựng gợi ý", "📚 Suggested vocab")}
             </p>
             <div className="flex flex-wrap gap-1.5">
@@ -803,7 +803,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
             <Button variant="ghost" size="sm" onClick={() => setHelpersExpanded((open) => !open)} className="h-8 text-primary">
               {helpersExpanded ? t("Thu gọn", "Show less") : t("Xem thêm", "Show more")}
             </Button>
-            <p className="mt-1 text-xs text-muted-foreground">
+            <p className="mt-1 text-base font-medium text-muted-foreground">
               {t("Bấm vào cụm từ để chèn vào câu trả lời, bấm loa để nghe.", "Tap a phrase to insert it into your reply, tap the speaker to hear it.")}
             </p>
           </div>
@@ -853,7 +853,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
       {/* Speaker stage: two chibi characters with lip-sync animation */}
       <div className="relative flex items-end justify-between gap-3 px-6 py-3 border-b bg-gradient-to-b from-background/60 to-background/20 backdrop-blur-sm">
         <TalkingChibi src={partnerAvatar} speaking={aiSpeaking} label={partnerLabel} side="left" />
-        <div className="flex-1 text-center text-xs sm:text-sm font-semibold text-muted-foreground italic">
+        <div className="flex-1 text-center text-base font-semibold italic text-muted-foreground">
           {aiSpeaking
             ? t("AI đang nói...", "AI is speaking...")
             : isRecording
@@ -879,7 +879,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
               <img src={partnerAvatar} alt="" className="w-9 h-9 rounded-full bg-white shadow-md shrink-0 mt-1 p-0.5" width={36} height={36} />
             )}
             <div className={`max-w-[80%] ${msg.role === "user" ? "order-first" : ""}`}>
-              <div className={`p-3 rounded-2xl text-sm shadow-sm ${
+              <div className={`rounded-2xl p-3 text-base font-medium leading-7 shadow-sm ${
                 msg.role === "user"
                   ? "bg-primary text-primary-foreground rounded-br-sm"
                   : "bg-card/95 backdrop-blur-sm border rounded-bl-sm"
@@ -942,7 +942,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
           {/* Live transcript display (read-only, voice-only mode) */}
           <div className="flex-1 relative">
             <div
-              className={`w-full min-h-[56px] rounded-xl border bg-background px-4 py-2.5 text-sm leading-relaxed whitespace-pre-wrap transition-all ${
+              className={`min-h-[56px] w-full whitespace-pre-wrap rounded-xl border bg-background px-4 py-2.5 text-base font-medium leading-relaxed transition-all ${
                 isRecording
                   ? "min-h-[110px] ring-2 ring-red-300 bg-red-50/40 dark:bg-red-950/20"
                   : ""
@@ -960,7 +960,7 @@ const ConversationalRoleplay = ({ lessonTitle, pillar, speakingTopics, keySituat
 
 
         {isRecording && (
-          <p className="text-xs text-center text-red-500 mt-2 animate-pulse">
+          <p className="mt-2 animate-pulse text-center text-base font-semibold text-destructive">
             {t("🎤 Đang nghe... Nói xong tạm dừng khoảng 6 giây hoặc bấm mic để gửi", "🎤 Listening... pause about 6s or tap the mic to send")}
           </p>
         )}

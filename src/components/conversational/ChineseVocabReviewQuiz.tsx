@@ -127,7 +127,7 @@ const ChineseVocabReviewQuiz = ({ vocabulary }: Props) => {
   return (
     <Card className="border-red-500/30 bg-gradient-to-br from-red-500/5 to-amber-500/5">
       <CardHeader>
-        <CardTitle className="flex items-center justify-between gap-2 text-base">
+        <CardTitle className="flex items-center justify-between gap-2 text-xl font-extrabold">
           <span className="flex items-center gap-2">
             <Sparkles className="h-5 w-5 text-red-500" />
             {t("Củng cố từ vựng tiếng Trung", "Chinese Vocabulary Review")}
@@ -135,7 +135,7 @@ const ChineseVocabReviewQuiz = ({ vocabulary }: Props) => {
           {submitted && (
             <span
               className={cn(
-                "text-sm font-bold",
+                "text-base font-bold",
                 score === total
                   ? "text-green-500"
                   : score >= total / 2
@@ -152,7 +152,7 @@ const ChineseVocabReviewQuiz = ({ vocabulary }: Props) => {
       <CardContent className="space-y-7">
         {/* 1. Meaning MCQ */}
         <div className="space-y-3">
-          <p className="text-sm font-semibold text-muted-foreground">
+          <p className="text-base font-bold text-muted-foreground">
             {t("1. Chọn nghĩa đúng cho mỗi từ:", "1. Choose the correct meaning:")}
           </p>
           {mcq.map((q, qi) => (
@@ -162,7 +162,7 @@ const ChineseVocabReviewQuiz = ({ vocabulary }: Props) => {
                   <Volume2 className="h-4 w-4" />
                 </button>
                 <span className="font-bold text-xl text-red-600">{q.hanzi}</span>
-                <span className="text-xs text-muted-foreground">{q.pinyin}</span>
+                <span className="text-base font-semibold text-muted-foreground">{q.pinyin}</span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {q.options.map((opt, oi) => {
@@ -173,7 +173,7 @@ const ChineseVocabReviewQuiz = ({ vocabulary }: Props) => {
                       key={oi}
                       onClick={() => !submitted && setMcqAns((p) => ({ ...p, [qi]: oi }))}
                       className={cn(
-                        "text-left text-sm px-3 py-2 rounded-md border transition-all flex items-start gap-2",
+                        "flex items-start gap-2 rounded-md border px-3 py-2 text-left text-base font-medium transition-all",
                         submitted
                           ? isCorrect
                             ? "border-green-500 bg-green-500/10 text-green-700 dark:text-green-300"
@@ -202,7 +202,7 @@ const ChineseVocabReviewQuiz = ({ vocabulary }: Props) => {
 
         {/* 2. Pinyin MCQ */}
         <div className="space-y-3">
-          <p className="text-sm font-semibold text-muted-foreground">
+          <p className="text-base font-bold text-muted-foreground">
             {t("2. Chọn phiên âm pinyin đúng:", "2. Choose the correct pinyin:")}
           </p>
           {pinyinMcq.map((q, qi) => (
@@ -217,7 +217,7 @@ const ChineseVocabReviewQuiz = ({ vocabulary }: Props) => {
                       key={oi}
                       onClick={() => !submitted && setPinyinAns((p) => ({ ...p, [qi]: oi }))}
                       className={cn(
-                        "text-left text-sm px-3 py-2 rounded-md border transition-all italic",
+                        "rounded-md border px-3 py-2 text-left text-base font-semibold italic transition-all",
                         submitted
                           ? isCorrect
                             ? "border-green-500 bg-green-500/10 text-green-700 dark:text-green-300"
@@ -240,7 +240,7 @@ const ChineseVocabReviewQuiz = ({ vocabulary }: Props) => {
 
         {/* 3. Hanzi from Pinyin */}
         <div className="space-y-3">
-          <p className="text-sm font-semibold text-muted-foreground">
+          <p className="text-base font-bold text-muted-foreground">
             {t(
               "3. Gõ chữ Hán (汉字) phù hợp với pinyin và nghĩa:",
               "3. Type the Hanzi (汉字) matching the pinyin and meaning:"
@@ -251,9 +251,9 @@ const ChineseVocabReviewQuiz = ({ vocabulary }: Props) => {
             const ok = submitted && val.trim() === q.answer;
             return (
               <div key={qi} className="space-y-2 rounded-lg border border-border bg-card/60 p-3">
-                <p className="text-sm">
-                  <span className="italic text-primary">{q.pinyin}</span>{" "}
-                  <span className="text-muted-foreground">— {q.meaning}</span>
+                <p className="text-base font-medium">
+                  <span className="font-semibold italic text-primary">{q.pinyin}</span>{" "}
+                  <span className="text-muted-foreground">• {q.meaning}</span>
                 </p>
                 <input
                   type="text"
@@ -273,7 +273,7 @@ const ChineseVocabReviewQuiz = ({ vocabulary }: Props) => {
                   )}
                 />
                 {submitted && !ok && (
-                  <p className="text-xs text-destructive">
+                  <p className="text-base font-semibold text-destructive">
                     {t("Đáp án", "Answer")}: <span className="font-bold">{q.answer}</span>
                   </p>
                 )}
@@ -285,7 +285,7 @@ const ChineseVocabReviewQuiz = ({ vocabulary }: Props) => {
         {/* 4. Fill in the blank */}
         {fills.length > 0 && (
           <div className="space-y-3">
-            <p className="text-sm font-semibold text-muted-foreground">
+            <p className="text-base font-bold text-muted-foreground">
               {t(
                 "4. Điền chữ Hán phù hợp vào chỗ trống:",
                 "4. Fill the blank with the correct Hanzi:"
@@ -299,7 +299,7 @@ const ChineseVocabReviewQuiz = ({ vocabulary }: Props) => {
                   <p className="text-base leading-relaxed">
                     {fi + 1}. {q.sentence}
                   </p>
-                  {q.pinyin && <p className="text-xs italic text-primary/80">{q.pinyin}</p>}
+                  {q.pinyin && <p className="text-base font-semibold italic text-primary">{q.pinyin}</p>}
                   <input
                     type="text"
                     value={val}
@@ -320,7 +320,7 @@ const ChineseVocabReviewQuiz = ({ vocabulary }: Props) => {
                   {submitted && (
                     <p
                       className={cn(
-                        "text-xs",
+                        "text-base font-semibold",
                         ok ? "text-green-600 dark:text-green-400" : "text-destructive"
                       )}
                     >
