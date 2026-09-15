@@ -218,6 +218,11 @@ const PassageCard = ({ passage, chibi }: { passage: ChineseReadingPassage; chibi
             )}
           </div>
         </div>
+
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </CardContent>
     </Card>
   );
