@@ -5,6 +5,7 @@ import {
   getNextChineseLesson,
   sanitizeChineseProgress,
 } from "@/lib/chineseCurriculumProgress";
+import { getChineseLessonIllustration } from "@/lib/chineseLessonVisuals";
 
 describe("Chinese curriculum progress", () => {
   const lessons = flattenChineseLessons(chineseConversationalPillars);
@@ -21,5 +22,10 @@ describe("Chinese curriculum progress", () => {
 
   it("returns the first unfinished lesson across all pillars", () => {
     expect(getNextChineseLesson(chineseConversationalPillars, [lessons[0].id])?.id).toBe(lessons[1].id);
+  });
+
+  it("provides a themed illustration with accessible labels for every lesson", () => {
+    const illustrations = lessons.map(getChineseLessonIllustration);
+    expect(illustrations.every((illustration) => illustration.src && illustration.altEn && illustration.altVi)).toBe(true);
   });
 });
