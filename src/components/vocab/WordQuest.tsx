@@ -26,7 +26,7 @@ import type { QuestItem } from "@/lib/vocab/vocabAdapter";
 import { playEnglishTts, stopEnglishTts } from "@/lib/englishTts";
 import { resolveVocabEmoji } from "@/lib/vocabEmojiMap";
 import { safeStorage } from "@/lib/safeStorage";
-import { maskWord } from "@/lib/vocab/questionQuality";
+import { maskAnswerForms, normForCompare } from "@/lib/vocab/questionQuality";
 import { recordVocabReviewTracked } from "@/lib/vocabReview";
 import { useSpeechRecognizer } from "@/hooks/useSpeechRecognizer";
 
@@ -76,11 +76,40 @@ const norm = (s: string) =>
 
 const hasExample = (w: QuestItem) => !!w.example && w.example.trim().length > 12;
 
+const BLANK = "______";
+
+/**
+ * Hide every surface form of the answer (Finnish/Swedish inflections included)
+ * so a gap sentence never shows the word it asks for.
+ */
+const maskExample = (w: QuestItem, text: string, gradation: boolean) =>
+  maskAnswerForms(text, [w.word, w.typeAnswer], BLANK, { gradation });
+
+/**
+ * A gap/usage exercise is only fair when the answer can truly be hidden and
+ * enough of the sentence survives to give a real context clue.
+ */
+const canGap = (w: QuestItem, gradation: boolean) => {
+  if (!hasExample(w)) return false;
+  const masked = maskExample(w, w.example!, gradation);
+  if (!masked.includes(BLANK)) return false;
+  const kept = masked.split(/\s+/).filter(tok => tok && !tok.includes(BLANK));
+  return kept.length >= 2;
+};
+
+/** Two items must not both appear as options when they mean the same thing. */
+const sameMeaning = (a: string, b: string) => {
+  const x = normForCompare(a);
+  const y = normForCompare(b);
+  if (!x || !y) return true;
+  return x === y || (x.length > 2 && (x.includes(y) || y.includes(x)));
+};
+
 /** Exercise types this word can actually support with the data we have. */
-const kindsFor = (w: QuestItem, canSpeak: boolean): { easy: StepKind[]; hard: StepKind[] } => {
+const kindsFor = (w: QuestItem, canSpeak: boolean, gradation: boolean): { easy: StepKind[]; hard: StepKind[] } => {
   const easy: StepKind[] = ["meaning", "listen", "reverse", "build"];
   const hard: StepKind[] = ["type", "recall", "build"];
-  if (hasExample(w)) { easy.push("gap"); hard.push("gap", "usage"); }
+  if (canGap(w, gradation)) { easy.push("gap"); hard.push("gap", "usage"); }
   if (canSpeak) hard.push("speak");
   return { easy, hard };
 };
@@ -147,6 +176,8 @@ const WordQuest = ({
   const speak = speakProp || englishSpeak;
   const stopVoice = stopSpeak || stopEnglishTts;
   const PROGRESS_KEY = storageKey;
+  /** Finnish inflects heavily, so answer masking needs gradation stems. */
+  const gradation = speechLang.toLowerCase().startsWith("fi");
 
   const stages = useMemo(() => {
     const out: QuestItem[][] = [];
@@ -228,7 +259,7 @@ const WordQuest = ({
     const target = s[wordIdx];
     if (!target) return [];
     const known = knownKeys?.has(target.key) ?? false;
-    const { easy, hard } = kindsFor(target, micSupported);
+    const { easy, hard } = kindsFor(target, micSupported, gradation);
     const first = known ? pickKinds(hard, 3, []) : pickKinds(easy, 2, []);
     const second = known
       ? pickKinds(easy, 5 - first.length, first)
@@ -266,9 +297,25 @@ const WordQuest = ({
 
   const distractors = useMemo(() => {
     if (!word) return [] as QuestItem[];
-    const pool = allWordsRef.current.filter(w => w.key !== word.key);
+    // Never offer a word whose meaning (or spelling) matches the answer:
+    // "phòng" next to "phòng khách" makes a question impossible to answer.
+    const usableVi = new Set<string>();
+    const usableWord = new Set<string>();
+    const fair = (w: QuestItem) => {
+      if (w.key === word.key) return false;
+      if (sameMeaning(w.definition.vi, word.definition.vi)) return false;
+      if (sameMeaning(w.definition.en, word.definition.en)) return false;
+      if (sameMeaning(w.word, word.word)) return false;
+      const vi = normForCompare(w.definition.vi);
+      const wd = normForCompare(w.word);
+      if (usableVi.has(vi) || usableWord.has(wd)) return false;
+      usableVi.add(vi);
+      usableWord.add(wd);
+      return true;
+    };
+    const pool = shuffle(allWordsRef.current).filter(fair);
     const sameTopic = pool.filter(w => w.category === word.category);
-    return shuffle(sameTopic.length >= 3 ? sameTopic : pool).slice(0, 3);
+    return (sameTopic.length >= 3 ? sameTopic : pool).slice(0, 3);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [wordKey, kind]);
 
@@ -296,8 +343,9 @@ const WordQuest = ({
 
   const gapSentence = useMemo(() => {
     if (!word) return "";
-    const base = hasExample(word) ? word.example! : `${word.word} - ${word.definition.en}`;
-    return maskWord(base, word.word, "______");
+    if (canGap(word, gradation)) return maskExample(word, word.example!, gradation);
+    // No maskable example: ask from the meaning instead of showing the answer.
+    return `${BLANK} - ${word.definition.en}`;
   }, [word]);
 
   const gapOptions = useMemo(() => {
@@ -310,12 +358,16 @@ const WordQuest = ({
   const usageOptions = useMemo(() => {
     if (!word || !hasExample(word)) return [] as { text: string; right: boolean }[];
     const wrong = distractors
-      .filter(d => hasExample(d))
+      .filter(d => canGap(d, gradation))
       .slice(0, 2)
-      .map(d => ({ text: maskWord(d.example!, d.word, word.word), right: false }));
+      .map(d => ({ text: maskAnswerForms(d.example!, [d.word, d.typeAnswer], word.word, { gradation }), right: false }))
+      .filter(o => o.text.includes(word.word) && normForCompare(o.text) !== normForCompare(word.example!));
+    if (wrong.length < 2) return [] as { text: string; right: boolean }[];
     return shuffle([{ text: word.example!, right: true }, ...wrong]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [wordKey, distractors]);
+
+
 
   /** Build step: shuffled letters (or syllables when the answer has spaces). */
   const buildTokens = useMemo(() => {
@@ -433,7 +485,7 @@ const WordQuest = ({
     setStageMistakes(m => m + 1);
     if (!task || !word) return;
     missedInWord.current.add(word.key);
-    const { easy, hard } = kindsFor(word, micSupported);
+    const { easy, hard } = kindsFor(word, micSupported, gradation);
     const [retryKind] = pickKinds([...easy, ...hard], 1, [task.kind]);
     setQueue(q => q.some(x => x.wordIdx === task.wordIdx && x.retry)
       ? q
@@ -1072,7 +1124,25 @@ const WordQuest = ({
           )}
 
           {/* Pick the sentence that uses the word correctly */}
-          {kind === "usage" && (
+          {kind === "usage" && usageOptions.length === 0 && (
+            <div className="flex flex-col items-center gap-3 text-center">
+              <div className="text-5xl">{emoji}</div>
+              <p className="text-sm text-muted-foreground">{t("Đọc câu ví dụ và ghi nhớ cách dùng:", "Read the example and notice how the word is used:")}</p>
+              <h3 className="text-2xl font-extrabold text-foreground">{word.word}</h3>
+              <p className="rounded-xl bg-secondary/50 p-4 text-base italic text-foreground">"{word.example}"</p>
+              {word.exampleTranslation && <p className="text-sm text-muted-foreground">{word.exampleTranslation}</p>}
+              <div className="flex flex-wrap justify-center gap-2">
+                <Button variant="outline" onClick={() => speak(word.example || word.speakText)} className="gap-2">
+                  <Volume2 className="h-4 w-4" /> {t("Nghe câu", "Listen")}
+                </Button>
+                <Button onClick={completeTask} className="gap-2">
+                  {t("Tôi hiểu rồi", "Got it")} <ChevronRight className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {kind === "usage" && usageOptions.length > 0 && (
             <div className="flex flex-col gap-3">
               <p className="text-center text-sm text-muted-foreground">
                 {t(`Câu nào dùng từ "${word.word}" đúng ngữ cảnh?`, `Which sentence uses "${word.word}" correctly?`)}

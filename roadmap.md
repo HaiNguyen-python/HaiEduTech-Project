@@ -1,6 +1,8 @@
 # Roadmap
 
 ## In Progress
+- [ ] Learn through Songs: attach a verified YouTube video to every song, complete lyrics/translations, refresh vocabulary and fill-in-the-blank items
+- [ ] Finnish Word Quest: review every exercise type so each task is clear and stable
 - [x] Career Roadmap: removed AI from the title, validated inputs and responses, persisted progress, improved accessibility, and verified desktop/mobile states
 
 ## Done
