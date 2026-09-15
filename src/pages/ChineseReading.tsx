@@ -24,6 +24,7 @@ const speak = (text: string) => {
 
 const PassageCard = ({ passage, chibi }: { passage: ChineseReadingPassage; chibi: string }) => {
   const { t } = useLanguage();
+  const [open, setOpen] = useState(false);
   const [showPinyin, setShowPinyin] = useState(true);
   const [showVi, setShowVi] = useState(false);
   const [selected, setSelected] = useState<Record<number, number>>({});
