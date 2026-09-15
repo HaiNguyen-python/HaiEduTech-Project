@@ -360,7 +360,6 @@ const Navbar = () => {
       { to: "/finnish/yki-b1", label: t("🎯 YKI B1 Dashboard", "🎯 YKI B1 Dashboard") },
     ] },
     { to: "/finnish-vocabulary", label: t("📚 Từ vựng tiếng Phần Lan A1–B1", "📚 Finnish Vocabulary A1–B1") },
-    { to: "/finnish/life-in-finland", label: t("🇫🇮 Cuộc sống ở Phần Lan", "🇫🇮 Life in Finland") },
     { to: "#fi-practice-group", label: t("🎯 Luyện tập & Giải trí", "🎯 Practice & Fun"), groupLabel: "fi-practice", children: [
       { to: "/finnish/arcade", label: t("🕹️ Finnish Arcade Hub", "🕹️ Finnish Arcade Hub") },
       { to: "/songs/finnish", label: t("🎵 Học qua bài hát", "🎵 Learn through Songs") },
@@ -376,7 +375,6 @@ const Navbar = () => {
       { to: "/swedish/yki-a2", label: t("❄️ Swedish YKI A2", "❄️ Swedish YKI A2") },
       { to: "/swedish/yki-b1", label: t("🎯 Swedish YKI B1", "🎯 Swedish YKI B1") },
     ] },
-    { to: "/swedish/svenskfinland", label: t("🇸🇪 Sống bằng tiếng Thụy Điển ở Phần Lan", "🇸🇪 Life in Swedish-speaking Finland") },
     { to: "#sv-learning-group", label: t("📚 Học tập & Kỹ năng", "📚 Learning & Skills"), groupLabel: "sv-learning", children: [
       { to: "/swedish/vocabulary", label: t("📚 Vocabulary A1–B1", "📚 Vocabulary A1–B1") },
       { to: "/swedish/curriculum", label: t("📖 Interactive Curriculum", "📖 Interactive Curriculum") },
@@ -498,8 +496,16 @@ const Navbar = () => {
 
       teacherNotes("Japanese"),
     ], key: "jp" },
-    { to: "/finnish", label: t("Tiếng Phần Lan", "Finnish"), icon: Globe, subs: [...finnishSubs, teacherNotes("Finnish")], key: "fi" },
-    { to: "/swedish", label: t("Tiếng Thụy Điển", "Swedish"), icon: Globe, subs: [...swedishSubs, teacherNotes("Swedish")], key: "sv" },
+    { to: "/finnish", label: t("Tiếng Phần Lan", "Finnish"), icon: Globe, subs: [
+      ...finnishSubs,
+      teacherNotes("Finnish"),
+      { to: "/finnish/life-in-finland", label: t("🇫🇮 Cuộc sống ở Phần Lan", "🇫🇮 Life in Finland") },
+    ], key: "fi" },
+    { to: "/swedish", label: t("Tiếng Thụy Điển", "Swedish"), icon: Globe, subs: [
+      ...swedishSubs,
+      teacherNotes("Swedish"),
+      { to: "/swedish/svenskfinland", label: t("🇸🇪 Sống bằng tiếng Thụy Điển ở Phần Lan", "🇸🇪 Life in Swedish-speaking Finland") },
+    ], key: "sv" },
     { to: "/programming", label: t("Lập Trình", "Programming"), icon: Code2, subs: [...programmingSubs, teacherNotes("Programming")], key: "prog" },
     { to: "/lifestyle-academy", label: t("Lifestyle", "Lifestyle"), icon: Heart, subs: [
       { to: "/lifestyle-academy", label: t("🌿 Tổng quan Lifestyle Academy", "🌿 Lifestyle Academy Overview") },
