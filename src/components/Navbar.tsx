@@ -498,13 +498,13 @@ const Navbar = () => {
     ], key: "jp" },
     { to: "/finnish", label: t("Tiếng Phần Lan", "Finnish"), icon: Globe, subs: [
       ...finnishSubs,
-      teacherNotes("Finnish"),
       { to: "/finnish/life-in-finland", label: t("🇫🇮 Cuộc sống ở Phần Lan", "🇫🇮 Life in Finland") },
+      teacherNotes("Finnish"),
     ], key: "fi" },
     { to: "/swedish", label: t("Tiếng Thụy Điển", "Swedish"), icon: Globe, subs: [
       ...swedishSubs,
-      teacherNotes("Swedish"),
       { to: "/swedish/svenskfinland", label: t("🇸🇪 Sống bằng tiếng Thụy Điển ở Phần Lan", "🇸🇪 Life in Swedish-speaking Finland") },
+      teacherNotes("Swedish"),
     ], key: "sv" },
     { to: "/programming", label: t("Lập Trình", "Programming"), icon: Code2, subs: [...programmingSubs, teacherNotes("Programming")], key: "prog" },
     { to: "/lifestyle-academy", label: t("Lifestyle", "Lifestyle"), icon: Heart, subs: [
