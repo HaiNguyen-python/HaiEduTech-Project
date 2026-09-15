@@ -42,7 +42,7 @@ const difficultyClass: Record<InterviewDifficulty, string> = {
 
 const EmphasizedText = ({ text }: { text: string }) => (
   <>{emphasizeInterviewTerms(text).map((part, index) => part.important
-    ? <strong key={`${part.text}-${index}`} className="font-bold text-foreground">{part.text}</strong>
+    ? <strong key={`${part.text}-${index}`} className="interview-keyword">{part.text}</strong>
     : <span key={`${part.text}-${index}`}>{part.text}</span>)}</>
 );
 
@@ -289,7 +289,7 @@ const InterviewQuestionsPage = () => {
                 )}
               </div>
               <h3 className="font-sora text-base font-semibold leading-relaxed text-foreground sm:text-lg">
-                <span className="mr-2 text-sm text-muted-foreground">{String(index + 1).padStart(2, "0")}</span>
+                <span className="interview-question-number mr-2">{String(index + 1).padStart(2, "0")}</span>
                 {question.question}
               </h3>
               <span className="sr-only">{isReviewed ? t("Câu hỏi đã ôn", "Reviewed question") : t("Câu hỏi chưa ôn", "Unreviewed question")}</span>

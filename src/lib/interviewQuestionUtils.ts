@@ -88,6 +88,22 @@ const IMPORTANT_INTERVIEW_TERMS = [
   "Parquet", "Kafka", "Spark", "Airflow", "Docker", "Kubernetes", "SQL",
   "GROUP BY", "DISTINCT", "temperature", "top-p", "top-k", "embedding",
   "tokenization", "token", "epoch", "batch", "iteration", "latency", "throughput",
+  "system design", "load balancer", "consistent hashing", "content delivery network",
+  "object storage", "read-through cache", "cache hit rate", "rate limiting",
+  "token bucket", "sliding window", "Bloom filter", "WebSocket", "Redis",
+  "PostgreSQL", "Cassandra", "ClickHouse", "Elasticsearch", "OpenTelemetry",
+  "idempotency key", "outbox pattern", "double-entry bookkeeping", "saga",
+  "eventual consistency", "strong consistency", "horizontal scaling", "sharding",
+  "replication", "fault tolerance", "backpressure", "circuit breaker", "CDN",
+  "LRU cache", "linked list", "hash map", "sliding window", "min-heap",
+  "depth-first search", "breadth-first search", "topological order", "binary tree",
+  "time complexity", "space complexity", "debounce", "throttle", "recursion",
+  "blue-green deployment", "canary deployment", "feature flags", "rollback",
+  "CI/CD", "OIDC", "least privilege", "SBOM", "SLSA", "GitOps", "ArgoCD",
+  "immutable infrastructure", "infrastructure as code", "readiness probe",
+  "liveness probe", "HorizontalPodAutoscaler", "StatefulSet", "Deployment", "Service",
+  "STAR", "Situation", "Task", "Action", "Result", "RICE", "MoSCoW",
+  "blameless postmortem", "service-level agreement", "Core Web Vitals",
 ] as const;
 
 const escapedImportantTerms = [...IMPORTANT_INTERVIEW_TERMS]
