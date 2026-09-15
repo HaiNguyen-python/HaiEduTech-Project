@@ -2,6 +2,7 @@
 
 ## In Progress
 - [x] Career Roadmap: removed AI from the title, validated inputs and responses, persisted progress, improved accessibility, and verified desktop/mobile states
+- [ ] Chinese Reading Practice: 50 audited passages, themed illustrations per title, collapsed HSK levels, and responsive verification
 
 ## Done
 - [x] Chinese lesson readability: stronger minimum typography, high-contrast supporting text, and distinct Royal Blue/Emerald dialogue text systems for the two speakers
