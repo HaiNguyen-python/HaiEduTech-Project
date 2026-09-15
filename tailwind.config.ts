@@ -66,6 +66,14 @@ export default {
         },
         "deep-blue": "hsl(var(--deep-blue))",
         "slate-dark": "hsl(var(--slate-dark))",
+        "conversation-a": {
+          DEFAULT: "hsl(var(--conversation-a))",
+          surface: "hsl(var(--conversation-a-surface))",
+        },
+        "conversation-b": {
+          DEFAULT: "hsl(var(--conversation-b))",
+          surface: "hsl(var(--conversation-b-surface))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

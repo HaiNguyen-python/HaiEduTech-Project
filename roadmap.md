@@ -4,6 +4,7 @@
 - [x] Career Roadmap: removed AI from the title, validated inputs and responses, persisted progress, improved accessibility, and verified desktop/mobile states
 
 ## Done
+- [x] Chinese lesson readability: stronger minimum typography, high-contrast supporting text, and distinct Royal Blue/Emerald dialogue text systems for the two speakers
 - [x] Chinese conversation visuals: stable two-speaker chibi avatars and themed lesson-header illustrations with accessible fallbacks
 - [x] Chinese Interactive Curriculum: Professional Learning Path dashboard, search/status filters, 103 open lessons, step-based lesson presentation, stable progress/audio contracts, and desktop/mobile verification
 - [x] Unified all Interview Questions with stable numbering, Junior/Mid/Senior levels, underlined keywords, and desktop/mobile topic filters
