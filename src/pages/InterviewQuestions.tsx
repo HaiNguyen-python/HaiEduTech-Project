@@ -269,14 +269,15 @@ const InterviewQuestionsPage = () => {
     />
   );
 
-  const renderQuestion = (question: InterviewQuestion, index: number) => {
+  const renderQuestion = (question: InterviewQuestion) => {
     const isReviewed = reviewed.has(question.id);
+    const questionNumber = roleQuestions.findIndex((item) => item.id === question.id) + 1;
     return (
       <motion.div
         key={question.id}
         initial={reduceMotion ? false : { opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.2, delay: reduceMotion ? 0 : Math.min(index * 0.02, 0.18) }}
+        transition={{ duration: 0.2, delay: reduceMotion ? 0 : Math.min(questionNumber * 0.01, 0.18) }}
       >
         <AccordionItem value={question.id} className={`interview-question ${isReviewed ? "interview-question--reviewed" : ""}`}>
           <AccordionTrigger className="px-4 py-4 hover:no-underline sm:px-5">
@@ -289,7 +290,7 @@ const InterviewQuestionsPage = () => {
                 )}
               </div>
               <h3 className="font-sora text-base font-semibold leading-relaxed text-foreground sm:text-lg">
-                <span className="interview-question-number mr-2">{String(index + 1).padStart(2, "0")}</span>
+                <span className="interview-question-number mr-2">{String(questionNumber).padStart(2, "0")}</span>
                 {question.question}
               </h3>
               <span className="sr-only">{isReviewed ? t("Câu hỏi đã ôn", "Reviewed question") : t("Câu hỏi chưa ôn", "Unreviewed question")}</span>
@@ -433,7 +434,7 @@ const InterviewQuestionsPage = () => {
                           <Badge variant="outline">{group.questions.length}</Badge>
                         </div>
                         <Accordion type="multiple" className="space-y-3">
-                          {group.questions.map((question, index) => renderQuestion(question, filtered.indexOf(question)))}
+                          {group.questions.map((question) => renderQuestion(question))}
                         </Accordion>
                       </section>
                     ))}

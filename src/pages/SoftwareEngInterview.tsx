@@ -17,6 +17,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import CodeBlock from "@/components/CodeBlock";
 import SEO from "@/components/SEO";
 import { emphasizeInterviewTerms, splitNumberedText } from "@/lib/interviewQuestionUtils";
 
@@ -829,6 +830,9 @@ const EmphasizedText = ({ text }: { text: string }) => (
 const StructuredText = ({ text }: { text: string }) => (
   <div className="space-y-3 text-base leading-7 text-foreground/90">
     {text.split("\n\n").map((paragraph, paragraphIndex) => {
+      if (/^(?:function|class)\s/.test(paragraph.trim())) {
+        return <CodeBlock key={`code-${paragraphIndex}`} code={paragraph} language="javascript" showHeader className="!my-0" />;
+      }
       const leadingNumber = paragraph.match(/^(\d+)\.\s+([\s\S]*)$/);
       if (leadingNumber) {
         return (
