@@ -375,7 +375,24 @@ const LanguageLessonView = () => {
                   className="space-y-6"
                 >
                   {/* Lesson header */}
-                  <div className="glass-card rounded-xl p-6">
+                  <div className="glass-card rounded-xl overflow-hidden">
+                    {isEnglishGrammarLesson && (() => {
+                      const visual = getGrammarModuleVisual(mod.id, mod.title, mod.titleEn);
+                      return (
+                        <div className="relative h-32 sm:h-40 overflow-hidden bg-muted">
+                          <img
+                            src={visual.src}
+                            alt={visual.altEn}
+                            loading="lazy"
+                            width={1152}
+                            height={576}
+                            className="h-full w-full object-cover"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-card/90 via-card/20 to-transparent" />
+                        </div>
+                      );
+                    })()}
+                    <div className="p-6">
                     <div className="flex flex-wrap items-center gap-3 mb-3">
                       <span className={cn("text-xs px-2 py-1 rounded-full border font-medium", diff.cls)}>
                         {isEnglishGrammarLesson ? diff.label : t(diff.labelVi, diff.label)}
