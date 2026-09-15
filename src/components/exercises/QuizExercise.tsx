@@ -45,7 +45,7 @@ const QuizExercise = ({ questions, onComplete, forceEnglish = false }: Props) =>
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h3 className="font-semibold text-foreground">✏️ {forceEnglish ? "Quiz" : t("Trắc nghiệm", "Quiz")}</h3>
+        <div className="text-base font-semibold leading-7 text-foreground">✏️ {forceEnglish ? "Quiz" : t("Trắc nghiệm", "Quiz")}</div>
         {submitted && (
           <div className="flex items-center gap-3">
             <span className={cn(
@@ -80,7 +80,7 @@ const QuizExercise = ({ questions, onComplete, forceEnglish = false }: Props) =>
                     key={oi}
                     onClick={() => handleAnswer(qi, oi)}
                     className={cn(
-                      "min-h-12 px-4 py-3 rounded-lg text-sm leading-6 text-left transition-all border flex items-start gap-2",
+                      "min-h-12 px-4 py-3 rounded-lg text-base leading-6 text-left transition-all border flex items-start gap-2",
                       submitted
                         ? isCorrectOpt
                           ? "border-green-500 bg-green-500/10 text-green-700"
@@ -100,7 +100,7 @@ const QuizExercise = ({ questions, onComplete, forceEnglish = false }: Props) =>
               })}
             </div>
             {submitted && (
-              <p className="text-xs leading-6 text-muted-foreground ml-1 pt-1">💬 {pickEnglishGrammarCopy(q.explanation, undefined, "Review the rule and compare it with the correct answer.")}</p>
+              <p className="text-sm leading-6 text-secondary-foreground ml-1 pt-1">💬 {pickEnglishGrammarCopy(q.explanation, undefined, "Review the rule and compare it with the correct answer.")}</p>
             )}
           </motion.div>
         ))}
@@ -111,7 +111,7 @@ const QuizExercise = ({ questions, onComplete, forceEnglish = false }: Props) =>
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           onClick={handleSubmit}
-          className="px-6 py-2.5 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:brightness-110 transition-all"
+          className="min-h-11 px-6 py-2.5 rounded-lg bg-primary text-primary-foreground font-semibold text-base hover:brightness-110 transition-all"
         >
           {forceEnglish ? "Submit" : t("Nộp bài", "Submit")}
         </motion.button>

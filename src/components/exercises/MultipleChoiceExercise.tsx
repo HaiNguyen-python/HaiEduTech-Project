@@ -33,7 +33,7 @@ const MultipleChoiceExercise = ({ instruction, instructionEn, questions, forceEn
   return (
     <div className="space-y-4">
       <div className="flex items-start justify-between gap-4 flex-wrap">
-        <div className="font-semibold text-foreground text-[15px] leading-7 flex-1 min-w-0 bg-muted/40 border border-border rounded-lg p-4">
+        <div className="font-semibold text-foreground text-base leading-7 flex-1 min-w-0 bg-muted/40 border border-border rounded-lg p-4">
           <span className="mr-2">🎯</span>
           {forceEnglish ? instructionEn : t(instruction, instructionEn)}
         </div>
@@ -61,8 +61,8 @@ const MultipleChoiceExercise = ({ instruction, instructionEn, questions, forceEn
               transition={{ delay: idx * 0.06 }}
               className="glass-card rounded-xl p-4 space-y-3"
             >
-              <p className="text-sm font-medium text-foreground">
-                <span className="text-muted-foreground mr-2">{idx + 1}.</span>
+              <p className="text-base font-medium leading-7 text-foreground">
+                <span className="text-secondary-foreground mr-2 font-semibold">{idx + 1}.</span>
                 {q.question}
               </p>
               <div className="grid sm:grid-cols-2 gap-2">
@@ -75,14 +75,14 @@ const MultipleChoiceExercise = ({ instruction, instructionEn, questions, forceEn
                       onClick={() => !done && setPicked((prev) => ({ ...prev, [idx]: oIdx }))}
                       disabled={done}
                       className={cn(
-                        "text-left text-sm px-3 py-2 rounded-lg border transition-all flex items-center gap-2",
+                        "min-h-11 text-left text-base leading-6 px-3 py-2 rounded-lg border transition-all flex items-center gap-2",
                         done && isAnswer && "border-green-500 bg-green-500/10 text-green-700",
                         done && isChoice && !isAnswer && "border-destructive bg-destructive/10 text-destructive",
                         !done && "border-border bg-background hover:border-primary hover:bg-primary/5 text-foreground",
                         done && !isAnswer && !isChoice && "border-border bg-background text-muted-foreground"
                       )}
                     >
-                      <span className="font-bold text-xs w-4">{String.fromCharCode(65 + oIdx)}</span>
+                       <span className="font-bold text-sm w-4">{String.fromCharCode(65 + oIdx)}</span>
                       <span className="flex-1">{option}</span>
                       {done && isAnswer && <CheckCircle className="w-4 h-4 text-green-500 shrink-0" />}
                       {done && isChoice && !isAnswer && <XCircle className="w-4 h-4 text-destructive shrink-0" />}
@@ -91,7 +91,7 @@ const MultipleChoiceExercise = ({ instruction, instructionEn, questions, forceEn
                 })}
               </div>
               {done && q.explanation && (
-                <p className="text-xs text-secondary-foreground bg-muted/50 rounded-lg p-2">💡 {q.explanation}</p>
+                <p className="text-sm leading-6 text-secondary-foreground bg-muted/50 rounded-lg p-3">💡 {q.explanation}</p>
               )}
             </motion.div>
           );

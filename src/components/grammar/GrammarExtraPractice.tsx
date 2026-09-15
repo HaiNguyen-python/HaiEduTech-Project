@@ -94,7 +94,7 @@ const GrammarExtraPractice = ({ lesson, module }: GrammarExtraPracticeProps) => 
           <PencilLine className="h-5 w-5 text-primary" />
           <h2 className="text-lg font-semibold">Extra Practice</h2>
         </div>
-        <p className="text-sm leading-7 text-muted-foreground">
+        <p className="text-base leading-7 text-secondary-foreground">
           Add one more round of practice with short answer drills, sentence building, and vocabulary recall.
         </p>
       </div>
@@ -103,7 +103,7 @@ const GrammarExtraPractice = ({ lesson, module }: GrammarExtraPracticeProps) => 
         <div className="rounded-xl border border-border bg-card p-6">
           <div className="mb-4 flex items-center gap-2 text-foreground">
             <SpellCheck className="h-5 w-5 text-primary" />
-            <h3 className="text-base font-semibold">Targeted answer drills</h3>
+            <div className="text-base font-semibold leading-7">Targeted answer drills</div>
           </div>
           <div className="space-y-4">
             {typingPrompts.map((item, index) => {
@@ -112,8 +112,8 @@ const GrammarExtraPractice = ({ lesson, module }: GrammarExtraPracticeProps) => 
 
               return (
                 <div key={item.id} className={`rounded-xl border p-4 ${stateClass(state)}`}>
-                  <p className="mb-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">Drill {index + 1}</p>
-                  <p className="mb-3 text-sm text-foreground">{item.prompt}</p>
+                  <p className="mb-2 text-sm font-semibold text-secondary-foreground">Drill {index + 1}</p>
+                  <p className="mb-3 text-base leading-7 text-foreground">{item.prompt}</p>
                   <div className="flex flex-col gap-3 md:flex-row">
                     <Input
                       value={current}
@@ -124,7 +124,7 @@ const GrammarExtraPractice = ({ lesson, module }: GrammarExtraPracticeProps) => 
                       Check
                     </Button>
                   </div>
-                  <div className="mt-2 text-xs text-muted-foreground">
+                  <div className="mt-2 text-sm leading-6 text-secondary-foreground">
                      {state === "correct"
                        ? `Correct: ${item.answer}`
                        : state === "wrong"
@@ -142,7 +142,7 @@ const GrammarExtraPractice = ({ lesson, module }: GrammarExtraPracticeProps) => 
         <div className="rounded-xl border border-border bg-card p-6">
           <div className="mb-4 flex items-center gap-2 text-foreground">
             <Rows3 className="h-5 w-5 text-primary" />
-            <h3 className="text-base font-semibold">Sentence builder</h3>
+            <div className="text-base font-semibold leading-7">Sentence builder</div>
           </div>
           <div className="space-y-4">
             {sentencePrompts.map((item, index) => {
@@ -151,8 +151,8 @@ const GrammarExtraPractice = ({ lesson, module }: GrammarExtraPracticeProps) => 
 
               return (
                 <div key={item.id} className={`rounded-xl border p-4 ${stateClass(state)}`}>
-                  <p className="mb-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">Build {index + 1}</p>
-                  <p className="mb-2 text-sm text-muted-foreground">{item.scrambled}</p>
+                  <p className="mb-2 text-sm font-semibold text-secondary-foreground">Build {index + 1}</p>
+                  <p className="mb-2 text-base leading-7 text-secondary-foreground">{item.scrambled}</p>
                   <div className="flex flex-col gap-3 md:flex-row">
                     <Input
                       value={current}
@@ -163,7 +163,7 @@ const GrammarExtraPractice = ({ lesson, module }: GrammarExtraPracticeProps) => 
                       Check
                     </Button>
                   </div>
-                  <div className="mt-2 text-xs text-muted-foreground">
+                  <div className="mt-2 text-sm leading-6 text-secondary-foreground">
                     {state === "correct"
                       ? `Correct: ${item.answer}`
                       : state === "wrong"
@@ -181,7 +181,7 @@ const GrammarExtraPractice = ({ lesson, module }: GrammarExtraPracticeProps) => 
         <div className="rounded-xl border border-border bg-card p-6">
           <div className="mb-4 flex items-center gap-2 text-foreground">
             <BadgeCheck className="h-5 w-5 text-primary" />
-            <h3 className="text-base font-semibold">Grammar vocabulary recall</h3>
+            <div className="text-base font-semibold leading-7">Grammar vocabulary recall</div>
           </div>
           <div className="grid gap-4 md:grid-cols-2">
             {vocabPrompts.map((item) => {
@@ -190,8 +190,8 @@ const GrammarExtraPractice = ({ lesson, module }: GrammarExtraPracticeProps) => 
 
               return (
                 <div key={item.id} className={`rounded-xl border p-4 ${stateClass(state)}`}>
-                  <p className="mb-2 text-sm font-medium text-foreground">{item.clue}</p>
-                  <p className="mb-3 text-xs text-muted-foreground">{item.example}</p>
+                  <p className="mb-2 text-base font-medium leading-7 text-foreground">{item.clue}</p>
+                  <p className="mb-3 text-sm leading-6 text-secondary-foreground">{item.example}</p>
                   <div className="flex flex-col gap-3 sm:flex-row">
                     <Input
                       value={current}
@@ -202,7 +202,7 @@ const GrammarExtraPractice = ({ lesson, module }: GrammarExtraPracticeProps) => 
                       Check
                     </Button>
                   </div>
-                  <div className="mt-2 text-xs text-muted-foreground">
+                  <div className="mt-2 text-sm leading-6 text-secondary-foreground">
                     {state === "correct"
                       ? `Correct: ${item.answer}`
                       : state === "wrong"

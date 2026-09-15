@@ -65,7 +65,7 @@ const MatchingExercise = ({ instruction, instructionEn, pairs, forceEnglish = fa
   return (
     <div className="space-y-4">
       <div className="flex items-start justify-between gap-4 flex-wrap">
-        <div className="font-semibold text-foreground text-[15px] leading-7 flex-1 min-w-0 bg-muted/40 border border-border rounded-lg p-4">
+        <div className="font-semibold text-foreground text-base leading-7 flex-1 min-w-0 bg-muted/40 border border-border rounded-lg p-4">
           <span className="mr-2">🔗</span>
           {forceEnglish ? instructionEn : t(instruction, instructionEn)}
         </div>
@@ -107,7 +107,7 @@ const MatchingExercise = ({ instruction, instructionEn, pairs, forceEnglish = fa
                 onClick={() => !submitted && setActiveLeft(idx)}
                 disabled={submitted}
                 className={cn(
-                  "w-full text-left text-sm px-3 py-2.5 rounded-lg border transition-all",
+                  "w-full min-h-11 text-left text-base leading-6 px-3 py-2.5 rounded-lg border transition-all",
                   submitted
                     ? correct
                       ? "border-green-500 bg-green-500/10 text-green-700"
@@ -117,10 +117,10 @@ const MatchingExercise = ({ instruction, instructionEn, pairs, forceEnglish = fa
                       : "border-border bg-background text-foreground hover:border-primary/60"
                 )}
               >
-                <span className="font-bold text-xs text-muted-foreground mr-2">{idx + 1}</span>
+                <span className="font-bold text-sm text-secondary-foreground mr-2">{idx + 1}</span>
                 {pair.left}
                 {linked !== undefined && (
-                  <span className="block text-xs mt-1 opacity-80">
+                  <span className="block text-sm leading-6 mt-1">
                     → {pairs[linked].right}
                     {submitted && (correct ? " ✅" : ` ❌ (${pairs[idx].right})`)}
                   </span>
@@ -138,7 +138,7 @@ const MatchingExercise = ({ instruction, instructionEn, pairs, forceEnglish = fa
                 onClick={() => pickRight(rightIdx)}
                 disabled={submitted || activeLeft === null}
                 className={cn(
-                  "w-full text-left text-sm px-3 py-2.5 rounded-lg border transition-all",
+                  "w-full min-h-11 text-left text-base leading-6 px-3 py-2.5 rounded-lg border transition-all",
                   used ? "border-primary/40 bg-primary/5 text-muted-foreground" : "border-border bg-background text-foreground",
                   !submitted && activeLeft !== null && "hover:border-primary hover:bg-primary/10"
                 )}
@@ -153,13 +153,13 @@ const MatchingExercise = ({ instruction, instructionEn, pairs, forceEnglish = fa
       {!submitted && Object.keys(links).length === pairs.length && (
         <button
           onClick={() => setSubmitted(true)}
-          className="px-6 py-2.5 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:brightness-110 transition-all inline-flex items-center gap-2"
+          className="min-h-11 px-6 py-2.5 rounded-lg bg-primary text-primary-foreground font-semibold text-base hover:brightness-110 transition-all inline-flex items-center gap-2"
         >
           <CheckCircle className="w-4 h-4" /> {label("Kiểm tra", "Check Answers")}
         </button>
       )}
       {!submitted && Object.keys(links).length < pairs.length && (
-        <p className="text-xs text-muted-foreground flex items-center gap-1">
+        <p className="text-sm leading-6 text-secondary-foreground flex items-center gap-1">
           <XCircle className="w-3 h-3" />
           {label("Chọn một mục bên trái rồi chọn mục tương ứng bên phải.", "Pick an item on the left, then its match on the right.")}
         </p>
