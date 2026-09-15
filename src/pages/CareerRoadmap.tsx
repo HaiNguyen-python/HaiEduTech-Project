@@ -3,8 +3,8 @@
  * @description AI-powered personalized IT career roadmap (Data Eng & AI focused).
  * @copyright 2026 HaiEduTech, ILC.
  */
-import { useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
   Briefcase, Sparkles, Loader2, Target, BookOpen, Award, Code2,
@@ -20,6 +20,18 @@ import { Textarea } from "@/components/ui/textarea";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { safeStorage } from "@/lib/safeStorage";
+import {
+  CAREER_ROADMAP_STORAGE_KEY,
+  careerRoadmapInputSchema,
+  clampInteger,
+  parseCareerRoadmap,
+  parseStoredCareerRoadmap,
+  projectProgressId,
+  safeExternalUrl,
+  type CareerRoadmapData,
+  type CareerRoadmapInput,
+} from "@/lib/careerRoadmap";
 
 const PRESET_ROLES = [
   { id: "data-engineer", emoji: "🔄", labelVi: "Data Engineer", labelEn: "Data Engineer", featured: true },
@@ -41,19 +53,8 @@ const LEVELS = [
   { id: "mid", vi: "Mid-level (2-5 năm)", en: "Mid-level (2-5 yrs)" },
 ];
 
-const createFallbackRoadmap = ({
-  role,
-  currentLevel,
-  hoursPerWeek,
-  targetMonths,
-  language,
-}: {
-  role: string;
-  currentLevel: string;
-  hoursPerWeek: number;
-  targetMonths: number;
-  language: string;
-}) => {
+const createFallbackRoadmap = (input: CareerRoadmapInput): CareerRoadmapData => {
+  const { role, currentLevel, hoursPerWeek, targetMonths, language } = input;
   const vi = language === "vi";
   const phaseWeeks = Math.max(4, Math.ceil((targetMonths * 4) / 3));
 
@@ -174,38 +175,61 @@ const createFallbackRoadmap = ({
 
 const CareerRoadmap = () => {
   const { t, lang } = useLanguage();
+  const reduceMotion = useReducedMotion();
   const outputRef = useRef<HTMLDivElement>(null);
-  const [role, setRole] = useState("data-engineer");
-  const [customRole, setCustomRole] = useState("");
-  const [currentLevel, setCurrentLevel] = useState("complete-beginner");
+  const requestIdRef = useRef(0);
+  const storedRef = useRef(parseStoredCareerRoadmap(safeStorage.get(CAREER_ROADMAP_STORAGE_KEY)));
+  const [role, setRole] = useState(storedRef.current?.form.role || "data-engineer");
+  const [customRole, setCustomRole] = useState(storedRef.current?.form.customRole || "");
+  const [currentLevel, setCurrentLevel] = useState(storedRef.current?.form.currentLevel || "complete-beginner");
   const [background, setBackground] = useState("");
-  const [hoursPerWeek, setHoursPerWeek] = useState(10);
-  const [targetMonths, setTargetMonths] = useState(6);
+  const [hoursPerWeek, setHoursPerWeek] = useState(storedRef.current?.form.hoursPerWeek || 10);
+  const [targetMonths, setTargetMonths] = useState(storedRef.current?.form.targetMonths || 6);
   const [loading, setLoading] = useState(false);
   const [generationStatus, setGenerationStatus] = useState<"idle" | "thinking" | "slow" | "fallback">("idle");
-  const [roadmap, setRoadmap] = useState<any>(null);
-  const [citations, setCitations] = useState<string[]>([]);
-  const [completedProjects, setCompletedProjects] = useState<Record<string, boolean>>({});
+  const [roadmap, setRoadmap] = useState<CareerRoadmapData | null>(storedRef.current?.roadmap || null);
+  const [citations, setCitations] = useState<string[]>(storedRef.current?.citations || []);
+  const [completedProjects, setCompletedProjects] = useState<Record<string, boolean>>(storedRef.current?.completedProjects || {});
+
+  useEffect(() => {
+    safeStorage.set(CAREER_ROADMAP_STORAGE_KEY, {
+      version: 1,
+      form: { role, customRole, currentLevel, hoursPerWeek, targetMonths },
+      roadmap,
+      citations,
+      completedProjects,
+    });
+  }, [role, customRole, currentLevel, hoursPerWeek, targetMonths, roadmap, citations, completedProjects]);
+
+  useEffect(() => () => {
+    requestIdRef.current += 1;
+  }, []);
 
   const generate = async () => {
+    if (loading) return;
     const finalRole = role === "other" ? customRole.trim() : (PRESET_ROLES.find(r => r.id === role)?.labelEn || role);
-    if (!finalRole) {
-      toast.error(t("Vui lòng chọn hoặc nhập vai trò", "Please select or enter a role"));
-      return;
-    }
-    setLoading(true);
-    setGenerationStatus("thinking");
-    setRoadmap(null);
-    const requestBody = {
+    const requestBodyResult = careerRoadmapInputSchema.safeParse({
       role: finalRole,
       currentLevel: LEVELS.find(l => l.id === currentLevel)?.en || currentLevel,
-      background,
+      background: background.trim(),
       hoursPerWeek,
       targetMonths,
       language: lang,
-    };
+    });
+    if (!requestBodyResult.success) {
+      toast.error(t("Vui lòng kiểm tra vai trò, giờ học và thời gian mục tiêu.", "Please check the role, study hours, and target timeline."));
+      return;
+    }
+    const requestId = ++requestIdRef.current;
+    setLoading(true);
+    setGenerationStatus("thinking");
+    setRoadmap(null);
+    setCitations([]);
+    setCompletedProjects({});
+    const requestBody: CareerRoadmapInput = requestBodyResult.data as CareerRoadmapInput;
     let showedFallback = false;
     const showDraftRoadmap = () => {
+      if (requestIdRef.current !== requestId) return;
       showedFallback = true;
       setRoadmap(createFallbackRoadmap(requestBody));
       setCitations([]);
@@ -225,26 +249,31 @@ const CareerRoadmap = () => {
       ]);
       if (error) throw error;
       if (!data?.success) throw new Error(data?.error || "Failed");
-      if (!data.roadmap?.roleSummary && !Array.isArray(data.roadmap?.phases)) {
-        throw new Error("INVALID_ROADMAP_SHAPE");
-      }
-      setRoadmap(data.roadmap);
-      setCitations(data.citations || []);
+      const parsedRoadmap = parseCareerRoadmap(data.roadmap);
+      if (!parsedRoadmap) throw new Error("INVALID_ROADMAP_SHAPE");
+      if (requestIdRef.current !== requestId) return;
+      setRoadmap(parsedRoadmap);
+      setCitations(Array.isArray(data.citations)
+        ? data.citations.map(safeExternalUrl).filter((url): url is string => Boolean(url)).slice(0, 8)
+        : []);
       setGenerationStatus("idle");
-      toast.success(showedFallback ? t("Đã cập nhật lộ trình AI đầy đủ!", "Full AI roadmap updated!") : t("Đã tạo lộ trình!", "Roadmap generated!"));
-    } catch (e: any) {
+      toast.success(showedFallback ? t("Đã cập nhật lộ trình chi tiết!", "Detailed roadmap updated!") : t("Đã tạo lộ trình!", "Roadmap generated!"));
+    } catch (e: unknown) {
       if (!showedFallback) showDraftRoadmap();
+      const errorMessage = e instanceof Error ? e.message : "";
       toast.warning(
-        e?.message === "ROADMAP_TIMEOUT"
-          ? t("AI phản hồi chậm, đã tạo lộ trình dự phòng trước.", "AI is slow, so a fallback roadmap was created first.")
-          : t("AI tạm thời lỗi, đã tạo lộ trình dự phòng.", "AI had a temporary issue, so a fallback roadmap was created.")
+        errorMessage === "ROADMAP_TIMEOUT"
+          ? t("Dịch vụ phản hồi chậm, đã tạo lộ trình nhanh để bạn tiếp tục.", "The service is slow, so a quick roadmap is ready for you.")
+          : t("Dịch vụ tạm thời gián đoạn, đã tạo lộ trình dự phòng.", "The service is temporarily unavailable, so a fallback roadmap is ready.")
       );
     } finally {
       window.clearTimeout(draftTimer);
       window.clearTimeout(slowTimer);
       if (requestTimeout) window.clearTimeout(requestTimeout);
-      setLoading(false);
-      window.setTimeout(() => outputRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 120);
+      if (requestIdRef.current === requestId) {
+        setLoading(false);
+        window.setTimeout(() => outputRef.current?.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" }), 120);
+      }
     }
   };
 
@@ -255,10 +284,10 @@ const CareerRoadmap = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title={t("Career Roadmap AI - Lộ trình nghề IT cá nhân hóa | HaiEduTech", "Career Roadmap AI - Personalized IT Career Path | HaiEduTech")}
+        title={t("Career Roadmap - Lộ trình nghề IT | HaiEduTech", "Career Roadmap - Personalized IT Career Path | HaiEduTech")}
         description={t(
-          "AI tạo lộ trình học & luyện tập chi tiết cho Data Engineer, AI Engineer và các vị trí IT khác. Cá nhân hóa theo trình độ và thời gian.",
-          "AI-generated detailed learning & practice roadmaps for Data Engineer, AI Engineer and other IT roles. Personalized by level and timeline."
+          "Lộ trình học và luyện tập chi tiết cho Data Engineer, AI Engineer và các vị trí IT khác, cá nhân hóa theo trình độ và thời gian.",
+          "Detailed learning and practice roadmaps for Data Engineer, AI Engineer, and other IT roles, personalized by level and timeline."
         )}
         path="/programming/career-roadmap"
       />
@@ -276,16 +305,16 @@ const CareerRoadmap = () => {
           className="text-center mb-8"
         >
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/30 bg-primary/5 text-primary text-xs font-medium mb-3">
-            <Sparkles className="w-3 h-3" /> {t("AI-Powered · Cá nhân hóa", "AI-Powered · Personalized")}
+            <Sparkles className="w-3 h-3" /> {t("Lộ trình cá nhân hóa", "Personalized learning path")}
           </div>
           <h1 className="text-3xl sm:text-4xl font-display font-bold mb-3 leading-tight">
             {t("Career", "Career")}{" "}
-            <span className="text-gradient">Roadmap AI</span>
+            <span className="text-gradient">Roadmap</span>
           </h1>
           <p className="text-muted-foreground text-sm max-w-2xl mx-auto">
             {t(
-              "Lộ trình học & luyện tập chi tiết cho các vị trí IT - chuyên sâu Data Engineer & AI. Powered by Perplexity AI với dữ liệu thị trường mới nhất.",
-              "Detailed learning & practice roadmaps for IT roles - deep focus on Data Engineer & AI. Powered by Perplexity AI with the latest market data."
+              "Lộ trình học và luyện tập chi tiết cho các vị trí IT, chuyên sâu Data Engineer và AI, dựa trên dữ liệu thị trường mới nhất.",
+              "Detailed learning and practice roadmaps for IT roles, with deep Data Engineer and AI coverage informed by current market data."
             )}
           </p>
         </motion.div>
@@ -298,11 +327,13 @@ const CareerRoadmap = () => {
           </h2>
 
           {/* Role grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 mb-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 mb-3" role="radiogroup" aria-label={t("Vai trò nghề nghiệp", "Career role")}>
             {PRESET_ROLES.map(r => (
               <button
                 key={r.id}
                 onClick={() => setRole(r.id)}
+                aria-pressed={role === r.id}
+                disabled={loading}
                 className={`relative rounded-xl p-3 text-left text-xs border transition-all active:scale-[0.97] ${
                   role === r.id
                     ? "border-primary bg-primary/10 shadow-sm"
@@ -320,6 +351,8 @@ const CareerRoadmap = () => {
             ))}
             <button
               onClick={() => setRole("other")}
+              aria-pressed={role === "other"}
+              disabled={loading}
               className={`rounded-xl p-3 text-left text-xs border transition-all active:scale-[0.97] ${
                 role === "other" ? "border-primary bg-primary/10" : "border-border bg-background hover:border-primary/30"
               }`}
@@ -333,6 +366,8 @@ const CareerRoadmap = () => {
               placeholder={t("Ví dụ: Computer Vision Engineer", "e.g. Computer Vision Engineer")}
               value={customRole}
               onChange={e => setCustomRole(e.target.value)}
+              maxLength={80}
+              disabled={loading}
               className="mb-2"
             />
           )}
@@ -340,11 +375,13 @@ const CareerRoadmap = () => {
           <div className="grid sm:grid-cols-2 gap-4 mt-6">
             <div>
               <Label className="text-sm font-semibold mb-2 block">{t("Trình độ hiện tại", "Current level")}</Label>
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-2 gap-2" role="radiogroup" aria-label={t("Trình độ hiện tại", "Current level")}>
                 {LEVELS.map(l => (
                   <button
                     key={l.id}
                     onClick={() => setCurrentLevel(l.id)}
+                    aria-pressed={currentLevel === l.id}
+                    disabled={loading}
                     className={`rounded-lg p-2 text-xs border transition-all ${
                       currentLevel === l.id ? "border-primary bg-primary/10" : "border-border bg-background hover:border-primary/30"
                     }`}
@@ -358,11 +395,11 @@ const CareerRoadmap = () => {
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <Label className="text-sm font-semibold mb-2 block">{t("Giờ/tuần", "Hrs/week")}</Label>
-                <Input type="number" min={1} max={80} value={hoursPerWeek} onChange={e => setHoursPerWeek(+e.target.value)} />
+                <Input type="number" min={1} max={80} value={hoursPerWeek} disabled={loading} onChange={e => setHoursPerWeek(Number(e.target.value))} onBlur={() => setHoursPerWeek(value => clampInteger(value, 1, 80, 10))} />
               </div>
               <div>
                 <Label className="text-sm font-semibold mb-2 block">{t("Mục tiêu (tháng)", "Target (months)")}</Label>
-                <Input type="number" min={1} max={36} value={targetMonths} onChange={e => setTargetMonths(+e.target.value)} />
+                <Input type="number" min={1} max={36} value={targetMonths} disabled={loading} onChange={e => setTargetMonths(Number(e.target.value))} onBlur={() => setTargetMonths(value => clampInteger(value, 1, 36, 6))} />
               </div>
             </div>
           </div>
@@ -373,6 +410,8 @@ const CareerRoadmap = () => {
               placeholder={t("Ví dụ: Học CNTT năm 3, biết Python cơ bản, muốn làm việc ở Singapore", "e.g. CS junior, basic Python, want to work in Singapore")}
               value={background}
               onChange={e => setBackground(e.target.value)}
+              maxLength={800}
+              disabled={loading}
               rows={2}
               className="text-sm"
             />
@@ -386,16 +425,18 @@ const CareerRoadmap = () => {
             {loading ? (
               <><Loader2 className="w-4 h-4 animate-spin mr-2" />{t("Đang tạo lộ trình...", "Generating roadmap...")}</>
             ) : (
-              <><Sparkles className="w-4 h-4 mr-2" />{t("Tạo Lộ trình AI", "Generate AI Roadmap")}</>
+              <><Sparkles className="w-4 h-4 mr-2" />{t("Tạo Career Roadmap", "Generate Career Roadmap")}</>
             )}
           </Button>
           {(loading || generationStatus === "fallback") && (
-            <div className="mt-3 rounded-xl border border-primary/20 bg-primary/5 px-4 py-3 text-center text-sm font-medium text-primary">
+            <div className="mt-3 rounded-xl border border-primary/20 bg-primary/5 px-4 py-3 text-center text-sm font-medium text-primary" role="status" aria-live="polite">
               {generationStatus === "fallback"
-                ? t("Đã hiển thị lộ trình nhanh. AI đang hoàn thiện bản chi tiết ở bên dưới...", "Quick roadmap shown. AI is refining the detailed version below...")
+                ? loading
+                  ? t("Đã hiển thị lộ trình nhanh. Bản chi tiết vẫn đang được hoàn thiện...", "A quick roadmap is ready while the detailed version is being completed...")
+                  : t("Đang dùng lộ trình dự phòng. Bạn có thể thử tạo lại sau.", "Using a fallback roadmap. You can try generating again later.")
                 : generationStatus === "slow"
-                ? t("AI đang phân tích sâu hơn, vui lòng đợi thêm một chút...", "AI is doing a deeper analysis, please wait a little longer...")
-                : t("Đang kết nối AI và xây dựng lộ trình cá nhân hóa...", "Connecting to AI and building your personalized roadmap...")}
+                ? t("Đang phân tích sâu hơn, vui lòng đợi thêm một chút...", "A deeper analysis is underway. Please wait a little longer...")
+                : t("Đang xây dựng lộ trình cá nhân hóa...", "Building your personalized roadmap...")}
             </div>
           )}
         </div>
@@ -448,7 +489,7 @@ const CareerRoadmap = () => {
                     {t("Kỹ năng cốt lõi", "Core Skills")}
                   </h3>
                   <div className="grid sm:grid-cols-2 gap-2">
-                    {roadmap.coreSkills.map((s: any, i: number) => (
+                    {roadmap.coreSkills.map((s, i) => (
                       <div key={i} className="flex items-start gap-2 p-3 rounded-lg bg-background border border-border">
                         <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0 ${
                           s.importance === "must-have" ? "bg-rose-500/10 text-rose-700 dark:text-rose-400" : "bg-blue-500/10 text-blue-700 dark:text-blue-400"
@@ -466,7 +507,7 @@ const CareerRoadmap = () => {
               )}
 
               {/* Phases */}
-              {Array.isArray(roadmap.phases) && roadmap.phases.map((ph: any, i: number) => (
+              {Array.isArray(roadmap.phases) && roadmap.phases.map((ph, i) => (
                 <div key={i} className="rounded-2xl p-5 border border-border bg-card">
                   <div className="flex items-center justify-between flex-wrap gap-2 mb-3">
                     <h3 className="font-display font-bold text-lg flex items-center gap-2">
@@ -503,15 +544,29 @@ const CareerRoadmap = () => {
                     <div className="mb-3">
                       <div className="text-xs font-bold uppercase text-muted-foreground mb-1 flex items-center gap-1"><BookOpen className="w-3 h-3" /> {t("Tài nguyên", "Resources")}</div>
                       <div className="grid sm:grid-cols-2 gap-2">
-                        {ph.resources.map((r: any, j: number) => (
-                          <a key={j} href={r.url || "#"} target="_blank" rel="noreferrer" className="flex items-center gap-2 p-2 rounded-lg bg-background border border-border hover:border-primary/30 transition-colors text-sm">
-                            <span className="text-base">{r.type === "course" ? "🎓" : r.type === "book" ? "📚" : r.type === "youtube" ? "▶️" : "📄"}</span>
-                            <div className="flex-1 min-w-0">
-                              <div className="font-semibold truncate">{r.name}</div>
-                              <div className="text-[10px] text-muted-foreground">{r.free ? t("Miễn phí", "Free") : t("Trả phí", "Paid")}</div>
-                            </div>
-                            {r.url && <ExternalLink className="w-3 h-3 text-muted-foreground shrink-0" />}
-                          </a>
+                        {ph.resources.map((r, j) => (
+                          (() => {
+                            const resourceUrl = safeExternalUrl(r.url);
+                            const content = (
+                              <>
+                                <span className="text-base">{r.type === "course" ? "🎓" : r.type === "book" ? "📚" : r.type === "youtube" ? "▶️" : "📄"}</span>
+                                <div className="flex-1 min-w-0">
+                                  <div className="font-semibold truncate">{r.name}</div>
+                                  <div className="text-[10px] text-muted-foreground">{r.free ? t("Miễn phí", "Free") : t("Trả phí", "Paid")}</div>
+                                </div>
+                                {resourceUrl && <ExternalLink className="w-3 h-3 text-muted-foreground shrink-0" />}
+                              </>
+                            );
+                            return resourceUrl ? (
+                              <a key={j} href={resourceUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 p-2 rounded-lg bg-background border border-border hover:border-primary/30 transition-colors text-sm">
+                                {content}
+                              </a>
+                            ) : (
+                              <div key={j} className="flex items-center gap-2 p-2 rounded-lg bg-background border border-border text-sm">
+                                {content}
+                              </div>
+                            );
+                          })()
                         ))}
                       </div>
                     </div>
@@ -521,8 +576,8 @@ const CareerRoadmap = () => {
                     <div className="mb-3">
                       <div className="text-xs font-bold uppercase text-muted-foreground mb-1 flex items-center gap-1"><Code2 className="w-3 h-3" /> {t("Dự án luyện tập", "Practice projects")}</div>
                       <div className="space-y-2">
-                        {ph.practiceProjects.map((p: any, j: number) => {
-                          const pid = `${i}-${j}`;
+                        {ph.practiceProjects.map((p, j) => {
+                            const pid = projectProgressId(ph.phase, p.title);
                           const done = completedProjects[pid];
                           return (
                             <button key={j} onClick={() => toggleProject(pid)} className={`w-full text-left p-3 rounded-lg border transition-all ${
@@ -573,7 +628,7 @@ const CareerRoadmap = () => {
                     {t("Chứng chỉ nên có", "Recommended Certifications")}
                   </h3>
                   <div className="grid sm:grid-cols-2 gap-2">
-                    {roadmap.certifications.map((c: any, i: number) => (
+                    {roadmap.certifications.map((c, i) => (
                       <div key={i} className="p-3 rounded-lg border border-border bg-background">
                         <div className="flex items-center gap-2 mb-1">
                           <span className="font-semibold text-sm">{c.name}</span>
@@ -596,7 +651,7 @@ const CareerRoadmap = () => {
                     {t("Dự án Portfolio", "Portfolio Projects")}
                   </h3>
                   <div className="space-y-3">
-                    {roadmap.portfolioProjects.map((p: any, i: number) => (
+                    {roadmap.portfolioProjects.map((p, i) => (
                       <div key={i} className="p-3 rounded-lg bg-gradient-to-br from-violet-500/5 to-blue-500/5 border border-violet-500/20">
                         <div className="font-semibold text-sm mb-1">📦 {p.title}</div>
                         <p className="text-xs text-muted-foreground mb-2">{p.description}</p>
