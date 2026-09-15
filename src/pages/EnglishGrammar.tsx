@@ -6,7 +6,7 @@ import SEO from "@/components/SEO";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { allGrammarModules } from "@/data/languageCurriculum";
 import { BookOpen, Filter, Search, Target, Layers3, ArrowLeft, ChevronDown } from "lucide-react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
