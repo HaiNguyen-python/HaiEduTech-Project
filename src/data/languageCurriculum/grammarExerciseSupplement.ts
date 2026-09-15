@@ -6,6 +6,11 @@
  */
 import type { InteractiveExercise, LanguageModule } from "./types";
 import { authoredGrammarExercisesPart1 } from "./grammarExercisesAuthored/part1";
+import { authoredGrammarExercisesPart2 } from "./grammarExercisesAuthored/part2";
+import { authoredGrammarExercisesPart3 } from "./grammarExercisesAuthored/part3";
+import { authoredGrammarExercisesPart4 } from "./grammarExercisesAuthored/part4";
+import { authoredGrammarExercisesPart5 } from "./grammarExercisesAuthored/part5";
+
 
 
 export const grammarExerciseSupplement: Record<string, InteractiveExercise[]> = {
@@ -429,7 +434,10 @@ export const applyGrammarExerciseSupplement = (
       const extra = [
         ...(grammarExerciseSupplement[lesson.id] ?? []),
         ...(authoredGrammarExercisesPart1[lesson.id] ?? []),
+        ...(authoredGrammarExercisesPart2[lesson.id] ?? []),
+        ...(authoredGrammarExercisesPart3[lesson.id] ?? []),
       ];
+
       if (extra.length === 0) return lesson;
       return { ...lesson, exercises: [...lesson.exercises, ...extra] };
     }),
