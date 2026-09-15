@@ -344,6 +344,9 @@ const ChineseConversationalLessonView = () => {
                             <div key={i} className={`flex gap-3 ${isRight ? "flex-row-reverse" : ""}`}>
                               {/* Stable chibi avatar for each speaker */}
                               <div className={`relative h-12 w-12 flex-shrink-0 overflow-hidden rounded-full border-2 shadow-sm sm:h-14 sm:w-14 ${avatarRing}`}>
+                                <span className="absolute inset-0 flex items-center justify-center text-sm font-extrabold text-primary" aria-hidden="true">
+                                  {line.speaker.charAt(0)}
+                                </span>
                                 <img
                                   src={avatarSrc}
                                   alt={`${line.speaker} dialogue character`}
@@ -351,19 +354,11 @@ const ChineseConversationalLessonView = () => {
                                   height={56}
                                   loading="lazy"
                                   decoding="async"
-                                  className="h-full w-full object-cover"
+                                  className="relative z-10 h-full w-full scale-125 object-cover"
                                   onError={(event) => {
                                     event.currentTarget.style.display = "none";
-                                    const fallback = event.currentTarget.nextElementSibling;
-                                    if (fallback instanceof HTMLElement) {
-                                      fallback.classList.remove("hidden");
-                                      fallback.classList.add("flex");
-                                    }
                                   }}
                                 />
-                                <span className="hidden h-full w-full items-center justify-center text-sm font-extrabold text-primary" aria-hidden="true">
-                                  {line.speaker.charAt(0)}
-                                </span>
                               </div>
                               {/* Bubble */}
                               <div className={`max-w-[82%] rounded-lg border px-4 py-3 shadow-sm ${bubbleColor}`}>
