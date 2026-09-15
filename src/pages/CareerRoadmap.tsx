@@ -53,7 +53,7 @@ const LEVELS = [
   { id: "mid", vi: "Mid-level (2-5 năm)", en: "Mid-level (2-5 yrs)" },
 ];
 
-export const createFallbackRoadmap = (input: CareerRoadmapInput): CareerRoadmapData => {
+const createFallbackRoadmap = (input: CareerRoadmapInput): CareerRoadmapData => {
   const { role, currentLevel, hoursPerWeek, targetMonths, language } = input;
   const vi = language === "vi";
   const phaseWeeks = Math.max(4, Math.ceil((targetMonths * 4) / 3));
@@ -258,10 +258,11 @@ const CareerRoadmap = () => {
         : []);
       setGenerationStatus("idle");
       toast.success(showedFallback ? t("Đã cập nhật lộ trình chi tiết!", "Detailed roadmap updated!") : t("Đã tạo lộ trình!", "Roadmap generated!"));
-    } catch (e: any) {
+    } catch (e: unknown) {
       if (!showedFallback) showDraftRoadmap();
+      const errorMessage = e instanceof Error ? e.message : "";
       toast.warning(
-        e?.message === "ROADMAP_TIMEOUT"
+        errorMessage === "ROADMAP_TIMEOUT"
           ? t("Dịch vụ phản hồi chậm, đã tạo lộ trình nhanh để bạn tiếp tục.", "The service is slow, so a quick roadmap is ready for you.")
           : t("Dịch vụ tạm thời gián đoạn, đã tạo lộ trình dự phòng.", "The service is temporarily unavailable, so a fallback roadmap is ready.")
       );
@@ -488,7 +489,7 @@ const CareerRoadmap = () => {
                     {t("Kỹ năng cốt lõi", "Core Skills")}
                   </h3>
                   <div className="grid sm:grid-cols-2 gap-2">
-                    {roadmap.coreSkills.map((s: any, i: number) => (
+                    {roadmap.coreSkills.map((s, i) => (
                       <div key={i} className="flex items-start gap-2 p-3 rounded-lg bg-background border border-border">
                         <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0 ${
                           s.importance === "must-have" ? "bg-rose-500/10 text-rose-700 dark:text-rose-400" : "bg-blue-500/10 text-blue-700 dark:text-blue-400"
@@ -506,7 +507,7 @@ const CareerRoadmap = () => {
               )}
 
               {/* Phases */}
-              {Array.isArray(roadmap.phases) && roadmap.phases.map((ph: any, i: number) => (
+              {Array.isArray(roadmap.phases) && roadmap.phases.map((ph, i) => (
                 <div key={i} className="rounded-2xl p-5 border border-border bg-card">
                   <div className="flex items-center justify-between flex-wrap gap-2 mb-3">
                     <h3 className="font-display font-bold text-lg flex items-center gap-2">
@@ -543,7 +544,7 @@ const CareerRoadmap = () => {
                     <div className="mb-3">
                       <div className="text-xs font-bold uppercase text-muted-foreground mb-1 flex items-center gap-1"><BookOpen className="w-3 h-3" /> {t("Tài nguyên", "Resources")}</div>
                       <div className="grid sm:grid-cols-2 gap-2">
-                        {ph.resources.map((r: any, j: number) => (
+                        {ph.resources.map((r, j) => (
                           (() => {
                             const resourceUrl = safeExternalUrl(r.url);
                             const content = (
@@ -575,7 +576,7 @@ const CareerRoadmap = () => {
                     <div className="mb-3">
                       <div className="text-xs font-bold uppercase text-muted-foreground mb-1 flex items-center gap-1"><Code2 className="w-3 h-3" /> {t("Dự án luyện tập", "Practice projects")}</div>
                       <div className="space-y-2">
-                        {ph.practiceProjects.map((p: any, j: number) => {
+                        {ph.practiceProjects.map((p, j) => {
                             const pid = projectProgressId(ph.phase, p.title);
                           const done = completedProjects[pid];
                           return (
@@ -627,7 +628,7 @@ const CareerRoadmap = () => {
                     {t("Chứng chỉ nên có", "Recommended Certifications")}
                   </h3>
                   <div className="grid sm:grid-cols-2 gap-2">
-                    {roadmap.certifications.map((c: any, i: number) => (
+                    {roadmap.certifications.map((c, i) => (
                       <div key={i} className="p-3 rounded-lg border border-border bg-background">
                         <div className="flex items-center gap-2 mb-1">
                           <span className="font-semibold text-sm">{c.name}</span>
@@ -650,7 +651,7 @@ const CareerRoadmap = () => {
                     {t("Dự án Portfolio", "Portfolio Projects")}
                   </h3>
                   <div className="space-y-3">
-                    {roadmap.portfolioProjects.map((p: any, i: number) => (
+                    {roadmap.portfolioProjects.map((p, i) => (
                       <div key={i} className="p-3 rounded-lg bg-gradient-to-br from-violet-500/5 to-blue-500/5 border border-violet-500/20">
                         <div className="font-semibold text-sm mb-1">📦 {p.title}</div>
                         <p className="text-xs text-muted-foreground mb-2">{p.description}</p>
