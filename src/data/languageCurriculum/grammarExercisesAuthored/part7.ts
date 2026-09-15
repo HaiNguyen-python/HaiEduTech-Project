@@ -754,5 +754,125 @@ export const authoredGrammarExercisesPart7: Record<string, InteractiveExercise[]
     },
   ],
 
-  "phrasal-verbs-structure-extra": [],
+  "phrasal-verbs-structure": [
+    {
+      type: "transformation",
+      instruction: "Viết lại câu, đặt đại từ vào đúng vị trí.",
+      instructionEn: "Rewrite each sentence with the pronoun in the right place.",
+      items: [
+        {
+          prompt: "Please hand in the form. (it)",
+          target: "Please hand it in.",
+          goal: "Separable verb: pronoun goes in the middle.",
+        },
+        {
+          prompt: "They called off the trip. (it)",
+          target: "They called it off.",
+          goal: "Pronoun before the particle.",
+        },
+        {
+          prompt: "I put up with the noise. (it)",
+          target: "I put up with it.",
+          goal: "Three-part verbs stay together.",
+        },
+      ],
+    },
+  ],
+
+  "phrasal-verbs-themes-extra": [
+    {
+      type: "transformation",
+      instruction: "Viết lại câu bằng cụm động từ.",
+      instructionEn: "Rewrite each sentence with a phrasal verb.",
+      items: [
+        {
+          prompt: "They postponed the interview.",
+          target: "They put off the interview.",
+          goal: "Use put off.",
+        },
+        {
+          prompt: "She refused the invitation.",
+          target: "She turned down the invitation.",
+          goal: "Use turn down.",
+        },
+        {
+          prompt: "We investigated the complaint.",
+          target: "We looked into the complaint.",
+          goal: "Use look into.",
+        },
+      ],
+    },
+  ],
+
+  "question-tag-extra": [
+    {
+      type: "transformation",
+      instruction: "Thêm câu hỏi đuôi phù hợp.",
+      instructionEn: "Add the correct question tag.",
+      items: [
+        {
+          prompt: "You live near the campus",
+          target: "You live near the campus, don't you?",
+          goal: "Present simple takes do not.",
+        },
+        {
+          prompt: "He can't come tonight",
+          target: "He can't come tonight, can he?",
+          goal: "Negative statement takes a positive tag.",
+        },
+        {
+          prompt: "Let's take a break",
+          target: "Let's take a break, shall we?",
+          goal: "Let us takes shall we.",
+        },
+      ],
+    },
+  ],
+
+  "punctuation-apostrophe-colon-extra": [
+    {
+      type: "fill-in-blank",
+      instruction: "Điền dấu câu hoặc dạng đúng.",
+      instructionEn: "Complete each sentence with the correct form.",
+      wordBank: ["its", "it's", "students'", "student's"],
+      sentences: [
+        {
+          text: "The company published ___ annual report in March.",
+          textEn: "The company published ___ annual report in March.",
+          answer: "its",
+          hint: "Possessive, no apostrophe.",
+        },
+        {
+          text: "___ too early to judge the results.",
+          textEn: "___ too early to judge the results.",
+          answer: "It's",
+          hint: "Short form of it is.",
+        },
+        {
+          text: "All the ___ projects were displayed in the hall.",
+          textEn: "All the ___ projects were displayed in the hall.",
+          answer: "students'",
+          hint: "Plural possession.",
+        },
+      ],
+    },
+  ],
+
+  "parallel-structure-extra": [
+    {
+      type: "sentence-reorder",
+      instruction: "Sắp xếp câu có cấu trúc song song.",
+      instructionEn: "Put the words in order.",
+      items: [
+        {
+          scrambled: ["The", "course", "teaches", "reading", "writing", "and", "speaking"],
+          correct: "The course teaches reading writing and speaking",
+        },
+        {
+          scrambled: ["She", "is", "not", "only", "punctual", "but", "also", "reliable"],
+          correct: "She is not only punctual but also reliable",
+        },
+      ],
+    },
+  ],
 };
