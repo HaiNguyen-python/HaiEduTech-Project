@@ -732,10 +732,13 @@ const Navbar = () => {
                             </Link>
                           )}
 
+                          {/* Temporarily hidden: Upgrade Account button
                           <button onClick={() => { setUpgradeOpen(true); setUserMenuOpen(false); }}
                             className="w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold text-amber-600 dark:text-amber-400 hover:bg-amber-500/10 transition-colors">
                             <Crown className="w-3.5 h-3.5" /> {t("Nâng Cấp Tài Khoản", "Upgrade Account")}
                           </button>
+                          */}
+
                           <div className="border-t border-border my-1" />
                           <button onClick={() => { handleLogout(); setUserMenuOpen(false); }}
                             className="w-full flex items-center gap-2 px-3 py-2 text-xs font-medium text-destructive hover:bg-destructive/10 transition-colors">
@@ -1215,10 +1218,13 @@ const Navbar = () => {
                       <Map className="w-5 h-5" /> {t("Lộ trình của tôi", "My Learning Path")}
                     </Link>
 
+                    {/* Temporarily hidden: Upgrade Account button
                     <button onClick={() => { setUpgradeOpen(true); setOpen(false); }}
                       className="w-full flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl text-sm font-bold text-amber-600 dark:text-amber-400 border border-amber-500/40 bg-amber-500/10 hover:bg-amber-500/20 transition-all">
                       <Crown className="w-5 h-5" /> {t("Nâng Cấp Tài Khoản", "Upgrade Account")}
                     </button>
+                    */}
+
                     <button onClick={() => { handleLogout(); setOpen(false); }}
                       className="w-full flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl text-sm font-semibold text-destructive hover:bg-destructive/10 transition-all">
                       <LogOut className="w-5 h-5" /> {t("Đăng Xuất", "Logout")}
