@@ -77,11 +77,11 @@ const DictationExercise = ({ instruction, instructionEn, sentences, forceEnglish
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h3 className="font-semibold text-foreground flex items-center gap-2">
+      <div className="flex items-start justify-between gap-4 flex-wrap">
+        <div className="flex flex-1 min-w-0 items-start gap-2 rounded-lg border border-border bg-muted/40 p-4 text-base font-semibold leading-7 text-foreground">
           <Headphones className="w-4 h-4 text-primary" />
-          {forceEnglish ? instructionEn : t(instruction, instructionEn)}
-        </h3>
+          <span className="min-w-0">{forceEnglish ? instructionEn : t(instruction, instructionEn)}</span>
+        </div>
         {submitted && (
           <div className="flex items-center gap-3">
             <span className={cn(
@@ -107,11 +107,11 @@ const DictationExercise = ({ instruction, instructionEn, sentences, forceEnglish
             className="glass-card rounded-xl p-4 space-y-3"
           >
             <div className="flex items-center gap-3">
-              <span className="text-xs font-medium text-muted-foreground">{idx + 1}.</span>
+              <span className="text-sm font-semibold text-secondary-foreground">{idx + 1}.</span>
               <button
                 onClick={() => handlePlayAudio(idx)}
                 className={cn(
-                  "flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all",
+                  "flex min-h-11 items-center gap-2 px-3 py-2 rounded-lg text-base font-medium transition-all",
                   playedAudio[idx]
                     ? "bg-primary/10 text-primary border border-primary/20"
                     : "bg-primary text-primary-foreground hover:brightness-110"
@@ -122,12 +122,12 @@ const DictationExercise = ({ instruction, instructionEn, sentences, forceEnglish
               </button>
               <button
                 onClick={() => handlePlayAudio(idx, true)}
-                className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium bg-muted text-muted-foreground hover:bg-muted/80 transition-all border border-border"
+                className="flex min-h-11 items-center gap-2 px-3 py-2 rounded-lg text-base font-medium bg-muted text-secondary-foreground hover:bg-muted/80 transition-all border border-border"
               >
                 🐢 {forceEnglish ? "Slow" : t("Nghe chậm", "Slow")}
               </button>
               {s.hint && (
-                <span className="text-xs text-muted-foreground italic">💡 {s.hint}</span>
+                <span className="text-sm leading-6 text-secondary-foreground italic">💡 {s.hint}</span>
               )}
             </div>
 
@@ -137,7 +137,7 @@ const DictationExercise = ({ instruction, instructionEn, sentences, forceEnglish
               disabled={submitted}
               placeholder={forceEnglish ? "Listen and type what you hear..." : t("Nghe và viết lại câu bạn nghe được...", "Listen and type what you hear...")}
               className={cn(
-                "w-full px-4 py-3 rounded-lg border text-sm transition-all outline-none resize-none min-h-[56px]",
+                "w-full px-4 py-3 rounded-lg border text-base leading-6 transition-all outline-none resize-none min-h-[64px]",
                 submitted
                   ? isCorrect(idx)
                     ? "border-green-500 bg-green-500/10"
@@ -154,7 +154,7 @@ const DictationExercise = ({ instruction, instructionEn, sentences, forceEnglish
                 ) : (
                   <XCircle className="w-4 h-4 text-destructive mt-0.5 shrink-0" />
                 )}
-                <div className="text-xs">
+                <div className="text-sm leading-6">
                   {!isCorrect(idx) && (
                     <p className="text-muted-foreground">
                       ✅ {forceEnglish ? "Answer" : t("Đáp án", "Answer")}: <span className="font-semibold text-primary">{s.text}</span>
@@ -172,7 +172,7 @@ const DictationExercise = ({ instruction, instructionEn, sentences, forceEnglish
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           onClick={handleSubmit}
-          className="px-6 py-2.5 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:brightness-110 transition-all"
+          className="min-h-11 px-6 py-2.5 rounded-lg bg-primary text-primary-foreground font-semibold text-base hover:brightness-110 transition-all"
         >
           {forceEnglish ? "Check Answers" : t("Kiểm tra", "Check Answers")}
         </motion.button>

@@ -41,7 +41,7 @@ const TransformationExercise = ({ instruction, instructionEn, items, forceEnglis
   return (
     <div className="space-y-4">
       <div className="flex items-start justify-between gap-4 flex-wrap">
-        <div className="font-semibold text-foreground text-[15px] leading-7 flex-1 min-w-0 bg-muted/40 border border-border rounded-lg p-4">
+        <div className="font-semibold text-foreground text-base leading-7 flex-1 min-w-0 bg-muted/40 border border-border rounded-lg p-4">
           <span className="mr-2">🔁</span>
           {forceEnglish ? instructionEn : t(instruction, instructionEn)}
         </div>
@@ -77,11 +77,11 @@ const TransformationExercise = ({ instruction, instructionEn, items, forceEnglis
             transition={{ delay: idx * 0.06 }}
             className="glass-card rounded-xl p-4 space-y-2"
           >
-            <div className="flex items-start gap-2 text-sm text-foreground">
-              <span className="font-medium text-muted-foreground w-6">{idx + 1}.</span>
-              <span>{item.prompt}</span>
+            <div className="flex items-start gap-2 text-base leading-7 text-foreground">
+              <span className="w-6 shrink-0 font-semibold text-secondary-foreground">{idx + 1}.</span>
+              <span className="min-w-0">{item.prompt}</span>
             </div>
-            <div className="ml-8 flex flex-wrap items-center gap-2 text-xs">
+            <div className="ml-8 flex flex-wrap items-center gap-2 text-sm leading-6">
               {item.goal && (
                 <span className="px-2 py-0.5 rounded-full bg-primary/10 text-primary font-medium">🎯 {item.goal}</span>
               )}
@@ -99,7 +99,7 @@ const TransformationExercise = ({ instruction, instructionEn, items, forceEnglis
                 disabled={submitted}
                 placeholder={label("Viết lại câu...", "Rewrite the sentence...")}
                 className={cn(
-                  "flex-1 px-3 py-2 rounded-lg border text-sm transition-all outline-none",
+                  "min-h-11 flex-1 px-3 py-2 rounded-lg border text-base transition-all outline-none",
                   submitted
                     ? isRight(idx)
                       ? "border-green-500 bg-green-500/10 text-green-700"
@@ -115,7 +115,7 @@ const TransformationExercise = ({ instruction, instructionEn, items, forceEnglis
                 ))}
             </div>
             {submitted && (
-              <p className="text-xs text-muted-foreground ml-8">
+              <p className="ml-8 text-sm leading-6 text-secondary-foreground">
                 ✅ {label("Đáp án", "Answer")}: <span className="font-bold text-primary">{item.target}</span>
               </p>
             )}
@@ -126,7 +126,7 @@ const TransformationExercise = ({ instruction, instructionEn, items, forceEnglis
       {!submitted && Object.keys(answers).length > 0 && (
         <button
           onClick={() => setSubmitted(true)}
-          className="px-6 py-2.5 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:brightness-110 transition-all"
+          className="min-h-11 px-6 py-2.5 rounded-lg bg-primary text-primary-foreground font-semibold text-base hover:brightness-110 transition-all"
         >
           {label("Kiểm tra", "Check Answers")}
         </button>

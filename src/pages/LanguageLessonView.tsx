@@ -652,7 +652,7 @@ const LanguageLessonView = () => {
 
                   {/* Interactive Exercises */}
                   {lesson.exercises.length > 0 && (
-                    <div className="space-y-6">
+                    <div className={cn("space-y-6", isEnglishGrammarLesson && "font-manrope")}>
                       <h2 className="font-semibold text-foreground text-lg flex items-center gap-2">
                         🎯 {tr("Bài tập tương tác", "Interactive Exercises")}
                       </h2>

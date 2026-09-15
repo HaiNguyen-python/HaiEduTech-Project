@@ -114,7 +114,7 @@ const FillInBlankExercise = ({ instruction, instructionEn, sentences, wordBank, 
           disabled={submitted}
           placeholder="..."
           className={cn(
-            "w-36 px-3 py-1.5 rounded-lg border text-sm font-medium text-center transition-all outline-none",
+            "min-h-11 w-36 px-3 py-2 rounded-lg border text-base font-medium text-center transition-all outline-none",
             submitted
               ? isCorrect
                 ? "border-green-500 bg-green-500/10 text-green-700"
@@ -162,8 +162,8 @@ const FillInBlankExercise = ({ instruction, instructionEn, sentences, wordBank, 
         transition={{ delay: idx * 0.08 }}
         className="glass-card rounded-xl p-4 space-y-2"
       >
-        <div className="flex items-center gap-1 flex-wrap text-sm text-foreground leading-relaxed">
-          <span className="font-medium text-muted-foreground w-6">{idx + 1}.</span>
+        <div className="flex items-center gap-1 flex-wrap text-base text-foreground leading-7">
+          <span className="w-6 shrink-0 font-semibold text-secondary-foreground">{idx + 1}.</span>
           {parts.map((part, partIdx) => (
             <span key={`part-${partIdx}`} className="inline-flex items-center flex-wrap">
               {part && <span>{part}</span>}
@@ -178,7 +178,7 @@ const FillInBlankExercise = ({ instruction, instructionEn, sentences, wordBank, 
           {pickEnglishGrammarCopy(s.hint, undefined, "Hint") && !submitted && (
             <button
               onClick={() => toggleHint(idx)}
-              className="text-xs text-primary hover:underline flex items-center gap-1"
+              className="text-sm leading-6 text-primary hover:underline flex items-center gap-1"
             >
               <Lightbulb className="w-3 h-3" />
               {showHints[idx]
@@ -187,7 +187,7 @@ const FillInBlankExercise = ({ instruction, instructionEn, sentences, wordBank, 
             </button>
           )}
           {submitted && !allCorrect && (
-            <span className="text-xs text-muted-foreground">
+            <span className="text-sm leading-6 text-secondary-foreground">
               ✅ {forceEnglish ? "Answer" : t("Đáp án", "Answer")}:{" "}
               <span className="font-bold text-primary">{expected.join(" / ")}</span>
             </span>
@@ -212,7 +212,7 @@ const FillInBlankExercise = ({ instruction, instructionEn, sentences, wordBank, 
       <div className="text-xs uppercase tracking-wider font-semibold text-primary">
         🧰 {forceEnglish ? "Word bank" : t("Ngân hàng từ", "Word bank")}
       </div>
-      <p className="text-xs text-muted-foreground">
+      <p className="text-sm leading-6 text-secondary-foreground">
         {forceEnglish
           ? "Tap a word to put it into the selected gap."
           : t("Bấm vào một từ để điền vào ô đang chọn.", "Tap a word to put it into the selected gap.")}
@@ -227,7 +227,7 @@ const FillInBlankExercise = ({ instruction, instructionEn, sentences, wordBank, 
               onClick={() => pickWord(word)}
               disabled={submitted}
               className={cn(
-                "px-3 py-1.5 rounded-full border text-sm font-medium transition-all",
+                "px-3 py-2 rounded-full border text-base font-medium leading-6 transition-all",
                 used
                   ? "border-border bg-muted text-muted-foreground"
                   : "border-primary/40 bg-background text-foreground hover:border-primary hover:bg-primary/10"
@@ -244,7 +244,7 @@ const FillInBlankExercise = ({ instruction, instructionEn, sentences, wordBank, 
   return (
     <div className="space-y-4">
       <div className="flex items-start justify-between gap-4 flex-wrap">
-        <div className="font-semibold text-foreground text-[15px] leading-7 whitespace-pre-line flex-1 min-w-0 bg-muted/40 border border-border rounded-lg p-4">
+        <div className="font-semibold text-foreground text-base leading-7 whitespace-pre-line flex-1 min-w-0 bg-muted/40 border border-border rounded-lg p-4">
           <span className="mr-2">✍️</span>{titlePart.trim()}
         </div>
         {submitted && (
@@ -288,7 +288,7 @@ const FillInBlankExercise = ({ instruction, instructionEn, sentences, wordBank, 
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           onClick={handleSubmit}
-          className="px-6 py-2.5 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:brightness-110 transition-all"
+          className="min-h-11 px-6 py-2.5 rounded-lg bg-primary text-primary-foreground font-semibold text-base hover:brightness-110 transition-all"
         >
           {forceEnglish ? "Check Answers" : t("Kiểm tra", "Check Answers")}
         </motion.button>

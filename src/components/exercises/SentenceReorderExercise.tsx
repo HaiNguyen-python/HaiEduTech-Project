@@ -55,11 +55,11 @@ const SentenceReorderExercise = ({ instruction, instructionEn, items, forceEngli
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h3 className="font-semibold text-foreground flex items-center gap-2">
+      <div className="flex items-start justify-between gap-4 flex-wrap">
+        <div className="flex flex-1 min-w-0 items-start gap-2 rounded-lg border border-border bg-muted/40 p-4 text-base font-semibold leading-7 text-foreground">
           <Shuffle className="w-4 h-4 text-primary" />
-          {forceEnglish ? instructionEn : t(instruction, instructionEn)}
-        </h3>
+          <span className="min-w-0">{forceEnglish ? instructionEn : t(instruction, instructionEn)}</span>
+        </div>
         {submitted && (
           <div className="flex items-center gap-3">
             <span className={cn(
@@ -89,7 +89,7 @@ const SentenceReorderExercise = ({ instruction, instructionEn, items, forceEngli
               transition={{ delay: idx * 0.1 }}
               className="glass-card rounded-xl p-4 space-y-3"
             >
-              <span className="text-xs font-medium text-muted-foreground">{forceEnglish ? "Sentence" : t("Câu", "Sentence")} {idx + 1}</span>
+              <span className="text-sm font-semibold text-secondary-foreground">{forceEnglish ? "Sentence" : t("Câu", "Sentence")} {idx + 1}</span>
 
               {/* Selected words - the answer area */}
               <div className={cn(
@@ -103,7 +103,7 @@ const SentenceReorderExercise = ({ instruction, instructionEn, items, forceEngli
                     : "border-border"
               )}>
                 {selected.length === 0 && (
-                  <span className="text-xs text-muted-foreground italic py-1">{forceEnglish ? "Click the words below to build the sentence." : t("Nhấn vào các từ bên dưới để sắp xếp...", "Click words below to arrange...")}</span>
+                  <span className="py-1 text-sm leading-6 text-secondary-foreground italic">{forceEnglish ? "Click the words below to build the sentence." : t("Nhấn vào các từ bên dưới để sắp xếp...", "Click words below to arrange...")}</span>
                 )}
                 <AnimatePresence>
                   {selected.map((tokenIdx, wi) => (
@@ -115,7 +115,7 @@ const SentenceReorderExercise = ({ instruction, instructionEn, items, forceEngli
                       onClick={() => toggleToken(idx, tokenIdx)}
                       disabled={submitted}
                       className={cn(
-                        "px-3 py-1.5 rounded-md text-sm font-medium transition-all",
+                        "px-3 py-2 rounded-md text-base font-medium leading-6 transition-all",
                         submitted
                           ? correct
                             ? "bg-green-500/20 text-green-700 border border-green-500/30"
@@ -142,7 +142,7 @@ const SentenceReorderExercise = ({ instruction, instructionEn, items, forceEngli
                     layout
                     onClick={() => toggleToken(idx, tokenIdx)}
                     disabled={submitted}
-                    className="px-3 py-1.5 rounded-md text-sm font-medium bg-secondary text-secondary-foreground border border-border hover:bg-muted hover:text-foreground transition-all"
+                    className="px-3 py-2 rounded-md text-base font-medium leading-6 bg-secondary text-secondary-foreground border border-border hover:bg-muted hover:text-foreground transition-all"
                   >
                     {item.scrambled[tokenIdx]}
                   </motion.button>
@@ -151,7 +151,7 @@ const SentenceReorderExercise = ({ instruction, instructionEn, items, forceEngli
 
               {/* Show correct answer if wrong */}
               {submitted && !correct && (
-                <p className="text-xs text-muted-foreground">
+                <p className="text-sm leading-6 text-secondary-foreground">
                       ✅ {forceEnglish ? "Answer" : t("Đáp án", "Answer")}: <span className="font-semibold text-primary">{item.correctEn || item.correct}</span>
                 </p>
               )}
@@ -165,7 +165,7 @@ const SentenceReorderExercise = ({ instruction, instructionEn, items, forceEngli
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           onClick={handleSubmit}
-          className="px-6 py-2.5 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:brightness-110 transition-all"
+          className="min-h-11 px-6 py-2.5 rounded-lg bg-primary text-primary-foreground font-semibold text-base hover:brightness-110 transition-all"
         >
           {forceEnglish ? "Check Answers" : t("Kiểm tra", "Check Answers")}
         </motion.button>

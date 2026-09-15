@@ -40,7 +40,7 @@ const ErrorCorrectionExercise = ({ instruction, instructionEn, items, forceEngli
   return (
     <div className="space-y-4">
       <div className="flex items-start justify-between gap-4 flex-wrap">
-        <div className="font-semibold text-foreground text-[15px] leading-7 flex-1 min-w-0 bg-muted/40 border border-border rounded-lg p-4">
+        <div className="font-semibold text-foreground text-base leading-7 flex-1 min-w-0 bg-muted/40 border border-border rounded-lg p-4">
           <span className="mr-2">🛠️</span>
           {forceEnglish ? instructionEn : t(instruction, instructionEn)}
         </div>
@@ -76,8 +76,8 @@ const ErrorCorrectionExercise = ({ instruction, instructionEn, items, forceEngli
             transition={{ delay: idx * 0.06 }}
             className="glass-card rounded-xl p-4 space-y-2"
           >
-            <div className="flex items-start gap-2 text-sm">
-              <span className="font-medium text-muted-foreground w-6">{idx + 1}.</span>
+            <div className="flex items-start gap-2 text-base leading-7">
+              <span className="w-6 shrink-0 font-semibold text-secondary-foreground">{idx + 1}.</span>
               <span className="line-through decoration-destructive/70 text-foreground">{item.wrong}</span>
             </div>
             <div className="flex items-center gap-2 ml-8">
@@ -88,7 +88,7 @@ const ErrorCorrectionExercise = ({ instruction, instructionEn, items, forceEngli
                 disabled={submitted}
                 placeholder={label("Viết lại câu đúng...", "Rewrite the correct sentence...")}
                 className={cn(
-                  "flex-1 px-3 py-2 rounded-lg border text-sm transition-all outline-none",
+                  "min-h-11 flex-1 px-3 py-2 rounded-lg border text-base transition-all outline-none",
                   submitted
                     ? isRight(idx)
                       ? "border-green-500 bg-green-500/10 text-green-700"
@@ -105,10 +105,10 @@ const ErrorCorrectionExercise = ({ instruction, instructionEn, items, forceEngli
             </div>
             {submitted && (
               <div className="ml-8 space-y-1">
-                <p className="text-xs text-muted-foreground">
+                <p className="text-sm leading-6 text-secondary-foreground">
                   ✅ {label("Đáp án", "Answer")}: <span className="font-bold text-primary">{item.correct}</span>
                 </p>
-                {item.explanation && <p className="text-xs text-secondary-foreground">💡 {item.explanation}</p>}
+                {item.explanation && <p className="text-sm leading-6 text-secondary-foreground">💡 {item.explanation}</p>}
               </div>
             )}
           </motion.div>
@@ -118,7 +118,7 @@ const ErrorCorrectionExercise = ({ instruction, instructionEn, items, forceEngli
       {!submitted && Object.keys(answers).length > 0 && (
         <button
           onClick={() => setSubmitted(true)}
-          className="px-6 py-2.5 rounded-lg bg-primary text-primary-foreground font-semibold text-sm hover:brightness-110 transition-all"
+          className="min-h-11 px-6 py-2.5 rounded-lg bg-primary text-primary-foreground font-semibold text-base hover:brightness-110 transition-all"
         >
           {label("Kiểm tra", "Check Answers")}
         </button>
