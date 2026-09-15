@@ -2,10 +2,12 @@ import type { LanguageLesson, LanguageModule } from "../types";
 import { newGrammarLessonsPart1 } from "./part1";
 import { newGrammarLessonsPart2 } from "./part2";
 import { newGrammarLessonsPart3 } from "./part3";
+import { newGrammarLessonsPart4 } from "./part4";
+import { newGrammarLessonsPart5 } from "./part5";
 
 const mergeSources = (): Record<string, LanguageLesson[]> => {
   const out: Record<string, LanguageLesson[]> = {};
-  for (const source of [newGrammarLessonsPart1, newGrammarLessonsPart2, newGrammarLessonsPart3]) {
+  for (const source of [newGrammarLessonsPart1, newGrammarLessonsPart2, newGrammarLessonsPart3, newGrammarLessonsPart4, newGrammarLessonsPart5]) {
     for (const [moduleId, lessons] of Object.entries(source)) {
       out[moduleId] = [...(out[moduleId] ?? []), ...lessons];
     }

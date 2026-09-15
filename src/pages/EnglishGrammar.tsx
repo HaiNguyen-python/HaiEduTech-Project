@@ -1,11 +1,11 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { allGrammarModules } from "@/data/languageCurriculum";
-import { BookOpen, Filter, Search, Target, Layers3, ArrowLeft } from "lucide-react";
+import { BookOpen, Filter, Search, Target, Layers3, ArrowLeft, ChevronDown } from "lucide-react";
 import { motion } from "framer-motion";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -19,6 +19,14 @@ const EnglishGrammar = () => {
   const { t } = useLanguage();
   const [searchTerm, setSearchTerm] = useState("");
   const [activeLevel, setActiveLevel] = useState<"all" | "beginner" | "intermediate" | "advanced">("all");
+  const [openLevels, setOpenLevels] = useState<Record<"beginner" | "intermediate" | "advanced", boolean>>({
+    beginner: true,
+    intermediate: false,
+    advanced: false,
+  });
+
+  const toggleLevel = (levelKey: "beginner" | "intermediate" | "advanced") =>
+    setOpenLevels((prev) => ({ ...prev, [levelKey]: !prev[levelKey] }));
 
   const levelMeta = {
     beginner: {
@@ -35,7 +43,22 @@ const EnglishGrammar = () => {
     },
   } as const;
 
+  /** Curriculum-based placement: a module sits where it belongs in the learning path. */
+  const moduleLevelMap: Record<string, keyof typeof levelMeta> = {
+    "grammar-questions-tags": "beginner",
+    "grammar-tenses": "beginner",
+    "grammar-articles-prepositions": "beginner",
+    "grammar-modals": "beginner",
+    "grammar-comparisons": "beginner",
+    "grammar-sentence-patterns": "beginner",
+    "grammar-punctuation-boundaries": "beginner",
+    "grammar-prepositions-patterns": "beginner",
+  };
+
   const getModuleLevel = (module: typeof allGrammarModules[number]): keyof typeof levelMeta => {
+    const mapped = moduleLevelMap[module.id];
+    if (mapped) return mapped;
+
     const scoreMap = { beginner: 1, intermediate: 2, advanced: 3 } as const;
     const avg = module.lessons.reduce((sum, lesson) => sum + scoreMap[lesson.difficulty], 0) / module.lessons.length;
 
@@ -97,6 +120,17 @@ const EnglishGrammar = () => {
       total: filtered.length,
     };
   }, [activeLevel, searchTerm]);
+
+  // Searching or filtering should reveal every group that still has results.
+  useEffect(() => {
+    const isFiltering = searchTerm.trim().length > 0 || activeLevel !== "all";
+    if (!isFiltering) return;
+    setOpenLevels({
+      beginner: groupedModules.beginner.length > 0,
+      intermediate: groupedModules.intermediate.length > 0,
+      advanced: groupedModules.advanced.length > 0,
+    });
+  }, [searchTerm, activeLevel, groupedModules]);
 
   const totalLessons = allGrammarModules.reduce((sum, mod) => sum + mod.lessons.length, 0);
   const levelFilters: Array<{ key: "all" | keyof typeof levelMeta; label: string }> = [
@@ -198,19 +232,32 @@ const EnglishGrammar = () => {
             const modules = groupedModules[levelKey];
             if (!modules.length) return null;
 
+            const isOpen = openLevels[levelKey];
+
             return (
               <div key={levelKey} className="space-y-4">
-                <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-2">
-                  <div>
-                    <div className="flex items-center gap-2 mb-1">
+                <button
+                  type="button"
+                  onClick={() => toggleLevel(levelKey)}
+                  aria-expanded={isOpen}
+                  aria-controls={`grammar-level-${levelKey}`}
+                  className="w-full flex items-center justify-between gap-4 rounded-2xl border bg-card px-5 py-4 text-left transition-colors hover:bg-muted/50"
+                >
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2 mb-1 flex-wrap">
                       <h2 className="text-2xl font-bold">{levelMeta[levelKey].label}</h2>
                       <Badge variant="secondary">{modules.length} {t("chuyên đề", "topics")}</Badge>
                     </div>
                     <p className="text-muted-foreground text-sm">{levelMeta[levelKey].description}</p>
                   </div>
-                </div>
+                  <ChevronDown className={cn("w-5 h-5 shrink-0 text-muted-foreground transition-transform", isOpen && "rotate-180")} />
+                </button>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div
+                  id={`grammar-level-${levelKey}`}
+                  hidden={!isOpen}
+                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+                >
                   {modules.map((mod, i) => (
                     <motion.div
                       key={mod.id}
