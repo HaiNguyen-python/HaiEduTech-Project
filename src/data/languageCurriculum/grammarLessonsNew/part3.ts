@@ -375,9 +375,9 @@ Frequency adverbs sit mid-sentence, while time adverbs usually sit at the end or
           type: "sentence-reorder",
           instruction: "Sắp xếp các từ thành câu đúng.",
           instructionEn: "Put the words in the correct order.",
-          sentences: [
-            { words: ["She", "often", "studies", "in", "the", "library"], correct: "She often studies in the library" },
-            { words: ["They", "played", "well", "at", "the", "stadium", "yesterday"], correct: "They played well at the stadium yesterday" },
+          items: [
+            { scrambled: ["studies", "She", "library", "often", "in", "the"], correct: "She often studies in the library" },
+            { scrambled: ["well", "They", "yesterday", "played", "at", "the", "stadium"], correct: "They played well at the stadium yesterday" },
           ],
         },
         {
