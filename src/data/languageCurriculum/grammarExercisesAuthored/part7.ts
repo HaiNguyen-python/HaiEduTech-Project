@@ -754,7 +754,7 @@ export const authoredGrammarExercisesPart7: Record<string, InteractiveExercise[]
     },
   ],
 
-  "phrasal-verbs-structure": [
+  "phrasal-verbs-structure-extra": [
     {
       type: "transformation",
       instruction: "Viết lại câu, đặt đại từ vào đúng vị trí.",

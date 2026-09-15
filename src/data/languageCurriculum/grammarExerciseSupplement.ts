@@ -483,6 +483,8 @@ export const applyGrammarExerciseSupplement = (
         ...(authoredGrammarExercisesPart5[lesson.id] ?? []),
         ...(authoredGrammarExercisesPart6[lesson.id] ?? []),
         ...(authoredGrammarExercisesPart7[lesson.id] ?? []),
+        ...(authoredGrammarExercisesPart6[`${lesson.id}-extra`] ?? []),
+        ...(authoredGrammarExercisesPart7[`${lesson.id}-extra`] ?? []),
       ]);
 
       return {
