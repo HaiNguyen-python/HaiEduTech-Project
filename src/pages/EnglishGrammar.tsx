@@ -253,11 +253,18 @@ const EnglishGrammar = () => {
                   <ChevronDown className={cn("w-5 h-5 shrink-0 text-muted-foreground transition-transform", isOpen && "rotate-180")} />
                 </button>
 
-                <div
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                <motion.div
+                  key="panel"
                   id={`grammar-level-${levelKey}`}
-                  hidden={!isOpen}
-                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: shouldReduceMotion ? 0 : 0.25 }}
+                  className="overflow-hidden"
                 >
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                   {modules.map((mod, i) => (
                     <motion.div
                       key={mod.id}
