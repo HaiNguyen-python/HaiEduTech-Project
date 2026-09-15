@@ -296,24 +296,24 @@ const ChineseReading = () => {
 
         <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} className="mb-8 grid items-center gap-5 lg:grid-cols-[minmax(0,1fr)_20rem]">
           <div>
-          <div className="flex items-center gap-3 mb-2">
+            <div className="flex items-center gap-3 mb-2">
             <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-red-500 to-rose-500 flex items-center justify-center">
               <BookOpen className="w-6 h-6 text-white" />
             </div>
             <h1 className="text-3xl sm:text-4xl font-bold">
               {t("Luyện đọc tiếng Trung", "Chinese Reading Practice")}
             </h1>
-          </div>
-          <p className="text-muted-foreground">
-            {t(
-              "50 bài đọc theo cấp độ từ HSK 1 đến HSK 5 - kèm Pinyin, dịch tiếng Việt, từ mới, câu hỏi trắc nghiệm và minh họa chibi.",
-              "50 graded passages from HSK 1 to HSK 5 - with Pinyin, Vietnamese translation, vocabulary, quiz questions and chibi illustrations."
-            )}
-          </p>
-          <div className="mt-4 inline-flex items-center gap-2 text-xs text-muted-foreground bg-muted/50 px-3 py-1.5 rounded-full">
-            <CheckCircle className="w-3.5 h-3.5 text-green-500" />
-            {t("Mở/đóng từng cấp độ - bật Pinyin/dịch tuỳ ý", "Toggle Pinyin & translation freely")}
-          </div>
+            </div>
+            <p className="text-muted-foreground">
+              {t(
+                "50 bài đọc theo cấp độ từ HSK 1 đến HSK 5 - kèm Pinyin, dịch tiếng Việt, từ mới, câu hỏi trắc nghiệm và minh họa chibi.",
+                "50 graded passages from HSK 1 to HSK 5 - with Pinyin, Vietnamese translation, vocabulary, quiz questions and chibi illustrations."
+              )}
+            </p>
+            <div className="mt-4 inline-flex items-center gap-2 text-xs text-muted-foreground bg-muted/50 px-3 py-1.5 rounded-full">
+              <CheckCircle className="w-3.5 h-3.5 text-green-500" />
+              {t("Mở/đóng từng cấp độ - bật Pinyin/dịch tuỳ ý", "Toggle Pinyin & translation freely")}
+            </div>
           </div>
           <img
             src={readingHero}
