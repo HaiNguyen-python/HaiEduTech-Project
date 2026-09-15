@@ -17,6 +17,7 @@ import { getGrammarModuleVisual } from "@/lib/grammarModuleVisuals";
 
 const EnglishGrammar = () => {
   const { t } = useLanguage();
+  const shouldReduceMotion = useReducedMotion();
   const [searchTerm, setSearchTerm] = useState("");
   const [activeLevel, setActiveLevel] = useState<"all" | "beginner" | "intermediate" | "advanced">("all");
   const [openLevels, setOpenLevels] = useState<Record<"beginner" | "intermediate" | "advanced", boolean>>({
