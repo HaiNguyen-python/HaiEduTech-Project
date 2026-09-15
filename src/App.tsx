@@ -12,7 +12,7 @@ import { Toaster } from "@/components/ui/toaster";
 import VocabBadgeCelebration from "@/components/VocabBadgeCelebration";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { LanguageProvider } from "@/contexts/LanguageContext";
-import { lazy, Suspense, useEffect, useState, type ReactNode } from "react";
+import { Suspense, useEffect, useState, type ReactNode } from "react";
 import { RouteErrorBoundary } from "@/components/RouteErrorBoundary";
 import { initVersionCheck } from "@/lib/versionCheck";
 import { lazyWithRetry } from "@/lib/lazyWithRetry";
@@ -62,7 +62,12 @@ const DeferredMount = ({ children, delay = 1200 }: { children: ReactNode; delay?
     const t = window.setTimeout(trigger, delay);
     return () => window.clearTimeout(t);
   }, [delay]);
-  return ready ? <Suspense fallback={null}>{children}</Suspense> : null;
+  // A failing widget chunk must never blank the page, so isolate it.
+  return ready ? (
+    <RouteErrorBoundary>
+      <Suspense fallback={null}>{children}</Suspense>
+    </RouteErrorBoundary>
+  ) : null;
 };
 
 const DeferredGlobalWidgets = () => {
