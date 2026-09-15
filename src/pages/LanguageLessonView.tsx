@@ -115,7 +115,12 @@ const LanguageLessonView = () => {
   const isTeachSeq = searchParams.get("seq") === "sat";
   const { t } = useLanguage();
 
-  const rawMod = useMemo(() => allLanguageModules.find(m => m.id === moduleId), [moduleId]);
+  const rawMod = useMemo(() => {
+    const direct = allLanguageModules.find(m => m.id === moduleId);
+    if (direct) return direct;
+    const merged = resolveGrammarModuleId(moduleId);
+    return merged !== moduleId ? allLanguageModules.find(m => m.id === merged) : undefined;
+  }, [moduleId]);
   const mod = useMemo(() => {
     if (!rawMod) return undefined;
     // For English grammar modules, sort lessons by difficulty (beginner → advanced)
@@ -421,8 +426,9 @@ const LanguageLessonView = () => {
                           <SatStarToggle storageKey={`sat:lesson:${mod.id}:${lesson.id}`} size="lg" />
                         )}
                       </div>
+                     </div>
                     </div>
-                  </div>
+                   </div>
 
                   {/* Sequential Teaching Mode (SAT series) - prev/next across modules */}
                   {isTeachSeq && isSatLesson && (() => {
