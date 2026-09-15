@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import FloatingEnglishParticles from "@/components/FloatingEnglishParticles";
 import EnglishHeroBanner from "@/components/EnglishHeroBanner";
+import { getGrammarModuleVisual } from "@/lib/grammarModuleVisuals";
 
 const EnglishGrammar = () => {
   const { t } = useLanguage();
@@ -268,6 +269,7 @@ const EnglishGrammar = () => {
                               </li>
                             ))}
                           </ul>
+                        </div>
                         </div>
                       </Link>
                     </motion.div>
