@@ -30,6 +30,7 @@ import {
   projectProgressId,
   safeExternalUrl,
   type CareerRoadmapData,
+  type CareerRoadmapInput,
 } from "@/lib/careerRoadmap";
 
 const PRESET_ROLES = [
@@ -236,7 +237,7 @@ const CareerRoadmap = () => {
     setRoadmap(null);
     setCitations([]);
     setCompletedProjects({});
-    const requestBody = requestBodyResult.data;
+    const requestBody: CareerRoadmapInput = requestBodyResult.data as CareerRoadmapInput;
     let showedFallback = false;
     const showDraftRoadmap = () => {
       if (requestIdRef.current !== requestId) return;
@@ -554,14 +555,28 @@ const CareerRoadmap = () => {
                       <div className="text-xs font-bold uppercase text-muted-foreground mb-1 flex items-center gap-1"><BookOpen className="w-3 h-3" /> {t("Tài nguyên", "Resources")}</div>
                       <div className="grid sm:grid-cols-2 gap-2">
                         {ph.resources.map((r: any, j: number) => (
-                          <a key={j} href={r.url || "#"} target="_blank" rel="noreferrer" className="flex items-center gap-2 p-2 rounded-lg bg-background border border-border hover:border-primary/30 transition-colors text-sm">
-                            <span className="text-base">{r.type === "course" ? "🎓" : r.type === "book" ? "📚" : r.type === "youtube" ? "▶️" : "📄"}</span>
-                            <div className="flex-1 min-w-0">
-                              <div className="font-semibold truncate">{r.name}</div>
-                              <div className="text-[10px] text-muted-foreground">{r.free ? t("Miễn phí", "Free") : t("Trả phí", "Paid")}</div>
-                            </div>
-                            {r.url && <ExternalLink className="w-3 h-3 text-muted-foreground shrink-0" />}
-                          </a>
+                          (() => {
+                            const resourceUrl = safeExternalUrl(r.url);
+                            const content = (
+                              <>
+                                <span className="text-base">{r.type === "course" ? "🎓" : r.type === "book" ? "📚" : r.type === "youtube" ? "▶️" : "📄"}</span>
+                                <div className="flex-1 min-w-0">
+                                  <div className="font-semibold truncate">{r.name}</div>
+                                  <div className="text-[10px] text-muted-foreground">{r.free ? t("Miễn phí", "Free") : t("Trả phí", "Paid")}</div>
+                                </div>
+                                {resourceUrl && <ExternalLink className="w-3 h-3 text-muted-foreground shrink-0" />}
+                              </>
+                            );
+                            return resourceUrl ? (
+                              <a key={j} href={resourceUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 p-2 rounded-lg bg-background border border-border hover:border-primary/30 transition-colors text-sm">
+                                {content}
+                              </a>
+                            ) : (
+                              <div key={j} className="flex items-center gap-2 p-2 rounded-lg bg-background border border-border text-sm">
+                                {content}
+                              </div>
+                            );
+                          })()
                         ))}
                       </div>
                     </div>
@@ -572,7 +587,7 @@ const CareerRoadmap = () => {
                       <div className="text-xs font-bold uppercase text-muted-foreground mb-1 flex items-center gap-1"><Code2 className="w-3 h-3" /> {t("Dự án luyện tập", "Practice projects")}</div>
                       <div className="space-y-2">
                         {ph.practiceProjects.map((p: any, j: number) => {
-                          const pid = `${i}-${j}`;
+                            const pid = projectProgressId(ph.phase, p.title);
                           const done = completedProjects[pid];
                           return (
                             <button key={j} onClick={() => toggleProject(pid)} className={`w-full text-left p-3 rounded-lg border transition-all ${
