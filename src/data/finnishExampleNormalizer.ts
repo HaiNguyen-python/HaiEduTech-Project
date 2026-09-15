@@ -441,6 +441,11 @@ function render(t: Template, word: string, gloss: string): string[] | null {
   if (t.needs && !t.needs.test(gloss)) return null;
   const form = inflect(word, t.form);
   if (!form) return null;
+  // Reject a template that already carries the same word ("Merkitsin kalenteria
+  // kalenteriin."): a repeated word makes fill-in-the-blank practice unusable.
+  const frame = t.fi.replace("{W}", " ").replace("{w}", " ").toLowerCase();
+  const stem = word.toLowerCase().slice(0, Math.max(4, word.length - 2));
+  if (stem.length >= 4 && frame.includes(stem)) return null;
   const fi = t.fi.replace("{W}", capitalize(form)).replace("{w}", form);
   const cleanGloss = gloss.replace(/^to\s+/i, "").trim();
   const en = t.en

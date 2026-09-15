@@ -18,6 +18,7 @@ export const maskWord = (text: string, word: string, blank = "_____"): string =>
   if (!text || !word) return text;
   // JavaScript's \b and \w boundaries are ASCII-only. Use a literal replacement
   // for scripts such as Hanzi and Kana so the answer is never left visible.
+  // eslint-disable-next-line no-control-regex -- ASCII range check, not a control char match
   if (/[^\x00-\x7F]/u.test(word)) {
     return text.split(word).join(blank);
   }
@@ -164,10 +165,52 @@ export const normForCompare = (s: string): string =>
  * accented and inflected variants, so the answer can never be read off the
  * prompt. Pass extra forms (plural, conjugated, hanzi + pinyin, ...) too.
  */
+/**
+ * Finnish consonant-gradation stems: `pöytä -> pöyd`, `matto -> mat`,
+ * `lukko -> luk`, `mökki -> mök`, `vesi -> vete/vede`. Used so an inflected
+ * form inside an example sentence is still recognised as the answer.
+ */
+export const gradationStems = (word: string): string[] => {
+  const w = word.toLowerCase();
+  const out = new Set<string>();
+  const add = (s: string) => { if (s.length >= 3) out.add(s); };
+
+  // -si nouns keep a -te-/-de- stem (vesi -> vettä, uusi -> uutta)
+  if (/si$/.test(w)) { add(`${w.slice(0, -2)}te`); add(`${w.slice(0, -2)}de`); add(w.slice(0, -2)); }
+  // -nen nouns (nainen -> naise)
+  if (/nen$/.test(w)) add(`${w.slice(0, -3)}se`);
+
+  const trimmed = /[aeiouyäö]$/.test(w) ? w.slice(0, -1) : w;
+  const bases = [trimmed, w];
+  const rules: [RegExp, string][] = [
+    [/kk$/, "k"], [/pp$/, "p"], [/tt$/, "t"],
+    [/nk$/, "ng"], [/mp$/, "mm"], [/lt$/, "ll"], [/nt$/, "nn"], [/rt$/, "rr"],
+    [/t$/, "d"], [/p$/, "v"], [/k$/, ""],
+  ];
+  for (const base of bases) {
+    add(base);
+    for (const [re, to] of rules) {
+      if (re.test(base)) add(base.replace(re, to));
+    }
+  }
+  return [...out];
+};
+
+export interface MaskOpts {
+  /** Apply Finnish consonant-gradation stems when matching inflected forms. */
+  gradation?: boolean;
+}
+
+/**
+ * Mask every surface form of the answer inside a prompt sentence, including
+ * accented and inflected variants, so the answer can never be read off the
+ * prompt. Pass extra forms (plural, conjugated, hanzi + pinyin, ...) too.
+ */
 export const maskAnswerForms = (
   text: string,
   forms: (string | undefined)[],
   blank = "_____",
+  opts: MaskOpts = {},
 ): string => {
   let out = text || "";
   const uniq = Array.from(
@@ -182,6 +225,12 @@ export const maskAnswerForms = (
       const stem = form.slice(0, Math.max(4, form.length - 2));
       out = out.replace(new RegExp(`\\p{L}*${escapeRe(stem)}\\p{L}*`, "giu"), blank);
     }
+    // 2b. consonant gradation (Finnish): pöytä -> pöydällä, matto -> maton
+    if (opts.gradation) {
+      for (const stem of gradationStems(form)) {
+        out = out.replace(new RegExp(`\\b${escapeRe(stem)}\\p{L}*`, "giu"), blank);
+      }
+    }
     // 3. accent-insensitive pass: rebuild word by word
     const target = normForCompare(form);
     if (target.length > 1) {
@@ -191,6 +240,8 @@ export const maskAnswerForms = (
         .join("");
     }
   }
+  // swallow leftover inflection endings glued to a blank ("______ni" -> "______")
+  out = out.replace(new RegExp(`${escapeRe(blank)}\\p{L}+`, "gu"), blank);
   // collapse "_____ _____" runs created by multi-form masking
   return out.replace(new RegExp(`(?:${escapeRe(blank)}[\\s]*){2,}`, "g"), `${blank} `).trim();
 };

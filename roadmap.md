@@ -4,6 +4,8 @@
 - [x] Career Roadmap: removed AI from the title, validated inputs and responses, persisted progress, improved accessibility, and verified desktop/mobile states
 
 ## Done
+- [x] Finnish Word Quest: fill-in-the-blank now hides every inflected form (consonant gradation included), keeps at least two context words, drops same-meaning answer options, and is covered by regression tests
+- [x] Learn through Songs: verified YouTube video on all 49 songs, complete lyrics/translations, refreshed vocabulary and fill-in-the-blank items (6 songs stay excerpt-only for copyright)
 - [x] Chinese Reading Practice: 50 audited passages, themed illustrations per title, collapsed HSK levels, and responsive desktop/mobile verification
 - [x] Chinese lesson readability: stronger minimum typography, high-contrast supporting text, and distinct Royal Blue/Emerald dialogue text systems for the two speakers
 - [x] Chinese conversation visuals: stable two-speaker chibi avatars and themed lesson-header illustrations with accessible fallbacks
