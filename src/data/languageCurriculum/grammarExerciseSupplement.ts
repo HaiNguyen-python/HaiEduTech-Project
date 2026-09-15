@@ -472,7 +472,7 @@ export const applyGrammarExerciseSupplement = (
   modules.map((module) => ({
     ...module,
     lessons: module.lessons.map((lesson) => {
-      const extra = balanceMcqKeys([
+      const extra = ([
         ...(grammarExerciseSupplement[lesson.id] ?? []),
         ...(authoredGrammarExercisesPart1[lesson.id] ?? []),
         ...(authoredGrammarExercisesPart2[lesson.id] ?? []),
