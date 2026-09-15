@@ -1,6 +1,7 @@
 // Career Roadmap AI - Perplexity sonar-pro powered personalized IT career planning
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+import { z } from "npm:zod@3.25.76";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -11,6 +12,45 @@ const SYSTEM = `You are a senior tech career mentor at HaiEduTech, with 15+ year
 You produce highly actionable, personalized career roadmaps for IT roles, with deep expertise in Data Engineer & AI specializations.
 Your tone: friendly, direct, no fluff. Cite real-world tools, courses, certifications, and project ideas.
 ALWAYS return STRICT JSON only - no markdown, no code fences, no explanations outside JSON.`;
+
+const requestSchema = z.object({
+  role: z.string().trim().min(1).max(80),
+  currentLevel: z.string().trim().min(1).max(60),
+  background: z.string().trim().max(800).default(""),
+  hoursPerWeek: z.number().int().min(1).max(80),
+  targetMonths: z.number().int().min(1).max(36),
+  language: z.enum(["vi", "en"]),
+});
+
+const roadmapSchema = z.object({
+  roleSummary: z.string().trim().min(1).max(2400),
+  coreSkills: z.array(z.object({ skill: z.string().min(1).max(120), importance: z.enum(["must-have", "nice-to-have"]), why: z.string().max(500) })).max(30).default([]),
+  phases: z.array(z.object({
+    phase: z.string().trim().min(1).max(160),
+    durationWeeks: z.number().int().min(1).max(260).optional(),
+    goals: z.array(z.string().min(1).max(500)).max(20).default([]),
+    topics: z.array(z.string().min(1).max(100)).max(30).default([]),
+    resources: z.array(z.object({ name: z.string().min(1).max(160), type: z.enum(["course", "book", "docs", "youtube"]), url: z.string().max(500), free: z.boolean() })).max(20).default([]),
+    practiceProjects: z.array(z.object({ title: z.string().min(1).max(160), description: z.string().max(800), difficulty: z.enum(["easy", "medium", "hard"]), skillsApplied: z.array(z.string().max(80)).max(20) })).max(20).default([]),
+    milestone: z.string().max(800).default(""),
+  })).min(1).max(16),
+  certifications: z.array(z.object({ name: z.string().min(1).max(180), provider: z.string().max(120), priority: z.enum(["high", "medium", "low"]), costUsd: z.number().min(0).max(100000), whenToTake: z.string().max(300) })).max(20).default([]),
+  portfolioProjects: z.array(z.object({ title: z.string().min(1).max(180), description: z.string().max(1200), techStack: z.array(z.string().max(80)).max(30), showcaseTip: z.string().max(800) })).max(20).default([]),
+  interviewPrep: z.object({ topicsToReview: z.array(z.string().max(120)).max(30), commonQuestions: z.array(z.string().max(500)).max(20), behavioralTips: z.string().max(1200) }).optional(),
+  jobSearchStrategy: z.object({ targetCompanies: z.array(z.string().max(160)).max(20), platformsToUse: z.array(z.string().max(120)).max(20), cvHighlights: z.array(z.string().max(500)).max(20) }).optional(),
+  weeklySchedule: z.object({ weekdays: z.string().max(1000), weekends: z.string().max(1000), dailyHabits: z.array(z.string().max(300)).max(20) }).optional(),
+  warningTraps: z.array(z.string().max(500)).max(20).default([]),
+  haiEduRecommendation: z.string().max(1600).default(""),
+});
+
+const requestTimes = new Map<string, number[]>();
+const isRateLimited = (key: string) => {
+  const now = Date.now();
+  const recent = (requestTimes.get(key) || []).filter((time) => now - time < 60_000);
+  recent.push(now);
+  requestTimes.set(key, recent);
+  return recent.length > 5;
+};
 
 function buildPrompt(input: any) {
   const { role, currentLevel, background, hoursPerWeek, targetMonths, language } = input;
@@ -76,13 +116,22 @@ serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
-    const input = await req.json();
-    if (!input?.role) {
-      return new Response(JSON.stringify({ success: false, error: "Missing role" }), {
+    const rateLimitKey = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "anonymous";
+    if (isRateLimited(rateLimitKey)) {
+      return new Response(JSON.stringify({ success: false, error: "rate_limited" }), {
+        status: 429,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    const parsedInput = requestSchema.safeParse(await req.json());
+    if (!parsedInput.success) {
+      return new Response(JSON.stringify({ success: false, error: "Invalid request" }), {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
+    const input = parsedInput.data;
 
     const apiKey = Deno.env.get("PERPLEXITY_API_KEY");
     if (!apiKey) throw new Error("PERPLEXITY_API_KEY not configured");
@@ -97,8 +146,9 @@ serve(async (req) => {
           { role: "user", content: buildPrompt(input) },
         ],
         temperature: 0.2,
-        max_tokens: 3500,
+        max_tokens: 5000,
       }),
+      signal: AbortSignal.timeout(35_000),
     });
 
     if (!res.ok) {
@@ -156,10 +206,21 @@ serve(async (req) => {
     }
 
 
-    const citations = data.citations || [];
+    const validated = roadmapSchema.safeParse(parsed);
+    if (!validated.success) {
+      console.error("[career-roadmap-ai] invalid roadmap shape");
+      return new Response(
+        JSON.stringify({ success: false, error: "AI returned an incomplete roadmap" }),
+        { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
+    }
+
+    const citations = Array.isArray(data.citations)
+      ? data.citations.filter((value: unknown) => typeof value === "string").slice(0, 8)
+      : [];
 
     return new Response(
-      JSON.stringify({ success: true, roadmap: parsed, citations }),
+      JSON.stringify({ success: true, roadmap: validated.data, citations }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (e) {

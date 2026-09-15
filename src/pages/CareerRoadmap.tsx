@@ -53,19 +53,8 @@ const LEVELS = [
   { id: "mid", vi: "Mid-level (2-5 năm)", en: "Mid-level (2-5 yrs)" },
 ];
 
-export const createFallbackRoadmap = ({
-  role,
-  currentLevel,
-  hoursPerWeek,
-  targetMonths,
-  language,
-}: {
-  role: string;
-  currentLevel: string;
-  hoursPerWeek: number;
-  targetMonths: number;
-  language: string;
-}): CareerRoadmapData => {
+export const createFallbackRoadmap = (input: CareerRoadmapInput): CareerRoadmapData => {
+  const { role, currentLevel, hoursPerWeek, targetMonths, language } = input;
   const vi = language === "vi";
   const phaseWeeks = Math.max(4, Math.ceil((targetMonths * 4) / 3));
 
