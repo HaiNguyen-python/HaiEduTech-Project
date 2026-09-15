@@ -1,6 +1,7 @@
 # Roadmap
 
 ## In Progress
+- [ ] Chinese Interactive Curriculum: Professional Learning Path dashboard and step-based lesson presentation
 - [x] Career Roadmap: removed AI from the title, validated inputs and responses, persisted progress, improved accessibility, and verified desktop/mobile states
 
 ## Done
