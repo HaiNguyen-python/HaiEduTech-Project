@@ -1,7 +1,7 @@
 # Roadmap
 
 ## In Progress
-- [ ] Career Roadmap: remove AI from the title, validate inputs and responses, persist progress, improve accessibility, and verify all states
+- [x] Career Roadmap: removed AI from the title, validated inputs and responses, persisted progress, improved accessibility, and verified desktop/mobile states
 
 ## Done
 - [x] Unified all Interview Questions with stable numbering, Junior/Mid/Senior levels, underlined keywords, and desktop/mobile topic filters
