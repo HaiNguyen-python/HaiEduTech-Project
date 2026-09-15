@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap&subset=vietnamese');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@300;400;500;600;700&family=Sora:wght@500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap&subset=vietnamese');
 
 @tailwind base;
 @tailwind components;
@@ -113,6 +113,22 @@
   .purpose-course h2,
   .purpose-course h3,
   .purpose-course h4 {
+    font-family: "Sora", sans-serif;
+    letter-spacing: 0;
+  }
+
+  .chinese-learning-path {
+    font-family: "Manrope", sans-serif;
+    letter-spacing: 0;
+    --primary: 217 91% 60%;
+    --primary-foreground: 0 0% 100%;
+    --ring: 217 91% 60%;
+    --accent: 38 92% 50%;
+    --border: 214 32% 84%;
+    --radius: 0.5rem;
+  }
+
+  .chinese-learning-path :is(h1, h2, h3, h4) {
     font-family: "Sora", sans-serif;
     letter-spacing: 0;
   }

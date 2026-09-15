@@ -4,6 +4,7 @@
 - [x] Career Roadmap: removed AI from the title, validated inputs and responses, persisted progress, improved accessibility, and verified desktop/mobile states
 
 ## Done
+- [x] Chinese Interactive Curriculum: Professional Learning Path dashboard, search/status filters, 103 open lessons, step-based lesson presentation, stable progress/audio contracts, and desktop/mobile verification
 - [x] Unified all Interview Questions with stable numbering, Junior/Mid/Senior levels, underlined keywords, and desktop/mobile topic filters
 - [x] Interview Questions: unique IDs, stronger Junior coverage, Polished Layered Learning layout, grouped topics, desktop sidebar/mobile filters, accessible reviewed progress, resilient copy, content audits, and responsive verification
 - [x] Programming code indentation: normalized all 310 cached lesson code blocks by language, preserved exact spacing in display/copy, added generation safeguards and responsive verification
