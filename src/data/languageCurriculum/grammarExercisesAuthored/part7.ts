@@ -858,6 +858,24 @@ export const authoredGrammarExercisesPart7: Record<string, InteractiveExercise[]
     },
   ],
 
+  "punctuation-apostrophe-colon-extra2": [
+    {
+      type: "sentence-reorder",
+      instruction: "Sắp xếp câu dùng đúng dấu sở hữu.",
+      instructionEn: "Put the words in order.",
+      items: [
+        {
+          scrambled: ["The", "teacher's", "notes", "were", "clear", "and", "short"],
+          correct: "The teacher's notes were clear and short",
+        },
+        {
+          scrambled: ["We", "need", "one", "thing:", "more", "time"],
+          correct: "We need one thing: more time",
+        },
+      ],
+    },
+  ],
+
   "parallel-structure-extra": [
     {
       type: "sentence-reorder",
