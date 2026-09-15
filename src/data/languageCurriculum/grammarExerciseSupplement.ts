@@ -436,6 +436,8 @@ export const applyGrammarExerciseSupplement = (
         ...(authoredGrammarExercisesPart1[lesson.id] ?? []),
         ...(authoredGrammarExercisesPart2[lesson.id] ?? []),
         ...(authoredGrammarExercisesPart3[lesson.id] ?? []),
+        ...(authoredGrammarExercisesPart4[lesson.id] ?? []),
+        ...(authoredGrammarExercisesPart5[lesson.id] ?? []),
       ];
 
       if (extra.length === 0) return lesson;
