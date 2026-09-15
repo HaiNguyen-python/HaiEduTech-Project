@@ -834,7 +834,7 @@ const buildQuizFillInBlank = (
 ): FillInBlankExercise | null => {
   const sentences = lesson.quiz
     .map((question) => {
-      const answer = question.options[question.answer];
+      const answer = sanitizeOption(question.options[question.answer] ?? "");
       if (!/_{2,}/.test(question.question) || !answer) return null;
       const text = sanitizeStem(question.question);
       if (!text.includes("___")) return null;
@@ -846,13 +846,14 @@ const buildQuizFillInBlank = (
       return {
         text,
         textEn: text,
-        answer: answer.trim(),
+        answer,
         hint:
           question.explanation && isEnglishOnly(question.explanation) && !BAD_STEM_RE.test(question.explanation)
-            ? clean(question.explanation)
+            ? clean(question.explanation.replace(/\*/g, ""))
             : "Choose the form this lesson focuses on.",
       };
     })
+
     .filter(Boolean) as FillInBlankExercise["sentences"];
 
   if (sentences.length < 3) return null;
