@@ -28,6 +28,7 @@
 
 - [IELTS Listening Standards](mem://features/ielts/listening-content-standards) — 120 drills/30 full tests, no answer-leak transcripts, word targets, MCQ/matching key balance
 - [English Grammar Standards](mem://features/english-grammar/content-standards) — 6-section theory layout, >=120w EN theory, 3 tips, 4 vocab, 3 exercises per lesson
+- [English Grammar Visuals & Modules](mem://features/english-grammar/visuals-and-modules) — 24 illustrations, 4 merged duplicate topics with old-ID redirect, 24 modules / 85 lessons
 - [Business & Academic English](mem://features/english/business-academic-tracks) — /english/business and /english/academic, 6 topics x 4 bilingual lessons each
 - [Lab Conversation Style](mem://features/english/lab-conversation-style) — chibi speaker avatars, B1+ bold key phrases with audit, grouped speaking helper panel
 
