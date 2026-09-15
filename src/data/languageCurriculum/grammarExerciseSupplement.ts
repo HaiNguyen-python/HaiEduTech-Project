@@ -443,25 +443,25 @@ export const balanceMcqKeys = (exercises: InteractiveExercise[]): InteractiveExe
   exercises.map((exercise) => {
     if (exercise.type !== "multiple-choice") return exercise;
 
+    const base = hashString(exercise.questions.map((q) => q.question).join("|"));
+
     return {
       ...exercise,
       questions: exercise.questions.map((question, index) => {
         const count = question.options.length;
         if (count < 2) return question;
 
-        const raw = (hashString(question.question) + index) % count;
-        const shift = raw === 0 ? 1 + (index % (count - 1)) : raw;
+        // Spread the key across positions: question i keeps a distinct slot.
+        const target = (base + index) % count;
+        const shift = (target - question.answer + count) % count;
+        if (shift === 0) return question;
 
         const options = [
           ...question.options.slice(count - shift),
           ...question.options.slice(0, count - shift),
         ];
 
-        return {
-          ...question,
-          options,
-          answer: (question.answer + shift) % count,
-        };
+        return { ...question, options, answer: target };
       }),
     };
   });
