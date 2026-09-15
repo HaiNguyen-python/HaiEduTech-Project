@@ -267,7 +267,7 @@ const WordQuest = ({
     const selected = [...first, ...second];
     const fill = pickKinds([...easy, ...hard], 5 - selected.length, selected);
     return [...selected, ...fill].map(kind => ({ wordIdx, kind }));
-  }, [knownKeys, micSupported]);
+  }, [knownKeys, micSupported, gradation]);
 
   // Auto-play the word when a listening-style step opens.
   useEffect(() => {
@@ -346,7 +346,7 @@ const WordQuest = ({
     if (canGap(word, gradation)) return maskExample(word, word.example!, gradation);
     // No maskable example: ask from the meaning instead of showing the answer.
     return `${BLANK} - ${word.definition.en}`;
-  }, [word]);
+  }, [word, gradation]);
 
   const gapOptions = useMemo(() => {
     if (!word) return [] as string[];

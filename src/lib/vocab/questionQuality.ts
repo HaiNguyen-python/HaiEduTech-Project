@@ -18,6 +18,7 @@ export const maskWord = (text: string, word: string, blank = "_____"): string =>
   if (!text || !word) return text;
   // JavaScript's \b and \w boundaries are ASCII-only. Use a literal replacement
   // for scripts such as Hanzi and Kana so the answer is never left visible.
+  // eslint-disable-next-line no-control-regex -- ASCII range check, not a control char match
   if (/[^\x00-\x7F]/u.test(word)) {
     return text.split(word).join(blank);
   }
