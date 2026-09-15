@@ -45,7 +45,7 @@ export interface ChineseReadingLevel {
 const hsk1: ChineseReadingPassage[] = [
   {
     id: "hsk1-my-family",
-    emoji: "👨‍👩‍👧",
+    emoji: "\n",
     title: "My Family",
     titleVi: "Gia đình tôi",
     hanzi: "我叫小明。\n我家有四个人：爸爸、妈妈、姐姐和我。\n爸爸是医生，妈妈是老师。\n姐姐是学生，我也是学生。\n我们都很好。",
