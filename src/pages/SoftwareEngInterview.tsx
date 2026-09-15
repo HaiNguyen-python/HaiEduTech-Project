@@ -5,15 +5,26 @@
  *              candidates can study real talking points, not just keywords.
  * @author HaiEduTech
  */
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { motion } from "framer-motion";
-import { Briefcase, ChevronLeft, Star, ChevronDown, Lightbulb, MessageSquare, ListChecks } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
+import { Briefcase, ChevronLeft, Filter, Lightbulb, ListChecks, RotateCcw, Search, X } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import SEO from "@/components/SEO";
+import { emphasizeInterviewTerms, splitNumberedText } from "@/lib/interviewQuestionUtils";
+
+type Difficulty = "Junior" | "Mid" | "Senior";
 
 interface Question {
+  id: string;
+  difficulty: Difficulty;
   category: "Behavioral" | "System Design" | "Coding" | "DevOps" | "Soft Skills";
   q: string;
   qVi: string;
@@ -27,7 +38,7 @@ interface Question {
   keyPointsVi: string[];
 }
 
-const QUESTIONS: Question[] = [
+const QUESTION_CONTENT: Omit<Question, "id" | "difficulty">[] = [
   // ============== BEHAVIORAL ==============
   {
     category: "Behavioral",
@@ -761,19 +772,152 @@ const QUESTIONS: Question[] = [
   },
 ];
 
+const QUESTION_META: ReadonlyArray<Pick<Question, "id" | "difficulty">> = [
+  { id: "se-behavioral-disagreement", difficulty: "Mid" },
+  { id: "se-behavioral-failed-project", difficulty: "Mid" },
+  { id: "se-behavioral-code-review", difficulty: "Mid" },
+  { id: "se-behavioral-achievement", difficulty: "Mid" },
+  { id: "se-behavioral-say-no", difficulty: "Senior" },
+  { id: "se-system-url-shortener", difficulty: "Mid" },
+  { id: "se-system-chat-app", difficulty: "Senior" },
+  { id: "se-system-rate-limiter", difficulty: "Mid" },
+  { id: "se-system-news-feed", difficulty: "Senior" },
+  { id: "se-system-payment", difficulty: "Senior" },
+  { id: "se-system-drive", difficulty: "Senior" },
+  { id: "se-system-search-suggestions", difficulty: "Senior" },
+  { id: "se-coding-reverse-list", difficulty: "Junior" },
+  { id: "se-coding-longest-substring", difficulty: "Junior" },
+  { id: "se-coding-lru", difficulty: "Mid" },
+  { id: "se-coding-directed-cycle", difficulty: "Mid" },
+  { id: "se-coding-merge-lists", difficulty: "Mid" },
+  { id: "se-coding-anagrams", difficulty: "Junior" },
+  { id: "se-coding-tree-serialization", difficulty: "Mid" },
+  { id: "se-coding-debounce-throttle", difficulty: "Junior" },
+  { id: "se-devops-deployment-strategies", difficulty: "Mid" },
+  { id: "se-devops-cicd-security", difficulty: "Senior" },
+  { id: "se-devops-kubernetes-basics", difficulty: "Junior" },
+  { id: "se-devops-immutable-infrastructure", difficulty: "Junior" },
+  { id: "se-devops-gitops", difficulty: "Mid" },
+  { id: "se-soft-skills-mentoring", difficulty: "Mid" },
+  { id: "se-soft-skills-incident", difficulty: "Senior" },
+  { id: "se-soft-skills-prioritization", difficulty: "Senior" },
+  { id: "se-soft-skills-stakeholder-conflict", difficulty: "Mid" },
+  { id: "se-soft-skills-learning", difficulty: "Junior" },
+];
+
+export const SOFTWARE_INTERVIEW_QUESTIONS: Question[] = QUESTION_CONTENT.map((question, index) => ({
+  ...question,
+  id: QUESTION_META[index]?.id ?? `se-question-${index + 1}`,
+  difficulty: QUESTION_META[index]?.difficulty ?? "Mid",
+}));
+
 const CATEGORIES = ["All", "Behavioral", "System Design", "Coding", "DevOps", "Soft Skills"] as const;
+const DIFFICULTIES = ["All", "Junior", "Mid", "Senior"] as const;
+
+const difficultyClass: Record<Difficulty, string> = {
+  Junior: "interview-badge interview-badge--junior",
+  Mid: "interview-badge interview-badge--mid",
+  Senior: "interview-badge interview-badge--senior",
+};
+
+const EmphasizedText = ({ text }: { text: string }) => (
+  <>{emphasizeInterviewTerms(text).map((part, index) => part.important
+    ? <strong key={`${part.text}-${index}`} className="interview-keyword">{part.text}</strong>
+    : <span key={`${part.text}-${index}`}>{part.text}</span>)}</>
+);
+
+const StructuredText = ({ text }: { text: string }) => (
+  <div className="space-y-3 text-base leading-7 text-foreground/90">
+    {text.split("\n\n").map((paragraph, paragraphIndex) => {
+      const leadingNumber = paragraph.match(/^(\d+)\.\s+([\s\S]*)$/);
+      if (leadingNumber) {
+        return (
+          <div key={`${leadingNumber[1]}-${paragraphIndex}`} className="interview-numbered-row">
+            <span className="interview-number-marker" aria-hidden="true">{leadingNumber[1]}</span>
+            <p className="whitespace-pre-wrap"><EmphasizedText text={leadingNumber[2]} /></p>
+          </div>
+        );
+      }
+      const parts = splitNumberedText(paragraph);
+      if (parts.some((part) => part.number !== undefined)) {
+        return <div key={`parts-${paragraphIndex}`} className="space-y-2">{parts.map((part, index) => part.number === undefined
+          ? <p key={`intro-${index}`}><EmphasizedText text={part.text} /></p>
+          : <div key={`${part.number}-${index}`} className="interview-numbered-row"><span className="interview-number-marker" aria-hidden="true">{part.number}</span><p><EmphasizedText text={part.text} /></p></div>)}</div>;
+      }
+      return <p key={`paragraph-${paragraphIndex}`} className="whitespace-pre-wrap"><EmphasizedText text={paragraph} /></p>;
+    })}
+  </div>
+);
 
 const SoftwareEngInterview = () => {
   const { t, lang } = useLanguage();
+  const reduceMotion = useReducedMotion();
   const [filter, setFilter] = useState<(typeof CATEGORIES)[number]>("All");
-  const [openIdx, setOpenIdx] = useState<number | null>(null);
+  const [difficulty, setDifficulty] = useState<(typeof DIFFICULTIES)[number]>("All");
+  const [search, setSearch] = useState("");
 
-  const filtered = filter === "All" ? QUESTIONS : QUESTIONS.filter((q) => q.category === filter);
+  const filtered = useMemo(() => SOFTWARE_INTERVIEW_QUESTIONS.filter((question) => {
+    const categoryMatches = filter === "All" || question.category === filter;
+    const difficultyMatches = difficulty === "All" || question.difficulty === difficulty;
+    const query = search.trim().toLocaleLowerCase();
+    const searchMatches = !query || [question.q, question.qVi, question.hint, question.hintVi, question.answer, question.answerVi]
+      .some((value) => value.toLocaleLowerCase().includes(query));
+    return categoryMatches && difficultyMatches && searchMatches;
+  }), [difficulty, filter, search]);
+
+  const grouped = CATEGORIES.slice(1).map((category) => ({
+    category,
+    questions: filtered.filter((question) => question.category === category),
+  })).filter((group) => group.questions.length > 0);
+
+  const difficultyCounts = useMemo(() => ({
+    Junior: SOFTWARE_INTERVIEW_QUESTIONS.filter((question) => question.difficulty === "Junior").length,
+    Mid: SOFTWARE_INTERVIEW_QUESTIONS.filter((question) => question.difficulty === "Mid").length,
+    Senior: SOFTWARE_INTERVIEW_QUESTIONS.filter((question) => question.difficulty === "Senior").length,
+  }), []);
+
+  const resetFilters = () => {
+    setFilter("All");
+    setDifficulty("All");
+    setSearch("");
+  };
+
+  const filters = (
+    <div className="space-y-7">
+      <section aria-labelledby="software-level-heading">
+        <h2 id="software-level-heading" className="interview-kicker mb-3">{t("Cấp độ", "Difficulty")}</h2>
+        <div className="space-y-1" role="group" aria-label={t("Lọc theo cấp độ", "Filter by difficulty")}>
+          {DIFFICULTIES.map((level) => (
+            <Button key={level} variant="ghost" className={`interview-filter-row ${difficulty === level ? "interview-filter-row--active" : ""}`} aria-pressed={difficulty === level} onClick={() => setDifficulty(level)}>
+              <span>{level === "All" ? t("Tất cả cấp độ", "All levels") : level}</span>
+              <span className="interview-count">{level === "All" ? SOFTWARE_INTERVIEW_QUESTIONS.length : difficultyCounts[level]}</span>
+            </Button>
+          ))}
+        </div>
+      </section>
+      <section aria-labelledby="software-topic-heading">
+        <h2 id="software-topic-heading" className="interview-kicker mb-3">{t("Chủ đề", "Topics")}</h2>
+        <div className="space-y-1" role="group" aria-label={t("Lọc theo chủ đề", "Filter by topic")}>
+          {CATEGORIES.map((category) => (
+            <Button key={category} variant="ghost" className={`interview-filter-row ${filter === category ? "interview-filter-row--active" : ""}`} aria-pressed={filter === category} onClick={() => setFilter(category)}>
+              <span className="whitespace-normal text-left">{category === "All" ? t("Tất cả chủ đề", "All topics") : category}</span>
+              <span className="interview-count">{category === "All" ? SOFTWARE_INTERVIEW_QUESTIONS.length : SOFTWARE_INTERVIEW_QUESTIONS.filter((question) => question.category === category).length}</span>
+            </Button>
+          ))}
+        </div>
+      </section>
+      {(filter !== "All" || difficulty !== "All" || search) && (
+        <Button variant="outline" className="w-full justify-start" onClick={resetFilters}><RotateCcw className="mr-2 h-4 w-4" />{t("Đặt lại bộ lọc", "Reset filters")}</Button>
+      )}
+    </div>
+  );
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="interview-page min-h-screen bg-background">
+      <SEO title="Software Engineering Interview Questions" description="Practice 30 software engineering interview questions by topic and difficulty with detailed bilingual answers." path="/programming/software-eng-interview" />
       <Navbar />
-      <main className="container mx-auto px-4 sm:px-6 pt-6 pb-16">
+      <main className="pb-16 pt-5">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6">
         <Link
           to="/programming/software-eng"
           className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary mb-4"
@@ -782,143 +926,65 @@ const SoftwareEngInterview = () => {
           {t("Quay lại Software Engineering", "Back to Software Engineering")}
         </Link>
 
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
+        <motion.section
+          initial={reduceMotion ? false : { opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          className="max-w-4xl mx-auto"
+          className="interview-shell"
         >
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-slate-700 to-blue-700 flex items-center justify-center text-white">
-              <Briefcase className="w-6 h-6" />
-            </div>
-            <div>
-              <h1 className="text-2xl sm:text-3xl font-display font-bold text-foreground">
-                {t("Bộ 30 câu phỏng vấn Software Engineer", "30 Software Engineering Interview Questions")}
-              </h1>
-              <p className="text-sm text-muted-foreground">
-                {t(
-                  "Câu hỏi thực tế · Trả lời mẫu dài, có số liệu · STAR · 2026",
-                  "Real questions · Detailed sample answers with numbers · STAR · 2026"
-                )}
-              </p>
-            </div>
-          </div>
-
-          {/* STAR explainer */}
-          <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4 my-4 flex gap-3">
-            <Star className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
-            <div className="text-sm">
-              <p className="font-semibold text-foreground mb-1">{t("Phương pháp STAR", "The STAR Method")}</p>
-              <p className="text-muted-foreground leading-relaxed">
-                <strong>S</strong>ituation · <strong>T</strong>ask · <strong>A</strong>ction · <strong>R</strong>esult -{" "}
-                {t(
-                  "khung trả lời câu hỏi behavioral hiệu quả nhất. Mỗi câu nên có số liệu cụ thể (ví dụ: 'giảm latency 40% từ 800ms xuống 480ms'). Mỗi câu hỏi bên dưới có phần Hint ngắn, Câu trả lời mẫu dài và Ý chính cần nhớ.",
-                  "the most effective frame for behavioral questions. Always include concrete numbers (e.g. 'cut latency 40% from 800ms to 480ms'). Each question below has a short Hint, a long Sample answer, and the Key points to remember."
-                )}
-              </p>
-            </div>
-          </div>
-
-          {/* Category filter */}
-          <div className="flex gap-2 flex-wrap mb-4">
-            {CATEGORIES.map((c) => (
-              <button
-                key={c}
-                onClick={() => setFilter(c)}
-                className={`text-xs px-3 py-1.5 rounded-full border transition-all ${
-                  filter === c
-                    ? "bg-primary text-primary-foreground border-primary"
-                    : "bg-card text-muted-foreground border-border hover:border-primary/40"
-                }`}
-              >
-                {c}
-              </button>
-            ))}
-          </div>
-
-          {/* Questions */}
-          <div className="space-y-2">
-            {filtered.map((q, i) => {
-              const open = openIdx === i;
-              return (
-                <div key={i} className="rounded-xl border border-border bg-card overflow-hidden">
-                  <button
-                    onClick={() => setOpenIdx(open ? null : i)}
-                    className="w-full flex items-center justify-between gap-3 px-4 py-3 text-left hover:bg-accent/30 transition-colors"
-                  >
-                    <div className="flex items-start gap-3 flex-1 min-w-0">
-                      <span className="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary font-medium shrink-0 mt-0.5">
-                        {q.category}
-                      </span>
-                      <span className="text-sm font-medium text-foreground">
-                        {t(q.qVi, q.q)}
-                      </span>
-                    </div>
-                    <ChevronDown
-                      className={`w-4 h-4 text-muted-foreground transition-transform shrink-0 ${
-                        open ? "rotate-180" : ""
-                      }`}
-                    />
-                  </button>
-                  {open && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      className="px-4 pb-4 border-t border-border pt-4 space-y-4"
-                    >
-                      {/* Hint */}
-                      <div className="rounded-lg bg-amber-500/8 border border-amber-500/20 p-3">
-                        <div className="flex items-center gap-2 mb-1 text-amber-600 dark:text-amber-400">
-                          <Lightbulb className="w-4 h-4" />
-                          <p className="font-semibold text-xs uppercase tracking-wide">
-                            {t("Hint nhanh", "Quick hint")}
-                          </p>
-                        </div>
-                        <p className="text-sm text-foreground/85 leading-relaxed">
-                          {t(q.hintVi, q.hint)}
-                        </p>
-                      </div>
-
-                      {/* Sample answer */}
-                      <div className="rounded-lg bg-primary/5 border border-primary/20 p-4">
-                        <div className="flex items-center gap-2 mb-2 text-primary">
-                          <MessageSquare className="w-4 h-4" />
-                          <p className="font-semibold text-xs uppercase tracking-wide">
-                            {t("Câu trả lời mẫu (chi tiết)", "Sample answer (detailed)")}
-                          </p>
-                        </div>
-                        <div className="text-sm text-foreground/90 leading-relaxed whitespace-pre-wrap font-sans">
-                          {t(q.answerVi, q.answer)}
-                        </div>
-                      </div>
-
-                      {/* Key points */}
-                      <div className="rounded-lg bg-emerald-500/8 border border-emerald-500/20 p-3">
-                        <div className="flex items-center gap-2 mb-2 text-emerald-700 dark:text-emerald-400">
-                          <ListChecks className="w-4 h-4" />
-                          <p className="font-semibold text-xs uppercase tracking-wide">
-                            {t("Ý chính cần nhớ", "Key points to remember")}
-                          </p>
-                        </div>
-                        <ul className="space-y-1.5">
-                          {(lang === "vi" ? q.keyPointsVi : q.keyPoints).map((kp, idx) => (
-                            <li
-                              key={idx}
-                              className="text-sm text-foreground/85 leading-relaxed flex gap-2"
-                            >
-                              <span className="text-emerald-600 dark:text-emerald-400 shrink-0">✓</span>
-                              <span>{kp}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </motion.div>
-                  )}
+          <aside className="interview-sidebar hidden lg:block">{filters}</aside>
+          <div className="min-w-0 flex-1">
+            <header className="interview-header">
+              <div className="mb-5 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+                <div>
+                  <div className="mb-2 inline-flex items-center gap-2 text-sm font-bold text-primary"><Briefcase className="h-4 w-4" />{t("Luyện phỏng vấn nghề nghiệp", "Career interview practice")}</div>
+                  <h1 className="font-sora text-3xl font-bold text-foreground sm:text-4xl">{t("Phỏng vấn Software Engineer", "Software Engineering Interviews")}</h1>
+                  <p className="mt-2 max-w-2xl text-base leading-relaxed text-muted-foreground">{t("30 câu hỏi thực tế với câu trả lời song ngữ, phân loại theo chủ đề và kinh nghiệm.", "30 practical questions with bilingual answers, organized by topic and experience level.")}</p>
                 </div>
-              );
-            })}
+                <div className="shrink-0 text-sm text-muted-foreground"><strong className="font-sora text-2xl text-foreground">{filtered.length}</strong> {t("câu phù hợp", "matching questions")}</div>
+              </div>
+              <div className="flex gap-2">
+                <div className="relative flex-1">
+                  <label htmlFor="software-interview-search" className="sr-only">{t("Tìm câu hỏi", "Search questions")}</label>
+                  <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                  <Input id="software-interview-search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder={t("Tìm chủ đề, công nghệ hoặc từ khóa...", "Search a topic, technology, or keyword...")} className="h-11 bg-secondary/60 pl-10 pr-10 text-base" />
+                  {search && <Button variant="ghost" size="icon" className="absolute right-1 top-1/2 h-9 w-9 -translate-y-1/2" onClick={() => setSearch("")} aria-label={t("Xóa tìm kiếm", "Clear search")}><X className="h-4 w-4" /></Button>}
+                </div>
+                <Sheet>
+                  <SheetTrigger asChild><Button variant="outline" className="h-11 lg:hidden"><Filter className="mr-2 h-4 w-4" />{t("Bộ lọc", "Filters")}</Button></SheetTrigger>
+                  <SheetContent side="left" className="overflow-y-auto"><SheetHeader className="mb-6"><SheetTitle className="font-sora">{t("Bộ lọc học tập", "Study filters")}</SheetTitle></SheetHeader>{filters}</SheetContent>
+                </Sheet>
+              </div>
+            </header>
+            <div className="interview-content">
+              {filtered.length === 0 ? (
+                <div className="interview-empty"><Search className="h-9 w-9 text-muted-foreground" /><h2 className="font-sora text-xl font-bold">{t("Không tìm thấy câu hỏi", "No questions found")}</h2><Button variant="outline" onClick={resetFilters}><RotateCcw className="mr-2 h-4 w-4" />{t("Đặt lại", "Reset")}</Button></div>
+              ) : <div className="space-y-8">{grouped.map((group) => (
+                <section key={group.category} aria-labelledby={`software-${group.category.replace(/\W+/g, "-")}`}>
+                  <div className="interview-group-heading"><h2 id={`software-${group.category.replace(/\W+/g, "-")}`} className="font-sora text-lg font-bold text-foreground">{group.category}</h2><Badge variant="outline">{group.questions.length}</Badge></div>
+                  <Accordion type="multiple" className="space-y-3">
+                    {group.questions.map((question) => {
+                      const questionNumber = SOFTWARE_INTERVIEW_QUESTIONS.findIndex((item) => item.id === question.id) + 1;
+                      return <AccordionItem key={question.id} value={question.id} className="interview-question">
+                        <AccordionTrigger className="px-4 py-4 hover:no-underline sm:px-5">
+                          <div className="min-w-0 flex-1 text-left">
+                            <div className="mb-2 flex flex-wrap items-center gap-2"><span className={difficultyClass[question.difficulty]}>{question.difficulty}</span><Badge variant="secondary" className="text-xs font-semibold">{question.category}</Badge></div>
+                            <h3 className="font-sora text-base font-semibold leading-relaxed text-foreground sm:text-lg"><span className="interview-question-number mr-2">{String(questionNumber).padStart(2, "0")}</span>{t(question.qVi, question.q)}</h3>
+                          </div>
+                        </AccordionTrigger>
+                        <AccordionContent className="px-4 pb-5 sm:px-5"><div className="interview-answer space-y-5 border-t border-border pt-5">
+                          <section className="interview-callout interview-callout--warning"><div className="interview-section-title"><Lightbulb />{t("Gợi ý nhanh", "Quick hint")}</div><p className="leading-7"><EmphasizedText text={t(question.hintVi, question.hint)} /></p></section>
+                          <section><div className="interview-section-title"><Briefcase />{t("Câu trả lời mẫu", "Sample answer")}</div><StructuredText text={t(question.answerVi, question.answer)} /></section>
+                          <section className="interview-callout interview-callout--success"><div className="interview-section-title"><ListChecks />{t("Điểm nhà tuyển dụng muốn nghe", "What interviewers want to hear")}</div><ul className="space-y-2">{(lang === "vi" ? question.keyPointsVi : question.keyPoints).map((point) => <li key={point} className="flex gap-2"><span className="mt-0.5 font-bold text-success">✓</span><span><EmphasizedText text={point} /></span></li>)}</ul></section>
+                        </div></AccordionContent>
+                      </AccordionItem>;
+                    })}
+                  </Accordion>
+                </section>
+              ))}</div>}
+            </div>
           </div>
-        </motion.div>
+        </motion.section>
+        </div>
       </main>
       <Footer />
     </div>
