@@ -24,6 +24,7 @@ const speak = (text: string) => {
 
 const PassageCard = ({ passage, chibi }: { passage: ChineseReadingPassage; chibi: string }) => {
   const { t } = useLanguage();
+  const [open, setOpen] = useState(false);
   const [showPinyin, setShowPinyin] = useState(true);
   const [showVi, setShowVi] = useState(false);
   const [selected, setSelected] = useState<Record<number, number>>({});
@@ -49,27 +50,57 @@ const PassageCard = ({ passage, chibi }: { passage: ChineseReadingPassage; chibi
           />
           <div className="flex-1 min-w-0">
             <div className="flex items-center justify-between gap-3 flex-wrap">
-              <h3 className="text-xl font-bold flex items-center gap-2">
-                <span className="text-2xl">{passage.emoji}</span>
-                {t(passage.titleVi, passage.title)}
-              </h3>
+              <button
+                type="button"
+                onClick={() => setOpen(v => !v)}
+                aria-expanded={open}
+                className="flex items-center gap-2 text-left group"
+              >
+                <h3 className="text-xl font-bold flex items-center gap-2 group-hover:text-primary transition-colors">
+                  <span className="text-2xl">{passage.emoji}</span>
+                  {t(passage.titleVi, passage.title)}
+                </h3>
+                <ChevronDown className={`w-5 h-5 text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`} />
+              </button>
               <div className="flex gap-2">
-                <Button size="sm" variant="outline" onClick={() => setShowPinyin(v => !v)} className="gap-1.5">
-                  {showPinyin ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                  Pinyin
-                </Button>
-                <Button size="sm" variant="outline" onClick={() => setShowVi(v => !v)} className="gap-1.5">
-                  {showVi ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                  {t("Dịch", "Translate")}
-                </Button>
-                <Button size="sm" variant="outline" onClick={() => speak(passage.hanzi)} className="gap-1.5">
-                  <Volume2 className="w-4 h-4" />
+                {open && (
+                  <>
+                    <Button size="sm" variant="outline" onClick={() => setShowPinyin(v => !v)} className="gap-1.5">
+                      {showPinyin ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                      Pinyin
+                    </Button>
+                    <Button size="sm" variant="outline" onClick={() => setShowVi(v => !v)} className="gap-1.5">
+                      {showVi ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                      {t("Dịch", "Translate")}
+                    </Button>
+                    <Button size="sm" variant="outline" onClick={() => speak(passage.hanzi)} className="gap-1.5">
+                      <Volume2 className="w-4 h-4" />
+                    </Button>
+                  </>
+                )}
+                <Button size="sm" variant={open ? "outline" : "default"} onClick={() => setOpen(v => !v)} className="gap-1.5">
+                  {open ? t("Thu gọn", "Collapse") : t("Đọc bài", "Read")}
                 </Button>
               </div>
             </div>
+            {!open && (
+              <p className="text-sm text-muted-foreground mt-1">
+                {t("Nhấn Đọc bài để mở nội dung, từ mới và câu hỏi.", "Tap Read to open the passage, vocabulary and questions.")}
+              </p>
+            )}
           </div>
         </div>
 
+        <AnimatePresence initial={false}>
+          {open && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              className="overflow-hidden"
+            >
+              <div className="space-y-5 pt-1">
 
         <div className="space-y-3 bg-muted/30 rounded-xl p-4 sm:p-5 border">
           {hanziLines.map((line, i) => (
@@ -187,6 +218,11 @@ const PassageCard = ({ passage, chibi }: { passage: ChineseReadingPassage; chibi
             )}
           </div>
         </div>
+
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </CardContent>
     </Card>
   );
