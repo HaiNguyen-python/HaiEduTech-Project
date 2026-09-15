@@ -445,11 +445,11 @@ const balanceMcqKeys = (exercises: InteractiveExercise[]): InteractiveExercise[]
 
     return {
       ...exercise,
-      questions: exercise.questions.map((question) => {
+      questions: exercise.questions.map((question, index) => {
         const count = question.options.length;
         if (count < 2) return question;
 
-        const shift = hashString(question.question) % count;
+        const shift = (hashString(question.question) + index) % count;
         if (shift === 0) return question;
 
         const options = [
