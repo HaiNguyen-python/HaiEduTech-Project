@@ -10,6 +10,8 @@ import { authoredGrammarExercisesPart2 } from "./grammarExercisesAuthored/part2"
 import { authoredGrammarExercisesPart3 } from "./grammarExercisesAuthored/part3";
 import { authoredGrammarExercisesPart4 } from "./grammarExercisesAuthored/part4";
 import { authoredGrammarExercisesPart5 } from "./grammarExercisesAuthored/part5";
+import { authoredGrammarExercisesPart6 } from "./grammarExercisesAuthored/part6";
+import { authoredGrammarExercisesPart7 } from "./grammarExercisesAuthored/part7";
 
 
 
@@ -479,6 +481,8 @@ export const applyGrammarExerciseSupplement = (
         ...(authoredGrammarExercisesPart3[lesson.id] ?? []),
         ...(authoredGrammarExercisesPart4[lesson.id] ?? []),
         ...(authoredGrammarExercisesPart5[lesson.id] ?? []),
+        ...(authoredGrammarExercisesPart6[lesson.id] ?? []),
+        ...(authoredGrammarExercisesPart7[lesson.id] ?? []),
       ]);
 
       return {

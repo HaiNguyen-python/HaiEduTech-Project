@@ -328,7 +328,6 @@ export const authoredGrammarExercisesPart7: Record<string, InteractiveExercise[]
           correct: "Each of the answers carries two marks",
         },
         {
-          scrammbled: undefined as never,
           scrambled: ["Neither", "of", "the", "candidates", "was", "available"],
           correct: "Neither of the candidates was available",
         },
