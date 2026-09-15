@@ -5,6 +5,8 @@
  *              reach the required variety (min 7 exercises, min 4 types).
  */
 import type { InteractiveExercise, LanguageModule } from "./types";
+import { authoredGrammarExercisesPart1 } from "./grammarExercisesAuthored/part1";
+
 
 export const grammarExerciseSupplement: Record<string, InteractiveExercise[]> = {
   "adjective-order": [
