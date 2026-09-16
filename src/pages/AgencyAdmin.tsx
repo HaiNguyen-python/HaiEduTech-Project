@@ -186,7 +186,7 @@ const AgencyAdmin = () => {
           {(["all", "new", "in_discussion", "won", "lost"] as const).map((k) => (
             <button
               key={k}
-              onClick={() => setFilterStatus(k as any)}
+              onClick={() => setFilterStatus(k)}
               className={`text-left rounded-xl border p-3 transition-all ${
                 filterStatus === k
                   ? "border-primary bg-primary/5 shadow-sm"

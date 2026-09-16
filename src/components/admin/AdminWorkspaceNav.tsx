@@ -52,6 +52,7 @@ type NavItem = {
   teacherOnly?: boolean;
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const ADMIN_NAV_GROUPS: Array<{
   id: AdminTabGroup;
   labelVi: string;
@@ -122,6 +123,7 @@ export const ADMIN_NAV_GROUPS: Array<{
   },
 ];
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const ADMIN_TAB_TO_GROUP = Object.fromEntries(
   ADMIN_NAV_GROUPS.flatMap((group) => group.items.map((item) => [item.id, group.id])),
 ) as Record<string, AdminTabGroup>;
