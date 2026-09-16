@@ -581,7 +581,7 @@ const AdminDashboard = () => {
                   lastActivityByUser={lastActivityByUser}
                   classAvg={classStats.classAvg}
                   onSelectStudent={(s) => handleSelectStudent(s)}
-                  onOpenStudentTab={() => { setTabGroup("students"); setActiveTab("students"); }}
+                  onOpenStudentTab={() => handleTabChange("students", "students")}
                   selectedUserId={selectedStudent?.userId ?? null}
                 />
                 <div className="grid lg:grid-cols-2 gap-6">
@@ -781,20 +781,20 @@ const AdminDashboard = () => {
                           <p className="text-muted-foreground py-4">{t("Chưa có dữ liệu học sinh", "No student data yet")}</p>
                         ) : (
                           <ScrollArea className="h-[500px] w-full">
-                            <div className="min-w-[1180px]">
+                            <div className="min-w-[680px] xl:min-w-[980px]">
                             <Table>
                               <TableHeader>
                                 <TableRow>
                                   <TableHead>{t("Học sinh", "Student")}</TableHead>
                                   <TableHead className="text-center">{t("Hoạt động", "Activities")}</TableHead>
-                                 <TableHead className="text-center">{t("Speaking", "Speaking")}</TableHead>
-                                 <TableHead className="text-center">{t("Writing", "Writing")}</TableHead>
-                                 <TableHead className="text-center" title={t("Số ngày kể từ lần Speaking gần nhất", "Days since last speaking")}>{t("Speak (ngày)", "Last Speak")}</TableHead>
-                                 <TableHead className="text-center" title={t("Số ngày kể từ lần Writing gần nhất", "Days since last writing")}>{t("Write (ngày)", "Last Write")}</TableHead>
-                                  <TableHead className="text-center" title={t("Tổng thời gian học tích lũy", "Cumulative study time")}>{t("Thời lượng", "Duration")}</TableHead>
+                                  <TableHead className="hidden text-center xl:table-cell">{t("Speaking", "Speaking")}</TableHead>
+                                  <TableHead className="hidden text-center xl:table-cell">{t("Writing", "Writing")}</TableHead>
+                                  <TableHead className="hidden text-center 2xl:table-cell" title={t("Số ngày kể từ lần Speaking gần nhất", "Days since last speaking")}>{t("Speak (ngày)", "Last Speak")}</TableHead>
+                                  <TableHead className="hidden text-center 2xl:table-cell" title={t("Số ngày kể từ lần Writing gần nhất", "Days since last writing")}>{t("Write (ngày)", "Last Write")}</TableHead>
+                                   <TableHead className="hidden text-center lg:table-cell" title={t("Tổng thời gian học tích lũy", "Cumulative study time")}>{t("Thời lượng", "Duration")}</TableHead>
                                   <TableHead className="text-center" title={t("Lần đăng nhập / hoạt động gần nhất", "Most recent login / activity")}>{t("Đăng nhập gần nhất", "Last Login")}</TableHead>
                                   <TableHead className="text-center">{t("Điểm TB", "Avg Score")}</TableHead>
-                                  <TableHead className="text-center">{t("Lĩnh vực", "Domains")}</TableHead>
+                                   <TableHead className="hidden text-center xl:table-cell">{t("Lĩnh vực", "Domains")}</TableHead>
                                   <TableHead className="text-center">{t("Xu hướng", "Trend")}</TableHead>
                                   <TableHead className="text-center">{t("Cảnh báo", "Flag")}</TableHead>
                                   <TableHead></TableHead>
@@ -823,13 +823,13 @@ const AdminDashboard = () => {
                                     >
                                       <TableCell className="font-medium">{state.fullName}</TableCell>
                                       <TableCell className="text-center tabular-nums">{state.totalActivities}</TableCell>
-                                       <TableCell className="text-center tabular-nums">{sumActivityTypeCounts(state.skillBreakdown, SPEAKING_ACTIVITY_TYPES)}</TableCell>
-                                       <TableCell className="text-center tabular-nums">{sumActivityTypeCounts(state.skillBreakdown, WRITING_ACTIVITY_TYPES)}</TableCell>
-                                       <TableCell className={`text-center tabular-nums ${speakClass}`}>{daysSpeak === null ? "-" : daysSpeak === 0 ? t("Hôm nay", "today") : `${daysSpeak}d`}</TableCell>
-                                       <TableCell className={`text-center tabular-nums ${writeClass}`}>{daysWrite === null ? "-" : daysWrite === 0 ? t("Hôm nay", "today") : `${daysWrite}d`}</TableCell>
-                                       <TableCell className={`text-center tabular-nums ${durationClass}`}>{formatDuration(totalSec)}</TableCell>
+                                       <TableCell className="hidden text-center tabular-nums xl:table-cell">{sumActivityTypeCounts(state.skillBreakdown, SPEAKING_ACTIVITY_TYPES)}</TableCell>
+                                       <TableCell className="hidden text-center tabular-nums xl:table-cell">{sumActivityTypeCounts(state.skillBreakdown, WRITING_ACTIVITY_TYPES)}</TableCell>
+                                       <TableCell className={`hidden text-center tabular-nums 2xl:table-cell ${speakClass}`}>{daysSpeak === null ? "-" : daysSpeak === 0 ? t("Hôm nay", "today") : `${daysSpeak}d`}</TableCell>
+                                       <TableCell className={`hidden text-center tabular-nums 2xl:table-cell ${writeClass}`}>{daysWrite === null ? "-" : daysWrite === 0 ? t("Hôm nay", "today") : `${daysWrite}d`}</TableCell>
+                                       <TableCell className={`hidden text-center tabular-nums lg:table-cell ${durationClass}`}>{formatDuration(totalSec)}</TableCell>
                                        <TableCell className={`text-center tabular-nums text-xs ${loginClass}`}>{formatLastLogin(lastLoginTs, t("vi", "en") === "vi")}</TableCell>
-                                      <TableCell className="text-center">
+                                       <TableCell className="hidden text-center xl:table-cell">
                                         <span className={`font-bold tabular-nums ${state.avgScore >= 7 ? "text-green-600" : state.avgScore >= 5 ? "text-yellow-600" : "text-red-600"}`}>
                                           {state.avgScore > 0 ? state.avgScore : "-"}
                                         </span>

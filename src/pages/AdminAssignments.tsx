@@ -225,12 +225,12 @@ const AdminAssignments = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white text-slate-900">
+    <div className="admin-workspace min-h-screen bg-background text-foreground">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
         <header className="space-y-3">
           <button
             onClick={() => navigate(-1)}
-            className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-900 transition-colors"
+              className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
             <ArrowLeft className="h-4 w-4" /> Quay lại
           </button>
@@ -271,7 +271,7 @@ const AdminAssignments = () => {
         <AssignmentCompletionCharts rows={filteredRows} studentName={studentName} />
 
         {/* Filter bar */}
-        <div className="rounded-xl border border-slate-100 bg-white p-4 flex flex-wrap items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3 border-y border-border bg-card py-4">
           <Select value={subjectFilter} onValueChange={(v) => setSubjectFilter(v as SubjectFilter)}>
             <SelectTrigger className="w-[180px]"><SelectValue placeholder="Subject" /></SelectTrigger>
             <SelectContent>
@@ -303,10 +303,7 @@ const AdminAssignments = () => {
           </Select>
 
           <div className="ml-auto">
-            <Button
-              onClick={() => setCreateOpen(true)}
-              className="bg-slate-900 hover:bg-slate-800 text-white"
-            >
+            <Button onClick={() => setCreateOpen(true)}>
               <Plus className="h-4 w-4" />
               Assign an exercise
             </Button>
@@ -314,19 +311,19 @@ const AdminAssignments = () => {
         </div>
 
         {/* Table */}
-        <div className="rounded-xl border border-slate-100 bg-white">
+        <div className="rounded-lg border border-border bg-card">
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[1100px] text-sm">
+            <table className="w-full min-w-[760px] text-sm">
               <thead>
                 <tr className="text-left text-xs uppercase tracking-wider text-slate-500 border-b border-slate-100">
                   <th className="px-4 py-3 font-medium">No</th>
                   <th className="px-4 py-3 font-medium">Exercise name</th>
                   <th className="px-4 py-3 font-medium">Subject/Level</th>
                   <th className="px-4 py-3 font-medium">Accuracy</th>
-                  <th className="px-4 py-3 font-medium">Teacher</th>
+                  <th className="hidden px-4 py-3 font-medium xl:table-cell">Teacher</th>
                   <th className="px-4 py-3 font-medium">Progress</th>
                   <th className="px-4 py-3 font-medium">Assignees</th>
-                  <th className="px-4 py-3 font-medium">Assigned time</th>
+                  <th className="hidden px-4 py-3 font-medium lg:table-cell">Assigned time</th>
                   <th className="px-4 py-3 font-medium">Deadline</th>
                   <th className="px-4 py-3 font-medium">Status</th>
                   <th className="px-4 py-3 font-medium text-right">Actions</th>
@@ -357,10 +354,10 @@ const AdminAssignments = () => {
                         </span>
                       </td>
                       <td className="px-4 py-3"><AccuracyRing value={r.averageAccuracy} /></td>
-                      <td className="px-4 py-3 text-slate-600">{r.teacher_name ?? "Teacher Hai"}</td>
+                      <td className="hidden px-4 py-3 text-muted-foreground xl:table-cell">{r.teacher_name ?? "Teacher Hai"}</td>
                       <td className="px-4 py-3 text-slate-700">{r.progressPct.toFixed(2)}%</td>
                       <td className="px-4 py-3 text-slate-700">{r.assigneesCount}</td>
-                      <td className="px-4 py-3 text-slate-600 whitespace-nowrap">
+                      <td className="hidden px-4 py-3 text-muted-foreground whitespace-nowrap lg:table-cell">
                         {formatAssignedTime(r.assigned_at)}
                       </td>
                       <td className="px-4 py-3 text-slate-600 whitespace-nowrap">
