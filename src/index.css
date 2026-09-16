@@ -61,7 +61,7 @@
     --admin-success: 160 84% 39%;
     --admin-warning: 38 92% 50%;
     --admin-canvas: 210 40% 98%;
-    --admin-rail: 222 47% 11%;
+    --admin-rail: 0 0% 100%;
 
     /* Custom tokens */
     --teal-bright: 173 58% 39%;
@@ -95,13 +95,39 @@
     --primary: var(--admin-primary);
     --ring: var(--admin-primary);
     --sidebar-background: var(--admin-rail);
-    --sidebar-foreground: 210 40% 96%;
+    --sidebar-foreground: 222 47% 11%;
     --sidebar-primary: var(--admin-primary);
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 217 33% 18%;
-    --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 215 28% 24%;
+    --sidebar-accent: 214 95% 95%;
+    --sidebar-accent-foreground: 217 91% 40%;
+    --sidebar-border: 214 32% 91%;
     --sidebar-ring: var(--admin-primary);
+  }
+
+  .admin-sidebar [data-sidebar="content"] {
+    scrollbar-color: hsl(var(--sidebar-border)) transparent;
+    scrollbar-width: thin;
+  }
+
+  .admin-sidebar [data-sidebar="group-label"] {
+    color: hsl(var(--muted-foreground));
+  }
+
+  .admin-sidebar [data-sidebar="menu-button"] {
+    color: hsl(var(--sidebar-foreground));
+  }
+
+  .admin-sidebar [data-sidebar="menu-button"] > svg {
+    color: hsl(var(--muted-foreground));
+  }
+
+  .admin-sidebar [data-sidebar="menu-button"][data-active="true"] {
+    border: 1px solid hsl(var(--admin-primary) / 0.18);
+    box-shadow: 0 1px 2px hsl(var(--admin-primary) / 0.08);
+  }
+
+  .admin-sidebar [data-sidebar="menu-button"][data-active="true"] > svg {
+    color: hsl(var(--admin-primary));
   }
 
   .admin-workspace :is(h1, h2, h3, h4, .font-display) {
