@@ -9,7 +9,8 @@ import {
   Shield, Users, BookOpen, TrendingUp, Loader2, BarChart3,
   Brain, AlertTriangle, ChevronRight, ArrowUpRight, ArrowDownRight, Minus,
   Target, Sparkles, Clock, Zap, ShieldCheck, Download, Search, Globe,
-  Activity, DollarSign, Server, Wifi, WifiOff, RefreshCw, ClipboardList, UserCog, Bell
+  Activity, DollarSign, Server, Wifi, WifiOff, RefreshCw, ClipboardList, UserCog, Bell,
+  Menu, MoreHorizontal
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -40,6 +41,11 @@ import {
 } from "@/lib/adminData";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import AdminWorkspaceNav, {
+  ADMIN_TAB_TO_GROUP,
+  type AdminTabGroup,
+} from "@/components/admin/AdminWorkspaceNav";
+import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
 const SystemStatusTab = lazy(() => import("@/components/SystemStatusTab"));
 const IncomeManagement = lazy(() => import("@/components/IncomeManagement"));
@@ -159,7 +165,7 @@ const AdminDashboard = () => {
   const [userMeta, setUserMeta] = useState<Map<string, { lastLogin: number; totalSeconds: number }>>(new Map());
   const fetchInFlightRef = useRef(false);
   const lastFetchAtRef = useRef(0);
-  const [tabGroup, setTabGroup] = useState<"overview" | "students" | "learning" | "operations">("overview");
+  const [tabGroup, setTabGroup] = useState<AdminTabGroup>("overview");
   const [activeTab, setActiveTab] = useState<string>("overview");
 
   // Deep-link support: /admin?tab=health (used by Health Monitor notifications)
@@ -167,17 +173,18 @@ const AdminDashboard = () => {
     const params = new URLSearchParams(window.location.search);
     const t = params.get("tab");
     if (!t) return;
-    const groupMap: Record<string, "overview" | "students" | "learning" | "operations"> = {
-      overview: "overview", system: "overview",
-      students: "students", insights: "students", attendance: "students", feedback: "students", chatbot: "students",
-      "rl-engine": "learning", "rl-interventions": "learning", strategy: "learning", dictionary: "learning", "content-studio": "learning",
-      income: "operations", assistants: "operations", schedule: "operations",
-      "report-logs": "operations", "service-requests": "operations", health: "operations",
-    };
-    if (groupMap[t]) {
-      setTabGroup(groupMap[t]);
+    if (ADMIN_TAB_TO_GROUP[t]) {
+      setTabGroup(ADMIN_TAB_TO_GROUP[t]);
       setActiveTab(t);
     }
+  }, []);
+
+  const handleTabChange = useCallback((tab: string, group?: AdminTabGroup) => {
+    setActiveTab(tab);
+    setTabGroup(group ?? ADMIN_TAB_TO_GROUP[tab] ?? "overview");
+    const url = new URL(window.location.href);
+    url.searchParams.set("tab", tab);
+    window.history.replaceState({}, "", `${url.pathname}${url.search}${url.hash}`);
   }, []);
   const [searchQuery, setSearchQuery] = useState("");
   const [classStats, setClassStats] = useState({
