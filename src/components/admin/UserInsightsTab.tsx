@@ -312,7 +312,7 @@ export default function UserInsightsTab() {
       )}
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 min-[420px]:grid-cols-2 md:grid-cols-4 gap-4">
         {[
           { icon: Eye, label: t("Tổng lượt xem", "Page Views"), value: totals.pageviews, color: "text-sky-500" },
           { icon: MousePointerClick, label: t("Phiên truy cập", "Sessions"), value: totals.sessions, color: "text-emerald-500" },

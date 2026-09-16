@@ -100,15 +100,17 @@ const AdminClasses = () => {
   if (!isTeacher) return <Navigate to="/" replace />;
 
   return (
-    <div className="min-h-screen bg-white text-slate-900">
+    <div className="admin-workspace min-h-screen bg-background text-foreground">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
         <header className="space-y-3">
-          <button
+          <Button
+            variant="ghost"
+            size="sm"
             onClick={() => navigate(-1)}
-            className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-900 transition-colors"
+            className="gap-1.5"
           >
             <ArrowLeft className="h-4 w-4" /> Quay lại
-          </button>
+          </Button>
           <div className="flex items-end justify-between gap-4 flex-wrap">
             <div>
               <p className="text-xs uppercase tracking-wider text-slate-500">Admin · LMS</p>
@@ -121,21 +123,21 @@ const AdminClasses = () => {
                 )}
               </p>
             </div>
-            <Button onClick={() => setCreateOpen(true)} className="bg-slate-900 hover:bg-slate-800 text-white">
+            <Button onClick={() => setCreateOpen(true)}>
               <Plus className="h-4 w-4" /> Create New Class
             </Button>
           </div>
         </header>
 
-        <div className="rounded-xl border border-slate-100 bg-white">
+        <div className="rounded-lg border border-border bg-card">
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[700px] text-sm">
+            <table className="w-full min-w-[560px] text-sm">
               <thead>
                 <tr className="text-left text-xs uppercase tracking-wider text-slate-500 border-b border-slate-100">
                   <th className="px-4 py-3 font-medium">Class name</th>
                   <th className="px-4 py-3 font-medium">Subject</th>
                   <th className="px-4 py-3 font-medium">Students</th>
-                  <th className="px-4 py-3 font-medium">Created</th>
+                  <th className="hidden px-4 py-3 font-medium sm:table-cell">Created</th>
                   <th className="px-4 py-3 font-medium text-right">Actions</th>
                 </tr>
               </thead>
@@ -155,7 +157,7 @@ const AdminClasses = () => {
                     <td className="px-4 py-3 text-slate-700">
                       <span className="inline-flex items-center gap-1"><Users className="h-3.5 w-3.5 text-slate-400" />{countFor(c.id)}</span>
                     </td>
-                    <td className="px-4 py-3 text-slate-500 whitespace-nowrap">{new Date(c.created_at).toLocaleDateString()}</td>
+                    <td className="hidden px-4 py-3 text-muted-foreground whitespace-nowrap sm:table-cell">{new Date(c.created_at).toLocaleDateString()}</td>
                     <td className="px-4 py-3">
                       <div className="flex items-center justify-end gap-1">
                         <button onClick={() => setEditingClass(c)} className="p-2 rounded-md hover:bg-slate-100 text-slate-500 hover:text-slate-900 transition-colors" title="Edit members">
@@ -235,7 +237,8 @@ function EditMembersDialog({
 
   const toggle = (id: string) => {
     const next = new Set(selected);
-    next.has(id) ? next.delete(id) : next.add(id);
+    if (next.has(id)) next.delete(id);
+    else next.add(id);
     setSelected(next);
   };
 

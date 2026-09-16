@@ -72,8 +72,7 @@ interface ClassRow {
   subject_category: string | null;
 }
 
-const FRAME =
-  "bg-white border border-slate-200 rounded-2xl shadow-[0_1px_2px_rgba(15,23,42,0.04)]";
+const FRAME = "bg-card border border-border rounded-lg shadow-sm";
 
 /** The subject a run was taken in - new column first, legacy payload second. */
 const rowSubject = (row: PlacementRow | null): string =>
@@ -340,7 +339,7 @@ const AdminPlacementResults = () => {
   );
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="admin-workspace min-h-screen bg-background">
       <Navbar />
       <main className="max-w-7xl mx-auto px-4 py-6 sm:py-8">
         <header className="flex items-center justify-between mb-6">
@@ -366,31 +365,31 @@ const AdminPlacementResults = () => {
 
         <div className="grid lg:grid-cols-[280px_1fr] gap-5">
           {/* ── Submission list ─────────────────────────────── */}
-          <aside className={`${FRAME} p-3 max-h-[80vh] overflow-y-auto`}>
+          <aside className={`${FRAME} max-h-[48vh] overflow-y-auto p-3 lg:max-h-[calc(100vh-8rem)] lg:sticky lg:top-20`}>
             <div className="flex flex-wrap gap-1.5 mb-3">
               {(["all", "pending", "approved", "interview"] as const).map((s) => (
-                <button
+                  <Button
                   key={s}
+                    type="button"
+                    size="sm"
+                    variant={statusFilter === s ? "default" : "outline"}
                   onClick={() => setStatusFilter(s)}
-                  className={`px-2.5 py-1 rounded-full text-xs font-semibold border transition-colors
-                    ${statusFilter === s
-                      ? "bg-slate-900 text-white border-slate-900"
-                      : "border-slate-200 text-slate-600 hover:bg-slate-50"}`}
+                    className="h-8 text-xs"
                 >
                   {s === "all" ? "All"
                     : s === "pending" ? "Pending"
                     : s === "approved" ? "Approved" : "Interview"}
-                </button>
+                  </Button>
               ))}
-              <button
+              <Button
+                type="button"
+                variant={groupByClass ? "default" : "outline"}
+                size="sm"
                 onClick={() => setGroupByClass((v) => !v)}
-                className={`px-2.5 py-1 rounded-full text-xs font-semibold border transition-colors
-                  ${groupByClass
-                    ? "bg-emerald-600 text-white border-emerald-600"
-                    : "border-slate-200 text-slate-600 hover:bg-slate-50"}`}
+                className="h-8 text-xs"
               >
                 Group by class
-              </button>
+              </Button>
             </div>
             {loading && rows.length === 0 && (
               <div className="text-sm text-slate-500 p-3 flex items-center gap-2">
@@ -693,7 +692,9 @@ const AdminPlacementResults = () => {
                   {insight?.recommended_class && (
                     <Button
                       disabled={saving}
-                      onClick={() => void saveAssignment(insight.recommended_class!, selected.assigned_class_id)}
+                      onClick={() => {
+                        if (insight.recommended_class) void saveAssignment(insight.recommended_class, selected.assigned_class_id);
+                      }}
                     >
                       <Sparkles className="w-4 h-4 mr-1" />
                       Use suggested class

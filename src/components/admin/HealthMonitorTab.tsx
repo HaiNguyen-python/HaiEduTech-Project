@@ -132,7 +132,7 @@ const HealthMonitorTab = () => {
       </div>
 
       {/* Stat cards */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+      <div className="grid grid-cols-1 min-[420px]:grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
         <StatCard label="Tổng số chức năng" value={latest?.total ?? 0} icon={<Activity className="w-4 h-4" />} color="text-primary" />
         <StatCard label="Hoạt động bình thường" value={latest?.passed ?? 0} icon={<CheckCircle2 className="w-4 h-4" />} color="text-emerald-600" />
         <StatCard label="Tự phục hồi" value={latest?.auto_recovered ?? 0} icon={<RefreshCw className="w-4 h-4" />} color="text-blue-600" />
@@ -203,7 +203,7 @@ const HealthMonitorTab = () => {
             <div className="p-8 text-center text-muted-foreground">Chưa có lần kiểm tra nào. Hãy bấm "Chạy kiểm tra ngay".</div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full text-sm" style={{ minWidth: 600 }}>
+              <table className="w-full min-w-[560px] text-sm">
                 <thead className="bg-muted/50 text-left">
                   <tr>
                     <th className="px-3 py-2 font-semibold">Nhóm</th>

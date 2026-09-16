@@ -163,7 +163,7 @@ const AgencyAdmin = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="admin-workspace min-h-screen bg-background">
       <Navbar />
       <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-12 max-w-7xl">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
@@ -182,11 +182,11 @@ const AgencyAdmin = () => {
         </div>
 
         {/* Stat cards */}
-        <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-6">
+        <div className="grid grid-cols-1 min-[420px]:grid-cols-2 sm:grid-cols-5 gap-3 mb-6">
           {(["all", "new", "in_discussion", "won", "lost"] as const).map((k) => (
             <button
               key={k}
-              onClick={() => setFilterStatus(k as any)}
+              onClick={() => setFilterStatus(k)}
               className={`text-left rounded-xl border p-3 transition-all ${
                 filterStatus === k
                   ? "border-primary bg-primary/5 shadow-sm"
@@ -224,13 +224,13 @@ const AgencyAdmin = () => {
               </div>
             ) : (
               <div className="overflow-x-auto">
-                <table className="w-full text-sm" style={{ minWidth: 900 }}>
+                <table className="w-full min-w-[720px] text-sm">
                   <thead className="bg-muted/50 text-xs uppercase tracking-wider text-muted-foreground">
                     <tr>
                       <th className="text-left px-4 py-3 font-semibold">Client</th>
                       <th className="text-left px-4 py-3 font-semibold">Contact</th>
                       <th className="text-left px-4 py-3 font-semibold">Package</th>
-                      <th className="text-left px-4 py-3 font-semibold">Notes</th>
+                      <th className="hidden text-left px-4 py-3 font-semibold lg:table-cell">Notes</th>
                       <th className="text-left px-4 py-3 font-semibold">Created</th>
                       <th className="text-left px-4 py-3 font-semibold">Status</th>
                       <th className="px-4 py-3" />
@@ -260,7 +260,7 @@ const AgencyAdmin = () => {
                             {l.selected_package || "-"}
                           </Badge>
                         </td>
-                        <td className="px-4 py-3 max-w-[260px]">
+                        <td className="hidden px-4 py-3 max-w-[260px] lg:table-cell">
                           <div className="text-xs text-foreground/80 line-clamp-3 whitespace-pre-wrap">
                             {l.notes || <span className="text-muted-foreground italic">No notes</span>}
                           </div>

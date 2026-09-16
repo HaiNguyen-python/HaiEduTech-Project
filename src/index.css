@@ -56,6 +56,13 @@
     --sidebar-border: 214 32% 91%;
     --sidebar-ring: 173 58% 39%;
 
+    /* HaiEduTech admin workspace */
+    --admin-primary: 217 91% 60%;
+    --admin-success: 160 84% 39%;
+    --admin-warning: 38 92% 50%;
+    --admin-canvas: 210 40% 98%;
+    --admin-rail: 222 47% 11%;
+
     /* Custom tokens */
     --teal-bright: 173 58% 39%;
     --orange-warm: 38 92% 50%;
@@ -81,6 +88,41 @@
 }
 
 @layer utilities {
+  .admin-workspace {
+    font-family: "Manrope", sans-serif;
+    letter-spacing: 0;
+    --background: var(--admin-canvas);
+    --primary: var(--admin-primary);
+    --ring: var(--admin-primary);
+    --sidebar-background: var(--admin-rail);
+    --sidebar-foreground: 210 40% 96%;
+    --sidebar-primary: var(--admin-primary);
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 217 33% 18%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 215 28% 24%;
+    --sidebar-ring: var(--admin-primary);
+  }
+
+  .admin-workspace :is(h1, h2, h3, h4, .font-display) {
+    font-family: "Sora", sans-serif;
+    letter-spacing: 0;
+  }
+
+  .bg-admin-success { background-color: hsl(var(--admin-success)); }
+  .text-admin-success { color: hsl(var(--admin-success)); }
+  .text-admin-warning { color: hsl(var(--admin-warning)); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .admin-workspace *,
+    .admin-workspace *::before,
+    .admin-workspace *::after {
+      scroll-behavior: auto !important;
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
   /* Navbar already reserves its fixed 60px/92px height. Keep only a compact
      visual gutter on pages that still carry the older large top-padding. */
   .site-header ~ :is(main, div).pt-20,

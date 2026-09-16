@@ -124,7 +124,7 @@ const ChatbotConversationsReview = () => {
 
         <div className="grid gap-3 lg:grid-cols-[320px_1fr]">
           {/* Conversation list */}
-          <ScrollArea className="h-[520px] rounded-md border">
+          <ScrollArea className="h-[380px] rounded-md border lg:h-[600px]">
             {loading && <div className="p-4 text-sm text-muted-foreground">Đang tải...</div>}
             {!loading && filtered.length === 0 && (
               <div className="p-4 text-sm text-muted-foreground">Chưa có hội thoại nào.</div>
@@ -158,7 +158,7 @@ const ChatbotConversationsReview = () => {
           </ScrollArea>
 
           {/* Transcript */}
-          <ScrollArea className="h-[520px] rounded-md border">
+          <ScrollArea className="h-[460px] rounded-md border lg:h-[600px]">
             {!current && <div className="p-4 text-sm text-muted-foreground">Chọn một học sinh để xem hội thoại.</div>}
             {current && (
               <div className="p-3">
