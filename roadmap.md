@@ -1,6 +1,7 @@
 # Roadmap
 
 ## In Progress
+- [x] Admin workspace redesign: Architectural slate fixed sidebar, grouped navigation, URL tab sync, compact data toolbar, responsive student tables, and consistent Admin surfaces
 - [x] Career Roadmap: removed AI from the title, validated inputs and responses, persisted progress, improved accessibility, and verified desktop/mobile states
 - [x] IELTS Speaking Vocabulary: replaced 135 isolated words with topic collocations and reduced repetitive example groups from 108 to 35
 
