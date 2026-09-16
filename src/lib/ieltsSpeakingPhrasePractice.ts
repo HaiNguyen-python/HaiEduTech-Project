@@ -94,40 +94,40 @@ export function getPhraseExample(phrase: string, topic: string, part: 1 | 2 | 3)
   if (/^to\s+/i.test(cleaned)) {
     const infinitive = lowerFirst(cleaned);
     if (/^to be\b/i.test(cleaned)) return chooseExample([
-      `I find it easier ${infinitive} when I have enough time to prepare.`,
-      `My experience has shown me what it really means ${infinitive}.`,
-      `It takes confidence ${infinitive}, especially in an unfamiliar situation.`,
+      `When it comes to ${topicText}, I find it easier ${infinitive} when I have enough time to prepare.`,
+      `My experience with ${topicText} has shown me what it really means ${infinitive}.`,
+      `In situations involving ${topicText}, it takes confidence ${infinitive}.`,
     ], cleaned, topic, part);
     if (part === 1) return chooseExample([
-      `I usually try ${infinitive} because it makes my routine more enjoyable.`,
-      `At weekends, I have more time ${infinitive} without feeling rushed.`,
-      `I first learned ${infinitive} from someone in my family.`,
-      `Whenever I can, I prefer ${infinitive} rather than take the easier option.`,
-      `Over the past few years, I have made a conscious effort ${infinitive}.`,
+      `When it comes to ${topicText}, I usually try ${infinitive} because it makes the experience more enjoyable.`,
+      `I have more time ${infinitive} when I am focusing on ${topicText} at weekends.`,
+      `I first learned ${infinitive} through my experience with ${topicText}.`,
+      `For ${topicText}, I prefer ${infinitive} rather than take the easier option.`,
+      `Over the past few years, I have made a conscious effort ${infinitive} in relation to ${topicText}.`,
     ], cleaned, topic, part);
     if (part === 2) return chooseExample([
-      `During that experience, I had a real opportunity ${infinitive}.`,
-      `What stayed with me was the decision ${infinitive} despite the difficulties.`,
-      `That occasion encouraged me ${infinitive} with much more confidence.`,
-      `Looking back, I am glad that I chose ${infinitive}.`,
+      `During that experience with ${topicText}, I had a real opportunity ${infinitive}.`,
+      `What stayed with me about ${topicText} was the decision ${infinitive} despite the difficulties.`,
+      `That occasion involving ${topicText} encouraged me ${infinitive} with much more confidence.`,
+      `Looking back on that experience with ${topicText}, I am glad that I chose ${infinitive}.`,
     ], cleaned, topic, part);
     return chooseExample([
-      `One practical way to improve the situation is ${infinitive}.`,
-      `In the long term, communities need ${infinitive} more consistently.`,
-      `Policy makers should create stronger incentives for people ${infinitive}.`,
-      `A balanced strategy would allow society ${infinitive} without creating new problems.`,
+      `One practical way to improve ${topicText} is ${infinitive}.`,
+      `In the long term, communities need ${infinitive} more consistently when addressing ${topicText}.`,
+      `For ${topicText}, policy makers should create stronger incentives for people ${infinitive}.`,
+      `A balanced strategy for ${topicText} would allow society ${infinitive} without creating new problems.`,
     ], cleaned, topic, part);
   }
   if (/^(a|an)\s+/i.test(cleaned)) {
     if (part === 1) return chooseExample([
-      `${cleaned} makes a noticeable difference to the way I spend my free time.`,
-      `${cleaned} is something I genuinely value in my everyday life.`,
-      `${cleaned} often helps me feel more comfortable and confident.`,
+      `${cleaned} makes a noticeable difference to my experience of ${topicText}.`,
+      `${cleaned} is something I genuinely value when it comes to ${topicText}.`,
+      `${cleaned} often helps me feel more confident about ${topicText}.`,
     ], cleaned, topic, part);
     if (part === 2) return chooseExample([
-      `${cleaned} was one of the details that made the experience stand out.`,
-      `${cleaned} immediately caught my attention when I arrived.`,
-      `${cleaned} turned an ordinary occasion into a lasting memory.`,
+      `${cleaned} was one of the details that made my experience of ${topicText} stand out.`,
+      `${cleaned} immediately caught my attention during that experience with ${topicText}.`,
+      `${cleaned} turned an ordinary moment involving ${topicText} into a lasting memory.`,
     ], cleaned, topic, part);
     return chooseExample([
       `${cleaned} can shape how the public responds to ${topicText}.`,

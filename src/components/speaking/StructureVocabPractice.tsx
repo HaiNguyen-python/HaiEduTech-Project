@@ -25,7 +25,7 @@ import { useSpeechRecognizer } from "@/hooks/useSpeechRecognizer";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { compareSentence, micErrorMessage } from "@/lib/speakingModeShared";
 import { getTopicsByPart, getQuestionsByPartAndTopic } from "@/data/speakingPracticeData";
-import { getMergedVocabulary } from "@/data/speakingVocabularyBank";
+import { expandToCollocation, getMergedVocabulary } from "@/data/speakingVocabularyBank";
 import { getMergedStructures } from "@/data/speakingStructuresIdeas";
 import { getSupplementVocabulary, getSupplementStructures } from "@/data/speakingDrillsSupplement";
 import PhraseSpeakingPractice from "@/components/speaking/PhraseSpeakingPractice";
@@ -102,7 +102,8 @@ const StructureVocabPractice = () => {
         }
       }
     }
-    for (const v of getSupplementVocabulary(part)) {
+    for (const rawItem of getSupplementVocabulary(part)) {
+      const v = expandToCollocation(rawItem);
       const key = v.phrase.toLowerCase();
       if (!seen.has(key)) {
         seen.add(key);
