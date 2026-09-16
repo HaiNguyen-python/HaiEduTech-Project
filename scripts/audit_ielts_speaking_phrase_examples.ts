@@ -1,6 +1,7 @@
 import { speakingPracticeData } from "../src/data/speakingPracticeData";
 import { getMergedVocabulary } from "../src/data/speakingVocabularyBank";
 import { getSupplementVocabulary } from "../src/data/speakingDrillsSupplement";
+import { expandToCollocation } from "../src/data/speakingVocabularyBank";
 import { getPhraseExample } from "../src/lib/ieltsSpeakingPhrasePractice";
 import { phraseAppearsInTranscript } from "../src/lib/ieltsSpeakingPhrasePractice";
 
@@ -19,14 +20,20 @@ for (const part of [1, 2, 3] as const) {
         phrases.set(item.phrase.toLowerCase(), item);
       }
     }
-    for (const item of getSupplementVocabulary(part)) phrases.set(item.phrase.toLowerCase(), item);
+    for (const rawItem of getSupplementVocabulary(part)) {
+      const item = expandToCollocation(rawItem);
+      phrases.set(item.phrase.toLowerCase(), item);
+    }
     for (const item of phrases.values()) {
       rendered += 1;
       const example = getPhraseExample(item.phrase, topic, part);
+      const lexicalWords = item.phrase.match(/[A-Za-z]+(?:['’-][A-Za-z]+)*/g) ?? [];
+      if (lexicalWords.length < 2) errors.push(`Single-word vocabulary: Part ${part} / ${topic} / ${item.phrase}`);
       if (!example || example.length < 25 || !/[.!?]$/.test(example)) errors.push(`Invalid example: Part ${part} / ${topic} / ${item.phrase}`);
       if (/\.{2,}|\bone's\b/i.test(example)) errors.push(`Unresolved placeholder: ${item.phrase} -> ${example}`);
       if (!phraseAppearsInTranscript(item.phrase, example)) errors.push(`Phrase not represented in example: ${item.phrase} -> ${example}`);
       if (/\btry to be over the moon\b|\btry to take me by surprise\b|\bis an important part of my experience with\b/i.test(example)) errors.push(`Unnatural template: ${item.phrase} -> ${example}`);
+      if (/whenever? it is appropriate|people often discuss|has had a positive influence on my daily life/i.test(example)) errors.push(`Generic template: ${item.phrase} -> ${example}`);
       const list = examples.get(example.toLowerCase()) ?? [];
       list.push(`${part}|${topic}|${item.phrase}`);
       examples.set(example.toLowerCase(), list);
@@ -41,7 +48,7 @@ if (errors.length) {
   console.error(errors.slice(0, 30).join("\n"));
   process.exit(1);
 }
-if (duplicateGroups.length > 120) {
+if (duplicateGroups.length > 60) {
   console.error(`Too many repeated example groups: ${duplicateGroups.length}`);
   process.exit(1);
 }

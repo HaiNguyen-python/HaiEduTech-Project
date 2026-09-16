@@ -2,6 +2,7 @@
 
 ## In Progress
 - [x] Career Roadmap: removed AI from the title, validated inputs and responses, persisted progress, improved accessibility, and verified desktop/mobile states
+- [x] IELTS Speaking Vocabulary: replaced 135 isolated words with topic collocations and reduced repetitive example groups from 108 to 35
 
 ## Done
 - [x] Finnish Word Quest: fill-in-the-blank now hides every inflected form (consonant gradation included), keeps at least two context words, drops same-meaning answer options, and is covered by regression tests
