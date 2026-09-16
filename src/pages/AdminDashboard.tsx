@@ -39,8 +39,6 @@ import {
   normalizeForSearch,
   csvEscape,
 } from "@/lib/adminData";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import AdminWorkspaceNav, {
   ADMIN_TAB_TO_GROUP,
   type AdminTabGroup,
@@ -446,28 +444,43 @@ const AdminDashboard = () => {
     : [];
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
-      <div className="pt-6 pb-16">
-        <div className="container mx-auto px-4 md:px-6">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-7xl mx-auto">
-            {/* Header */}
-            <div className="flex items-center justify-between mb-8">
-              <div className="flex items-center gap-3">
-                <div className="p-2.5 rounded-xl bg-primary/10">
-                  <Shield className="w-6 h-6 text-primary" />
-                </div>
-                <div>
-                  <h1 className="text-2xl font-display font-bold text-foreground">
-                    {t("Bảng Điều Khiển Quản Trị", "Admin Dashboard")}
-                  </h1>
-                  <p className="text-sm text-muted-foreground">
-                    {t("Theo dõi tiến độ học sinh & hệ thống can thiệp thông minh", "Track student progress & intelligent intervention system")}
-                  </p>
-                </div>
+    <SidebarProvider defaultOpen>
+      <div className="admin-workspace flex min-h-svh w-full bg-background">
+        <AdminWorkspaceNav
+          activeTab={activeTab}
+          isTeacher={isTeacher}
+          isVietnamese={t("vi", "en") === "vi"}
+          onTabChange={handleTabChange}
+        />
+        <SidebarInset className="min-w-0">
+          <header className="sticky top-0 z-20 flex min-h-16 items-center justify-between gap-3 border-b border-border bg-card/95 px-4 backdrop-blur md:px-6">
+            <div className="flex min-w-0 items-center gap-3">
+              <SidebarTrigger className="size-9 shrink-0" />
+              <div className="min-w-0">
+                <h1 className="truncate font-display text-lg font-bold text-foreground sm:text-xl">
+                  {t("Bảng điều khiển quản trị", "Admin workspace")}
+                </h1>
+                <p className="hidden truncate text-xs text-muted-foreground sm:block">
+                  {t("Theo dõi học viên và vận hành hệ thống", "Student progress and system operations")}
+                </p>
               </div>
-              {/* Activity window + export buttons */}
-              <div className="flex flex-wrap items-center gap-2">
+            </div>
+            <div className="flex items-center gap-2 text-xs font-semibold text-muted-foreground">
+              <span className="size-2 rounded-full bg-admin-success" aria-hidden="true" />
+              <span className="hidden sm:inline">{t("Hệ thống ổn định", "Operational")}</span>
+            </div>
+          </header>
+
+          <main className="flex-1 px-4 py-5 md:px-6 lg:px-8">
+            <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2 }} className="mx-auto max-w-[1600px]">
+              <div className="mb-5 flex flex-col gap-3 border-b border-border pb-4 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <p className="text-xs font-bold uppercase text-primary">{t("Trung tâm điều hành", "Command center")}</p>
+                  <h2 className="mt-1 font-display text-xl font-bold text-foreground">
+                    {t("Tổng quan hoạt động", "Operations overview")}
+                  </h2>
+                </div>
+                <div className="flex flex-wrap items-center gap-2" aria-label={t("Công cụ dữ liệu", "Data tools")}>
                 <div className="flex items-center gap-1 rounded-lg border border-border p-1">
                   <span className="px-1.5 text-xs text-muted-foreground">
                     {t("Dữ liệu", "Data")}
@@ -503,10 +516,10 @@ const AdminDashboard = () => {
                   <Download className="w-3.5 h-3.5" /> JSON
                 </Button>
               </div>
-            </div>
+              </div>
 
             {/* Class Overview Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div className="mb-6 grid grid-cols-1 gap-3 min-[430px]:grid-cols-2 xl:grid-cols-4">
               {[
                 { icon: Users, label: t("Tổng học sinh", "Total Students"), value: classStats.totalStudents, color: "text-sky-500" },
                 { icon: BarChart3, label: t("Tổng hoạt động", "Total Activities"), value: classStats.totalActivities, color: "text-emerald-500" },
@@ -514,7 +527,7 @@ const AdminDashboard = () => {
                 { icon: Zap, label: t("Hoạt động tuần này", "Active This Week"), value: classStats.activeThisWeek, color: "text-violet-500" },
               ].map((s, i) => (
                 <motion.div key={i} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}>
-                  <Card className="border-border/50">
+                  <Card className="rounded-lg border-border shadow-sm">
                     <CardContent className="p-4">
                       <div className="flex items-center gap-2 mb-2">
                         <s.icon className={`w-4 h-4 ${s.color}`} />
@@ -529,17 +542,17 @@ const AdminDashboard = () => {
               ))}
             </div>
 
-            {/* Intervention Alert Banner */}
+            {/* Prioritized intervention queue */}
             {interventionNeeded.length > 0 && (
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mb-6 p-4 rounded-xl border border-destructive/30 bg-destructive/5"
+                className="mb-6 border-l-4 border-destructive bg-destructive/5 px-4 py-3"
               >
                 <div className="flex items-center gap-2 mb-2">
                   <AlertTriangle className="w-5 h-5 text-destructive" />
                   <span className="font-bold text-destructive">
-                    {t(`⚠️ ${interventionNeeded.length} học sinh cần can thiệp`, `⚠️ ${interventionNeeded.length} students need intervention`)}
+                    {t(`${interventionNeeded.length} học sinh cần can thiệp`, `${interventionNeeded.length} students need intervention`)}
                   </span>
                 </div>
                 <div className="flex flex-wrap gap-2">
@@ -557,100 +570,7 @@ const AdminDashboard = () => {
               </motion.div>
             )}
 
-            {/* Main Tabs - grouped */}
-            <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
-              {/* Group selector (top row) */}
-              <div className="flex flex-wrap gap-2 p-1 bg-secondary/50 rounded-lg">
-                {([
-                  { key: "overview", label: t("Tổng quan", "Overview"), icon: Globe, first: "overview" },
-                  { key: "students", label: t("Học sinh", "Students"), icon: Users, first: "students" },
-                  { key: "learning", label: t("Học tập & AI", "Learning & AI"), icon: Brain, first: "rl-engine" },
-                  { key: "operations", label: t("Vận hành", "Operations"), icon: DollarSign, first: isPureAssistant ? "assistants" : "income" },
-                ] as const).map((g) => {
-                  const Icon = g.icon;
-                  const active = tabGroup === g.key;
-                  return (
-                    <button
-                      key={g.key}
-                      onClick={() => { setTabGroup(g.key); setActiveTab(g.first); }}
-                      className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-sm font-semibold transition-all ${
-                        active
-                          ? "bg-primary text-primary-foreground shadow-md"
-                          : "text-foreground/70 hover:bg-secondary hover:text-foreground"
-                      }`}
-                    >
-                      <Icon className="w-4 h-4" /> {g.label}
-                    </button>
-                  );
-                })}
-                {/* Teacher-only standalone pages: assistants are redirected away
-                    by those routes, so don't show dead-end links to them. */}
-                {isTeacher && (
-                  <>
-                    <button
-                      onClick={() => navigate("/admin/assignments")}
-                      className="flex items-center gap-1.5 px-3 py-2 rounded-md text-sm font-semibold transition-all text-foreground/70 hover:bg-secondary hover:text-foreground"
-                    >
-                      <ClipboardList className="w-4 h-4" /> {t("Quản lý Bài tập", "Assignments")}
-                    </button>
-                    <button
-                      onClick={() => navigate("/admin/classes")}
-                      className="flex items-center gap-1.5 px-3 py-2 rounded-md text-sm font-semibold transition-all text-foreground/70 hover:bg-secondary hover:text-foreground"
-                    >
-                      <Users className="w-4 h-4" /> {t("Quản lý Lớp học", "Class Management")}
-                    </button>
-                    <button
-                      onClick={() => navigate("/admin/placement-test-results")}
-                      className="flex items-center gap-1.5 px-3 py-2 rounded-md text-sm font-semibold transition-all text-foreground/70 hover:bg-secondary hover:text-foreground"
-                    >
-                      <ClipboardList className="w-4 h-4" /> {t("Kết quả Test đầu vào", "Placement Results")}
-                    </button>
-                  </>
-                )}
-              </div>
-
-              {/* Sub-tabs (filtered by group) */}
-              <TabsList className="bg-secondary/30 flex-wrap h-auto gap-1 p-1 border border-border">
-                {tabGroup === "overview" && (
-                  <>
-                    <TabsTrigger value="overview" className="gap-1.5"><Globe className="w-3.5 h-3.5" /> {t("Tổng quan", "Overview")}</TabsTrigger>
-                    <TabsTrigger value="system" className="gap-1.5"><Activity className="w-3.5 h-3.5" /> {t("Hệ thống API", "System Status")}</TabsTrigger>
-                  </>
-                )}
-                {tabGroup === "students" && (
-                  <>
-                    <TabsTrigger value="students" className="gap-1.5"><Users className="w-3.5 h-3.5" /> {t("Học sinh", "Students")}</TabsTrigger>
-                    <TabsTrigger value="insights" className="gap-1.5"><Search className="w-3.5 h-3.5" /> {t("Quan tâm người dùng", "User Insights")}</TabsTrigger>
-                    <TabsTrigger value="attendance" className="gap-1.5"><Users className="w-3.5 h-3.5" /> {t("Điểm danh", "Attendance")}</TabsTrigger>
-                    <TabsTrigger value="feedback" className="gap-1.5"><Search className="w-3.5 h-3.5" /> {t("Phản hồi học viên", "Feedback")}</TabsTrigger>
-                    <TabsTrigger value="chatbot" className="gap-1.5"><Search className="w-3.5 h-3.5" /> {t("Chat AI Pet", "AI Pet Chats")}</TabsTrigger>
-                  </>
-                )}
-                {tabGroup === "learning" && (
-                  <>
-                    <TabsTrigger value="rl-engine" className="gap-1.5"><Brain className="w-3.5 h-3.5" /> {t("Hệ thống can thiệp", "RL Engine")}</TabsTrigger>
-                    <TabsTrigger value="rl-interventions" className="gap-1.5"><Bell className="w-3.5 h-3.5" /> {t("Chuông RL tự động", "RL Bell Dispatcher")}</TabsTrigger>
-                    <TabsTrigger value="strategy" className="gap-1.5"><TrendingUp className="w-3.5 h-3.5" /> {t("Chiến lược", "Strategy")}</TabsTrigger>
-                    <TabsTrigger value="dictionary" className="gap-1.5"><BookOpen className="w-3.5 h-3.5" /> {t("Từ điển Anh", "English Dictionary")}</TabsTrigger>
-                    <TabsTrigger value="content-studio" className="gap-1.5"><BookOpen className="w-3.5 h-3.5" /> {t("Soạn & đăng nội dung", "Content Studio")}</TabsTrigger>
-                  </>
-                )}
-                {tabGroup === "operations" && (
-                  <>
-                    {!isPureAssistant && (
-                      <TabsTrigger value="income" className="gap-1.5"><DollarSign className="w-3.5 h-3.5" /> {t("Thu nhập", "Income")}</TabsTrigger>
-                    )}
-                    <TabsTrigger value="assistants" className="gap-1.5"><UserCog className="w-3.5 h-3.5" /> {t("Cộng tác viên", "Assistants")}</TabsTrigger>
-                    <TabsTrigger value="schedule" className="gap-1.5"><Clock className="w-3.5 h-3.5" /> {t("Lịch học", "Schedule")}</TabsTrigger>
-                    <TabsTrigger value="report-logs" className="gap-1.5"><ClipboardList className="w-3.5 h-3.5" /> {t("Báo cáo Email", "Report Logs")}</TabsTrigger>
-                    <TabsTrigger value="service-requests" className="gap-1.5"><ClipboardList className="w-3.5 h-3.5" /> {t("Đơn đăng ký Web", "Service Requests")}</TabsTrigger>
-                    <TabsTrigger value="health" className="gap-1.5"><Activity className="w-3.5 h-3.5" /> 🩺 Health Monitor</TabsTrigger>
-                    <TabsTrigger value="deep-dives" className="gap-1.5"><BookOpen className="w-3.5 h-3.5" /> {t("Bản giảng sâu", "Deep-Dives")}</TabsTrigger>
-                    <TabsTrigger value="phd-research" className="gap-1.5"><Brain className="w-3.5 h-3.5" /> 🎓 PhD Research</TabsTrigger>
-                    <TabsTrigger value="edtech-insights" className="gap-1.5"><Search className="w-3.5 h-3.5" /> 🧪 EdTech Research Insights</TabsTrigger>
-                  </>
-                )}
-              </TabsList>
+            <Tabs value={activeTab} onValueChange={(tab) => handleTabChange(tab)} className="space-y-4">
 
               <Suspense fallback={<TabLoading />}>
 
@@ -1321,8 +1241,11 @@ const AdminDashboard = () => {
           </motion.div>
         </div>
       </div>
-      <Footer />
-    </div>
+            </motion.div>
+          </main>
+        </SidebarInset>
+      </div>
+    </SidebarProvider>
   );
 };
 
