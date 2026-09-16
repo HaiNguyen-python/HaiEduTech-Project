@@ -157,27 +157,27 @@ export default function AdminWorkspaceNav({
   };
 
   return (
-    <Sidebar collapsible="icon" className="admin-sidebar border-r border-sidebar-border">
-      <SidebarHeader className="border-b border-sidebar-border px-3 py-4">
+    <Sidebar collapsible="icon" className="admin-sidebar border-r border-sidebar-border bg-sidebar">
+      <SidebarHeader className="border-b border-sidebar-border bg-sidebar px-3 py-4">
         <div className="flex items-center gap-3 overflow-hidden px-1">
           <div className="grid size-9 shrink-0 place-items-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
             <ShieldCheck className="size-5" />
           </div>
           <div className="min-w-0 group-data-[collapsible=icon]:hidden">
             <p className="font-display text-base font-bold text-sidebar-foreground">HaiEduTech</p>
-            <p className="text-xs text-sidebar-foreground/60">Admin workspace</p>
+            <p className="text-xs font-medium text-muted-foreground">Admin workspace</p>
           </div>
         </div>
       </SidebarHeader>
 
-      <SidebarContent className="px-2 py-3">
+      <SidebarContent className="bg-sidebar px-2 py-3">
         {ADMIN_NAV_GROUPS.map((group) => {
           const visibleItems = group.items.filter((item) => !item.teacherOnly || isTeacher);
           if (visibleItems.length === 0) return null;
           const GroupIcon = group.icon;
           return (
             <SidebarGroup key={group.id} className="py-1">
-              <SidebarGroupLabel className="gap-2 uppercase tracking-wide">
+              <SidebarGroupLabel className="gap-2 font-bold uppercase tracking-wide">
                 <GroupIcon />
                 {text(group.labelVi, group.labelEn)}
               </SidebarGroupLabel>
@@ -189,7 +189,7 @@ export default function AdminWorkspaceNav({
                         isActive={activeTab === item.id}
                         tooltip={text(item.labelVi, item.labelEn)}
                         onClick={() => selectTab(item.id, group.id)}
-                        className="h-9"
+                        className="h-9 font-medium data-[active=true]:font-semibold"
                       >
                         <item.icon />
                         <span>{text(item.labelVi, item.labelEn)}</span>
@@ -212,7 +212,7 @@ export default function AdminWorkspaceNav({
                     <SidebarMenuButton
                       tooltip={text(item.labelVi, item.labelEn)}
                       onClick={() => navigate(item.path)}
-                      className="h-9"
+                      className="h-9 font-medium"
                     >
                       <item.icon />
                       <span>{text(item.labelVi, item.labelEn)}</span>
@@ -226,8 +226,8 @@ export default function AdminWorkspaceNav({
         )}
       </SidebarContent>
 
-      <SidebarFooter className="border-t border-sidebar-border p-3">
-        <div className="flex items-center gap-2 rounded-md bg-sidebar-accent px-3 py-2 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-2">
+      <SidebarFooter className="border-t border-sidebar-border bg-sidebar p-3">
+        <div className="flex items-center gap-2 rounded-md border border-admin-success/20 bg-admin-success/10 px-3 py-2 text-admin-success group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-2">
           <span className="size-2 shrink-0 rounded-full bg-admin-success" aria-hidden="true" />
           <span className="truncate text-xs font-semibold group-data-[collapsible=icon]:hidden">
             {text("Hệ thống ổn định", "System operational")}
@@ -237,7 +237,7 @@ export default function AdminWorkspaceNav({
           variant="ghost"
           size="sm"
           onClick={() => navigate("/")}
-          className="justify-start text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-2"
+          className="justify-start text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-2"
         >
           <ExternalLink className="size-4" />
           <span className="group-data-[collapsible=icon]:hidden">{text("Về trang học", "Learning site")}</span>
