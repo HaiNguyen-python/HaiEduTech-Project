@@ -9,8 +9,7 @@ import {
   Shield, Users, BookOpen, TrendingUp, Loader2, BarChart3,
   Brain, AlertTriangle, ChevronRight, ArrowUpRight, ArrowDownRight, Minus,
   Target, Sparkles, Clock, Zap, ShieldCheck, Download, Search, Globe,
-  Activity, DollarSign, Server, Wifi, WifiOff, RefreshCw, ClipboardList, UserCog, Bell,
-  Menu, MoreHorizontal
+  Activity, DollarSign, Server, Wifi, WifiOff, RefreshCw, ClipboardList, UserCog, Bell
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -163,7 +162,7 @@ const AdminDashboard = () => {
   const [userMeta, setUserMeta] = useState<Map<string, { lastLogin: number; totalSeconds: number }>>(new Map());
   const fetchInFlightRef = useRef(false);
   const lastFetchAtRef = useRef(0);
-  const [tabGroup, setTabGroup] = useState<AdminTabGroup>("overview");
+  const [, setTabGroup] = useState<AdminTabGroup>("overview");
   const [activeTab, setActiveTab] = useState<string>("overview");
 
   // Deep-link support: /admin?tab=health (used by Health Monitor notifications)
@@ -1239,11 +1238,8 @@ const AdminDashboard = () => {
 
             </Tabs>
           </motion.div>
-        </div>
-      </div>
-            </motion.div>
-          </main>
-        </SidebarInset>
+        </main>
+      </SidebarInset>
       </div>
     </SidebarProvider>
   );
