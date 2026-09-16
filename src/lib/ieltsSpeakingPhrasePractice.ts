@@ -76,6 +76,15 @@ const phraseWithComplement = (phrase: string) => {
   return trimmed;
 };
 
+const stableIndex = (value: string, size: number) => {
+  let hash = 0;
+  for (const character of value) hash = ((hash << 5) - hash + character.charCodeAt(0)) | 0;
+  return Math.abs(hash) % size;
+};
+
+const chooseExample = (options: string[], phrase: string, topic: string, part: number) =>
+  options[stableIndex(`${part}|${topic}|${phrase}`, options.length)];
+
 export function getPhraseExample(phrase: string, topic: string, part: 1 | 2 | 3): string {
   const key = phrase.trim().toLowerCase().replace(/\.{2,}$/g, "");
   if (EXAMPLE_OVERRIDES[key]) return EXAMPLE_OVERRIDES[key];
@@ -84,15 +93,47 @@ export function getPhraseExample(phrase: string, topic: string, part: 1 | 2 | 3)
   const topicText = topic.toLowerCase().replace(/\s*&\s*/g, " and ");
   if (/^to\s+/i.test(cleaned)) {
     const infinitive = lowerFirst(cleaned);
-    if (/^to be\b/i.test(cleaned)) return `It can be difficult ${infinitive}, but the experience taught me something valuable.`;
-    if (part === 1) return `In my everyday life, I make an effort ${infinitive} whenever it is appropriate.`;
-    if (part === 2) return `That experience taught me how important it is ${infinitive}.`;
-    return `Governments and individuals should work together ${infinitive}.`;
+    if (/^to be\b/i.test(cleaned)) return chooseExample([
+      `I find it easier ${infinitive} when I have enough time to prepare.`,
+      `My experience has shown me what it really means ${infinitive}.`,
+      `It takes confidence ${infinitive}, especially in an unfamiliar situation.`,
+    ], cleaned, topic, part);
+    if (part === 1) return chooseExample([
+      `I usually try ${infinitive} because it makes my routine more enjoyable.`,
+      `At weekends, I have more time ${infinitive} without feeling rushed.`,
+      `I first learned ${infinitive} from someone in my family.`,
+      `Whenever I can, I prefer ${infinitive} rather than take the easier option.`,
+      `Over the past few years, I have made a conscious effort ${infinitive}.`,
+    ], cleaned, topic, part);
+    if (part === 2) return chooseExample([
+      `During that experience, I had a real opportunity ${infinitive}.`,
+      `What stayed with me was the decision ${infinitive} despite the difficulties.`,
+      `That occasion encouraged me ${infinitive} with much more confidence.`,
+      `Looking back, I am glad that I chose ${infinitive}.`,
+    ], cleaned, topic, part);
+    return chooseExample([
+      `One practical way to improve the situation is ${infinitive}.`,
+      `In the long term, communities need ${infinitive} more consistently.`,
+      `Policy makers should create stronger incentives for people ${infinitive}.`,
+      `A balanced strategy would allow society ${infinitive} without creating new problems.`,
+    ], cleaned, topic, part);
   }
   if (/^(a|an)\s+/i.test(cleaned)) {
-    if (part === 1) return `${cleaned} has had a positive influence on my daily life.`;
-    if (part === 2) return `${cleaned} made the occasion especially memorable for me.`;
-    return `${cleaned} can have a significant impact on modern society.`;
+    if (part === 1) return chooseExample([
+      `${cleaned} makes a noticeable difference to the way I spend my free time.`,
+      `${cleaned} is something I genuinely value in my everyday life.`,
+      `${cleaned} often helps me feel more comfortable and confident.`,
+    ], cleaned, topic, part);
+    if (part === 2) return chooseExample([
+      `${cleaned} was one of the details that made the experience stand out.`,
+      `${cleaned} immediately caught my attention when I arrived.`,
+      `${cleaned} turned an ordinary occasion into a lasting memory.`,
+    ], cleaned, topic, part);
+    return chooseExample([
+      `${cleaned} can shape how the public responds to ${topicText}.`,
+      `${cleaned} is often a key factor in debates about ${topicText}.`,
+      `${cleaned} could bring measurable benefits if it were widely adopted.`,
+    ], cleaned, topic, part);
   }
   if (/^(in|on|at|from|by|with|without|despite|although|while)\b/i.test(cleaned)) {
     return `${cleaned}, people can make more thoughtful decisions about ${topicText}.`;
@@ -109,9 +150,21 @@ export function getPhraseExample(phrase: string, topic: string, part: 1 | 2 | 3)
   if (/\b(is|are|has|have|plays?|affects?|creates?|helps?|allows?|means?|requires?)\b/i.test(cleaned)) {
     return `${cleaned.charAt(0).toUpperCase()}${cleaned.slice(1)} in many situations related to ${topicText}.`;
   }
-  if (part === 1) return `People often discuss ${lowerFirst(cleaned)} when talking about ${topicText}.`;
-  if (part === 2) return `I clearly remember ${lowerFirst(cleaned)} as part of that experience.`;
-  return `The issue of ${lowerFirst(cleaned)} deserves careful attention in discussions about ${topicText}.`;
+  if (part === 1) return chooseExample([
+    `${cleaned.charAt(0).toUpperCase()}${cleaned.slice(1)} is closely connected with my experience of ${topicText}.`,
+    `I often notice ${lowerFirst(cleaned)} in situations involving ${topicText}.`,
+    `${cleaned.charAt(0).toUpperCase()}${cleaned.slice(1)} is one aspect of ${topicText} that matters to me personally.`,
+  ], cleaned, topic, part);
+  if (part === 2) return chooseExample([
+    `I can still remember ${lowerFirst(cleaned)} as a distinctive part of that experience.`,
+    `${cleaned.charAt(0).toUpperCase()}${cleaned.slice(1)} was the detail that stayed in my mind afterwards.`,
+    `The experience gave me a new appreciation of ${lowerFirst(cleaned)}.`,
+  ], cleaned, topic, part);
+  return chooseExample([
+    `${cleaned.charAt(0).toUpperCase()}${cleaned.slice(1)} deserves closer attention in debates about ${topicText}.`,
+    `Public discussion of ${topicText} often overlooks the role of ${lowerFirst(cleaned)}.`,
+    `A clearer understanding of ${lowerFirst(cleaned)} could improve decisions about ${topicText}.`,
+  ], cleaned, topic, part);
 }
 
 const structureSlots: Record<1 | 2 | 3, string[]> = {

@@ -789,6 +789,145 @@ const part3TopicAliases: Record<string, string> = {
   "Crime & Law": "Crime & Justice",
 };
 
+/**
+ * IELTS Speaking cards teach usable chunks rather than isolated words.
+ * Some expansion questions intentionally used concise labels; expand those
+ * labels here so every consumer receives a speakable collocation.
+ */
+const COLLOCATION_REPLACEMENTS: Record<string, { phrase: string; vietnamese: string }> = {
+  "accessible": { phrase: "easily accessible facilities", vietnamese: "Cơ sở vật chất dễ tiếp cận" },
+  "ad-free": { phrase: "an ad-free experience", vietnamese: "Trải nghiệm không quảng cáo" },
+  "automation": { phrase: "workplace automation", vietnamese: "Tự động hóa tại nơi làm việc" },
+  "birdsong": { phrase: "the sound of birdsong", vietnamese: "Âm thanh tiếng chim hót" },
+  "bland": { phrase: "a bland taste", vietnamese: "Hương vị nhạt nhẽo" },
+  "burnout": { phrase: "to suffer from burnout", vietnamese: "Bị kiệt sức kéo dài" },
+  "candid": { phrase: "a candid photograph", vietnamese: "Một bức ảnh tự nhiên, không dàn dựng" },
+  "carefree": { phrase: "a carefree childhood", vietnamese: "Một tuổi thơ vô tư" },
+  "clickbait": { phrase: "misleading clickbait headlines", vietnamese: "Các tiêu đề giật gân gây hiểu lầm" },
+  "clutter": { phrase: "household clutter", vietnamese: "Đồ đạc lộn xộn trong nhà" },
+  "commercialisation": { phrase: "the commercialisation of tourism", vietnamese: "Sự thương mại hóa du lịch" },
+  "competitive": { phrase: "a highly competitive environment", vietnamese: "Một môi trường cạnh tranh cao" },
+  "compulsory": { phrase: "a compulsory requirement", vietnamese: "Một yêu cầu bắt buộc" },
+  "congestion": { phrase: "severe traffic congestion", vietnamese: "Tình trạng ùn tắc giao thông nghiêm trọng" },
+  "considerate": { phrase: "a considerate attitude", vietnamese: "Thái độ biết nghĩ cho người khác" },
+  "cost-effective": { phrase: "a cost-effective solution", vietnamese: "Một giải pháp hiệu quả về chi phí" },
+  "counter-intuitive": { phrase: "a counter-intuitive feature", vietnamese: "Một tính năng khó hiểu, phản trực giác" },
+  "counterproductive": { phrase: "a counterproductive approach", vietnamese: "Một cách tiếp cận phản tác dụng" },
+  "courteous": { phrase: "courteous customer service", vietnamese: "Dịch vụ khách hàng lịch sự" },
+  "coverage": { phrase: "extensive media coverage", vietnamese: "Sự đưa tin rộng rãi của truyền thông" },
+  "cramped": { phrase: "cramped living conditions", vietnamese: "Điều kiện sinh hoạt chật chội" },
+  "cut-throat": { phrase: "cut-throat competition", vietnamese: "Sự cạnh tranh khốc liệt" },
+  "dedication": { phrase: "unwavering dedication", vietnamese: "Sự tận tụy không lay chuyển" },
+  "deep-rooted": { phrase: "a deep-rooted tradition", vietnamese: "Một truyền thống lâu đời, ăn sâu" },
+  "determination": { phrase: "sheer determination", vietnamese: "Sự quyết tâm mạnh mẽ" },
+  "deterrent": { phrase: "an effective deterrent", vietnamese: "Một biện pháp răn đe hiệu quả" },
+  "disincentive": { phrase: "a financial disincentive", vietnamese: "Một biện pháp hạn chế bằng tài chính" },
+  "distraction-free": { phrase: "a distraction-free environment", vietnamese: "Một môi trường không bị phân tâm" },
+  "domesticated": { phrase: "a domesticated animal", vietnamese: "Một loài động vật đã thuần hóa" },
+  "down-to-earth": { phrase: "a down-to-earth personality", vietnamese: "Một tính cách giản dị, thực tế" },
+  "downside": { phrase: "a major downside", vietnamese: "Một mặt trái đáng kể" },
+  "ecotourism": { phrase: "responsible ecotourism", vietnamese: "Du lịch sinh thái có trách nhiệm" },
+  "emissions": { phrase: "vehicle carbon emissions", vietnamese: "Khí thải carbon từ phương tiện" },
+  "entrepreneurship": { phrase: "a culture of entrepreneurship", vietnamese: "Văn hóa khởi nghiệp" },
+  "exhausting": { phrase: "an exhausting journey", vietnamese: "Một hành trình mệt lử" },
+  "exhibition": { phrase: "an interactive exhibition", vietnamese: "Một triển lãm tương tác" },
+  "eye-opening": { phrase: "an eye-opening experience", vietnamese: "Một trải nghiệm mở mang tầm mắt" },
+  "face-to-face": { phrase: "face-to-face communication", vietnamese: "Giao tiếp trực tiếp" },
+  "fact-checking": { phrase: "independent fact-checking", vietnamese: "Hoạt động kiểm chứng thông tin độc lập" },
+  "facilities": { phrase: "modern public facilities", vietnamese: "Cơ sở vật chất công cộng hiện đại" },
+  "faded": { phrase: "a faded family photograph", vietnamese: "Một bức ảnh gia đình đã bạc màu" },
+  "family-run": { phrase: "a family-run business", vietnamese: "Một doanh nghiệp gia đình" },
+  "framed": { phrase: "a beautifully framed picture", vietnamese: "Một bức ảnh được lồng khung đẹp" },
+  "frustrating": { phrase: "a frustrating learning experience", vietnamese: "Một trải nghiệm học tập gây bực bội" },
+  "game-changer": { phrase: "a genuine game-changer", vietnamese: "Một yếu tố thực sự tạo bước ngoặt" },
+  "gatekeeping": { phrase: "media gatekeeping practices", vietnamese: "Các hoạt động kiểm soát nội dung truyền thông" },
+  "gear": { phrase: "essential outdoor gear", vietnamese: "Trang bị ngoài trời thiết yếu" },
+  "grateful": { phrase: "deeply grateful for", vietnamese: "Vô cùng biết ơn về" },
+  "greenwashing": { phrase: "corporate greenwashing", vietnamese: "Hoạt động tẩy xanh của doanh nghiệp" },
+  "hand-me-down": { phrase: "hand-me-down clothes", vietnamese: "Quần áo được cho lại" },
+  "hands-on": { phrase: "hands-on learning", vietnamese: "Học tập qua thực hành" },
+  "handy": { phrase: "to be handy with tools", vietnamese: "Khéo léo khi sử dụng dụng cụ" },
+  "harmless": { phrase: "a completely harmless animal", vietnamese: "Một loài động vật hoàn toàn vô hại" },
+  "high-pressure": { phrase: "a high-pressure job", vietnamese: "Một công việc áp lực cao" },
+  "homely": { phrase: "a warm, homely atmosphere", vietnamese: "Một bầu không khí ấm cúng như ở nhà" },
+  "houseplants": { phrase: "to care for houseplants", vietnamese: "Chăm sóc cây trồng trong nhà" },
+  "humble": { phrase: "a humble attitude", vietnamese: "Một thái độ khiêm tốn" },
+  "illustration": { phrase: "a vivid book illustration", vietnamese: "Một tranh minh họa sách sống động" },
+  "imagination": { phrase: "a vivid imagination", vietnamese: "Trí tưởng tượng phong phú" },
+  "immediacy": { phrase: "the immediacy of online news", vietnamese: "Tính tức thời của tin tức trực tuyến" },
+  "impressionable": { phrase: "highly impressionable teenagers", vietnamese: "Thanh thiếu niên rất dễ bị tác động" },
+  "incentive": { phrase: "a financial incentive", vietnamese: "Một ưu đãi khuyến khích bằng tài chính" },
+  "indispensable": { phrase: "an indispensable everyday tool", vietnamese: "Một công cụ hằng ngày không thể thiếu" },
+  "infrastructure": { phrase: "modern urban infrastructure", vietnamese: "Cơ sở hạ tầng đô thị hiện đại" },
+  "insightful": { phrase: "an insightful person", vietnamese: "Một người có hiểu biết sâu sắc" },
+  "labour-saving": { phrase: "labour-saving technology", vietnamese: "Công nghệ tiết kiệm sức lao động" },
+  "landmark": { phrase: "a well-known local landmark", vietnamese: "Một địa danh nổi tiếng tại địa phương" },
+  "last-minute": { phrase: "a last-minute gift", vietnamese: "Một món quà mua sát giờ chót" },
+  "leftovers": { phrase: "to use up leftovers", vietnamese: "Dùng hết đồ ăn thừa" },
+  "lyrics": { phrase: "meaningful song lyrics", vietnamese: "Lời bài hát giàu ý nghĩa" },
+  "materialism": { phrase: "growing social materialism", vietnamese: "Chủ nghĩa vật chất gia tăng trong xã hội" },
+  "materialistic": { phrase: "a materialistic outlook", vietnamese: "Một quan điểm coi trọng vật chất" },
+  "milestone": { phrase: "a major personal milestone", vietnamese: "Một cột mốc cá nhân quan trọng" },
+  "misinformation": { phrase: "the spread of misinformation", vietnamese: "Sự lan truyền thông tin sai lệch" },
+  "misunderstanding": { phrase: "to clear up a misunderstanding", vietnamese: "Giải quyết một sự hiểu lầm" },
+  "mouth-watering": { phrase: "a mouth-watering aroma", vietnamese: "Một mùi thơm hấp dẫn đến chảy nước miếng" },
+  "multiculturalism": { phrase: "a policy of multiculturalism", vietnamese: "Chính sách đa văn hóa" },
+  "nerve-racking": { phrase: "a nerve-racking experience", vietnamese: "Một trải nghiệm căng thẳng, hồi hộp" },
+  "non-fiction": { phrase: "to read non-fiction books", vietnamese: "Đọc sách phi hư cấu" },
+  "nostalgic": { phrase: "to feel nostalgic about", vietnamese: "Cảm thấy hoài niệm về" },
+  "notifications": { phrase: "constant phone notifications", vietnamese: "Thông báo điện thoại liên tục" },
+  "open-minded": { phrase: "an open-minded attitude", vietnamese: "Một thái độ cởi mở" },
+  "outdated": { phrase: "an outdated social norm", vietnamese: "Một chuẩn mực xã hội lỗi thời" },
+  "overtourism": { phrase: "the impact of overtourism", vietnamese: "Tác động của tình trạng quá tải du lịch" },
+  "overheads": { phrase: "to reduce business overheads", vietnamese: "Giảm chi phí vận hành doanh nghiệp" },
+  "overwhelming": { phrase: "an overwhelming experience", vietnamese: "Một trải nghiệm choáng ngợp" },
+  "packed": { phrase: "a packed event venue", vietnamese: "Một địa điểm tổ chức sự kiện chật kín người" },
+  "patience": { phrase: "a great deal of patience", vietnamese: "Rất nhiều sự kiên nhẫn" },
+  "patient": { phrase: "a patient and supportive person", vietnamese: "Một người kiên nhẫn và biết hỗ trợ" },
+  "perseverance": { phrase: "remarkable perseverance", vietnamese: "Sự kiên trì đáng nể" },
+  "portable": { phrase: "a lightweight portable device", vietnamese: "Một thiết bị nhẹ, dễ mang theo" },
+  "preconception": { phrase: "to challenge a preconception", vietnamese: "Thách thức một định kiến có sẵn" },
+  "prompt": { phrase: "a prompt response", vietnamese: "Một phản hồi nhanh chóng" },
+  "rainfall": { phrase: "the sound of rainfall", vietnamese: "Âm thanh mưa rơi" },
+  "reasonable": { phrase: "a reasonable compromise", vietnamese: "Một sự thỏa hiệp hợp lý" },
+  "refreshing": { phrase: "a refreshing change of pace", vietnamese: "Một sự thay đổi nhịp sống sảng khoái" },
+  "rehabilitation": { phrase: "prisoner rehabilitation programmes", vietnamese: "Các chương trình cải tạo phạm nhân" },
+  "regulation": { phrase: "strict environmental regulation", vietnamese: "Quy định môi trường nghiêm ngặt" },
+  "regulars": { phrase: "a group of loyal regulars", vietnamese: "Một nhóm khách quen trung thành" },
+  "reoffending": { phrase: "to reduce reoffending rates", vietnamese: "Giảm tỷ lệ tái phạm" },
+  "restoration": { phrase: "the restoration of historic buildings", vietnamese: "Việc trùng tu các công trình lịch sử" },
+  "rewarding": { phrase: "a deeply rewarding experience", vietnamese: "Một trải nghiệm rất đáng giá" },
+  "run-down": { phrase: "a run-down neighbourhood", vietnamese: "Một khu dân cư xuống cấp" },
+  "rural": { phrase: "a remote rural area", vietnamese: "Một vùng nông thôn xa xôi" },
+  "scenery": { phrase: "to capture dramatic scenery", vietnamese: "Ghi lại phong cảnh ấn tượng" },
+  "scenic": { phrase: "a scenic hiking route", vietnamese: "Một cung đường đi bộ có phong cảnh đẹp" },
+  "self-paced": { phrase: "a self-paced online course", vietnamese: "Một khóa học trực tuyến theo tốc độ cá nhân" },
+  "self-taught": { phrase: "a self-taught learner", vietnamese: "Một người tự học" },
+  "serene": { phrase: "a serene natural setting", vietnamese: "Một khung cảnh thiên nhiên thanh bình" },
+  "soothing": { phrase: "a soothing sound", vietnamese: "Một âm thanh êm dịu" },
+  "stamina": { phrase: "to build physical stamina", vietnamese: "Rèn luyện sức bền thể chất" },
+  "statistics": { phrase: "to cite reliable statistics", vietnamese: "Trích dẫn số liệu thống kê đáng tin cậy" },
+  "texture": { phrase: "a smooth, creamy texture", vietnamese: "Kết cấu mịn và béo của món ăn" },
+  "thought-provoking": { phrase: "a thought-provoking documentary", vietnamese: "Một bộ phim tài liệu gợi nhiều suy nghĩ" },
+  "timeless": { phrase: "a timeless clothing style", vietnamese: "Một phong cách thời trang không lỗi mốt" },
+  "tolerance": { phrase: "greater cultural tolerance", vietnamese: "Sự khoan dung văn hóa lớn hơn" },
+  "tranquil": { phrase: "a tranquil lakeside setting", vietnamese: "Một khung cảnh ven hồ tĩnh lặng" },
+  "turnout": { phrase: "a strong public turnout", vietnamese: "Số người dân tham gia đông đảo" },
+  "unforeseen": { phrase: "an unforeseen problem", vietnamese: "Một vấn đề không lường trước" },
+  "unprecedented": { phrase: "an unprecedented event", vietnamese: "Một sự kiện chưa từng có" },
+  "unspoilt": { phrase: "an unspoilt natural landscape", vietnamese: "Một cảnh quan thiên nhiên còn nguyên sơ" },
+  "untouched": { phrase: "an untouched natural habitat", vietnamese: "Một môi trường sống tự nhiên chưa bị tác động" },
+  "upskilling": { phrase: "continuous professional upskilling", vietnamese: "Việc liên tục nâng cao kỹ năng nghề nghiệp" },
+  "well-deserved": { phrase: "a well-deserved achievement", vietnamese: "Một thành tựu hoàn toàn xứng đáng" },
+  "well-stocked": { phrase: "a well-stocked local shop", vietnamese: "Một cửa hàng địa phương có hàng hóa đầy đủ" },
+  "widespread": { phrase: "widespread technology adoption", vietnamese: "Việc áp dụng công nghệ rộng rãi" },
+  "wanderlust": { phrase: "a strong sense of wanderlust", vietnamese: "Niềm đam mê khám phá, du lịch mạnh mẽ" },
+  "withdrawal": { phrase: "a sense of digital withdrawal", vietnamese: "Cảm giác thiếu vắng khi rời thiết bị số" },
+};
+
+export const expandToCollocation = (item: { phrase: string; vietnamese: string }) =>
+  COLLOCATION_REPLACEMENTS[item.phrase.trim().toLowerCase()] ?? item;
+
 // Utility: get merged vocabulary for a question (question-specific + topic-level)
 export const getMergedVocabulary = (
   part: 1 | 2 | 3,
@@ -807,14 +946,14 @@ export const getMergedVocabulary = (
     const key = v.phrase.toLowerCase();
     if (!seen.has(key)) {
       seen.add(key);
-      merged.push(v);
+      merged.push(expandToCollocation(v));
     }
   }
   for (const v of topicVocab) {
     const key = v.phrase.toLowerCase();
     if (!seen.has(key)) {
       seen.add(key);
-      merged.push(v);
+      merged.push(expandToCollocation(v));
     }
   }
 

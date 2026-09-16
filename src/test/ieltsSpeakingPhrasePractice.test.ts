@@ -20,6 +20,8 @@ describe("IELTS phrase speaking practice", () => {
     expect(getPhraseExample("To pursue a career in...", "Work & Study", 1)).toContain("pursue a career in educational technology");
     expect(getPhraseExample("Broaden one's horizons", "Travel", 2)).not.toContain("one's");
     expect(getPhraseExample("In the long run", "Environment", 3)).toMatch(/[.!?]$/);
+    expect(getPhraseExample("To edit photos", "Photography", 1)).not.toMatch(/whenever? it is appropriate/i);
+    expect(getPhraseExample("To edit photos", "Photography", 1)).not.toBe(getPhraseExample("To edit photos", "Technology", 1));
   });
 
   it("normalizes an AI grade and clamps scores", () => {
