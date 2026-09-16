@@ -11,3 +11,4 @@ type: feature
 - Flow: each part/topic/track starts in a **study phase** (full list of words with VI meaning, or structures with function tag, each with normal/slow audio) then "Start the quiz"; a "Study list" button in the sticky bar returns to it.
 - Quiz options are labelled A/B/C/D and the explanation states the correct letter + text.
 - Extra shared items per part come from `src/data/speakingDrillsSupplement.ts` (10-12 phrases and 6 structures per part) merged on top of the topic banks.
+- Vocabulary study cards must contain usable multi-word collocations, never isolated words. `expandToCollocation` normalizes legacy single-word entries at merge time; the phrase-example audit enforces 0 single-word items and rejects generic repeated examples such as `whenever it is appropriate`.
