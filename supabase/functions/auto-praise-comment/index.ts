@@ -1,3 +1,4 @@
+import "../_shared/ai-fallback.ts";
 // Auto-praise comment: after a student posts to Your Corner, Coach Hai leaves a
 // short praise comment (and, if there are grammar/spelling issues, a corrected version).
 // Uses the service role to insert the comment as Coach Hai's user account.

@@ -1,3 +1,4 @@
+import "../_shared/ai-fallback.ts";
 // Edge function: rewrite a programming lesson into a 1000-word Deep-Dive
 // using Perplexity sonar-pro, plus generate 1-2 cute infographic illustrations
 // via the generate-lesson-illustrations function. Caches everything in

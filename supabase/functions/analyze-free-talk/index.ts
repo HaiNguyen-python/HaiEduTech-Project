@@ -1,3 +1,4 @@
+import "../_shared/ai-fallback.ts";
 // Edge function: AI feedback for Speaking Coach Free Talk answers.
 // Takes the learner transcript plus locally measured telemetry and returns
 // fluency notes, grammar fixes, an upgraded model answer and follow-ups.

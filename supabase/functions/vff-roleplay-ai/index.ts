@@ -1,3 +1,4 @@
+import "../_shared/ai-fallback.ts";
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 
 const SCENARIOS: Record<string, string> = {

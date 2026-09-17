@@ -1,5 +1,6 @@
-// Global fetch interceptor: when Lovable AI Gateway returns 402 (credits
-// exhausted) or 429 (rate limited), transparently fall back to Perplexity AI.
+// Global fetch interceptor: routes Lovable AI Gateway chat/completions calls to
+// Perplexity AI first (primary provider), falling back to Lovable AI when
+// Perplexity fails. Set AI_PRIMARY=lovable to restore Lovable-first behaviour.
 //
 // Import this file at the top of any edge function that calls
 // https://ai.gateway.lovable.dev/v1/chat/completions — no other code change

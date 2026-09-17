@@ -1,3 +1,4 @@
+import "../_shared/ai-fallback.ts";
 /**
  * Startup Pitch Critic - simulates a tough VC investor reviewing a founder's pitch deck.
  * Returns per-slide feedback and 5-criterion scores (Problem, Solution, Market, Traction, Team).

@@ -1,3 +1,4 @@
+import "../_shared/ai-fallback.ts";
 // Grade a Vietnamese -> English IELTS Writing PARAGRAPH translation.
 // Uses Lovable AI Gateway. Returns strict JSON with 5 sub-scores + bilingual, per-sentence feedback.
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";

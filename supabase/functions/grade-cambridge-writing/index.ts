@@ -1,3 +1,4 @@
+import "../_shared/ai-fallback.ts";
 // Edge function: Grade Cambridge writing tasks (Starters -> PET).
 // Scores the four official criteria 1-5 and returns bilingual feedback plus fixes.
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
