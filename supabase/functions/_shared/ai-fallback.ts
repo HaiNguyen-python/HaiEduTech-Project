@@ -1,4 +1,3 @@
-import "../_shared/ai-fallback.ts";
 // Global fetch interceptor: when Lovable AI Gateway returns 402 (credits
 // exhausted) or 429 (rate limited), transparently fall back to Perplexity AI.
 //
