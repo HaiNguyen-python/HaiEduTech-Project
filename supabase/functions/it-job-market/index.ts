@@ -1,3 +1,4 @@
+import "../_shared/ai-fallback.ts";
 // Live IT job market insights (Finland focus)
 // Primary: Perplexity (live web). Fallback: Lovable AI when Perplexity is unavailable.
 import "https://deno.land/x/xhr@0.1.0/mod.ts";

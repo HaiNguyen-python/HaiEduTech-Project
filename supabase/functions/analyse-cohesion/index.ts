@@ -1,3 +1,4 @@
+import "../_shared/ai-fallback.ts";
 /**
  * Edge function: Analyse a paragraph for Coherence & Cohesion (IELTS)
  * Uses Lovable AI Gateway (google/gemini-3-flash-preview)

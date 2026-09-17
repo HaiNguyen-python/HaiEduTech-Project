@@ -1,3 +1,4 @@
+import "../_shared/ai-fallback.ts";
 // Edge function: Grade Cambridge Speaking (Starters -> PET) with kid-friendly stars.
 // Returns 4 criteria scored 1-5 stars plus warm, actionable feedback for young learners.
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";

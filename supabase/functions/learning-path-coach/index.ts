@@ -1,3 +1,4 @@
+import "../_shared/ai-fallback.ts";
 // Learning Path Coach - short personalized commentary for "My Learning Path".
 // Numbers are computed on the client; this only adds human-sounding advice.
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";

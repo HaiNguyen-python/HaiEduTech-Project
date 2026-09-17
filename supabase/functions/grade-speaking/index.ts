@@ -1,3 +1,4 @@
+import "../_shared/ai-fallback.ts";
 // Edge function: Grade IELTS Speaking using the official Public Band Descriptors.
 // Accuracy-first: strong model, full rubric, generous timeout, multiple highlighted errors.
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";

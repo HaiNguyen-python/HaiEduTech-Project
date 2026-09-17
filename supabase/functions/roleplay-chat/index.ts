@@ -1,3 +1,4 @@
+import "../_shared/ai-fallback.ts";
 // Edge function for Conversational AI Roleplay
 // Uses Perplexity API for interactive speaking practice
 // Optional auth: works for both guests and authenticated users

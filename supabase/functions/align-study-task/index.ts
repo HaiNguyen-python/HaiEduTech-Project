@@ -1,3 +1,4 @@
+import "../_shared/ai-fallback.ts";
 // Align a new study task to one of the user's active goals using Lovable AI.
 import { createClient } from "npm:@supabase/supabase-js@2";
 

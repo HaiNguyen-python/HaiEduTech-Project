@@ -1,3 +1,4 @@
+import "../_shared/ai-fallback.ts";
 // Edge function: AI coaching for the Presentation & Public Speaking Studio.
 // Takes a transcript plus locally measured telemetry and returns strengths,
 // high-impact fixes and two tough audience counter-questions.

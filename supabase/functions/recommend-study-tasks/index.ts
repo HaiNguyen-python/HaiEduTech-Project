@@ -1,3 +1,4 @@
+import "../_shared/ai-fallback.ts";
 // Recommend 2-3 high-impact micro tasks for today. Uses Lovable AI when available,
 // falls back to a deterministic heuristic engine when AI is unavailable (402/429/network).
 import { createClient } from "npm:@supabase/supabase-js@2";
