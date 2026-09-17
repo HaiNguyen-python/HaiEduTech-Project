@@ -132,6 +132,46 @@ function perplexityToLovable(pData: any, toolName?: string): any {
   return out;
 }
 
+async function callPerplexity(
+  originalFetch: typeof fetch,
+  pKey: string,
+  parsedBody: any,
+  signal?: AbortSignal,
+): Promise<Response | null> {
+  const wantsStream = parsedBody?.stream === true;
+  const { pBody, toolName } = mapToPerplexity(parsedBody);
+  if (wantsStream) {
+    pBody.stream = true;
+    delete pBody.response_format;
+  }
+  const pResp = await originalFetch(PPLX_URL, {
+    method: "POST",
+    signal,
+    headers: { Authorization: `Bearer ${pKey}`, "Content-Type": "application/json" },
+    body: JSON.stringify(pBody),
+  });
+  if (!pResp.ok) {
+    const errText = await pResp.text().catch(() => "");
+    console.error("[ai-provider] Perplexity failed", pResp.status, errText, pBody.model);
+    return null;
+  }
+  if (wantsStream) {
+    // Perplexity streams OpenAI-compatible SSE — pass it straight through.
+    return new Response(pResp.body, {
+      status: 200,
+      headers: {
+        "Content-Type": pResp.headers.get("Content-Type") ?? "text/event-stream",
+        "x-ai-provider": "perplexity",
+      },
+    });
+  }
+  const pData = await pResp.json();
+  return new Response(JSON.stringify(perplexityToLovable(pData, toolName)), {
+    status: 200,
+    headers: { "Content-Type": "application/json", "x-ai-provider": "perplexity" },
+  });
+}
+
 // Install once per isolate.
 const g = globalThis as any;
 if (!g.__lovableAIFallbackInstalled) {
@@ -147,50 +187,44 @@ if (!g.__lovableAIFallbackInstalled) {
     if (url !== LOV_URL || !init || init.method !== "POST") {
       return originalFetch(input, init);
     }
-    const lovResp: Response = await originalFetch(input, init);
-    if (lovResp.status !== 402 && lovResp.status !== 429) return lovResp;
 
     const pKey = Deno.env.get("PERPLEXITY_API_KEY");
-    if (!pKey) {
-      console.warn("[ai-fallback] Lovable AI returned", lovResp.status, "but PERPLEXITY_API_KEY not set — skipping fallback");
-      return lovResp;
-    }
+    // AI_PRIMARY=lovable restores the old behaviour (Lovable first, Perplexity fallback).
+    const perplexityFirst = pKey && (Deno.env.get("AI_PRIMARY") ?? "perplexity") === "perplexity";
 
     let parsedBody: any;
     try {
       const raw = typeof init.body === "string" ? init.body : new TextDecoder().decode(init.body);
       parsedBody = JSON.parse(raw);
     } catch (e) {
-      console.error("[ai-fallback] Could not parse request body, skipping fallback", e);
-      return lovResp;
+      console.error("[ai-provider] Could not parse request body", e);
+      parsedBody = undefined;
     }
 
-    try {
-      const { pBody, toolName } = mapToPerplexity(parsedBody);
-      console.warn(`[ai-fallback] Lovable AI ${lovResp.status} - falling back to Perplexity (${pBody.model})`);
-      const pResp = await originalFetch(PPLX_URL, {
-        method: "POST",
-        signal: init.signal,
-        headers: {
-          Authorization: `Bearer ${pKey}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(pBody),
-      });
-      if (!pResp.ok) {
-        const errText = await pResp.text().catch(() => "");
-        console.error("[ai-fallback] Perplexity failed", pResp.status, errText);
-        // Return the ORIGINAL Lovable error so call sites surface 402/429 correctly.
-        return lovResp;
+    // Primary: Perplexity.
+    if (perplexityFirst && parsedBody) {
+      try {
+        const pOk = await callPerplexity(originalFetch, pKey!, parsedBody, init.signal);
+        if (pOk) return pOk;
+      } catch (e) {
+        console.error("[ai-provider] Perplexity error, trying Lovable AI", e);
       }
-      const pData = await pResp.json();
-      const normalized = perplexityToLovable(pData, toolName);
-      return new Response(JSON.stringify(normalized), {
-        status: 200,
-        headers: { "Content-Type": "application/json", "x-ai-provider": "perplexity" },
-      });
+    }
+
+    const lovResp: Response = await originalFetch(input, init);
+    if (lovResp.status !== 402 && lovResp.status !== 429) return lovResp;
+
+    if (!pKey || !parsedBody) {
+      console.warn("[ai-provider] Lovable AI", lovResp.status, "and no Perplexity fallback available");
+      return lovResp;
+    }
+    if (perplexityFirst) return lovResp; // already tried Perplexity above
+
+    try {
+      const pOk = await callPerplexity(originalFetch, pKey, parsedBody, init.signal);
+      return pOk ?? lovResp;
     } catch (e) {
-      console.error("[ai-fallback] Unexpected error during fallback", e);
+      console.error("[ai-provider] Unexpected error during fallback", e);
       return lovResp;
     }
   };
