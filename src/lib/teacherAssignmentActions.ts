@@ -46,6 +46,46 @@ export async function createClass(input: {
   if (error) throw new Error(error.message);
 }
 
+/**
+ * Rename a class (and optionally change its subject). Assignments store the
+ * class name as text, so the old name is rewritten on them too - otherwise the
+ * tracking list would keep showing a name that no longer exists.
+ */
+export async function renameClass(
+  classId: string,
+  input: { className: string; subject?: string; previousName?: string | null },
+): Promise<{ assignmentsUpdated: number }> {
+  const name = input.className.trim();
+  if (!name) throw new Error("Tên lớp không được để trống");
+
+  const { data: clash, error: clashError } = await supabase
+    .from("classes")
+    .select("id")
+    .eq("class_name", name)
+    .neq("id", classId)
+    .limit(1);
+  if (clashError) throw new Error(clashError.message);
+  if (clash && clash.length > 0) throw new Error("Đã có lớp khác dùng tên này");
+
+  const patch: { class_name: string; subject_category?: string } = { class_name: name };
+  if (input.subject) patch.subject_category = input.subject;
+  const { error } = await supabase.from("classes").update(patch).eq("id", classId);
+  if (error) throw new Error(error.message);
+
+  let assignmentsUpdated = 0;
+  const prev = input.previousName?.trim();
+  if (prev && prev !== name) {
+    const { data, error: aError } = await supabase
+      .from("assignments")
+      .update({ target_class: name })
+      .eq("target_class", prev)
+      .select("id");
+    if (aError) throw new Error(`Đã đổi tên lớp nhưng chưa cập nhật bài tập cũ: ${aError.message}`);
+    assignmentsUpdated = data?.length ?? 0;
+  }
+  return { assignmentsUpdated };
+}
+
 export async function deleteClass(classId: string): Promise<void> {
   const { error } = await supabase.from("classes").delete().eq("id", classId);
   if (error) throw new Error(error.message);
