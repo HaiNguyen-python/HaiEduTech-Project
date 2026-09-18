@@ -108,20 +108,25 @@ export const buildReadingExplanation = (
   const authored = (q.explanation || "").trim().replace(/\s+/g, " ");
   const authoredVi = (q.explanationVi || "").trim().replace(/\s+/g, " ");
 
-  const evidenceRaw = findEvidenceSentence(q.passage, q.question, key);
+  // Prefer a sentence that really contains the key. Only when the key is a
+  // paraphrase of the text do we quote the closest sentence, and we say so.
+  const direct = sentenceContainingKey(q.passage, key);
+  const evidenceRaw = direct ?? findEvidenceSentence(q.passage, q.question, key);
   const evidence = evidenceRaw ? cleanQuote(evidenceRaw) : null;
 
   if (evidence) {
     const frame = stemFrame(q.question);
     const alreadyQuoted = authored.length >= 40 && authored.toLowerCase().includes(evidence.slice(0, 24).toLowerCase());
-    const explanation = alreadyQuoted
-      ? authored
-      : `The text ${frame.en}: "${evidence}" So the answer is "${key}", and the other options are details the text never gives.`;
-    const explanationVi =
-      authoredVi.length >= 25
-        ? authoredVi
-        : `Bài đọc ${frame.vi}: "${evidence}" Vì vậy đáp án là "${key}"; các phương án khác không có trong bài.`;
-    return { explanation, explanationVi };
+    const en = direct
+      ? `The text ${frame.en}: "${evidence}" So the answer is "${key}", and the other options are details the text never gives.`
+      : `The answer is a paraphrase: the text says "${evidence}" which means "${key}". The other options are not supported by the text.`;
+    const vi = direct
+      ? `Bài đọc ${frame.vi}: "${evidence}" Vì vậy đáp án là "${key}"; các phương án khác không có trong bài.`
+      : `Đáp án là cách diễn đạt lại: bài đọc viết "${evidence}", nghĩa là "${key}". Các phương án khác không được bài đọc xác nhận.`;
+    return {
+      explanation: alreadyQuoted ? authored : en,
+      explanationVi: authoredVi.length >= 25 ? authoredVi : vi,
+    };
   }
 
   const note = grammarNote(q.question, key);
