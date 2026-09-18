@@ -21,7 +21,7 @@ const keyForms = (key: string): string[] => {
     .toLowerCase()
     .replace(/[^a-z0-9\s.:']/g, " ")
     .split(/\s+/)
-    .filter(w => w.length > 2 && !/^(the|a|an|and|for|with|about|from|that|this|his|her|not|nothing)$/.test(w));
+    .filter(w => (w.length > 2 || /\d/.test(w)) && !/^(the|a|an|and|for|with|about|from|that|this|his|her|not|nothing)$/.test(w));
   const forms = new Set<string>();
   raw.forEach(w => {
     forms.add(w);
