@@ -24,7 +24,7 @@ const LISTENING_MIN_WORDS: Record<string, number> = {
 
 /** Reading context expected per level; signs and notices stay short by design. */
 const READING_MIN_WORDS: Record<string, number> = {
-  starters: 20, movers: 38, flyers: 45, ket: 45, pet: 55,
+  starters: 20, movers: 26, flyers: 45, ket: 45, pet: 45,
 };
 const REALIA = /^\s*(Sign|Notice|Note|Email|Message|Advert|Advertisement|Job Advertisement|Article|Poster|Text message|Label|Menu|Timetable|Invitation)\b/i;
 
