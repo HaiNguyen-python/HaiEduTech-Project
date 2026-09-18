@@ -203,7 +203,7 @@ const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics }: Pr
                     <div className="flex gap-2">
                       <Button size="icon" variant="outline" className="text-foreground hover:border-primary hover:bg-primary/10 hover:text-primary" onClick={() => speak(`${item.term}. ${item.example}`)} aria-label={t("Nghe", "Listen")}><Volume2 className="h-4 w-4" /></Button>
                       <Button size="icon" variant="outline" className="text-foreground hover:border-primary hover:bg-primary/10 hover:text-primary" onClick={() => speak(`${item.term}. ${item.example}`, true)} aria-label={t("Nghe chậm", "Listen slowly")}><Turtle className="h-4 w-4" /></Button>
-                      <Button size="icon" variant={practised.includes(practiceKey) ? "default" : "outline"} onClick={() => togglePractised(item.term)} aria-label={t("Đánh dấu đã luyện", "Mark practised")}><Check className="h-4 w-4" /></Button>
+                       <Button size="icon" variant={practised.includes(practiceKey) ? "default" : "outline"} onClick={() => togglePractised(item.term)} aria-label={t("Đánh dấu đã luyện", "Mark practised")} aria-pressed={practised.includes(practiceKey)}><Check className="h-4 w-4" /></Button>
                     </div>
                   </div>
                 );
