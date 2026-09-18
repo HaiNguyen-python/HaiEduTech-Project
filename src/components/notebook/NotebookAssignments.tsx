@@ -28,6 +28,8 @@ interface Props {
 
 const NotebookAssignments = ({ userId, onCountChange, onNavigate }: Props) => {
   const { toast } = useToast();
+  const { isTeacher } = useUserRole();
+  const [mode, setMode] = useState<"teach" | "mine">("teach");
   const [items, setItems] = useState<StudentAssignmentItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [savingId, setSavingId] = useState<string | null>(null);
