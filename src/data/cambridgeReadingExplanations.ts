@@ -8,7 +8,44 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import type { CambridgeMockQuestion } from "./cambridgeMockExamData";
-import { findEvidenceSentence } from "@/lib/cambridgeEvidence";
+import { findEvidenceSentence, splitSentences } from "@/lib/cambridgeEvidence";
+
+const NUMBER_WORDS: Record<string, string> = {
+  one: "1", two: "2", three: "3", four: "4", five: "5", six: "6", seven: "7",
+  eight: "8", nine: "9", ten: "10", eleven: "11", twelve: "12", twenty: "20", thirty: "30",
+};
+
+/** Words and number variants that must appear in a sentence that proves the key. */
+const keyForms = (key: string): string[] => {
+  const raw = key
+    .toLowerCase()
+    .replace(/[^a-z0-9\s.:']/g, " ")
+    .split(/\s+/)
+    .filter(w => w.length > 2 && !/^(the|a|an|and|for|with|about|from|that|this|his|her|not|nothing)$/.test(w));
+  const forms = new Set<string>();
+  raw.forEach(w => {
+    forms.add(w);
+    forms.add(w.replace(/(ing|ed|es|s)$/, ""));
+    if (NUMBER_WORDS[w]) forms.add(NUMBER_WORDS[w]);
+    const asWord = Object.entries(NUMBER_WORDS).find(([, digit]) => digit === w);
+    if (asWord) forms.add(asWord[0]);
+  });
+  return [...forms].filter(Boolean);
+};
+
+/** The sentence of the text that actually contains the key (not just question words). */
+const sentenceContainingKey = (passage: string | undefined, key: string): string | null => {
+  if (!passage) return null;
+  const forms = keyForms(key);
+  if (!forms.length) return null;
+  let best: { sentence: string; hits: number } | null = null;
+  for (const sentence of splitSentences(passage)) {
+    const lower = sentence.toLowerCase();
+    const hits = forms.filter(f => new RegExp(`(^|[^a-z0-9])${f.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`, "i").test(lower)).length;
+    if (hits > 0 && (!best || hits > best.hits)) best = { sentence, hits };
+  }
+  return best ? best.sentence : null;
+};
 
 /** Strip the printed layout cues so a quote reads like a normal sentence. */
 const cleanQuote = (sentence: string): string =>
