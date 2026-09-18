@@ -227,7 +227,10 @@ const buildFiller = (
   const candidates = [
     ...(pool ? (young ? pool.young : pool.older) : []),
     ...(young ? GENERAL_YOUNG : GENERAL_OLDER),
-  ].filter(s => isSafe(s, forbidden));
+  ]
+    .filter(f => fillerFits(f, passage))
+    .map(fillerText)
+    .filter(s => isSafe(s, forbidden));
 
   const out: string[] = [];
   let added = 0;
