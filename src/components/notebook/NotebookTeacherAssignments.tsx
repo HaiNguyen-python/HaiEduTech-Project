@@ -9,7 +9,7 @@
  */
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
-  Loader2, Plus, Users, Trash2, ChevronDown, ChevronRight,
+  Loader2, Plus, Users, Trash2, ChevronDown, ChevronRight, Pencil,
   CalendarClock, AlertTriangle, CheckCircle2, Circle, Send,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -372,11 +372,59 @@ function ClassesPanel({
   const [editingId, setEditingId] = useState<string | null>(null);
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [savingMembers, setSavingMembers] = useState(false);
+  const [renamingId, setRenamingId] = useState<string | null>(null);
+  const [renameName, setRenameName] = useState("");
+  const [renameSubject, setRenameSubject] = useState("english");
+  const [savingRename, setSavingRename] = useState(false);
 
   const openEditor = (classId: string) => {
     if (editingId === classId) { setEditingId(null); return; }
     setEditingId(classId);
     setSelected(new Set(memberIdsOf(classId)));
+  };
+
+  const startRename = (c: ClassRow) => {
+    if (renamingId === c.id) { setRenamingId(null); return; }
+    setRenamingId(c.id);
+    setRenameName(c.class_name);
+    setRenameSubject(c.subject_category);
+  };
+
+  const saveRename = async (c: ClassRow) => {
+    setSavingRename(true);
+    try {
+      const res = await renameClass(c.id, {
+        className: renameName,
+        subject: renameSubject,
+        previousName: c.class_name,
+      });
+      toast({
+        title: "Đã đổi tên lớp",
+        description: res.assignmentsUpdated > 0
+          ? `Cập nhật ${res.assignmentsUpdated} bài tập theo tên mới.`
+          : renameName.trim(),
+      });
+      setRenamingId(null);
+      onChanged();
+    } catch (e) {
+      toast({ title: "Chưa đổi được tên lớp", description: e instanceof Error ? e.message : undefined, variant: "destructive" });
+      onChanged();
+    } finally {
+      setSavingRename(false);
+    }
+  };
+
+  const removeClass = async (c: ClassRow) => {
+    if (!confirm(`Xoá lớp "${c.class_name}"? Danh sách thành viên cũng bị xoá.`)) return;
+    try {
+      await deleteClass(c.id);
+      toast({ title: "Đã xoá lớp" });
+      setEditingId(null);
+      setRenamingId(null);
+      onChanged();
+    } catch (e) {
+      toast({ title: "Chưa xoá được lớp", description: e instanceof Error ? e.message : undefined, variant: "destructive" });
+    }
   };
 
   const create = async () => {
