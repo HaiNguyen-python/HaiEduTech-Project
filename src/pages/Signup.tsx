@@ -12,6 +12,9 @@ import Footer from "@/components/Footer";
 const Signup = () => {
   const { t } = useLanguage();
   const navigate = useNavigate();
+  const [params] = useSearchParams();
+  // Where the guest wanted to go before being asked to sign in.
+  const nextPath = params.get("next") || "";
   const { toast } = useToast();
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
