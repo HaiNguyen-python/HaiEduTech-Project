@@ -1130,7 +1130,7 @@ export const conversationalPillars: ConvPillar[] = [
           },
         ],
         vocabulary: [
-          { term: "touch base", meaning: "liên lạc lại", meaningEn: "reconnect or check in briefly", type: "idiom", example: "Let's touch base next week.", exampleVi: "Tuần sau mình liên lạc lại nhé." },
+          { term: "touch base", meaning: "trao đổi nhanh", meaningEn: "reconnect or check in briefly", type: "idiom", example: "Let's touch base next week.", exampleVi: "Tuần sau mình trao đổi nhanh nhé." },
           { term: "pick someone's brain", meaning: "hỏi ý kiến/kiến thức ai đó", meaningEn: "ask for advice or knowledge", type: "idiom", example: "Can I pick your brain about digital marketing?", exampleVi: "Cho mình hỏi ý kiến về marketing số được không?" },
           { term: "put in a good word", meaning: "giới thiệu tốt cho ai đó", meaningEn: "recommend someone favorably", type: "idiom", example: "Could you put in a good word for me with the hiring manager?", exampleVi: "Bạn có thể giới thiệu tốt cho tôi với quản lý tuyển dụng không?" },
           { term: "warm introduction", meaning: "giới thiệu qua người quen", meaningEn: "introduction through a mutual contact", type: "expression", example: "A warm introduction is always better than a cold email.", exampleVi: "Giới thiệu qua người quen luôn tốt hơn email lạ." },
@@ -1194,7 +1194,7 @@ export const conversationalPillars: ConvPillar[] = [
           { term: "take the floor", meaning: "lên phát biểu", meaningEn: "start speaking in a meeting", type: "idiom", example: "David, please take the floor.", exampleVi: "David, mời anh phát biểu." },
           { term: "wrap up", meaning: "kết thúc", meaningEn: "bring to a conclusion", type: "phrasal-verb", example: "Let's wrap up in five minutes.", exampleVi: "Năm phút nữa mình kết thúc nhé." },
           { term: "circle back", meaning: "quay lại vấn đề sau", meaningEn: "return to a topic later", type: "phrasal-verb", example: "Let's circle back to this after lunch.", exampleVi: "Sau bữa trưa mình quay lại vấn đề này." },
-          { term: "action item", meaning: "hành động cần thực hiện", meaningEn: "task assigned during a meeting", type: "expression", example: "Your action item is to send the updated report by Friday.", exampleVi: "Việc cần làm của bạn là gửi báo cáo cập nhật trước thứ Sáu." },
+          { term: "action item", meaning: "việc cần làm được giao rõ ràng", meaningEn: "task assigned during a meeting", type: "expression", example: "Your action item is to send the updated report by Friday.", exampleVi: "Việc cần làm của bạn là gửi báo cáo cập nhật trước thứ Sáu." },
         ],
         listeningChallenge: {
           title: "Meeting Agenda Review",
@@ -1314,7 +1314,7 @@ export const conversationalPillars: ConvPillar[] = [
         vocabulary: [
           { term: "as per our conversation", meaning: "như đã trao đổi", meaningEn: "as we discussed", type: "expression", example: "As per our conversation, I've attached the report.", exampleVi: "Như đã trao đổi, tôi đính kèm báo cáo." },
           { term: "loop someone in", meaning: "thêm ai đó vào cuộc trao đổi", meaningEn: "include someone in communication", type: "phrasal-verb", example: "Please loop in the marketing team.", exampleVi: "Vui lòng thêm đội marketing vào email." },
-          { term: "touch base", meaning: "liên lạc ngắn", meaningEn: "make brief contact", type: "idiom", example: "Just wanted to touch base on the project status.", exampleVi: "Chỉ muốn liên lạc nhanh về tình trạng dự án." },
+          { term: "touch base", meaning: "trao đổi nhanh", meaningEn: "make brief contact", type: "idiom", example: "Just wanted to touch base on the project status.", exampleVi: "Tôi muốn trao đổi nhanh về tình trạng dự án." },
           { term: "heads up", meaning: "thông báo trước", meaningEn: "advance notice or warning", type: "slang", example: "Just a heads up - the meeting is moved to 3 PM.", exampleVi: "Thông báo trước - cuộc họp chuyển sang 3 giờ chiều." },
         ],
         listeningChallenge: {
