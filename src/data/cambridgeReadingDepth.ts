@@ -54,6 +54,12 @@ const GENERAL_YOUNG: Filler[] = [
   { text: "They laugh a lot and talk about their week.", requires: PEOPLE },
   { text: "There are two big windows and a green door.", requires: INDOORS },
   { text: "The room is clean and quiet today.", requires: INDOORS },
+  { text: "Everybody brings a bag with water and a snack.", requires: /\b(trip|visit|park|farm|beach|club|picnic|walk|game|match|sport|school)\b/i },
+  { text: "It takes about ten minutes to walk there.", requires: /\b(park|school|shop|beach|library|museum|farm|station|house|club|centre|center|zoo|pool)\b/i },
+  { text: "The plan is simple and easy to remember.", requires: /\b(plan|trip|day|week|club|lesson|game|party|match|holiday)\b/i },
+  { text: "Names and times are written in big letters so nobody makes a mistake.", requires: /\b(notice|sign|time|list|board|timetable|poster|letter|message|email)\b/i },
+  { text: "Nobody needs to bring anything special.", requires: /\b(bring|need|club|trip|party|class|lesson|game|visit)\b/i },
+  { text: "There is a lot to see and do there.", requires: /\b(park|farm|zoo|museum|beach|city|town|festival|centre|center|club|pool|market)\b/i },
 ];
 
 const GENERAL_OLDER: Filler[] = [
