@@ -111,7 +111,50 @@ const LessonFeedback = ({
       const overallSnapshot = overall;
       const suggestionSnapshot = suggestion.trim();
 
-      // Optimistic UI: show success immediately, run writes in the background.
+      // Wait for the writes so we never claim success on a rejected save.
+      const errors: string[] = [];
+      if (attendanceSnapshot) {
+        const { error } = await supabase.from("lesson_attendance").upsert(
+          {
+            user_id: user.id,
+            lesson_id: resolvedLessonId,
+            lesson_title: resolvedTitle,
+            lesson_type: resolvedType,
+            subject: subject || resolvedType,
+            status: attendanceSnapshot,
+          } as never,
+          { onConflict: "user_id,lesson_id,attendance_date" } as never,
+        );
+        if (error) errors.push(error.message);
+      }
+      if (hasFeedback) {
+        const { error } = await supabase.from("lesson_feedback").insert({
+          lesson_id: resolvedLessonId,
+          module_id: moduleId || null,
+          lesson_type: resolvedType,
+          feedback_type: fbType,
+          subject: subject || resolvedType,
+          user_id: user.id,
+          rating_clarity: overallSnapshot || null,
+          rating_ai_tool: overallSnapshot || null,
+          rating_confidence: overallSnapshot || null,
+          suggestion: suggestionSnapshot || null,
+          lesson_title: resolvedTitle,
+        } as never);
+        if (error) errors.push(error.message);
+      }
+
+      setSubmitting(false);
+
+      if (errors.length > 0) {
+        toast({
+          title: t("Chưa lưu được", "Not saved"),
+          description: t("Vui lòng thử lại sau ít phút.", "Please try again in a moment."),
+          variant: "destructive",
+        });
+        return;
+      }
+
       setSubmitted(true);
       toast({
         title: t("Đã ghi nhận! 💛", "Recorded! 💛"),
@@ -122,49 +165,6 @@ const LessonFeedback = ({
       setAttendance(null);
       setOverall(0);
       setSuggestion("");
-      setSubmitting(false);
-
-      void (async () => {
-        try {
-          const tasks: Promise<unknown>[] = [];
-          const run = (q: any) => Promise.resolve(q);
-          if (attendanceSnapshot) {
-            tasks.push(
-              run(supabase.from("lesson_attendance").upsert(
-                {
-                  user_id: user.id,
-                  lesson_id: resolvedLessonId,
-                  lesson_title: resolvedTitle,
-                  lesson_type: resolvedType,
-                  subject: subject || resolvedType,
-                  status: attendanceSnapshot,
-                } as never,
-                { onConflict: "user_id,lesson_id,attendance_date" } as never,
-              )),
-            );
-          }
-          if (hasFeedback) {
-            tasks.push(
-              run(supabase.from("lesson_feedback").insert({
-                lesson_id: resolvedLessonId,
-                module_id: moduleId || null,
-                lesson_type: resolvedType,
-                feedback_type: fbType,
-                subject: subject || resolvedType,
-                user_id: user.id,
-                rating_clarity: overallSnapshot || null,
-                rating_ai_tool: overallSnapshot || null,
-                rating_confidence: overallSnapshot || null,
-                suggestion: suggestionSnapshot || null,
-                lesson_title: resolvedTitle,
-              } as never)),
-            );
-          }
-          await Promise.allSettled(tasks);
-        } catch (err) {
-          console.error("Feedback background error:", err);
-        }
-      })();
     } catch (err) {
       console.error("Feedback error:", err);
       toast({

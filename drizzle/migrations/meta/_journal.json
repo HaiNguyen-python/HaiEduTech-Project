@@ -36,6 +36,20 @@
       "when": 1789395854142,
       "tag": "0004_warm_programming_deep_dives_cron",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1789720947462,
+      "tag": "0005_fix_attendance_update_policy",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1789720996828,
+      "tag": "0006_cleanup_attendance_diag_rows",
+      "breakpoints": true
     }
   ]
 }
