@@ -71,6 +71,12 @@ const Login = () => {
     }
   };
 
+  // Social sign-in returns to this login page so the ?next= target survives.
+  const oauthRedirect = () =>
+    nextPath.startsWith("/") && !nextPath.startsWith("//")
+      ? `${window.location.origin}/login?next=${encodeURIComponent(nextPath)}`
+      : window.location.origin;
+
   const handleGoogleLogin = async () => {
     setGoogleLoading(true);
     const { error } = await lovable.auth.signInWithOAuth("google", {
