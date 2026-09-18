@@ -10,6 +10,8 @@ import { Link } from "react-router-dom";
 import { Loader2, ExternalLink, CalendarClock, AlertTriangle, CheckCircle2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useUserRole } from "@/hooks/useUserRole";
+import NotebookTeacherAssignments from "@/components/notebook/NotebookTeacherAssignments";
 import { SUBJECT_LABELS } from "@/lib/assignmentMetrics";
 import {
   fetchMyAssignments,
@@ -26,6 +28,8 @@ interface Props {
 
 const NotebookAssignments = ({ userId, onCountChange, onNavigate }: Props) => {
   const { toast } = useToast();
+  const { isTeacher } = useUserRole();
+  const [mode, setMode] = useState<"teach" | "mine">("teach");
   const [items, setItems] = useState<StudentAssignmentItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [savingId, setSavingId] = useState<string | null>(null);
@@ -90,22 +94,63 @@ const NotebookAssignments = ({ userId, onCountChange, onNavigate }: Props) => {
     }
   };
 
+  // Teachers get an extra switch: assign & track homework, or view their own list.
+  const switcher = isTeacher && userId ? (
+    <div className="flex gap-1.5 mb-2" role="tablist" aria-label="Chế độ bài tập">
+      {([
+        { key: "teach" as const, label: "Giao & theo dõi" },
+        { key: "mine" as const, label: "Bài của tôi" },
+      ]).map(({ key, label }) => (
+        <button
+          key={key}
+          role="tab"
+          aria-selected={mode === key}
+          onClick={() => setMode(key)}
+          className={`flex-1 rounded-md border px-2 py-1.5 text-xs font-semibold transition-colors ${
+            mode === key
+              ? "border-primary bg-primary/10 text-primary"
+              : "border-border text-muted-foreground hover:text-foreground"
+          }`}
+        >
+          {label}
+        </button>
+      ))}
+    </div>
+  ) : null;
+
+  if (isTeacher && userId && mode === "teach") {
+    return (
+      <div>
+        {switcher}
+        <NotebookTeacherAssignments teacherId={userId} />
+      </div>
+    );
+  }
+
   if (!userId) {
     return <p className="p-4 text-center text-xs text-muted-foreground">Đăng nhập để xem bài tập thầy giao nhé.</p>;
   }
   if (loading) {
-    return <div className="p-6 grid place-items-center text-muted-foreground"><Loader2 className="h-4 w-4 animate-spin" /></div>;
+    return <div>{switcher}<div className="p-6 grid place-items-center text-muted-foreground"><Loader2 className="h-4 w-4 animate-spin" /></div></div>;
   }
   if (error) {
     return (
-      <div className="p-4 text-center space-y-2">
-        <p className="text-xs text-destructive">{error}</p>
-        <button onClick={load} className="text-xs px-2 py-1 rounded-md bg-primary/10 text-primary">Tải lại</button>
+      <div>
+        {switcher}
+        <div className="p-4 text-center space-y-2">
+          <p className="text-xs text-destructive">{error}</p>
+          <button onClick={load} className="text-xs px-2 py-1 rounded-md bg-primary/10 text-primary">Tải lại</button>
+        </div>
       </div>
     );
   }
   if (items.length === 0) {
-    return <p className="p-4 text-center text-xs text-muted-foreground">Hiện chưa có bài tập nào. Cứ học tiếp nhé!</p>;
+    return (
+      <div>
+        {switcher}
+        <p className="p-4 text-center text-xs text-muted-foreground">Hiện chưa có bài tập nào. Cứ học tiếp nhé!</p>
+      </div>
+    );
   }
 
   const doneCount = items.filter((i) => i.done).length;
@@ -113,6 +158,7 @@ const NotebookAssignments = ({ userId, onCountChange, onNavigate }: Props) => {
 
   return (
     <div className="space-y-2">
+      {switcher}
       <div className="rounded-md border border-border bg-muted/40 px-3 py-2">
         <div className="flex items-center justify-between text-xs font-medium text-foreground">
           <span>Đã làm {doneCount}/{items.length} bài</span>
