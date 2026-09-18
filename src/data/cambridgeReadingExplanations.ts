@@ -47,8 +47,10 @@ const sentenceContainingKey = (passage: string | undefined, key: string): string
     const matched = forms.filter(f =>
       new RegExp(`(^|[^a-z0-9])${f.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`, "i").test(lower)
     );
-    if (matched.length < needed) continue;
-    const score = matched.length * 100 + matched.reduce((sum, f) => sum + f.length, 0);
+    // Count distinct words, not singular/plural variants of the same word.
+    const stems = new Set(matched.map(f => f.replace(/(ing|ed|es|s)$/, "")));
+    if (stems.size < needed) continue;
+    const score = stems.size * 100 + matched.reduce((sum, f) => sum + f.length, 0);
     if (!best || score > best.score) best = { sentence, score };
   }
   return best ? best.sentence : null;
