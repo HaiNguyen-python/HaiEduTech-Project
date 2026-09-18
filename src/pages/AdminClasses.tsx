@@ -167,6 +167,9 @@ const AdminClasses = () => {
                     <td className="hidden px-4 py-3 text-muted-foreground whitespace-nowrap sm:table-cell">{new Date(c.created_at).toLocaleDateString()}</td>
                     <td className="px-4 py-3">
                       <div className="flex items-center justify-end gap-1">
+                        <button onClick={() => setRenamingClass(c)} className="px-2 py-1 rounded-md hover:bg-slate-100 text-xs font-medium text-slate-600 hover:text-slate-900 transition-colors" title="Rename class">
+                          Rename
+                        </button>
                         <button onClick={() => setEditingClass(c)} className="p-2 rounded-md hover:bg-slate-100 text-slate-500 hover:text-slate-900 transition-colors" title="Edit members">
                           <Pencil className="h-4 w-4" />
                         </button>
