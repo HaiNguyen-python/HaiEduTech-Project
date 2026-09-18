@@ -80,7 +80,7 @@ const Login = () => {
   const handleGoogleLogin = async () => {
     setGoogleLoading(true);
     const { error } = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin,
+      redirect_uri: oauthRedirect(),
     });
     if (error) {
       setGoogleLoading(false);
@@ -92,7 +92,7 @@ const Login = () => {
   const handleMicrosoftLogin = async () => {
     setMicrosoftLoading(true);
     const { error } = await lovable.auth.signInWithOAuth("microsoft", {
-      redirect_uri: window.location.origin,
+      redirect_uri: oauthRedirect(),
     });
     if (error) {
       setMicrosoftLoading(false);
@@ -103,7 +103,7 @@ const Login = () => {
   const handleAppleLogin = async () => {
     setAppleLoading(true);
     const { error } = await lovable.auth.signInWithOAuth("apple", {
-      redirect_uri: window.location.origin,
+      redirect_uri: oauthRedirect(),
     });
     if (error) {
       setAppleLoading(false);
