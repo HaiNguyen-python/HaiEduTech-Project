@@ -36,6 +36,7 @@ const AdminClasses = () => {
   const [students, setStudents] = useState<ProfileRow[]>([]);
   const [createOpen, setCreateOpen] = useState(false);
   const [editingClass, setEditingClass] = useState<ClassRow | null>(null);
+  const [renamingClass, setRenamingClass] = useState<ClassRow | null>(null);
   const [mergedProfiles, setMergedProfiles] = useState(0);
 
   // Form state for create dialog
@@ -75,25 +76,28 @@ const AdminClasses = () => {
   }, [members]);
   const countFor = (classId: string) => countMap.get(classId) ?? 0;
 
+  // Writes go through the shared helpers so this page and the teacher notebook
+  // always behave the same way.
   const handleCreate = async () => {
-    if (!name.trim()) { toast({ title: "Class name required", variant: "destructive" }); return; }
-    const { error } = await supabase.from("classes").insert({
-      class_name: name.trim(),
-      subject_category: subject,
-      created_by: user!.id,
-    });
-    if (error) { toast({ title: "Create failed", description: error.message, variant: "destructive" }); return; }
-    toast({ title: "Class created" });
-    setName(""); setSubject("english"); setCreateOpen(false);
-    fetchAll();
+    try {
+      await createClass({ className: name, subject, createdBy: user!.id });
+      toast({ title: "Class created" });
+      setName(""); setSubject("english"); setCreateOpen(false);
+      fetchAll();
+    } catch (e) {
+      toast({ title: "Create failed", description: e instanceof Error ? e.message : undefined, variant: "destructive" });
+    }
   };
 
   const handleDelete = async (id: string) => {
     if (!confirm("Delete this class? Memberships will be removed.")) return;
-    const { error } = await supabase.from("classes").delete().eq("id", id);
-    if (error) { toast({ title: "Delete failed", description: error.message, variant: "destructive" }); return; }
-    toast({ title: "Class deleted" });
-    fetchAll();
+    try {
+      await deleteClass(id);
+      toast({ title: "Class deleted" });
+      fetchAll();
+    } catch (e) {
+      toast({ title: "Delete failed", description: e instanceof Error ? e.message : undefined, variant: "destructive" });
+    }
   };
 
   if (roleLoading) {
