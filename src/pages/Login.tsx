@@ -27,6 +27,11 @@ const Login = () => {
   // Determine the right landing page based on the user's roles.
   // Pure assistants (no admin/teacher role) get the assistant workspace.
   const redirectByRole = async (userId: string) => {
+    // An explicit ?next= target wins over the role-based landing page.
+    if (nextPath.startsWith("/") && !nextPath.startsWith("//")) {
+      navigate(nextPath, { replace: true });
+      return;
+    }
     const { data } = await supabase.from("user_roles").select("role").eq("user_id", userId);
     const roles = (data || []).map((r: any) => r.role as string);
     const isSuperAdmin = roles.includes("admin") || roles.includes("teacher");
