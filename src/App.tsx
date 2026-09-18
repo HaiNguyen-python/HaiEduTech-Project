@@ -337,6 +337,7 @@ const App = () => (
         <Sonner />
         <VocabBadgeCelebration />
         <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+          <AuthGate>
           <Routes>
             <Route path="/" element={<LazyRoute><RootEntry /></LazyRoute>} />
             <Route path="/home" element={<LazyRoute><Index /></LazyRoute>} />
