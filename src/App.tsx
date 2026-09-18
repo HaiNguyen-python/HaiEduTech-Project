@@ -10,6 +10,7 @@ import { BrowserRouter, Route, Routes, Navigate, useLocation } from "react-route
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import VocabBadgeCelebration from "@/components/VocabBadgeCelebration";
+import AuthGate from "@/components/AuthGate";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { Suspense, useEffect, useState, type ReactNode } from "react";
