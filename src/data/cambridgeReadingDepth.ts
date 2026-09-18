@@ -69,6 +69,13 @@ const GENERAL_OLDER: Filler[] = [
   { text: "Little by little, habits like these shape the rest of the day.", requires: /\b(habit|routine|every day|daily|morning|evening|afternoon|week)\b/i },
   { text: "The details matter here, because each one changes what a reader should do next.", requires: /\b(must|should|need|rule|price|cost|time|open|closed)\b/i },
   { text: "Reports from other towns describe very similar experiences.", requires: /\b(town|city|school|company|club|centre|center|project|scheme|study|research)\b/i },
+  { text: "Visitors usually say the same thing after their first week there.", requires: /\b(visitors?|students?|members?|customers?|people|staff|guests?)\b/i },
+  { text: "The figures have stayed at about the same level for three years.", requires: /\b(percent|number|numbers|price|cost|money|study|research|survey|figures?|data)\b/i },
+  { text: "Organisers plan to publish more details later in the year.", requires: /\b(event|club|project|programme|program|course|festival|company|school|centre|center|scheme|trip|competition)\b/i },
+  { text: "Staff answer questions by email within two working days.", requires: /\b(email|contact|office|staff|company|centre|center|school|shop|service|booking)\b/i },
+  { text: "The same idea is now being used in several other places.", requires: /\b(idea|project|method|system|scheme|programme|program|plan|technology|research|design)\b/i },
+  { text: "Costs are lower than many first-time visitors expect.", requires: /\b(price|prices|cost|costs|money|cheap|expensive|pay|ticket|fee)\b/i },
+  { text: "Anyone can join at any point in the term, whatever their level.", requires: /\b(class|course|club|lesson|term|group|training|session|workshop)\b/i },
 ];
 
 const POOLS: Pool[] = [
