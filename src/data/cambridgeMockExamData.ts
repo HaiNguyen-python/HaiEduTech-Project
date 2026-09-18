@@ -557,6 +557,7 @@ import { clarifyCambridgeListening } from "./cambridgeListeningClarity";
 import { upgradeCambridgeListening } from "./cambridgeListeningUpgrade";
 import { dedupeCambridgeReadingStems } from "./cambridgeReadingDedupe";
 import { deepenCambridgeReading } from "./cambridgeReadingDepth";
+import { fixCambridgeReadingLogic } from "./cambridgeReadingLogicFix";
 
 
 // Balanced answer keys + full bilingual explanations on every question.
@@ -596,7 +597,7 @@ export const cambridgeMockExams: CambridgeMockExam[] = [
   ...cambridgeExamsFlyers21to25,
   ...cambridgeExamsKet21to25,
   ...cambridgeExamsPet22to26,
-].map(withCambridgeReadingSets).map(withCambridgeOrphanPassages).map(withCambridgeExamTopUp).map(equalizeCambridgeMockExam).map(clarifyCambridgeMockExam).map(dedupeCambridgeReadingStems).map(deepenCambridgeReading).map(normalizeCambridgeMockExam).map(clarifyCambridgeListening).map(upgradeCambridgeListening);
+].map(fixCambridgeReadingLogic).map(withCambridgeReadingSets).map(withCambridgeOrphanPassages).map(withCambridgeExamTopUp).map(equalizeCambridgeMockExam).map(clarifyCambridgeMockExam).map(dedupeCambridgeReadingStems).map(deepenCambridgeReading).map(normalizeCambridgeMockExam).map(clarifyCambridgeListening).map(upgradeCambridgeListening);
 
 export const CAMBRIDGE_LEVEL_LABELS: Record<string, { label: string; labelVi: string; emoji: string; color: string; bgClass: string }> = {
   starters: { label: "STARTERS", labelVi: "STARTERS", emoji: "🎨", color: "#FF6B6B", bgClass: "bg-[#FF6B6B]/10" },

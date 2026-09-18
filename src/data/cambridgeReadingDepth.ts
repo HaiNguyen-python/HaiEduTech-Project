@@ -11,7 +11,7 @@ import type { CambridgeMockExam, CambridgeMockQuestion } from "./cambridgeMockEx
 
 /** Official style expects this much reading context per level. */
 const MIN_WORDS: Record<string, number> = {
-  starters: 45, movers: 80, flyers: 85, ket: 90, pet: 110,
+  starters: 42, movers: 70, flyers: 75, ket: 80, pet: 95,
 };
 
 const hash = (value: string) => {
@@ -23,24 +23,59 @@ const hash = (value: string) => {
   return Math.abs(h);
 };
 
-type Pool = { match: RegExp; young: string[]; older: string[] };
+/**
+ * A filler sentence with logic guards. `requires` must appear in the text so the
+ * sentence has something to refer to, and `forbids` blocks sentences that would
+ * contradict the text (sunshine added to a rainy day, a group added to a text
+ * about one person).
+ */
+type Filler = string | { text: string; requires?: RegExp; forbids?: RegExp };
+type Pool = { match: RegExp; young: Filler[]; older: Filler[] };
 
-const GENERAL_YOUNG = [
-  "The sun is out and the sky is very blue.",
-  "Everyone is happy and nobody is late.",
-  "There are two big windows and a green door.",
-  "The room is clean and quiet today.",
-  "It is a nice day and the birds are singing.",
-  "They laugh a lot and talk about their week.",
+/** Text of a filler entry. */
+const fillerText = (f: Filler): string => (typeof f === "string" ? f : f.text);
+
+/** A filler may only be used when it does not contradict the reading text. */
+const fillerFits = (f: Filler, passage: string): boolean => {
+  if (typeof f === "string") return true;
+  if (f.requires && !f.requires.test(passage)) return false;
+  if (f.forbids && f.forbids.test(passage)) return false;
+  return true;
+};
+
+const PEOPLE = /\b(we|they|friends?|famil|children|kids|class|students?|pupils?|people|staff|visitors?|members?|customers?|brother|sister|mum|mother|dad|father|parents)\b/i;
+const INDOORS = /\b(house|home|room|bedroom|kitchen|class|classroom|school|shop|library|museum|centre|center|office|hall|flat|building|cafe|hotel)\b/i;
+const BAD_WEATHER = /\b(rain|rains|rained|raining|rainy|snow|snowy|wind|windy|storm|cold|cloud|cloudy|umbrella|night|dark|wet)\b/i;
+
+const GENERAL_YOUNG: Filler[] = [
+  { text: "The sun is out and the sky is very blue.", forbids: BAD_WEATHER },
+  { text: "It is a nice day and the birds are singing.", forbids: BAD_WEATHER },
+  { text: "Everyone is happy and nobody is late.", requires: PEOPLE },
+  { text: "They laugh a lot and talk about their week.", requires: PEOPLE },
+  { text: "There are two big windows and a green door.", requires: INDOORS },
+  { text: "The room is clean and quiet today.", requires: INDOORS },
+  { text: "Everybody brings a bag with water and a snack.", requires: /\b(trip|visit|park|farm|beach|club|picnic|walk|game|match|sport|school)\b/i },
+  { text: "It takes about ten minutes to walk there.", requires: /\b(park|school|shop|beach|library|museum|farm|station|house|club|centre|center|zoo|pool)\b/i },
+  { text: "The plan is simple and easy to remember.", requires: /\b(plan|trip|day|week|club|lesson|game|party|match|holiday)\b/i },
+  { text: "Names and times are written in big letters so nobody makes a mistake.", requires: /\b(notice|sign|time|list|board|timetable|poster|letter|message|email)\b/i },
+  { text: "Nobody needs to bring anything special.", requires: /\b(bring|need|club|trip|party|class|lesson|game|visit)\b/i },
+  { text: "There is a lot to see and do there.", requires: /\b(park|farm|zoo|museum|beach|city|town|festival|centre|center|club|pool|market)\b/i },
 ];
 
-const GENERAL_OLDER = [
-  "The atmosphere is relaxed and nobody seems to be in a hurry.",
-  "Small details like this often say more than a long description.",
-  "Most people there agree that the routine works well for them.",
-  "Nothing about the situation is unusual, yet it is worth noticing.",
-  "The whole scene feels ordinary, which is exactly why it is useful.",
-  "Little by little, habits like these shape the rest of the day.",
+const GENERAL_OLDER: Filler[] = [
+  { text: "The atmosphere is relaxed and nobody seems to be in a hurry.", requires: INDOORS },
+  { text: "Most people there agree that the routine works well for them.", requires: PEOPLE },
+  { text: "Anyone who wants more information can read the whole notice again carefully.", requires: /\b(notice|sign|advert|information|text|letter|email|leaflet|timetable|poster)\b/i },
+  { text: "Little by little, habits like these shape the rest of the day.", requires: /\b(habit|routine|every day|daily|morning|evening|afternoon|week)\b/i },
+  { text: "The details matter here, because each one changes what a reader should do next.", requires: /\b(must|should|need|rule|price|cost|time|open|closed)\b/i },
+  { text: "Reports from other towns describe very similar experiences.", requires: /\b(town|city|school|company|club|centre|center|project|scheme|study|research)\b/i },
+  { text: "Visitors usually say the same thing after their first week there.", requires: /\b(visitors?|students?|members?|customers?|people|staff|guests?)\b/i },
+  { text: "The figures have stayed at about the same level for three years.", requires: /\b(percent|number|numbers|price|cost|money|study|research|survey|figures?|data)\b/i },
+  { text: "Organisers plan to publish more details later in the year.", requires: /\b(event|club|project|programme|program|course|festival|company|school|centre|center|scheme|trip|competition)\b/i },
+  { text: "Staff answer questions by email within two working days.", requires: /\b(email|contact|office|staff|company|centre|center|school|shop|service|booking)\b/i },
+  { text: "The same idea is now being used in several other places.", requires: /\b(idea|project|method|system|scheme|programme|program|plan|technology|research|design)\b/i },
+  { text: "Costs are lower than many first-time visitors expect.", requires: /\b(price|prices|cost|costs|money|cheap|expensive|pay|ticket|fee)\b/i },
+  { text: "Anyone can join at any point in the term, whatever their level.", requires: /\b(class|course|club|lesson|term|group|training|session|workshop)\b/i },
 ];
 
 const POOLS: Pool[] = [
@@ -204,8 +239,10 @@ const buildFiller = (
   const pool = POOLS.find(p => p.match.test(passage));
   const candidates = [
     ...(pool ? (young ? pool.young : pool.older) : []),
-    ...(young ? GENERAL_YOUNG : GENERAL_OLDER),
-  ].filter(s => isSafe(s, forbidden));
+  ]
+    .filter(f => fillerFits(f, passage))
+    .map(fillerText)
+    .filter(s => isSafe(s, forbidden));
 
   const out: string[] = [];
   let added = 0;
