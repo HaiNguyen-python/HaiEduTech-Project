@@ -8,7 +8,7 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import type { CambridgeMockQuestion } from "./cambridgeMockExamData";
-import { findEvidenceSentence, splitSentences } from "@/lib/cambridgeEvidence";
+import { splitSentences } from "@/lib/cambridgeEvidence";
 
 const NUMBER_WORDS: Record<string, string> = {
   one: "1", two: "2", three: "3", four: "4", five: "5", six: "6", seven: "7",
