@@ -9,7 +9,8 @@ import {
   Shield, Users, BookOpen, TrendingUp, Loader2, BarChart3,
   Brain, AlertTriangle, ChevronRight, ArrowUpRight, ArrowDownRight, Minus,
   Target, Sparkles, Clock, Zap, ShieldCheck, Download, Search, Globe,
-  Activity, DollarSign, Server, Wifi, WifiOff, RefreshCw, ClipboardList, UserCog, Bell
+  Activity, DollarSign, Server, Wifi, WifiOff, RefreshCw, ClipboardList, UserCog, Bell,
+  Home, LayoutDashboard
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
