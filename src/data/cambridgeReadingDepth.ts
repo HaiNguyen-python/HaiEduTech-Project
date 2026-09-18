@@ -11,7 +11,7 @@ import type { CambridgeMockExam, CambridgeMockQuestion } from "./cambridgeMockEx
 
 /** Official style expects this much reading context per level. */
 const MIN_WORDS: Record<string, number> = {
-  starters: 45, movers: 80, flyers: 85, ket: 90, pet: 110,
+  starters: 42, movers: 70, flyers: 75, ket: 80, pet: 95,
 };
 
 const hash = (value: string) => {
@@ -239,7 +239,6 @@ const buildFiller = (
   const pool = POOLS.find(p => p.match.test(passage));
   const candidates = [
     ...(pool ? (young ? pool.young : pool.older) : []),
-    ...(young ? GENERAL_YOUNG : GENERAL_OLDER),
   ]
     .filter(f => fillerFits(f, passage))
     .map(fillerText)
