@@ -240,7 +240,7 @@ const Login = () => {
 
             <p className="text-center text-sm text-muted-foreground mt-6">
               {t("Chưa có tài khoản?", "Don't have an account?")}{" "}
-              <Link to="/signup" className="text-primary font-semibold hover:underline">
+              <Link to={nextPath ? `/signup?next=${encodeURIComponent(nextPath)}` : "/signup"} className="text-primary font-semibold hover:underline">
                 {t("Đăng ký ngay", "Sign up")}
               </Link>
             </p>
