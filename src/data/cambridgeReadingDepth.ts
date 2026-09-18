@@ -48,7 +48,7 @@ const isAnchored = (sentence: string, passage: string): boolean => {
     .replace(/[^a-z\s]/g, " ")
     .split(/\s+/)
     .filter(w => w.length > 4)
-    .some(w => lower.includes(w.replace(/(ing|ed|es|s)$/, "")));
+    .filter(w => lower.includes(w.replace(/(ing|ed|es|s)$/, ""))).length >= 2;
 };
 
 /** A filler may only be used when it does not contradict the reading text. */
@@ -213,7 +213,7 @@ const isSafe = (sentence: string, forbidden: Set<string>): boolean =>
   !contentTokens(sentence).some(w => forbidden.has(w));
 
 /** Signs, notices and short emails are meant to be brief in the real exam. */
-const REALIA = /^\s*(Sign|Notice|Note|Email|Message|Advert|Advertisement|Poster|Text message|Label|Menu|Timetable|Invitation)\b/i;
+const REALIA = /^\s*(Sign|Notice|Note|Email|Message|Advert|Advertisement|Job Advertisement|Article|Poster|Text message|Label|Menu|Timetable|Invitation)\b/i;
 
 const wordCount = (text: string) => text.split(/\s+/).filter(Boolean).length;
 

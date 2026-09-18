@@ -26,7 +26,7 @@ const LISTENING_MIN_WORDS: Record<string, number> = {
 const READING_MIN_WORDS: Record<string, number> = {
   starters: 20, movers: 38, flyers: 45, ket: 45, pet: 60,
 };
-const REALIA = /^\s*(Sign|Notice|Note|Email|Message|Advert|Advertisement|Poster|Text message|Label|Menu|Timetable|Invitation)\b/i;
+const REALIA = /^\s*(Sign|Notice|Note|Email|Message|Advert|Advertisement|Job Advertisement|Article|Poster|Text message|Label|Menu|Timetable|Invitation)\b/i;
 
 
 for (const exam of cambridgeMockExams) {
