@@ -193,6 +193,8 @@ const ChatBot = () => {
   const [profanityWarning, setProfanityWarning] = useState(false);
   const [chatLocked, setChatLocked] = useState(false);
   const [studentContext, setStudentContext] = useState<string>("");
+  // Guests only get course advice; the backend decides this from the real token too.
+  const [isAuthed, setIsAuthed] = useState(false);
   const [studentName, setStudentName] = useState<string>("");
   const [attachment, setAttachment] = useState<
     | { kind: "text"; name: string; content: string }
@@ -520,7 +522,9 @@ const ChatBot = () => {
   useEffect(() => {
     loadStudentContext();
     refreshMemories();
-    const { data: sub } = supabase.auth.onAuthStateChange(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => setIsAuthed(!!session?.user));
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
+      setIsAuthed(!!session?.user);
       loadStudentContext();
       refreshMemories();
     });
@@ -1025,15 +1029,24 @@ const ChatBot = () => {
 
     try {
       const memoryContext = formatMemoriesForContext(memoriesRef.current);
+      // Send the real session token when signed in so the backend can verify the
+      // learner and unlock full tutoring; guests fall back to the publishable key.
+      const { data: { session } } = await supabase.auth.getSession();
+      const accessToken = session?.access_token;
+      const signedIn = !!session?.user;
       const resp = await fetch(CHAT_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+          Authorization: `Bearer ${accessToken || import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+          apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
         },
         body: JSON.stringify({
           messages: payloadMessages,
-          studentContext: memoryContext ? `${studentContext}\n\n${memoryContext}` : studentContext,
+          studentContext: signedIn
+            ? (memoryContext ? `${studentContext}\n\n${memoryContext}` : studentContext)
+            : "",
+          guestMode: !signedIn,
         }),
       });
 
@@ -1579,26 +1592,42 @@ const ChatBot = () => {
               {messages.length === 0 && (
                 <div className="py-8 text-center">
                   <img src={petId.skin.src} alt={petId.name} className="mx-auto mb-4 h-20 w-20 rounded-full object-cover opacity-90" />
-                  <p className="mb-4 text-sm text-muted-foreground">
-                    {t(`Chào! Mình là ${petId.name} 👋\nHỏi mình về tiếng Anh, tiếng Trung, tiếng Nhật, tiếng Phần Lan, tiếng Thụy Điển hay lập trình nhé!`, `Hi there! I'm ${petId.name} 👋\nAsk me about English, Chinese, Japanese, Finnish, Swedish or Programming!`)}
+                  <p className="mb-4 whitespace-pre-line text-sm text-muted-foreground">
+                    {isAuthed
+                      ? t(`Chào! Mình là ${petId.name} 👋\nHỏi mình về tiếng Anh, tiếng Trung, tiếng Nhật, tiếng Phần Lan, tiếng Thụy Điển hay lập trình nhé!`, `Hi there! I'm ${petId.name} 👋\nAsk me about English, Chinese, Japanese, Finnish, Swedish or Programming!`)
+                      : t(`Chào! Mình là ${petId.name} 👋\nMình tư vấn khóa học, học phí, lịch học và lộ trình phù hợp cho bạn nhé!`, `Hi there! I'm ${petId.name} 👋\nI can advise you on our courses, tuition, schedules and the right learning path!`)}
                   </p>
                   <div className="flex flex-wrap justify-center gap-2">
-                    {(lang === "vi"
-                      ? [
-                          "Giải thích thì hiện tại hoàn thành",
-                          "你好 nghĩa là gì?",
-                          "Cho em một bài tập IELTS Writing Task 2",
-                          "Python dùng để làm gì?",
-                          "Dạy em chào hỏi bằng tiếng Nhật",
-                        ]
-                      : [
-                          "Explain the present perfect tense",
-                          "What does 你好 mean?",
-                          "Give me an IELTS Writing Task 2 prompt",
-                          "What is Python used for?",
-                          "Teach me Finnish greetings",
-                        ]
-                    ).map((suggestion) => (
+                    {(isAuthed
+                      ? (lang === "vi"
+                        ? [
+                            "Giải thích thì hiện tại hoàn thành",
+                            "你好 nghĩa là gì?",
+                            "Cho em một bài tập IELTS Writing Task 2",
+                            "Python dùng để làm gì?",
+                            "Dạy em chào hỏi bằng tiếng Nhật",
+                          ]
+                        : [
+                            "Explain the present perfect tense",
+                            "What does 你好 mean?",
+                            "Give me an IELTS Writing Task 2 prompt",
+                            "What is Python used for?",
+                            "Teach me Finnish greetings",
+                          ])
+                      : (lang === "vi"
+                        ? [
+                            "Trang có những khóa nào?",
+                            "Khóa nào phù hợp với em?",
+                            "Học phí và lịch học thế nào?",
+                            "Em đăng ký học bằng cách nào?",
+                          ]
+                        : [
+                            "What courses do you offer?",
+                            "Which course suits me?",
+                            "Tuition and class schedule?",
+                            "How do I register?",
+                          ]))
+                    .map((suggestion) => (
                       <button
                         key={suggestion}
                         onClick={() => {
@@ -1696,6 +1725,26 @@ const ChatBot = () => {
                 onChange={handleFileSelected}
               />
 
+              {!isAuthed && (
+                <div className="mb-2 flex flex-wrap items-center gap-2 rounded-xl border border-primary/20 bg-primary/5 px-3 py-2">
+                  <span className="text-xs font-medium text-foreground">
+                    {t("Đang ở chế độ tư vấn khóa học", "Course advice mode")}
+                  </span>
+                  <a
+                    href={`/login?next=${encodeURIComponent(window.location.pathname + window.location.search)}`}
+                    className="rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground"
+                  >
+                    {t("Đăng nhập", "Log in")}
+                  </a>
+                  <a
+                    href={`/signup?next=${encodeURIComponent(window.location.pathname + window.location.search)}`}
+                    className="rounded-full border border-primary/30 px-3 py-1 text-xs font-semibold text-primary"
+                  >
+                    {t("Tạo tài khoản", "Sign up")}
+                  </a>
+                </div>
+              )}
+
               <ChatComposer
                 ref={composerRef}
                 disabled={isLoading}
@@ -1704,6 +1753,7 @@ const ChatBot = () => {
                 hasAttachment={!!attachment}
                 onToggleRecording={toggleRecording}
                 onAttachClick={() => fileInputRef.current?.click()}
+                allowAttachments={isAuthed}
                 onSend={sendMessage}
                 t={t}
               />

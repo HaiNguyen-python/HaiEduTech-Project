@@ -114,13 +114,18 @@ serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
-    // Optional JWT Authentication - chatbot is open to guests
+    // Optional JWT Authentication - guests reach the chatbot in course-advice mode only.
+    // The signed-in decision comes from the verified token, never from a client flag.
+    let isAuthed = false;
     const authHeader = req.headers.get('Authorization');
     if (authHeader?.startsWith('Bearer ')) {
       try {
         const supabaseAuth = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_ANON_KEY")!, { global: { headers: { Authorization: authHeader } } });
         const token = authHeader.replace('Bearer ', '');
-        await supabaseAuth.auth.getClaims(token);
+        const { data: claimsData } = await supabaseAuth.auth.getClaims(token);
+        const sub = (claimsData as { claims?: { sub?: string; role?: string } } | null)?.claims?.sub;
+        const role = (claimsData as { claims?: { sub?: string; role?: string } } | null)?.claims?.role;
+        if (sub && role === "authenticated") isAuthed = true;
       } catch (_) { /* ignore auth errors for guest access */ }
     }
 
@@ -193,7 +198,7 @@ When the student asks about LEARNING A SUBJECT or HOW TO IMPROVE A SKILL, you MU
 NEVER recommend external sites/apps for learning when an internal HaiEduTech feature covers it.
 `;
 
-    const personalizationBlock = studentContext && typeof studentContext === "string" && studentContext.trim()
+    const personalizationBlock = isAuthed && studentContext && typeof studentContext === "string" && studentContext.trim()
       ? `\n\n## STUDENT PERSONALIZATION CONTEXT (AUTHORITATIVE — pulled live from this student's account on HaiEduTech):
 ${studentContext.trim()}
 
@@ -234,9 +239,55 @@ Rules: max 2 tokens per reply; key is a short snake_case English key (e.g. targe
 
     const sanitizedMessages = sanitizeMessages(messages);
 
+    // Guests (no verified session) get a course advisor only - no tutoring, no personalization.
+    const guestAdvisorPrompt = `You are "Teacher Hai" of HaiEduTech (haiedutech.com), talking to a VISITOR who is NOT logged in. You are a friendly COURSE ADVISOR only.
+
+## LANGUAGE RULE (ABSOLUTE)
+Detect the visitor's language from their latest message and reply 100% in that single language. Vietnamese → natural Vietnamese, self "thầy", visitor "em". English → English. Chinese → 中文 ("海老师"). Never mix languages.
+
+## WHAT YOU MAY DO (ONLY THESE)
+- Introduce the courses and learning sections of HaiEduTech and what each one is for.
+- Recommend which course/path fits the visitor's goal, age or level, with 2-4 Markdown links to the real routes listed below.
+- Explain how to register, how placement works, how to contact Teacher Hai (Zalo/Phone 0962.823.800, contact@haiedutech.com).
+- For tuition, schedules, promotions, enrollment: reply warmly and invite a placement test or a direct Zalo chat, then end with the literal token [[CTA:COURSE_REGISTRATION]] on its own final line. Do not invent prices, discounts or timetables.
+
+## WHAT YOU MUST REFUSE (LOGIN REQUIRED)
+Refuse every in-depth learning request: solving or explaining exercises, grammar/vocabulary teaching, translation, essay writing or correction, grading, speaking/pronunciation coaching, code writing or debugging, analysing an attached image or file, personal progress or study data, anything unrelated to HaiEduTech courses.
+Refuse in EXACTLY ONE short sentence, then ONE short sentence inviting them to log in or create a free account, then optionally ONE Markdown link to the matching course section. Never answer the question partially - no rules, no examples, no translations, no code, no hints.
+- Vietnamese pattern: "Phần này thầy chỉ hướng dẫn chi tiết cho học viên đã đăng nhập nhé. Em đăng nhập hoặc tạo tài khoản miễn phí rồi hỏi lại, thầy sẽ giảng kỹ từng bước."
+- English pattern: "I only teach this in detail for logged-in learners. Please log in or create a free account, then ask me again and I'll walk you through it step by step."
+Do not emit any [[REMEMBER:...]] token and never claim to know anything about this visitor.
+
+${platformFeaturesMap}
+
+## FINAL REMINDER
+You are ONLY a course advisor for this visitor. Any request to teach, translate, solve, correct, grade, code or explain content gets the short refusal + login invitation above, nothing else.
+`;
+
+    // Deterministic guard: guests never receive tutoring content, even if the model
+    // is tempted to answer. Keyword-based because it must not depend on the model.
+    const guestBlockedRe = /\b(dịch|translate|giải (bài|giúp|thích)|giải thích|chữa (bài|giúp|lỗi)|sửa (bài|câu|lỗi)|viết (bài|đoạn|essay|luận|code|hộ|giúp)|chấm (bài|điểm)|grade|correct|essay|paraphrase|conjugat|debug|code|python|javascript|sql|ngữ pháp|grammar|thì (hiện tại|quá khứ|tương lai)|nghĩa (là|của)|meaning of|phát âm|pronounce|đặt câu|example sentence|bài tập|exercise|quiz|homework|đáp án|answer key)\b/i;
+    const guestLatest = latestUserMessage(messages)[0]?.content || "";
+    if (!isAuthed && guestBlockedRe.test(guestLatest)) {
+      const vi = /[ăâđêôơưàáảãạèéẻẽẹìíỉĩịòóỏõọùúủũụỳýỷỹỵ]|thầy|em |dịch|giải|ngữ pháp/i.test(guestLatest);
+      const msg = vi
+        ? "Phần này thầy chỉ hướng dẫn chi tiết cho học viên đã đăng nhập nhé. Em đăng nhập hoặc tạo tài khoản miễn phí rồi hỏi lại, thầy sẽ giảng kỹ từng bước. Còn bây giờ thầy có thể tư vấn khóa học, lộ trình và cách đăng ký cho em."
+        : "I only teach this in detail for logged-in learners. Please log in or create a free account, then ask me again and I'll walk you through it step by step. For now I can advise you on courses, learning paths and how to register.";
+      const stream = new ReadableStream({
+        start(controller) {
+          const enc = new TextEncoder();
+          controller.enqueue(enc.encode(`data: ${JSON.stringify({ choices: [{ delta: { content: msg } }] })}\n\n`));
+          controller.enqueue(enc.encode("data: [DONE]\n\n"));
+          controller.close();
+        },
+      });
+      return new Response(stream, { headers: { ...corsHeaders, "Content-Type": "text/event-stream" } });
+    }
+
+
     // ── VISION BRANCH: when an image is attached, route to Lovable AI Gateway (Gemini Flash)
     // because Perplexity 'sonar' is text-only. This is what makes "attach an image and ask" work.
-    if (hasImageContent(messages)) {
+    if (hasImageContent(messages) && isAuthed) {
       const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
       if (!LOVABLE_API_KEY) {
         await logUsage("chat", "gemini-3.7-flash", "vision", 0, "error", "LOVABLE_API_KEY missing");
@@ -294,7 +345,7 @@ Rules: max 2 tokens per reply; key is a short snake_case English key (e.g. targe
         messages: [
           {
             role: "system",
-            content: `You are "Teacher Hai," the AI Knowledge Tutor of HaiEduTech (haiedutech.com). Your mission is to help students learn knowledge across EIGHT domains: English, Chinese, Programming, Finnish, Swedish, Japanese, Vietnamese, and Educational Technology (EdTech).${personalizationBlock}${virtualTwinBlock}
+            content: !isAuthed ? guestAdvisorPrompt : `You are "Teacher Hai," the AI Knowledge Tutor of HaiEduTech (haiedutech.com). Your mission is to help students learn knowledge across EIGHT domains: English, Chinese, Programming, Finnish, Swedish, Japanese, Vietnamese, and Educational Technology (EdTech).${personalizationBlock}${virtualTwinBlock}
 
 ## LANGUAGE RULES (CRITICAL — ABSOLUTE COMPLIANCE):
 - Detect the student's language from THEIR LATEST message and reply **100% in that single language**.

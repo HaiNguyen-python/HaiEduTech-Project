@@ -22,12 +22,14 @@ type Props = {
   hasAttachment: boolean;
   onToggleRecording: () => void;
   onAttachClick: () => void;
+  /** Guests cannot send files or images, so the paperclip is hidden for them. */
+  allowAttachments?: boolean;
   onSend: (text: string) => void;
   t: (vi: string, en: string) => string;
 };
 
 const ChatComposer = forwardRef<ChatComposerHandle, Props>(function ChatComposer(
-  { disabled, locked, isRecording, hasAttachment, onToggleRecording, onAttachClick, onSend, t },
+  { disabled, locked, isRecording, hasAttachment, onToggleRecording, onAttachClick, onSend, t, allowAttachments = true },
   ref,
 ) {
   const [text, setText] = useState("");
@@ -72,15 +74,17 @@ const ChatComposer = forwardRef<ChatComposerHandle, Props>(function ChatComposer
         </button>
       </div>
 
-      <button
-        type="button"
-        onClick={onAttachClick}
-        disabled={disabled || locked}
-        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-secondary text-muted-foreground transition-all hover:bg-secondary/80 disabled:opacity-50"
-        title={t("Đính kèm file hoặc ảnh", "Attach file or image")}
-      >
-        <Paperclip className="h-4 w-4" />
-      </button>
+      {allowAttachments && (
+        <button
+          type="button"
+          onClick={onAttachClick}
+          disabled={disabled || locked}
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-secondary text-muted-foreground transition-all hover:bg-secondary/80 disabled:opacity-50"
+          title={t("Đính kèm file hoặc ảnh", "Attach file or image")}
+        >
+          <Paperclip className="h-4 w-4" />
+        </button>
+      )}
 
       <textarea
         ref={areaRef}
