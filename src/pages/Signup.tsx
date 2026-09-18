@@ -24,7 +24,6 @@ const Signup = () => {
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const [microsoftLoading, setMicrosoftLoading] = useState(false);
-  const [appleLoading, setAppleLoading] = useState(false);
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -79,16 +78,6 @@ const Signup = () => {
     }
   };
 
-  const handleAppleSignup = async () => {
-    setAppleLoading(true);
-    const { error } = await lovable.auth.signInWithOAuth("apple", {
-      redirect_uri: window.location.origin,
-    });
-    if (error) {
-      setAppleLoading(false);
-      toast({ title: t("Lỗi đăng nhập Apple", "Apple Login Error"), description: String(error), variant: "destructive" });
-    }
-  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -142,22 +131,6 @@ const Signup = () => {
               {microsoftLoading ? t("Đang kết nối...", "Connecting...") : t("Tiếp tục với Microsoft", "Continue with Microsoft")}
             </button>
 
-            {/* Apple OAuth Button */}
-            <button
-              type="button"
-              onClick={handleAppleSignup}
-              disabled={appleLoading}
-              className="w-full flex items-center justify-center gap-3 py-3 rounded-xl bg-white border border-border text-gray-700 font-medium hover:bg-gray-50 transition-all disabled:opacity-50 mb-6 shadow-sm"
-            >
-              {appleLoading ? (
-                <Loader2 className="w-5 h-5 animate-spin" />
-              ) : (
-                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="#000">
-                  <path d="M16.365 1.43c0 1.14-.42 2.2-1.12 3-.79.92-2.08 1.63-3.13 1.55a3.4 3.4 0 0 1 1.14-2.9c.76-.83 2.06-1.5 3.11-1.65zM20.5 17.02c-.5 1.16-.74 1.68-1.39 2.71-.9 1.44-2.17 3.23-3.74 3.25-1.4.01-1.76-.91-3.66-.9-1.9.01-2.29.92-3.69.9-1.57-.02-2.77-1.64-3.67-3.08-2.52-4.03-2.78-8.76-1.23-11.27 1.1-1.78 2.84-2.83 4.47-2.83 1.66 0 2.7.92 4.08.92 1.33 0 2.14-.92 4.06-.92 1.45 0 2.99.79 4.09 2.16-3.6 1.97-3.02 7.1.68 9.06z" />
-                </svg>
-              )}
-              {appleLoading ? t("Đang kết nối...", "Connecting...") : t("Tiếp tục với Apple", "Continue with Apple")}
-            </button>
 
             <div className="relative mb-6">
               <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-border" /></div>
