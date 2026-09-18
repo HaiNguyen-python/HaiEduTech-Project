@@ -19,7 +19,7 @@ import { dedupeStudentProfiles, fetchAllProfiles } from "@/lib/adminStudents";
 import { SUBJECT_LABELS, buildAssignmentRows, formatDeadline, type Assignment, type Submission } from "@/lib/assignmentMetrics";
 import { ASSIGNMENT_LESSON_CATALOG } from "@/lib/assignmentLessonCatalog";
 import {
-  createAssignment, createClass, deleteAssignment, updateClassMembers,
+  createAssignment, createClass, deleteAssignment, deleteClass, renameClass, updateClassMembers,
 } from "@/lib/teacherAssignmentActions";
 
 interface ClassRow { id: string; class_name: string; subject_category: string }
