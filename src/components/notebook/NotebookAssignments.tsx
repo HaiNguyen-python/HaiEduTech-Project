@@ -10,6 +10,8 @@ import { Link } from "react-router-dom";
 import { Loader2, ExternalLink, CalendarClock, AlertTriangle, CheckCircle2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useUserRole } from "@/hooks/useUserRole";
+import NotebookTeacherAssignments from "@/components/notebook/NotebookTeacherAssignments";
 import { SUBJECT_LABELS } from "@/lib/assignmentMetrics";
 import {
   fetchMyAssignments,
