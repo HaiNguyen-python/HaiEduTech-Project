@@ -35,12 +35,29 @@ type Pool = { match: RegExp; young: Filler[]; older: Filler[] };
 /** Text of a filler entry. */
 const fillerText = (f: Filler): string => (typeof f === "string" ? f : f.text);
 
+/**
+ * Anchor rule: a filler may only be added when one of its own content words
+ * already appears in the text. Without this, a sentence about a wet street can
+ * land in a text about a kitchen, which is exactly what made some items read
+ * illogically.
+ */
+const isAnchored = (sentence: string, passage: string): boolean => {
+  const lower = passage.toLowerCase();
+  return sentence
+    .toLowerCase()
+    .replace(/[^a-z\s]/g, " ")
+    .split(/\s+/)
+    .filter(w => w.length > 4)
+    .some(w => lower.includes(w.replace(/(ing|ed|es|s)$/, "")));
+};
+
 /** A filler may only be used when it does not contradict the reading text. */
 const fillerFits = (f: Filler, passage: string): boolean => {
-  if (typeof f === "string") return true;
-  if (f.requires && !f.requires.test(passage)) return false;
-  if (f.forbids && f.forbids.test(passage)) return false;
-  return true;
+  if (typeof f !== "string") {
+    if (f.requires && !f.requires.test(passage)) return false;
+    if (f.forbids && f.forbids.test(passage)) return false;
+  }
+  return isAnchored(fillerText(f), passage);
 };
 
 /**
