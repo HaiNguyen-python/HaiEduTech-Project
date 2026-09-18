@@ -582,6 +582,7 @@ const App = () => (
             <Route path="/terms" element={<LazyRoute><TermsOfService /></LazyRoute>} />
             <Route path="*" element={<LazyRoute><NotFound /></LazyRoute>} />
           </Routes>
+          </AuthGate>
           <Suspense fallback={null}><EnglishRouteParticles /></Suspense>
           <Suspense fallback={null}><ChineseRouteParticles /></Suspense>
           <DeferredGlobalWidgets />
