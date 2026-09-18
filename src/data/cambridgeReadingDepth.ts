@@ -29,8 +29,19 @@ const hash = (value: string) => {
  * contradict the text (sunshine added to a rainy day, a group added to a text
  * about one person).
  */
-type Filler = { text: string; requires?: RegExp; forbids?: RegExp };
+type Filler = string | { text: string; requires?: RegExp; forbids?: RegExp };
 type Pool = { match: RegExp; young: Filler[]; older: Filler[] };
+
+/** Text of a filler entry. */
+const fillerText = (f: Filler): string => (typeof f === "string" ? f : f.text);
+
+/** A filler may only be used when it does not contradict the reading text. */
+const fillerFits = (f: Filler, passage: string): boolean => {
+  if (typeof f === "string") return true;
+  if (f.requires && !f.requires.test(passage)) return false;
+  if (f.forbids && f.forbids.test(passage)) return false;
+  return true;
+};
 
 const PEOPLE = /\b(we|they|friends?|famil|children|kids|class|students?|pupils?|people|staff|visitors?|members?|customers?|brother|sister|mum|mother|dad|father|parents)\b/i;
 const INDOORS = /\b(house|home|room|bedroom|kitchen|class|classroom|school|shop|library|museum|centre|center|office|hall|flat|building|cafe|hotel)\b/i;
