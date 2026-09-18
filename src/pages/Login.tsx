@@ -21,7 +21,6 @@ const Login = () => {
   const [showPw, setShowPw] = useState(false);
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
-  const [microsoftLoading, setMicrosoftLoading] = useState(false);
 
   // Determine the right landing page based on the user's roles.
   // Pure assistants (no admin/teacher role) get the assistant workspace.
@@ -88,16 +87,6 @@ const Login = () => {
     // If successful, the page will redirect - no need to setGoogleLoading(false)
   };
 
-  const handleMicrosoftLogin = async () => {
-    setMicrosoftLoading(true);
-    const { error } = await lovable.auth.signInWithOAuth("microsoft", {
-      redirect_uri: oauthRedirect(),
-    });
-    if (error) {
-      setMicrosoftLoading(false);
-      toast({ title: t("Lỗi đăng nhập Microsoft", "Microsoft Login Error"), description: String(error), variant: "destructive" });
-    }
-  };
 
 
   return (
@@ -136,25 +125,6 @@ const Login = () => {
               {googleLoading ? t("Đang kết nối...", "Connecting...") : t("Tiếp tục với Google", "Continue with Google")}
             </button>
 
-            {/* Microsoft OAuth Button */}
-            <button
-              type="button"
-              onClick={handleMicrosoftLogin}
-              disabled={microsoftLoading}
-              className="w-full flex items-center justify-center gap-3 py-3 rounded-xl bg-white border border-border text-gray-700 font-medium hover:bg-gray-50 transition-all disabled:opacity-50 mb-6 shadow-sm"
-            >
-              {microsoftLoading ? (
-                <Loader2 className="w-5 h-5 animate-spin" />
-              ) : (
-                <svg className="w-5 h-5" viewBox="0 0 23 23">
-                  <path fill="#f35325" d="M1 1h10v10H1z" />
-                  <path fill="#81bc06" d="M12 1h10v10H12z" />
-                  <path fill="#05a6f0" d="M1 12h10v10H1z" />
-                  <path fill="#ffba08" d="M12 12h10v10H12z" />
-                </svg>
-              )}
-              {microsoftLoading ? t("Đang kết nối...", "Connecting...") : t("Tiếp tục với Microsoft", "Continue with Microsoft")}
-            </button>
 
 
             <div className="relative mb-6">
