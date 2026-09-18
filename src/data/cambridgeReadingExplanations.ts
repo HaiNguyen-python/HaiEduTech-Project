@@ -8,7 +8,7 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import type { CambridgeMockQuestion } from "./cambridgeMockExamData";
-import { findEvidenceSentence, splitSentences } from "@/lib/cambridgeEvidence";
+import { splitSentences } from "@/lib/cambridgeEvidence";
 
 const NUMBER_WORDS: Record<string, string> = {
   one: "1", two: "2", three: "3", four: "4", five: "5", six: "6", seven: "7",
@@ -21,7 +21,7 @@ const keyForms = (key: string): string[] => {
     .toLowerCase()
     .replace(/[^a-z0-9\s.:']/g, " ")
     .split(/\s+/)
-    .filter(w => w.length > 2 && !/^(the|a|an|and|for|with|about|from|that|this|his|her|not|nothing)$/.test(w));
+    .filter(w => (w.length > 2 || /\d/.test(w)) && !/^(the|a|an|and|for|with|about|from|that|this|his|her|not|nothing|than|then|far|less|more|most|very|some|much|many|other|they|them|there|will|are|was|were|has|have|had|its|it's|but|also|only|just|because|been)$/.test(w));
   const forms = new Set<string>();
   raw.forEach(w => {
     forms.add(w);
@@ -38,11 +38,20 @@ const sentenceContainingKey = (passage: string | undefined, key: string): string
   if (!passage) return null;
   const forms = keyForms(key);
   if (!forms.length) return null;
-  let best: { sentence: string; hits: number } | null = null;
+  // A single shared word is not proof for a long key, so a key of two or more
+  // words must match at least two of them before the sentence can be quoted.
+  const needed = forms.length >= 4 ? 2 : 1;
+  let best: { sentence: string; score: number } | null = null;
   for (const sentence of splitSentences(passage)) {
     const lower = sentence.toLowerCase();
-    const hits = forms.filter(f => new RegExp(`(^|[^a-z0-9])${f.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`, "i").test(lower)).length;
-    if (hits > 0 && (!best || hits > best.hits)) best = { sentence, hits };
+    const matched = forms.filter(f =>
+      new RegExp(`(^|[^a-z0-9])${f.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`, "i").test(lower)
+    );
+    // Count distinct words, not singular/plural variants of the same word.
+    const stems = new Set(matched.map(f => f.replace(/(ing|ed|es|s)$/, "")));
+    if (stems.size < needed) continue;
+    const score = stems.size * 100 + matched.reduce((sum, f) => sum + f.length, 0);
+    if (!best || score > best.score) best = { sentence, score };
   }
   return best ? best.sentence : null;
 };
@@ -108,24 +117,22 @@ export const buildReadingExplanation = (
   const authored = (q.explanation || "").trim().replace(/\s+/g, " ");
   const authoredVi = (q.explanationVi || "").trim().replace(/\s+/g, " ");
 
-  // Prefer a sentence that really contains the key. Only when the key is a
-  // paraphrase of the text do we quote the closest sentence, and we say so.
+  // Quote a sentence only when it really contains the key. Guessing from
+  // question words alone used to quote the wrong line of the text.
   const direct = sentenceContainingKey(q.passage, key);
-  const evidenceRaw = direct ?? findEvidenceSentence(q.passage, q.question, key);
-  const evidence = evidenceRaw ? cleanQuote(evidenceRaw) : null;
+  const evidence = direct ? cleanQuote(direct) : null;
 
   if (evidence) {
     const frame = stemFrame(q.question);
     const alreadyQuoted = authored.length >= 40 && authored.toLowerCase().includes(evidence.slice(0, 24).toLowerCase());
-    const en = direct
-      ? `The text ${frame.en}: "${evidence}" So the answer is "${key}", and the other options are details the text never gives.`
-      : `The answer is a paraphrase: the text says "${evidence}" which means "${key}". The other options are not supported by the text.`;
-    const vi = direct
-      ? `Bài đọc ${frame.vi}: "${evidence}" Vì vậy đáp án là "${key}"; các phương án khác không có trong bài.`
-      : `Đáp án là cách diễn đạt lại: bài đọc viết "${evidence}", nghĩa là "${key}". Các phương án khác không được bài đọc xác nhận.`;
     return {
-      explanation: alreadyQuoted ? authored : en,
-      explanationVi: authoredVi.length >= 25 ? authoredVi : vi,
+      explanation: alreadyQuoted
+        ? authored
+        : `The text ${frame.en}: "${evidence}" So the answer is "${key}", and the other options are details the text never gives.`,
+      explanationVi:
+        authoredVi.length >= 25
+          ? authoredVi
+          : `Bài đọc ${frame.vi}: "${evidence}" Vì vậy đáp án là "${key}"; các phương án khác không có trong bài.`,
     };
   }
 
