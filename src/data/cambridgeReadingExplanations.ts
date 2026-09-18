@@ -88,7 +88,7 @@ const grammarNote = (question: string, key: string): { en: string; vi: string } 
       vi: `"${key}" là từ hạn định đúng cho danh từ này, các phương án còn lại không phù hợp.`,
     };
   }
-  if (/^(more|most|-er|better|best)/.test(k) || /\bthan\b/i.test(question)) {
+  if (question.includes("___") && (/^(more|most|-er|better|best)/.test(k) || /\bthan\b/i.test(question))) {
     return {
       en: `The comparison in this sentence needs the form "${key}".`,
       vi: `Phép so sánh trong câu này cần dạng "${key}".`,
