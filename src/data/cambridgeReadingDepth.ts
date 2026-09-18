@@ -173,6 +173,8 @@ const POOLS: Pool[] = [
       "Users say the interface is simple once they learn where things are.",
       "The company collects feedback through a short monthly survey.",
       "Battery life is still the feature people complain about most.",
+      "Many workers now learn new skills while they stay in their current jobs.",
+      "Courses in data science and machine learning are widely offered online.",
     ],
   },
   {
