@@ -120,6 +120,8 @@ const POOLS: Pool[] = [
       "There is water and juice for everyone.",
       "After lunch they wash the plates together.",
       "The bread is warm and the fruit is on a blue plate.",
+      "After breakfast he puts his book and his lunch into his school bag.",
+      "In the park the two friends play a ball game before dinner.",
     ],
     older: [
       "The menu changes with the season, so regulars always ask what is new.",
