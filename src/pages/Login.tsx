@@ -12,6 +12,9 @@ import Footer from "@/components/Footer";
 const Login = () => {
   const { t } = useLanguage();
   const navigate = useNavigate();
+  const [params] = useSearchParams();
+  // Return the learner to the page they originally opened, when provided.
+  const nextPath = params.get("next") || "";
   const { toast } = useToast();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
