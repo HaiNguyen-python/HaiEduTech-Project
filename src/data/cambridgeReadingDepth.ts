@@ -11,7 +11,7 @@ import type { CambridgeMockExam, CambridgeMockQuestion } from "./cambridgeMockEx
 
 /** Official style expects this much reading context per level. */
 const MIN_WORDS: Record<string, number> = {
-  starters: 42, movers: 70, flyers: 75, ket: 80, pet: 95,
+  starters: 42, movers: 70, flyers: 75, ket: 78, pet: 90,
 };
 
 const hash = (value: string) => {
