@@ -221,6 +221,14 @@ const AdminClasses = () => {
           onSaved={() => { setEditingClass(null); fetchAll(); }}
         />
       )}
+
+      {renamingClass && (
+        <RenameClassDialog
+          klass={renamingClass}
+          onClose={() => setRenamingClass(null)}
+          onSaved={() => { setRenamingClass(null); fetchAll(); }}
+        />
+      )}
     </div>
   );
 };
