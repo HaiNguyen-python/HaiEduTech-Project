@@ -305,4 +305,68 @@ function EditMembersDialog({
   );
 }
 
+function RenameClassDialog({
+  klass, onClose, onSaved,
+}: {
+  klass: ClassRow;
+  onClose: () => void;
+  onSaved: () => void;
+}) {
+  const { toast } = useToast();
+  const [name, setName] = useState(klass.class_name);
+  const [subject, setSubject] = useState(klass.subject_category);
+  const [saving, setSaving] = useState(false);
+
+  const handleSave = async () => {
+    setSaving(true);
+    try {
+      const res = await renameClass(klass.id, {
+        className: name,
+        subject,
+        previousName: klass.class_name,
+      });
+      toast({
+        title: "Class renamed",
+        description: res.assignmentsUpdated > 0
+          ? `${res.assignmentsUpdated} assignment(s) updated to the new name.`
+          : name.trim(),
+      });
+      onSaved();
+    } catch (e) {
+      toast({ title: "Rename failed", description: e instanceof Error ? e.message : undefined, variant: "destructive" });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <Dialog open onOpenChange={(v) => { if (!v) onClose(); }}>
+      <DialogContent className="max-w-md">
+        <DialogHeader><DialogTitle>Rename class</DialogTitle></DialogHeader>
+        <div className="space-y-3">
+          <div>
+            <Label htmlFor="rename-class-name">Class name</Label>
+            <Input id="rename-class-name" value={name} onChange={(e) => setName(e.target.value)} />
+          </div>
+          <div>
+            <Label>Subject</Label>
+            <Select value={subject} onValueChange={setSubject}>
+              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectContent>
+                {Object.entries(SUBJECT_LABELS).map(([v, l]) => <SelectItem key={v} value={v}>{l}</SelectItem>)}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+        <DialogFooter>
+          <Button variant="outline" onClick={onClose}>Cancel</Button>
+          <Button onClick={handleSave} disabled={saving || !name.trim()} className="bg-slate-900 hover:bg-slate-800 text-white">
+            {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : "Save name"}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 export default AdminClasses;
