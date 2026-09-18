@@ -464,9 +464,29 @@ const AdminDashboard = () => {
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-2 text-xs font-semibold text-muted-foreground">
-              <span className="size-2 rounded-full bg-admin-success" aria-hidden="true" />
-              <span className="hidden sm:inline">{t("Hệ thống ổn định", "Operational")}</span>
+            <div className="flex shrink-0 items-center gap-2">
+              <div className="hidden items-center gap-2 text-xs font-semibold text-muted-foreground md:flex">
+                <span className="size-2 rounded-full bg-admin-success" aria-hidden="true" />
+                <span>{t("Hệ thống ổn định", "Operational")}</span>
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => navigate("/")}
+                className="gap-1.5"
+              >
+                <Home className="size-4" />
+                <span className="hidden sm:inline">{t("Về trang học", "Learning site")}</span>
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => navigate("/dashboard")}
+                className="gap-1.5"
+              >
+                <LayoutDashboard className="size-4" />
+                <span className="hidden sm:inline">{t("Trang cá nhân", "My dashboard")}</span>
+              </Button>
             </div>
           </header>
 
