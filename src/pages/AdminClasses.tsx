@@ -18,6 +18,9 @@ import {
 import { SUBJECT_LABELS } from "@/lib/assignmentMetrics";
 import { fetchAllRows } from "@/lib/adminData";
 import { dedupeStudentProfiles, fetchAllProfiles } from "@/lib/adminStudents";
+import {
+  createClass, deleteClass, renameClass, updateClassMembers,
+} from "@/lib/teacherAssignmentActions";
 
 interface ClassRow { id: string; class_name: string; subject_category: string; created_at: string; }
 interface MemberRow { id: string; class_id: string; user_id: string; }
