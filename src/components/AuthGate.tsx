@@ -26,8 +26,8 @@ const setMeta = (name: string, content: string) => {
 };
 
 const LoginInvite = ({ pathname, search }: { pathname: string; search: string }) => {
-  const { t, language } = useLanguage();
-  const isVi = language === "vi";
+  const { t, lang } = useLanguage();
+  const isVi = lang === "vi";
   const label = sectionLabel(pathname, isVi);
   const next = encodeURIComponent(`${pathname}${search || ""}`);
 
