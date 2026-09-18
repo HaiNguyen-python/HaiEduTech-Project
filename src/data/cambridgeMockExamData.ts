@@ -557,6 +557,7 @@ import { clarifyCambridgeListening } from "./cambridgeListeningClarity";
 import { upgradeCambridgeListening } from "./cambridgeListeningUpgrade";
 import { dedupeCambridgeReadingStems } from "./cambridgeReadingDedupe";
 import { deepenCambridgeReading } from "./cambridgeReadingDepth";
+import { fixCambridgeReadingLogic } from "./cambridgeReadingLogicFix";
 
 
 // Balanced answer keys + full bilingual explanations on every question.
