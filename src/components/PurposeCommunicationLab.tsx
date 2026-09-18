@@ -58,6 +58,14 @@ const PurposeCommunicationLab = ({
   ];
   const challenge = lesson.listeningChallenge;
 
+  const evidenceFor = (answer: string) => {
+    const segments = challenge.transcript.split(/(?<=[.!?])\s+|\n+/).map((part) => part.trim()).filter(Boolean);
+    const meaningful = answer.toLowerCase().match(/[a-z0-9]+/g)?.filter((word) => word.length > 2 || /\d/.test(word)) ?? [];
+    return segments.find((segment) => meaningful.some((word) => segment.toLowerCase().includes(word)))
+      ?? segments.find((segment) => segment.toLowerCase().includes(answer.toLowerCase()))
+      ?? "";
+  };
+
   useEffect(() => {
     setTab("learn");
     setAnswers({});
@@ -398,9 +406,10 @@ const PurposeCommunicationLab = ({
                       );
                     })}
                   </div>
-                  {answered && (
+                   {answered && (
                     <p className="mt-3 rounded-md border-l-4 border-primary bg-primary/5 p-3 text-sm leading-6">
-                      {t("Đáp án dựa trực tiếp vào thông tin trong đoạn nghe.", "The answer is stated directly in the listening passage.")}
+                       <span className="font-semibold">{t("Bằng chứng trong bài nghe:", "Evidence from the listening:")}</span>{" "}
+                       {evidenceFor(question.options[question.answer]) || t("Đáp án được nêu trực tiếp trong đoạn nghe.", "The answer is stated directly in the listening passage.")}
                     </p>
                   )}
                 </div>

@@ -658,7 +658,7 @@ export const academicExpansion2: ConvLesson[] = [
       { term: "in a nutshell", meaning: "tóm lại", meaningEn: "in summary", type: "idiom", example: "In a nutshell, results were positive.", exampleVi: "Tóm lại, kết quả tích cực." },
       { term: "to elaborate", meaning: "nói chi tiết hơn", meaningEn: "explain in more detail", type: "expression", example: "Let me elaborate on that.", exampleVi: "Tôi sẽ nói chi tiết hơn." },
       { term: "key takeaway", meaning: "ý chính cần nhớ", meaningEn: "main lesson", type: "expression", example: "The key takeaway is simple.", exampleVi: "Ý chính rất đơn giản." },
-      { term: "circle back", meaning: "quay lại sau", meaningEn: "return to a topic later", type: "phrasal-verb", example: "Let me circle back to this.", exampleVi: "Tôi sẽ quay lại điểm này." },
+      { term: "circle back", meaning: "quay lại vấn đề sau", meaningEn: "return to a topic later", type: "phrasal-verb", example: "Let me circle back to this.", exampleVi: "Tôi sẽ quay lại vấn đề này sau." },
     ],
     listeningChallenge: {
       title: "Presentation Coach",

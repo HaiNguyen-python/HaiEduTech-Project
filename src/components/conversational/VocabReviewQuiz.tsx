@@ -99,6 +99,11 @@ const VocabReviewQuiz = ({ vocabulary }: Props) => {
   }, 0);
   const total = mcq.length + fills.length;
   const score = mcqScore + fillScore;
+  const answeredMcq = mcq.filter((_, index) => mcqAns[index] !== undefined).length;
+  const answeredFills = fills.filter((_, index) => (fillAns[index] || "").trim().length > 0).length;
+  const answeredCount = answeredMcq + answeredFills;
+  const remaining = total - answeredCount;
+  const canSubmit = total > 0 && remaining === 0;
 
   const reset = () => { setMcqAns({}); setFillAns({}); setSubmitted(false); };
 
@@ -202,7 +207,14 @@ const VocabReviewQuiz = ({ vocabulary }: Props) => {
         </div>
         )}
 
-        <div className="flex justify-end gap-2 pt-2">
+        <div className="flex flex-wrap items-center justify-between gap-2 pt-2" aria-live="polite">
+          {!submitted && (
+            <p className={cn("text-sm", remaining > 0 ? "text-muted-foreground" : "font-medium text-primary")}>
+              {remaining > 0
+                ? t(`Còn ${remaining} câu chưa trả lời`, `${remaining} question${remaining === 1 ? "" : "s"} remaining`)
+                : t("Đã trả lời đầy đủ", "All questions answered")}
+            </p>
+          )}
           {submitted ? (
             <Button variant="outline" size="sm" onClick={reset}>
               <RotateCcw className="w-4 h-4 mr-1" /> {t("Làm lại", "Retry")}
@@ -210,7 +222,7 @@ const VocabReviewQuiz = ({ vocabulary }: Props) => {
           ) : (
             <Button
               size="sm"
-              disabled={Object.keys(mcqAns).length + Object.keys(fillAns).length === 0}
+               disabled={!canSubmit}
               onClick={() => setSubmitted(true)}
             >
               {t("Nộp bài", "Submit")}
