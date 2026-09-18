@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Mail, Lock, Eye, EyeOff, Loader2 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -12,6 +12,9 @@ import Footer from "@/components/Footer";
 const Login = () => {
   const { t } = useLanguage();
   const navigate = useNavigate();
+  const [params] = useSearchParams();
+  // Return the learner to the page they originally opened, when provided.
+  const nextPath = params.get("next") || "";
   const { toast } = useToast();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,6 +27,11 @@ const Login = () => {
   // Determine the right landing page based on the user's roles.
   // Pure assistants (no admin/teacher role) get the assistant workspace.
   const redirectByRole = async (userId: string) => {
+    // An explicit ?next= target wins over the role-based landing page.
+    if (nextPath.startsWith("/") && !nextPath.startsWith("//")) {
+      navigate(nextPath, { replace: true });
+      return;
+    }
     const { data } = await supabase.from("user_roles").select("role").eq("user_id", userId);
     const roles = (data || []).map((r: any) => r.role as string);
     const isSuperAdmin = roles.includes("admin") || roles.includes("teacher");
@@ -63,10 +71,16 @@ const Login = () => {
     }
   };
 
+  // Social sign-in returns to this login page so the ?next= target survives.
+  const oauthRedirect = () =>
+    nextPath.startsWith("/") && !nextPath.startsWith("//")
+      ? `${window.location.origin}/login?next=${encodeURIComponent(nextPath)}`
+      : window.location.origin;
+
   const handleGoogleLogin = async () => {
     setGoogleLoading(true);
     const { error } = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin,
+      redirect_uri: oauthRedirect(),
     });
     if (error) {
       setGoogleLoading(false);
@@ -78,7 +92,7 @@ const Login = () => {
   const handleMicrosoftLogin = async () => {
     setMicrosoftLoading(true);
     const { error } = await lovable.auth.signInWithOAuth("microsoft", {
-      redirect_uri: window.location.origin,
+      redirect_uri: oauthRedirect(),
     });
     if (error) {
       setMicrosoftLoading(false);
@@ -89,7 +103,7 @@ const Login = () => {
   const handleAppleLogin = async () => {
     setAppleLoading(true);
     const { error } = await lovable.auth.signInWithOAuth("apple", {
-      redirect_uri: window.location.origin,
+      redirect_uri: oauthRedirect(),
     });
     if (error) {
       setAppleLoading(false);
@@ -226,7 +240,7 @@ const Login = () => {
 
             <p className="text-center text-sm text-muted-foreground mt-6">
               {t("Chưa có tài khoản?", "Don't have an account?")}{" "}
-              <Link to="/signup" className="text-primary font-semibold hover:underline">
+              <Link to={nextPath ? `/signup?next=${encodeURIComponent(nextPath)}` : "/signup"} className="text-primary font-semibold hover:underline">
                 {t("Đăng ký ngay", "Sign up")}
               </Link>
             </p>

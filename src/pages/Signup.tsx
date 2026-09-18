@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { UserPlus, Mail, Lock, Eye, EyeOff, User, Loader2 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -12,6 +12,9 @@ import Footer from "@/components/Footer";
 const Signup = () => {
   const { t } = useLanguage();
   const navigate = useNavigate();
+  const [params] = useSearchParams();
+  // Where the guest wanted to go before being asked to sign in.
+  const nextPath = params.get("next") || "";
   const { toast } = useToast();
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -50,7 +53,7 @@ const Signup = () => {
         title: t("Đăng ký thành công!", "Signup successful!"),
         description: t("Vui lòng kiểm tra email để xác nhận tài khoản.", "Please check your email to confirm your account."),
       });
-      navigate("/login");
+      navigate(nextPath ? `/login?next=${encodeURIComponent(nextPath)}` : "/login");
     }
   };
 
