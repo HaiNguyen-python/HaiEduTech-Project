@@ -18,6 +18,9 @@ import {
 import { SUBJECT_LABELS } from "@/lib/assignmentMetrics";
 import { fetchAllRows } from "@/lib/adminData";
 import { dedupeStudentProfiles, fetchAllProfiles } from "@/lib/adminStudents";
+import {
+  createClass, deleteClass, renameClass, updateClassMembers,
+} from "@/lib/teacherAssignmentActions";
 
 interface ClassRow { id: string; class_name: string; subject_category: string; created_at: string; }
 interface MemberRow { id: string; class_id: string; user_id: string; }
@@ -33,6 +36,7 @@ const AdminClasses = () => {
   const [students, setStudents] = useState<ProfileRow[]>([]);
   const [createOpen, setCreateOpen] = useState(false);
   const [editingClass, setEditingClass] = useState<ClassRow | null>(null);
+  const [renamingClass, setRenamingClass] = useState<ClassRow | null>(null);
   const [mergedProfiles, setMergedProfiles] = useState(0);
 
   // Form state for create dialog
@@ -72,25 +76,28 @@ const AdminClasses = () => {
   }, [members]);
   const countFor = (classId: string) => countMap.get(classId) ?? 0;
 
+  // Writes go through the shared helpers so this page and the teacher notebook
+  // always behave the same way.
   const handleCreate = async () => {
-    if (!name.trim()) { toast({ title: "Class name required", variant: "destructive" }); return; }
-    const { error } = await supabase.from("classes").insert({
-      class_name: name.trim(),
-      subject_category: subject,
-      created_by: user!.id,
-    });
-    if (error) { toast({ title: "Create failed", description: error.message, variant: "destructive" }); return; }
-    toast({ title: "Class created" });
-    setName(""); setSubject("english"); setCreateOpen(false);
-    fetchAll();
+    try {
+      await createClass({ className: name, subject, createdBy: user!.id });
+      toast({ title: "Class created" });
+      setName(""); setSubject("english"); setCreateOpen(false);
+      fetchAll();
+    } catch (e) {
+      toast({ title: "Create failed", description: e instanceof Error ? e.message : undefined, variant: "destructive" });
+    }
   };
 
   const handleDelete = async (id: string) => {
     if (!confirm("Delete this class? Memberships will be removed.")) return;
-    const { error } = await supabase.from("classes").delete().eq("id", id);
-    if (error) { toast({ title: "Delete failed", description: error.message, variant: "destructive" }); return; }
-    toast({ title: "Class deleted" });
-    fetchAll();
+    try {
+      await deleteClass(id);
+      toast({ title: "Class deleted" });
+      fetchAll();
+    } catch (e) {
+      toast({ title: "Delete failed", description: e instanceof Error ? e.message : undefined, variant: "destructive" });
+    }
   };
 
   if (roleLoading) {
@@ -160,6 +167,9 @@ const AdminClasses = () => {
                     <td className="hidden px-4 py-3 text-muted-foreground whitespace-nowrap sm:table-cell">{new Date(c.created_at).toLocaleDateString()}</td>
                     <td className="px-4 py-3">
                       <div className="flex items-center justify-end gap-1">
+                        <button onClick={() => setRenamingClass(c)} className="px-2 py-1 rounded-md hover:bg-slate-100 text-xs font-medium text-slate-600 hover:text-slate-900 transition-colors" title="Rename class">
+                          Rename
+                        </button>
                         <button onClick={() => setEditingClass(c)} className="p-2 rounded-md hover:bg-slate-100 text-slate-500 hover:text-slate-900 transition-colors" title="Edit members">
                           <Pencil className="h-4 w-4" />
                         </button>
@@ -211,6 +221,14 @@ const AdminClasses = () => {
           onSaved={() => { setEditingClass(null); fetchAll(); }}
         />
       )}
+
+      {renamingClass && (
+        <RenameClassDialog
+          klass={renamingClass}
+          onClose={() => setRenamingClass(null)}
+          onSaved={() => { setRenamingClass(null); fetchAll(); }}
+        />
+      )}
     </div>
   );
 };
@@ -242,37 +260,20 @@ function EditMembersDialog({
     setSelected(next);
   };
 
+  // Both writes are verified inside the shared helper: a silent failure used to
+  // leave a class empty while the UI reported success.
   const handleSave = async () => {
     setSaving(true);
-    const toAdd = Array.from(selected).filter((id) => !currentMemberIds.has(id));
-    const toRemove = Array.from(currentMemberIds).filter((id) => !selected.has(id));
-
-    // Both writes are verified: a silent failure used to leave a class empty
-    // while the UI reported success.
-    if (toRemove.length > 0) {
-      const { error } = await supabase.from("class_members").delete()
-        .eq("class_id", klass.id).in("user_id", toRemove);
-      if (error) {
-        setSaving(false);
-        toast({ title: "Could not remove students", description: error.message, variant: "destructive" });
-        onSaved(); // reload from the server so the list reflects reality
-        return;
-      }
+    try {
+      await updateClassMembers(klass.id, currentMemberIds, selected);
+      toast({ title: "Members updated", description: `${selected.size} student(s) in class.` });
+      onSaved();
+    } catch (e) {
+      toast({ title: "Could not update members", description: e instanceof Error ? e.message : undefined, variant: "destructive" });
+      onSaved(); // reload from the server so the list reflects reality
+    } finally {
+      setSaving(false);
     }
-    if (toAdd.length > 0) {
-      const { error } = await supabase.from("class_members").insert(
-        toAdd.map((uid) => ({ class_id: klass.id, user_id: uid }))
-      );
-      if (error) {
-        setSaving(false);
-        toast({ title: "Could not add students", description: error.message, variant: "destructive" });
-        onSaved();
-        return;
-      }
-    }
-    setSaving(false);
-    toast({ title: "Members updated", description: `${selected.size} student(s) in class.` });
-    onSaved();
   };
 
   return (
@@ -297,6 +298,70 @@ function EditMembersDialog({
           <Button variant="outline" onClick={onClose}>Cancel</Button>
           <Button onClick={handleSave} disabled={saving} className="bg-slate-900 hover:bg-slate-800 text-white">
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : "Save members"}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function RenameClassDialog({
+  klass, onClose, onSaved,
+}: {
+  klass: ClassRow;
+  onClose: () => void;
+  onSaved: () => void;
+}) {
+  const { toast } = useToast();
+  const [name, setName] = useState(klass.class_name);
+  const [subject, setSubject] = useState(klass.subject_category);
+  const [saving, setSaving] = useState(false);
+
+  const handleSave = async () => {
+    setSaving(true);
+    try {
+      const res = await renameClass(klass.id, {
+        className: name,
+        subject,
+        previousName: klass.class_name,
+      });
+      toast({
+        title: "Class renamed",
+        description: res.assignmentsUpdated > 0
+          ? `${res.assignmentsUpdated} assignment(s) updated to the new name.`
+          : name.trim(),
+      });
+      onSaved();
+    } catch (e) {
+      toast({ title: "Rename failed", description: e instanceof Error ? e.message : undefined, variant: "destructive" });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <Dialog open onOpenChange={(v) => { if (!v) onClose(); }}>
+      <DialogContent className="max-w-md">
+        <DialogHeader><DialogTitle>Rename class</DialogTitle></DialogHeader>
+        <div className="space-y-3">
+          <div>
+            <Label htmlFor="rename-class-name">Class name</Label>
+            <Input id="rename-class-name" value={name} onChange={(e) => setName(e.target.value)} />
+          </div>
+          <div>
+            <Label>Subject</Label>
+            <Select value={subject} onValueChange={setSubject}>
+              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectContent>
+                {Object.entries(SUBJECT_LABELS).map(([v, l]) => <SelectItem key={v} value={v}>{l}</SelectItem>)}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+        <DialogFooter>
+          <Button variant="outline" onClick={onClose}>Cancel</Button>
+          <Button onClick={handleSave} disabled={saving || !name.trim()} className="bg-slate-900 hover:bg-slate-800 text-white">
+            {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : "Save name"}
           </Button>
         </DialogFooter>
       </DialogContent>

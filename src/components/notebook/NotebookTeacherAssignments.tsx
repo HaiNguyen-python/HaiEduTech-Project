@@ -9,7 +9,7 @@
  */
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
-  Loader2, Plus, Users, Trash2, ChevronDown, ChevronRight,
+  Loader2, Plus, Users, Trash2, ChevronDown, ChevronRight, Pencil,
   CalendarClock, AlertTriangle, CheckCircle2, Circle, Send,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -19,7 +19,7 @@ import { dedupeStudentProfiles, fetchAllProfiles } from "@/lib/adminStudents";
 import { SUBJECT_LABELS, buildAssignmentRows, formatDeadline, type Assignment, type Submission } from "@/lib/assignmentMetrics";
 import { ASSIGNMENT_LESSON_CATALOG } from "@/lib/assignmentLessonCatalog";
 import {
-  createAssignment, createClass, deleteAssignment, updateClassMembers,
+  createAssignment, createClass, deleteAssignment, deleteClass, renameClass, updateClassMembers,
 } from "@/lib/teacherAssignmentActions";
 
 interface ClassRow { id: string; class_name: string; subject_category: string }
@@ -372,11 +372,59 @@ function ClassesPanel({
   const [editingId, setEditingId] = useState<string | null>(null);
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [savingMembers, setSavingMembers] = useState(false);
+  const [renamingId, setRenamingId] = useState<string | null>(null);
+  const [renameName, setRenameName] = useState("");
+  const [renameSubject, setRenameSubject] = useState("english");
+  const [savingRename, setSavingRename] = useState(false);
 
   const openEditor = (classId: string) => {
     if (editingId === classId) { setEditingId(null); return; }
     setEditingId(classId);
     setSelected(new Set(memberIdsOf(classId)));
+  };
+
+  const startRename = (c: ClassRow) => {
+    if (renamingId === c.id) { setRenamingId(null); return; }
+    setRenamingId(c.id);
+    setRenameName(c.class_name);
+    setRenameSubject(c.subject_category);
+  };
+
+  const saveRename = async (c: ClassRow) => {
+    setSavingRename(true);
+    try {
+      const res = await renameClass(c.id, {
+        className: renameName,
+        subject: renameSubject,
+        previousName: c.class_name,
+      });
+      toast({
+        title: "Đã đổi tên lớp",
+        description: res.assignmentsUpdated > 0
+          ? `Cập nhật ${res.assignmentsUpdated} bài tập theo tên mới.`
+          : renameName.trim(),
+      });
+      setRenamingId(null);
+      onChanged();
+    } catch (e) {
+      toast({ title: "Chưa đổi được tên lớp", description: e instanceof Error ? e.message : undefined, variant: "destructive" });
+      onChanged();
+    } finally {
+      setSavingRename(false);
+    }
+  };
+
+  const removeClass = async (c: ClassRow) => {
+    if (!confirm(`Xoá lớp "${c.class_name}"? Danh sách thành viên cũng bị xoá.`)) return;
+    try {
+      await deleteClass(c.id);
+      toast({ title: "Đã xoá lớp" });
+      setEditingId(null);
+      setRenamingId(null);
+      onChanged();
+    } catch (e) {
+      toast({ title: "Chưa xoá được lớp", description: e instanceof Error ? e.message : undefined, variant: "destructive" });
+    }
   };
 
   const create = async () => {
@@ -433,22 +481,75 @@ function ClassesPanel({
         <ul className="space-y-1.5">
           {classes.map((c) => (
             <li key={c.id} className="rounded-md border border-border">
-              <button
-                onClick={() => openEditor(c.id)}
-                aria-expanded={editingId === c.id}
-                className="w-full flex items-center gap-2 px-2.5 py-2 text-left"
-              >
-                {editingId === c.id ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
-                <span className="flex-1 min-w-0">
-                  <span className="block text-sm font-medium truncate">{c.class_name}</span>
-                  <span className="block text-[11px] text-muted-foreground">
-                    {SUBJECT_LABELS[c.subject_category] ?? c.subject_category}
+              <div className="flex items-center gap-1 px-2.5 py-2">
+                <button
+                  onClick={() => openEditor(c.id)}
+                  aria-expanded={editingId === c.id}
+                  className="flex flex-1 min-w-0 items-center gap-2 text-left"
+                >
+                  {editingId === c.id ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                  <span className="flex-1 min-w-0">
+                    <span className="block text-sm font-medium truncate">{c.class_name}</span>
+                    <span className="block text-[11px] text-muted-foreground">
+                      {SUBJECT_LABELS[c.subject_category] ?? c.subject_category}
+                    </span>
                   </span>
-                </span>
-                <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
-                  <Users size={12} /> {memberIdsOf(c.id).length}
-                </span>
-              </button>
+                  <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
+                    <Users size={12} /> {memberIdsOf(c.id).length}
+                  </span>
+                </button>
+                <button
+                  onClick={() => startRename(c)}
+                  aria-label={`Đổi tên lớp ${c.class_name}`}
+                  aria-expanded={renamingId === c.id}
+                  className="p-1.5 rounded-md text-muted-foreground hover:text-primary"
+                >
+                  <Pencil size={14} />
+                </button>
+                <button
+                  onClick={() => removeClass(c)}
+                  aria-label={`Xoá lớp ${c.class_name}`}
+                  className="p-1.5 rounded-md text-muted-foreground hover:text-destructive"
+                >
+                  <Trash2 size={14} />
+                </button>
+              </div>
+
+              {renamingId === c.id && (
+                <div className="border-t border-border p-2.5 space-y-2">
+                  <label className="text-[11px] font-semibold text-muted-foreground" htmlFor={`rename-${c.id}`}>Tên lớp mới</label>
+                  <input
+                    id={`rename-${c.id}`}
+                    className={inputCls}
+                    value={renameName}
+                    onChange={(e) => setRenameName(e.target.value)}
+                  />
+                  <select
+                    className={inputCls}
+                    value={renameSubject}
+                    onChange={(e) => setRenameSubject(e.target.value)}
+                    aria-label="Môn của lớp"
+                  >
+                    {Object.entries(SUBJECT_LABELS).map(([v, l]) => <option key={v} value={v}>{l}</option>)}
+                  </select>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => saveRename(c)}
+                      disabled={savingRename || !renameName.trim()}
+                      className="flex-1 rounded-md bg-primary px-3 py-1.5 text-sm font-semibold text-primary-foreground disabled:opacity-50"
+                    >
+                      {savingRename ? "Đang lưu..." : "Lưu tên lớp"}
+                    </button>
+                    <button
+                      onClick={() => setRenamingId(null)}
+                      className="rounded-md border border-border px-3 py-1.5 text-sm font-medium text-muted-foreground"
+                    >
+                      Huỷ
+                    </button>
+                  </div>
+                </div>
+              )}
+
               {editingId === c.id && (
                 <div className="border-t border-border p-2.5 space-y-2">
                   <StudentPicker
