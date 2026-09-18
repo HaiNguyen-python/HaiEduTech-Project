@@ -53,7 +53,7 @@ const Signup = () => {
         title: t("Đăng ký thành công!", "Signup successful!"),
         description: t("Vui lòng kiểm tra email để xác nhận tài khoản.", "Please check your email to confirm your account."),
       });
-      navigate("/login");
+      navigate(nextPath ? `/login?next=${encodeURIComponent(nextPath)}` : "/login");
     }
   };
 
