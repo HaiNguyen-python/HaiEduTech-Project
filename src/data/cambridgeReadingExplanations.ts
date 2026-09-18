@@ -38,11 +38,18 @@ const sentenceContainingKey = (passage: string | undefined, key: string): string
   if (!passage) return null;
   const forms = keyForms(key);
   if (!forms.length) return null;
-  let best: { sentence: string; hits: number } | null = null;
+  // A single shared word is not proof for a long key, so a key of two or more
+  // words must match at least two of them before the sentence can be quoted.
+  const needed = forms.length >= 4 ? 2 : 1;
+  let best: { sentence: string; score: number } | null = null;
   for (const sentence of splitSentences(passage)) {
     const lower = sentence.toLowerCase();
-    const hits = forms.filter(f => new RegExp(`(^|[^a-z0-9])${f.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`, "i").test(lower)).length;
-    if (hits > 0 && (!best || hits > best.hits)) best = { sentence, hits };
+    const matched = forms.filter(f =>
+      new RegExp(`(^|[^a-z0-9])${f.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`, "i").test(lower)
+    );
+    if (matched.length < needed) continue;
+    const score = matched.length * 100 + matched.reduce((sum, f) => sum + f.length, 0);
+    if (!best || score > best.score) best = { sentence, score };
   }
   return best ? best.sentence : null;
 };
