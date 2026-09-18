@@ -23,24 +23,35 @@ const hash = (value: string) => {
   return Math.abs(h);
 };
 
-type Pool = { match: RegExp; young: string[]; older: string[] };
+/**
+ * A filler sentence with logic guards. `requires` must appear in the text so the
+ * sentence has something to refer to, and `forbids` blocks sentences that would
+ * contradict the text (sunshine added to a rainy day, a group added to a text
+ * about one person).
+ */
+type Filler = { text: string; requires?: RegExp; forbids?: RegExp };
+type Pool = { match: RegExp; young: Filler[]; older: Filler[] };
 
-const GENERAL_YOUNG = [
-  "The sun is out and the sky is very blue.",
-  "Everyone is happy and nobody is late.",
-  "There are two big windows and a green door.",
-  "The room is clean and quiet today.",
-  "It is a nice day and the birds are singing.",
-  "They laugh a lot and talk about their week.",
+const PEOPLE = /\b(we|they|friends?|famil|children|kids|class|students?|pupils?|people|staff|visitors?|members?|customers?|brother|sister|mum|mother|dad|father|parents)\b/i;
+const INDOORS = /\b(house|home|room|bedroom|kitchen|class|classroom|school|shop|library|museum|centre|center|office|hall|flat|building|cafe|hotel)\b/i;
+const BAD_WEATHER = /\b(rain|rains|rained|raining|rainy|snow|snowy|wind|windy|storm|cold|cloud|cloudy|umbrella|night|dark|wet)\b/i;
+
+const GENERAL_YOUNG: Filler[] = [
+  { text: "The sun is out and the sky is very blue.", forbids: BAD_WEATHER },
+  { text: "It is a nice day and the birds are singing.", forbids: BAD_WEATHER },
+  { text: "Everyone is happy and nobody is late.", requires: PEOPLE },
+  { text: "They laugh a lot and talk about their week.", requires: PEOPLE },
+  { text: "There are two big windows and a green door.", requires: INDOORS },
+  { text: "The room is clean and quiet today.", requires: INDOORS },
 ];
 
-const GENERAL_OLDER = [
-  "The atmosphere is relaxed and nobody seems to be in a hurry.",
-  "Small details like this often say more than a long description.",
-  "Most people there agree that the routine works well for them.",
-  "Nothing about the situation is unusual, yet it is worth noticing.",
-  "The whole scene feels ordinary, which is exactly why it is useful.",
-  "Little by little, habits like these shape the rest of the day.",
+const GENERAL_OLDER: Filler[] = [
+  { text: "The atmosphere is relaxed and nobody seems to be in a hurry.", requires: INDOORS },
+  { text: "Most people there agree that the routine works well for them.", requires: PEOPLE },
+  { text: "Anyone who wants more information can read the whole notice again carefully.", requires: /\b(notice|sign|advert|information|text|letter|email|leaflet|timetable|poster)\b/i },
+  { text: "Little by little, habits like these shape the rest of the day.", requires: /\b(habit|routine|every day|daily|morning|evening|afternoon|week)\b/i },
+  { text: "The details matter here, because each one changes what a reader should do next.", requires: /\b(must|should|need|rule|price|cost|time|open|closed)\b/i },
+  { text: "Reports from other towns describe very similar experiences.", requires: /\b(town|city|school|company|club|centre|center|project|scheme|study|research)\b/i },
 ];
 
 const POOLS: Pool[] = [
