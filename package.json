@@ -11,7 +11,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "audit:programming-english": "bun scripts/validateProgrammingEnglish.ts"
+    "audit:programming-english": "bun scripts/validateProgrammingEnglish.ts",
+    "audit:purpose-english": "bun scripts/audit_purpose_english_core.ts && bun scripts/audit_purpose_english_lab.ts && bun scripts/audit_conversational_listening.ts"
   },
   "dependencies": {
     "@codemirror/lang-python": "^6.2.1",

@@ -231,9 +231,10 @@ const PurposeEnglishCourse = ({
                 <Trophy className="h-8 w-8 text-secondary" />
               </div>
               <Progress value={progress} className="mt-4 h-2.5" />
-              <div className="mt-4 grid grid-cols-3 gap-3 text-center">
+               <div className="mt-4 grid grid-cols-2 gap-3 text-center sm:grid-cols-4">
                 <div><p className="text-lg font-bold">{completed}</p><p className="text-xs text-muted-foreground">{t("Đã xong", "Done")}</p></div>
-                <div><p className="text-lg font-bold">{total}</p><p className="text-xs text-muted-foreground">{t("Bài học", "Lessons")}</p></div>
+                 <div><p className="text-lg font-bold">{total}</p><p className="text-xs text-muted-foreground">{t("Tổng hoạt động", "Total activities")}</p></div>
+                 <div><p className="text-lg font-bold">{allCoreLessons.length}</p><p className="text-xs text-muted-foreground">{t("Bài nền tảng", "Core lessons")}</p></div>
                 <div><p className="text-lg font-bold">{communicationLessons.length}</p><p className="text-xs text-muted-foreground">Labs</p></div>
               </div>
             </div>
