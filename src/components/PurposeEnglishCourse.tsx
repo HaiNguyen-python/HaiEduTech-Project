@@ -371,6 +371,7 @@ const PurposeEnglishCourse = ({
               <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                 {filteredLabs.map((lesson, index) => {
                   const done = labDone.includes(lesson.id);
+                  const locked = !isLabUnlocked(lesson.id);
                   return (
                     <motion.button
                       key={lesson.id}
@@ -379,20 +380,28 @@ const PurposeEnglishCourse = ({
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: Math.min(index * 0.025, 0.25) }}
                       onClick={() => openLab(lesson)}
-                      className="group overflow-hidden rounded-lg border border-border bg-card text-left shadow-sm transition-all hover:-translate-y-1 hover:border-primary/50 hover:shadow-md"
+                      disabled={locked}
+                      aria-disabled={locked}
+                      className={`group overflow-hidden rounded-lg border border-border bg-card text-left shadow-sm transition-all ${locked ? "cursor-not-allowed opacity-70" : "hover:-translate-y-1 hover:border-primary/50 hover:shadow-md"}`}
                     >
                       <div className="relative aspect-[16/8] overflow-hidden bg-muted">
-                        <img src={bannerImageFor(lesson.title, lesson.descriptionVi, lesson.description)} alt="" loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                        <img src={bannerImageFor(lesson.title, lesson.descriptionVi, lesson.description)} alt="" loading="lazy" className={`h-full w-full object-cover transition-transform duration-500 ${locked ? "grayscale" : "group-hover:scale-105"}`} />
                         <div className="absolute inset-0 bg-gradient-to-t from-foreground/75 to-transparent" />
                         <span className="absolute bottom-3 left-3 rounded-md bg-background/90 px-2 py-1 text-xs font-bold text-foreground">
                           {t(groups.find((group) => group.id === groupForLesson(track, lesson))?.vi ?? "", groups.find((group) => group.id === groupForLesson(track, lesson))?.en ?? "")}
                         </span>
                         {done && <CheckCircle2 className="absolute right-3 top-3 h-6 w-6 rounded-full bg-background text-primary" />}
+                        {!done && locked && <Lock className="absolute right-3 top-3 h-6 w-6 rounded-full bg-background p-1 text-foreground/70" />}
                       </div>
                       <div className="p-4">
                         <p className="text-xs font-bold text-primary">LAB {String(index + 1).padStart(2, "0")}</p>
-                        <h3 className="mt-1 text-lg font-bold text-foreground group-hover:text-primary">{t(lesson.titleVi, lesson.title)}</h3>
+                        <h3 className={`mt-1 text-lg font-bold text-foreground ${locked ? "" : "group-hover:text-primary"}`}>{t(lesson.titleVi, lesson.title)}</h3>
                         <p className="mt-2 line-clamp-2 text-sm leading-6 text-muted-foreground">{t(lesson.descriptionVi, lesson.description)}</p>
+                        {locked && (
+                          <p className="mt-2 text-sm font-bold text-foreground/70">
+                            {t("Hoàn thành bài trước để mở bài này", "Complete the previous lesson to unlock")}
+                          </p>
+                        )}
                         <div className="mt-4 flex items-center justify-between text-xs font-semibold text-muted-foreground">
                           <span>{lesson.keySituations.length} {t("tình huống", "scenarios")}</span>
                           <span>{lesson.vocabulary.length} {t("cụm từ", "phrases")}</span>
