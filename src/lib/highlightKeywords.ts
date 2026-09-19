@@ -48,7 +48,7 @@ const verbSource = (word: string) => {
 
 const DETERMINER = String.raw`(?:a|an|the|this|that|my|your|our|their)`;
 const SLOT = String.raw`(?:[^\s,.!?;]+(?:\s+[^\s,.!?;]+){0,5})`;
-const REPLACEABLE = new Set(["someone", "somebody", "something"]);
+const isReplaceable = (token: string) => /^(?:someone|somebody|something)(?:['’]s)?$/i.test(token);
 
 /** Build natural-language matchers from dictionary-style entries such as
  * "to chair a meeting", "Would ... suit you?" or "by end of day (EOD)". */
@@ -71,7 +71,7 @@ export const keyPhraseSources = (phrase: string): string[] => {
   let firstLexical = true;
   const parts = tokens.map((token) => {
     const lower = token.toLowerCase();
-    if (token === "..." || REPLACEABLE.has(lower) || token === "A" || token === "B") return "__SLOT__";
+    if (token === "..." || isReplaceable(token) || token === "A" || token === "B") return "__SLOT__";
     if (["a", "an", "the"].includes(lower)) return DETERMINER;
     if (leadingInfinitive && firstLexical) {
       firstLexical = false;
@@ -88,6 +88,15 @@ export const keyPhraseSources = (phrase: string): string[] => {
       return `${result}${separator}${part}`;
     }, "").replace(/__SLOT__/g, SLOT);
     sources.push(source);
+  }
+  if (!leadingInfinitive && tokens[0]) {
+    const firstVerb = [verbSource(tokens[0]), ...parts.slice(1)].reduce((result, part, index) => {
+      const previous = index === 0 ? parts[0] : parts[index];
+      const touchesSlot = part === "__SLOT__" || previous === "__SLOT__";
+      const separator = touchesSlot ? String.raw`(?:\s+|\s*[,;:]\s*)` : String.raw`\s+`;
+      return `${result}${separator}${part}`;
+    }).replace(/__SLOT__/g, SLOT);
+    sources.push(firstVerb);
   }
   if (tokens.length === 1 && tokens[0]) sources.push(verbSource(tokens[0]));
   if (tokens.length > 1 && tokens.at(-1)) {
@@ -122,12 +131,32 @@ export interface KeywordRange {
 export const findKeyPhraseRanges = (text: string, phrases: string[]): KeywordRange[] => {
   const candidates: KeywordRange[] = [];
   for (const phrase of clean(phrases)) {
+    const beforePhrase = candidates.length;
     for (const source of keyPhraseSources(phrase)) {
       const matcher = new RegExp(`(?<![\\p{L}\\p{N}])(${source})(?![\\p{L}\\p{N}])`, "giu");
       let match: RegExpExecArray | null;
       while ((match = matcher.exec(text)) !== null) {
         candidates.push({ start: match.index, end: match.index + match[0].length, kind: "phrase" });
         if (!match[0].length) matcher.lastIndex += 1;
+      }
+    }
+    if (candidates.length === beforePhrase) {
+      const lexical = phrase
+        .replace(/^to\s+/i, "")
+        .match(/[\p{L}\p{N}'’-]+/gu)
+        ?.filter((token) => !isReplaceable(token) && !["a", "an", "the", "A", "B"].includes(token)) ?? [];
+      const fallbackSources = lexical.flatMap((token, index) => {
+        const values = [escape(token)];
+        if (index === 0) values.push(verbSource(token));
+        return values;
+      });
+      for (const source of fallbackSources) {
+        const matcher = new RegExp(`(?<![\\p{L}\\p{N}])(${source})(?![\\p{L}\\p{N}])`, "iu");
+        const match = matcher.exec(text);
+        if (match) {
+          candidates.push({ start: match.index, end: match.index + match[0].length, kind: "phrase" });
+          break;
+        }
       }
     }
   }
