@@ -11,6 +11,11 @@ import {
 } from "../src/data/conversationalCurriculum";
 import type { ConvLesson } from "../src/data/conversationalCurriculum";
 import { resolveDialogueKeyPhrases } from "../src/lib/dialogueKeyPhrases";
+import { findKeyPhraseRanges } from "../src/lib/highlightKeywords";
+
+const LOW_VALUE_ONLY = new Set([
+  "a", "an", "i", "it", "my", "of", "our", "that", "the", "their", "to", "we", "you", "your",
+]);
 
 const audit = (label: string, lessons: ConvLesson[]) => {
   const issues: string[] = [];
@@ -29,6 +34,13 @@ const audit = (label: string, lessons: ConvLesson[]) => {
       }
       const invalid = phrases.filter((phrase) => phrase.trim().split(/\s+/).length < 2 || phrase.trim().length < 4);
       if (invalid.length) issues.push(`${lesson.id} / ${situation.title}: low-value phrase(s): ${invalid.join(", ")}`);
+      const renderedHits = lines.flatMap((line) =>
+        findKeyPhraseRanges(line, phrases).map((range) => line.slice(range.start, range.end).trim().toLowerCase()),
+      );
+      const fragments = renderedHits.filter((hit) => LOW_VALUE_ONLY.has(hit));
+      if (fragments.length) {
+        issues.push(`${lesson.id} / ${situation.title}: low-value rendered fragment(s): ${fragments.join(", ")}`);
+      }
     }
   }
 

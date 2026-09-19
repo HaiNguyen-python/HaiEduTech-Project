@@ -21,4 +21,18 @@ describe("natural key phrase highlighting", () => {
   it("does not match a phrase inside another word", () => {
     expect(highlighted("The target was rebuilt.", "get")).toEqual([]);
   });
+
+  it.each([
+    ["Hi, I really enjoyed your presentation.", "I look forward to"],
+    ["I especially liked your case study.", "Perhaps we could"],
+    ["That is useful for the whole team.", "I would love to share"],
+    ["Your results are strong.", "Could you tell me more about your approach"],
+  ])("does not reduce an absent phrase to an unimportant word in %s", (text, phrase) => {
+    expect(highlighted(text, phrase)).toEqual([]);
+  });
+
+  it("keeps the complete useful phrase instead of highlighting its pronoun", () => {
+    expect(highlighted("I look forward to hearing more.", "I look forward to"))
+      .toEqual(["I look forward to"]);
+  });
 });

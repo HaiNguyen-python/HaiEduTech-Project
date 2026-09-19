@@ -225,6 +225,15 @@ export const DIALOGUE_KEY_PHRASES: string[] = [
   "I really appreciate your time", "What surprised you most", "That's a good insight",
   "not only builds confidence but also ensures",
 
+  // Professional networking and relationship-building
+  "I really enjoyed your presentation", "I really enjoyed your article",
+  "I especially liked your case study", "What's your background",
+  "I'm in digital marketing", "based in", "I've seen some of your",
+  "That's great to hear", "connect later", "discuss them further",
+  "Please do send me a message", "working on a similar project",
+  "exchange ideas", "happy to chat", "interested in how",
+  "schedule a brief call", "discuss it further",
+
 ];
 
 /** Matches reusable chunks without selecting isolated vocabulary words. */
