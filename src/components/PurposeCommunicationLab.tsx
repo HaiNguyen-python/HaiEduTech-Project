@@ -212,7 +212,7 @@ const PurposeCommunicationLab = ({
                       <Volume2 className="h-4 w-4" />
                     </Button>
                   </div>
-                  <p className="mt-3 text-base leading-7 text-foreground">{item.example}</p>
+                  <p className="mt-3 text-base leading-7 text-foreground">{highlightKeywords(item.example, [], [item.term])}</p>
                 </motion.div>
               ))}
             </div>
