@@ -126,7 +126,7 @@ export const ieltsReadingExpansion3Lessons: LanguageLesson[] = [
     id: "ielts-reading-16",
     title: "Yes/No/Not Given - Advanced",
     titleEn: "Yes/No/Not Given - Advanced",
-    level: 3,
+    level: 4,
     difficulty: "advanced",
     theory: `**Yes/No/Not Given - Advanced** tập trung vào các trường hợp khó phân biệt, đặc biệt giữa NO và NOT GIVEN.
 

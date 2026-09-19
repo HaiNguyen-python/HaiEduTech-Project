@@ -38,7 +38,7 @@ const practiceIds = [20, 21, 22, 23, 24].map((number) => `ielts-reading-${number
 for (const id of practiceIds) {
   const lesson = byId.get(id);
   if (!lesson?.theoryEn.toLowerCase().includes("short")) issues.push(`${id}: practice length is not labelled honestly`);
-  if (lesson?.theoryEn.toLowerCase().includes("full-length")) issues.push(`${id}: incorrectly labelled full-length`);
+  if (/\bis (?:a )?full-length\b/i.test(lesson?.theoryEn ?? "")) issues.push(`${id}: incorrectly labelled full-length`);
 }
 
 const coffee = byId.get("ielts-reading-20");

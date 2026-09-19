@@ -1,5 +1,5 @@
 // IELTS Curriculum: Academic Vocabulary, Grammar 7.0+, Writing, Reading, Listening, Speaking
-import type { LanguageModule } from "./types";
+import type { LanguageLesson, LanguageModule } from "./types";
 import { ieltsReadingExpansionLessons, ieltsListeningExpansionLessons } from "./englishIeltsReadingListening";
 import { ieltsReadingExpansion2Lessons, ieltsListeningExpansion2Lessons } from "./englishIeltsReadingListening2";
 import { ieltsReadingExpansion3Lessons, ieltsListeningExpansion3Lessons } from "./englishIeltsReadingListening3";
@@ -553,16 +553,16 @@ export const ieltsModules: LanguageModule[] = [
 
 // Append short reading practice (passage + questions) into matching reading lessons.
 // Idempotent: tag merged exercises so HMR / repeated module loads don't duplicate.
-const READING_PRACTICE_TAG = "__readingPracticeMerged";
+const readingPracticeMerged = new WeakSet<LanguageLesson>();
 for (const mod of ieltsModules) {
   if (mod.id !== "ielts-reading") continue;
   mod.lessons = applyIeltsReadingTheoryGuides(mod.lessons);
   for (const lesson of mod.lessons) {
-    if ((lesson as any)[READING_PRACTICE_TAG]) continue;
+    if (readingPracticeMerged.has(lesson)) continue;
     const extra = ieltsReadingPracticeExercises[lesson.id];
     if (extra && extra.length) {
       lesson.exercises = [...(lesson.exercises ?? []), ...extra];
     }
-    (lesson as any)[READING_PRACTICE_TAG] = true;
+    readingPracticeMerged.add(lesson);
   }
 }
