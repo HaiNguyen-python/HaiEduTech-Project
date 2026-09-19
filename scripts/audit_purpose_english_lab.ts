@@ -6,6 +6,7 @@
  */
 import { professionalCommunicationLessons, academicCommunicationLessons } from "../src/data/conversationalCurriculum";
 import type { ConvLesson } from "../src/data/conversationalCurriculum";
+import { findKeyPhraseRanges } from "../src/lib/highlightKeywords";
 
 const normalise = (value: string) => value.trim().toLowerCase();
 
@@ -56,6 +57,9 @@ const audit = (label: string, lessons: ConvLesson[], expected: number) => {
       terms.add(normalise(entry.term));
       if (!entry.meaning || !entry.meaningEn) issues.push(`${lesson.id} / ${entry.term}: missing bilingual meaning`);
       if (!entry.example || !entry.exampleVi) issues.push(`${lesson.id} / ${entry.term}: missing bilingual example`);
+      if (entry.example && findKeyPhraseRanges(entry.example, [entry.term]).length === 0) {
+        issues.push(`${lesson.id} / ${entry.term}: phrase is not highlighted in example "${entry.example}"`);
+      }
     }
 
     const challenge = lesson.listeningChallenge;
