@@ -89,6 +89,55 @@ interface PhonemeRow {
   tipEn: string;
 }
 
+// Broad IPA transcriptions for every example in the chart, kept in the same
+// order as each row's comma-separated example words.
+const PHONEME_EXAMPLE_IPA: Record<string, readonly [string, string, string]> = {
+  "/iː/": ["/siː/", "/triː/", "/biːtʃ/"],
+  "/ɪ/": ["/sɪt/", "/ʃɪp/", "/bɪt/"],
+  "/e/": ["/bed/", "/hed/", "/sed/"],
+  "/æ/": ["/kæt/", "/hæt/", "/bæd/"],
+  "/ʌ/": ["/kʌp/", "/lʌv/", "/sʌn/"],
+  "/ɑː/": ["/kɑːr/", "/ˈfɑːðər/", "/pɑːm/"],
+  "/ɒ/": ["/hɒt/", "/dɒɡ/", "/lɒt/"],
+  "/ɔː/": ["/lɔː/", "/bɔːt/", "/fɔːr/"],
+  "/ʊ/": ["/bʊk/", "/pʊt/", "/ɡʊd/"],
+  "/uː/": ["/fuːd/", "/bluː/", "/muːn/"],
+  "/ə/": ["/əˈbaʊt/", "/ˈsəʊfə/", "/bəˈnɑːnə/"],
+  "/ɜː/": ["/bɜːrd/", "/wɜːrk/", "/lɜːrn/"],
+  "/θ/": ["/θɪŋk/", "/θæŋk/", "/θriː/"],
+  "/ð/": ["/ðɪs/", "/ðæt/", "/ˈmʌðər/"],
+  "/ʃ/": ["/ʃiː/", "/ʃɪp/", "/ˈfæʃən/"],
+  "/ʒ/": ["/ˈvɪʒən/", "/ˈmeʒər/", "/ɡəˈrɑːʒ/"],
+  "/tʃ/": ["/tʃɜːrtʃ/", "/tʃiːz/", "/wɒtʃ/"],
+  "/dʒ/": ["/dʒʌdʒ/", "/dʒem/", "/eɪdʒ/"],
+  "/ŋ/": ["/sɪŋ/", "/rɪŋ/", "/lɒŋ/"],
+  "/r/": ["/red/", "/ˈveri/", "/əˈraʊnd/"],
+  "/l/": ["/laɪt/", "/fiːl/", "/fʊl/"],
+  "/v/": ["/ˈveri/", "/vɔɪs/", "/lʌv/"],
+  "/w/": ["/wiː/", "/weɪt/", "/əˈweɪ/"],
+  "/p/": ["/pen/", "/tɒp/", "/ˈhæpi/"],
+  "/b/": ["/bʊk/", "/bɪɡ/", "/dʒɒb/"],
+  "/t/": ["/ten/", "/taɪm/", "/kæt/"],
+  "/d/": ["/dɒɡ/", "/dɑːrk/", "/bæd/"],
+  "/k/": ["/kiː/", "/kɑːr/", "/bæk/"],
+  "/g/": ["/ɡəʊ/", "/bɪɡ/", "/əˈɡen/"],
+  "/f/": ["/fɪʃ/", "/fɔːr/", "/ɒf/"],
+  "/s/": ["/sʌn/", "/siː/", "/kɪs/"],
+  "/z/": ["/zuː/", "/ˈbɪzi/", "/dɒɡz/"],
+  "/h/": ["/hæt/", "/həˈləʊ/", "/huː/"],
+  "/m/": ["/mæn/", "/swɪm/", "/taɪm/"],
+  "/n/": ["/nəʊ/", "/rʌn/", "/sʌn/"],
+  "/j/": ["/jes/", "/juː/", "/ˈjeləʊ/"],
+  "/eɪ/": ["/deɪ/", "/feɪs/", "/meɪk/"],
+  "/aɪ/": ["/maɪ/", "/taɪm/", "/aɪ/"],
+  "/ɔɪ/": ["/bɔɪ/", "/kɔɪn/", "/vɔɪs/"],
+  "/aʊ/": ["/naʊ/", "/haʊ/", "/haʊs/"],
+  "/əʊ/ (UK) · /oʊ/ (US)": ["/ɡəʊ/", "/həʊm/", "/sləʊ/"],
+  "/ɪə/": ["/hɪə/", "/nɪə/", "/ɪə/"],
+  "/eə/": ["/heə/", "/keə/", "/weə/"],
+  "/ʊə/": ["/tʊə/", "/ʃʊə/", "/pʊə/"],
+};
+
 const VOWELS: PhonemeRow[] = [
   { ipa: "/iː/", example: "see, tree, beach", vi: "Âm 'i' kéo dài, miệng mỉm cười, lưỡi đẩy cao về phía trước. Giống chữ 'i' trong 'in' nhưng giữ lâu gấp đôi.", tip: "Mỉm cười rộng, kéo dài âm 'i' khoảng 2 nhịp", tipEn: "Smile wide and hold the 'ee' for 2 beats" },
   { ipa: "/ɪ/", example: "sit, ship, bit", vi: "Âm 'i' ngắn, môi và lưỡi thả lỏng hoàn toàn. KHÔNG kéo dài, KHÔNG mỉm cười rộng như /iː/.", tip: "Bật nhanh, lỏng môi, ngắn gọn như 'ích'", tipEn: "Quick, relaxed, short - don't stretch" },
@@ -1318,12 +1367,23 @@ const EnglishPronunciation = () => {
                   <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
                     {group.rows.map((row) => {
                       const firstWord = row.example.split(",")[0].replace(/\(.+?\)/g, "").trim();
+                      const exampleWords = row.example.split(",").map((word) => word.trim());
+                      const exampleIpa = PHONEME_EXAMPLE_IPA[row.ipa];
                       return (
                         <div key={row.ipa} className="bg-card/90 backdrop-blur-sm rounded-xl p-3 border border-border/60 shadow-sm hover:shadow-md transition-shadow">
                           <div className="flex items-center justify-between mb-2 gap-2 flex-wrap">
                             <div className="flex items-center gap-2 flex-wrap min-w-0">
                               <span className="font-mono font-bold text-primary text-lg leading-none">{row.ipa}</span>
-                              <span className="text-sm text-foreground font-medium">{row.example}</span>
+                              <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                                {exampleWords.map((word, index) => (
+                                  <span key={`${row.ipa}-${word}`} className="inline-flex items-baseline gap-1 text-sm">
+                                    <span className="font-semibold text-foreground">{word}</span>
+                                    <span className="font-mono text-xs text-primary/80">
+                                      {exampleIpa?.[index]}
+                                    </span>
+                                  </span>
+                                ))}
+                              </div>
                             </div>
                             <div className="flex items-center gap-1.5 shrink-0">
                               <button
