@@ -28,8 +28,9 @@ const PurposeEnglishReadiness = ({ track, topics, labs, coreDone, labDone, pract
     "nearly-ready": t("Gần sẵn sàng", "Nearly ready"),
     ready: t("Sẵn sàng áp dụng", "Ready to apply"),
   };
-  const chartData = snapshot.axes.map((axis) => ({ skill: vi ? axis.labelVi : axis.labelEn, value: axis.value }));
+  const chartData = snapshot.axes.map((axis) => ({ skill: vi ? axis.shortVi : axis.shortEn, value: axis.value }));
   const focusSection = snapshot.weakest.coreCompleted < snapshot.weakest.coreTotal ? "core" : "lab";
+  const certificate = buildCertificateStatus({ topics, labs, coreDone, labDone, overall: snapshot.overall });
 
   return (
     <section className="mt-8 overflow-hidden rounded-lg border border-border bg-card shadow-sm" aria-labelledby={`${track}-readiness-title`}>
