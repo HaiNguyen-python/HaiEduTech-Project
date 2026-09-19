@@ -308,6 +308,7 @@ const EnglishPronunciation = lazyWithRetry(() => import("./pages/EnglishPronunci
 const EnglishEssentials = lazyWithRetry(() => import("./pages/EnglishEssentials.tsx"));
 const BusinessEnglish = lazyWithRetry(() => import("./pages/BusinessEnglish.tsx"));
 const PurposeEnglishCertificate = lazyWithRetry(() => import("./pages/PurposeEnglishCertificate.tsx"));
+const CertificateVerify = lazyWithRetry(() => import("./pages/CertificateVerify.tsx"));
 const AcademicEnglish = lazyWithRetry(() => import("./pages/AcademicEnglish.tsx"));
 
 // Shared loading fallback component
