@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { businessEnglishTeachingGuides } from "@/data/businessEnglishTeachingGuides";
 import type { PurposeLesson, PurposeTopic } from "@/data/purposeEnglishTypes";
 import { playEnglishTts, stopEnglishTts } from "@/lib/englishTts";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
@@ -122,7 +123,10 @@ const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics, unlo
 
   if (active) {
     const lessonIndex = allLessons.findIndex((lesson) => lesson.id === active.lesson.id);
-    const teachingBlocks = splitTeaching(vi ? active.lesson.teachingVi : active.lesson.teaching);
+    const businessGuide = track === "business" ? businessEnglishTeachingGuides[active.lesson.id] : undefined;
+    const teachingBlocks = businessGuide
+      ? [businessGuide.rule, businessGuide.apply, businessGuide.watch].map((block) => ({ paragraphs: vi ? block.vi : block.en }))
+      : splitTeaching(vi ? active.lesson.teachingVi : active.lesson.teaching);
     const correctCount = active.lesson.questions.filter((question, index) => picked[index] === question.answer).length;
     const quizFinished = Object.keys(picked).length === active.lesson.questions.length;
     const guidedActivities = buildGuidedActivities(active.lesson, track);
@@ -191,8 +195,10 @@ const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics, unlo
                     {index === 0 ? <FileText className="h-5 w-5" /> : index === 1 ? <MessageSquareText className="h-5 w-5" /> : <ShieldAlert className="h-5 w-5" />}
                     <p className="text-sm font-extrabold uppercase">{index === 0 ? t("Nguyên tắc", "Core rule") : index === 1 ? t("Cách áp dụng", "How to apply") : t("Lưu ý", "Watch out")}</p>
                   </div>
-                  <div className="max-w-[70ch] space-y-3">
-                    {block.paragraphs.map((paragraph) => <p key={paragraph} className="whitespace-pre-wrap text-base font-medium leading-8 text-foreground">{paragraph}</p>)}
+                   <div className="max-w-[70ch] space-y-3">
+                     {block.paragraphs.map((paragraph) => (
+                       <p key={paragraph} className="whitespace-pre-wrap text-base font-medium leading-8 text-foreground">{paragraph}</p>
+                     ))}
                   </div>
                 </div>
               ))}
