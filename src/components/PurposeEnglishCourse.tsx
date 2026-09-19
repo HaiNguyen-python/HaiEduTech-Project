@@ -8,8 +8,10 @@ import {
   CheckCircle2,
   Clock3,
   GraduationCap,
+  Lock,
   MessageSquareMore,
   Search,
+  ShieldCheck,
   Sparkles,
   Target,
   Trophy,
@@ -26,7 +28,10 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import type { PurposeTopic } from "@/data/purposeEnglishTypes";
 import type { ConvLesson } from "@/data/conversationalCurriculum";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
+import { useUserRole } from "@/hooks/useUserRole";
+import { useToast } from "@/hooks/use-toast";
 import { bannerImageFor } from "@/lib/conversationalSituationVisuals";
+import { sequentialUnlockedIds } from "@/lib/purposeEnglishLearning";
 import { safeStorage } from "@/lib/safeStorage";
 
 type Track = "business" | "academic";
