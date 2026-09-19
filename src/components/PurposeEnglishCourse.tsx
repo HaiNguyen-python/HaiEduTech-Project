@@ -179,6 +179,10 @@ const PurposeEnglishCourse = ({
   };
 
   const openLab = (lesson: ConvLesson) => {
+    if (!isLabUnlocked(lesson.id)) {
+      lockedToast();
+      return;
+    }
     setActiveLabId(lesson.id);
     setView("lab");
     setSearchParams({ view: "lab", lesson: lesson.id });
