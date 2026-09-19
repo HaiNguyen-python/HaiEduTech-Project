@@ -32,7 +32,7 @@ const IRREGULAR_VERBS: Record<string, string[]> = {
 };
 
 const regularVerbForms = (word: string): string[] => {
-  const forms = [word];
+  const forms = [word, `${word}s`];
   if (/e$/i.test(word)) forms.push(`${word}d`, `${word.slice(0, -1)}ing`);
   else if (/[^aeiou]y$/i.test(word)) forms.push(`${word.slice(0, -1)}ies`, `${word.slice(0, -1)}ied`, `${word}ing`);
   else forms.push(`${word}s`, `${word}ed`, `${word}ing`);
@@ -71,7 +71,7 @@ export const keyPhraseSources = (phrase: string): string[] => {
   let firstLexical = true;
   const parts = tokens.map((token) => {
     const lower = token.toLowerCase();
-    if (token === "..." || REPLACEABLE.has(lower)) return "__SLOT__";
+    if (token === "..." || REPLACEABLE.has(lower) || token === "A" || token === "B") return "__SLOT__";
     if (["a", "an", "the"].includes(lower)) return "__DETERMINER__";
     if (leadingInfinitive && firstLexical) {
       firstLexical = false;
@@ -83,9 +83,18 @@ export const keyPhraseSources = (phrase: string): string[] => {
   if (parts.length) {
     const source = parts
       .join(String.raw`\s+`)
-      .replace(/\\s\+__DETERMINER__\\s\+/g, String.raw`\s+${OPTIONAL_DETERMINER}`)
-      .replace(/\\s\+__SLOT__\\s\+/g, String.raw`\s+${SLOT}`);
+      .replace(/__DETERMINER__\\s\+/g, OPTIONAL_DETERMINER)
+      .replace(/\\s\+__SLOT__\\s\+/g, String.raw`\s+${SLOT}\s+`)
+      .replace(/\\s\+__SLOT__$/g, String.raw`\s+${SLOT}`);
     sources.push(source);
+  }
+  if (tokens.length === 1 && tokens[0]) sources.push(verbSource(tokens[0]));
+  if (tokens.length > 1 && tokens.at(-1)) {
+    sources.push([...tokens.slice(0, -1).map(escape), verbSource(tokens.at(-1) ?? "")].join(String.raw`\s+`));
+  }
+  if (/^to\s+be\s+/i.test(trimmed)) {
+    const complement = tokens.slice(1).map((token) => ["a", "an", "the"].includes(token.toLowerCase()) ? OPTIONAL_DETERMINER : escape(token));
+    sources.push(complement.join(String.raw`\s+`).replace(new RegExp(`\\s\\+${escape(OPTIONAL_DETERMINER)}`, "g"), OPTIONAL_DETERMINER));
   }
 
   // A safe fallback for dictionary infinitives whose example replaces the
@@ -96,9 +105,9 @@ export const keyPhraseSources = (phrase: string): string[] => {
     const core = [verbSource(tokens[0])];
     for (const token of tokens.slice(1)) {
       if (!particles.has(token.toLowerCase())) break;
-      core.push(escape(token));
+      core.push(String.raw`(?:\s+${WORD}){0,3}\s+${escape(token)}`);
     }
-    sources.push(core.join(String.raw`\s+`));
+    sources.push(core.join(""));
   }
   return Array.from(new Set(sources.filter(Boolean))).sort((a, b) => b.length - a.length);
 };
