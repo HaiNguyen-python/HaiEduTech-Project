@@ -8,8 +8,10 @@ import {
   CheckCircle2,
   Clock3,
   GraduationCap,
+  Lock,
   MessageSquareMore,
   Search,
+  ShieldCheck,
   Sparkles,
   Target,
   Trophy,
@@ -26,7 +28,10 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import type { PurposeTopic } from "@/data/purposeEnglishTypes";
 import type { ConvLesson } from "@/data/conversationalCurriculum";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
+import { useUserRole } from "@/hooks/useUserRole";
+import { useToast } from "@/hooks/use-toast";
 import { bannerImageFor } from "@/lib/conversationalSituationVisuals";
+import { sequentialUnlockedIds } from "@/lib/purposeEnglishLearning";
 import { safeStorage } from "@/lib/safeStorage";
 
 type Track = "business" | "academic";
@@ -94,15 +99,19 @@ const PurposeEnglishCourse = ({
   communicationLessons,
 }: Props) => {
   const { t } = useLanguage();
+  const { toast } = useToast();
+  const { isTeacher, isAdmin } = useUserRole();
+  const unlockAll = isTeacher || isAdmin;
   const [searchParams, setSearchParams] = useSearchParams();
   const requestedLesson = searchParams.get("lesson");
   const initialView = searchParams.get("view") === "lab" || requestedLesson ? "lab" : "overview";
   const [view, setView] = useState(initialView);
-  const [activeLabId, setActiveLabId] = useState<string | null>(requestedLesson);
+  const [activeLabId, setActiveLabId] = useState<string | null>(null);
   const [filter, setFilter] = useState("all");
   const [search, setSearch] = useState("");
   const [coreDone, setCoreDone] = useState<string[]>([]);
   const [labDone, setLabDone] = useState<string[]>([]);
+  const [hydrated, setHydrated] = useState(false);
 
   const labStorageKey = `${storageKey}-communication`;
   const groups = track === "business" ? BUSINESS_GROUPS : ACADEMIC_GROUPS;
@@ -115,19 +124,38 @@ const PurposeEnglishCourse = ({
     const migrated = Array.from(new Set([...current, ...readLegacyProgress().filter((id) => eligible.has(id))]));
     setLabDone(migrated);
     safeStorage.set(labStorageKey, migrated);
+    setHydrated(true);
 
     const sync = () => setCoreDone(safeStorage.get<string[]>(storageKey, []));
     window.addEventListener("purpose-progress", sync);
     return () => window.removeEventListener("purpose-progress", sync);
   }, [communicationLessons, labStorageKey, storageKey]);
 
+  const labUnlockedIds = useMemo(
+    () => sequentialUnlockedIds(communicationLessons.map((lesson) => lesson.id), labDone),
+    [communicationLessons, labDone],
+  );
+  const isLabUnlocked = (lessonId: string) => unlockAll || labUnlockedIds.has(lessonId);
+
+  const lockedToast = () => toast({
+    title: t("Bài này chưa mở", "This lesson is locked"),
+    description: t("Hãy hoàn thành bài trước để mở bài này.", "Finish the previous lesson to unlock this one."),
+    variant: "destructive",
+  });
+
   useEffect(() => {
-    if (!requestedLesson) return;
-    if (communicationLessons.some((lesson) => lesson.id === requestedLesson)) {
-      setActiveLabId(requestedLesson);
+    if (!requestedLesson || !hydrated) return;
+    if (!communicationLessons.some((lesson) => lesson.id === requestedLesson)) return;
+    if (!(unlockAll || labUnlockedIds.has(requestedLesson))) {
+      setActiveLabId(null);
       setView("lab");
+      lockedToast();
+      return;
     }
-  }, [communicationLessons, requestedLesson]);
+    setActiveLabId(requestedLesson);
+    setView("lab");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [communicationLessons, requestedLesson, hydrated, unlockAll, labUnlockedIds]);
 
   const activeLab = communicationLessons.find((lesson) => lesson.id === activeLabId) ?? null;
   const total = allCoreLessons.length + communicationLessons.length;
@@ -151,6 +179,10 @@ const PurposeEnglishCourse = ({
   };
 
   const openLab = (lesson: ConvLesson) => {
+    if (!isLabUnlocked(lesson.id)) {
+      lockedToast();
+      return;
+    }
     setActiveLabId(lesson.id);
     setView("lab");
     setSearchParams({ view: "lab", lesson: lesson.id });
@@ -303,6 +335,7 @@ const PurposeEnglishCourse = ({
                 storageKey={storageKey}
                 activityType={activityType}
                 topics={coreTopics}
+                unlockAll={unlockAll}
               />
             </TabsContent>
 
@@ -313,6 +346,12 @@ const PurposeEnglishCourse = ({
                   <h2 className="mt-1 text-2xl font-bold">{t("Chọn một tình huống để bắt đầu", "Choose a situation to begin")}</h2>
                   <p className="mt-2 max-w-2xl text-muted-foreground">
                     {t("Mỗi bài đi qua 4 bước: học cụm từ, nghe hội thoại, luyện nói và hoàn thành thử thách.", "Every lab follows four steps: learn phrases, listen, speak and complete a challenge.")}
+                  </p>
+                  <p className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-foreground/70">
+                    {unlockAll ? <ShieldCheck className="h-4 w-4 text-primary" /> : <Lock className="h-4 w-4 text-primary" />}
+                    {unlockAll
+                      ? t("Chế độ quản trị: xem toàn bộ bài", "Admin mode: all lessons unlocked")
+                      : t("Hoàn thành bài trước để mở bài sau", "Finish each lesson to unlock the next one")}
                   </p>
                 </div>
                 <div className="relative w-full lg:max-w-sm">
@@ -332,6 +371,7 @@ const PurposeEnglishCourse = ({
               <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                 {filteredLabs.map((lesson, index) => {
                   const done = labDone.includes(lesson.id);
+                  const locked = !isLabUnlocked(lesson.id);
                   return (
                     <motion.button
                       key={lesson.id}
@@ -340,20 +380,28 @@ const PurposeEnglishCourse = ({
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: Math.min(index * 0.025, 0.25) }}
                       onClick={() => openLab(lesson)}
-                      className="group overflow-hidden rounded-lg border border-border bg-card text-left shadow-sm transition-all hover:-translate-y-1 hover:border-primary/50 hover:shadow-md"
+                      disabled={locked}
+                      aria-disabled={locked}
+                      className={`group overflow-hidden rounded-lg border border-border bg-card text-left shadow-sm transition-all ${locked ? "cursor-not-allowed opacity-70" : "hover:-translate-y-1 hover:border-primary/50 hover:shadow-md"}`}
                     >
                       <div className="relative aspect-[16/8] overflow-hidden bg-muted">
-                        <img src={bannerImageFor(lesson.title, lesson.descriptionVi, lesson.description)} alt="" loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                        <img src={bannerImageFor(lesson.title, lesson.descriptionVi, lesson.description)} alt="" loading="lazy" className={`h-full w-full object-cover transition-transform duration-500 ${locked ? "grayscale" : "group-hover:scale-105"}`} />
                         <div className="absolute inset-0 bg-gradient-to-t from-foreground/75 to-transparent" />
                         <span className="absolute bottom-3 left-3 rounded-md bg-background/90 px-2 py-1 text-xs font-bold text-foreground">
                           {t(groups.find((group) => group.id === groupForLesson(track, lesson))?.vi ?? "", groups.find((group) => group.id === groupForLesson(track, lesson))?.en ?? "")}
                         </span>
                         {done && <CheckCircle2 className="absolute right-3 top-3 h-6 w-6 rounded-full bg-background text-primary" />}
+                        {!done && locked && <Lock className="absolute right-3 top-3 h-6 w-6 rounded-full bg-background p-1 text-foreground/70" />}
                       </div>
                       <div className="p-4">
                         <p className="text-xs font-bold text-primary">LAB {String(index + 1).padStart(2, "0")}</p>
-                        <h3 className="mt-1 text-lg font-bold text-foreground group-hover:text-primary">{t(lesson.titleVi, lesson.title)}</h3>
+                        <h3 className={`mt-1 text-lg font-bold text-foreground ${locked ? "" : "group-hover:text-primary"}`}>{t(lesson.titleVi, lesson.title)}</h3>
                         <p className="mt-2 line-clamp-2 text-sm leading-6 text-muted-foreground">{t(lesson.descriptionVi, lesson.description)}</p>
+                        {locked && (
+                          <p className="mt-2 text-sm font-bold text-foreground/70">
+                            {t("Hoàn thành bài trước để mở bài này", "Complete the previous lesson to unlock")}
+                          </p>
+                        )}
                         <div className="mt-4 flex items-center justify-between text-xs font-semibold text-muted-foreground">
                           <span>{lesson.keySituations.length} {t("tình huống", "scenarios")}</span>
                           <span>{lesson.vocabulary.length} {t("cụm từ", "phrases")}</span>

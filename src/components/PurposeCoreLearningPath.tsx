@@ -2,8 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import {
   ArrowLeft, ArrowRight, BookOpenCheck, Check, CheckCircle2, ChevronDown, ChevronRight,
-  Clock3, FileText, Headphones, Lightbulb, ListChecks, MessageSquareText, RotateCcw,
-  Search, ShieldAlert, Sparkles, Target, Turtle, Volume2, XCircle,
+  Clock3, FileText, Headphones, Lightbulb, ListChecks, Lock, MessageSquareText, RotateCcw,
+  Search, ShieldAlert, ShieldCheck, Sparkles, Target, Turtle, Volume2, XCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,7 +15,7 @@ import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { safeStorage } from "@/lib/safeStorage";
 import {
   buildGuidedActivities, getNextCoreLesson, lessonMinutes, lessonOutcome, modelLineRole,
-  purposeTrackLabel, splitTeaching, topicLearningMeta, type PurposeTrack,
+  purposeTrackLabel, sequentialUnlockedIds, splitTeaching, topicLearningMeta, type PurposeTrack,
 } from "@/lib/purposeEnglishLearning";
 
 
@@ -26,9 +26,11 @@ interface Props {
   storageKey: string;
   activityType: string;
   topics: PurposeTopic[];
+  /** Admins and teachers see every lesson, learners unlock them in order. */
+  unlockAll?: boolean;
 }
 
-const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics }: Props) => {
+const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics, unlockAll = false }: Props) => {
   const { lang, t } = useLanguage();
   const vi = lang === "vi";
   const [done, setDone] = useState<string[]>([]);
@@ -48,6 +50,11 @@ const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics }: Pr
   const currentTopic = next?.topic ?? topics[0];
   const completedTopics = topics.filter((topic) => topic.lessons.every((lesson) => done.includes(lesson.id))).length;
   const progress = Math.round((done.length / Math.max(allLessons.length, 1)) * 100);
+  const unlockedIds = useMemo(
+    () => sequentialUnlockedIds(allLessons.map((lesson) => lesson.id), done),
+    [allLessons, done],
+  );
+  const isUnlocked = (lessonId: string) => unlockAll || unlockedIds.has(lessonId);
 
   useEffect(() => {
     setDone(safeStorage.get<string[]>(storageKey, []) ?? []);
@@ -62,6 +69,7 @@ const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics }: Pr
   };
 
   const openLesson = (topic: PurposeTopic, lesson: PurposeLesson) => {
+    if (!isUnlocked(lesson.id)) return;
     stopEnglishTts();
     setActive({ topic, lesson });
     setOpenTopic(topic.id);
@@ -307,9 +315,14 @@ const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics }: Pr
           <Button variant="outline" disabled={lessonIndex <= 0} onClick={() => {
             const lesson = allLessons[lessonIndex - 1]; const topic = topics.find((item) => item.lessons.some((candidate) => candidate.id === lesson?.id)); if (lesson && topic) openLesson(topic, lesson);
           }} className="gap-2"><ArrowLeft className="h-4 w-4" />{t("Bài trước", "Previous")}</Button>
-          <Button disabled={lessonIndex >= allLessons.length - 1} onClick={() => {
-            const lesson = allLessons[lessonIndex + 1]; const topic = topics.find((item) => item.lessons.some((candidate) => candidate.id === lesson?.id)); if (lesson && topic) openLesson(topic, lesson);
-          }} className="gap-2">{t("Bài tiếp theo", "Next lesson")}<ArrowRight className="h-4 w-4" /></Button>
+          <Button
+            disabled={lessonIndex >= allLessons.length - 1 || !isUnlocked(allLessons[lessonIndex + 1]?.id ?? "")}
+            title={lessonIndex < allLessons.length - 1 && !isUnlocked(allLessons[lessonIndex + 1]?.id ?? "")
+              ? t("Hoàn thành bài này để mở bài sau", "Complete this lesson to unlock the next one")
+              : undefined}
+            onClick={() => {
+              const lesson = allLessons[lessonIndex + 1]; const topic = topics.find((item) => item.lessons.some((candidate) => candidate.id === lesson?.id)); if (lesson && topic) openLesson(topic, lesson);
+            }} className="gap-2">{t("Bài tiếp theo", "Next lesson")}<ArrowRight className="h-4 w-4" /></Button>
         </div>
       </div>
     );
@@ -318,7 +331,14 @@ const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics }: Pr
   return (
     <div className="purpose-course mx-auto max-w-6xl py-5 text-foreground">
       <div className="mb-7 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-        <div><p className="text-sm font-extrabold uppercase text-primary">{purposeTrackLabel(track, vi)}</p><h2 className="mt-1 text-2xl font-extrabold text-foreground sm:text-3xl">{t("Lộ trình Core Lessons", "Core Lessons learning path")}</h2><p className="mt-2 text-base font-medium text-foreground/75">{t("Đi từng chặng, luyện từng kỹ năng và áp dụng ngay.", "Build each skill step by step and apply it immediately.")}</p></div>
+        <div><p className="text-sm font-extrabold uppercase text-primary">{purposeTrackLabel(track, vi)}</p><h2 className="mt-1 text-2xl font-extrabold text-foreground sm:text-3xl">{t("Lộ trình Core Lessons", "Core Lessons learning path")}</h2><p className="mt-2 text-base font-medium text-foreground/75">{t("Đi từng chặng, luyện từng kỹ năng và áp dụng ngay.", "Build each skill step by step and apply it immediately.")}</p>
+          <p className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-foreground/70">
+            {unlockAll ? <ShieldCheck className="h-4 w-4 text-primary" /> : <Lock className="h-4 w-4 text-primary" />}
+            {unlockAll
+              ? t("Chế độ quản trị: xem toàn bộ bài", "Admin mode: all lessons unlocked")
+              : t("Hoàn thành bài trước để mở bài sau", "Finish each lesson to unlock the next one")}
+          </p>
+        </div>
         {next && <Button onClick={() => openLesson(next.topic, next.lesson)} className="gap-2"><ArrowRight className="h-4 w-4" />{t("Tiếp tục học", "Continue learning")}</Button>}
       </div>
 
@@ -373,22 +393,34 @@ const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics }: Pr
                   </button>
                   {isOpen && (
                     <div className="border-t border-border">
-                      {topic.lessons.map((lesson, lessonIndex) => (
+                      {topic.lessons.map((lesson, lessonIndex) => {
+                        const locked = !isUnlocked(lesson.id);
+                        return (
                         <button
                           type="button"
                           key={lesson.id}
                           onClick={() => openLesson(topic, lesson)}
-                          className="group flex w-full items-start gap-3 border-b border-border px-5 py-4 text-left text-foreground transition-colors last:border-0 hover:bg-primary/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary sm:px-6"
+                          disabled={locked}
+                          aria-disabled={locked}
+                          className={`group flex w-full items-start gap-3 border-b border-border px-5 py-4 text-left text-foreground transition-colors last:border-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary sm:px-6 ${locked ? "cursor-not-allowed bg-muted/40 opacity-70" : "hover:bg-primary/5"}`}
                         >
-                          <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-bold ${done.includes(lesson.id) ? "bg-primary text-primary-foreground" : "border border-primary/30 text-primary"}`}>{done.includes(lesson.id) ? <Check className="h-4 w-4" /> : lessonIndex + 1}</span>
+                          <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-bold ${done.includes(lesson.id) ? "bg-primary text-primary-foreground" : locked ? "border border-border text-foreground/50" : "border border-primary/30 text-primary"}`}>{done.includes(lesson.id) ? <Check className="h-4 w-4" /> : locked ? <Lock className="h-4 w-4" /> : lessonIndex + 1}</span>
                           <span className="min-w-0 flex-1">
                             <span className="block whitespace-normal font-bold text-foreground">{t(lesson.titleVi, lesson.title)}</span>
                             <span className="mt-1 block max-w-3xl whitespace-normal text-base font-medium leading-7 text-foreground/75">{lessonOutcome(lesson, vi)}</span>
                             <span className="mt-2 block text-sm font-bold text-foreground/60">{lesson.vocab.length} {t("cụm từ", "phrases")} · {lesson.questions.length + 1} {t("hoạt động", "activities")} · {lessonMinutes(lesson)} {t("phút", "min")}</span>
+                            {locked && (
+                              <span className="mt-2 block text-sm font-bold text-foreground/70">
+                                {t("Hoàn thành bài trước để mở bài này", "Complete the previous lesson to unlock")}
+                              </span>
+                            )}
                           </span>
-                          <ArrowRight className="ml-2 mt-1 h-4 w-4 shrink-0 text-primary transition-transform group-hover:translate-x-1" />
+                          {locked
+                            ? <Lock className="ml-2 mt-1 h-4 w-4 shrink-0 text-foreground/50" />
+                            : <ArrowRight className="ml-2 mt-1 h-4 w-4 shrink-0 text-primary transition-transform group-hover:translate-x-1" />}
                         </button>
-                      ))}
+                        );
+                      })}
                     </div>
                   )}
 

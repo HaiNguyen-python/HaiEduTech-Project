@@ -58,6 +58,19 @@ export const getNextCoreLesson = (topics: PurposeTopic[], done: string[]) => {
   return lessons.find(({ lesson }) => !done.includes(lesson.id)) ?? lessons[0] ?? null;
 };
 
+/**
+ * Sequential unlock: every lesson up to and including the first unfinished one
+ * is available. Everything after it stays locked until the learner finishes it.
+ */
+export const sequentialUnlockedIds = (orderedIds: string[], done: string[]): Set<string> => {
+  const unlocked = new Set<string>();
+  for (const id of orderedIds) {
+    unlocked.add(id);
+    if (!done.includes(id)) break;
+  }
+  return unlocked;
+};
+
 export const purposeTrackLabel = (track: PurposeTrack, vietnamese: boolean) => track === "business"
   ? (vietnamese ? "Tiếng Anh Thương mại" : "Business English")
   : (vietnamese ? "Tiếng Anh Học thuật" : "Academic English");
