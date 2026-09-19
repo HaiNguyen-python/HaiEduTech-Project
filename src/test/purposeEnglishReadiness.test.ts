@@ -129,3 +129,21 @@ describe("purpose English readiness", () => {
     expect(certificateCode("business", "Nguyen Van A")).toMatch(/^HET-BUS-[0-9A-Z]+$/);
   });
 });
+// --- Admin certificate codes -------------------------------------------------
+import { buildCertificateCode } from "@/lib/certificateService";
+
+describe("buildCertificateCode", () => {
+  it("is deterministic and prefixed per course", () => {
+    const a = buildCertificateCode("custom", "Nguyen Hai", "2026-09-19");
+    const b = buildCertificateCode("custom", "  nguyen   hai ", "2026-09-19");
+    expect(a).toBe(b);
+    expect(a).toMatch(/^HET-CRT-[0-9A-Z]+$/);
+    expect(buildCertificateCode("vff", "Nguyen Hai", "2026-09-19", "A2")).toMatch(/^HET-VFF-[0-9A-Z]+$/);
+  });
+
+  it("changes when the level or date changes", () => {
+    const base = buildCertificateCode("vff", "Nguyen Hai", "2026-09-19", "A1");
+    expect(buildCertificateCode("vff", "Nguyen Hai", "2026-09-19", "A2")).not.toBe(base);
+    expect(buildCertificateCode("vff", "Nguyen Hai", "2026-09-20", "A1")).not.toBe(base);
+  });
+});
