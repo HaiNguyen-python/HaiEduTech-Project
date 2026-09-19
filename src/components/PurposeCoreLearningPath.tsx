@@ -50,6 +50,11 @@ const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics, unlo
   const currentTopic = next?.topic ?? topics[0];
   const completedTopics = topics.filter((topic) => topic.lessons.every((lesson) => done.includes(lesson.id))).length;
   const progress = Math.round((done.length / Math.max(allLessons.length, 1)) * 100);
+  const unlockedIds = useMemo(
+    () => sequentialUnlockedIds(allLessons.map((lesson) => lesson.id), done),
+    [allLessons, done],
+  );
+  const isUnlocked = (lessonId: string) => unlockAll || unlockedIds.has(lessonId);
 
   useEffect(() => {
     setDone(safeStorage.get<string[]>(storageKey, []) ?? []);
@@ -64,6 +69,7 @@ const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics, unlo
   };
 
   const openLesson = (topic: PurposeTopic, lesson: PurposeLesson) => {
+    if (!isUnlocked(lesson.id)) return;
     stopEnglishTts();
     setActive({ topic, lesson });
     setOpenTopic(topic.id);
