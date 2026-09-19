@@ -293,10 +293,11 @@ const PurposeEnglishCourse = ({
 
         <section className="container mx-auto px-4 py-8 lg:py-10">
           <Tabs value={view} onValueChange={openView}>
-            <TabsList className="grid h-auto w-full grid-cols-3 p-1 sm:max-w-2xl">
+            <TabsList className="grid h-auto w-full grid-cols-2 p-1 sm:max-w-4xl sm:grid-cols-4">
               <TabsTrigger value="overview" className="min-h-11 gap-2"><Target className="h-4 w-4" /> {t("Lộ trình", "Roadmap")}</TabsTrigger>
               <TabsTrigger value="core" className="min-h-11 gap-2"><BookOpen className="h-4 w-4" /> {t("Bài nền tảng", "Core Lessons")}</TabsTrigger>
               <TabsTrigger value="lab" className="min-h-11 gap-2"><MessageSquareMore className="h-4 w-4" /> Lab</TabsTrigger>
+              <TabsTrigger value="readiness" className="min-h-11 gap-2"><Trophy className="h-4 w-4" /> Readiness</TabsTrigger>
             </TabsList>
 
             <TabsContent value="overview" className="mt-7">
@@ -329,17 +330,6 @@ const PurposeEnglishCourse = ({
                 </button>
               </div>
 
-              <PurposeEnglishReadiness
-                track={track}
-                topics={coreTopics}
-                labs={communicationLessons}
-                coreDone={coreDone}
-                labDone={labDone}
-                practised={practised}
-                scores={readinessScores}
-                onFocus={openView}
-              />
-
               <div className="mt-8 grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-3">
                 {[
                   [Clock3, t("Học theo nhịp của bạn", "Learn at your pace"), t("Tiến độ được lưu tự động", "Progress saves automatically")],
@@ -356,6 +346,19 @@ const PurposeEnglishCourse = ({
                   );
                 })}
               </div>
+            </TabsContent>
+
+            <TabsContent value="readiness" className="mt-7">
+              <PurposeEnglishReadiness
+                track={track}
+                topics={coreTopics}
+                labs={communicationLessons}
+                coreDone={coreDone}
+                labDone={labDone}
+                practised={practised}
+                scores={readinessScores}
+                onFocus={openView}
+              />
             </TabsContent>
 
             <TabsContent value="core" className="mt-4">
