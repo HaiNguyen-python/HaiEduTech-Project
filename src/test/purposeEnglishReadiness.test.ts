@@ -47,6 +47,7 @@ describe("purpose English readiness", () => {
     for (const topic of businessTopics) {
       for (const lesson of topic.lessons) scores.core[lesson.id] = { score: lesson.questions.length, maxScore: lesson.questions.length };
     }
+    for (const lesson of professionalCommunicationLessons) scores.lab[lesson.id] = { score: 10, maxScore: 10 };
     const result = buildReadinessSnapshot({
       track: "business",
       topics: businessTopics,
