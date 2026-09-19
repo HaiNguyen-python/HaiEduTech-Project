@@ -99,15 +99,19 @@ const PurposeEnglishCourse = ({
   communicationLessons,
 }: Props) => {
   const { t } = useLanguage();
+  const { toast } = useToast();
+  const { isTeacher, isAdmin } = useUserRole();
+  const unlockAll = isTeacher || isAdmin;
   const [searchParams, setSearchParams] = useSearchParams();
   const requestedLesson = searchParams.get("lesson");
   const initialView = searchParams.get("view") === "lab" || requestedLesson ? "lab" : "overview";
   const [view, setView] = useState(initialView);
-  const [activeLabId, setActiveLabId] = useState<string | null>(requestedLesson);
+  const [activeLabId, setActiveLabId] = useState<string | null>(null);
   const [filter, setFilter] = useState("all");
   const [search, setSearch] = useState("");
   const [coreDone, setCoreDone] = useState<string[]>([]);
   const [labDone, setLabDone] = useState<string[]>([]);
+  const [hydrated, setHydrated] = useState(false);
 
   const labStorageKey = `${storageKey}-communication`;
   const groups = track === "business" ? BUSINESS_GROUPS : ACADEMIC_GROUPS;
@@ -120,19 +124,38 @@ const PurposeEnglishCourse = ({
     const migrated = Array.from(new Set([...current, ...readLegacyProgress().filter((id) => eligible.has(id))]));
     setLabDone(migrated);
     safeStorage.set(labStorageKey, migrated);
+    setHydrated(true);
 
     const sync = () => setCoreDone(safeStorage.get<string[]>(storageKey, []));
     window.addEventListener("purpose-progress", sync);
     return () => window.removeEventListener("purpose-progress", sync);
   }, [communicationLessons, labStorageKey, storageKey]);
 
+  const labUnlockedIds = useMemo(
+    () => sequentialUnlockedIds(communicationLessons.map((lesson) => lesson.id), labDone),
+    [communicationLessons, labDone],
+  );
+  const isLabUnlocked = (lessonId: string) => unlockAll || labUnlockedIds.has(lessonId);
+
+  const lockedToast = () => toast({
+    title: t("Bài này chưa mở", "This lesson is locked"),
+    description: t("Hãy hoàn thành bài trước để mở bài này.", "Finish the previous lesson to unlock this one."),
+    variant: "destructive",
+  });
+
   useEffect(() => {
-    if (!requestedLesson) return;
-    if (communicationLessons.some((lesson) => lesson.id === requestedLesson)) {
-      setActiveLabId(requestedLesson);
+    if (!requestedLesson || !hydrated) return;
+    if (!communicationLessons.some((lesson) => lesson.id === requestedLesson)) return;
+    if (!(unlockAll || labUnlockedIds.has(requestedLesson))) {
+      setActiveLabId(null);
       setView("lab");
+      lockedToast();
+      return;
     }
-  }, [communicationLessons, requestedLesson]);
+    setActiveLabId(requestedLesson);
+    setView("lab");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [communicationLessons, requestedLesson, hydrated, unlockAll, labUnlockedIds]);
 
   const activeLab = communicationLessons.find((lesson) => lesson.id === activeLabId) ?? null;
   const total = allCoreLessons.length + communicationLessons.length;
