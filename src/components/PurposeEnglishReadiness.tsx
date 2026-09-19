@@ -70,11 +70,10 @@ const PurposeEnglishReadiness = ({ track, topics, labs, coreDone, labDone, pract
           <div>
             <div className="h-72 sm:h-80" aria-label={t("Biểu đồ radar mức độ sẵn sàng", "Readiness radar chart")}>
               <ResponsiveContainer width="100%" height="100%">
-                <RadarChart data={chartData} outerRadius="68%">
+                <RadarChart data={chartData} outerRadius="70%">
                   <PolarGrid stroke="hsl(var(--border))" />
                   <PolarAngleAxis dataKey="skill" tick={{ fill: "hsl(var(--foreground))", fontSize: 12 }} />
-                  <PolarRadiusAxis domain={[0, 100]} tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 10 }} />
-                  <Radar dataKey="value" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.28} strokeWidth={2} />
+                  <Radar dataKey="value" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.28} strokeWidth={2} domain={[0, 100]} />
                   <Tooltip contentStyle={{ backgroundColor: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: "6px" }} />
                 </RadarChart>
               </ResponsiveContainer>
