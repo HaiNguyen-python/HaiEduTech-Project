@@ -73,7 +73,8 @@ const PurposeEnglishReadiness = ({ track, topics, labs, coreDone, labDone, pract
                 <RadarChart data={chartData} outerRadius="70%">
                   <PolarGrid stroke="hsl(var(--border))" />
                   <PolarAngleAxis dataKey="skill" tick={{ fill: "hsl(var(--foreground))", fontSize: 12 }} />
-                  <Radar dataKey="value" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.28} strokeWidth={2} domain={[0, 100]} />
+                  <PolarRadiusAxis domain={[0, 100]} tick={false} axisLine={false} tickLine={false} />
+                  <Radar dataKey="value" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.28} strokeWidth={2} />
                   <Tooltip contentStyle={{ backgroundColor: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: "6px" }} />
                 </RadarChart>
               </ResponsiveContainer>
