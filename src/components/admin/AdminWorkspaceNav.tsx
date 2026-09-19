@@ -14,6 +14,7 @@ import {
   ExternalLink,
   FileSearch,
   Gauge,
+  Award,
   HeartPulse,
   LayoutDashboard,
   LibraryBig,
