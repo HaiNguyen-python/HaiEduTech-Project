@@ -31,6 +31,10 @@ const IRREGULAR_VERBS: Record<string, string[]> = {
   write: ["writes", "wrote", "written", "writing"],
 };
 
+const PHRASE_ALIASES: Record<string, string[]> = {
+  "take away": ["takeaway", "takeaways"],
+};
+
 const regularVerbForms = (word: string): string[] => {
   const forms = [word, `${word}s`];
   if (/e$/i.test(word)) forms.push(`${word}d`, `${word.slice(0, -1)}ing`);
@@ -56,6 +60,7 @@ export const keyPhraseSources = (phrase: string): string[] => {
   const trimmed = phrase.trim();
   if (!trimmed) return [];
   const sources = [escape(trimmed.replace(/[?.!]$/u, ""))];
+  sources.push(...(PHRASE_ALIASES[trimmed.toLowerCase()] ?? []).map(escape));
   const parentheticals = Array.from(trimmed.matchAll(/\(([^)]+)\)/g), (match) => match[1]?.trim()).filter(Boolean) as string[];
   sources.push(...parentheticals.map(escape));
 
