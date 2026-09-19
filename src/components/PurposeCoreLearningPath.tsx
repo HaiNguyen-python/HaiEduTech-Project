@@ -315,9 +315,14 @@ const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics, unlo
           <Button variant="outline" disabled={lessonIndex <= 0} onClick={() => {
             const lesson = allLessons[lessonIndex - 1]; const topic = topics.find((item) => item.lessons.some((candidate) => candidate.id === lesson?.id)); if (lesson && topic) openLesson(topic, lesson);
           }} className="gap-2"><ArrowLeft className="h-4 w-4" />{t("Bài trước", "Previous")}</Button>
-          <Button disabled={lessonIndex >= allLessons.length - 1} onClick={() => {
-            const lesson = allLessons[lessonIndex + 1]; const topic = topics.find((item) => item.lessons.some((candidate) => candidate.id === lesson?.id)); if (lesson && topic) openLesson(topic, lesson);
-          }} className="gap-2">{t("Bài tiếp theo", "Next lesson")}<ArrowRight className="h-4 w-4" /></Button>
+          <Button
+            disabled={lessonIndex >= allLessons.length - 1 || !isUnlocked(allLessons[lessonIndex + 1]?.id ?? "")}
+            title={lessonIndex < allLessons.length - 1 && !isUnlocked(allLessons[lessonIndex + 1]?.id ?? "")
+              ? t("Hoàn thành bài này để mở bài sau", "Complete this lesson to unlock the next one")
+              : undefined}
+            onClick={() => {
+              const lesson = allLessons[lessonIndex + 1]; const topic = topics.find((item) => item.lessons.some((candidate) => candidate.id === lesson?.id)); if (lesson && topic) openLesson(topic, lesson);
+            }} className="gap-2">{t("Bài tiếp theo", "Next lesson")}<ArrowRight className="h-4 w-4" /></Button>
         </div>
       </div>
     );
@@ -326,7 +331,14 @@ const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics, unlo
   return (
     <div className="purpose-course mx-auto max-w-6xl py-5 text-foreground">
       <div className="mb-7 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-        <div><p className="text-sm font-extrabold uppercase text-primary">{purposeTrackLabel(track, vi)}</p><h2 className="mt-1 text-2xl font-extrabold text-foreground sm:text-3xl">{t("Lộ trình Core Lessons", "Core Lessons learning path")}</h2><p className="mt-2 text-base font-medium text-foreground/75">{t("Đi từng chặng, luyện từng kỹ năng và áp dụng ngay.", "Build each skill step by step and apply it immediately.")}</p></div>
+        <div><p className="text-sm font-extrabold uppercase text-primary">{purposeTrackLabel(track, vi)}</p><h2 className="mt-1 text-2xl font-extrabold text-foreground sm:text-3xl">{t("Lộ trình Core Lessons", "Core Lessons learning path")}</h2><p className="mt-2 text-base font-medium text-foreground/75">{t("Đi từng chặng, luyện từng kỹ năng và áp dụng ngay.", "Build each skill step by step and apply it immediately.")}</p>
+          <p className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-foreground/70">
+            {unlockAll ? <ShieldCheck className="h-4 w-4 text-primary" /> : <Lock className="h-4 w-4 text-primary" />}
+            {unlockAll
+              ? t("Chế độ quản trị: xem toàn bộ bài", "Admin mode: all lessons unlocked")
+              : t("Hoàn thành bài trước để mở bài sau", "Finish each lesson to unlock the next one")}
+          </p>
+        </div>
         {next && <Button onClick={() => openLesson(next.topic, next.lesson)} className="gap-2"><ArrowRight className="h-4 w-4" />{t("Tiếp tục học", "Continue learning")}</Button>}
       </div>
 
