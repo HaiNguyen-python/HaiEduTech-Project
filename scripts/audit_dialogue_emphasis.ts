@@ -17,6 +17,13 @@ const LOW_VALUE_ONLY = new Set([
   "a", "an", "i", "it", "my", "of", "our", "that", "the", "their", "to", "we", "you", "your",
 ]);
 
+const REQUIRED_DIALOGUE_CHUNKS: Record<string, string[]> = {
+  "pro-06-conflict": ["better to be safe than sorry"],
+  "pro-11-onboarding": ["I'll make sure to be there"],
+  "pro-20-mentoring": ["Would you be open to"],
+  "acad-19-internships": ["Would you be open to"],
+};
+
 const audit = (label: string, lessons: ConvLesson[]) => {
   const issues: string[] = [];
   let conversations = 0;
@@ -40,6 +47,13 @@ const audit = (label: string, lessons: ConvLesson[]) => {
       const fragments = renderedHits.filter((hit) => LOW_VALUE_ONLY.has(hit));
       if (fragments.length) {
         issues.push(`${lesson.id} / ${situation.title}: low-value rendered fragment(s): ${fragments.join(", ")}`);
+      }
+      for (const required of REQUIRED_DIALOGUE_CHUNKS[lesson.id] ?? []) {
+        if (lines.some((line) => line.toLowerCase().includes(required.toLowerCase()))
+          && !lines.some((line) => findKeyPhraseRanges(line, phrases)
+            .some((range) => line.slice(range.start, range.end).toLowerCase().includes(required.toLowerCase())))) {
+          issues.push(`${lesson.id} / ${situation.title}: missing required chunk: ${required}`);
+        }
       }
     }
   }

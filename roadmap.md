@@ -11,6 +11,7 @@
 - [x] Audit readiness data/chart and add Business/Academic completion certificates.
 - [x] Admin certificate centre: issue certificates for any course, store records, public /verify/:code page.
 - [x] Ensure every Core and Communication Lab phrase is highlighted in its example sentence.
+- [x] Re-audit dialogue emphasis, restore missed functional chunks, and highlight challenge transcripts.
 
 # IELTS Reading Strategies
 
