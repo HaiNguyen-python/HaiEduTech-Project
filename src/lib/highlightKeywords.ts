@@ -133,7 +133,6 @@ export interface KeywordRange {
 export const findKeyPhraseRanges = (text: string, phrases: string[]): KeywordRange[] => {
   const candidates: KeywordRange[] = [];
   for (const phrase of clean(phrases)) {
-    const beforePhrase = candidates.length;
     for (const source of keyPhraseSources(phrase)) {
       const matcher = new RegExp(`(?<![\\p{L}\\p{N}])(${source})(?![\\p{L}\\p{N}])`, "giu");
       let match: RegExpExecArray | null;
@@ -142,10 +141,8 @@ export const findKeyPhraseRanges = (text: string, phrases: string[]): KeywordRan
         if (!match[0].length) matcher.lastIndex += 1;
       }
     }
-    // Never fall back to an arbitrary word from a missing phrase. That used
-    // to mark low-value fragments such as "I", "to", "of" and "your" when
-    // the useful multi-word chunk did not occur in the current dialogue line.
-    void beforePhrase;
+    // Do not fall back to an arbitrary word from a missing phrase. That would
+    // mark low-value fragments such as "I", "to", "of" or "your".
   }
   return candidates
     .sort((a, b) => a.start - b.start || (b.end - b.start) - (a.end - a.start))
