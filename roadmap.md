@@ -11,3 +11,9 @@
 - [x] Audit readiness data/chart and add Business/Academic completion certificates.
 - [x] Admin certificate centre: issue certificates for any course, store records, public /verify/:code page.
 - [x] Ensure every Core and Communication Lab phrase is highlighted in its example sentence.
+
+# IELTS Reading Strategies
+
+- [x] Audit and strengthen the bilingual Theory content across all 24 lessons.
+- [x] Differentiate repeated strategy lessons and correct unsupported absolute rules.
+- [x] Add automated Theory consistency checks for all Reading Strategies lessons.

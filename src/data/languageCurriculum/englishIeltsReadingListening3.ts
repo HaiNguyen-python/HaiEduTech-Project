@@ -8,7 +8,7 @@ export const ieltsReadingExpansion3Lessons: LanguageLesson[] = [
     id: "ielts-reading-14",
     title: "Multiple Choice - Author's Purpose",
     titleEn: "Multiple Choice - Author's Purpose",
-    level: 3,
+    level: 4,
     difficulty: "advanced",
     theory: `**Multiple Choice - Author's Purpose** yêu cầu bạn xác định mục đích của tác giả khi viết một đoạn hoặc cả bài.
 
@@ -126,7 +126,7 @@ export const ieltsReadingExpansion3Lessons: LanguageLesson[] = [
     id: "ielts-reading-16",
     title: "Yes/No/Not Given - Advanced",
     titleEn: "Yes/No/Not Given - Advanced",
-    level: 3,
+    level: 4,
     difficulty: "advanced",
     theory: `**Yes/No/Not Given - Advanced** tập trung vào các trường hợp khó phân biệt, đặc biệt giữa NO và NOT GIVEN.
 
@@ -160,12 +160,12 @@ export const ieltsReadingExpansion3Lessons: LanguageLesson[] = [
     exercises: [
       {
         type: "fill-in-blank" as const,
-        instruction: "Dựa trên đoạn văn, xác định YES, NO hoặc NOT GIVEN:\n\nPassage: 'Recent studies have shown that bilingual children tend to perform better in problem-solving tasks compared to monolingual peers, particularly when the tasks require them to switch quickly between rules or to ignore distracting information. Researchers at the University of Edinburgh, working with more than 200 primary-school pupils in Scotland and northern Italy, found that learning a second language before the age of seven significantly improves cognitive flexibility, the mental skill that allows children to adapt to new situations and consider problems from more than one angle. The benefits appear to extend into adolescence and even adulthood, with some studies suggesting that lifelong bilinguals may experience the symptoms of age-related cognitive decline several years later than monolingual peers. However, no evidence was found in the Edinburgh study to suggest that bilingualism affects mathematical ability, and the researchers cautioned that learning a second language should not be promoted as a magic shortcut to higher overall intelligence. Instead, they argue, it should be valued for the rich cultural connections and the everyday mental workout it naturally provides.'",
-        instructionEn: "Based on the passage, determine YES, NO or NOT GIVEN:\n\nPassage: 'Recent studies have shown that bilingual children tend to perform better in problem-solving tasks compared to monolingual peers, particularly when the tasks require them to switch quickly between rules or to ignore distracting information. Researchers at the University of Edinburgh, working with more than 200 primary-school pupils in Scotland and northern Italy, found that learning a second language before the age of seven significantly improves cognitive flexibility, the mental skill that allows children to adapt to new situations and consider problems from more than one angle. The benefits appear to extend into adolescence and even adulthood, with some studies suggesting that lifelong bilinguals may experience the symptoms of age-related cognitive decline several years later than monolingual peers. However, no evidence was found in the Edinburgh study to suggest that bilingualism affects mathematical ability, and the researchers cautioned that learning a second language should not be promoted as a magic shortcut to higher overall intelligence. Instead, they argue, it should be valued for the rich cultural connections and the everyday mental workout it naturally provides.'",
+        instruction: "Dựa trên quan điểm của tác giả, xác định YES, NO hoặc NOT GIVEN:\n\nPassage: 'Some critics argue that bilingual education is too costly for public schools. I disagree with that narrow assessment. In my view, bilingual programmes should be expanded because they give learners meaningful access to more than one culture and provide regular practice in switching between systems of thought. This does not mean that a second language is a magic shortcut to higher intelligence, nor should schools promise automatic gains in every subject. Nevertheless, the cultural and cognitive value is strong enough to justify wider access. Programmes should be introduced with trained teachers and appropriate materials, although the ideal age at which every child should begin remains uncertain.'",
+        instructionEn: "Based on the writer's views, determine YES, NO or NOT GIVEN:\n\nPassage: 'Some critics argue that bilingual education is too costly for public schools. I disagree with that narrow assessment. In my view, bilingual programmes should be expanded because they give learners meaningful access to more than one culture and provide regular practice in switching between systems of thought. This does not mean that a second language is a magic shortcut to higher intelligence, nor should schools promise automatic gains in every subject. Nevertheless, the cultural and cognitive value is strong enough to justify wider access. Programmes should be introduced with trained teachers and appropriate materials, although the ideal age at which every child should begin remains uncertain.'",
         sentences: [
-          { text: "Bilingual children are better at problem-solving than monolingual children. → ___", textEn: "Bilingual children are better at problem-solving than monolingual children. → ___", answer: "YES", hint: "Bài nói 'perform better in problem-solving tasks'" },
-          { text: "Learning a second language after age seven has no cognitive benefits. → ___", textEn: "Learning a second language after age seven has no cognitive benefits. → ___", answer: "NOT GIVEN", hint: "Bài chỉ nói trước 7 tuổi, không đề cập sau 7 tuổi" },
-          { text: "Bilingualism improves mathematical ability. → ___", textEn: "Bilingualism improves mathematical ability. → ___", answer: "NO", hint: "Bài nói 'no evidence... affects mathematical ability'" },
+          { text: "The writer supports expanding bilingual programmes. → ___", textEn: "The writer supports expanding bilingual programmes. → ___", answer: "YES", hint: "The writer says they 'should be expanded'" },
+          { text: "The writer believes bilingual education automatically improves every school subject. → ___", textEn: "The writer believes bilingual education automatically improves every school subject. → ___", answer: "NO", hint: "The writer says schools should not promise this" },
+          { text: "The writer believes all children should begin a second language at age seven. → ___", textEn: "The writer believes all children should begin a second language at age seven. → ___", answer: "NOT GIVEN", hint: "The ideal starting age remains uncertain" },
         ],
       },
     ],
