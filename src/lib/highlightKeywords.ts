@@ -104,9 +104,6 @@ export const keyPhraseSources = (phrase: string): string[] => {
     sources.push(firstVerb);
   }
   if (tokens.length === 1 && tokens[0]) sources.push(verbSource(tokens[0]));
-  if (tokens.length > 1 && tokens.at(-1)) {
-    sources.push([...tokens.slice(0, -1).map(escape), verbSource(tokens.at(-1) ?? "")].join(String.raw`\s+`));
-  }
   if (/^to\s+be\s+/i.test(trimmed)) {
     const complement = tokens.slice(1).map((token) => ["a", "an", "the"].includes(token.toLowerCase()) ? DETERMINER : escape(token));
     sources.push(complement.join(String.raw`\s+`));
@@ -136,7 +133,6 @@ export interface KeywordRange {
 export const findKeyPhraseRanges = (text: string, phrases: string[]): KeywordRange[] => {
   const candidates: KeywordRange[] = [];
   for (const phrase of clean(phrases)) {
-    const beforePhrase = candidates.length;
     for (const source of keyPhraseSources(phrase)) {
       const matcher = new RegExp(`(?<![\\p{L}\\p{N}])(${source})(?![\\p{L}\\p{N}])`, "giu");
       let match: RegExpExecArray | null;
@@ -145,25 +141,8 @@ export const findKeyPhraseRanges = (text: string, phrases: string[]): KeywordRan
         if (!match[0].length) matcher.lastIndex += 1;
       }
     }
-    if (candidates.length === beforePhrase) {
-      const lexical = phrase
-        .replace(/^to\s+/i, "")
-        .match(/[\p{L}\p{N}'’-]+/gu)
-        ?.filter((token) => !isReplaceable(token) && !["a", "an", "the", "A", "B"].includes(token)) ?? [];
-      const fallbackSources = lexical.flatMap((token, index) => {
-        const values = [escape(token)];
-        if (index === 0) values.push(verbSource(token));
-        return values;
-      });
-      for (const source of fallbackSources) {
-        const matcher = new RegExp(`(?<![\\p{L}\\p{N}])(${source})(?![\\p{L}\\p{N}])`, "iu");
-        const match = matcher.exec(text);
-        if (match) {
-          candidates.push({ start: match.index, end: match.index + match[0].length, kind: "phrase" });
-          break;
-        }
-      }
-    }
+    // Do not fall back to an arbitrary word from a missing phrase. That would
+    // mark low-value fragments such as "I", "to", "of" or "your".
   }
   return candidates
     .sort((a, b) => a.start - b.start || (b.end - b.start) - (a.end - a.start))
