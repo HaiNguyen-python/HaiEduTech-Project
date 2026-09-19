@@ -185,13 +185,25 @@ export const buildReadinessSnapshot = ({
       return sum + (result && result.maxScore > 0 ? result.score / result.maxScore : 0);
     }, 0) / Math.max(lessons.length, 1);
     const labCompleted = relevantLabIds.filter((id) => labDone.includes(id)).length;
+    const labScored = relevantLabIds.filter((id) => scores.lab[id]).length;
+    const labScoreRatio = relevantLabIds.reduce((sum, id) => {
+      const result = scores.lab[id];
+      return sum + (result && result.maxScore > 0 ? result.score / result.maxScore : 0);
+    }, 0) / Math.max(relevantLabIds.length, 1);
     const completionRatio = coreCompleted / Math.max(lessons.length, 1);
     const phraseRatio = phrasePractised / Math.max(phraseKeys.length, 1);
     const labRatio = labCompleted / Math.max(relevantLabIds.length, 1);
-    const value = Math.round((completionRatio * 45) + (quizRatio * 25) + (phraseRatio * 10) + (labRatio * 20));
+    const value = Math.min(
+      100,
+      Math.round((completionRatio * 45) + (quizRatio * 25) + (phraseRatio * 10) + (labRatio * 10) + (labScoreRatio * 10)),
+    );
 
     return {
-      ...definition,
+      id: definition.id,
+      labelEn: definition.labelEn,
+      labelVi: definition.labelVi,
+      shortEn: definition.shortEn,
+      shortVi: definition.shortVi,
       value,
       coreCompleted,
       coreTotal: lessons.length,
@@ -200,6 +212,7 @@ export const buildReadinessSnapshot = ({
       phraseTotal: phraseKeys.length,
       labCompleted,
       labTotal: relevantLabIds.length,
+      labScored,
     };
   });
   const overall = Math.round(axes.reduce((sum, axis) => sum + axis.value, 0) / Math.max(axes.length, 1));
