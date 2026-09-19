@@ -7,7 +7,8 @@
  */
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Award, Download, ShieldCheck, Sparkles } from "lucide-react";
+import { ArrowLeft, Award, Download, ShieldCheck } from "lucide-react";
+import CertificateCanvas from "@/components/certificates/CertificateCanvas";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
