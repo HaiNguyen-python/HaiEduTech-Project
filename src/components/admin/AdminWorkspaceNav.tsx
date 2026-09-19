@@ -118,6 +118,7 @@ export const ADMIN_NAV_GROUPS: Array<{
       { id: "schedule", labelVi: "Lịch học", labelEn: "Schedule", icon: CalendarDays },
       { id: "report-logs", labelVi: "Báo cáo email", labelEn: "Report logs", icon: ClipboardList },
       { id: "service-requests", labelVi: "Yêu cầu dịch vụ", labelEn: "Service requests", icon: ClipboardCheck },
+      { id: "certificates", labelVi: "Chứng chỉ", labelEn: "Certificates", icon: Award },
       { id: "health", labelVi: "Giám sát hệ thống", labelEn: "Health monitor", icon: HeartPulse },
     ],
   },
