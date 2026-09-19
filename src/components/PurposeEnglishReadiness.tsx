@@ -1,6 +1,6 @@
 import { Award, BarChart3, Info, Target, TrendingUp } from "lucide-react";
 import { Link } from "react-router-dom";
-import { PolarAngleAxis, PolarGrid, Radar, RadarChart, ResponsiveContainer, Tooltip } from "recharts";
+import { PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer, Tooltip } from "recharts";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import type { ConvLesson } from "@/data/conversationalCurriculum";
