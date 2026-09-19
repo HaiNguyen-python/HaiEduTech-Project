@@ -393,22 +393,34 @@ const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics, unlo
                   </button>
                   {isOpen && (
                     <div className="border-t border-border">
-                      {topic.lessons.map((lesson, lessonIndex) => (
+                      {topic.lessons.map((lesson, lessonIndex) => {
+                        const locked = !isUnlocked(lesson.id);
+                        return (
                         <button
                           type="button"
                           key={lesson.id}
                           onClick={() => openLesson(topic, lesson)}
-                          className="group flex w-full items-start gap-3 border-b border-border px-5 py-4 text-left text-foreground transition-colors last:border-0 hover:bg-primary/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary sm:px-6"
+                          disabled={locked}
+                          aria-disabled={locked}
+                          className={`group flex w-full items-start gap-3 border-b border-border px-5 py-4 text-left text-foreground transition-colors last:border-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary sm:px-6 ${locked ? "cursor-not-allowed bg-muted/40 opacity-70" : "hover:bg-primary/5"}`}
                         >
-                          <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-bold ${done.includes(lesson.id) ? "bg-primary text-primary-foreground" : "border border-primary/30 text-primary"}`}>{done.includes(lesson.id) ? <Check className="h-4 w-4" /> : lessonIndex + 1}</span>
+                          <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-bold ${done.includes(lesson.id) ? "bg-primary text-primary-foreground" : locked ? "border border-border text-foreground/50" : "border border-primary/30 text-primary"}`}>{done.includes(lesson.id) ? <Check className="h-4 w-4" /> : locked ? <Lock className="h-4 w-4" /> : lessonIndex + 1}</span>
                           <span className="min-w-0 flex-1">
                             <span className="block whitespace-normal font-bold text-foreground">{t(lesson.titleVi, lesson.title)}</span>
                             <span className="mt-1 block max-w-3xl whitespace-normal text-base font-medium leading-7 text-foreground/75">{lessonOutcome(lesson, vi)}</span>
                             <span className="mt-2 block text-sm font-bold text-foreground/60">{lesson.vocab.length} {t("cụm từ", "phrases")} · {lesson.questions.length + 1} {t("hoạt động", "activities")} · {lessonMinutes(lesson)} {t("phút", "min")}</span>
+                            {locked && (
+                              <span className="mt-2 block text-sm font-bold text-foreground/70">
+                                {t("Hoàn thành bài trước để mở bài này", "Complete the previous lesson to unlock")}
+                              </span>
+                            )}
                           </span>
-                          <ArrowRight className="ml-2 mt-1 h-4 w-4 shrink-0 text-primary transition-transform group-hover:translate-x-1" />
+                          {locked
+                            ? <Lock className="ml-2 mt-1 h-4 w-4 shrink-0 text-foreground/50" />
+                            : <ArrowRight className="ml-2 mt-1 h-4 w-4 shrink-0 text-primary transition-transform group-hover:translate-x-1" />}
                         </button>
-                      ))}
+                        );
+                      })}
                     </div>
                   )}
 
