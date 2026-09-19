@@ -46,8 +46,8 @@ const verbSource = (word: string) => {
   return `(?:${Array.from(new Set(forms)).sort((a, b) => b.length - a.length).map(escape).join("|")})`;
 };
 
-const OPTIONAL_DETERMINER = String.raw`(?:(?:a|an|the|this|that|my|your|our|their)\s+)?`;
-const SLOT = String.raw`(?:\S+\s+){1,6}`;
+const DETERMINER = String.raw`(?:a|an|the|this|that|my|your|our|their)`;
+const SLOT = String.raw`(?:[^\s,.!?;]+(?:\s+[^\s,.!?;]+){0,5})`;
 const REPLACEABLE = new Set(["someone", "somebody", "something"]);
 
 /** Build natural-language matchers from dictionary-style entries such as
@@ -72,7 +72,7 @@ export const keyPhraseSources = (phrase: string): string[] => {
   const parts = tokens.map((token) => {
     const lower = token.toLowerCase();
     if (token === "..." || REPLACEABLE.has(lower) || token === "A" || token === "B") return "__SLOT__";
-    if (["a", "an", "the"].includes(lower)) return "__DETERMINER__";
+    if (["a", "an", "the"].includes(lower)) return DETERMINER;
     if (leadingInfinitive && firstLexical) {
       firstLexical = false;
       return verbSource(token);
@@ -83,9 +83,7 @@ export const keyPhraseSources = (phrase: string): string[] => {
   if (parts.length) {
     const source = parts
       .join(String.raw`\s+`)
-      .replace(/__DETERMINER__\\s\+/g, OPTIONAL_DETERMINER)
-      .replace(/\\s\+__SLOT__\\s\+/g, String.raw`\s+${SLOT}\s+`)
-      .replace(/\\s\+__SLOT__$/g, String.raw`\s+${SLOT}`);
+      .replace(/__SLOT__/g, SLOT);
     sources.push(source);
   }
   if (tokens.length === 1 && tokens[0]) sources.push(verbSource(tokens[0]));
@@ -93,8 +91,8 @@ export const keyPhraseSources = (phrase: string): string[] => {
     sources.push([...tokens.slice(0, -1).map(escape), verbSource(tokens.at(-1) ?? "")].join(String.raw`\s+`));
   }
   if (/^to\s+be\s+/i.test(trimmed)) {
-    const complement = tokens.slice(1).map((token) => ["a", "an", "the"].includes(token.toLowerCase()) ? OPTIONAL_DETERMINER : escape(token));
-    sources.push(complement.join(String.raw`\s+`).replace(new RegExp(`\\s\\+${escape(OPTIONAL_DETERMINER)}`, "g"), OPTIONAL_DETERMINER));
+    const complement = tokens.slice(1).map((token) => ["a", "an", "the"].includes(token.toLowerCase()) ? DETERMINER : escape(token));
+    sources.push(complement.join(String.raw`\s+`));
   }
 
   // A safe fallback for dictionary infinitives whose example replaces the
