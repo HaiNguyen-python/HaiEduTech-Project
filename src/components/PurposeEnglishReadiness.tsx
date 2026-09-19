@@ -95,7 +95,7 @@ const PurposeEnglishReadiness = ({ track, topics, labs, coreDone, labDone, pract
                 </div>
                 <div className="mt-2 h-2 overflow-hidden rounded-full bg-muted"><div className="h-full rounded-full bg-primary" style={{ width: `${axis.value}%` }} /></div>
                 <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                  {t(`Core ${axis.coreCompleted}/${axis.coreTotal} · Quiz ${axis.quizRecorded}/${axis.coreTotal} · Cụm từ ${axis.phrasePractised}/${axis.phraseTotal} · Lab ${axis.labCompleted}/${axis.labTotal}`, `Core ${axis.coreCompleted}/${axis.coreTotal} · Quizzes ${axis.quizRecorded}/${axis.coreTotal} · Phrases ${axis.phrasePractised}/${axis.phraseTotal} · Labs ${axis.labCompleted}/${axis.labTotal}`)}
+                  {t(`Core ${axis.coreCompleted}/${axis.coreTotal} · Quiz ${axis.quizRecorded}/${axis.coreTotal} · Cụm từ ${axis.phrasePractised}/${axis.phraseTotal} · Lab ${axis.labCompleted}/${axis.labTotal} · Điểm lab ${axis.labScored}/${axis.labTotal}`, `Core ${axis.coreCompleted}/${axis.coreTotal} · Quizzes ${axis.quizRecorded}/${axis.coreTotal} · Phrases ${axis.phrasePractised}/${axis.phraseTotal} · Labs ${axis.labCompleted}/${axis.labTotal} · Lab scores ${axis.labScored}/${axis.labTotal}`)}
                 </p>
               </div>
             ))}
@@ -103,10 +103,43 @@ const PurposeEnglishReadiness = ({ track, topics, labs, coreDone, labDone, pract
         </div>
       )}
 
+      <div className="border-t border-border p-5 sm:p-6">
+        <div className="flex flex-wrap items-start justify-between gap-4 rounded-lg border border-secondary/40 bg-secondary/10 p-5">
+          <div className="max-w-2xl">
+            <p className="flex items-center gap-2 text-sm font-bold uppercase text-primary"><Award className="h-4 w-4" />{t("Chứng chỉ hoàn thành", "Completion certificate")}</p>
+            <h3 className="mt-1 text-xl font-bold text-foreground">
+              {certificate.eligible
+                ? t("Bạn đã đủ điều kiện nhận chứng chỉ", "You have earned your certificate")
+                : t("Còn một vài bước nữa để nhận chứng chỉ", "A few steps left to earn your certificate")}
+            </h3>
+            <p className="mt-2 text-base leading-7 text-muted-foreground">
+              {certificate.eligible
+                ? t("Nhập tên của bạn và tải chứng chỉ PDF để in hoặc chia sẻ.", "Add your name and download the PDF certificate to print or share.")
+                : t(
+                    `Cần hoàn thành thêm ${certificate.missingCore} bài nền tảng, ${certificate.missingLab} Communication Lab và tăng thêm ${certificate.missingPoints} điểm readiness (yêu cầu ${certificate.required}/100).`,
+                    `You still need ${certificate.missingCore} core lessons, ${certificate.missingLab} Communication Labs and ${certificate.missingPoints} more readiness points (minimum ${certificate.required}/100).`,
+                  )}
+            </p>
+            <p className="mt-2 text-sm font-semibold text-foreground/70">
+              {t(`Bài nền tảng ${certificate.coreCompleted}/${certificate.coreTotal} · Lab ${certificate.labCompleted}/${certificate.labTotal} · Readiness ${certificate.overall}/100`, `Core ${certificate.coreCompleted}/${certificate.coreTotal} · Labs ${certificate.labCompleted}/${certificate.labTotal} · Readiness ${certificate.overall}/100`)}
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {certificate.eligible ? (
+              <Button asChild className="gap-2"><Link to={`/english/${track}/certificate`}><Award className="h-4 w-4" />{t("Nhận chứng chỉ", "Get certificate")}</Link></Button>
+            ) : (
+              <Button variant="outline" className="gap-2" onClick={() => onFocus(certificate.missingCore > 0 ? "core" : "lab")}>
+                <Target className="h-4 w-4" />{certificate.missingCore > 0 ? t("Học tiếp bài nền tảng", "Continue core lessons") : t("Luyện tiếp Communication Lab", "Continue Communication Lab")}
+              </Button>
+            )}
+          </div>
+        </div>
+      </div>
+
       <div className="flex items-start gap-2 border-t border-border bg-muted/40 px-5 py-4 text-sm leading-6 text-muted-foreground">
         <Info className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
         <p>
-          {t("Chỉ báo này dựa trên bài đã hoàn thành (45%), điểm quiz tốt nhất (25%), cụm từ đã luyện (10%) và Communication Lab (20%). Đây không phải chứng chỉ trình độ chính thức.", "This indicator uses completed lessons (45%), best quiz scores (25%), practised phrases (10%) and Communication Labs (20%). It is not an official proficiency certificate.")}
+          {t("Chỉ báo này dựa trên bài đã hoàn thành (45%), điểm quiz tốt nhất (25%), cụm từ đã luyện (10%), Communication Lab đã xong (10%) và điểm lab tốt nhất (10%). Đây không phải chứng chỉ trình độ chính thức.", "This indicator uses completed lessons (45%), best quiz scores (25%), practised phrases (10%), completed Communication Labs (10%) and best lab scores (10%). It is not an official proficiency certificate.")}
           {snapshot.hasLegacyScoreGap && ` ${t("Một số bài cũ chưa có điểm chi tiết; làm lại quiz sẽ tăng độ tin cậy.", "Some earlier lessons have no detailed score; retake their quizzes to improve confidence.")}`}
         </p>
       </div>
