@@ -2,8 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import {
   ArrowLeft, ArrowRight, BookOpenCheck, Check, CheckCircle2, ChevronDown, ChevronRight,
-  Clock3, FileText, Headphones, Lightbulb, ListChecks, MessageSquareText, RotateCcw,
-  Search, ShieldAlert, Sparkles, Target, Turtle, Volume2, XCircle,
+  Clock3, FileText, Headphones, Lightbulb, ListChecks, Lock, MessageSquareText, RotateCcw,
+  Search, ShieldAlert, ShieldCheck, Sparkles, Target, Turtle, Volume2, XCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,7 +15,7 @@ import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { safeStorage } from "@/lib/safeStorage";
 import {
   buildGuidedActivities, getNextCoreLesson, lessonMinutes, lessonOutcome, modelLineRole,
-  purposeTrackLabel, splitTeaching, topicLearningMeta, type PurposeTrack,
+  purposeTrackLabel, sequentialUnlockedIds, splitTeaching, topicLearningMeta, type PurposeTrack,
 } from "@/lib/purposeEnglishLearning";
 
 
@@ -26,9 +26,11 @@ interface Props {
   storageKey: string;
   activityType: string;
   topics: PurposeTopic[];
+  /** Admins and teachers see every lesson, learners unlock them in order. */
+  unlockAll?: boolean;
 }
 
-const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics }: Props) => {
+const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics, unlockAll = false }: Props) => {
   const { lang, t } = useLanguage();
   const vi = lang === "vi";
   const [done, setDone] = useState<string[]>([]);
