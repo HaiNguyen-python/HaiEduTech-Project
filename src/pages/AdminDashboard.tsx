@@ -1207,6 +1207,10 @@ const AdminDashboard = () => {
                 <ServiceRequestsTab />
               </TabsContent>
 
+              <TabsContent value="certificates">
+                <CertificatesTab />
+              </TabsContent>
+
               <TabsContent value="content-studio">
                 <ContentStudioTab />
               </TabsContent>
