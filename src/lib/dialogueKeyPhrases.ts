@@ -235,7 +235,7 @@ export const DIALOGUE_KEY_PHRASES: string[] = [
   "schedule a brief call", "discuss it further",
 
   // High-value chunks recovered by the second full dialogue audit
-  "Would you be open to", "better to be safe than sorry", "make sure to be there",
+  "Would you be open to", "better to be safe than sorry", "I'll make sure to be there",
 
 ];
 

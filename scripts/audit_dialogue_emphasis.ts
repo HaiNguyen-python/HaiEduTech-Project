@@ -19,7 +19,7 @@ const LOW_VALUE_ONLY = new Set([
 
 const REQUIRED_DIALOGUE_CHUNKS: Record<string, string[]> = {
   "pro-06-conflict": ["better to be safe than sorry"],
-  "pro-11-onboarding": ["make sure to be there"],
+  "pro-11-onboarding": ["I'll make sure to be there"],
   "pro-20-mentoring": ["Would you be open to"],
   "acad-19-internships": ["Would you be open to"],
 };
