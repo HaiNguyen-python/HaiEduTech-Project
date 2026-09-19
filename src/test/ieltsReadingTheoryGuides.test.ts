@@ -17,7 +17,7 @@ const lesson = (id: string): LanguageLesson => ({
     type: "fill-in-blank",
     instruction: "Điền",
     instructionEn: "Fill",
-    sentences: [{ text: "A ___", answer: "word" }],
+    sentences: [{ text: "A ___", textEn: "A ___", answer: "word" }],
   }],
   quiz: [{ question: "Question", options: ["A", "B"], answer: 0, explanation: "Because" }],
 });
