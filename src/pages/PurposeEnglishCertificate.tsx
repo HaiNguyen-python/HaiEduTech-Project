@@ -184,46 +184,18 @@ const PurposeEnglishCertificate = ({ track }: Props) => {
                 </CardContent>
               </Card>
 
-              <div ref={certRef} className="rounded-xl border-8 border-double p-8 shadow-lg sm:p-10" style={{ backgroundColor: "#ffffff", borderColor: "#f59e0b" }}>
-                <div className="space-y-4 text-center" style={{ color: "#0f172a" }}>
-                  <div className="flex items-center justify-center gap-2">
-                    <Sparkles className="h-7 w-7" style={{ color: "#f59e0b" }} />
-                    <span className="text-sm font-bold tracking-[0.3em]" style={{ color: "#3b82f6" }}>HAIEDUTECH</span>
-                    <Sparkles className="h-7 w-7" style={{ color: "#f59e0b" }} />
-                  </div>
-                  <div className="text-3xl font-bold">{t("Chứng chỉ hoàn thành khóa học", "Certificate of Completion")}</div>
-                  <div className="text-sm italic">{t("Chứng nhận rằng", "This is to certify that")}</div>
-                  <div className="mx-auto max-w-xl border-y-2 py-2 text-4xl font-bold" style={{ color: "#10b981", borderColor: "#f59e0b" }}>{learnerName}</div>
-                  <div className="mx-auto max-w-2xl text-base leading-7">
-                    {t(
-                      `đã hoàn thành toàn bộ khóa ${courseName} tại HaiEduTech với ${certificate.coreTotal} bài nền tảng và ${certificate.labTotal} Communication Lab, đạt ${snapshot.overall}/100 điểm readiness (${stageLabel}).`,
-                      `has completed the full ${courseName} course at HaiEduTech, covering ${certificate.coreTotal} core lessons and ${certificate.labTotal} Communication Labs, with a readiness score of ${snapshot.overall}/100 (${stageLabel}).`,
-                    )}
-                  </div>
-                  <div className="mx-auto grid max-w-2xl items-end gap-4 pt-4 text-sm sm:grid-cols-3">
-                    <div>
-                      <div className="text-xl font-bold italic" style={{ color: "#3b82f6" }}>Mr. Hai</div>
-                      <div className="mt-1 border-t pt-1 text-xs" style={{ borderColor: "#94a3b8" }}>Instructor · HaiEduTech Founder</div>
-                    </div>
-                    <div className="flex flex-col items-center">
-                      <img
-                        alt="Verify QR"
-                        width={78}
-                        height={78}
-                        src={`https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(`https://haiedutech.com/verify/${code}`)}`}
-                      />
-                      <div className="mt-1 text-[10px]" style={{ color: "#64748b" }}>Scan to verify</div>
-                    </div>
-                    <div>
-                      <div className="text-lg font-bold" style={{ color: "#3b82f6" }}>{today}</div>
-                      <div className="mt-1 border-t pt-1 text-xs" style={{ borderColor: "#94a3b8" }}>{t("Ngày cấp", "Date issued")}</div>
-                    </div>
-                  </div>
-                  <div className="pt-3 text-[11px]" style={{ color: "#64748b" }}>
-                    {t("Mã chứng chỉ", "Certificate ID")}: {code} · {t("Chứng nhận hoàn thành khóa học của HaiEduTech, không phải chứng chỉ trình độ quốc tế.", "A HaiEduTech course completion record, not an international proficiency certificate.")}
-                  </div>
-                </div>
-              </div>
+              <CertificateCanvas
+                ref={certRef}
+                learnerName={learnerName}
+                courseName={courseName}
+                preview={preview && !certificate.eligible}
+                body={t(
+                  `đã hoàn thành toàn bộ khóa ${courseName} tại HaiEduTech với ${certificate.coreTotal} bài nền tảng và ${certificate.labTotal} Communication Lab, đạt ${snapshot.overall}/100 điểm readiness (${stageLabel}).`,
+                  `has completed the full ${courseName} course at HaiEduTech, covering ${certificate.coreTotal} core lessons and ${certificate.labTotal} Communication Labs, with a readiness score of ${snapshot.overall}/100 (${stageLabel}).`,
+                )}
+                issuedDate={today}
+                code={code}
+              />
 
               <div className="mt-5 flex justify-center">
                 <Button size="lg" className="gap-2" onClick={download}>
