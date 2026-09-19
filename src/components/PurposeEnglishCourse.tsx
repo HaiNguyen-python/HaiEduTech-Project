@@ -20,6 +20,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PurposeCoreLearningPath from "@/components/PurposeCoreLearningPath";
 import PurposeCommunicationLab from "@/components/PurposeCommunicationLab";
+import PurposeEnglishReadiness from "@/components/PurposeEnglishReadiness";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
@@ -32,6 +33,7 @@ import { useUserRole } from "@/hooks/useUserRole";
 import { useToast } from "@/hooks/use-toast";
 import { bannerImageFor } from "@/lib/conversationalSituationVisuals";
 import { sequentialUnlockedIds } from "@/lib/purposeEnglishLearning";
+import { emptyReadinessScores, keepBestQuizScore, type ReadinessScores } from "@/lib/purposeEnglishReadiness";
 import { safeStorage } from "@/lib/safeStorage";
 
 type Track = "business" | "academic";
@@ -111,6 +113,8 @@ const PurposeEnglishCourse = ({
   const [search, setSearch] = useState("");
   const [coreDone, setCoreDone] = useState<string[]>([]);
   const [labDone, setLabDone] = useState<string[]>([]);
+  const [practised, setPractised] = useState<string[]>([]);
+  const [readinessScores, setReadinessScores] = useState<ReadinessScores>(emptyReadinessScores);
   const [hydrated, setHydrated] = useState(false);
 
   const labStorageKey = `${storageKey}-communication`;
@@ -119,6 +123,8 @@ const PurposeEnglishCourse = ({
 
   useEffect(() => {
     setCoreDone(safeStorage.get<string[]>(storageKey, []));
+    setPractised(safeStorage.get<string[]>(`${storageKey}-phrases`, []) ?? []);
+    setReadinessScores(safeStorage.get<ReadinessScores>(`${storageKey}-readiness-scores`, emptyReadinessScores()) ?? emptyReadinessScores());
     const current = safeStorage.get<string[]>(labStorageKey, []);
     const eligible = new Set(communicationLessons.map((lesson) => lesson.id));
     const migrated = Array.from(new Set([...current, ...readLegacyProgress().filter((id) => eligible.has(id))]));
@@ -126,7 +132,10 @@ const PurposeEnglishCourse = ({
     safeStorage.set(labStorageKey, migrated);
     setHydrated(true);
 
-    const sync = () => setCoreDone(safeStorage.get<string[]>(storageKey, []));
+    const sync = () => {
+      setCoreDone(safeStorage.get<string[]>(storageKey, []) ?? []);
+      setPractised(safeStorage.get<string[]>(`${storageKey}-phrases`, []) ?? []);
+    };
     window.addEventListener("purpose-progress", sync);
     return () => window.removeEventListener("purpose-progress", sync);
   }, [communicationLessons, labStorageKey, storageKey]);
@@ -195,12 +204,21 @@ const PurposeEnglishCourse = ({
     const next = labDone.includes(activeLab.id) ? labDone : [...labDone, activeLab.id];
     setLabDone(next);
     safeStorage.set(labStorageKey, next);
+    saveQuizScore("lab", activeLab.id, score, maxScore);
     void logStudentActivity({
       activityType,
       activityId: activeLab.id,
       score,
       maxScore,
       metadata: { track, lessonTitle: activeLab.title, mode: "communication_lab" },
+    });
+  };
+
+  const saveQuizScore = (section: keyof ReadinessScores, lessonId: string, score: number, maxScore: number) => {
+    setReadinessScores((current) => {
+      const next = keepBestQuizScore(current, section, lessonId, score, maxScore);
+      if (next !== current) safeStorage.set(`${storageKey}-readiness-scores`, next);
+      return next;
     });
   };
 
@@ -311,6 +329,17 @@ const PurposeEnglishCourse = ({
                 </button>
               </div>
 
+              <PurposeEnglishReadiness
+                track={track}
+                topics={coreTopics}
+                labs={communicationLessons}
+                coreDone={coreDone}
+                labDone={labDone}
+                practised={practised}
+                scores={readinessScores}
+                onFocus={openView}
+              />
+
               <div className="mt-8 grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-3">
                 {[
                   [Clock3, t("Học theo nhịp của bạn", "Learn at your pace"), t("Tiến độ được lưu tự động", "Progress saves automatically")],
@@ -336,6 +365,7 @@ const PurposeEnglishCourse = ({
                 activityType={activityType}
                 topics={coreTopics}
                 unlockAll={unlockAll}
+                onQuizComplete={(lessonId, score, maxScore) => saveQuizScore("core", lessonId, score, maxScore)}
               />
             </TabsContent>
 
