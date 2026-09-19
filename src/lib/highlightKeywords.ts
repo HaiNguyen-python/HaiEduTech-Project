@@ -47,7 +47,7 @@ const verbSource = (word: string) => {
 };
 
 const OPTIONAL_DETERMINER = String.raw`(?:(?:a|an|the|this|that|my|your|our|their)\s+)?`;
-const SLOT = String.raw`(?:${WORD}(?:\s+${WORD}){0,4})`;
+const SLOT = String.raw`(?:\S+\s+){1,6}`;
 const REPLACEABLE = new Set(["someone", "somebody", "something"]);
 
 /** Build natural-language matchers from dictionary-style entries such as
@@ -71,8 +71,8 @@ export const keyPhraseSources = (phrase: string): string[] => {
   let firstLexical = true;
   const parts = tokens.map((token) => {
     const lower = token.toLowerCase();
-    if (token === "..." || REPLACEABLE.has(lower)) return SLOT;
-    if (["a", "an", "the"].includes(lower)) return OPTIONAL_DETERMINER;
+    if (token === "..." || REPLACEABLE.has(lower)) return "__SLOT__";
+    if (["a", "an", "the"].includes(lower)) return "__DETERMINER__";
     if (leadingInfinitive && firstLexical) {
       firstLexical = false;
       return verbSource(token);
@@ -80,7 +80,13 @@ export const keyPhraseSources = (phrase: string): string[] => {
     firstLexical = false;
     return escape(token);
   });
-  if (parts.length) sources.push(parts.join(String.raw`\s+`).replace(new RegExp(`\\s\\+${escape(OPTIONAL_DETERMINER)}`, "g"), OPTIONAL_DETERMINER));
+  if (parts.length) {
+    const source = parts
+      .join(String.raw`\s+`)
+      .replace(/\\s\+__DETERMINER__\\s\+/g, String.raw`\s+${OPTIONAL_DETERMINER}`)
+      .replace(/\\s\+__SLOT__\\s\+/g, String.raw`\s+${SLOT}`);
+    sources.push(source);
+  }
 
   // A safe fallback for dictionary infinitives whose example replaces the
   // object ("to park an issue" -> "park pricing"). It highlights the lexical
