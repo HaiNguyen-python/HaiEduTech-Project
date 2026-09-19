@@ -362,6 +362,8 @@ const App = () => (
             <Route path="/english/essentials" element={<LazyRoute><EnglishEssentials /></LazyRoute>} />
             <Route path="/english/business" element={<LazyRoute><BusinessEnglish /></LazyRoute>} />
             <Route path="/english/academic" element={<LazyRoute><AcademicEnglish /></LazyRoute>} />
+            <Route path="/english/business/certificate" element={<LazyRoute><PurposeEnglishCertificate track="business" /></LazyRoute>} />
+            <Route path="/english/academic/certificate" element={<LazyRoute><PurposeEnglishCertificate track="academic" /></LazyRoute>} />
             <Route path="/english/:courseId" element={<LazyRoute><EnglishCourse /></LazyRoute>} />
 
             <Route path="/english/learn/:moduleId" element={<LazyRoute><LanguageLessonView /></LazyRoute>} />
