@@ -335,6 +335,7 @@ const PurposeEnglishCourse = ({
                 storageKey={storageKey}
                 activityType={activityType}
                 topics={coreTopics}
+                unlockAll={unlockAll}
               />
             </TabsContent>
 
@@ -345,6 +346,12 @@ const PurposeEnglishCourse = ({
                   <h2 className="mt-1 text-2xl font-bold">{t("Chọn một tình huống để bắt đầu", "Choose a situation to begin")}</h2>
                   <p className="mt-2 max-w-2xl text-muted-foreground">
                     {t("Mỗi bài đi qua 4 bước: học cụm từ, nghe hội thoại, luyện nói và hoàn thành thử thách.", "Every lab follows four steps: learn phrases, listen, speak and complete a challenge.")}
+                  </p>
+                  <p className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-foreground/70">
+                    {unlockAll ? <ShieldCheck className="h-4 w-4 text-primary" /> : <Lock className="h-4 w-4 text-primary" />}
+                    {unlockAll
+                      ? t("Chế độ quản trị: xem toàn bộ bài", "Admin mode: all lessons unlocked")
+                      : t("Hoàn thành bài trước để mở bài sau", "Finish each lesson to unlock the next one")}
                   </p>
                 </div>
                 <div className="relative w-full lg:max-w-sm">
