@@ -528,9 +528,11 @@ const LanguageLessonView = () => {
 
                   {/* Theory - hidden for English Grammar lessons (practice-only view) */}
                   {!isEnglishGrammarLesson && (
-                  <div className="glass-card rounded-xl p-6">
-                    <h2 className="font-semibold text-foreground mb-4 flex items-center gap-2">
-                      <GraduationCap className="w-5 h-5 text-primary" />
+                  <div className="glass-card rounded-lg border border-border p-4 font-manrope sm:p-6 lg:p-7">
+                    <h2 className="mb-5 flex items-center gap-2.5 font-sora text-2xl font-bold leading-tight text-foreground sm:text-[26px]">
+                      <span className="flex size-9 shrink-0 items-center justify-center rounded-md bg-primary/10" aria-hidden="true">
+                        <GraduationCap className="size-5 text-primary" />
+                      </span>
                       {tr("Lý thuyết", "Theory")}
                     </h2>
                     {isEnglishGrammarLesson ? (
@@ -540,7 +542,7 @@ const LanguageLessonView = () => {
                         defaultCodeLanguage="text"
                       />
                     ) : (
-                      <div className="prose prose-base max-w-none text-secondary-foreground leading-[1.85] text-[17px] space-y-3 [&_p]:my-3 [&_strong]:text-primary [&_strong]:font-semibold [&_ul]:my-3 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:space-y-2 [&_ol]:my-3 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:space-y-2 [&_ol>li]:pl-1 [&_ol>li::marker]:font-bold [&_ol>li::marker]:text-primary [&_li]:my-1 [&_code]:bg-primary/10 [&_code]:text-primary [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_svg]:my-4 [&_svg]:mx-auto [&_svg]:max-w-full [&_svg]:h-auto [&_figure]:my-5 [&_figure]:text-center [&_figcaption]:text-sm [&_figcaption]:text-muted-foreground [&_figcaption]:mt-2 [&_figcaption]:italic [&_table]:my-4 [&_table]:w-full [&_table]:border-collapse [&_th]:bg-primary/10 [&_th]:text-primary [&_th]:p-2 [&_th]:border [&_th]:border-border [&_td]:p-2 [&_td]:border [&_td]:border-border">
+                      <div className="prose max-w-none font-manrope text-base leading-7 text-secondary-foreground sm:text-[17px] sm:leading-8 [&_h1]:font-sora [&_h1]:text-2xl [&_h1]:font-bold [&_h1]:leading-tight [&_h2]:mt-7 [&_h2]:font-sora [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:leading-snug [&_h2]:text-foreground [&_h3]:mb-2 [&_h3]:mt-6 [&_h3]:font-sora [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:leading-snug [&_h3]:text-foreground sm:[&_h3]:text-xl [&_h4]:font-sora [&_h4]:text-base [&_h4]:font-semibold [&_h4]:text-foreground [&_p]:my-3 [&_p]:leading-7 sm:[&_p]:leading-8 [&_strong]:font-bold [&_strong]:text-primary [&_ul]:my-3 [&_ul]:list-disc [&_ul]:space-y-1.5 [&_ul]:pl-6 [&_ol]:my-3 [&_ol]:list-decimal [&_ol]:space-y-1.5 [&_ol]:pl-6 [&_ol>li]:pl-1.5 [&_ol>li::marker]:font-bold [&_ol>li::marker]:text-primary [&_li]:my-0.5 [&_li]:pl-1 [&_code]:rounded-sm [&_code]:bg-primary/10 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:font-mono [&_code]:text-[0.92em] [&_code]:text-primary [&_svg]:mx-auto [&_svg]:my-5 [&_svg]:h-auto [&_svg]:max-w-full [&_figure]:my-6 [&_figure]:text-center [&_figcaption]:mt-2 [&_figcaption]:text-sm [&_figcaption]:italic [&_figcaption]:text-muted-foreground [&_table]:my-5 [&_table]:w-full [&_table]:min-w-[600px] [&_table]:border-collapse [&_th]:border [&_th]:border-border [&_th]:bg-primary/10 [&_th]:p-3 [&_th]:font-sora [&_th]:text-primary [&_td]:border [&_td]:border-border [&_td]:p-3">
                         <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
                           {normalizeTheoryMarkdown(lessonTheory, mod.category)}
                         </ReactMarkdown>
