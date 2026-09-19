@@ -18,6 +18,8 @@ export interface ReadinessAxis {
   id: string;
   labelEn: string;
   labelVi: string;
+  shortEn: string;
+  shortVi: string;
   value: number;
   coreCompleted: number;
   coreTotal: number;
@@ -26,6 +28,7 @@ export interface ReadinessAxis {
   phraseTotal: number;
   labCompleted: number;
   labTotal: number;
+  labScored: number;
 }
 
 export interface ReadinessSnapshot {
