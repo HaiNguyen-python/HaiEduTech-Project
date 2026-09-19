@@ -30,9 +30,10 @@ interface Props {
   topics: PurposeTopic[];
   /** Admins and teachers see every lesson, learners unlock them in order. */
   unlockAll?: boolean;
+  onQuizComplete?: (lessonId: string, score: number, maxScore: number) => void;
 }
 
-const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics, unlockAll = false }: Props) => {
+const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics, unlockAll = false, onQuizComplete }: Props) => {
   const { lang, t } = useLanguage();
   const vi = lang === "vi";
   const [done, setDone] = useState<string[]>([]);
@@ -89,6 +90,7 @@ const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics, unlo
     setPicked(nextPicked);
     if (Object.keys(nextPicked).length !== active.lesson.questions.length) return;
     const score = active.lesson.questions.filter((question, questionIndex) => nextPicked[questionIndex] === question.answer).length;
+    onQuizComplete?.(active.lesson.id, score, active.lesson.questions.length);
     const nextDone = done.includes(active.lesson.id) ? done : [...done, active.lesson.id];
     persistDone(nextDone);
     void logStudentActivity({
@@ -109,6 +111,7 @@ const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics, unlo
     const nextPractised = practised.includes(key) ? practised.filter((item) => item !== key) : [...practised, key];
     setPractised(nextPractised);
     safeStorage.set(`${storageKey}-phrases`, nextPractised);
+    window.dispatchEvent(new Event("purpose-progress"));
   };
 
   const visibleTopics = topics.filter((topic) => {
