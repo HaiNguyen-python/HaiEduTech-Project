@@ -13,6 +13,7 @@ import { businessEnglishTeachingGuides } from "@/data/businessEnglishTeachingGui
 import type { PurposeLesson, PurposeTopic } from "@/data/purposeEnglishTypes";
 import { playEnglishTts, stopEnglishTts } from "@/lib/englishTts";
 import { highlightKeywords } from "@/lib/highlightKeywords";
+import { getPurposePhraseIpa } from "@/lib/purposeEnglishIpa";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { safeStorage } from "@/lib/safeStorage";
 import {
@@ -214,9 +215,14 @@ const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics, unlo
             <div className="divide-y divide-border p-5 sm:p-7">
               {active.lesson.vocab.map((item) => {
                 const practiceKey = `${active.lesson.id}:${item.term}`;
+                const phraseIpa = getPurposePhraseIpa(item.term);
                 return (
                   <div key={item.term} className="grid gap-4 py-5 first:pt-0 last:pb-0 md:grid-cols-[minmax(190px,0.7fr)_1.3fr_auto] md:items-center">
-                    <div><p className="text-base font-extrabold text-foreground">{item.term}</p><p className="mt-1 text-sm font-semibold text-foreground/70">{item.pos} · {item.vi}</p></div>
+                    <div>
+                      <p className="text-base font-extrabold text-foreground">{item.term}</p>
+                      <p className="mt-1 font-mono text-sm font-semibold leading-6 text-primary">{phraseIpa}</p>
+                      <p className="text-sm font-semibold text-foreground/70">{item.pos} · {item.vi}</p>
+                    </div>
                       <div className="max-w-[65ch]"><p className="text-base font-medium leading-7 text-foreground">{highlightKeywords(item.example, [], [item.term])}</p></div>
                     <div className="flex gap-2">
                       <Button size="icon" variant="outline" className="text-foreground hover:border-primary hover:bg-primary/10 hover:text-primary" onClick={() => speak(`${item.term}. ${item.example}`)} aria-label={t("Nghe", "Listen")}><Volume2 className="h-4 w-4" /></Button>
