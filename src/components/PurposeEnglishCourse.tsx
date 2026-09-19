@@ -135,6 +135,7 @@ const PurposeEnglishCourse = ({
     const sync = () => {
       setCoreDone(safeStorage.get<string[]>(storageKey, []) ?? []);
       setPractised(safeStorage.get<string[]>(`${storageKey}-phrases`, []) ?? []);
+      setReadinessScores(safeStorage.get<ReadinessScores>(`${storageKey}-readiness-scores`, emptyReadinessScores()) ?? emptyReadinessScores());
     };
     window.addEventListener("purpose-progress", sync);
     return () => window.removeEventListener("purpose-progress", sync);
