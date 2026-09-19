@@ -307,6 +307,7 @@ const SpecializedLanguage = lazyWithRetry(() => import("./pages/SpecializedLangu
 const EnglishPronunciation = lazyWithRetry(() => import("./pages/EnglishPronunciation.tsx"));
 const EnglishEssentials = lazyWithRetry(() => import("./pages/EnglishEssentials.tsx"));
 const BusinessEnglish = lazyWithRetry(() => import("./pages/BusinessEnglish.tsx"));
+const PurposeEnglishCertificate = lazyWithRetry(() => import("./pages/PurposeEnglishCertificate.tsx"));
 const AcademicEnglish = lazyWithRetry(() => import("./pages/AcademicEnglish.tsx"));
 
 // Shared loading fallback component
@@ -361,6 +362,8 @@ const App = () => (
             <Route path="/english/essentials" element={<LazyRoute><EnglishEssentials /></LazyRoute>} />
             <Route path="/english/business" element={<LazyRoute><BusinessEnglish /></LazyRoute>} />
             <Route path="/english/academic" element={<LazyRoute><AcademicEnglish /></LazyRoute>} />
+            <Route path="/english/business/certificate" element={<LazyRoute><PurposeEnglishCertificate track="business" /></LazyRoute>} />
+            <Route path="/english/academic/certificate" element={<LazyRoute><PurposeEnglishCertificate track="academic" /></LazyRoute>} />
             <Route path="/english/:courseId" element={<LazyRoute><EnglishCourse /></LazyRoute>} />
 
             <Route path="/english/learn/:moduleId" element={<LazyRoute><LanguageLessonView /></LazyRoute>} />

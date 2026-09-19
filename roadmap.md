@@ -8,3 +8,4 @@
 - [x] Complete authenticated desktop and mobile learning-flow verification.
 - [x] Add explicit Core Rule, How to Apply and Watch Out guidance to all 24 Business English lessons.
 - [x] Add evidence-based Business English and Academic English readiness charts.
+- [x] Audit readiness data/chart and add Business/Academic completion certificates.
