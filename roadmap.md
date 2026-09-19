@@ -6,3 +6,4 @@
 - [x] Show transcript-grounded evidence after listening answers.
 - [x] Add a repeatable combined curriculum audit command.
 - [x] Complete authenticated desktop and mobile learning-flow verification.
+- [ ] Add explicit Core Rule, How to Apply and Watch Out guidance to all 24 Business English lessons.
