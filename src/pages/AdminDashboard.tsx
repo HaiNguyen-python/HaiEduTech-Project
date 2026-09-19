@@ -59,6 +59,7 @@ const RLInterventionsTab = lazy(() => import("@/components/admin/RLInterventions
 const EnglishDictionaryAdmin = lazy(() => import("@/components/admin/EnglishDictionaryAdmin"));
 const ServiceRequestsTab = lazy(() => import("@/components/admin/ServiceRequestsTab"));
 const HealthMonitorTab = lazy(() => import("@/components/admin/HealthMonitorTab"));
+const CertificatesTab = lazy(() => import("@/components/admin/CertificatesTab"));
 const ProgrammingDeepDiveWarmer = lazy(() => import("@/components/admin/ProgrammingDeepDiveWarmer"));
 const PhdResearchTab = lazy(() => import("@/components/admin/PhdResearchTab"));
 const EdTechResearchInsightsTab = lazy(() => import("@/components/admin/EdTechResearchInsightsTab"));
