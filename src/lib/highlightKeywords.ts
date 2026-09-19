@@ -81,9 +81,12 @@ export const keyPhraseSources = (phrase: string): string[] => {
     return escape(token);
   });
   if (parts.length) {
-    const source = parts
-      .join(String.raw`\s+`)
-      .replace(/__SLOT__/g, SLOT);
+    const source = parts.reduce((result, part, index) => {
+      if (index === 0) return part;
+      const touchesSlot = part === "__SLOT__" || parts[index - 1] === "__SLOT__";
+      const separator = touchesSlot ? String.raw`(?:\s+|\s*[,;:]\s*)` : String.raw`\s+`;
+      return `${result}${separator}${part}`;
+    }, "").replace(/__SLOT__/g, SLOT);
     sources.push(source);
   }
   if (tokens.length === 1 && tokens[0]) sources.push(verbSource(tokens[0]));
