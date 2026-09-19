@@ -4,7 +4,7 @@ import { academicTopicsPart1 } from "@/data/academicEnglishLessons";
 import { academicTopicsPart2 } from "@/data/academicEnglishLessons2";
 import { businessTopicsPart1 } from "@/data/businessEnglishLessons";
 import { businessTopicsPart2 } from "@/data/businessEnglishLessons2";
-import { buildReadinessSnapshot, emptyReadinessScores, keepBestQuizScore, validateReadinessMapping } from "@/lib/purposeEnglishReadiness";
+import { buildCertificateStatus, buildReadinessSnapshot, certificateCode, emptyReadinessScores, keepBestQuizScore, validateReadinessMapping } from "@/lib/purposeEnglishReadiness";
 
 const businessTopics = [...businessTopicsPart1, ...businessTopicsPart2];
 const academicTopics = [...academicTopicsPart1, ...academicTopicsPart2];
