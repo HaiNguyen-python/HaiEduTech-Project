@@ -349,6 +349,63 @@ export type Database = {
         }
         Relationships: []
       }
+      certificates: {
+        Row: {
+          code: string
+          course_key: string
+          course_label_en: string | null
+          course_label_vi: string | null
+          created_at: string
+          id: string
+          issued_at: string
+          issued_by: string | null
+          level: string | null
+          max_score: number | null
+          metadata: Json
+          note: string | null
+          revoked_at: string | null
+          score: number | null
+          student_id: string | null
+          student_name: string
+        }
+        Insert: {
+          code: string
+          course_key: string
+          course_label_en?: string | null
+          course_label_vi?: string | null
+          created_at?: string
+          id?: string
+          issued_at?: string
+          issued_by?: string | null
+          level?: string | null
+          max_score?: number | null
+          metadata?: Json
+          note?: string | null
+          revoked_at?: string | null
+          score?: number | null
+          student_id?: string | null
+          student_name: string
+        }
+        Update: {
+          code?: string
+          course_key?: string
+          course_label_en?: string | null
+          course_label_vi?: string | null
+          created_at?: string
+          id?: string
+          issued_at?: string
+          issued_by?: string | null
+          level?: string | null
+          max_score?: number | null
+          metadata?: Json
+          note?: string | null
+          revoked_at?: string | null
+          score?: number | null
+          student_id?: string | null
+          student_name?: string
+        }
+        Relationships: []
+      }
       chatbot_conversations: {
         Row: {
           created_at: string
@@ -4611,6 +4668,19 @@ export type Database = {
             }
             Returns: number
           }
+      verify_certificate: {
+        Args: { _code: string }
+        Returns: {
+          code: string
+          course_key: string
+          course_label_en: string
+          course_label_vi: string
+          issued_at: string
+          level: string
+          revoked: boolean
+          student_name: string
+        }[]
+      }
     }
     Enums: {
       agency_lead_status: "new" | "in_discussion" | "won" | "lost"

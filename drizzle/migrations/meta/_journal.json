@@ -50,6 +50,13 @@
       "when": 1789720996828,
       "tag": "0006_cleanup_attendance_diag_rows",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1789809667844,
+      "tag": "0007_create_certificates",
+      "breakpoints": true
     }
   ]
 }

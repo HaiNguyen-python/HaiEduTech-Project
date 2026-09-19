@@ -22,7 +22,7 @@ export const PUBLIC_PATHS = [
 ] as const;
 
 /** Public path prefixes (marketing + blog, kept crawlable). */
-export const PUBLIC_PREFIXES = ["/insights", "/dich-vu-web"] as const;
+export const PUBLIC_PREFIXES = ["/insights", "/dich-vu-web", "/verify"] as const;
 
 const normalize = (pathname: string) => {
   if (!pathname) return "/";
