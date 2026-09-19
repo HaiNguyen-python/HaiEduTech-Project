@@ -5,6 +5,7 @@ import { ieltsReadingExpansion2Lessons, ieltsListeningExpansion2Lessons } from "
 import { ieltsReadingExpansion3Lessons, ieltsListeningExpansion3Lessons } from "./englishIeltsReadingListening3";
 import { ieltsReadingExpansion4Lessons, ieltsListeningExpansion4Lessons } from "./englishIeltsReadingListening4";
 import { ieltsReadingPracticeExercises } from "./englishIeltsReadingPracticeExercises";
+import { applyIeltsReadingTheoryGuides } from "./ieltsReadingTheoryGuides";
 
 export const ieltsModules: LanguageModule[] = [
   {
@@ -555,6 +556,7 @@ export const ieltsModules: LanguageModule[] = [
 const READING_PRACTICE_TAG = "__readingPracticeMerged";
 for (const mod of ieltsModules) {
   if (mod.id !== "ielts-reading") continue;
+  mod.lessons = applyIeltsReadingTheoryGuides(mod.lessons);
   for (const lesson of mod.lessons) {
     if ((lesson as any)[READING_PRACTICE_TAG]) continue;
     const extra = ieltsReadingPracticeExercises[lesson.id];
