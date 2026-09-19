@@ -234,6 +234,9 @@ export const DIALOGUE_KEY_PHRASES: string[] = [
   "exchange ideas", "happy to chat", "interested in how",
   "schedule a brief call", "discuss it further",
 
+  // High-value chunks recovered by the second full dialogue audit
+  "Would you be open to", "better to be safe than sorry", "make sure to be there",
+
 ];
 
 /** Matches reusable chunks without selecting isolated vocabulary words. */

@@ -14,6 +14,9 @@ describe("natural key phrase highlighting", () => {
     ["The ROI is positive after five months.", "return on investment (ROI)", "ROI"],
     ["I will put you through to accounts.", "to put someone through", "put you through"],
     ["Let us park pricing and return to it later.", "to park an issue", "park"],
+    ["Would you be open to mentoring me?", "Would you be open to", "Would you be open to"],
+    ["It is better to be safe than sorry.", "better to be safe than sorry", "better to be safe than sorry"],
+    ["I'll make sure to be there.", "make sure to be there", "make sure to be there"],
   ])("matches %s from %s", (text, phrase, expected) => {
     expect(highlighted(text, phrase)).toContain(expected);
   });

@@ -57,6 +57,8 @@ const PurposeCommunicationLab = ({
     Math.abs(Array.from(lesson.id).reduce((sum, char) => sum + char.charCodeAt(0), 0)) % PARTNER_NAMES.length
   ];
   const challenge = lesson.listeningChallenge;
+  const challengeVocabTerms = lesson.vocabulary.map((item) => item.term);
+  const challengeKeyPhrases = resolveDialogueKeyPhrases([challenge.transcript], challengeVocabTerms);
 
   const evidenceFor = (answer: string) => {
     const segments = challenge.transcript.split(/(?<=[.!?])\s+|\n+/).map((part) => part.trim()).filter(Boolean);
@@ -370,7 +372,7 @@ const PurposeCommunicationLab = ({
             </Button>
             {showTranscript && (
               <p className="mt-3 whitespace-pre-wrap rounded-lg bg-muted/50 p-4 text-base leading-7">
-                {challenge.transcript}
+                {highlightKeywords(challenge.transcript, challengeVocabTerms, challengeKeyPhrases)}
               </p>
             )}
           </section>
