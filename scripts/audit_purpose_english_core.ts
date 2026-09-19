@@ -3,6 +3,7 @@ import { businessTopicsPart2 } from "../src/data/businessEnglishLessons2";
 import { academicTopicsPart1 } from "../src/data/academicEnglishLessons";
 import { academicTopicsPart2 } from "../src/data/academicEnglishLessons2";
 import type { PurposeTopic } from "../src/data/purposeEnglishTypes";
+import { findKeyPhraseRanges } from "../src/lib/highlightKeywords";
 
 const audit = (label: string, topics: PurposeTopic[]) => {
   const issues: string[] = [];
@@ -19,6 +20,11 @@ const audit = (label: string, topics: PurposeTopic[]) => {
       if (!lesson.title || !lesson.titleVi || !lesson.gist || !lesson.gistVi || !lesson.teaching || !lesson.teachingVi) issues.push(`${lesson.id}: missing bilingual lesson content`);
       if (lesson.teaching.length < 180 || lesson.teachingVi.length < 160) issues.push(`${lesson.id}: teaching text too short`);
       if (lesson.vocab.length < 10) issues.push(`${lesson.id}: fewer than 10 phrases`);
+      for (const item of lesson.vocab) {
+        if (findKeyPhraseRanges(item.example, [item.term]).length === 0) {
+          issues.push(`${lesson.id} / ${item.term}: phrase is not highlighted in example "${item.example}"`);
+        }
+      }
       if (lesson.model.lines.length < 3) issues.push(`${lesson.id}: model too short`);
       if (lesson.questions.length < 5) issues.push(`${lesson.id}: fewer than 5 questions`);
       for (const [index, question] of lesson.questions.entries()) {
