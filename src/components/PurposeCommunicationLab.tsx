@@ -25,6 +25,7 @@ import { bannerImageFor, protagonistFor } from "@/lib/conversationalSituationVis
 import { resolveDialogueKeyPhrases } from "@/lib/dialogueKeyPhrases";
 import { dialogueAvatarFor } from "@/lib/dialogueAvatars";
 import { highlightKeywords } from "@/lib/highlightKeywords";
+import { getCommunicationPhraseIpa } from "@/lib/communicationPhraseIpa";
 
 import { playEnglishTts, stopEnglishTts } from "@/lib/englishTts";
 import { cn } from "@/lib/utils";
@@ -194,29 +195,33 @@ const PurposeCommunicationLab = ({
               </Button>
             </div>
             <div className="grid gap-3 md:grid-cols-2">
-              {lesson.vocabulary.map((item) => (
-                <motion.div
-                  key={item.term}
-                  whileHover={{ y: -2 }}
-                  className="rounded-lg border border-border bg-card p-4 shadow-sm"
-                >
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <h3 className="font-bold text-primary">{item.term}</h3>
-                      <p className="text-sm text-muted-foreground">{t(item.meaning, item.meaningEn)}</p>
+              {lesson.vocabulary.map((item) => {
+                const phraseIpa = getCommunicationPhraseIpa(item.term);
+                return (
+                  <motion.div
+                    key={item.term}
+                    whileHover={{ y: -2 }}
+                    className="rounded-lg border border-border bg-card p-4 shadow-sm"
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <h3 className="font-bold text-primary">{item.term}</h3>
+                        <p className="mt-0.5 font-mono text-sm font-semibold leading-6 text-primary">{phraseIpa}</p>
+                        <p className="text-sm text-muted-foreground">{t(item.meaning, item.meaningEn)}</p>
+                      </div>
+                      <Button
+                        size="icon"
+                        variant="ghost"
+                        aria-label={t("Nghe cụm từ", "Listen to phrase")}
+                        onClick={() => void playEnglishTts(`${item.term}. ${item.example}`)}
+                      >
+                        <Volume2 className="h-4 w-4" />
+                      </Button>
                     </div>
-                    <Button
-                      size="icon"
-                      variant="ghost"
-                      aria-label={t("Nghe cụm từ", "Listen to phrase")}
-                      onClick={() => void playEnglishTts(`${item.term}. ${item.example}`)}
-                    >
-                      <Volume2 className="h-4 w-4" />
-                    </Button>
-                  </div>
-                  <p className="mt-3 text-base leading-7 text-foreground">{highlightKeywords(item.example, [], [item.term])}</p>
-                </motion.div>
-              ))}
+                    <p className="mt-3 text-base leading-7 text-foreground">{highlightKeywords(item.example, [], [item.term])}</p>
+                  </motion.div>
+                );
+              })}
             </div>
           </section>
 
