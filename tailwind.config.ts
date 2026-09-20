@@ -66,6 +66,12 @@ export default {
         },
         "deep-blue": "hsl(var(--deep-blue))",
         "slate-dark": "hsl(var(--slate-dark))",
+        ielts: {
+          blue: "hsl(var(--ielts-blue))",
+          emerald: "hsl(var(--ielts-emerald))",
+          gold: "hsl(var(--ielts-gold))",
+          violet: "hsl(var(--ielts-violet))",
+        },
         "conversation-a": {
           DEFAULT: "hsl(var(--conversation-a))",
           surface: "hsl(var(--conversation-a-surface))",
