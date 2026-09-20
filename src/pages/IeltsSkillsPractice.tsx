@@ -119,7 +119,8 @@ const IeltsSkillsPractice = () => {
                   "Tổng hợp 4 kỹ năng, dự đoán band điểm, mức độ sẵn sàng và nội dung cần cải thiện tiếp theo.",
                   "One dashboard for all 4 skills: predicted band, test readiness and what to improve next.",
                 )}
-              </div>
+              </p>
+            </div>
             <Button asChild size="lg" className="h-12 rounded-lg bg-ielts-blue px-6 font-bold text-primary-foreground shadow-lg shadow-ielts-blue/20 hover:bg-ielts-blue/90">
               <Link to="/ielts-performance">
                 {t("Xem tổng quan", "View dashboard")}
