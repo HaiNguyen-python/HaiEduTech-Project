@@ -63,6 +63,12 @@
     --admin-canvas: 210 40% 98%;
     --admin-rail: 0 0% 100%;
 
+    /* IELTS skills dashboard */
+    --ielts-blue: 217 91% 53%;
+    --ielts-emerald: 160 84% 39%;
+    --ielts-gold: 38 92% 50%;
+    --ielts-violet: 262 83% 58%;
+
     /* Custom tokens */
     --teal-bright: 173 58% 39%;
     --orange-warm: 38 92% 50%;
