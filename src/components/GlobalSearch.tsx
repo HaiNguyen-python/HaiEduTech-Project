@@ -23,7 +23,7 @@ import {
   normalize, scoreEntry, type SearchEntry, type SearchGroupId,
 } from "@/lib/search/searchIndex";
 import { loadLessonIndex, type LessonSearchEntry } from "@/lib/search/lessonIndex";
-import { safeGetItem, safeSetItem } from "@/lib/safeStorage";
+import { safeStorage } from "@/lib/safeStorage";
 
 interface GlobalSearchProps {
   variant?: "icon" | "button";
@@ -66,22 +66,15 @@ const PATH_ICONS: Record<string, React.ComponentType<{ className?: string }>> = 
 };
 
 const readRecents = (): string[] => {
-  try {
-    const raw = safeGetItem(RECENT_KEY);
-    const parsed = raw ? JSON.parse(raw) : [];
-    return Array.isArray(parsed) ? parsed.filter((p) => typeof p === "string").slice(0, RECENT_LIMIT) : [];
-  } catch {
-    return [];
-  }
+  const parsed = safeStorage.get<string[]>(RECENT_KEY, []);
+  return Array.isArray(parsed)
+    ? parsed.filter((p) => typeof p === "string").slice(0, RECENT_LIMIT)
+    : [];
 };
 
 export const rememberRecentPage = (path: string) => {
-  try {
-    const next = [path, ...readRecents().filter((p) => p !== path)].slice(0, RECENT_LIMIT);
-    safeSetItem(RECENT_KEY, JSON.stringify(next));
-  } catch {
-    /* storage unavailable - recents are optional */
-  }
+  const next = [path, ...readRecents().filter((p) => p !== path)].slice(0, RECENT_LIMIT);
+  safeStorage.set(RECENT_KEY, next);
 };
 
 const GlobalSearch = ({ variant = "icon", className }: GlobalSearchProps) => {
