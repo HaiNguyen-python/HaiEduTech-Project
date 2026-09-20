@@ -63,17 +63,9 @@ const PATH_ICONS: Record<string, React.ComponentType<{ className?: string }>> = 
   "/arcade-plus": Gamepad2,
 };
 
-const readRecents = (): string[] => {
-  const parsed = safeStorage.get<string[]>(RECENT_KEY, []);
-  return Array.isArray(parsed)
-    ? parsed.filter((p) => typeof p === "string").slice(0, RECENT_LIMIT)
-    : [];
-};
+const readRecents = readRecentPages;
 
-export const rememberRecentPage = (path: string) => {
-  const next = [path, ...readRecents().filter((p) => p !== path)].slice(0, RECENT_LIMIT);
-  safeStorage.set(RECENT_KEY, next);
-};
+
 
 const GlobalSearch = ({ variant = "icon", className }: GlobalSearchProps) => {
   const [open, setOpen] = useState(false);
