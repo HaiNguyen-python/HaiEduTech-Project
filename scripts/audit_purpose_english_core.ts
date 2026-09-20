@@ -4,6 +4,7 @@ import { academicTopicsPart1 } from "../src/data/academicEnglishLessons";
 import { academicTopicsPart2 } from "../src/data/academicEnglishLessons2";
 import type { PurposeTopic } from "../src/data/purposeEnglishTypes";
 import { findKeyPhraseRanges } from "../src/lib/highlightKeywords";
+import { businessEnglishModelRoles } from "../src/data/businessEnglishModelRoles";
 
 const audit = (label: string, topics: PurposeTopic[]) => {
   const issues: string[] = [];
@@ -26,6 +27,12 @@ const audit = (label: string, topics: PurposeTopic[]) => {
         }
       }
       if (lesson.model.lines.length < 3) issues.push(`${lesson.id}: model too short`);
+      if (label === "Business English") {
+        const roles = businessEnglishModelRoles[lesson.id];
+        if (!roles) issues.push(`${lesson.id}: missing model line roles`);
+        else if (roles.length !== lesson.model.lines.length) issues.push(`${lesson.id}: expected ${lesson.model.lines.length} model line roles, found ${roles.length}`);
+        else if (roles.some((role) => !role.en.trim() || !role.vi.trim())) issues.push(`${lesson.id}: incomplete bilingual model line role`);
+      }
       if (lesson.questions.length < 5) issues.push(`${lesson.id}: fewer than 5 questions`);
       for (const [index, question] of lesson.questions.entries()) {
         if (question.options.length !== 4) issues.push(`${lesson.id} q${index + 1}: requires A/B/C/D`);

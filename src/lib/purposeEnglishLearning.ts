@@ -1,4 +1,5 @@
 import type { PurposeLesson, PurposeTopic } from "@/data/purposeEnglishTypes";
+import { businessEnglishModelRoles } from "@/data/businessEnglishModelRoles";
 
 export type PurposeTrack = "business" | "academic";
 
@@ -47,10 +48,14 @@ export const splitTeaching = (text: string): TeachingBlock[] => {
   })).filter((block) => block.paragraphs.length > 0);
 };
 
-export const modelLineRole = (line: string, index: number, total: number, track: PurposeTrack) => {
-  if (index === 0) return track === "business" ? "Context / Opening" : "Claim / Context";
-  if (index === total - 1) return track === "business" ? "Close / Next step" : "Conclusion / Limitation";
-  return track === "business" ? "Purpose / Supporting detail" : "Evidence / Development";
+export const modelLineRole = (lesson: PurposeLesson, index: number, track: PurposeTrack, vietnamese: boolean) => {
+  if (track === "business") {
+    const preciseRole = businessEnglishModelRoles[lesson.id]?.[index];
+    if (preciseRole) return vietnamese ? preciseRole.vi : preciseRole.en;
+  }
+  if (index === 0) return vietnamese ? "Luận điểm / Bối cảnh" : "Claim / Context";
+  if (index === lesson.model.lines.length - 1) return vietnamese ? "Kết luận / Giới hạn" : "Conclusion / Limitation";
+  return vietnamese ? "Dẫn chứng / Phát triển ý" : "Evidence / Development";
 };
 
 export const getNextCoreLesson = (topics: PurposeTopic[], done: string[]) => {

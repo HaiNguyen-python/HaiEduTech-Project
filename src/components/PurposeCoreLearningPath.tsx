@@ -243,7 +243,7 @@ const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics, unlo
             <div className="m-5 border-l-4 border-primary/40 bg-background px-4 py-2 sm:m-7 sm:px-6">
               {active.lesson.model.lines.map((line, index) => (
                 <div key={`${line}-${index}`} className="grid gap-1 border-b border-primary/15 py-3 last:border-0 sm:grid-cols-[150px_1fr]">
-                  <span className="text-sm font-extrabold uppercase text-primary">{modelLineRole(line, index, active.lesson.model.lines.length, track)}</span>
+                  <span className="text-sm font-extrabold uppercase leading-5 text-primary">{modelLineRole(active.lesson, index, track, vi)}</span>
                   <p className="max-w-[70ch] whitespace-pre-wrap text-base font-medium leading-8 text-foreground">{line}</p>
                 </div>
               ))}
