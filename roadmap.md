@@ -12,6 +12,7 @@
 - [x] Admin certificate centre: issue certificates for any course, store records, public /verify/:code page.
 - [x] Ensure every Core and Communication Lab phrase is highlighted in its example sentence.
 - [x] Re-audit dialogue emphasis, restore missed functional chunks, and highlight challenge transcripts.
+- [x] Replace generic Business English model labels with precise bilingual functions for every line.
 
 # IELTS Reading Strategies
 
