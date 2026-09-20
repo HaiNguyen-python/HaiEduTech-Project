@@ -1,36 +1,99 @@
 /**
  * @file GlobalSearch.tsx
- * @description Cmd/Ctrl+K command palette indexing all main routes including Study Abroad modules.
+ * @description Cmd/Ctrl+K command palette indexing every route on the site plus
+ * lesson titles, with accent-insensitive matching, recent pages and role filtering.
+ * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator,
 } from "@/components/ui/command";
 import {
-  Search, Compass, FolderLock, FileText, GraduationCap, Briefcase, BookOpen, Newspaper,
-  Code2, Languages, Globe, MessageSquare, PenTool, Map, Award, Cpu, Library, Swords, Heart, Brain,
-  Home as HomeIcon,
+  Search, Compass, FolderLock, FileText, GraduationCap, BookOpen, Newspaper,
+  Code2, Languages, Globe, MessageSquare, PenTool, Award, Cpu, Library, Swords, Heart, Brain,
+  Home as HomeIcon, Clock, Zap, Sparkles, Wrench, Lock, Gamepad2, Target, User,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
-
-interface SearchEntry {
-  to: string;
-  label: string;
-  group: string;
-  icon: React.ComponentType<{ className?: string }>;
-  keywords?: string;
-}
+import { useUserRole } from "@/hooks/useUserRole";
+import { isPublicPath } from "@/lib/publicRoutes";
+import {
+  GROUP_LABELS, GROUP_ORDER, MAX_PER_GROUP, QUICK_PATHS, SEARCH_ENTRIES,
+  normalize, scoreEntry, type SearchEntry, type SearchGroupId,
+} from "@/lib/search/searchIndex";
+import { loadLessonIndex, type LessonSearchEntry } from "@/lib/search/lessonIndex";
+import { safeGetItem, safeSetItem } from "@/lib/safeStorage";
 
 interface GlobalSearchProps {
   variant?: "icon" | "button";
+  className?: string;
 }
 
-const GlobalSearch = ({ variant = "icon" }: GlobalSearchProps) => {
+const RECENT_KEY = "haiedu_recent_pages";
+const RECENT_LIMIT = 5;
+
+const GROUP_ICONS: Record<SearchGroupId, React.ComponentType<{ className?: string }>> = {
+  recent: Clock,
+  quick: Zap,
+  abroad: Compass,
+  english: BookOpen,
+  chinese: Languages,
+  vietnamese: Globe,
+  nordic: Sparkles,
+  programming: Code2,
+  exams: Target,
+  vocab: Library,
+  life: Heart,
+  me: User,
+  admin: Wrench,
+  lesson: FileText,
+};
+
+/** A few nicer per-path icons on top of the group default. */
+const PATH_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
+  "/": HomeIcon,
+  "/about": Brain,
+  "/dashboard": Award,
+  "/notebook": PenTool,
+  "/contact": MessageSquare,
+  "/study-abroad/documents": FolderLock,
+  "/study-abroad/phd": GraduationCap,
+  "/global-scholarship": Newspaper,
+  "/ai-grading": Cpu,
+  "/vocab-arena": Swords,
+  "/arcade-plus": Gamepad2,
+};
+
+const readRecents = (): string[] => {
+  try {
+    const raw = safeGetItem(RECENT_KEY);
+    const parsed = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed) ? parsed.filter((p) => typeof p === "string").slice(0, RECENT_LIMIT) : [];
+  } catch {
+    return [];
+  }
+};
+
+export const rememberRecentPage = (path: string) => {
+  try {
+    const next = [path, ...readRecents().filter((p) => p !== path)].slice(0, RECENT_LIMIT);
+    safeSetItem(RECENT_KEY, JSON.stringify(next));
+  } catch {
+    /* storage unavailable - recents are optional */
+  }
+};
+
+const GlobalSearch = ({ variant = "icon", className }: GlobalSearchProps) => {
   const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const [lessons, setLessons] = useState<LessonSearchEntry[]>([]);
+  const [recents, setRecents] = useState<string[]>([]);
   const navigate = useNavigate();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const { user, isTeacher, isAssistant } = useUserRole();
+  const isVi = language === "vi";
+  const canSeeAdmin = isTeacher || isAssistant;
 
   // Cmd/Ctrl+K toggles palette
   useEffect(() => {
@@ -44,64 +107,110 @@ const GlobalSearch = ({ variant = "icon" }: GlobalSearchProps) => {
     return () => document.removeEventListener("keydown", handler);
   }, []);
 
-  const go = (path: string) => {
+  useEffect(() => {
+    if (open) setRecents(readRecents());
+    else setQuery("");
+  }, [open]);
+
+  // Lesson index is heavy - only pull it in once the user actually types.
+  useEffect(() => {
+    if (!open || query.trim().length < 2 || lessons.length > 0) return;
+    let active = true;
+    loadLessonIndex()
+      .then((list) => { if (active) setLessons(list); })
+      .catch(() => { /* lesson search stays unavailable */ });
+    return () => { active = false; };
+  }, [open, query, lessons.length]);
+
+  const visibleEntries = useMemo(
+    () => SEARCH_ENTRIES.filter((e) => (e.adminOnly ? canSeeAdmin : true)),
+    [canSeeAdmin],
+  );
+
+  const label = useCallback((e: { vi: string; en: string }) => (isVi ? e.vi : e.en), [isVi]);
+
+  const go = useCallback((path: string) => {
     setOpen(false);
+    rememberRecentPage(path);
+    if (!user && !isPublicPath(path)) {
+      navigate(`/login?next=${encodeURIComponent(path)}`);
+      return;
+    }
     navigate(path);
-  };
+  }, [navigate, user]);
 
-  // Searchable index - Study Abroad routes prioritized
-  const studyAbroad: SearchEntry[] = [
-    { to: "/study-abroad", label: t("Cổng du học", "Study Abroad Hub"), group: "abroad", icon: Compass, keywords: "study abroad du hoc portal" },
-    { to: "/study-abroad/documents", label: t("Hồ sơ của tôi (Vault)", "My Documents Vault"), group: "abroad", icon: FolderLock, keywords: "documents vault transcripts ho so" },
-    { to: "/study-abroad/motivation-letter", label: t("Motivation Letter Master", "Motivation Letter Guide"), group: "abroad", icon: FileText, keywords: "motivation letter ml master" },
-    
-    { to: "/study-abroad/phd", label: t("PhD Global Pathway", "PhD Pathway"), group: "abroad", icon: GraduationCap, keywords: "phd doctorate cold email research proposal" },
-    { to: "/global-scholarship", label: t("Tư vấn học bổng cùng Mr. Hai", "Scholarship Consulting with Mr. Hai"), group: "abroad", icon: Newspaper, keywords: "scholarship hoc bong mr hai advisor" },
-  ];
+  const nq = normalize(query);
 
-  const learning: SearchEntry[] = [
-    { to: "/english", label: t("Học Tiếng Anh", "Learn English"), group: "learn", icon: BookOpen },
-    { to: "/english/ielts", label: "Cambridge IELTS", group: "learn", icon: BookOpen },
-    { to: "/english/toeic", label: "TOEIC", group: "learn", icon: BookOpen },
-    { to: "/english/grammar", label: t("Ngữ pháp tiếng Anh", "English Grammar"), group: "learn", icon: PenTool },
-    { to: "/chinese", label: t("Học Tiếng Trung", "Learn Chinese"), group: "learn", icon: Languages },
-    { to: "/learn-vietnamese", label: t("Học Tiếng Việt", "Learn Vietnamese"), group: "learn", icon: Globe },
-    { to: "/finnish", label: t("Học Tiếng Phần Lan", "Learn Finnish"), group: "learn", icon: Languages },
-    { to: "/programming", label: t("Học Lập Trình", "Learn Programming"), group: "learn", icon: Code2 },
-    { to: "/python-challenges", label: t("150 Thử thách Python", "150 Python Challenges"), group: "learn", icon: Code2 },
-  ];
+  /** Grouped page results, ranked. */
+  const pageGroups = useMemo(() => {
+    if (!nq) return [] as { group: SearchGroupId; items: SearchEntry[] }[];
+    const scored = visibleEntries
+      .map((entry) => ({
+        entry,
+        score: scoreEntry([entry.vi, entry.en], [entry.keywords ?? "", entry.to], nq),
+      }))
+      .filter((r) => r.score > 0)
+      .sort((a, b) => b.score - a.score || label(a.entry).localeCompare(label(b.entry)));
 
-  const practice: SearchEntry[] = [
-    { to: "/ielts-vocabulary", label: t("Từ vựng IELTS", "IELTS Vocabulary"), group: "practice", icon: Library },
-    { to: "/toeic-vocabulary", label: t("Từ vựng TOEIC", "TOEIC Vocabulary"), group: "practice", icon: Library },
-    { to: "/chinese/hsk/vocabulary", label: t("Từ vựng HSK", "HSK Vocabulary"), group: "practice", icon: Library },
-    { to: "/ielts-writing-practice", label: t("Luyện viết IELTS", "IELTS Writing Practice"), group: "practice", icon: PenTool },
-    { to: "/ielts-speaking-practice", label: t("Luyện nói IELTS", "IELTS Speaking Practice"), group: "practice", icon: MessageSquare },
-    { to: "/ai-grading", label: t("IELTS Smart Grading", "IELTS Smart Grading"), group: "practice", icon: Cpu },
-    { to: "/vocab-arena", label: "Vocab Arena", group: "practice", icon: Swords },
-  ];
+    const byGroup = new Map<SearchGroupId, SearchEntry[]>();
+    for (const { entry } of scored) {
+      const list = byGroup.get(entry.group) ?? [];
+      if (list.length >= MAX_PER_GROUP) continue;
+      list.push(entry);
+      byGroup.set(entry.group, list);
+    }
+    return GROUP_ORDER.filter((g) => byGroup.has(g)).map((g) => ({ group: g, items: byGroup.get(g)! }));
+  }, [nq, visibleEntries, label]);
 
-  const general: SearchEntry[] = [
-    { to: "/", label: t("Trang chủ", "Home"), group: "general", icon: HomeIcon },
-    { to: "/about", label: t("Giới thiệu", "About"), group: "general", icon: Brain },
-    { to: "/dashboard", label: t("Bảng điều khiển", "Dashboard"), group: "general", icon: Award },
-    { to: "/notebook", label: t("Sổ tay", "Notebook"), group: "general", icon: PenTool },
-    { to: "/contact", label: t("Liên hệ", "Contact"), group: "general", icon: MessageSquare },
-    { to: "/world-playground", label: t("Thế giới quanh ta", "World Playground"), group: "general", icon: Globe },
-  ];
+  const lessonResults = useMemo(() => {
+    if (nq.length < 2 || lessons.length === 0) return [] as LessonSearchEntry[];
+    return lessons
+      .map((l) => ({ l, score: scoreEntry([l.vi, l.en], [l.parentVi, l.parentEn], nq) }))
+      .filter((r) => r.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 8)
+      .map((r) => r.l);
+  }, [nq, lessons]);
 
-  const renderGroup = (entries: SearchEntry[]) =>
-    entries.map((e) => (
+  const entryByPath = useMemo(() => {
+    const map = new Map<string, SearchEntry>();
+    for (const e of visibleEntries) map.set(e.to, e);
+    return map;
+  }, [visibleEntries]);
+
+  const recentEntries = recents
+    .map((p) => entryByPath.get(p))
+    .filter((e): e is SearchEntry => Boolean(e));
+  const quickEntries = QUICK_PATHS
+    .map((p) => entryByPath.get(p))
+    .filter((e): e is SearchEntry => Boolean(e))
+    .filter((e) => !recents.includes(e.to));
+
+  const renderItem = (entry: SearchEntry, keyPrefix: string) => {
+    const Icon = PATH_ICONS[entry.to] ?? GROUP_ICONS[entry.group];
+    const needsLogin = !user && !isPublicPath(entry.to);
+    return (
       <CommandItem
-        key={e.to}
-        value={`${e.label} ${e.keywords ?? ""}`}
-        onSelect={() => go(e.to)}
+        key={`${keyPrefix}-${entry.to}`}
+        value={`${keyPrefix}-${entry.to}`}
+        onSelect={() => go(entry.to)}
         className="cursor-pointer"
       >
-        <e.icon className="mr-2 h-4 w-4 text-primary" />
-        <span>{e.label}</span>
+        <Icon className="mr-2 h-4 w-4 shrink-0 text-primary" />
+        <span className="truncate">{label(entry)}</span>
+        {needsLogin && (
+          <span className="ml-auto flex items-center gap-1 text-[11px] text-muted-foreground">
+            <Lock className="h-3 w-3" />
+            {t("cần đăng nhập", "sign in")}
+          </span>
+        )}
       </CommandItem>
-    ));
+    );
+  };
+
+  const groupHeading = (g: SearchGroupId) => (isVi ? GROUP_LABELS[g].vi : GROUP_LABELS[g].en);
+
+  const hasResults = pageGroups.length > 0 || lessonResults.length > 0;
 
   return (
     <>
@@ -109,7 +218,7 @@ const GlobalSearch = ({ variant = "icon" }: GlobalSearchProps) => {
         <Button
           variant="ghost"
           size="icon"
-          className="h-9 w-9"
+          className={className ?? "h-9 w-9"}
           onClick={() => setOpen(true)}
           aria-label={t("Tìm kiếm", "Search")}
           title={t("Tìm kiếm (Ctrl+K)", "Search (Ctrl+K)")}
@@ -120,36 +229,80 @@ const GlobalSearch = ({ variant = "icon" }: GlobalSearchProps) => {
         <Button
           variant="outline"
           onClick={() => setOpen(true)}
-          className="gap-2 text-muted-foreground hover:text-foreground"
+          className={className ?? "w-full justify-start gap-2 text-muted-foreground hover:text-foreground"}
         >
           <Search className="h-4 w-4" />
-          <span className="hidden sm:inline">{t("Tìm kiếm...", "Search...")}</span>
-          <kbd className="hidden sm:inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px]">
+          <span>{t("Tìm trang, bài học...", "Search pages, lessons...")}</span>
+          <kbd className="ml-auto hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] sm:inline-flex">
             ⌘K
           </kbd>
         </Button>
       )}
 
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <CommandInput placeholder={t("Tìm trang, bài học, hồ sơ du học...", "Search pages, lessons, study abroad...")} />
+        <CommandInput
+          value={query}
+          onValueChange={setQuery}
+          placeholder={t("Tìm trang, bài học, du học... (gõ không dấu cũng được)", "Search pages, lessons, study abroad...")}
+        />
         <CommandList>
-          <CommandEmpty>{t("Không tìm thấy kết quả.", "No results found.")}</CommandEmpty>
+          {!nq && recentEntries.length > 0 && (
+            <>
+              <CommandGroup heading={groupHeading("recent")}>
+                {recentEntries.map((e) => renderItem(e, "recent"))}
+              </CommandGroup>
+              <CommandSeparator />
+            </>
+          )}
 
-          <CommandGroup heading={t("🌍 Du học", "🌍 Study Abroad")}>
-            {renderGroup(studyAbroad)}
-          </CommandGroup>
-          <CommandSeparator />
-          <CommandGroup heading={t("📚 Học tập", "📚 Learn")}>
-            {renderGroup(learning)}
-          </CommandGroup>
-          <CommandSeparator />
-          <CommandGroup heading={t("✏️ Luyện tập", "✏️ Practice")}>
-            {renderGroup(practice)}
-          </CommandGroup>
-          <CommandSeparator />
-          <CommandGroup heading={t("⚙️ Khác", "⚙️ General")}>
-            {renderGroup(general)}
-          </CommandGroup>
+          {!nq && (
+            <CommandGroup heading={groupHeading("quick")}>
+              {quickEntries.map((e) => renderItem(e, "quick"))}
+            </CommandGroup>
+          )}
+
+          {nq && !hasResults && (
+            <CommandEmpty>
+              {t("Không tìm thấy kết quả.", "No results found.")}
+            </CommandEmpty>
+          )}
+
+          {nq && !hasResults && (
+            <CommandGroup heading={t("Gợi ý", "Suggestions")}>
+              {quickEntries.slice(0, 3).map((e) => renderItem(e, "suggest"))}
+            </CommandGroup>
+          )}
+
+          {pageGroups.map(({ group, items }, idx) => (
+            <div key={group}>
+              {idx > 0 && <CommandSeparator />}
+              <CommandGroup heading={groupHeading(group)}>
+                {items.map((e) => renderItem(e, `g-${group}`))}
+              </CommandGroup>
+            </div>
+          ))}
+
+          {lessonResults.length > 0 && (
+            <>
+              <CommandSeparator />
+              <CommandGroup heading={groupHeading("lesson")}>
+                {lessonResults.map((l) => (
+                  <CommandItem
+                    key={l.to}
+                    value={`lesson-${l.to}`}
+                    onSelect={() => go(l.to)}
+                    className="cursor-pointer"
+                  >
+                    <FileText className="mr-2 h-4 w-4 shrink-0 text-primary" />
+                    <span className="truncate">{isVi ? l.vi : l.en}</span>
+                    <span className="ml-auto max-w-[45%] truncate text-[11px] text-muted-foreground">
+                      {isVi ? l.parentVi : l.parentEn}
+                    </span>
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </>
+          )}
         </CommandList>
       </CommandDialog>
     </>
