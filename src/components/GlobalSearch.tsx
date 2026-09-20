@@ -65,7 +65,12 @@ const PATH_ICONS: Record<string, React.ComponentType<{ className?: string }>> = 
 
 const readRecents = readRecentPages;
 
-
+/**
+ * Several GlobalSearch instances can be mounted at once (header + mobile menu).
+ * Only the first one that mounts owns the Ctrl/Cmd+K shortcut, so the palette
+ * never opens twice and stack two dialogs on top of each other.
+ */
+let shortcutOwner: symbol | null = null;
 
 const GlobalSearch = ({ variant = "icon", className }: GlobalSearchProps) => {
   const [open, setOpen] = useState(false);
