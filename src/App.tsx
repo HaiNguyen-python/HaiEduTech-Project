@@ -74,6 +74,12 @@ const DeferredGlobalWidgets = () => {
   const { pathname } = useLocation();
   const isAdminRoute = pathname === "/admin-dashboard" || pathname.startsWith("/admin/");
 
+  // Feed the Ctrl+K palette's "Recently viewed" list.
+  useEffect(() => {
+    rememberRecentPage(pathname);
+  }, [pathname]);
+
+
   if (isAdminRoute) {
     return (
       <DeferredMount>
