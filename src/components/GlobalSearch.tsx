@@ -23,15 +23,13 @@ import {
   normalize, scoreEntry, type SearchEntry, type SearchGroupId,
 } from "@/lib/search/searchIndex";
 import { loadLessonIndex, type LessonSearchEntry } from "@/lib/search/lessonIndex";
-import { safeStorage } from "@/lib/safeStorage";
+import { readRecentPages, rememberRecentPage } from "@/lib/search/recentPages";
 
 interface GlobalSearchProps {
   variant?: "icon" | "button";
   className?: string;
 }
 
-const RECENT_KEY = "haiedu_recent_pages";
-const RECENT_LIMIT = 5;
 
 const GROUP_ICONS: Record<SearchGroupId, React.ComponentType<{ className?: string }>> = {
   recent: Clock,
