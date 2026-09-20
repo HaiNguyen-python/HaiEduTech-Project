@@ -37,7 +37,6 @@ const RootEntry = () => {
 // Global floating widgets - lazy + deferred so they never block FCP
 const ChatBot = lazyWithRetry(() => import("./components/ChatBot.tsx"));
 const FloatingNotebook = lazyWithRetry(() => import("./components/FloatingNotebook.tsx"));
-const LastSessionRecap = lazyWithRetry(() => import("./components/LastSessionRecap.tsx"));
 const GlobalSuperDictionary = lazyWithRetry(() => import("./components/GlobalSuperDictionary.tsx"));
 const SessionTracker = lazyWithRetry(() => import("./components/SessionTracker.tsx"));
 const PageViewTracker = lazyWithRetry(() => import("./components/PageViewTracker.tsx"));
@@ -87,7 +86,6 @@ const DeferredGlobalWidgets = () => {
     <DeferredMount>
       <ChatBot />
       <FloatingNotebook />
-      <LastSessionRecap />
       <GlobalSuperDictionary />
       <SessionTracker />
       <PageViewTracker />
