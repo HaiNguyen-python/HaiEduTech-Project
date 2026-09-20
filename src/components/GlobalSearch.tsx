@@ -83,9 +83,9 @@ const GlobalSearch = ({ variant = "icon", className }: GlobalSearchProps) => {
   const [lessons, setLessons] = useState<LessonSearchEntry[]>([]);
   const [recents, setRecents] = useState<string[]>([]);
   const navigate = useNavigate();
-  const { t, language } = useLanguage();
+  const { t, lang } = useLanguage();
   const { user, isTeacher, isAssistant } = useUserRole();
-  const isVi = language === "vi";
+  const isVi = lang === "vi";
   const canSeeAdmin = isTeacher || isAssistant;
 
   // Cmd/Ctrl+K toggles palette
