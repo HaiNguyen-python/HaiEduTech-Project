@@ -626,10 +626,11 @@ const SuperDictionary = () => {
     setThesaurusLoading(false);
   };
 
-  // Cmd/Ctrl + K toggles panel
+  // Cmd/Ctrl + Shift + K toggles panel.
+  // Plain Cmd/Ctrl + K is reserved for the site-wide search palette.
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+      if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key.toLowerCase() === "k") {
         e.preventDefault();
         setIsOpen((v) => !v);
       }
