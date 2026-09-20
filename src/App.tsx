@@ -17,6 +17,7 @@ import { Suspense, useEffect, useState, type ReactNode } from "react";
 import { RouteErrorBoundary } from "@/components/RouteErrorBoundary";
 import { initVersionCheck } from "@/lib/versionCheck";
 import { lazyWithRetry } from "@/lib/lazyWithRetry";
+import { rememberRecentPage } from "@/lib/search/recentPages";
 
 if (typeof window !== "undefined") initVersionCheck();
 
