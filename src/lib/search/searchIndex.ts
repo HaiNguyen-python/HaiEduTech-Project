@@ -322,6 +322,15 @@ export const scoreEntry = (
     const all = [...labels, ...extra].join(" ");
     if (words.every((w) => all.includes(w))) return 25;
   }
+
+  // Typed without spaces ("nguphap", "tuvung", "sotay"): compare squashed forms.
+  const squashedQuery = normalizedQuery.replace(/\s+/g, "");
+  if (squashedQuery.length >= 4) {
+    const squash = (s: string) => s.replace(/\s+/g, "");
+    if (labels.some((l) => squash(l).startsWith(squashedQuery))) return 80;
+    if (labels.some((l) => squash(l).includes(squashedQuery))) return 60;
+    if (extra.some((e) => squash(e).includes(squashedQuery))) return 35;
+  }
   return 0;
 };
 

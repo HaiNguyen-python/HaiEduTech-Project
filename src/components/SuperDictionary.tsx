@@ -626,10 +626,11 @@ const SuperDictionary = () => {
     setThesaurusLoading(false);
   };
 
-  // Cmd/Ctrl + K toggles panel
+  // Cmd/Ctrl + Shift + K toggles panel.
+  // Plain Cmd/Ctrl + K is reserved for the site-wide search palette.
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+      if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key.toLowerCase() === "k") {
         e.preventDefault();
         setIsOpen((v) => !v);
       }
@@ -760,7 +761,7 @@ const SuperDictionary = () => {
               onClick={() => setIsOpen(true)}
               className="rounded-full shadow-lg px-4 h-11 gap-2"
               variant="default"
-              title={t("Mở từ điển (Ctrl/Cmd+K)", "Open dictionary (Ctrl/Cmd+K)")}
+              title={t("Mở từ điển (Ctrl/Cmd+Shift+K)", "Open dictionary (Ctrl/Cmd+Shift+K)")}
             >
               <BookMarked className="w-4 h-4" />
               <span className="hidden sm:inline text-sm font-medium">{t("Từ điển", "Dictionary")}</span>
@@ -941,7 +942,7 @@ const SuperDictionary = () => {
                           ))}
                         </div>
                         <p className="text-[11px] text-muted-foreground">
-                          💡 {t("Mẹo: nhấn Ctrl/Cmd + K để bật/tắt từ điển nhanh.", "Tip: press Ctrl/Cmd + K to toggle this dictionary.")}
+                          💡 {t("Mẹo: nhấn Ctrl/Cmd + Shift + K để bật/tắt từ điển nhanh.", "Tip: press Ctrl/Cmd + Shift + K to toggle this dictionary.")}
                         </p>
                       </div>
                     )}

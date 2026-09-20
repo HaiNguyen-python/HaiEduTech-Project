@@ -17,6 +17,7 @@ import { Suspense, useEffect, useState, type ReactNode } from "react";
 import { RouteErrorBoundary } from "@/components/RouteErrorBoundary";
 import { initVersionCheck } from "@/lib/versionCheck";
 import { lazyWithRetry } from "@/lib/lazyWithRetry";
+import { rememberRecentPage } from "@/lib/search/recentPages";
 
 if (typeof window !== "undefined") initVersionCheck();
 
@@ -73,6 +74,12 @@ const DeferredMount = ({ children, delay = 1200 }: { children: ReactNode; delay?
 const DeferredGlobalWidgets = () => {
   const { pathname } = useLocation();
   const isAdminRoute = pathname === "/admin-dashboard" || pathname.startsWith("/admin/");
+
+  // Feed the Ctrl+K palette's "Recently viewed" list.
+  useEffect(() => {
+    rememberRecentPage(pathname);
+  }, [pathname]);
+
 
   if (isAdminRoute) {
     return (
