@@ -83,16 +83,23 @@ const GlobalSearch = ({ variant = "icon", className }: GlobalSearchProps) => {
   const isVi = lang === "vi";
   const canSeeAdmin = isTeacher || isAssistant;
 
-  // Cmd/Ctrl+K toggles palette
+  // Cmd/Ctrl+K toggles the palette (single owner across instances).
   useEffect(() => {
+    const id = Symbol("global-search");
+    if (shortcutOwner === null) shortcutOwner = id;
+    if (shortcutOwner !== id) return;
+
     const handler = (e: KeyboardEvent) => {
-      if ((e.key === "k" || e.key === "K") && (e.metaKey || e.ctrlKey)) {
+      if ((e.key === "k" || e.key === "K") && (e.metaKey || e.ctrlKey) && !e.shiftKey) {
         e.preventDefault();
         setOpen((p) => !p);
       }
     };
     document.addEventListener("keydown", handler);
-    return () => document.removeEventListener("keydown", handler);
+    return () => {
+      document.removeEventListener("keydown", handler);
+      if (shortcutOwner === id) shortcutOwner = null;
+    };
   }, []);
 
   useEffect(() => {
