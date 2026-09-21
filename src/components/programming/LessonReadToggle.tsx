@@ -14,6 +14,7 @@ import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
+import { loadModuleRead, notifyReadChange, READ_CHANGE_EVENT } from "@/lib/programmingReadProgress";
 
 interface Props {
   moduleId: string;
@@ -27,24 +28,7 @@ interface Props {
 
 const storageKey = (moduleId: string) => `haiedu_prog_read_${moduleId}`;
 
-const loadRead = (moduleId: string): Set<string> => {
-  try {
-    const raw = localStorage.getItem(storageKey(moduleId));
-    if (!raw) return new Set();
-    const arr = JSON.parse(raw);
-    return Array.isArray(arr) ? new Set(arr) : new Set();
-  } catch {
-    return new Set();
-  }
-};
-
-const saveRead = (moduleId: string, set: Set<string>) => {
-  try {
-    localStorage.setItem(storageKey(moduleId), JSON.stringify([...set]));
-  } catch {
-    /* ignore */
-  }
-};
+const loadRead = (moduleId: string): Set<string> => loadModuleRead(moduleId);
 
 const LessonReadToggle = ({
   moduleId,
