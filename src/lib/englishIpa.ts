@@ -45,13 +45,42 @@ const cleanWord = (word: string) =>
     .replace(/[^a-z''-]/g, "")
     .replace(/'/g, "'");
 
+const SUFFIXES: Array<[RegExp, string]> = [
+  [/ing$/, "ɪŋ"],
+  [/ings$/, "ɪŋz"],
+  [/ness$/, "nəs"],
+  [/less$/, "ləs"],
+  [/ly$/, "li"],
+];
+
+function wordToIpa(word: string, dict: Record<string, string>): string | null {
+  const direct = dict[word] ?? dict[word.replace(/'s$/, "")];
+  if (direct) return direct;
+
+  // Compound words: "onboarding" -> "on" + "boarding".
+  for (let i = 3; i <= word.length - 3; i++) {
+    const left = dict[word.slice(0, i)];
+    const right = dict[word.slice(i)];
+    if (left && right) return `${left}${right}`;
+  }
+
+  // Regular derivations: "reviewing" -> "review" + ɪŋ.
+  for (const [pattern, tail] of SUFFIXES) {
+    if (!pattern.test(word)) continue;
+    const stem = word.replace(pattern, "");
+    const base = dict[stem] ?? dict[`${stem}e`];
+    if (base) return `${base}${tail}`;
+  }
+  return null;
+}
+
 /** Transcribes a word or multiword phrase. Returns null when any word is unknown. */
 export function phraseToIpa(phrase: string, dict: Record<string, string>): string | null {
   const words = phrase.split(/\s+/).map(cleanWord).filter(Boolean);
   if (!words.length) return null;
   const parts: string[] = [];
   for (const word of words) {
-    const hit = dict[word] ?? dict[word.replace(/'s$/, "")] ?? null;
+    const hit = wordToIpa(word, dict);
     if (!hit) return null;
     parts.push(hit);
   }
