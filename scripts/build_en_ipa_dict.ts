@@ -22,21 +22,21 @@ function isVowel(ch: string): boolean {
 
 function repositionStress(ipa: string): string {
   let out = ipa;
-  for (const mark of ["ˈ", "ˌ"]) {
-    let index = out.indexOf(mark);
-    while (index !== -1) {
-      const before = out.slice(0, index);
-      const after = out.slice(index + 1);
-      // Walk back across the vowel cluster.
-      let i = before.length - 1;
-      while (i >= 0 && (isVowel(before[i]) || GLIDES.has(before[i]))) i--;
-      // Walk back across the onset consonant cluster.
-      while (i >= 0 && !isVowel(before[i]) && before[i] !== "ˈ" && before[i] !== "ˌ") i--;
-      const insertAt = i + 1;
-      out = before.slice(0, insertAt) + mark + before.slice(insertAt) + after;
-      const next = out.indexOf(mark, out.indexOf(mark) + 1);
-      index = next;
+  let cursor = 0;
+  while (cursor < out.length) {
+    const ch = out[cursor];
+    if (ch !== "ˈ" && ch !== "ˌ") {
+      cursor++;
+      continue;
     }
+    const before = out.slice(0, cursor);
+    const after = out.slice(cursor + 1);
+    let i = before.length - 1;
+    while (i >= 0 && (isVowel(before[i]) || GLIDES.has(before[i]))) i--;
+    while (i >= 0 && !isVowel(before[i]) && before[i] !== "ˈ" && before[i] !== "ˌ") i--;
+    const insertAt = i + 1;
+    out = before.slice(0, insertAt) + ch + before.slice(insertAt) + after;
+    cursor = insertAt + 1;
   }
   return out;
 }
