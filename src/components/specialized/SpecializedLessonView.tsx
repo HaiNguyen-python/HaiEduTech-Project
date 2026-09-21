@@ -8,6 +8,7 @@ import { useSpeechRecognizer } from "@/hooks/useSpeechRecognizer";
 import { compareDrillWords, drillAccuracy } from "@/lib/speakingDrillScore";
 import type { SpecializedLesson, SpecializedLang } from "@/lib/specializedLanguage";
 import { speechCodeFor } from "@/lib/specializedLanguage";
+import { formatIpa, isIpaLike, useEnglishIpa } from "@/lib/englishIpa";
 
 interface Props {
   lesson: SpecializedLesson;
@@ -69,6 +70,8 @@ const ShadowingPractice = ({ target, language, t }: { target: string; language: 
 };
 
 export default function SpecializedLessonView({ lesson, language, lessonNumber, bestScore, isPassed, t, onQuizComplete }: Props) {
+  const terms = useMemo(() => lesson.vocabulary.map((word) => word.term), [lesson.vocabulary]);
+  const ipaMap = useEnglishIpa(terms, language === "english");
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [submitted, setSubmitted] = useState(false);
   const [speakingKey, setSpeakingKey] = useState<string | null>(null);
