@@ -83,10 +83,15 @@ export const speechCodeFor = (language: SpecializedLang): string => ({
   japanese: "ja-JP",
 })[language];
 
+export const LESSON_COUNT_OPTIONS = [3, 5, 8, 10, 12] as const;
+export const MIN_LESSON_COUNT = 3;
+export const MAX_LESSON_COUNT = 12;
+
 export const validateCurriculum = (value: unknown): value is SpecializedCurriculum => {
   if (!value || typeof value !== "object") return false;
   const curriculum = value as SpecializedCurriculum;
-  if (!curriculum.title?.trim() || !Array.isArray(curriculum.lessons) || curriculum.lessons.length !== 5) return false;
+  if (!curriculum.title?.trim() || !Array.isArray(curriculum.lessons)) return false;
+  if (curriculum.lessons.length < MIN_LESSON_COUNT || curriculum.lessons.length > MAX_LESSON_COUNT) return false;
   return curriculum.lessons.every((lesson, lessonIndex) =>
     lesson.id === `lesson-${lessonIndex + 1}` &&
     !!lesson.title?.trim() &&

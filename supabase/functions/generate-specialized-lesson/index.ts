@@ -15,6 +15,7 @@ interface LessonInput {
   goal: string;
   learnerLevel?: "beginner" | "elementary" | "intermediate" | "advanced";
   dailyMinutes?: number;
+  lessonCount?: number;
   notes?: string;
 }
 
@@ -115,10 +116,10 @@ function extractJson(text: string): any {
   return null;
 }
 
-function isValidCurriculum(value: any): boolean {
-  if (!value || typeof value !== "object" || !Array.isArray(value.lessons) || value.lessons.length !== 5) return false;
-  return value.lessons.every((lesson: any, index: number) =>
-    lesson?.id === `lesson-${index + 1}` &&
+function areValidLessons(lessons: any, expected: number, offset = 0): boolean {
+  if (!Array.isArray(lessons) || lessons.length !== expected) return false;
+  return lessons.every((lesson: any, index: number) =>
+    lesson?.id === `lesson-${offset + index + 1}` &&
     typeof lesson.title === "string" && lesson.title.trim().length > 0 &&
     typeof lesson.objective === "string" && lesson.objective.trim().length > 0 &&
     Array.isArray(lesson.vocabulary) && lesson.vocabulary.length >= 8 && lesson.vocabulary.length <= 10 &&
@@ -132,6 +133,37 @@ function isValidCurriculum(value: any): boolean {
       typeof question.explanation === "string" && question.explanation.trim().length > 0
     )
   );
+}
+
+const MIN_LESSONS = 3;
+const MAX_LESSONS = 12;
+const BATCH_SIZE = 4;
+
+const LESSON_THEMES = [
+  "Core Vocabulary",
+  "Workplace Communication",
+  "Documents & Technical Language",
+  "Problem Solving & Cultural Communication",
+  "Meetings & Collaboration",
+  "Reporting & Data",
+  "Client & Stakeholder Relations",
+  "Negotiation & Persuasion",
+  "Compliance, Safety & Standards",
+  "Remote & Written Communication",
+  "Leadership & Feedback",
+  "Performance Challenge",
+];
+
+function themesFor(total: number): string[] {
+  if (total >= LESSON_THEMES.length) return LESSON_THEMES.slice(0, total);
+  const middle = LESSON_THEMES.slice(1, LESSON_THEMES.length - 1);
+  const picked = [LESSON_THEMES[0]];
+  const needed = total - 2;
+  for (let i = 0; i < needed; i++) {
+    picked.push(middle[Math.round((i * (middle.length - 1)) / Math.max(1, needed - 1))]);
+  }
+  picked.push(LESSON_THEMES[LESSON_THEMES.length - 1]);
+  return picked;
 }
 
 Deno.serve(async (req) => {
@@ -150,11 +182,17 @@ Deno.serve(async (req) => {
 
     const body: LessonInput = await req.json();
     const { language, field, jobRole, goal, notes = "", learnerLevel = "elementary", dailyMinutes = 20 } = body;
+    const lessonCount = Number.isInteger(body.lessonCount) ? Number(body.lessonCount) : 5;
 
-    // Basic validation
     if (!language || !field || !jobRole || !goal || !ALLOWED_LANGUAGES.has(language) || !ALLOWED_LEVELS.has(learnerLevel)) {
       return new Response(
         JSON.stringify({ error: "Missing required fields: language, field, jobRole, goal" }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
+    }
+    if (lessonCount < MIN_LESSONS || lessonCount > MAX_LESSONS) {
+      return new Response(
+        JSON.stringify({ error: `lessonCount must be between ${MIN_LESSONS} and ${MAX_LESSONS}` }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
@@ -181,21 +219,9 @@ Deno.serve(async (req) => {
       `Always respond with VALID JSON only, no commentary, no markdown fences, no <think> blocks. ` +
       `Search the web for the most up-to-date 2026 industry terminology.`;
 
-    const userPrompt = `Create a coherent five-lesson ${targetLang} professional language pathway for a ${learnerLevel} learner who is a ${jobRole} working in ${field}. Learning goal: ${goal}. The learner studies ${dailyMinutes} minutes per day. ${
-      notes ? `Special requirements: ${notes}.` : ""
-    }
-
-Return ONLY a JSON object with this exact shape:
-{
-  "id": "specialized-pathway",
-  "title": "pathway title in ${targetLang}",
-  "subtitle": "one-line English summary",
-  "overview": "2-3 sentence English overview",
-  "language": "${language}",
-  "level": "${learnerLevel}",
-  "totalMinutes": ${dailyMinutes * 5},
-  "lessons": [{
-    "id": "lesson-1",
+    const themes = themesFor(lessonCount);
+    const lessonShape = (index: number) => `{
+    "id": "lesson-${index}",
     "title": "lesson title in ${targetLang}",
     "subtitle": "short English label",
     "objective": "specific learning objective in English",
@@ -208,70 +234,127 @@ Return ONLY a JSON object with this exact shape:
     "practiceTasks": ["guided practice task", "independent practice task"],
     "quiz": [{"question":"clear question","options":["option A","option B","option C","option D"],"correctIndex":0,"explanation":"why the answer is correct"}],
     "takeaway": "English summary of what to retain"
-  }]
+  }`;
+
+    const sharedBrief = `Target learner: a ${learnerLevel} ${jobRole} working in ${field}. Learning goal: ${goal}. The learner studies ${dailyMinutes} minutes per day.${notes ? ` Special requirements: ${notes}.` : ""}`;
+
+    let meta: any = null;
+    const lessons: any[] = [];
+    const citations: string[] = [];
+    let totalTokens = 0;
+
+    while (lessons.length < lessonCount) {
+      const offset = lessons.length;
+      const batch = Math.min(BATCH_SIZE, lessonCount - offset);
+      const batchThemes = themes.slice(offset, offset + batch).map((theme, i) => `Lesson ${offset + i + 1}: ${theme}`).join("; ");
+      const usedTitles = lessons.map((lesson) => lesson.title).join(" | ");
+
+      const userPrompt = offset === 0
+        ? `Create the first ${batch} lessons of a coherent ${lessonCount}-lesson ${targetLang} professional language pathway. ${sharedBrief}
+
+Return ONLY a JSON object with this exact shape:
+{
+  "id": "specialized-pathway",
+  "title": "pathway title in ${targetLang}",
+  "subtitle": "one-line English summary",
+  "overview": "2-3 sentence English overview",
+  "language": "${language}",
+  "level": "${learnerLevel}",
+  "totalMinutes": ${dailyMinutes * lessonCount},
+  "lessons": [${lessonShape(1)}]
 }
 
 REQUIREMENTS:
-- Return exactly 5 lessons in this sequence: Core Vocabulary; Workplace Communication; Documents & Technical Language; Problem Solving & Cultural Communication; Performance Challenge.
+- Return exactly ${batch} lessons with ids lesson-1 to lesson-${batch}, following these themes: ${batchThemes}.
+- The pathway as a whole will have ${lessonCount} lessons, so plan the progression accordingly.
 - Each lesson has 8-10 distinct vocabulary entries, 4-6 dialogue turns, exactly 2 practice tasks, and exactly 5 quiz questions.
 - Every quiz question has exactly four plausible options, exactly one correct answer, a zero-based correctIndex, and an explanation.
-- Difficulty must progress across the five lessons while remaining appropriate for ${learnerLevel}.
+- Difficulty must progress while remaining appropriate for ${learnerLevel}.
 - Avoid repeating vocabulary, scenarios, questions or examples across lessons.
+- Important dialogue keyPhrases must be multiword phrases copied exactly from that line.
+- All target-language text must be authentic and native-sounding. Explanations and translations are in English.
+- ${pronunciationRule}`
+        : `Continue the same ${lessonCount}-lesson ${targetLang} professional pathway "${meta?.title ?? ""}". ${sharedBrief}
+
+Already created lesson titles (do not repeat their vocabulary, scenarios or questions): ${usedTitles}.
+
+Return ONLY a JSON object with this exact shape:
+{ "lessons": [${lessonShape(offset + 1)}] }
+
+REQUIREMENTS:
+- Return exactly ${batch} lessons with ids lesson-${offset + 1} to lesson-${offset + batch}, following these themes: ${batchThemes}.
+- Each lesson has 8-10 distinct vocabulary entries, 4-6 dialogue turns, exactly 2 practice tasks, and exactly 5 quiz questions.
+- Every quiz question has exactly four plausible options, exactly one correct answer, a zero-based correctIndex, and an explanation.
+- Difficulty must keep progressing toward lesson ${lessonCount} while remaining appropriate for ${learnerLevel}.
 - Important dialogue keyPhrases must be multiword phrases copied exactly from that line.
 - All target-language text must be authentic and native-sounding. Explanations and translations are in English.
 - ${pronunciationRule}`;
 
-    const response = await fetch("https://api.perplexity.ai/chat/completions", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model: "sonar-pro",
-        messages: [
-          { role: "system", content: systemPrompt },
-          { role: "user", content: userPrompt },
-        ],
-        temperature: 0.3,
-        max_tokens: 16000,
-      }),
-    });
-
-    if (!response.ok) {
-      const errText = await response.text();
-      console.error("Perplexity error", response.status, errText);
-      await logUsage("generate-specialized-lesson", "sonar-pro", 0, "error", errText.slice(0, 500));
-      const status = response.status === 429 ? 429 : response.status === 402 ? 402 : 500;
-      const msg = status === 429
-        ? "Rate limit reached. Please try again in a minute."
-        : status === 402
-          ? "AI credits exhausted. Please top up the Lovable AI workspace."
-          : "AI service temporarily unavailable.";
-      return new Response(JSON.stringify({ error: msg }), {
-        status,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      const response = await fetch("https://api.perplexity.ai/chat/completions", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${apiKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "sonar-pro",
+          messages: [
+            { role: "system", content: systemPrompt },
+            { role: "user", content: userPrompt },
+          ],
+          temperature: 0.3,
+          max_tokens: 16000,
+        }),
       });
+
+      if (!response.ok) {
+        const errText = await response.text();
+        console.error("Perplexity error", response.status, errText);
+        await logUsage("generate-specialized-lesson", "sonar-pro", totalTokens, "error", errText.slice(0, 500));
+        const status = response.status === 429 ? 429 : response.status === 402 ? 402 : 500;
+        const msg = status === 429
+          ? "Rate limit reached. Please try again in a minute."
+          : status === 402
+            ? "AI credits exhausted. Please top up the AI workspace."
+            : "AI service temporarily unavailable.";
+        return new Response(JSON.stringify({ error: msg }), {
+          status,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+
+      const data = await response.json();
+      const content: string = data?.choices?.[0]?.message?.content ?? "";
+      totalTokens += data?.usage?.total_tokens ?? 0;
+      for (const source of (data?.citations ?? []) as string[]) citations.push(source);
+
+      const parsed = extractJson(content);
+      if (!parsed || !areValidLessons(parsed.lessons, batch, offset)) {
+        await logUsage("generate-specialized-lesson", "sonar-pro", totalTokens, "parse_error");
+        return new Response(
+          JSON.stringify({ error: `The AI response did not contain a complete ${lessonCount}-lesson pathway. Please try again.` }),
+          { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+        );
+      }
+      if (offset === 0) meta = parsed;
+      for (const lesson of parsed.lessons) lessons.push(lesson);
     }
 
-    const data = await response.json();
-    const content: string = data?.choices?.[0]?.message?.content ?? "";
-    const tokens = data?.usage?.total_tokens ?? 0;
-    const citations: string[] = data?.citations ?? [];
+    const curriculum = {
+      id: "specialized-pathway",
+      title: meta?.title ?? `${targetLang} pathway`,
+      subtitle: meta?.subtitle ?? "",
+      overview: meta?.overview ?? "",
+      language,
+      level: learnerLevel,
+      totalMinutes: dailyMinutes * lessonCount,
+      lessons,
+    };
 
-    const parsed = extractJson(content);
-    if (!parsed || !isValidCurriculum(parsed)) {
-      await logUsage("generate-specialized-lesson", "sonar-pro", tokens, "parse_error");
-      return new Response(
-        JSON.stringify({ error: "The AI response did not contain a complete five-lesson pathway. Please try again." }),
-        { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } },
-      );
-    }
-
-    await logUsage("generate-specialized-lesson", "sonar-pro", tokens, "success");
+    await logUsage("generate-specialized-lesson", "sonar-pro", totalTokens, "success");
 
     return new Response(
-      JSON.stringify({ curriculum: parsed, lesson: parsed.lessons[0], citations: [...new Set(citations)], tokens }),
+      JSON.stringify({ curriculum, lesson: lessons[0], citations: [...new Set(citations)], tokens: totalTokens }),
       { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   } catch (e) {
