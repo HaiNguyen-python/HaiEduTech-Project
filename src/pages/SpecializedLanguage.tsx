@@ -132,7 +132,7 @@ export default function SpecializedLanguage() {
   const persist = async (nextCurriculum: SpecializedCurriculum, nextProgress: SpecializedProgress, nextCitations = citations) => {
     const stored: StoredPath = { pathId, curriculum: nextCurriculum, citations: nextCitations, progress: nextProgress, form };
     const { data: authData } = await supabase.auth.getUser();
-    if (!authData.user) { safeStorage.set(STORAGE_KEY, stored); return; }
+    if (!authData.user) { safeStorage.set(storageKeyFor(language), stored); return; }
     const payload = {
       user_id: authData.user.id, language, field, job_role: jobRole, goal, learner_level: learnerLevel, daily_minutes: dailyMinutes, notes,
       curriculum: nextCurriculum as unknown as Json, progress: nextProgress as unknown as Json, citations: nextCitations,
