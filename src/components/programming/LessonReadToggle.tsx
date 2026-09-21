@@ -30,6 +30,16 @@ const storageKey = (moduleId: string) => `haiedu_prog_read_${moduleId}`;
 
 const loadRead = (moduleId: string): Set<string> => loadModuleRead(moduleId);
 
+const saveRead = (moduleId: string, set: Set<string>) => {
+  try {
+    localStorage.setItem(storageKey(moduleId), JSON.stringify([...set]));
+    // Notify same-tab listeners (roadmap sidebar) that progress changed.
+    notifyReadChange(moduleId);
+  } catch {
+    /* ignore */
+  }
+};
+
 const LessonReadToggle = ({
   moduleId,
   lessonId,
