@@ -114,9 +114,12 @@ export default function SpecializedLessonView({ lesson, language, lessonNumber, 
         <div className="grid gap-3 md:grid-cols-2">
           {lesson.vocabulary.map((word, index) => {
             const key = `word-${index}`;
+            const pronunciation = language === "english"
+              ? ipaMap[word.term] ?? (isIpaLike(word.pronunciation) ? formatIpa(word.pronunciation!.trim()) : null)
+              : word.pronunciation ?? null;
             return <Card key={`${word.term}-${index}`}><CardContent className="p-4">
               <div className="flex items-start justify-between gap-3">
-                <div><p className="text-lg font-bold">{word.term}</p>{word.pronunciation && <p className="text-sm font-medium text-primary">{word.pronunciation}</p>}</div>
+                <div><p className="text-lg font-bold">{word.term}</p>{pronunciation && <p className="font-mono text-sm font-medium text-primary">{pronunciation}</p>}</div>
                 <Button type="button" size="icon" variant="ghost" aria-label={t("Nghe từ", "Listen to word")} onClick={() => speak(word.term, key)}>{speakingKey === key ? <Square className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}</Button>
               </div>
               <p className="mt-1 text-sm"><Badge variant="secondary" className="mr-2">{word.partOfSpeech}</Badge>{isMeaningfulTranslation(word.term, word.translation) ? word.translation : ""}</p>
