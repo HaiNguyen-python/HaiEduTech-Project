@@ -12,7 +12,7 @@ describe("english IPA dictionary", () => {
   });
 
   it("omits stress on single-syllable words", () => {
-    expect(phraseToIpa("claim", dict)).toBe("kleɪn".replace("n", "m"));
+    expect(phraseToIpa("claim", dict)).toBe("kleɪm");
   });
 
   it("handles phrases, compounds and derivations", () => {
