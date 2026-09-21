@@ -19,6 +19,8 @@ import { logStudentActivity } from "@/hooks/useActivityLogger";
 
 import BackToTopButton from "@/components/programming/BackToTopButton";
 import LessonReadToggle from "@/components/programming/LessonReadToggle";
+import { useReadProgressMap, getReadProgress } from "@/lib/programmingReadProgress";
+import { CheckCircle2 } from "lucide-react";
 import ExerciseWorkspace from "@/components/programming/ExerciseWorkspace";
 import DataEngFlagshipCode from "@/components/programming/DataEngFlagshipCode";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -468,6 +470,11 @@ const ProgrammingLessonPage = () => {
   // Get all sibling modules for same pillar
   const pillar = moduleId ? getPillarForModule(moduleId) : null;
   const pillarModules = pillar ? getPillarModules(pillar) : [];
+
+  // Read progress for every pillar module, used to highlight completed
+  // lessons (green) and 100%-done modules (bold green + check) in the sidebar.
+  const readMap = useReadProgressMap(pillarModules.map((m) => m.id));
+
 
   // Sidebar badge: load all cached (module_id, lesson_id) for the current pillar in one query
   useEffect(() => {
