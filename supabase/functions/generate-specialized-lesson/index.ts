@@ -15,6 +15,7 @@ interface LessonInput {
   goal: string;
   learnerLevel?: "beginner" | "elementary" | "intermediate" | "advanced";
   dailyMinutes?: number;
+  lessonCount?: number;
   notes?: string;
 }
 
