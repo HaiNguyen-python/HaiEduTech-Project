@@ -43,7 +43,7 @@ function repositionStress(ipa: string): string {
     while (i >= 0 && (isVowel(before[i]) || GLIDES.has(before[i]))) i--;
 
     // Consonants available as a syllable onset.
-    let clusterEnd = i; // last consonant index
+    const clusterEnd = i; // last consonant index
     let clusterStart = clusterEnd;
     while (clusterStart >= 0 && !isVowel(before[clusterStart]) && before[clusterStart] !== "ˈ" && before[clusterStart] !== "ˌ") {
       clusterStart--;
