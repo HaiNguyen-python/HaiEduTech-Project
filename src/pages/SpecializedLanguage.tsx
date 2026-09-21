@@ -24,6 +24,7 @@ import { LESSON_COUNT_OPTIONS, curriculumToMarkdown, emptySpecializedProgress, i
 import specializedHero from "@/assets/specialized-language-professionals.jpg";
 
 const STORAGE_KEY = "specialized-learning-path-v2";
+const storageKeyFor = (lang: string) => `${STORAGE_KEY}-${lang}`;
 
 const LANG_OPTIONS: { key: SpecializedLang; label: string; code: string }[] = [
   { key: "english", label: "English", code: "EN" },
