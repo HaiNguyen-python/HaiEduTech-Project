@@ -46,30 +46,40 @@ const cleanWord = (word: string) =>
     .replace(/'/g, "'");
 
 const SUFFIXES: Array<[RegExp, string]> = [
-  [/ing$/, "ɪŋ"],
   [/ings$/, "ɪŋz"],
+  [/ing$/, "ɪŋ"],
   [/ness$/, "nəs"],
+  [/lessly$/, "ləsli"],
   [/less$/, "ləs"],
   [/ly$/, "li"],
+  [/es$/, "z"],
+  [/s$/, "z"],
 ];
 
 function wordToIpa(word: string, dict: Record<string, string>): string | null {
   const direct = dict[word] ?? dict[word.replace(/'s$/, "")];
   if (direct) return direct;
 
-  // Compound words: "onboarding" -> "on" + "boarding".
-  for (let i = 3; i <= word.length - 3; i++) {
-    const left = dict[word.slice(0, i)];
-    const right = dict[word.slice(i)];
-    if (left && right) return `${left}${right}`;
-  }
-
-  // Regular derivations: "reviewing" -> "review" + ɪŋ.
+  // Regular derivations first: "reviewing" -> "review" + ɪŋ, "invoices" -> "invoice" + z.
   for (const [pattern, tail] of SUFFIXES) {
     if (!pattern.test(word)) continue;
     const stem = word.replace(pattern, "");
+    if (stem.length < 3) continue;
     const base = dict[stem] ?? dict[`${stem}e`];
     if (base) return `${base}${tail}`;
+  }
+
+  // Compound words: "onboarding" -> "on" + "boarding".
+  // The right part must start with a consonant and the left part must not look
+  // like a plural, so "deliverables" and "upskilling" are never split wrongly.
+  for (let i = 2; i <= word.length - 4; i++) {
+    const leftWord = word.slice(0, i);
+    const rightWord = word.slice(i);
+    if (leftWord.endsWith("s")) continue;
+    if (/^[aeiou]/.test(rightWord)) continue;
+    const left = dict[leftWord];
+    const right = dict[rightWord];
+    if (left && right) return `${left}${right}`;
   }
   return null;
 }
