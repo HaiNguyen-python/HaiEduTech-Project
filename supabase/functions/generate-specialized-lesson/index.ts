@@ -174,7 +174,7 @@ Deno.serve(async (req) => {
         ? "Every vocabulary item must include a useful Kana or Romaji reading in pronunciation. Use natural Kana/Kanji in examples and dialogue."
         : language === "swedish" || language === "finnish"
           ? "Pronunciation tips must cover stress, vowel length and the most relevant sound or inflection pattern."
-          : "Give practical pronunciation guidance appropriate to this language.";
+          : "Every vocabulary item must include a strict phonemic IPA transcription in the pronunciation field, wrapped in slashes, with the primary stress mark before the stressed syllable (for example /\u0279\u026a\u02c8te\u026an\u025a/ for retainer). Never use English respellings such as ri-TAY-ner, KLAYM or SET-l-ment, never use capital letters, and never mix IPA with respelling.";
 
     const systemPrompt =
       `You are a professional language teacher who creates rigorous, workplace-ready language curricula. ` +
@@ -200,7 +200,7 @@ Return ONLY a JSON object with this exact shape:
     "subtitle": "short English label",
     "objective": "specific learning objective in English",
     "estimatedMinutes": ${dailyMinutes},
-    "vocabulary": [{"term":"${targetLang} word or phrase","pronunciation":"reading or IPA","translation":"English meaning","partOfSpeech":"part of speech","example":"authentic ${targetLang} sentence","exampleTranslation":"English translation"}],
+    "vocabulary": [{"term":"${targetLang} word or phrase","pronunciation":"phonemic IPA in slashes (no respelling)","translation":"English meaning","partOfSpeech":"part of speech","example":"authentic ${targetLang} sentence","exampleTranslation":"English translation"}],
     "scenario": {"title":"English scenario title","context":"English setup","dialogue":[{"speaker":"role","line":"${targetLang} line","translation":"English translation","keyPhrases":["important multiword phrase appearing in line"]}]},
     "languageFocus": {"title":"English grammar or communication focus","explanation":"clear English explanation","examples":["${targetLang} example"]},
     "pronunciationTips": ["actionable English tip"],
