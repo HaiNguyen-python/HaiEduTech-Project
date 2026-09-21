@@ -174,7 +174,7 @@ export default function SpecializedLanguage() {
 
   const removePath = async () => {
     if (pathId) await supabase.from("specialized_learning_paths").delete().eq("id", pathId);
-    safeStorage.remove(STORAGE_KEY); setPathId(undefined); setCurriculum(null); setProgress(emptySpecializedProgress()); setStep(1);
+    safeStorage.remove(storageKeyFor(language)); safeStorage.remove(STORAGE_KEY); setPathId(undefined); setCurriculum(null); setProgress(emptySpecializedProgress()); setStep(1);
     toast({ title: t("Đã xóa lộ trình", "Pathway deleted") });
   };
 
