@@ -96,20 +96,28 @@ export default function SpecializedLanguage() {
 
   const form = useMemo(() => ({ language, field, jobRole, goal, learnerLevel, dailyMinutes, lessonCount, notes }), [language, field, jobRole, goal, learnerLevel, dailyMinutes, lessonCount, notes]);
 
+  const targetLanguage: SpecializedLang | null = isSpecializedLang(requestedLanguage) ? requestedLanguage : null;
+
   useEffect(() => {
     let active = true;
     const restore = async () => {
+      setRestoring(true);
+      setPathId(undefined); setCurriculum(null); setCitations([]); setProgress(emptySpecializedProgress()); setStep(1);
+      if (targetLanguage) setLanguage(targetLanguage);
       const { data: authData } = await supabase.auth.getUser();
       if (authData.user) {
-        const { data } = await supabase.from("specialized_learning_paths").select("*").eq("user_id", authData.user.id).order("updated_at", { ascending: false }).limit(1).maybeSingle();
+        let query = supabase.from("specialized_learning_paths").select("*").eq("user_id", authData.user.id);
+        if (targetLanguage) query = query.eq("language", targetLanguage);
+        const { data } = await query.order("updated_at", { ascending: false }).limit(1).maybeSingle();
         if (active && data && validateCurriculum(data.curriculum)) {
           setPathId(data.id); setCurriculum(data.curriculum); setCitations(data.citations); setProgress(parseProgress(data.progress));
-          setLanguage(isSpecializedLang(data.language) ? data.language : "english"); setField(data.field); setJobRole(data.job_role); setGoal(data.goal);
+          setLanguage(isSpecializedLang(data.language) ? data.language : targetLanguage ?? "english"); setField(data.field); setJobRole(data.job_role); setGoal(data.goal);
           setLearnerLevel(data.learner_level as LearnerLevel); setDailyMinutes(data.daily_minutes); setNotes(data.notes); setLessonCount(data.curriculum.lessons.length);
         }
       } else {
-        const saved = safeStorage.get<StoredPath>(STORAGE_KEY);
-        if (active && saved && validateCurriculum(saved.curriculum)) {
+        const saved = safeStorage.get<StoredPath>(storageKeyFor(targetLanguage ?? "english")) ?? (targetLanguage ? null : safeStorage.get<StoredPath>(STORAGE_KEY));
+        const matchesLanguage = !targetLanguage || saved?.form?.language === targetLanguage;
+        if (active && saved && matchesLanguage && validateCurriculum(saved.curriculum)) {
           setPathId(saved.pathId); setCurriculum(saved.curriculum); setCitations(saved.citations); setProgress(saved.progress); setLanguage(saved.form.language);
           setField(saved.form.field); setJobRole(saved.form.jobRole); setGoal(saved.form.goal); setLearnerLevel(saved.form.learnerLevel); setDailyMinutes(saved.form.dailyMinutes); setNotes(saved.form.notes); setLessonCount(saved.curriculum.lessons.length);
         }
@@ -118,7 +126,8 @@ export default function SpecializedLanguage() {
     };
     void restore();
     return () => { active = false; };
-  }, []);
+  }, [targetLanguage]);
+
 
   const persist = async (nextCurriculum: SpecializedCurriculum, nextProgress: SpecializedProgress, nextCitations = citations) => {
     const stored: StoredPath = { pathId, curriculum: nextCurriculum, citations: nextCitations, progress: nextProgress, form };
