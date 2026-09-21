@@ -19,6 +19,8 @@ import { logStudentActivity } from "@/hooks/useActivityLogger";
 
 import BackToTopButton from "@/components/programming/BackToTopButton";
 import LessonReadToggle from "@/components/programming/LessonReadToggle";
+import { useReadProgressMap, getReadProgress } from "@/lib/programmingReadProgress";
+import { CheckCircle2 } from "lucide-react";
 import ExerciseWorkspace from "@/components/programming/ExerciseWorkspace";
 import DataEngFlagshipCode from "@/components/programming/DataEngFlagshipCode";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -469,6 +471,11 @@ const ProgrammingLessonPage = () => {
   const pillar = moduleId ? getPillarForModule(moduleId) : null;
   const pillarModules = pillar ? getPillarModules(pillar) : [];
 
+  // Read progress for every pillar module, used to highlight completed
+  // lessons (green) and 100%-done modules (bold green + check) in the sidebar.
+  const readMap = useReadProgressMap(pillarModules.map((m) => m.id));
+
+
   // Sidebar badge: load all cached (module_id, lesson_id) for the current pillar in one query
   useEffect(() => {
     const moduleIds = pillarModules.map((m) => m.id);
@@ -642,6 +649,9 @@ const ProgrammingLessonPage = () => {
                       const isExpanded = expandedModules.has(pm.id);
                       const isCurrentModule = pm.id === mod.id;
                        const isFlagship = pm.id === FLAGSHIP_DE_MODULE.id;
+                       const moduleRead = readMap[pm.id] ?? new Set<string>();
+                       const modProgress = getReadProgress(moduleRead, pm.lessons.map((l) => l.id));
+                       const moduleDone = modProgress.pct === 100 && modProgress.total > 0;
                        return (
                          <div key={pm.id}>
                            <button
@@ -661,14 +671,20 @@ const ProgrammingLessonPage = () => {
                                  return next;
                                });
                              }}
-                             className={`w-full text-left px-3 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-2 ${
+                             className={`w-full text-left px-3 py-2 rounded-lg text-xs transition-all flex items-center gap-2 ${
                                isCurrentModule
                                  ? "bg-primary/10 text-primary"
-                                 : "text-foreground hover:bg-secondary"
-                             }`}
+                                 : moduleDone
+                                   ? "text-emerald-600 hover:bg-secondary"
+                                   : "text-foreground hover:bg-secondary"
+                             } ${moduleDone ? "font-bold" : "font-semibold"}`}
+                             aria-label={`${pm.titleEn} - ${modProgress.completed}/${modProgress.total}${moduleDone ? " (completed)" : ""}`}
                            >
                              <span className="text-base shrink-0">{pm.icon}</span>
                               <span className="truncate flex-1">{pm.titleEn}</span>
+                             {moduleDone && (
+                               <CheckCircle2 className="w-3.5 h-3.5 shrink-0 text-emerald-500" aria-hidden="true" />
+                             )}
                              {!isFlagship && (
                                <ChevronDown className={`w-3 h-3 shrink-0 transition-transform ${isExpanded ? "rotate-180" : ""}`} />
                              )}
@@ -678,6 +694,7 @@ const ProgrammingLessonPage = () => {
                                {pm.lessons.map((l, i) => {
                                  const isActive = lesson.id === l.id && mod.id === pm.id;
                                  const isEnhanced = cachedLessonKeys.has(`${pm.id}::${l.id}`);
+                                 const isReadLesson = moduleRead.has(l.id);
                                  return (
                                    <button
                                      key={l.id}
@@ -691,17 +708,22 @@ const ProgrammingLessonPage = () => {
                                      className={`w-full text-left px-2 py-1.5 rounded-md text-xs transition-all flex items-center gap-2 ${
                                        isActive
                                          ? "bg-primary/10 text-primary font-medium"
-                                         : "text-muted-foreground hover:bg-secondary hover:text-foreground"
+                                         : isReadLesson
+                                           ? "text-emerald-600 font-semibold hover:bg-secondary"
+                                           : "text-muted-foreground hover:bg-secondary hover:text-foreground"
                                      }`}
                                    >
                                      {pm.lessons.length > 1 && (
                                        <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${
-                                         isActive ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
+                                         isActive ? "bg-primary text-primary-foreground" : isReadLesson ? "bg-emerald-500/15 text-emerald-600" : "bg-muted text-muted-foreground"
                                        }`}>
                                          {i + 1}
                                        </span>
                                      )}
                                       <span className="truncate flex-1">{l.titleEn}</span>
+                                     {isReadLesson && (
+                                       <CheckCircle2 className="w-3.5 h-3.5 shrink-0 text-emerald-500" aria-hidden="true" />
+                                     )}
                                      {isEnhanced && (
                                        <span
                                          title="AI Deep-Dive ready"
@@ -714,11 +736,11 @@ const ProgrammingLessonPage = () => {
                                  );
                                })}
                              </div>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
+                           )}
+                         </div>
+                       );
+                     })}
+                   </div>
 
                   {/* AI Challenge button */}
                   <button onClick={generateChallenge} disabled={aiLoading}
