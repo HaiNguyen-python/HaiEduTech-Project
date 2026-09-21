@@ -115,10 +115,10 @@ function extractJson(text: string): any {
   return null;
 }
 
-function isValidCurriculum(value: any): boolean {
-  if (!value || typeof value !== "object" || !Array.isArray(value.lessons) || value.lessons.length !== 5) return false;
-  return value.lessons.every((lesson: any, index: number) =>
-    lesson?.id === `lesson-${index + 1}` &&
+function areValidLessons(lessons: any, expected: number, offset = 0): boolean {
+  if (!Array.isArray(lessons) || lessons.length !== expected) return false;
+  return lessons.every((lesson: any, index: number) =>
+    lesson?.id === `lesson-${offset + index + 1}` &&
     typeof lesson.title === "string" && lesson.title.trim().length > 0 &&
     typeof lesson.objective === "string" && lesson.objective.trim().length > 0 &&
     Array.isArray(lesson.vocabulary) && lesson.vocabulary.length >= 8 && lesson.vocabulary.length <= 10 &&
