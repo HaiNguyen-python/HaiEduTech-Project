@@ -106,6 +106,12 @@ function schwaUnstressed(ipa: string): string {
   return result;
 }
 
+/** Single-syllable words carry no stress mark in dictionary style. */
+function dropLoneStress(ipa: string): string {
+  const nuclei = [...ipa].filter((ch) => isVowel(ch)).length;
+  return nuclei <= 1 ? ipa.replace(/[ˈˌ]/g, "") : ipa;
+}
+
 const dictPath = path.join(process.cwd(), "node_modules", "text-to-ipa", "ipadict.txt");
 const raw = fs.readFileSync(dictPath, "utf8");
 const dict: Record<string, string> = {};
@@ -119,7 +125,7 @@ for (const line of raw.split("\n")) {
   if (/\(\d\)$/.test(word)) continue; // keep only the primary variant
   if (dict[word]) continue;
   if (!/^[a-z'.-]+$/.test(word)) continue;
-  dict[word] = modernSymbols(schwaUnstressed(repositionStress(ipaRaw)));
+  dict[word] = modernSymbols(dropLoneStress(schwaUnstressed(repositionStress(ipaRaw))));
 }
 
 const outDir = path.join(process.cwd(), "public", "ipa");
