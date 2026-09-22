@@ -22,6 +22,7 @@ import { folkloreLanguageModules } from "./vietnamese/folkloreLessons";
 import { vietnameseLessonsExpansionModules } from "./vietnamese/lessonsExpansion";
 import "./vietnamese/expansionV9"; // side-effect: extends reading/grammar/folklore modules
 import "./vietnamese/expansionV10"; // side-effect: extends practical grammar + daily vocabulary modules
+import "./vietnamese/expansionV11Topup"; // side-effect: chuẩn hoá từ vựng/câu hỏi cho 26 bài thiếu chuẩn
 import { historyTimeline as _historyTimeline, historyMonths as _historyMonths } from "./vietnamese/historyData";
 import { factOrMythItems as _factOrMythItems, folkloreItems as _folkloreItems } from "./vietnamese/gameData";
 
