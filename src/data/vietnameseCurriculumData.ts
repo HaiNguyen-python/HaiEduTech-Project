@@ -26,6 +26,7 @@ import "./vietnamese/expansionV11Topup"; // side-effect: chuẩn hoá từ vựn
 import "./vietnamese/expansionV11Grammar"; // side-effect: +10 bài ngữ pháp nâng cao & giao tiếp
 import "./vietnamese/expansionV11Vocab"; // side-effect: +10 bài từ vựng chuyên đề
 import "./vietnamese/expansionV11Reading"; // side-effect: +12 bài đọc hiểu
+import "./vietnamese/expansionV11Folklore"; // side-effect: +8 bài văn hoá dân gian
 import { historyTimeline as _historyTimeline, historyMonths as _historyMonths } from "./vietnamese/historyData";
 import { factOrMythItems as _factOrMythItems, folkloreItems as _folkloreItems } from "./vietnamese/gameData";
 
