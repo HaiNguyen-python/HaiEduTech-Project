@@ -25,6 +25,7 @@ import "./vietnamese/expansionV10"; // side-effect: extends practical grammar + 
 import "./vietnamese/expansionV11Topup"; // side-effect: chuẩn hoá từ vựng/câu hỏi cho 26 bài thiếu chuẩn
 import "./vietnamese/expansionV11Grammar"; // side-effect: +10 bài ngữ pháp nâng cao & giao tiếp
 import "./vietnamese/expansionV11Vocab"; // side-effect: +10 bài từ vựng chuyên đề
+import "./vietnamese/expansionV11Reading"; // side-effect: +12 bài đọc hiểu
 import { historyTimeline as _historyTimeline, historyMonths as _historyMonths } from "./vietnamese/historyData";
 import { factOrMythItems as _factOrMythItems, folkloreItems as _folkloreItems } from "./vietnamese/gameData";
 
