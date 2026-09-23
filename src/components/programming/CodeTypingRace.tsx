@@ -514,21 +514,47 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
     }
   }, [typed.length]);
 
-  // Render snippet with per-char highlight.
-  const rendered = snippet.split("").map((ch, i) => {
-    let cls = "text-muted-foreground";
+  // Render the snippet line by line: each line keeps its exact whitespace and
+  // never soft-wraps, so the highlighted characters always sit directly above
+  // what the learner types (the surface scrolls sideways for long lines).
+  const charClass = (i: number, ch: string) => {
     if (i < typed.length) {
-      cls = typed[i] === ch ? "text-emerald-600 dark:text-emerald-400" : "text-red-500 underline decoration-wavy";
-    } else if (i === typed.length) {
-      cls = "text-foreground bg-yellow-200/60 dark:bg-yellow-500/30 rounded-sm";
+      return typed[i] === ch
+        ? "text-emerald-600 dark:text-emerald-400"
+        : "text-red-500 underline decoration-wavy";
     }
-    if (ch === "\n") return <br key={i} />;
-    return (
-      <span key={i} ref={i === typed.length ? caretRef : undefined} className={cls}>
-        {ch === " " ? "\u00A0" : ch}
-      </span>
-    );
-  });
+    if (i === typed.length) return "text-foreground bg-yellow-200/60 dark:bg-yellow-500/30 rounded-sm";
+    return "text-muted-foreground";
+  };
+
+  const renderedLines: React.ReactNode[] = [];
+  {
+    let offset = 0;
+    snippet.split("\n").forEach((lineText, li) => {
+      const start = offset;
+      const chars = lineText.split("").map((ch, ci) => {
+        const i = start + ci;
+        return (
+          <span key={i} ref={i === typed.length ? caretRef : undefined} className={charClass(i, ch)}>
+            {ch}
+          </span>
+        );
+      });
+      const newlineIdx = start + lineText.length;
+      renderedLines.push(
+        <div key={li} className="whitespace-pre">
+          {chars.length === 0 ? "\u00A0" : chars}
+          <span
+            ref={newlineIdx === typed.length ? caretRef : undefined}
+            className={newlineIdx === typed.length ? "bg-yellow-200/60 dark:bg-yellow-500/30 rounded-sm" : ""}
+          >
+            {"\u00A0"}
+          </span>
+        </div>,
+      );
+      offset = newlineIdx + 1;
+    });
+  }
 
   return (
     <div className="glass-card rounded-xl p-6 border-t-4 border-yellow-500">
