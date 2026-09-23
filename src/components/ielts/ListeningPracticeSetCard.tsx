@@ -170,6 +170,7 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
   const refreshedRef = useRef(false);
   const [preparing, setPreparing] = useState(false);
   const preparingRef = useRef(false);
+  const preloadRef = useRef<{ idx: number; url: string; el: HTMLAudioElement } | null>(null);
   // Real duration of each AI turn file, read from the playing audio element.
   const [turnDur, setTurnDur] = useState<Record<number, number>>({});
   /** AI files are recorded at the default pace; the speed picker is relative. */
@@ -213,7 +214,9 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
   const turnGap = useCallback((turnIdx: number) => {
     const cur = speakerAt(turnFirstChunk[turnIdx] ?? 0);
     const next = turnIdx + 1 < turns.length ? speakerAt(turnFirstChunk[turnIdx + 1] ?? 0) : cur;
-    return cur !== next ? 0.65 : 0.4;
+    // AI files already carry a little natural silence at each edge, so keep
+    // the added pause short to sound like one continuous recording.
+    return cur !== next ? 0.3 : 0.12;
   }, [speakerAt, turnFirstChunk, turns.length]);
 
   const turnDurations = useMemo(
@@ -461,8 +464,13 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
     const url = ai.getUrl(turnIdx);
     if (!url) { deviceForThisTurn(); return; }
 
-    const el = new Audio();
+    // Reuse the element that was buffered while the previous turn played, so
+    // there is no network pause between turns.
+    const pre = preloadRef.current;
+    const el = pre && pre.idx === turnIdx && pre.url === url ? pre.el : new Audio();
+    preloadRef.current = null;
     el.preload = "auto";
+    (el as HTMLAudioElement & { preservesPitch?: boolean }).preservesPitch = true;
     audioElRef.current = el;
     aiPlayingRef.current = true;
     el.onended = nextTurn;
@@ -498,8 +506,16 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
         );
       });
     };
-    el.src = url;
+    if (el.src !== url) el.src = url;
     el.playbackRate = aiRate;
+    const nextUrl = ai.getUrl(turnIdx + 1);
+    if (nextUrl) {
+      const nx = new Audio();
+      nx.preload = "auto";
+      nx.src = nextUrl;
+      nx.load();
+      preloadRef.current = { idx: turnIdx + 1, url: nextUrl, el: nx };
+    }
     el.play().catch((err: unknown) => {
       // A play() rejected because we moved on (or the tab blocked autoplay) is
       // not a broken file - re-reading the turn here is what caused doubles.
