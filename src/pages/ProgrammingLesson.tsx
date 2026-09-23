@@ -401,6 +401,13 @@ const ProgrammingLessonPage = () => {
   //   (a) cached English Deep-Dive -> shown immediately,
   //   (b) no cache (or a stale Vietnamese cache) -> generated now and switched in,
   //   (c) AI unavailable -> original English theory stays readable.
+  // Show the Deep-Dive immediately when nothing has been read yet; otherwise
+  // queue it so the learner's expanded sections are never yanked away.
+  const applyDeepDive = (markdown: string) => {
+    if (theoryTouchedRef.current) setPendingEnhancedMd(markdown);
+    else setEnhancedMd(markdown);
+  };
+
   useEffect(() => {
     if (!mod || !lesson) return;
     setEnhancedMd(null);
