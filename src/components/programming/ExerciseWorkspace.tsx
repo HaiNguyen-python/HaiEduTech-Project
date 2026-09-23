@@ -41,6 +41,15 @@ const ExerciseWorkspace = ({ lessonId, exercise = "", sampleCode, language = "py
   const [copied, setCopied] = useState(false);
   const taRef = useRef<HTMLTextAreaElement>(null);
 
+  // In-browser Python runner state
+  const runnable = /^(python|py|python3)$/i.test(language.trim());
+  const [output, setOutput] = useState("");
+  const [running, setRunning] = useState(false);
+  const [runError, setRunError] = useState(false);
+  const [runtimeLoading, setRuntimeLoading] = useState(false);
+  const [aiHelp, setAiHelp] = useState("");
+  const [aiLoading, setAiLoading] = useState(false);
+
   // AI helper state
   const [helper, setHelper] = useState<HelperData | null>(null);
   const [helperLoading, setHelperLoading] = useState(false);
@@ -68,6 +77,73 @@ const ExerciseWorkspace = ({ lessonId, exercise = "", sampleCode, language = "py
     setShowSample(false);
     fetchingRef.current = false;
   }, [lessonId]);
+
+  // Warm the browser Python runtime up front so the first "Run" feels instant.
+  useEffect(() => {
+    if (runnable) preloadPyodide();
+  }, [runnable]);
+
+  // Clear the console whenever the learner moves to another exercise.
+  useEffect(() => {
+    setOutput("");
+    setRunError(false);
+    setAiHelp("");
+  }, [lessonId]);
+
+  const runCode = async () => {
+    if (!code.trim()) {
+      toast.info(t("Hãy viết code trước khi chạy.", "Write some code before running."));
+      return;
+    }
+    setRunning(true);
+    setOutput("");
+    setRunError(false);
+    setAiHelp("");
+    try {
+      setRuntimeLoading(true);
+      const py = await ensurePyodideRuntime();
+      setRuntimeLoading(false);
+      let stdout = "";
+      let stderr = "";
+      py.setStdout({ batched: (s: string) => (stdout += s + "\n") });
+      py.setStderr({ batched: (s: string) => (stderr += s + "\n") });
+      await py.runPythonAsync(code);
+      const out = stdout.trimEnd();
+      const err = stderr.trimEnd();
+      if (err) {
+        setOutput(out ? `${out}\n\n⚠️ ${err}` : `❌ ${err}`);
+        setRunError(true);
+      } else {
+        setOutput(out || t("(Không có kết quả in ra)", "(No output)"));
+      }
+    } catch (e) {
+      const raw = e instanceof Error ? e.message : String(e);
+      const clean = raw
+        .split("\n")
+        .filter((l) => !l.includes("at ") && !l.includes("wasm"))
+        .join("\n");
+      setOutput(`❌ ${clean}`);
+      setRunError(true);
+    } finally {
+      setRuntimeLoading(false);
+      setRunning(false);
+    }
+  };
+
+  const askAiDebug = async () => {
+    setAiLoading(true);
+    setAiHelp("");
+    try {
+      const { data, error } = await supabase.functions.invoke("debug-python", {
+        body: { code, error: output, challenge: exercise || "Practice exercise" },
+      });
+      if (error) throw error;
+      setAiHelp(data?.explanation || t("Không phân tích được lỗi.", "Could not analyze the error."));
+    } catch {
+      setAiHelp(t("Không kết nối được tới AI, thử lại sau.", "Could not reach the AI, please retry."));
+    }
+    setAiLoading(false);
+  };
 
   const ensureHelper = async (): Promise<HelperData | null> => {
     if (helper) return helper;
