@@ -118,11 +118,14 @@ const Footer = () => {
                 <MapPin className="w-4 h-4 shrink-0" /> {t("Phần Lan & Việt Nam", "Finland & Vietnam")}
               </div>
               <div className="flex items-center gap-2 pt-1">
-                <a href="https://github.com/HaiNguyen-python" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
+                <a href="https://github.com/HaiNguyen-python" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors" aria-label="GitHub">
                   <Github className="w-4 h-4" />
                 </a>
-                <a href="https://www.linkedin.com/in/hainguyen2401/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
+                <a href="https://www.linkedin.com/in/hainguyen2401/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors" aria-label="LinkedIn">
                   <Linkedin className="w-4 h-4" />
+                </a>
+                <a href="https://www.tiktok.com/@haiedutech" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors" aria-label="TikTok">
+                  <TikTokIcon className="w-4 h-4" />
                 </a>
               </div>
             </div>
