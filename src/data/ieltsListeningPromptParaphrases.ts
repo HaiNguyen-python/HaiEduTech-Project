@@ -316,11 +316,11 @@ export const LISTENING_OPTION_REBALANCE: Record<string, Record<number, string[]>
 export const applyPromptParaphrases = <T extends { id: string; questions: { prompt: string }[] }>(set: T): T => {
   const map = LISTENING_PROMPT_PARAPHRASES[set.id] ?? {};
   const opts = LISTENING_OPTION_REBALANCE[set.id] ?? {};
-  if (!LISTENING_PROMPT_PARAPHRASES[set.id] && !LISTENING_OPTION_REBALANCE[set.id]) return set;
   return {
     ...set,
     questions: set.questions.map((q, i) => {
-      let next = map[i + 1] ? { ...q, prompt: map[i + 1] } : q;
+      // Question numbers are shown by the UI, so strip any number typed into the prompt.
+      let next = { ...q, prompt: (map[i + 1] ?? q.prompt).replace(/^\s*\d+\.\s+/, "") };
       const o = opts[i + 1];
       if (o && "options" in next && Array.isArray((next as { options?: string[] }).options) && (next as { options: string[] }).options.length === o.length) next = { ...next, options: o } as typeof next;
       return next;
