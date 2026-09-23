@@ -1,7 +1,9 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence, useDragControls, useMotionValue, animate } from "framer-motion";
 import { X, Send, Loader2, Mic, MicOff, AlertTriangle, Paperclip, FileText, Image as ImageIcon, Mail, CheckCircle2, Maximize2, Minimize2, GripVertical, Info, Sparkles, BookOpenCheck, Flame, Star, Volume2, VolumeX, Brain, Trash2 } from "lucide-react";
+import { useLocation } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { buildPageContext } from "@/lib/chat/pageContext";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { supabase } from "@/integrations/supabase/client";
 import ChatMessageList from "@/components/chat/ChatMessageList";
