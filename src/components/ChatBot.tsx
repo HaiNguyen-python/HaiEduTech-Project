@@ -1,7 +1,9 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence, useDragControls, useMotionValue, animate } from "framer-motion";
 import { X, Send, Loader2, Mic, MicOff, AlertTriangle, Paperclip, FileText, Image as ImageIcon, Mail, CheckCircle2, Maximize2, Minimize2, GripVertical, Info, Sparkles, BookOpenCheck, Flame, Star, Volume2, VolumeX, Brain, Trash2 } from "lucide-react";
+import { useLocation } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { buildPageContext } from "@/lib/chat/pageContext";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { supabase } from "@/integrations/supabase/client";
 import ChatMessageList from "@/components/chat/ChatMessageList";
@@ -193,6 +195,18 @@ const ChatBot = () => {
   const [profanityWarning, setProfanityWarning] = useState(false);
   const [chatLocked, setChatLocked] = useState(false);
   const [studentContext, setStudentContext] = useState<string>("");
+  // Live route awareness: the assistant always knows which page is open, even
+  // when the learner navigates while the chat panel stays open.
+  const routeLocation = useLocation();
+  const pageContextRef = useRef<string>("");
+  useEffect(() => {
+    // Wait a tick so the page title of the new route is already applied.
+    const id = window.setTimeout(() => {
+      pageContextRef.current = buildPageContext(routeLocation.pathname, routeLocation.search);
+    }, 300);
+    pageContextRef.current = buildPageContext(routeLocation.pathname, routeLocation.search);
+    return () => window.clearTimeout(id);
+  }, [routeLocation.pathname, routeLocation.search]);
   // Guests only get course advice; the backend decides this from the real token too.
   const [isAuthed, setIsAuthed] = useState(false);
   const [studentName, setStudentName] = useState<string>("");
@@ -1044,8 +1058,9 @@ const ChatBot = () => {
         body: JSON.stringify({
           messages: payloadMessages,
           studentContext: signedIn
-            ? (memoryContext ? `${studentContext}\n\n${memoryContext}` : studentContext)
+            ? [studentContext, memoryContext, pageContextRef.current].filter(Boolean).join("\n\n")
             : "",
+          pageContext: pageContextRef.current,
           guestMode: !signedIn,
         }),
       });

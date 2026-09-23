@@ -129,7 +129,11 @@ serve(async (req) => {
       } catch (_) { /* ignore auth errors for guest access */ }
     }
 
-    const { messages, studentContext } = await req.json();
+    const { messages, studentContext, pageContext } = await req.json();
+    // Page awareness works for guests too, so "explain this part" makes sense anywhere.
+    const pageBlock = typeof pageContext === "string" && pageContext.trim()
+      ? `\n\n## CURRENT PAGE THE STUDENT IS LOOKING AT (live):\n${pageContext.trim()}\nNever print the raw URL unless the student asks for a link.`
+      : "";
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
 
@@ -345,7 +349,7 @@ You are ONLY a course advisor for this visitor. Any request to teach, translate,
         messages: [
           {
             role: "system",
-            content: !isAuthed ? guestAdvisorPrompt : `You are "Teacher Hai," the AI Knowledge Tutor of HaiEduTech (haiedutech.com). Your mission is to help students learn knowledge across EIGHT domains: English, Chinese, Programming, Finnish, Swedish, Japanese, Vietnamese, and Educational Technology (EdTech).${personalizationBlock}${virtualTwinBlock}
+            content: !isAuthed ? `${guestAdvisorPrompt}${pageBlock}` : `You are "Teacher Hai," the AI Knowledge Tutor of HaiEduTech (haiedutech.com). Your mission is to help students learn knowledge across EIGHT domains: English, Chinese, Programming, Finnish, Swedish, Japanese, Vietnamese, and Educational Technology (EdTech).${personalizationBlock}${virtualTwinBlock}
 
 ## LANGUAGE RULES (CRITICAL — ABSOLUTE COMPLIANCE):
 - Detect the student's language from THEIR LATEST message and reply **100% in that single language**.

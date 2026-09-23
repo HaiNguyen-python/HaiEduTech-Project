@@ -44,6 +44,7 @@ import AdminWorkspaceNav, {
   type AdminTabGroup,
 } from "@/components/admin/AdminWorkspaceNav";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import NewSignupsCard from "@/components/admin/NewSignupsCard";
 
 const SystemStatusTab = lazy(() => import("@/components/SystemStatusTab"));
 const IncomeManagement = lazy(() => import("@/components/IncomeManagement"));
@@ -606,6 +607,10 @@ const AdminDashboard = () => {
                   onOpenStudentTab={() => handleTabChange("students", "students")}
                   selectedUserId={selectedStudent?.userId ?? null}
                 />
+                {/* Newest sign-ups so the teacher can welcome and place them */}
+                <div className="mb-6">
+                  <NewSignupsCard onOpenStudents={() => handleTabChange("students", "students")} />
+                </div>
                 <div className="grid lg:grid-cols-2 gap-6">
                   {/* Domain Distribution Pie */}
                   <Card>

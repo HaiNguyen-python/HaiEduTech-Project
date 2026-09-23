@@ -3,12 +3,13 @@
  * @description Code input area + AI hints + AI-generated exercise-specific sample answer.
  */
 import { useEffect, useRef, useState } from "react";
-import { Eye, EyeOff, RotateCcw, Copy, Check, Lightbulb, Loader2, Sparkles } from "lucide-react";
+import { Eye, EyeOff, RotateCcw, Copy, Check, Lightbulb, Loader2, Sparkles, Play, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import CodeBlock from "@/components/CodeBlock";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { ensurePyodideRuntime, preloadPyodide } from "@/components/python/PyodideRunner";
 
 interface Props {
   lessonId: string;
@@ -40,6 +41,15 @@ const ExerciseWorkspace = ({ lessonId, exercise = "", sampleCode, language = "py
   const [copied, setCopied] = useState(false);
   const taRef = useRef<HTMLTextAreaElement>(null);
 
+  // In-browser Python runner state
+  const runnable = /^(python|py|python3)$/i.test(language.trim());
+  const [output, setOutput] = useState("");
+  const [running, setRunning] = useState(false);
+  const [runError, setRunError] = useState(false);
+  const [runtimeLoading, setRuntimeLoading] = useState(false);
+  const [aiHelp, setAiHelp] = useState("");
+  const [aiLoading, setAiLoading] = useState(false);
+
   // AI helper state
   const [helper, setHelper] = useState<HelperData | null>(null);
   const [helperLoading, setHelperLoading] = useState(false);
@@ -67,6 +77,73 @@ const ExerciseWorkspace = ({ lessonId, exercise = "", sampleCode, language = "py
     setShowSample(false);
     fetchingRef.current = false;
   }, [lessonId]);
+
+  // Warm the browser Python runtime up front so the first "Run" feels instant.
+  useEffect(() => {
+    if (runnable) preloadPyodide();
+  }, [runnable]);
+
+  // Clear the console whenever the learner moves to another exercise.
+  useEffect(() => {
+    setOutput("");
+    setRunError(false);
+    setAiHelp("");
+  }, [lessonId]);
+
+  const runCode = async () => {
+    if (!code.trim()) {
+      toast.info(t("Hãy viết code trước khi chạy.", "Write some code before running."));
+      return;
+    }
+    setRunning(true);
+    setOutput("");
+    setRunError(false);
+    setAiHelp("");
+    try {
+      setRuntimeLoading(true);
+      const py = await ensurePyodideRuntime();
+      setRuntimeLoading(false);
+      let stdout = "";
+      let stderr = "";
+      py.setStdout({ batched: (s: string) => (stdout += s + "\n") });
+      py.setStderr({ batched: (s: string) => (stderr += s + "\n") });
+      await py.runPythonAsync(code);
+      const out = stdout.trimEnd();
+      const err = stderr.trimEnd();
+      if (err) {
+        setOutput(out ? `${out}\n\n⚠️ ${err}` : `❌ ${err}`);
+        setRunError(true);
+      } else {
+        setOutput(out || t("(Không có kết quả in ra)", "(No output)"));
+      }
+    } catch (e) {
+      const raw = e instanceof Error ? e.message : String(e);
+      const clean = raw
+        .split("\n")
+        .filter((l) => !l.includes("at ") && !l.includes("wasm"))
+        .join("\n");
+      setOutput(`❌ ${clean}`);
+      setRunError(true);
+    } finally {
+      setRuntimeLoading(false);
+      setRunning(false);
+    }
+  };
+
+  const askAiDebug = async () => {
+    setAiLoading(true);
+    setAiHelp("");
+    try {
+      const { data, error } = await supabase.functions.invoke("debug-python", {
+        body: { code, error: output, challenge: exercise || "Practice exercise" },
+      });
+      if (error) throw error;
+      setAiHelp(data?.explanation || t("Không phân tích được lỗi.", "Could not analyze the error."));
+    } catch {
+      setAiHelp(t("Không kết nối được tới AI, thử lại sau.", "Could not reach the AI, please retry."));
+    }
+    setAiLoading(false);
+  };
 
   const ensureHelper = async (): Promise<HelperData | null> => {
     if (helper) return helper;
@@ -181,6 +258,23 @@ const ExerciseWorkspace = ({ lessonId, exercise = "", sampleCode, language = "py
 
       {/* Action bar */}
       <div className="flex flex-wrap items-center gap-2">
+        {runnable && (
+          <Button
+            size="sm"
+            onClick={runCode}
+            disabled={running}
+            className="bg-gradient-to-r from-sky-600 to-blue-600 text-white hover:from-sky-700 hover:to-blue-700 shadow-sm"
+          >
+            {running ? <Loader2 className="w-4 h-4 mr-1 animate-spin" /> : <Play className="w-4 h-4 mr-1" />}
+            {running
+              ? runtimeLoading
+                ? t("Đang tải Python...", "Loading Python...")
+                : t("Đang chạy...", "Running...")
+              : output
+                ? t("Chạy lại", "Run again")
+                : t("Chạy code", "Run code")}
+          </Button>
+        )}
         {exercise && (
           <Button
             size="sm"
@@ -222,6 +316,58 @@ const ExerciseWorkspace = ({ lessonId, exercise = "", sampleCode, language = "py
           💡 {t("Code được lưu tự động trên trình duyệt.", "Your code is auto-saved in your browser.")}
         </span>
       </div>
+
+      {/* Run output console */}
+      {runnable && (output || running) && (
+        <div className="rounded-xl border-2 border-sky-500/30 overflow-hidden bg-slate-950">
+          <div className="flex items-center justify-between px-3 py-2 bg-slate-900 border-b border-slate-800">
+            <span className="text-[11px] font-mono text-slate-400">
+              {running
+                ? runtimeLoading
+                  ? t("⏳ Đang tải Python...", "⏳ Loading Python...")
+                  : t("⏳ Đang chạy...", "⏳ Running...")
+                : t("💻 Kết quả", "💻 Output")}
+            </span>
+            <div className="flex items-center gap-1.5">
+              {runError && (
+                <button
+                  onClick={askAiDebug}
+                  disabled={aiLoading}
+                  className="flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-medium bg-primary/20 text-primary hover:bg-primary/30 transition-colors disabled:opacity-50"
+                >
+                  {aiLoading ? <Loader2 className="w-3 h-3 animate-spin" /> : <Sparkles className="w-3 h-3" />}
+                  {t("Hỏi AI", "Ask AI")}
+                </button>
+              )}
+              {output && !running && (
+                <button
+                  onClick={() => {
+                    setOutput("");
+                    setRunError(false);
+                    setAiHelp("");
+                  }}
+                  className="flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-medium text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+                >
+                  <Trash2 className="w-3 h-3" />
+                  {t("Xoá kết quả", "Clear output")}
+                </button>
+              )}
+            </div>
+          </div>
+          <div
+            className={`px-3 py-2 text-sm font-mono min-h-[70px] max-h-[280px] overflow-auto whitespace-pre-wrap break-words leading-relaxed ${
+              runError ? "text-red-300" : "text-emerald-300"
+            }`}
+          >
+            {output || t("Đang xử lý...", "Working...")}
+          </div>
+          {aiHelp && (
+            <div className="px-3 py-3 border-t border-slate-800 text-sm text-slate-200 whitespace-pre-wrap break-words leading-relaxed">
+              <span className="text-primary font-medium">🤖 AI:</span> {aiHelp}
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Approach + tiered hints */}
       {showApproach && helper && (
