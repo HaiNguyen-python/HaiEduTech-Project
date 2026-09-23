@@ -195,6 +195,18 @@ const ChatBot = () => {
   const [profanityWarning, setProfanityWarning] = useState(false);
   const [chatLocked, setChatLocked] = useState(false);
   const [studentContext, setStudentContext] = useState<string>("");
+  // Live route awareness: the assistant always knows which page is open, even
+  // when the learner navigates while the chat panel stays open.
+  const routeLocation = useLocation();
+  const pageContextRef = useRef<string>("");
+  useEffect(() => {
+    // Wait a tick so the page title of the new route is already applied.
+    const id = window.setTimeout(() => {
+      pageContextRef.current = buildPageContext(routeLocation.pathname, routeLocation.search);
+    }, 300);
+    pageContextRef.current = buildPageContext(routeLocation.pathname, routeLocation.search);
+    return () => window.clearTimeout(id);
+  }, [routeLocation.pathname, routeLocation.search]);
   // Guests only get course advice; the backend decides this from the real token too.
   const [isAuthed, setIsAuthed] = useState(false);
   const [studentName, setStudentName] = useState<string>("");
