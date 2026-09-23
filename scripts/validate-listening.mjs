@@ -10,7 +10,7 @@ import ts from "typescript";
 
 const DATA_DIR = path.resolve("src/data");
 const TMP_DIR = fs.mkdtempSync(path.join(os.tmpdir(), "listening-validate-"));
-const FILE_RE = /^ielts(ListeningPractice(Expansion\d*)?|ListeningAllSets|FullListeningTests|ListeningDifficultyUpgrade|ListeningTranscripts)\.ts$/;
+const FILE_RE = /^ielts(ListeningPractice(Expansion\d*)?|ListeningAllSets|FullListeningTests|ListeningDifficultyUpgrade|ListeningTranscripts|ListeningPromptParaphrases)\.ts$/;
 
 const compileFile = file => {
   const srcPath = path.join(DATA_DIR, file);

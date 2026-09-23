@@ -244,7 +244,7 @@ export const LISTENING_PROMPT_PARAPHRASES: Record<string, Record<number, string>
     1: "The unit used to measure noise is the ___.",
     2: "Harm to health can be detected from roughly ___ decibels.",
     3: "The best-proven effect of noise is on people's ___.",
-    4: "Living with noise for years raises the risk of ___ disease of the heart.".replace(" disease of the heart", "heart problems").replace("___ heart problems", "heart ___"),
+    4: "Years of exposure to noise make heart ___ more likely.",
     5: "Pupils near airports are slower to develop ___ skills.",
     6: "Most noise in cities comes from road ___.",
     7: "Special low-noise road surfaces cut noise by around ___ decibels.",
