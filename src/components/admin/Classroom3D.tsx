@@ -36,10 +36,6 @@ import {
   Eye, Users, Boxes, RotateCcw, Trophy, AlertTriangle, Activity, TrendingUp, Target,
   LayoutGrid, ScanLine, UserRound, Armchair,
 } from "lucide-react";
-import "@fontsource/outfit/600.css";
-import "@fontsource/outfit/700.css";
-import "@fontsource/figtree/400.css";
-import "@fontsource/figtree/600.css";
 
 interface Props {
   students: StudentState[];
@@ -83,10 +79,10 @@ const GEO = {
 
 const DARK = new THREE.MeshStandardMaterial({ color: "#1e293b", roughness: 0.5 });
 const SKIN = new THREE.MeshStandardMaterial({ color: "#f5d0a9", roughness: 0.45 });
-const WOOD = new THREE.MeshStandardMaterial({ color: "#d7c4a3", roughness: 0.62 });
-const WOOD_EDGE = new THREE.MeshStandardMaterial({ color: "#9b815f", roughness: 0.7 });
-const METAL = new THREE.MeshStandardMaterial({ color: "#65758b", roughness: 0.42, metalness: 0.35 });
-const CHAIR = new THREE.MeshStandardMaterial({ color: "#376fae", roughness: 0.58 });
+const WOOD = new THREE.MeshStandardMaterial({ color: "#e4c985", roughness: 0.62 });
+const WOOD_EDGE = new THREE.MeshStandardMaterial({ color: "#b68a35", roughness: 0.7 });
+const METAL = new THREE.MeshStandardMaterial({ color: "#64748b", roughness: 0.42, metalness: 0.35 });
+const CHAIR = new THREE.MeshStandardMaterial({ color: "#0f8b8d", roughness: 0.5 });
 const SHOE = new THREE.MeshStandardMaterial({ color: "#334155", roughness: 0.72 });
 const GOLD = new THREE.MeshStandardMaterial({ color: "#facc15", emissive: "#facc15", emissiveIntensity: 0.85 });
 
@@ -260,25 +256,25 @@ const StudentAvatar = ({
 /* --------------------------------------------------------------- classroom */
 
 const ROOM_MATERIALS = {
-  wall: new THREE.MeshStandardMaterial({ color: "#f6f2ed", roughness: 0.9 }),
-  wallWarm: new THREE.MeshStandardMaterial({ color: "#e8ddd2", roughness: 0.92 }),
-  floor: new THREE.MeshStandardMaterial({ color: "#d8bea0", roughness: 0.76 }),
-  frame: new THREE.MeshStandardMaterial({ color: "#e7ded4", roughness: 0.48, metalness: 0.12 }),
-  glass: new THREE.MeshPhysicalMaterial({ color: "#dce8df", transparent: true, opacity: 0.3, roughness: 0.1, transmission: 0.35 }),
-  foliage: new THREE.MeshStandardMaterial({ color: "#4a6741", roughness: 0.84 }),
-  pot: new THREE.MeshStandardMaterial({ color: "#c4654a", roughness: 0.76 }),
-  shelf: new THREE.MeshStandardMaterial({ color: "#9c7558", roughness: 0.7 }),
-  board: new THREE.MeshStandardMaterial({ color: "#294a3b", roughness: 0.38 }),
-  terracotta: new THREE.MeshStandardMaterial({ color: "#c4654a", roughness: 0.72 }),
-  clay: new THREE.MeshStandardMaterial({ color: "#e8a87c", roughness: 0.78 }),
-  sage: new THREE.MeshStandardMaterial({ color: "#87a878", roughness: 0.76 }),
-  moss: new THREE.MeshStandardMaterial({ color: "#4a6741", roughness: 0.74 }),
-  parchment: new THREE.MeshStandardMaterial({ color: "#fff9f3", roughness: 0.82 }),
-  glowWarm: new THREE.MeshBasicMaterial({ color: "#f3bd91", transparent: true, opacity: 0.42 }),
-  glowSage: new THREE.MeshBasicMaterial({ color: "#a9c49c", transparent: true, opacity: 0.36 }),
-  bookRed: new THREE.MeshStandardMaterial({ color: "#c4654a", roughness: 0.76 }),
-  bookBlue: new THREE.MeshStandardMaterial({ color: "#718f85", roughness: 0.76 }),
-  bookGreen: new THREE.MeshStandardMaterial({ color: "#4a6741", roughness: 0.76 }),
+  wall: new THREE.MeshStandardMaterial({ color: "#f7fbfc", roughness: 0.88 }),
+  wallWarm: new THREE.MeshStandardMaterial({ color: "#e6f2f4", roughness: 0.9 }),
+  floor: new THREE.MeshStandardMaterial({ color: "#d8c28f", roughness: 0.72 }),
+  frame: new THREE.MeshStandardMaterial({ color: "#b9dce3", roughness: 0.44, metalness: 0.14 }),
+  glass: new THREE.MeshPhysicalMaterial({ color: "#bae6fd", transparent: true, opacity: 0.32, roughness: 0.08, transmission: 0.42 }),
+  foliage: new THREE.MeshStandardMaterial({ color: "#0f766e", roughness: 0.78 }),
+  pot: new THREE.MeshStandardMaterial({ color: "#f59e0b", roughness: 0.72 }),
+  shelf: new THREE.MeshStandardMaterial({ color: "#138a83", roughness: 0.64 }),
+  board: new THREE.MeshStandardMaterial({ color: "#0b4f4a", roughness: 0.34 }),
+  terracotta: new THREE.MeshStandardMaterial({ color: "#f59e0b", roughness: 0.68 }),
+  clay: new THREE.MeshStandardMaterial({ color: "#38bdf8", roughness: 0.7 }),
+  sage: new THREE.MeshStandardMaterial({ color: "#2dd4bf", roughness: 0.7 }),
+  moss: new THREE.MeshStandardMaterial({ color: "#0f766e", roughness: 0.7 }),
+  parchment: new THREE.MeshStandardMaterial({ color: "#f8fafc", roughness: 0.78 }),
+  glowWarm: new THREE.MeshBasicMaterial({ color: "#fde68a", transparent: true, opacity: 0.46 }),
+  glowSage: new THREE.MeshBasicMaterial({ color: "#67e8f9", transparent: true, opacity: 0.4 }),
+  bookRed: new THREE.MeshStandardMaterial({ color: "#fb7185", roughness: 0.72 }),
+  bookBlue: new THREE.MeshStandardMaterial({ color: "#38bdf8", roughness: 0.72 }),
+  bookGreen: new THREE.MeshStandardMaterial({ color: "#0f766e", roughness: 0.72 }),
 };
 
 const WindowWall = ({ width, depth }: { width: number; depth: number }) => (
@@ -720,26 +716,26 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
 
   return (
     <TooltipProvider delayDuration={200}>
-    <Card className={`font-classroom-body mb-6 overflow-hidden border-border/60 classroom-command-shadow ${full ? "fixed inset-3 z-50 overflow-auto bg-background" : ""}`}>
-      <CardHeader className="border-b border-border/50 bg-card px-4 py-4 sm:px-6">
+    <Card className={`font-classroom-body mb-6 overflow-hidden rounded-2xl border border-sky-200/70 bg-card classroom-command-shadow ${full ? "fixed inset-3 z-50 overflow-auto bg-background" : ""}`}>
+      <CardHeader className="border-b border-sky-100 bg-card/95 px-4 py-5 backdrop-blur-xl sm:px-7">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <span className="flex h-10 w-10 items-center justify-center rounded-md bg-primary/10 text-primary"><School className="h-5 w-5" /></span>
+            <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-sky-500 text-primary-foreground shadow-lg shadow-sky-500/20"><School className="h-5 w-5" /></span>
             <div>
-              <CardTitle className="font-classroom-heading text-xl font-bold">{t("Lớp học 3D trực quan", "Interactive 3D Classroom")}</CardTitle>
-              <p className="mt-0.5 text-sm text-muted-foreground">{t("Không gian lớp học Bắc Âu", "Nordic learning space")} · {safeStudents.length} {t("học sinh", "students")} · {seating === "rank" ? t("xếp theo thành tích", "ranked seating") : t("ưu tiên cần chú ý", "attention first")}</p>
+              <CardTitle className="font-classroom-heading text-xl font-bold text-foreground">{t("Lớp học 3D trực quan", "Interactive 3D Classroom")}</CardTitle>
+              <p className="mt-1 text-sm font-medium text-muted-foreground">{t("Không gian lớp học Bắc Âu", "Nordic learning space")} · <span className="font-semibold text-primary">{safeStudents.length} {t("học sinh", "students")}</span> · {seating === "rank" ? t("xếp theo thành tích", "ranked seating") : t("ưu tiên cần chú ý", "attention first")}</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <span className="hidden items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1.5 text-xs font-semibold text-emerald-700 sm:flex"><span className="h-2 w-2 animate-pulse rounded-full bg-emerald-500" />{t("Đang hoạt động", "Live")}</span>
+            <span className="hidden items-center gap-2 rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-3 py-2 text-xs font-bold text-emerald-700 shadow-sm sm:flex"><span className="relative flex h-2 w-2"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" /><span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" /></span>{t("Đang hoạt động", "Live")}</span>
             {!flat && (
-              <div className="hidden rounded-md bg-muted p-1 lg:flex">
+              <div className="hidden rounded-xl border border-sky-100 bg-muted/70 p-1 shadow-inner lg:flex">
                 {([
                   { key: "class", label: t("Toàn lớp", "Whole class") },
                   { key: "top", label: t("Từ trên", "Top view") },
                   { key: "alert", label: t("Cần chú ý", "Attention") },
                 ] as const).map((preset, index) => (
-                  <Button key={preset.key} variant={index === 0 ? "secondary" : "ghost"} size="sm" className="classroom-control h-8 rounded-sm px-3 text-xs text-foreground hover:text-foreground" onClick={() => applyPreset(preset.key)}>{preset.label}</Button>
+                  <Button key={preset.key} variant={index === 0 ? "secondary" : "ghost"} size="sm" className="classroom-control h-8 rounded-lg px-3 text-xs text-foreground shadow-none hover:bg-card hover:text-primary" onClick={() => applyPreset(preset.key)}>{preset.label}</Button>
                 ))}
               </div>
             )}
@@ -827,7 +823,7 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
             </div>
 
           ) : (
-            <div className="relative bg-[hsl(var(--classroom-canvas))] p-3 sm:p-4">
+            <div className="relative bg-gradient-to-br from-sky-50 via-background to-emerald-50/70 p-3 sm:p-4">
               <div className="mb-3 space-y-2 lg:hidden">
                 <div className="relative">
                   <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -840,14 +836,14 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
                   })}
                 </div>
               </div>
-              <div className={`grid overflow-hidden rounded-md border border-border/70 bg-card shadow-xl xl:grid-cols-[minmax(0,1fr)_300px] ${canvasHeight}`}>
+              <div className={`grid overflow-hidden rounded-xl border border-sky-200/70 bg-card shadow-xl shadow-sky-900/10 xl:grid-cols-[minmax(0,1fr)_300px] ${canvasHeight}`}>
                 <div ref={stageRef} className="relative min-h-0 overflow-hidden bg-[hsl(var(--classroom-canvas))]">
-                <div className="absolute bottom-4 left-1/2 z-20 flex -translate-x-1/2 items-center gap-1 rounded-md border border-border bg-card p-1.5 shadow-lg">
+                <div className="absolute bottom-5 left-1/2 z-20 flex max-w-[calc(100%-2rem)] -translate-x-1/2 items-center gap-1 overflow-x-auto rounded-xl border border-sky-100/80 bg-card/90 p-1.5 shadow-xl shadow-sky-900/15 backdrop-blur-xl">
                   {([
                     { key: "class", icon: LayoutGrid, label: t("Toàn lớp", "Whole class") },
                     { key: "top", icon: ScanLine, label: t("Từ trên", "Top view") },
                     { key: "alert", icon: Target, label: t("Cần chú ý", "Attention") },
-                  ] as const).map((preset) => <Button key={preset.key} variant="ghost" size="sm" className="classroom-control gap-1.5 text-foreground hover:bg-muted hover:text-foreground" aria-label={preset.label} onClick={() => applyPreset(preset.key)}><preset.icon className="h-4 w-4" /><span className="hidden sm:inline">{preset.label}</span></Button>)}
+                  ] as const).map((preset, index) => <Button key={preset.key} variant="ghost" size="sm" className={`classroom-control shrink-0 gap-1.5 rounded-lg ${index === 0 ? "bg-primary text-primary-foreground shadow-md hover:bg-primary/90 hover:text-primary-foreground" : "text-foreground hover:bg-sky-50 hover:text-primary"}`} aria-label={preset.label} onClick={() => applyPreset(preset.key)}><preset.icon className="h-4 w-4" /><span className="hidden sm:inline">{preset.label}</span></Button>)}
                 </div>
                 <Canvas
                   shadows
@@ -856,14 +852,14 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
                   camera={{ position: [0, 7 + rows * 0.55, 12 + rows * 1.15], fov: 45 }}
                   frameloop={visible ? "always" : "demand"}
                 >
-                  <color attach="background" args={["#eadfd5"]} />
-                  <fog attach="fog" args={["#f3ebe4", 18, 50]} />
-                  <ambientLight intensity={0.66} />
-                  <hemisphereLight args={["#fff8f0", "#87a878", 0.74]} />
-                  <directionalLight position={[-10, 12, 8]} intensity={1.3} color="#ffe4cf" castShadow shadow-mapSize={[1024, 1024]} />
-                  <directionalLight position={[8, 7, -5]} intensity={0.46} color="#b9d1ad" />
-                  <pointLight position={[-6, 4.8, -8]} intensity={0.34} color="#e8a87c" distance={12} />
-                  <pointLight position={[6, 4.8, -8]} intensity={0.3} color="#87a878" distance={12} />
+                  <color attach="background" args={["#edf8fb"]} />
+                  <fog attach="fog" args={["#f4fbfc", 18, 50]} />
+                  <ambientLight intensity={0.72} />
+                  <hemisphereLight args={["#e0f2fe", "#99f6e4", 0.82]} />
+                  <directionalLight position={[-10, 12, 8]} intensity={1.35} color="#ffffff" castShadow shadow-mapSize={[1024, 1024]} />
+                  <directionalLight position={[8, 7, -5]} intensity={0.52} color="#67e8f9" />
+                  <pointLight position={[-6, 4.8, -8]} intensity={0.38} color="#fde68a" distance={12} />
+                  <pointLight position={[6, 4.8, -8]} intensity={0.34} color="#5eead4" distance={12} />
                   <Suspense fallback={null}>
                     <Room
                       seats={seats}
@@ -911,19 +907,19 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
                   />
                 </Canvas>
                 </div>
-                <aside className="hidden min-h-0 overflow-y-auto border-l border-border/70 bg-card xl:block">
-                  <div className="border-b border-border/60 p-5">
-                    <p className="font-classroom-heading text-xs font-bold uppercase text-muted-foreground">{t("Trung tâm quản lý", "Management center")}</p>
+                <aside className="hidden min-h-0 overflow-y-auto border-l border-sky-100 bg-card/90 backdrop-blur-xl xl:block">
+                  <div className="border-b border-sky-100 p-5">
+                    <p className="font-classroom-heading text-xs font-bold uppercase text-primary">{t("Trung tâm quản lý", "Management center")}</p>
                     <div className="relative mt-3">
                       <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                      <Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder={t("Tìm học sinh...", "Find a student...")} className="h-9 bg-muted/40 pl-8" />
+                      <Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder={t("Tìm học sinh...", "Find a student...")} className="h-10 rounded-xl border-sky-100 bg-sky-50/50 pl-8 shadow-sm focus-visible:ring-primary/30" />
                     </div>
                   </div>
-                  <div className="grid grid-cols-2 gap-2 border-b border-border/60 p-4">
-                    <div className="rounded-md bg-primary/5 p-3"><Users className="mb-2 h-4 w-4 text-primary" /><b className="block text-xl">{safeStudents.length}</b><span className="text-xs text-muted-foreground">{t("Học sinh", "Students")}</span></div>
-                    <div className="rounded-md bg-emerald-500/5 p-3"><Activity className="mb-2 h-4 w-4 text-emerald-600" /><b className="block text-xl">{stats.activeWeek}</b><span className="text-xs text-muted-foreground">{t("Học tuần này", "Active week")}</span></div>
+                  <div className="grid grid-cols-2 gap-3 border-b border-sky-100 p-4">
+                    <div className="rounded-xl border border-sky-200/70 bg-sky-50 p-3 shadow-sm"><span className="mb-3 flex h-8 w-8 items-center justify-center rounded-lg bg-card text-sky-600 shadow-sm"><Users className="h-4 w-4" /></span><b className="font-classroom-heading block text-2xl text-sky-950">{safeStudents.length}</b><span className="text-xs font-semibold text-sky-700">{t("Học sinh", "Students")}</span></div>
+                    <div className="rounded-xl border border-emerald-200/70 bg-emerald-50 p-3 shadow-sm"><span className="mb-3 flex h-8 w-8 items-center justify-center rounded-lg bg-card text-emerald-600 shadow-sm"><Activity className="h-4 w-4" /></span><b className="font-classroom-heading block text-2xl text-emerald-950">{stats.activeWeek}</b><span className="text-xs font-semibold text-emerald-700">{t("Học tuần này", "Active week")}</span></div>
                   </div>
-                  <div className="border-b border-border/60 p-4">
+                  <div className="border-b border-sky-100 p-4">
                     <p className="mb-2 text-xs font-semibold uppercase text-muted-foreground">{t("Trạng thái lớp", "Class status")}</p>
                     {legend}
                   </div>
