@@ -322,7 +322,7 @@ export const applyPromptParaphrases = <T extends { id: string; questions: { prom
     questions: set.questions.map((q, i) => {
       let next = map[i + 1] ? { ...q, prompt: map[i + 1] } : q;
       const o = opts[i + 1];
-      if (o && "options" in next && Array.isArray((next as { options?: string[] }).options) && (next as { options: string[] }).options.length === o.length) next = { ...next, options: o };
+      if (o && "options" in next && Array.isArray((next as { options?: string[] }).options) && (next as { options: string[] }).options.length === o.length) next = { ...next, options: o } as typeof next;
       return next;
     }),
   };
