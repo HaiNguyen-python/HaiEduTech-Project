@@ -49,17 +49,15 @@ const ExerciseWorkspace = ({ lessonId, exercise = "", sampleCode, language = "py
 
   // Load this lesson's own draft whenever the lesson changes, so the previous
   // lesson's code never leaks into (or overwrites) the new exercise.
-  const loadedKeyRef = useRef(storageKey);
   useEffect(() => {
-    loadedKeyRef.current = storageKey;
-    setCode(localStorage.getItem(storageKey) ?? "");
+    setDraft({ key: storageKey, code: localStorage.getItem(storageKey) ?? "" });
   }, [storageKey]);
 
   useEffect(() => {
-    // Skip the render that still holds the previous lesson's code.
-    if (loadedKeyRef.current !== storageKey) return;
-    localStorage.setItem(storageKey, code);
-  }, [code, storageKey]);
+    // Only persist a draft that actually belongs to the current lesson.
+    if (draft.key !== storageKey) return;
+    localStorage.setItem(storageKey, draft.code);
+  }, [draft, storageKey]);
 
   // Reset helper when exercise changes (e.g. navigating to next lesson)
   useEffect(() => {
