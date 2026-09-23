@@ -62,7 +62,7 @@ const Footer = () => {
               </span>
             </div>
             <p className="text-sm text-muted-foreground mb-4">{t("Học thông minh • Dẫn đầu kỷ nguyên số", "Learn Smart • Lead the Digital Era")}</p>
-            <div className="flex items-center gap-4 sm:gap-5">
+            <div className="flex items-center gap-6 sm:gap-7">
               {socialLinks.map((s) => (
                 <a
                   key={s.label}
@@ -117,7 +117,7 @@ const Footer = () => {
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <MapPin className="w-4 h-4 shrink-0" /> {t("Phần Lan & Việt Nam", "Finland & Vietnam")}
               </div>
-              <div className="flex items-center gap-2 pt-1">
+              <div className="flex items-center gap-4 pt-1">
                 <a href="https://github.com/HaiNguyen-python" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors" aria-label="GitHub">
                   <Github className="w-4 h-4" />
                 </a>
