@@ -317,6 +317,58 @@ const ExerciseWorkspace = ({ lessonId, exercise = "", sampleCode, language = "py
         </span>
       </div>
 
+      {/* Run output console */}
+      {runnable && (output || running) && (
+        <div className="rounded-xl border-2 border-sky-500/30 overflow-hidden bg-slate-950">
+          <div className="flex items-center justify-between px-3 py-2 bg-slate-900 border-b border-slate-800">
+            <span className="text-[11px] font-mono text-slate-400">
+              {running
+                ? runtimeLoading
+                  ? t("⏳ Đang tải Python...", "⏳ Loading Python...")
+                  : t("⏳ Đang chạy...", "⏳ Running...")
+                : t("💻 Kết quả", "💻 Output")}
+            </span>
+            <div className="flex items-center gap-1.5">
+              {runError && (
+                <button
+                  onClick={askAiDebug}
+                  disabled={aiLoading}
+                  className="flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-medium bg-primary/20 text-primary hover:bg-primary/30 transition-colors disabled:opacity-50"
+                >
+                  {aiLoading ? <Loader2 className="w-3 h-3 animate-spin" /> : <Sparkles className="w-3 h-3" />}
+                  {t("Hỏi AI", "Ask AI")}
+                </button>
+              )}
+              {output && !running && (
+                <button
+                  onClick={() => {
+                    setOutput("");
+                    setRunError(false);
+                    setAiHelp("");
+                  }}
+                  className="flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-medium text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+                >
+                  <Trash2 className="w-3 h-3" />
+                  {t("Xoá kết quả", "Clear output")}
+                </button>
+              )}
+            </div>
+          </div>
+          <div
+            className={`px-3 py-2 text-sm font-mono min-h-[70px] max-h-[280px] overflow-auto whitespace-pre-wrap break-words leading-relaxed ${
+              runError ? "text-red-300" : "text-emerald-300"
+            }`}
+          >
+            {output || t("Đang xử lý...", "Working...")}
+          </div>
+          {aiHelp && (
+            <div className="px-3 py-3 border-t border-slate-800 text-sm text-slate-200 whitespace-pre-wrap break-words leading-relaxed">
+              <span className="text-primary font-medium">🤖 AI:</span> {aiHelp}
+            </div>
+          )}
+        </div>
+      )}
+
       {/* Approach + tiered hints */}
       {showApproach && helper && (
         <div className="rounded-xl border-2 border-amber-400/40 bg-amber-50 dark:bg-amber-950/30 p-4 space-y-2">
