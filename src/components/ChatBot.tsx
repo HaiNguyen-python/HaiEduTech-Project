@@ -1058,8 +1058,9 @@ const ChatBot = () => {
         body: JSON.stringify({
           messages: payloadMessages,
           studentContext: signedIn
-            ? (memoryContext ? `${studentContext}\n\n${memoryContext}` : studentContext)
+            ? [studentContext, memoryContext, pageContextRef.current].filter(Boolean).join("\n\n")
             : "",
+          pageContext: pageContextRef.current,
           guestMode: !signedIn,
         }),
       });
