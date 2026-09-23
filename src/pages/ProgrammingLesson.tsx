@@ -847,6 +847,19 @@ const ProgrammingLessonPage = () => {
                         The AI Deep-Dive is temporarily unavailable - you are reading the full base lesson in English.
                       </p>
                     )}
+                    {!enhancedMd && pendingEnhancedMd && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setEnhancedMd(pendingEnhancedMd);
+                          setPendingEnhancedMd(null);
+                        }}
+                        className="mb-5 inline-flex items-center gap-2 rounded-lg border border-violet-500/40 bg-violet-500/10 px-3 py-2 text-xs font-semibold text-violet-700 transition-colors hover:bg-violet-500/20 dark:text-violet-300"
+                      >
+                        <BookOpen className="h-3.5 w-3.5" />
+                        AI Deep-Dive is ready - open the detailed version
+                      </button>
+                    )}
                     {/* While the Deep-Dive is being prepared, show a soft skeleton above the
                         readable English base lesson so the page never feels empty. */}
                     {!enhancedMd && enhanceLoading && (
