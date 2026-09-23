@@ -627,8 +627,9 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
           <span>📖 Type directly over the sample code below</span>
           <span className="text-muted-foreground/70">Tab/Shift+Tab to indent</span>
         </div>
-        <div className="relative font-mono text-[12px] sm:text-[13px] leading-[1.18] bg-slate-950 rounded-lg overflow-hidden">
-          {/* Visible code surface: soft-wraps long lines and shows the full block. */}
+        <div className="relative font-mono text-[12px] sm:text-[13px] leading-[1.6] bg-slate-950 rounded-lg overflow-hidden">
+          {/* Visible code surface: real lines, no wrapping, no font ligatures, so
+              every character lines up with what the learner types. */}
           <div
             ref={codeScrollRef}
             role="button"
@@ -640,10 +641,10 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
                 focusTypingInput();
               }
             }}
-            className="whitespace-pre-wrap break-words text-slate-200 p-3 sm:p-4 min-h-[260px] overflow-visible cursor-text outline-none focus:ring-2 focus:ring-inset focus:ring-yellow-400/60"
-            style={{ overflowWrap: "anywhere" }}
+            className="text-slate-200 p-3 sm:p-4 min-h-[260px] overflow-x-auto cursor-text outline-none focus:ring-2 focus:ring-inset focus:ring-yellow-400/60"
+            style={{ fontVariantLigatures: "none", fontFeatureSettings: '"liga" 0, "calt" 0', tabSize: 4 }}
           >
-            {rendered}
+            {renderedLines}
             {/* Trailing spacer so the bottom line is reachable */}
             <span ref={typed.length >= snippet.length ? caretRef : undefined} className="opacity-0">.</span>
           </div>
