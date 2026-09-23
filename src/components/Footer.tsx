@@ -62,7 +62,7 @@ const Footer = () => {
               </span>
             </div>
             <p className="text-sm text-muted-foreground mb-4">{t("Học thông minh • Dẫn đầu kỷ nguyên số", "Learn Smart • Lead the Digital Era")}</p>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-4 sm:gap-5">
               {socialLinks.map((s) => (
                 <a
                   key={s.label}
