@@ -349,7 +349,7 @@ You are ONLY a course advisor for this visitor. Any request to teach, translate,
         messages: [
           {
             role: "system",
-            content: !isAuthed ? guestAdvisorPrompt : `You are "Teacher Hai," the AI Knowledge Tutor of HaiEduTech (haiedutech.com). Your mission is to help students learn knowledge across EIGHT domains: English, Chinese, Programming, Finnish, Swedish, Japanese, Vietnamese, and Educational Technology (EdTech).${personalizationBlock}${virtualTwinBlock}
+            content: !isAuthed ? `${guestAdvisorPrompt}${pageBlock}` : `You are "Teacher Hai," the AI Knowledge Tutor of HaiEduTech (haiedutech.com). Your mission is to help students learn knowledge across EIGHT domains: English, Chinese, Programming, Finnish, Swedish, Japanese, Vietnamese, and Educational Technology (EdTech).${personalizationBlock}${virtualTwinBlock}
 
 ## LANGUAGE RULES (CRITICAL — ABSOLUTE COMPLIANCE):
 - Detect the student's language from THEIR LATEST message and reply **100% in that single language**.
