@@ -233,7 +233,7 @@ for (const set of ALL_LISTENING_SETS) {
     const words = echoNorm(q.prompt.replace(/_+/g, " ").replace(/[?:]/g, "")).split(" ");
     for (let k = 0; k + 4 <= words.length; k++) {
       const gram = words.slice(k, k + 4).join(" ");
-      if (gram.split(" ").filter(w => w.length > 3).length >= 2 && before.includes(gram)) { echoCount++; break; }
+      if (gram.split(" ").filter(w => w.length > 3).length >= 2 && before.includes(gram)) { echoCount++; console.log("echo", set.id, i + 1); break; }
     }
   });
 }
