@@ -91,11 +91,33 @@ function difficultyOf(snippet: string): "Easy" | "Medium" | "Hard" {
  * Strip emojis and other non-ASCII pictographs from snippets so learners only
  * have to type plain code characters. Keeps standard punctuation and letters.
  */
+/**
+ * Typographic characters that cannot be typed on a normal keyboard are mapped
+ * back to their plain ASCII code equivalents (arrows, math operators, smart
+ * quotes) so every character in the drill is reachable.
+ */
+const ASCII_MAP: Record<string, string> = {
+  "→": "->", "⟶": "->", "➔": "->", "⇒": "=>", "⟹": "=>",
+  "←": "<-", "⟵": "<-", "⇐": "<=", "↔": "<->", "⇔": "<=>",
+  "≥": ">=", "≤": "<=", "≠": "!=", "≡": "==", "≈": "~=",
+  "×": "*", "÷": "/", "−": "-", "–": "-", "—": "-", "‐": "-",
+  "“": '"', "”": '"', "„": '"', "‟": '"', "‘": "'", "’": "'", "‚": "'",
+  "…": "...", "·": ".", "•": "-", "′": "'", "″": '"', "​": "",
+  "\u00A0": " ", "\u202F": " ", "\u2009": " ", "\u200B": "",
+};
+
+function asciifySymbols(text: string): string {
+  return text.replace(
+    /[→⟶➔⇒⟹←⟵⇐↔⇔≥≤≠≡≈×÷−–—‐“”„‟‘’‚…·•′″\u00A0\u202F\u2009\u200B]/g,
+    (ch) => ASCII_MAP[ch] ?? "",
+  );
+}
+
 function stripEmojis(text: string): string {
   if (!text) return text;
   // Remove emoji/pictograph/symbol ranges + variation selectors + ZWJ.
   const emojiRe = /[\u{1F1E6}-\u{1F1FF}\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2300}-\u{23FF}\u{2B00}-\u{2BFF}\u{FE0F}\u{200D}]/gu;
-  return text.replace(emojiRe, "").replace(/[ \t]+\n/g, "\n");
+  return asciifySymbols(text.replace(emojiRe, "")).replace(/[ \t]+\n/g, "\n");
 }
 
 /** Pick a short, fun-to-type slice from a longer source. */
