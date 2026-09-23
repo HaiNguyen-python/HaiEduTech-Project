@@ -544,8 +544,21 @@ const ProgrammingLessonPage = () => {
   // dropped into the middle of the page after clicking "Next lesson".
   useEffect(() => {
     if (!lessonId) return;
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: "auto" });
   }, [lessonId, moduleId]);
+
+  // Previous / next lesson across the WHOLE pillar: at the end of a module the
+  // learner continues into the first lesson of the following module instead of
+  // hitting a dead end.
+  const lessonSequence =
+    pillarModules.length > 0 && mod && pillarModules.some((m) => m.id === mod.id)
+      ? pillarModules.flatMap((m) => m.lessons.map((l) => ({ moduleId: m.id, lesson: l })))
+      : (mod ? mod.lessons.map((l) => ({ moduleId: mod.id, lesson: l })) : []);
+  const seqIdx = lesson
+    ? lessonSequence.findIndex((s) => s.moduleId === (mod?.id ?? "") && s.lesson.id === lesson.id)
+    : -1;
+  const prevStep = seqIdx > 0 ? lessonSequence[seqIdx - 1] : null;
+  const nextStep = seqIdx >= 0 ? lessonSequence[seqIdx + 1] ?? null : null;
 
   const switchLesson = (l: PLType) => {
     setLesson(l);
