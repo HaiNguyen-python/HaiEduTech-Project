@@ -404,6 +404,8 @@ const ProgrammingLessonPage = () => {
   useEffect(() => {
     if (!mod || !lesson) return;
     setEnhancedMd(null);
+    setPendingEnhancedMd(null);
+    theoryTouchedRef.current = false;
     setDeepDiveUnavailable(false);
     supabase
       .from("programming_theory_cache")
