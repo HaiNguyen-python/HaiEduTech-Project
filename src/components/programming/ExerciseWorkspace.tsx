@@ -28,7 +28,14 @@ interface HelperData {
 const ExerciseWorkspace = ({ lessonId, exercise = "", sampleCode, language = "python" }: Props) => {
   const { t } = useLanguage();
   const storageKey = `exercise-draft:${lessonId}`;
-  const [code, setCode] = useState<string>(() => localStorage.getItem(storageKey) ?? "");
+  // Draft is stored together with the key it belongs to, so a lesson change can
+  // never write the previous lesson's code into the new lesson's slot.
+  const [draft, setDraft] = useState<{ key: string; code: string }>(() => ({
+    key: storageKey,
+    code: localStorage.getItem(storageKey) ?? "",
+  }));
+  const code = draft.key === storageKey ? draft.code : "";
+  const setCode = (value: string) => setDraft({ key: storageKey, code: value });
   const [showSample, setShowSample] = useState(false);
   const [copied, setCopied] = useState(false);
   const taRef = useRef<HTMLTextAreaElement>(null);
