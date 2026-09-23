@@ -378,6 +378,12 @@ const ProgrammingLessonPage = () => {
   // AI-enhanced theory state
   const [enhancedMd, setEnhancedMd] = useState<string | null>(null);
   const [enhanceLoading, setEnhanceLoading] = useState(false);
+  // Deep-Dive that arrived AFTER the learner started reading/expanding the base
+  // theory. Swapping the markdown under their fingers made "Read more" clicks
+  // appear dead and restarted the section numbering mid-page, so we hold it
+  // behind an explicit button instead.
+  const [pendingEnhancedMd, setPendingEnhancedMd] = useState<string | null>(null);
+  const theoryTouchedRef = useRef(false);
   // True when the AI Deep-Dive could not be produced - the original English
   // theory is shown instead so the lesson is never blank.
   const [deepDiveUnavailable, setDeepDiveUnavailable] = useState(false);
