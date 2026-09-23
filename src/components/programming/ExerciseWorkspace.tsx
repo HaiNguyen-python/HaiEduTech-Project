@@ -3,12 +3,13 @@
  * @description Code input area + AI hints + AI-generated exercise-specific sample answer.
  */
 import { useEffect, useRef, useState } from "react";
-import { Eye, EyeOff, RotateCcw, Copy, Check, Lightbulb, Loader2, Sparkles } from "lucide-react";
+import { Eye, EyeOff, RotateCcw, Copy, Check, Lightbulb, Loader2, Sparkles, Play, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import CodeBlock from "@/components/CodeBlock";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { ensurePyodideRuntime, preloadPyodide } from "@/components/python/PyodideRunner";
 
 interface Props {
   lessonId: string;
