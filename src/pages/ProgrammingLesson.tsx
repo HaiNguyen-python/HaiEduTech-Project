@@ -437,7 +437,7 @@ const ProgrammingLessonPage = () => {
           handleEnhanceTheory(true, { silent: true });
           return;
         }
-        setEnhancedMd(normalizeTheoryDashes(cleaned));
+        applyDeepDive(normalizeTheoryDashes(cleaned));
         // Illustration backfill is managed separately so opening a lesson never
         // rewrites otherwise valid cached theory.
       });
@@ -469,7 +469,7 @@ const ProgrammingLessonPage = () => {
         setDeepDiveUnavailable(true);
         if (!silent) toast.warning("AI Deep-Dive is temporarily unavailable. Showing base theory.");
       } else if (data?.markdown && !hasVietnameseText(data.markdown)) {
-        setEnhancedMd(normalizeTheoryDashes(data.markdown));
+        applyDeepDive(normalizeTheoryDashes(data.markdown));
         setDeepDiveUnavailable(false);
         if (!silent) toast.success(data.cached ? "Loaded enhanced theory from cache" : "AI Deep-Dive ready!");
       } else {
