@@ -99,8 +99,23 @@ function splitByH2(md: string): Section[] {
     title: null, rawTitle: null, stepNumber: null, bodyLines: [],
   };
 
-  const slugify = (s: string, idx: number) =>
-    s.toLowerCase().replace(/[^\w\s-]/g, "").trim().replace(/\s+/g, "-").slice(0, 60) || `section-${idx}`;
+  const usedSlugs = new Set<string>();
+  const slugify = (s: string, idx: number) => {
+    const base =
+      s.toLowerCase().replace(/[^\w\s-]/g, "").trim().replace(/\s+/g, "-").slice(0, 60) || `section-${idx}`;
+    // Two headings can share a title inside one lesson. Duplicate slugs collide
+    // in React keys and in the open/read state maps, which made one section
+    // refuse to expand and rendered badges out of order. Always disambiguate.
+    if (!usedSlugs.has(base)) {
+      usedSlugs.add(base);
+      return base;
+    }
+    let n = 2;
+    while (usedSlugs.has(`${base}-${n}`)) n += 1;
+    const unique = `${base}-${n}`;
+    usedSlugs.add(unique);
+    return unique;
+  };
 
   const flush = () => {
     const body = current.bodyLines.join("\n").trim();
