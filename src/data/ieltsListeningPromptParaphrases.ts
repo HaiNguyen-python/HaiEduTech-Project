@@ -10,6 +10,7 @@
  * @copyright 2026 HaiEduTech
  */
 export const LISTENING_PROMPT_PARAPHRASES: Record<string, Record<number, string>> = {
+  "mcq-museum": { 4: "What is the main theme of the ground-floor gallery?" },
   "mcq-s2": { 9: "How much does an adult pay to get in?" },
   "map-labelling-s2": { 7: "7. The only day of the year the park does not open is ___ Day.", 8: "8. Dogs have to be kept on a leash near the ___ area." },
   "note-completion-s4": { 3: "Because of limited ground space, most urban hives are kept on ___.", 8: "Bees can drink safely from a shallow container of water and ___." },
@@ -22,10 +23,11 @@ export const LISTENING_PROMPT_PARAPHRASES: Record<string, Record<number, string>
     1: "Visitors may NOT take pictures in which area?",
     6: "Visitors can return without paying again if they come back within:",
     7: "How must visitors get to the upper gallery today?",
-    10: "How often do sessions in the model-boat workshop begin?",
+    8: "Which replica item do visitors buy most often?",
+    10: "How frequently can visitors join a model-boat workshop session?",
   },
   "lecture-urban-trees": { 2: "The shade of a large street tree can make the air as much as ___ degrees cooler.", 10: "Councils find it hardest to pay for ongoing ___." },
-  "monologue-museum-tour-2": { 6: "The last time you can buy souvenirs is ___.", 7: "The mosaic from the Roman period was found in ___.", 9: "Visitors can see the modern photographs until ___." },
+  "monologue-museum-tour-2": { 1: "In which year did the museum first welcome visitors?", 6: "The last time you can buy souvenirs is ___.", 7: "The mosaic from the Roman period was found in ___.", 9: "Visitors can see the modern photographs until ___." },
   "discussion-research-project-2": { 2: "How many people the group should aim to recruit: ___", 9: "Sources older than ___ years should generally be avoided." },
   "lecture-urban-trees-2": { 1: "Greatest temperature drop recorded under a mature tree: ___ °C", 2: "Homes near trees saved roughly ___ % on energy costs." },
   "form-apartment-rental": { 7: "Parking: one reserved space behind the building, at the ___" },
@@ -38,6 +40,7 @@ export const LISTENING_PROMPT_PARAPHRASES: Record<string, Record<number, string>
     1: "Roughly one ___ of our diet depends on bee pollination.",
     2: "Over half a century, certain wild bee populations dropped by as much as ___ per cent.",
     6: "Sowing flower-rich strips can raise bee populations by as much as ___ per cent.",
+    5: "Colonies are weakened by a tiny parasite known as ___.",
     7: "Dutch researchers saw results after only ___ years.",
     8: "Green spaces in towns, even small balconies, can offer pollinators safe ___.",
     10: "Farmers can support bees by not cutting the edges, or ___, of fields until late summer.",
@@ -85,6 +88,7 @@ export const LISTENING_PROMPT_PARAPHRASES: Record<string, Record<number, string>
   },
   "monologue-safety-briefing": { 4: "What is the deadline for reporting an accident?", 5: "Where can staff find first-aid supplies?" },
   "monologue-hostel-rules": {
+    3: "When does food service end in the kitchen?",
     1: "By what time must guests leave their rooms on departure day?",
     2: "What is the latest time guests can have breakfast?",
     6: "Where should guests keep their bicycles?",
@@ -93,6 +97,7 @@ export const LISTENING_PROMPT_PARAPHRASES: Record<string, Record<number, string>
   },
   "map-botanical-garden": {
     2: "What is on your left as you come through the entrance?",
+    4: "Where is the rose garden located?",
     5: "Where can children play?",
     6: "Where are the herbs grown?",
     8: "Where are the highest trees?",
@@ -103,6 +108,7 @@ export const LISTENING_PROMPT_PARAPHRASES: Record<string, Record<number, string>
     6: "What is the youngest age for children's swimming lessons?",
     7: "On which day can people NOT use the climbing wall?",
     8: "Who pays the lowest membership fee?",
+    9: "What does the café offer for the most part?",
     10: "How long can visitors park without paying?",
   },
   "monologue-traffic-report": {
@@ -151,6 +157,7 @@ export const LISTENING_PROMPT_PARAPHRASES: Record<string, Record<number, string>
     10: "Who should staff tell about difficult visitors?",
   },
   "monologue-arts-festival": {
+    1: "How long does the festival last?",
     3: "Where are the majority of events held?",
     4: "How much do young people under 18 pay?",
     5: "What is the subject of the photography show?",
@@ -187,7 +194,7 @@ export const LISTENING_PROMPT_PARAPHRASES: Record<string, Record<number, string>
     6: "Dams stop ___ from travelling up and down rivers.",
     7: "A frequent answer to this problem is to build a fish ___.",
     8: "Because sediment is held back, the ___ downstream becomes less fertile.",
-    9: "Run-of-river schemes appeal because they do not require a big ___.",
+    9: "Run-of-river projects are popular as there is no need to flood land for a ___.",
     10: "The main financial disadvantage is the large ___ needed at the start.",
   },
   "lecture-language-endangerment": {
@@ -206,7 +213,7 @@ export const LISTENING_PROMPT_PARAPHRASES: Record<string, Record<number, string>
     5: "The main problem in practice is ___ mixed in with the glass.",
     6: "Collecting all colours together reduces the ___ of the glass.",
     7: "Britain has too much green glass because it mostly comes in foreign ___.",
-    8: "Glass that cannot be melted again is often crushed for use in ___.",
+    8: "Glass unsuitable for remelting is often crushed and used by the ___ industry.",
     9: "With deposit-return schemes, collection usually rises to over ___ per cent.",
     10: "Reusing containers rather than recycling them saves most energy in the ___ industry.",
   },
@@ -232,7 +239,7 @@ export const LISTENING_PROMPT_PARAPHRASES: Record<string, Record<number, string>
   },
   "lecture-trade-routes": {
     2: "Rather than one road, the Silk Road was a changing web of ___.",
-    3: "In the Indian Ocean, the most valuable light goods were ___.",
+    3: "Across the Indian Ocean, high-value goods that took up little space were mainly ___.",
     4: "Ships relied on seasonal winds known as the ___.",
     5: "Camels can survive desert crossings because they cope well with ___.",
     6: "The main goods carried south across the Sahara were ___.",
