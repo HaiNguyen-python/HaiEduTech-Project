@@ -275,9 +275,55 @@ export const LISTENING_PROMPT_PARAPHRASES: Record<string, Record<number, string>
   },
 };
 
+/**
+ * Rebalanced MCQ options so the correct answer is not the obviously longest one.
+ * Only distractor wording is lengthened; the correct option keeps its meaning and
+ * the answer index stays the same.
+ */
+export const LISTENING_OPTION_REBALANCE: Record<string, Record<number, string[]>> = {
+  "mcq-s2": { 3: ["Construction work", "Stormy weather", "A street festival"], 5: ["The covered market", "The castle gardens", "The cathedral square"], 10: ["the cathedral floor is slippery", "the cobbled lane to the castle is uneven", "the market stalls close early today"] },
+  "mcq-museum": { 5: ["Local fishing history", "Steam-age exhibits", "Ocean plastics display", "Navigational instruments"], 6: ["The temporary exhibition", "The ground-floor gallery", "The first-floor gallery", "The museum caf\u00e9"], 9: ["The caf\u00e9 on the ground floor", "The souvenir shop", "The handheld audio guides", "The lift to the top floor"] },
+  "monologue-museum-tour": { 1: ["The main entrance hall", "The lighthouse exhibition", "The East Wing gallery", "The museum gift shop"], 7: ["the passenger lift", "the wheelchair ramp", "the side entrance", "the main staircase"], 8: ["navigation chart", "wooden ship model", "framed poster", "bronze medal"], 9: ["the caf\u00e9", "the ticket desk", "the gift shop", "the East Wing"] },
+  "monologue-park-tour": { 5: ["early morning", "around midday", "late evening"] },
+  "monologue-volunteer-briefing": { 5: ["open sandals", "trainers only", "closed-toe shoes"], 10: ["encouraged but optional", "compulsory for everyone", "available online only"] },
+  "monologue-festival-info": { 10: ["food and snacks", "glass bottles", "folding umbrellas"] },
+  "discussion-presentation-feedback": { 7: ["too much reliance on one source", "unclear answers to questions", "going over the time limit"] },
+  "discussion-internship-options": { 4: ["structured training", "a relaxed dress code", "options for remote work"] },
+  "discussion-thesis-edits": { 6: ["more primary data", "critical voice", "clearer diagrams"] },
+  "monologue-community-garden": { 9: ["seven days a week", "at weekends only", "on weekdays only", "by appointment"] },
+  "monologue-art-gallery-v2": { 2: ["modern sculpture", "oil paintings", "studio ceramics", "modern photography"] },
+  "monologue-farmers-market": { 3: ["The main gate", "The yellow tent", "The old clock tower", "The public library"], 8: ["the clock tower", "the yellow tent", "the library steps", "the main entrance"] },
+  "monologue-campus-tour": { 1: ["forty minutes", "about two hours", "ninety minutes", "three hours"], 2: ["the sports hall", "the main gate", "the university library", "the students' union"], 8: ["the college chapel", "the accommodation office", "the drama theatre", "the campus bus stop"] },
+  "monologue-recycling-centre": { 7: ["wear a safety helmet", "stay in the car park", "be accompanied by an adult", "book a slot in advance"] },
+  "monologue-theatre-backstage": { 4: ["up in the attic", "in the basement", "at an off-site store", "backstage"], 5: ["a service lift", "a metal ladder", "a spiral staircase", "a back corridor"] },
+  "monologue-nature-reserve": { 5: ["recycled plastic", "oak planks", "concrete slabs", "galvanised steel mesh"], 9: ["perimeter track", "raised boardwalk", "main visitor path", "farm access road"] },
+  "monologue-bus-network": { 4: ["ten minutes", "twenty minutes", "half an hour", "every hour"], 9: ["free taxi rides", "priority seating", "door-to-door transport", "personal travel assistants"] },
+  "monologue-new-library": { 4: ["gas boilers", "rooftop solar panels", "wood-pellet burners", "ground-source heat pumps"], 9: ["author events", "a rooftop caf\u00e9", "extra book storage", "staff parking"], 10: ["shelving returned books", "digital skills sessions", "gardening on the terrace", "guided building tours"] },
+  "monologue-safety-briefing": { 2: ["the main entrance", "the loading bay", "the staff canteen", "the staff car park"], 8: ["the safety officer", "the shift supervisor", "the reception desk", "the site cleaner"] },
+  "monologue-hostel-rules": { 4: ["hired separately", "not provided at all", "sold at reception", "included in the price"], 5: ["dormitories", "the back garden", "the guest lounge", "the dining room"] },
+  "map-botanical-garden": { 2: ["the caf\u00e9", "the gift shop", "the toilet block", "the ticket office"], 3: ["at the top of the slope", "beside the lake", "next to the car park", "behind the caf\u00e9"], 4: ["behind the glasshouse", "between the caf\u00e9 and the lake", "beside the main car park", "at the far north end"], 6: ["north of the lake", "beside the entrance", "inside the orchard", "south of the glasshouse"] },
+  "monologue-sports-centre-plan": { 5: ["a one-pound coin", "a plastic token", "a membership card", "your own padlock"], 8: ["full-time students", "families", "the over-sixties", "off-peak users"] },
+  "monologue-traffic-report": { 2: ["one weekend", "about a month", "two days", "three weekends"] },
+  "monologue-wildlife-park": { 3: ["the lions", "the penguins", "the red pandas", "the otters"], 9: ["field conservation", "staff wages", "new buildings", "school visits"] },
+  "monologue-town-regeneration": { 2: ["a multi-storey car park", "a market hall", "a bus station", "a pedestrian area"], 4: ["local council taxes", "central government", "private investors", "a lottery grant"], 5: ["thirty homes", "a thousand homes", "three hundred homes", "sixty homes"], 7: ["Thursdays and Saturdays", "every day of the week", "on Sundays only", "on Mondays only"] },
+  "monologue-boat-trip": { 10: ["online", "at the kiosk", "on board", "at the caf\u00e9"] },
+  "monologue-science-fair": { 2: ["ten o'clock", "at midday", "one o'clock", "eleven o'clock"], 6: ["everyone attending", "visiting teachers", "the judges", "exhibitors only"], 8: ["a cash prize", "a laboratory visit", "a silver trophy", "new equipment"] },
+  "monologue-staff-orientation": { 2: ["five minutes early", "fifteen minutes early", "half an hour early", "exactly on the hour"], 4: ["in the caf\u00e9", "outside the building", "at the front desk", "in the staff room"], 6: ["sit down on duty", "touch the exhibits", "talk to visitors", "carry personal bags"], 7: ["gallery staff", "museum volunteers", "their teachers", "a tour guide"], 8: ["this afternoon", "during next week", "online at home", "on your second day"], 10: ["the security team", "the duty manager", "your supervisor", "the reception desk"] },
+  "monologue-arts-festival": { 2: ["a film screening", "a street parade", "a public lecture", "an outdoor concert"], 3: ["old market building", "the town hall", "the riverside park", "the theatre"], 5: ["local wildlife", "portraits of residents", "local industry", "historic architecture"], 7: ["railway shed", "the old cinema", "the chapel", "the primary school"], 10: ["travel expenses", "a small payment", "a festival T-shirt", "free festival passes"] },
+};
+
 /** Applies paraphrased prompts to a set without changing any answer key. */
 export const applyPromptParaphrases = <T extends { id: string; questions: { prompt: string }[] }>(set: T): T => {
-  const map = LISTENING_PROMPT_PARAPHRASES[set.id];
-  if (!map) return set;
-  return { ...set, questions: set.questions.map((q, i) => (map[i + 1] ? { ...q, prompt: map[i + 1] } : q)) };
+  const map = LISTENING_PROMPT_PARAPHRASES[set.id] ?? {};
+  const opts = LISTENING_OPTION_REBALANCE[set.id] ?? {};
+  if (!LISTENING_PROMPT_PARAPHRASES[set.id] && !LISTENING_OPTION_REBALANCE[set.id]) return set;
+  return {
+    ...set,
+    questions: set.questions.map((q, i) => {
+      let next = map[i + 1] ? { ...q, prompt: map[i + 1] } : q;
+      const o = opts[i + 1];
+      if (o && "options" in next && Array.isArray((next as { options?: string[] }).options) && (next as { options: string[] }).options.length === o.length) next = { ...next, options: o } as typeof next;
+      return next;
+    }),
+  };
 };
