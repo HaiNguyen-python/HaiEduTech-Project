@@ -43,5 +43,49 @@ export const normalizeTheoryMarkdownStructure = (markdown: string): string => {
     output.push(line);
   }
 
-  return normalizeFencedCodeIndentation(output.join("\n").replace(/\n{3,}/g, "\n\n"));
+  return normalizeFencedCodeIndentation(
+    separateListsFromParagraphs(output.join("\n")).replace(/\n{3,}/g, "\n\n"),
+  );
+};
+
+/**
+ * Markdown needs a blank line between a paragraph and the list that follows it,
+ * otherwise the bullets are swallowed into the paragraph (lazy continuation)
+ * and render as one long run-on sentence. This is the shape used across the
+ * Programming theory, including inside blockquote callouts ("> 💡 **Tips:**"
+ * followed by "> - ...").
+ */
+const LIST_ITEM = /^(\s*(?:>\s*)*)(?:[-*+]|\d+[.)])\s+\S/;
+const HEADING_OR_FENCE = /^(\s*(?:>\s*)*)(?:#{1,6}\s|```|\||\s*$)/;
+
+const separateListsFromParagraphs = (markdown: string): string => {
+  let inFence = false;
+  const out: string[] = [];
+
+  for (const line of markdown.split("\n")) {
+    if (/^\s*```/.test(line)) {
+      inFence = !inFence;
+      out.push(line);
+      continue;
+    }
+    if (inFence) {
+      out.push(line);
+      continue;
+    }
+
+    const item = LIST_ITEM.exec(line);
+    const prev = out[out.length - 1];
+    if (item && prev !== undefined && prev.trim()) {
+      const prevIsList = LIST_ITEM.test(prev);
+      const prevIsStructural = HEADING_OR_FENCE.test(prev);
+      if (!prevIsList && !prevIsStructural) {
+        // Keep the blockquote marker so the bullets stay inside the callout.
+        const quotePrefix = (item[1].match(/>/g) || []).map(() => ">").join(" ");
+        out.push(quotePrefix ? quotePrefix : "");
+      }
+    }
+    out.push(line);
+  }
+
+  return out.join("\n");
 };
