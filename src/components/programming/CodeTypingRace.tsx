@@ -221,7 +221,38 @@ function normalizeFullSource(raw: string, language: string = ""): string {
       collapsed.push("");
     }
   }
-  return collapsed.join("\n");
+  return repairBlockLayout(collapsed).join("\n");
+}
+
+/**
+ * Some lesson code blocks arrive from markdown with a block body glued onto the
+ * header line (`if x > 1:        y += 2`) and stray blank lines between every
+ * statement. Both break the typing drill, so repair them here: split the body
+ * onto its own indented line and drop blank lines that carry no meaning.
+ */
+function repairBlockLayout(lines: string[]): string[] {
+  const out: string[] = [];
+  for (const line of lines) {
+    if (!line.trim()) {
+      // Keep at most one blank line, and only right before a def/class header.
+      out.push(line);
+      continue;
+    }
+    const m = line.match(/^(\s*)(\S.*?:)\s{2,}(\S.*)$/);
+    if (m && !m[2].includes("#")) {
+      const indent = m[1];
+      out.push(`${indent}${m[2]}`);
+      out.push(`${indent}    ${m[3].trimEnd()}`);
+      continue;
+    }
+    out.push(line);
+  }
+  // Remove blank lines that are not followed by a def/class/decorator header.
+  return out.filter((line, i) => {
+    if (line.trim()) return true;
+    const next = out.slice(i + 1).find((l) => l.trim()) ?? "";
+    return /^\s*(def |class |async\s+def |@)/.test(next);
+  });
 }
 
 
@@ -542,7 +573,7 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
       });
       const newlineIdx = start + lineText.length;
       renderedLines.push(
-        <div key={li} className="whitespace-pre">
+        <div key={li} className="whitespace-pre min-w-max">
           {chars.length === 0 ? "\u00A0" : chars}
           <span
             ref={newlineIdx === typed.length ? caretRef : undefined}
