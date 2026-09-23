@@ -514,21 +514,47 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
     }
   }, [typed.length]);
 
-  // Render snippet with per-char highlight.
-  const rendered = snippet.split("").map((ch, i) => {
-    let cls = "text-muted-foreground";
+  // Render the snippet line by line: each line keeps its exact whitespace and
+  // never soft-wraps, so the highlighted characters always sit directly above
+  // what the learner types (the surface scrolls sideways for long lines).
+  const charClass = (i: number, ch: string) => {
     if (i < typed.length) {
-      cls = typed[i] === ch ? "text-emerald-600 dark:text-emerald-400" : "text-red-500 underline decoration-wavy";
-    } else if (i === typed.length) {
-      cls = "text-foreground bg-yellow-200/60 dark:bg-yellow-500/30 rounded-sm";
+      return typed[i] === ch
+        ? "text-emerald-600 dark:text-emerald-400"
+        : "text-red-500 underline decoration-wavy";
     }
-    if (ch === "\n") return <br key={i} />;
-    return (
-      <span key={i} ref={i === typed.length ? caretRef : undefined} className={cls}>
-        {ch === " " ? "\u00A0" : ch}
-      </span>
-    );
-  });
+    if (i === typed.length) return "text-foreground bg-yellow-200/60 dark:bg-yellow-500/30 rounded-sm";
+    return "text-muted-foreground";
+  };
+
+  const renderedLines: React.ReactNode[] = [];
+  {
+    let offset = 0;
+    snippet.split("\n").forEach((lineText, li) => {
+      const start = offset;
+      const chars = lineText.split("").map((ch, ci) => {
+        const i = start + ci;
+        return (
+          <span key={i} ref={i === typed.length ? caretRef : undefined} className={charClass(i, ch)}>
+            {ch}
+          </span>
+        );
+      });
+      const newlineIdx = start + lineText.length;
+      renderedLines.push(
+        <div key={li} className="whitespace-pre">
+          {chars.length === 0 ? "\u00A0" : chars}
+          <span
+            ref={newlineIdx === typed.length ? caretRef : undefined}
+            className={newlineIdx === typed.length ? "bg-yellow-200/60 dark:bg-yellow-500/30 rounded-sm" : ""}
+          >
+            {"\u00A0"}
+          </span>
+        </div>,
+      );
+      offset = newlineIdx + 1;
+    });
+  }
 
   return (
     <div className="glass-card rounded-xl p-6 border-t-4 border-yellow-500">
@@ -601,8 +627,9 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
           <span>📖 Type directly over the sample code below</span>
           <span className="text-muted-foreground/70">Tab/Shift+Tab to indent</span>
         </div>
-        <div className="relative font-mono text-[12px] sm:text-[13px] leading-[1.18] bg-slate-950 rounded-lg overflow-hidden">
-          {/* Visible code surface: soft-wraps long lines and shows the full block. */}
+        <div className="relative font-mono text-[12px] sm:text-[13px] leading-[1.35] bg-slate-950 rounded-lg overflow-hidden">
+          {/* Visible code surface: real lines, no wrapping, no font ligatures, so
+              every character lines up with what the learner types. */}
           <div
             ref={codeScrollRef}
             role="button"
@@ -614,10 +641,10 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
                 focusTypingInput();
               }
             }}
-            className="whitespace-pre-wrap break-words text-slate-200 p-3 sm:p-4 min-h-[260px] overflow-visible cursor-text outline-none focus:ring-2 focus:ring-inset focus:ring-yellow-400/60"
-            style={{ overflowWrap: "anywhere" }}
+            className="text-slate-200 p-3 sm:p-4 min-h-[260px] overflow-x-auto cursor-text outline-none focus:ring-2 focus:ring-inset focus:ring-yellow-400/60"
+            style={{ fontVariantLigatures: "none", fontFeatureSettings: '"liga" 0, "calt" 0', tabSize: 4 }}
           >
-            {rendered}
+            {renderedLines}
             {/* Trailing spacer so the bottom line is reachable */}
             <span ref={typed.length >= snippet.length ? caretRef : undefined} className="opacity-0">.</span>
           </div>
