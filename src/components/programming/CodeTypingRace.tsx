@@ -116,7 +116,7 @@ function asciifySymbols(text: string): string {
 function stripEmojis(text: string): string {
   if (!text) return text;
   // Remove emoji/pictograph/symbol ranges + variation selectors + ZWJ.
-  const emojiRe = /[\u{1F1E6}-\u{1F1FF}\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2300}-\u{23FF}\u{2B00}-\u{2BFF}\u{FE0F}\u{200D}]/gu;
+  const emojiRe = /[\u{1F1E6}-\u{1F1FF}\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2300}-\u{23FF}\u{2B00}-\u{2BFF}]|\u{FE0F}|\u{200D}/gu;
   return asciifySymbols(text.replace(emojiRe, "")).replace(/[ \t]+\n/g, "\n");
 }
 
