@@ -218,6 +218,28 @@ const wordSummary = [1, 2, 3, 4].map(section => {
   return `S${section} min=${counts[0]} median=${counts[Math.floor(counts.length / 2)]} max=${counts[counts.length - 1]}`;
 });
 
+// Echo check: a prompt must not repeat 4+ words of the recording right before the answer (Sections 2-4).
+const echoNorm = t => String(t).toLowerCase().replace(/[^a-z0-9':. ]/g, " ").replace(/\s+/g, " ").trim();
+let echoCount = 0;
+for (const set of ALL_LISTENING_SETS) {
+  if (set.section === 1) continue;
+  const T = echoNorm(set.transcript);
+  set.questions.forEach((q, i) => {
+    const ans = q.type === "mcq" ? q.options[q.answer] : q.type === "fill-in" ? q.answer : null;
+    if (!ans) return;
+    const idx = T.indexOf(echoNorm(ans));
+    if (idx < 0) return;
+    const before = T.slice(Math.max(0, idx - 70), idx);
+    const words = echoNorm(q.prompt.replace(/_+/g, " ").replace(/[?:]/g, "")).split(" ");
+    for (let k = 0; k + 4 <= words.length; k++) {
+      const gram = words.slice(k, k + 4).join(" ");
+      if (gram.split(" ").filter(w => w.length > 3).length >= 2 && before.includes(gram)) { echoCount++; break; }
+    }
+  });
+}
+console.log("prompt echoes (S2-S4):", echoCount);
+if (echoCount > 10) issues.push(`too many prompts copy the recording: ${echoCount}`);
+
 console.log("sets:", ALL_LISTENING_SETS.length, "full tests:", IELTS_FULL_LISTENING_TESTS.length);
 console.log("section counts:", sectionCounts);
 console.log("word counts:", wordSummary.join(" | "));
