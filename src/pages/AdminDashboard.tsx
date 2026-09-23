@@ -44,6 +44,7 @@ import AdminWorkspaceNav, {
   type AdminTabGroup,
 } from "@/components/admin/AdminWorkspaceNav";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import NewSignupsCard from "@/components/admin/NewSignupsCard";
 
 const SystemStatusTab = lazy(() => import("@/components/SystemStatusTab"));
 const IncomeManagement = lazy(() => import("@/components/IncomeManagement"));
