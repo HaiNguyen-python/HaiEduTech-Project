@@ -129,7 +129,11 @@ serve(async (req) => {
       } catch (_) { /* ignore auth errors for guest access */ }
     }
 
-    const { messages, studentContext } = await req.json();
+    const { messages, studentContext, pageContext } = await req.json();
+    // Page awareness works for guests too, so "explain this part" makes sense anywhere.
+    const pageBlock = typeof pageContext === "string" && pageContext.trim()
+      ? `\n\n## CURRENT PAGE THE STUDENT IS LOOKING AT (live):\n${pageContext.trim()}\nNever print the raw URL unless the student asks for a link.`
+      : "";
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
 
