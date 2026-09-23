@@ -1,5 +1,5 @@
 import LessonFeedback from "@/components/LessonFeedback";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -378,6 +378,12 @@ const ProgrammingLessonPage = () => {
   // AI-enhanced theory state
   const [enhancedMd, setEnhancedMd] = useState<string | null>(null);
   const [enhanceLoading, setEnhanceLoading] = useState(false);
+  // Deep-Dive that arrived AFTER the learner started reading/expanding the base
+  // theory. Swapping the markdown under their fingers made "Read more" clicks
+  // appear dead and restarted the section numbering mid-page, so we hold it
+  // behind an explicit button instead.
+  const [pendingEnhancedMd, setPendingEnhancedMd] = useState<string | null>(null);
+  const theoryTouchedRef = useRef(false);
   // True when the AI Deep-Dive could not be produced - the original English
   // theory is shown instead so the lesson is never blank.
   const [deepDiveUnavailable, setDeepDiveUnavailable] = useState(false);
@@ -395,9 +401,18 @@ const ProgrammingLessonPage = () => {
   //   (a) cached English Deep-Dive -> shown immediately,
   //   (b) no cache (or a stale Vietnamese cache) -> generated now and switched in,
   //   (c) AI unavailable -> original English theory stays readable.
+  // Show the Deep-Dive immediately when nothing has been read yet; otherwise
+  // queue it so the learner's expanded sections are never yanked away.
+  const applyDeepDive = (markdown: string) => {
+    if (theoryTouchedRef.current) setPendingEnhancedMd(markdown);
+    else setEnhancedMd(markdown);
+  };
+
   useEffect(() => {
     if (!mod || !lesson) return;
     setEnhancedMd(null);
+    setPendingEnhancedMd(null);
+    theoryTouchedRef.current = false;
     setDeepDiveUnavailable(false);
     supabase
       .from("programming_theory_cache")
@@ -422,7 +437,7 @@ const ProgrammingLessonPage = () => {
           handleEnhanceTheory(true, { silent: true });
           return;
         }
-        setEnhancedMd(normalizeTheoryDashes(cleaned));
+        applyDeepDive(normalizeTheoryDashes(cleaned));
         // Illustration backfill is managed separately so opening a lesson never
         // rewrites otherwise valid cached theory.
       });
@@ -454,7 +469,7 @@ const ProgrammingLessonPage = () => {
         setDeepDiveUnavailable(true);
         if (!silent) toast.warning("AI Deep-Dive is temporarily unavailable. Showing base theory.");
       } else if (data?.markdown && !hasVietnameseText(data.markdown)) {
-        setEnhancedMd(normalizeTheoryDashes(data.markdown));
+        applyDeepDive(normalizeTheoryDashes(data.markdown));
         setDeepDiveUnavailable(false);
         if (!silent) toast.success(data.cached ? "Loaded enhanced theory from cache" : "AI Deep-Dive ready!");
       } else {
@@ -809,7 +824,10 @@ const ProgrammingLessonPage = () => {
 
 
                   {/* Theory - document-style reading card with extra breathing room */}
-                  <div className="relative overflow-hidden rounded-2xl border-2 border-emerald-500/60 bg-card/90 shadow-[0_8px_30px_-10px_rgba(16,185,129,0.35)] p-6 sm:p-8 lg:p-10 ring-1 ring-emerald-500/10">
+                  <div
+                    className="relative overflow-hidden rounded-2xl border-2 border-emerald-500/60 bg-card/90 shadow-[0_8px_30px_-10px_rgba(16,185,129,0.35)] p-6 sm:p-8 lg:p-10 ring-1 ring-emerald-500/10"
+                    onPointerDownCapture={() => { theoryTouchedRef.current = true; }}
+                  >
                     <LessonFloatingSymbols pillarId={pillar} count={35} className="opacity-30" />
                     <div className="relative z-10">
                     <div className="flex items-center flex-wrap gap-3 mb-5 pb-3 border-b border-border">
@@ -828,6 +846,19 @@ const ProgrammingLessonPage = () => {
                       <p className="mb-5 rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-xs font-medium text-amber-700 dark:text-amber-300">
                         The AI Deep-Dive is temporarily unavailable - you are reading the full base lesson in English.
                       </p>
+                    )}
+                    {!enhancedMd && pendingEnhancedMd && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setEnhancedMd(pendingEnhancedMd);
+                          setPendingEnhancedMd(null);
+                        }}
+                        className="mb-5 inline-flex items-center gap-2 rounded-lg border border-violet-500/40 bg-violet-500/10 px-3 py-2 text-xs font-semibold text-violet-700 transition-colors hover:bg-violet-500/20 dark:text-violet-300"
+                      >
+                        <BookOpen className="h-3.5 w-3.5" />
+                        AI Deep-Dive is ready - open the detailed version
+                      </button>
                     )}
                     {/* While the Deep-Dive is being prepared, show a soft skeleton above the
                         readable English base lesson so the page never feels empty. */}
