@@ -258,6 +258,23 @@ const ExerciseWorkspace = ({ lessonId, exercise = "", sampleCode, language = "py
 
       {/* Action bar */}
       <div className="flex flex-wrap items-center gap-2">
+        {runnable && (
+          <Button
+            size="sm"
+            onClick={runCode}
+            disabled={running}
+            className="bg-gradient-to-r from-sky-600 to-blue-600 text-white hover:from-sky-700 hover:to-blue-700 shadow-sm"
+          >
+            {running ? <Loader2 className="w-4 h-4 mr-1 animate-spin" /> : <Play className="w-4 h-4 mr-1" />}
+            {running
+              ? runtimeLoading
+                ? t("Đang tải Python...", "Loading Python...")
+                : t("Đang chạy...", "Running...")
+              : output
+                ? t("Chạy lại", "Run again")
+                : t("Chạy code", "Run code")}
+          </Button>
+        )}
         {exercise && (
           <Button
             size="sm"
