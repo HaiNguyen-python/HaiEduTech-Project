@@ -40,7 +40,17 @@ const ExerciseWorkspace = ({ lessonId, exercise = "", sampleCode, language = "py
   const [showApproach, setShowApproach] = useState(false);
   const fetchingRef = useRef(false);
 
+  // Load this lesson's own draft whenever the lesson changes, so the previous
+  // lesson's code never leaks into (or overwrites) the new exercise.
+  const loadedKeyRef = useRef(storageKey);
   useEffect(() => {
+    loadedKeyRef.current = storageKey;
+    setCode(localStorage.getItem(storageKey) ?? "");
+  }, [storageKey]);
+
+  useEffect(() => {
+    // Skip the render that still holds the previous lesson's code.
+    if (loadedKeyRef.current !== storageKey) return;
     localStorage.setItem(storageKey, code);
   }, [code, storageKey]);
 
@@ -50,6 +60,7 @@ const ExerciseWorkspace = ({ lessonId, exercise = "", sampleCode, language = "py
     setRevealedHints(0);
     setShowApproach(false);
     setShowSample(false);
+    fetchingRef.current = false;
   }, [lessonId]);
 
   const ensureHelper = async (): Promise<HelperData | null> => {
