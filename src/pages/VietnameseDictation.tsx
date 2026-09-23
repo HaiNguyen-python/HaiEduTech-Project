@@ -8,7 +8,13 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import DictationExercise from "@/components/exercises/DictationExercise";
-import { dictationLevels } from "@/data/vietnamese/dictationData";
+import { dictationLevels as baseDictationLevels } from "@/data/vietnamese/dictationData";
+import { dictationExtraSentences } from "@/data/vietnamese/dictationExpansion";
+
+const dictationLevels = baseDictationLevels.map((level) => ({
+  ...level,
+  sentences: [...level.sentences, ...(dictationExtraSentences[level.id] ?? [])],
+}));
 
 const VietnameseDictation = () => {
   const { t } = useLanguage();

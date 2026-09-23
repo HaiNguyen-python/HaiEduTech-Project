@@ -19,7 +19,7 @@ export const dailyMicroLessonsV10: DailyMicroLesson[] = [
 /* ── Sổ tay giao tiếp: 4 chủ đề mới ─────────────────────────────────────── */
 export const phrasebookExpansionV10: PhrasebookCategory[] = [
   {
-    id: "hospital",
+    id: "hospital-visit",
     emoji: "🏥",
     title: "Ở bệnh viện & phòng khám",
     titleEn: "Hospital & Clinic",

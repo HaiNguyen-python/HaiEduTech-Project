@@ -11,7 +11,11 @@ import { Button } from "@/components/ui/button";
 import { phrasebookCategories as basePhrases } from "@/data/vietnamese/phrasebookData";
 import { phrasebookExpansion } from "@/data/vietnamese/phrasebookExpansion";
 import { phrasebookExpansionV10 } from "@/data/vietnamese/expansionV10Practice";
-const phrasebookCategories = [...basePhrases, ...phrasebookExpansion, ...phrasebookExpansionV10];
+import { phrasebookExpansionV11 } from "@/data/vietnamese/phrasebookExpansionV11";
+const allPhrasebookSets = [...basePhrases, ...phrasebookExpansion, ...phrasebookExpansionV10, ...phrasebookExpansionV11];
+const phrasebookCategories = allPhrasebookSets.filter(
+  (category, index) => allPhrasebookSets.findIndex((item) => item.id === category.id) === index,
+);
 import { playVietnameseTts } from "@/lib/vietnameseTts";
 
 const speak = (text: string) => {

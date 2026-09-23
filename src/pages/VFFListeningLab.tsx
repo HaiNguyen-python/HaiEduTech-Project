@@ -13,7 +13,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { vffListeningBank, ListeningExercise } from "@/data/vietnamese/vffListeningBank";
+import { vffListeningBank as vffListeningBase, ListeningExercise } from "@/data/vietnamese/vffListeningBank";
+import { vffListeningExpansion } from "@/data/vietnamese/vffListeningExpansion";
+
+const vffListeningBank: ListeningExercise[] = [...vffListeningBase, ...vffListeningExpansion];
 import { playVietnameseTts } from "@/lib/vietnameseTts";
 
 const SPEEDS = [0.75, 1, 1.25] as const;

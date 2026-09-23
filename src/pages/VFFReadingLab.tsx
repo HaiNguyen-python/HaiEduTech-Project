@@ -12,7 +12,10 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { vffReadingBank, ReadingPassage } from "@/data/vietnamese/vffReadingBank";
+import { vffReadingBank as vffReadingBase, ReadingPassage } from "@/data/vietnamese/vffReadingBank";
+import { vffReadingExpansion } from "@/data/vietnamese/vffReadingExpansion";
+
+const vffReadingBank: ReadingPassage[] = [...vffReadingBase, ...vffReadingExpansion];
 
 const Passage = ({ p }: { p: ReadingPassage }) => {
   const { t } = useLanguage();
