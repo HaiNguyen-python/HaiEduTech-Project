@@ -627,7 +627,7 @@ const CodeTypingRace = ({ source, language, lessonTitle, moduleTitle }: Props) =
           <span>📖 Type directly over the sample code below</span>
           <span className="text-muted-foreground/70">Tab/Shift+Tab to indent</span>
         </div>
-        <div className="relative font-mono text-[12px] sm:text-[13px] leading-[1.6] bg-slate-950 rounded-lg overflow-hidden">
+        <div className="relative font-mono text-[12px] sm:text-[13px] leading-[1.35] bg-slate-950 rounded-lg overflow-hidden">
           {/* Visible code surface: real lines, no wrapping, no font ligatures, so
               every character lines up with what the learner types. */}
           <div
