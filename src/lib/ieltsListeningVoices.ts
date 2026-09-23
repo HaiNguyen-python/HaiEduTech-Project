@@ -46,7 +46,7 @@ export const instructionsForSection = (section: number, speaker: string | null):
     `This line comes from ${role}.`,
     who,
     section >= 3
-      ? "Natural academic speaking pace like a real university talk, clear articulation, natural stress on key information, no slow dictation style."
+      ? "Natural academic speaking pace like a real university talk, clear articulation, natural stress on key information, no slow dictation style, smooth connected speech with natural linking between words."
       : "Natural conversational pace like real everyday speech, warm and clear, with realistic intonation, no slow dictation style.",
     "Never announce answers or add words that are not in the text.",
   ]
@@ -54,5 +54,6 @@ export const instructionsForSection = (section: number, speaker: string | null):
     .join(" ");
 };
 
-/** Natural real-life speaking pace; slightly brisker in conversational sections. */
-export const speedForSection = (section: number) => (section <= 2 ? 1.2 : 1.15);
+/** Recorded at the model's natural pace: forcing it faster made the voice
+ * rushed and clipped. Real IELTS recordings sit close to normal speech. */
+export const speedForSection = (section: number) => (section <= 2 ? 1.0 : 0.97);
