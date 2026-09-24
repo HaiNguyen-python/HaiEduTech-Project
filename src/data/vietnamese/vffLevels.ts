@@ -810,13 +810,18 @@ export const ensureFiveLessonQuizzes = (level: VFFLevel): VFFLevel => {
       const target = lesson.vocab[vocabIndex % lesson.vocab.length];
       const distractors = lesson.vocab
         .filter((item) => item.word !== target.word)
+        .slice(vocabIndex + 1)
+        .concat(lesson.vocab.filter((item) => item.word !== target.word).slice(0, vocabIndex + 1))
         .slice(0, 3)
         .map((item) => item.meaning);
+      const answer = vocabIndex % 4;
+      const options = [...distractors];
+      options.splice(answer, 0, target.meaning);
       lesson.quiz.push({
         question: `“${target.word}” có nghĩa là gì?`,
         questionEn: `What does “${target.word}” mean?`,
-        options: [target.meaning, ...distractors],
-        answer: 0,
+        options,
+        answer,
         explanation: `“${target.word}” có nghĩa là “${target.meaning}”.`,
         explanationEn: `“${target.word}” means “${target.meaning}”.`,
       });

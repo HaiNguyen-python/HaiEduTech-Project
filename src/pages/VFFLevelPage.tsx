@@ -206,7 +206,7 @@ function LessonView({ lesson, level, onDone }: { lesson: VFFLevelLesson; level: 
                     })}
                   </div>
                   {quizChecked && (
-                    <div className="text-xs text-muted-foreground italic mt-1">💡 {q.explanationEn}</div>
+                    <div className="text-xs text-muted-foreground italic mt-1">💡 {t(q.explanation ?? q.explanationEn, q.explanationEn)}</div>
                   )}
                 </div>
               ))}
@@ -283,7 +283,7 @@ function CheckpointView({ level, onDone }: { level: VFFLevel; onDone: (pct: numb
                   );
                 })}
               </div>
-              {submitted && <div className="text-xs text-muted-foreground italic mt-1">💡 {q.explanationEn}</div>}
+              {submitted && <div className="text-xs text-muted-foreground italic mt-1">💡 {t(q.explanation ?? q.explanationEn, q.explanationEn)}</div>}
             </div>
           ))}
         </div>
