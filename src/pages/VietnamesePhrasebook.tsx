@@ -17,6 +17,7 @@ const phrasebookCategories = allPhrasebookSets.filter(
   (category, index) => allPhrasebookSets.findIndex((item) => item.id === category.id) === index,
 );
 import { playVietnameseTts } from "@/lib/vietnameseTts";
+import phrasebookAuthentic from "@/assets/vietnamese/phrasebook-authentic.jpg";
 
 const speak = (text: string) => {
   void playVietnameseTts(text, { playbackRate: 0.92, speechRate: 0.85 });
@@ -29,7 +30,7 @@ const VietnamesePhrasebook = () => {
   const current = phrasebookCategories.find(c => c.id === activeCategory) || phrasebookCategories[0];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="vietnamese-readable min-h-screen bg-background">
       <SEO title="Phrasebook Việt Nam: Cụm từ thực dụng | HaiEduTech" description="Cụm từ tiếng Việt theo tình huống: taxi, nhà hàng, chợ, bệnh viện, khách sạn, hỏi đường, khẩn cấp." path="/learn-vietnamese/phrasebook" />
       <Navbar />
       <main className="pt-6 pb-16">
@@ -40,6 +41,7 @@ const VietnamesePhrasebook = () => {
           </Link>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
+            <img src={phrasebookAuthentic} alt={t("Các tình huống giao tiếp thực tế tại Việt Nam", "Real-life communication situations in Vietnam")} className="mb-6 aspect-[3/1] w-full rounded-lg object-cover" width={1200} height={800} />
             <div className="flex items-center gap-3 mb-2">
               <MessageCircle className="w-8 h-8 text-cyan-500" />
               <h1 className="text-3xl md:text-4xl font-bold text-foreground">

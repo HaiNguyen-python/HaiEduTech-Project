@@ -15,7 +15,7 @@ export const VFF_VIDEO_BANK: VFFVideoClip[] = [
     id: "hanoi-street",
     title: "Hanoi Street Life",
     titleVi: "Phố phường Hà Nội",
-    youtubeId: "0m5v-K3JlZI",
+    youtubeId: "Pts560fmSVg",
     level: "A1",
     topic: "City life",
     transcript: [
@@ -38,7 +38,7 @@ export const VFF_VIDEO_BANK: VFFVideoClip[] = [
     id: "pho-bowl",
     title: "How to Order Phở",
     titleVi: "Cách gọi phở",
-    youtubeId: "GgQTG3B4RQ4",
+    youtubeId: "jajkUOlxIM0",
     level: "A1",
     topic: "Food",
     transcript: [
@@ -62,7 +62,7 @@ export const VFF_VIDEO_BANK: VFFVideoClip[] = [
     id: "tet-holiday",
     title: "Tết Lunar New Year",
     titleVi: "Tết Nguyên Đán",
-    youtubeId: "gN0Zsm3XPXk",
+    youtubeId: "w6Ul00eTp4o",
     level: "A2",
     topic: "Culture",
     transcript: [

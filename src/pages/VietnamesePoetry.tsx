@@ -70,7 +70,7 @@ const VietnamesePoetry = () => {
     const quizScore = exercises.reduce((acc, ex, i) => acc + (quizAnswers[i] === ex.correctIndex ? 1 : 0), 0);
 
     return (
-      <div className="min-h-screen bg-background">
+      <div className="vietnamese-readable min-h-screen bg-background">
         <Navbar />
         <main className="pt-6 pb-16">
           <div className="container mx-auto px-6 max-w-4xl">
@@ -104,9 +104,9 @@ const VietnamesePoetry = () => {
 
               {/* Poem text - use div instead of pre to fix Vietnamese diacritics */}
               <Card className="p-6 md:p-8 mb-6">
-                <div className="whitespace-pre-wrap font-sans text-lg md:text-xl leading-loose text-foreground">{selectedPoem.text}</div>
+                <div className="vietnamese-literature whitespace-pre-wrap text-lg md:text-xl leading-loose text-foreground">{selectedPoem.text}</div>
                 <hr className="my-4 border-border/60" />
-                <div className="whitespace-pre-wrap font-sans text-base leading-loose text-muted-foreground italic">{selectedPoem.textEn}</div>
+                <div className="vietnamese-literature whitespace-pre-wrap text-base leading-loose text-muted-foreground italic">{selectedPoem.textEn}</div>
               </Card>
 
               {/* Analysis */}
@@ -225,7 +225,7 @@ const VietnamesePoetry = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="vietnamese-readable min-h-screen bg-background">
       <Navbar />
       <main className="pt-6 pb-16">
         <div className="container mx-auto px-6 max-w-4xl">

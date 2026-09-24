@@ -42,6 +42,7 @@ export interface VFFQuizItem {
   questionEn: string;
   options: string[];
   answer: number;
+  explanation?: string;
   explanationEn: string;
 }
 
@@ -800,5 +801,32 @@ export const vffLevelB1: VFFLevel = {
     { question: "'I will go' =", questionEn: "Future", options: ["đi đã", "đang đi", "sẽ đi", "đi rồi"], answer: 2, explanationEn: "'sẽ' = future marker." },
   ],
 };
+
+/** Add varied retrieval practice without changing stable lesson IDs. */
+export const ensureFiveLessonQuizzes = (level: VFFLevel): VFFLevel => {
+  level.lessons.forEach((lesson) => {
+    let vocabIndex = 0;
+    while (lesson.quiz.length < 5 && lesson.vocab.length >= 4) {
+      const target = lesson.vocab[vocabIndex % lesson.vocab.length];
+      const distractors = lesson.vocab
+        .filter((item) => item.word !== target.word)
+        .slice(0, 3)
+        .map((item) => item.meaning);
+      lesson.quiz.push({
+        question: `“${target.word}” có nghĩa là gì?`,
+        questionEn: `What does “${target.word}” mean?`,
+        options: [target.meaning, ...distractors],
+        answer: 0,
+        explanation: `“${target.word}” có nghĩa là “${target.meaning}”.`,
+        explanationEn: `“${target.word}” means “${target.meaning}”.`,
+      });
+      vocabIndex += 1;
+    }
+  });
+  return level;
+};
+
+ensureFiveLessonQuizzes(vffLevelA1);
+ensureFiveLessonQuizzes(vffLevelB1);
 
 export const vffLevels = { a1: vffLevelA1, b1: vffLevelB1 };

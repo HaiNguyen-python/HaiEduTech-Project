@@ -227,7 +227,7 @@ export const countryStats: CountryStat[] = [
   { icon: "📐", label: "Diện tích", labelEn: "Area", value: "331,212 km² (xếp 65 thế giới)", valueEn: "331,212 km² (65th worldwide)" },
   { icon: "🏖️", label: "Bờ biển", labelEn: "Coastline", value: "3,260 km", valueEn: "3,260 km" },
   { icon: "🏔️", label: "Núi cao nhất", labelEn: "Highest peak", value: "Fansipan 3,143m", valueEn: "Fansipan 3,143m" },
-  { icon: "🛂", label: "Visa", labelEn: "Visa", value: "Miễn 45 ngày cho 25 nước; e-visa 90 ngày USD 25", valueEn: "45-day waiver for 25 countries; e-visa 90 days $25" },
+  { icon: "🛂", label: "Visa", labelEn: "Visa", value: "Thay đổi theo quốc tịch - kiểm tra vietnam.travel trước khi đi", valueEn: "Varies by nationality - check vietnam.travel before travel" },
   { icon: "🕒", label: "Múi giờ", labelEn: "Timezone", value: "GMT+7 (cả nước, không đổi giờ)", valueEn: "GMT+7 (whole country, no DST)" },
   { icon: "🔌", label: "Điện", labelEn: "Electricity", value: "220V - chân tròn type A/C/F", valueEn: "220V - round pin type A/C/F" },
 ];

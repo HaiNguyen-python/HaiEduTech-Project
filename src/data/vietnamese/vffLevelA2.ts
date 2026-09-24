@@ -2,7 +2,7 @@
  * Vietnamese for Foreigners - Level A2 (Everyday Life)
  * 6 lessons covering practical daily scenarios.
  */
-import type { VFFLevel } from "./vffLevels";
+import { ensureFiveLessonQuizzes, type VFFLevel } from "./vffLevels";
 
 export const vffLevelA2: VFFLevel = {
   id: "a2",
@@ -455,3 +455,5 @@ export const vffLevelA2: VFFLevel = {
     { question: "‘Đi thẳng khoảng 500 mét’ – ‘khoảng’ = ?", questionEn: "‘khoảng’ in that sentence = ?", options: ["exactly", "approximately", "less than", "more than"], answer: 1, explanationEn: "‘khoảng’ = approximately." },
   ],
 };
+
+ensureFiveLessonQuizzes(vffLevelA2);
