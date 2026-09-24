@@ -534,17 +534,27 @@ const VietnameseAlphabet = () => {
           <p className="text-center text-sm text-muted-foreground mb-6 italic">
             {t("Đất nước con người - từ đồng quê đến thành phố", "Land and people - from countryside to city")}
           </p>
-          <Carousel opts={{ loop: true, align: "start" }} className="mx-auto max-w-5xl px-10">
+          <Carousel
+            opts={{ loop: true, align: "start" }}
+            plugins={[Autoplay({ delay: 4000, stopOnInteraction: false, stopOnMouseEnter: true })]}
+            className="mx-auto max-w-5xl px-10"
+          >
             <CarouselContent>
               {[
-                { src: "/vietnam-beauty-1.webp", title: t("Tuổi thơ đồng quê", "Countryside childhood"), caption: t("Trẻ em chăn trâu trên cánh đồng lúa xanh - hình ảnh quen thuộc của làng quê Việt Nam.", "Children herding buffalo across green rice fields - a classic scene of rural Vietnam.") },
                 { src: "/vietnam-beauty-2.webp", title: t("Ruộng bậc thang Mù Cang Chải", "Mu Cang Chai rice terraces"), caption: t("Những thửa ruộng bậc thang uốn lượn trên sườn núi Yên Bái, đẹp nhất vào mùa lúa chín.", "Terraced fields curving along the mountains of Yen Bai, most stunning in harvest season.") },
+                { src: "/vietnam-beauty-11.webp", title: t("Thung lũng Sa Pa", "Sa Pa valley"), caption: t("Ruộng bậc thang Sa Pa soi bóng núi Fansipan - nóc nhà Đông Dương.", "Sa Pa terraces below Fansipan, the highest peak of Indochina.") },
+                { src: "/vietnam-beauty-13.webp", title: t("Phố cổ Hà Nội", "Hanoi Old Quarter"), caption: t("Xích lô qua Hồ Gươm - nhịp sống ngàn năm của Thủ đô.", "Cyclos passing Hoan Kiem lake - the thousand-year rhythm of the capital.") },
                 { src: "/vietnam-beauty-4.webp", title: t("Vịnh Hạ Long", "Ha Long Bay"), caption: t("Di sản thiên nhiên thế giới với hàng nghìn đảo đá vôi giữa làn nước xanh ngọc.", "A UNESCO World Heritage site with thousands of limestone islands in emerald water.") },
                 { src: "/vietnam-beauty-5.webp", title: t("Bình minh Bắc Sơn", "Bac Son sunrise"), caption: t("Thung lũng Bắc Sơn (Lạng Sơn) chìm trong sương sớm và ánh nắng đầu ngày.", "Bac Son valley (Lang Son) wrapped in morning mist and first light.") },
+                { src: "/vietnam-beauty-14.webp", title: t("Tràng An, Ninh Bình", "Trang An, Ninh Binh"), caption: t("Thuyền nhỏ len qua các hang đá vôi ở quần thể danh thắng Tràng An.", "Boats gliding through limestone caves at the Trang An landscape complex.") },
                 { src: "/vietnam-beauty-7.webp", title: t("Kinh thành Huế", "Hue Imperial City"), caption: t("Khinh khí cầu bay trên cố đô Huế - nơi lưu giữ dấu ấn triều Nguyễn.", "Hot-air balloons above the former capital Hue, home of the Nguyen dynasty heritage.") },
-                { src: "/vietnam-beauty-9.webp", title: t("Ngư dân quăng lưới", "Fisherman casting a net"), caption: t("Nghề chài lưới truyền thống gắn bó với đời sống các làng ven biển.", "Traditional net fishing, part of daily life in coastal villages.") },
+                { src: "/vietnam-beauty-10.webp", title: t("Đèn lồng Hội An", "Hoi An lanterns"), caption: t("Phố cổ Hội An lung linh đèn lồng mỗi tối - Di sản Văn hóa Thế giới.", "Hoi An Ancient Town glowing with lanterns every evening - a UNESCO World Heritage site.") },
                 { src: "/vietnam-beauty-3.webp", title: t("Nha Trang về đêm", "Nha Trang at night"), caption: t("Thành phố biển rực rỡ ánh đèn bên vịnh Nha Trang.", "The seaside city glowing with lights along Nha Trang Bay.") },
+                { src: "/vietnam-beauty-9.webp", title: t("Ngư dân quăng lưới", "Fisherman casting a net"), caption: t("Nghề chài lưới truyền thống gắn bó với đời sống các làng ven biển.", "Traditional net fishing, part of daily life in coastal villages.") },
+                { src: "/vietnam-beauty-12.webp", title: t("Chợ nổi miền Tây", "Mekong floating market"), caption: t("Ghe thuyền đầy trái cây trên sông - nhịp sống sông nước của miền Tây Nam Bộ.", "Boats loaded with fruit on the river - the waterway life of the Mekong Delta.") },
                 { src: "/vietnam-beauty-6.webp", title: t("Landmark 81, Sài Gòn", "Landmark 81, Saigon"), caption: t("Tòa nhà cao nhất Việt Nam, biểu tượng của TP. Hồ Chí Minh hiện đại.", "Vietnam's tallest building, a symbol of modern Ho Chi Minh City.") },
+                { src: "/vietnam-beauty-15.webp", title: t("Hoàng hôn Phú Quốc", "Phu Quoc sunset"), caption: t("Bãi cát trắng và nước biển xanh ngọc trên đảo ngọc Phú Quốc.", "White sand and turquoise water on the pearl island of Phu Quoc.") },
+                { src: "/vietnam-beauty-1.webp", title: t("Tuổi thơ đồng quê", "Countryside childhood"), caption: t("Trẻ em chăn trâu trên cánh đồng lúa xanh - hình ảnh quen thuộc của làng quê Việt Nam.", "Children herding buffalo across green rice fields - a classic scene of rural Vietnam.") },
                 { src: "/vietnam-beauty-8.webp", title: t("Quốc kỳ Việt Nam", "Flag of Vietnam"), caption: t("Cờ đỏ sao vàng - niềm tự hào của người Việt Nam.", "The red flag with a yellow star - a source of national pride.") },
               ].map((img) => (
                 <CarouselItem key={img.src} className="basis-full md:basis-1/2 lg:basis-1/3">
