@@ -350,16 +350,9 @@ const VietnameseAlphabet = () => {
                         return (
                           <>
                       <div className="flex items-start justify-between mb-4">
-                        <div>
-                          <h2 className="text-5xl font-bold text-foreground">
-                            {selectedLetter.uppercase} {selectedLetter.letter}
-                          </h2>
-                          <p className="mt-2 text-sm text-foreground">
-                            <span className="font-semibold">{t("Cách đọc", "Reading")}:</span>{" "}
-                            {pronunciation.soundLabel}{" "}
-                            <span className="text-muted-foreground">{selectedLetter.ipa}</span>
-                          </p>
-                        </div>
+                        <h2 className="text-5xl font-bold text-foreground">
+                          {selectedLetter.uppercase} {selectedLetter.letter}
+                        </h2>
                         <Button
                           size="icon"
                           variant="outline"
@@ -374,22 +367,24 @@ const VietnameseAlphabet = () => {
                       {/* Example word */}
                       <div className="bg-primary/5 rounded-lg p-3 mb-4">
                         <p className="text-sm font-medium text-foreground">
-                          {t("Ví dụ", "Example")}:{" "}
                           <span className="text-primary font-bold">{selectedLetter.exampleWord}</span>
+                          {" "}
+                          <span
+                            className="text-xs text-muted-foreground"
+                            aria-label={t("Nghĩa tiếng Anh", "English meaning")}
+                          >
+                            {t("nghĩa là", "-")} {selectedLetter.exampleMeaningEn}
+                          </span>
+                          <button
+                            type="button"
+                            className="inline-flex align-middle ml-2 text-primary hover:text-primary/80 transition-colors cursor-pointer"
+                            aria-label={t(`Nghe từ ${selectedLetter.exampleWord}`, `Hear ${selectedLetter.exampleWord}`)}
+                            disabled={playingKey !== null}
+                            onClick={() => void playSound(selectedLetter.exampleWord, "example", `example:${selectedLetter.letter}`)}
+                          >
+                            <AudioIcon audioKey={`example:${selectedLetter.letter}`} />
+                          </button>
                         </p>
-                        <p className="text-xs text-muted-foreground">
-                          {t(selectedLetter.exampleMeaning, selectedLetter.exampleMeaningEn)}
-                        </p>
-                        <Button
-                          size="sm"
-                          variant="ghost"
-                          className="mt-1 h-7 text-xs"
-                          disabled={playingKey !== null}
-                          onClick={() => void playSound(selectedLetter.exampleWord, "example", `example:${selectedLetter.letter}`)}
-                        >
-                          <AudioIcon audioKey={`example:${selectedLetter.letter}`} />
-                          <span className="ml-1">{t("Nghe từ mẫu", "Hear example")}</span>
-                        </Button>
                       </div>
 
                       {/* Practice button */}
