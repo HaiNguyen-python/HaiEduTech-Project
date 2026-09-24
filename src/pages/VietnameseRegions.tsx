@@ -13,6 +13,15 @@ import { travelDestinationsV10 } from "@/data/vietnamese/expansionV10Culture";
 const travelDestinations = [...baseDestinations, ...travelDestinationsV10];
 import { festivals, travelEssentials, etiquetteRules, countryStats } from "@/data/vietnamese/regionsExtras";
 import regionsAuthentic from "@/assets/vietnamese/regions-authentic.jpg";
+import regionNorth from "@/assets/vietnamese/region-north.jpg";
+import regionCentral from "@/assets/vietnamese/region-central.jpg";
+import regionSouth from "@/assets/vietnamese/region-south.jpg";
+
+const REGION_BG: Record<string, { src: string; vi: string; en: string }> = {
+  north: { src: regionNorth, vi: "Vịnh Hạ Long lúc bình minh", en: "Ha Long Bay at dawn" },
+  central: { src: regionCentral, vi: "Phố cổ Hội An bên sông Thu Bồn", en: "Hoi An Ancient Town on the Thu Bon River" },
+  south: { src: regionSouth, vi: "Chợ nổi miền Tây lúc bình minh", en: "Mekong Delta floating market at sunrise" },
+};
 
 const VietnameseRegions = () => {
   const { t } = useLanguage();
@@ -42,8 +51,8 @@ const VietnameseRegions = () => {
             </div>
             <p className="text-muted-foreground text-lg">
               {t(
-                "3 miền · 8 di sản UNESCO · 8 điểm đến · 6 lễ hội · Mẹo thực dụng",
-                "3 regions · 8 UNESCO sites · 8 destinations · 6 festivals · Practical tips"
+                `3 miền · ${regions.reduce((n, r) => n + r.unesco.length, 0)} di sản & danh hiệu UNESCO · ${travelDestinations.length} điểm đến · ${festivals.length} lễ hội · Mẹo thực dụng`,
+                `3 regions · ${regions.reduce((n, r) => n + r.unesco.length, 0)} UNESCO listings · ${travelDestinations.length} destinations · ${festivals.length} festivals · Practical tips`
               )}
             </p>
             <p className="mt-3 text-sm text-muted-foreground">
@@ -82,19 +91,19 @@ const VietnameseRegions = () => {
                 transition={{ delay: idx * 0.1 }}
               >
                 <Card className="overflow-hidden border-2 border-emerald-500/55 shadow-[0_3px_14px_-6px_rgba(16,185,129,0.28)]">
-                  <div className={`bg-gradient-to-r ${region.color} p-6 text-white`}>
-                    <div className="flex items-center gap-3 mb-2">
-                      <span className="text-5xl">{region.emoji}</span>
-                      <div>
-                        <h3 className="text-2xl md:text-3xl font-bold">{t(region.name, region.nameEn)}</h3>
-                        <p className="text-white/90 text-sm">{t(`Trung tâm: ${region.capital}`, `Capital: ${region.capitalEn}`)} · {region.population}</p>
-                      </div>
-                    </div>
-                    <p className="text-white/95 text-base mt-3 leading-relaxed">
+                  <div className="relative isolate min-h-[300px] overflow-hidden p-6 md:p-8 text-white flex flex-col justify-end">
+                    <img src={REGION_BG[region.id].src} alt={t(REGION_BG[region.id].vi, REGION_BG[region.id].en)} loading="lazy" width={1600} height={640} className="absolute inset-0 -z-10 h-full w-full object-cover" />
+                    <div className="absolute inset-0 -z-10 bg-gradient-to-t from-black/85 via-black/45 to-black/10" />
+                    <span className="absolute right-4 top-4 rounded-full bg-black/40 px-3 py-1 text-xs text-white/90 backdrop-blur-sm">
+                      {t(REGION_BG[region.id].vi, REGION_BG[region.id].en)}
+                    </span>
+                    <h3 className="text-3xl md:text-4xl font-bold drop-shadow">{t(region.name, region.nameEn)}</h3>
+                    <p className="text-white/90 text-sm mt-1">{t(`Trung tâm: ${region.capital}`, `Main city: ${region.capitalEn}`)} · {region.population}</p>
+                    <p className="text-white/95 text-base mt-3 leading-relaxed max-w-3xl">
                       {t(region.description, region.descriptionEn)}
                     </p>
-                    <div className="flex items-center gap-2 mt-3 text-sm bg-white/15 rounded-lg px-3 py-2 backdrop-blur-sm">
-                      <Cloud className="w-4 h-4" />
+                    <div className="flex items-center gap-2 mt-4 w-fit text-sm bg-white/15 rounded-lg px-3 py-2 backdrop-blur-sm">
+                      <Cloud className="w-4 h-4 shrink-0" />
                       <span>{t(region.climate, region.climateEn)}</span>
                     </div>
                   </div>
@@ -103,12 +112,12 @@ const VietnameseRegions = () => {
                     {/* Highlights */}
                     <div>
                       <h4 className="text-sm font-bold text-foreground mb-3 uppercase tracking-wide">
-                        ⭐ {t("Điểm nổi bật", "Highlights")}
+                        {t("Điểm nổi bật", "Highlights")}
                       </h4>
                       <div className="space-y-2">
                         {region.highlights.map((h, i) => (
-                          <div key={i} className="flex items-center gap-2 text-sm">
-                            <span className="text-xl">{h.emoji}</span>
+                          <div key={i} className="flex items-center gap-3 text-sm">
+                            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">{i + 1}</span>
                             <div>
                               <div className="font-medium text-foreground">{t(h.name, h.nameEn)}</div>
                               <div className="text-xs text-muted-foreground">{h.province}</div>
@@ -140,7 +149,7 @@ const VietnameseRegions = () => {
                     {/* Travel phrases */}
                     <div>
                       <h4 className="text-sm font-bold text-foreground mb-3 uppercase tracking-wide">
-                        💬 {t("Cụm từ du lịch", "Travel Phrases")}
+                        {t("Cụm từ du lịch", "Travel Phrases")}
                       </h4>
                       <div className="space-y-2">
                         {region.travelPhrases.map((p, i) => (
@@ -316,7 +325,8 @@ const VietnameseRegions = () => {
           {/* Etiquette */}
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-8">
             <h2 className="text-2xl font-bold text-foreground mb-4 flex items-center gap-2">
-              🙏 {t("Văn hóa ứng xử", "Cultural Etiquette")}
+              <Info className="w-6 h-6 text-primary" />
+              {t("Văn hóa ứng xử", "Cultural Etiquette")}
             </h2>
             <div className="grid md:grid-cols-2 gap-4">
               <Card className="border-emerald-500/30 bg-emerald-500/5">
