@@ -155,11 +155,15 @@ for (const set of ALL_LISTENING_SETS) {
   for (const line of lines) {
     const match = line.match(/^([A-Z][a-zA-Z]{1,20}):\s*/);
     const speaker = match?.[1] ?? currentSpeaker;
-    const bodyLength = line.replace(/^([A-Z][a-zA-Z]{1,20}):\s*/, "").length;
-    if (speaker !== currentSpeaker || currentLength + bodyLength + 1 > TTS_MAX_CHARS) currentLength = bodyLength;
-    else currentLength += bodyLength + 1;
+    const body = line.replace(/^([A-Z][a-zA-Z]{1,20}):\s*/, "");
+    const sentences = (body.match(/[^.!?]+[.!?]+["')\]]*|[^.!?]+$/g) ?? [body]).map(part => part.trim()).filter(Boolean);
+    for (const sentence of sentences) {
+      if (speaker !== currentSpeaker || currentLength + sentence.length + 1 > TTS_MAX_CHARS) currentLength = sentence.length;
+      else currentLength += sentence.length + 1;
+      if (currentLength > TTS_MAX_CHARS) issues.push(`${set.id}: TTS turn exceeds ${TTS_MAX_CHARS} characters`);
+      currentSpeaker = speaker;
+    }
     currentSpeaker = speaker;
-    if (currentLength > TTS_MAX_CHARS) issues.push(`${set.id}: TTS turn exceeds ${TTS_MAX_CHARS} characters`);
   }
   // Spelled-out letters must be hyphenated so the voice reads them one by one.
   const badSpelling = set.transcript.match(/\b[A-Z](?:\s[A-Z]){2,}\b/g);

@@ -504,7 +504,6 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
       if (name === "AbortError" || name === "NotAllowedError") return;
       deviceForThisTurn();
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [turns.length, turnFirstChunk, chunks.length, turnGap, aiRate, ai, speakChunks, finishPlayback, detachAudio]);
 
   /**

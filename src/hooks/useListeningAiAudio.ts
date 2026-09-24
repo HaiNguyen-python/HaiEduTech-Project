@@ -72,7 +72,7 @@ export const useListeningAiAudio = (setId: string, section: number, lines: Audio
           })),
         },
       });
-      if (error || !data?.urls?.length) return false;
+      if (error || !data?.urls?.length || data.urls.length !== slice.length) return false;
       const downloaded = await Promise.all(
         (data.urls as { i: number; url: string }[]).map(async (item) => {
           try {
@@ -104,6 +104,7 @@ export const useListeningAiAudio = (setId: string, section: number, lines: Audio
   const load = useCallback(async () => {
     const total = linesRef.current.length;
     if (!total) return false;
+    abortRef.current = false;
     setLoading(true);
     setFailed(false);
     setProgress(0);
