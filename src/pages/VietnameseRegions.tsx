@@ -258,10 +258,10 @@ const VietnameseRegions = () => {
                         </div>
                       </div>
 
-                      <div className="bg-amber-500/10 border-l-2 border-amber-500 rounded-r-md p-2.5 text-sm">
+                      <div className="rounded-lg border border-amber-500/25 bg-amber-500/10 p-2.5 text-sm">
                         <div className="flex gap-2">
                           <Lightbulb className="w-4 h-4 text-amber-500 mt-0.5 shrink-0" />
-                          <span className="text-foreground/90">{t(d.tip, d.tipEn)}</span>
+                          <span className="text-foreground/90 leading-relaxed">{t(d.tip, d.tipEn)}</span>
                         </div>
                       </div>
                     </CardContent>
