@@ -246,7 +246,8 @@ const VietnameseAlphabet = () => {
     setPlayingKey(key);
     try {
       await playVietnameseAlphabetTts(text, kind);
-    } catch {
+    } catch (error) {
+      if (error instanceof DOMException && error.name === "AbortError") return;
       toast.error(t(
         "Không thể phát âm thanh lúc này. Vui lòng thử lại sau.",
         "Audio is unavailable right now. Please try again later.",

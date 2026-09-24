@@ -11,12 +11,15 @@ interface AlphabetTtsResponse {
 
 const audioCache = new Map<string, string>();
 let activeAudio: HTMLAudioElement | null = null;
+let finishActivePlayback: (() => void) | null = null;
 
 const stopActive = () => {
   if (!activeAudio) return;
   activeAudio.pause();
   activeAudio.currentTime = 0;
   activeAudio = null;
+  finishActivePlayback?.();
+  finishActivePlayback = null;
 };
 
 export const stopVietnameseAlphabetTts = () => {
@@ -30,13 +33,18 @@ const playUrl = async (url: string) => {
   activeAudio = audio;
   audio.preload = "auto";
   await waitForAudioForeground();
-  if (activeAudio !== audio) throw new Error("stale_audio");
+  if (activeAudio !== audio) throw new DOMException("Playback superseded", "AbortError");
   await new Promise<void>((resolve, reject) => {
+    finishActivePlayback = resolve;
     audio.onended = () => {
       if (activeAudio === audio) activeAudio = null;
+      finishActivePlayback = null;
       resolve();
     };
-    audio.onerror = () => reject(new Error("audio_error"));
+    audio.onerror = () => {
+      finishActivePlayback = null;
+      reject(new Error("audio_error"));
+    };
     audio.play().catch(reject);
   });
 };
@@ -60,7 +68,8 @@ export const playVietnameseAlphabetTts = async (
       audioCache.set(key, dataUrl);
     }
     await playUrl(dataUrl);
-  } catch {
+  } catch (error) {
+    if (error instanceof DOMException && error.name === "AbortError") throw error;
     const fallbackPlayed = await playVietnameseTts(normalized, {
       playbackRate: 0.95,
       speechRate: 0.82,
