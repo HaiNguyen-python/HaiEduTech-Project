@@ -18,7 +18,7 @@ const corsHeaders = {
 const BUCKET = "listening-audio";
 const MAX_LINES = 14;
 const MODEL = "openai/gpt-4o-mini-tts";
-const AUDIO_PROFILE_VERSION = "ielts-natural-v3";
+const AUDIO_PROFILE_VERSION = "ielts-natural-v4";
 
 interface LineInput {
   i: number;

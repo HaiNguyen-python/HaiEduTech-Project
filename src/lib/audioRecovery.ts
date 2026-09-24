@@ -315,7 +315,8 @@ const installAudioRecovery = () => {
   };
 
   document.addEventListener("visibilitychange", handleVisibility);
-  window.addEventListener("blur", parkEverything);
+  // Do not pause on window blur: clicking outside the page (another window,
+  // an embedding frame) must not stop a recording. Only a hidden tab parks audio.
   window.addEventListener("focus", wakeEverything);
   window.addEventListener("pagehide", parkEverything);
   window.addEventListener("pageshow", wakeEverything);
