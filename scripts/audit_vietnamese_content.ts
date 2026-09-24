@@ -111,7 +111,9 @@ if (vietnameseTones.length !== 6) issues.push(`TONE_COUNT (${vietnameseTones.len
 if (new Set(pronunciationLetters).size !== 29) issues.push("ALPHABET_PRONUNCIATION_DUPLICATE");
 for (const item of vietnameseAlphabetPronunciations) {
   if (!alphabetLetters.has(item.letter)) issues.push(`ALPHABET_PRONUNCIATION_UNKNOWN ${item.letter}`);
-  if (!item.nameText.trim() || !item.soundText.trim()) issues.push(`ALPHABET_PRONUNCIATION_EMPTY ${item.letter}`);
+  if (!item.nameText.trim() || !item.soundLabel.trim() || !item.soundText.trim()) {
+    issues.push(`ALPHABET_PRONUNCIATION_EMPTY ${item.letter}`);
+  }
 }
 for (const letter of vietnameseAlphabet) {
   if (!pronunciationLetters.includes(letter.letter)) issues.push(`ALPHABET_PRONUNCIATION_MISSING ${letter.letter}`);

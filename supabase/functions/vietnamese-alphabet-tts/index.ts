@@ -20,8 +20,8 @@ const toBase64 = (bytes: Uint8Array) => {
 };
 
 const delivery: Record<z.infer<typeof BodySchema>["kind"], string> = {
-  "letter-name": "Đọc đúng tên chữ cái tiếng Việt được cung cấp một lần, tách tiếng rõ ràng.",
-  "letter-sound": "Đọc phần mô tả âm và từ neo một lần, làm nổi bật âm đầu nhưng không kéo dài giả tạo.",
+  "letter-name": "Đây là TÊN CHỮ theo bảng chữ cái tiếng Việt, không phải tên chữ tiếng Anh. Chỉ phát âm đúng chuỗi được cung cấp một lần.",
+  "letter-sound": "Đây là ÂM DÙNG KHI HỌC VẦN lớp Một. Phát âm tự nhiên đúng chuỗi được cung cấp, không đọc tên chữ và không nói từ âm.",
   example: "Chỉ đọc từ tiếng Việt được cung cấp một lần, rõ từng âm tiết.",
   tone: "Chỉ đọc âm tiết được cung cấp một lần, thể hiện chính xác đường nét thanh điệu.",
 };
@@ -43,7 +43,7 @@ Deno.serve(async (req) => {
 
   const { text, kind } = parsed.data;
   const prompt = [
-    "Bạn là giáo viên ngữ âm tiếng Việt, nữ, giọng Hà Nội chuẩn.",
+    "Bạn là giáo viên lớp Một người Hà Nội, đang dạy âm và chữ tiếng Việt cho trẻ em.",
     "Giọng sáng, tự nhiên, rõ ràng, tốc độ vừa phải.",
     "Không đọc lời hướng dẫn, không giải thích, không thêm bất kỳ từ nào.",
     delivery[kind],

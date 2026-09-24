@@ -31,6 +31,7 @@ export interface ToneMark {
 export interface AlphabetPronunciation {
   letter: string;
   nameText: string;
+  soundLabel: string;
   soundText: string;
 }
 
@@ -41,35 +42,35 @@ export interface AlphabetPronunciation {
  * isolation.
  */
 export const vietnameseAlphabetPronunciations: AlphabetPronunciation[] = [
-  { letter: "a", nameText: "a", soundText: "âm a, trong từ ba" },
-  { letter: "ă", nameText: "á", soundText: "âm ă, trong từ ăn" },
-  { letter: "â", nameText: "ớ", soundText: "âm â, trong từ ân" },
-  { letter: "b", nameText: "bê", soundText: "âm bờ, trong từ ba" },
-  { letter: "c", nameText: "xê", soundText: "âm cờ, trong từ cá" },
-  { letter: "d", nameText: "dê", soundText: "âm dờ, trong từ dê" },
-  { letter: "đ", nameText: "đê", soundText: "âm đờ, trong từ đi" },
-  { letter: "e", nameText: "e", soundText: "âm e, trong từ em" },
-  { letter: "ê", nameText: "ê", soundText: "âm ê, trong từ mê" },
-  { letter: "g", nameText: "giê", soundText: "âm gờ, trong từ gà" },
-  { letter: "h", nameText: "hát", soundText: "âm hờ, trong từ hoa" },
-  { letter: "i", nameText: "i", soundText: "âm i, trong từ im" },
-  { letter: "k", nameText: "ca", soundText: "âm cờ, trong từ kẹo" },
-  { letter: "l", nameText: "e lờ", soundText: "âm lờ, trong từ lá" },
-  { letter: "m", nameText: "em mờ", soundText: "âm mờ, trong từ mẹ" },
-  { letter: "n", nameText: "en nờ", soundText: "âm nờ, trong từ nước" },
-  { letter: "o", nameText: "o", soundText: "âm o, trong từ ong" },
-  { letter: "ô", nameText: "ô", soundText: "âm ô, trong từ ông" },
-  { letter: "ơ", nameText: "ơ", soundText: "âm ơ, trong từ ơi" },
-  { letter: "p", nameText: "pê", soundText: "âm pờ, trong từ pin" },
-  { letter: "q", nameText: "quy", soundText: "âm quờ, trong từ quả" },
-  { letter: "r", nameText: "e rờ", soundText: "âm rờ, trong từ rồng" },
-  { letter: "s", nameText: "ét xì", soundText: "âm sờ, trong từ sách" },
-  { letter: "t", nameText: "tê", soundText: "âm tờ, trong từ tay" },
-  { letter: "u", nameText: "u", soundText: "âm u, trong từ uống" },
-  { letter: "ư", nameText: "ư", soundText: "âm ư, trong từ ước" },
-  { letter: "v", nameText: "vê", soundText: "âm vờ, trong từ vui" },
-  { letter: "x", nameText: "ích xì", soundText: "âm xờ, trong từ xanh" },
-  { letter: "y", nameText: "i dài", soundText: "âm i, trong từ yêu" },
+  { letter: "a", nameText: "a", soundLabel: "a", soundText: "a, ba" },
+  { letter: "ă", nameText: "á", soundLabel: "ă", soundText: "ă, ăn" },
+  { letter: "â", nameText: "ớ", soundLabel: "â", soundText: "â, ân" },
+  { letter: "b", nameText: "bê", soundLabel: "bờ", soundText: "bờ, ba" },
+  { letter: "c", nameText: "xê", soundLabel: "cờ", soundText: "cờ, cá" },
+  { letter: "d", nameText: "dê", soundLabel: "dờ", soundText: "dờ, dê" },
+  { letter: "đ", nameText: "đê", soundLabel: "đờ", soundText: "đờ, đi" },
+  { letter: "e", nameText: "e", soundLabel: "e", soundText: "e, em" },
+  { letter: "ê", nameText: "ê", soundLabel: "ê", soundText: "ê, mê" },
+  { letter: "g", nameText: "giê", soundLabel: "gờ", soundText: "gờ, gà" },
+  { letter: "h", nameText: "hát", soundLabel: "hờ", soundText: "hờ, hoa" },
+  { letter: "i", nameText: "i", soundLabel: "i", soundText: "i, im" },
+  { letter: "k", nameText: "ca", soundLabel: "cờ", soundText: "cờ, kẹo" },
+  { letter: "l", nameText: "e-lờ", soundLabel: "lờ", soundText: "lờ, lá" },
+  { letter: "m", nameText: "em-mờ", soundLabel: "mờ", soundText: "mờ, mẹ" },
+  { letter: "n", nameText: "en-nờ", soundLabel: "nờ", soundText: "nờ, nước" },
+  { letter: "o", nameText: "o", soundLabel: "o", soundText: "o, ong" },
+  { letter: "ô", nameText: "ô", soundLabel: "ô", soundText: "ô, ông" },
+  { letter: "ơ", nameText: "ơ", soundLabel: "ơ", soundText: "ơ, ơi" },
+  { letter: "p", nameText: "pê", soundLabel: "pờ", soundText: "pờ, pin" },
+  { letter: "q", nameText: "quy", soundLabel: "quờ", soundText: "quờ, quả" },
+  { letter: "r", nameText: "e-rờ", soundLabel: "rờ", soundText: "rờ, rồng" },
+  { letter: "s", nameText: "ét-xì", soundLabel: "sờ", soundText: "sờ, sách" },
+  { letter: "t", nameText: "tê", soundLabel: "tờ", soundText: "tờ, tay" },
+  { letter: "u", nameText: "u", soundLabel: "u", soundText: "u, uống" },
+  { letter: "ư", nameText: "ư", soundLabel: "ư", soundText: "ư, ước" },
+  { letter: "v", nameText: "vê", soundLabel: "vờ", soundText: "vờ, vui" },
+  { letter: "x", nameText: "ích-xì", soundLabel: "xờ", soundText: "xờ, xanh" },
+  { letter: "y", nameText: "i dài", soundLabel: "i", soundText: "i, y tá" },
 ];
 
 export const vietnameseAlphabetPronunciationByLetter = new Map(
@@ -80,7 +81,7 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
   // ── a ──
   {
     letter: "a", uppercase: "A", name: "a", nameEn: "ah", ipa: "/aː/",
-    exampleWord: "ăn", exampleMeaning: "ăn (ăn cơm)", exampleMeaningEn: "eat",
+    exampleWord: "ba", exampleMeaning: "ba (bố)", exampleMeaningEn: "dad",
     strokeDescription: "Viết nét cong tròn từ phải sang trái, rồi kéo nét sổ thẳng bên phải",
     strokeDescriptionEn: "Draw a round curve from right to left, then a vertical stroke on the right",
     strokeCount: 2,
@@ -104,7 +105,7 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
   },
   // ── â ──
   {
-    letter: "â", uppercase: "Â", name: "ớ", nameEn: "ah-circumflex", ipa: "/ə/",
+    letter: "â", uppercase: "Â", name: "ớ", nameEn: "ah-circumflex", ipa: "/ɤ̆/",
     exampleWord: "ân", exampleMeaning: "ân huệ", exampleMeaningEn: "grace",
     strokeDescription: "Viết chữ 'a' rồi thêm dấu mũ (^) phía trên",
     strokeDescriptionEn: "Write 'a' then add a circumflex (^) on top",
@@ -332,7 +333,7 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
   },
   // ── r ──
   {
-    letter: "r", uppercase: "R", name: "e-rờ", nameEn: "er", ipa: "/z/ (Bắc), /ɹ/ (Nam)",
+    letter: "r", uppercase: "R", name: "e-rờ", nameEn: "er", ipa: "/z/ (Bắc), /r/ (Nam)",
     exampleWord: "rồng", exampleMeaning: "con rồng", exampleMeaningEn: "dragon",
     strokeDescription: "Kéo nét sổ ngắn rồi viết nét cong nhỏ lên bên phải (shoulder)",
     strokeDescriptionEn: "Draw a short vertical then a small shoulder curve to the right",
@@ -379,7 +380,7 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
   },
   // ── ư ──
   {
-    letter: "ư", uppercase: "Ư", name: "ư", nameEn: "uh-horn", ipa: "/ɨ/",
+    letter: "ư", uppercase: "Ư", name: "ư", nameEn: "uh-horn", ipa: "/ɯ/",
     exampleWord: "ước", exampleMeaning: "ước mơ", exampleMeaningEn: "dream/wish",
     strokeDescription: "Viết chữ 'u' rồi thêm dấu móc bên phải phía trên",
     strokeDescriptionEn: "Write 'u' then add a horn mark on upper right",
