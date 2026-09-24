@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
 import {
   playVietnameseAlphabetTts,
   stopVietnameseAlphabetTts,
@@ -285,20 +286,38 @@ const VietnameseAlphabet = () => {
           <span className="text-foreground font-medium">{t("Bảng chữ cái", "Alphabet")}</span>
         </div>
 
-        {/* Header */}
-        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
-          <div className="flex items-center gap-3 mb-2">
-            <Link to="/learn-vietnamese" className="p-2 rounded-lg hover:bg-muted transition-colors">
-              <ArrowLeft className="w-5 h-5" />
-            </Link>
-            <h1 className="text-2xl md:text-3xl font-bold font-display text-foreground">
-              {t("Bảng Chữ Cái Tiếng Việt", "Vietnamese Alphabet")}
-            </h1>
+        {/* Header hero - Vietnamese landscape */}
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="relative mb-8 overflow-hidden rounded-3xl border-2 border-emerald-500/40 shadow-lg"
+        >
+          <img
+            src="/vietnam-alphabet-hero.webp"
+            alt={t("Ruộng bậc thang Việt Nam buổi bình minh", "Vietnamese rice terraces at sunrise")}
+            width={1920}
+            height={640}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-foreground/80 via-foreground/45 to-foreground/10" />
+          <div className="relative flex flex-col justify-center px-5 py-10 md:px-10 md:py-14">
+            <div className="flex items-center gap-3">
+              <Link
+                to="/learn-vietnamese"
+                aria-label={t("Quay lại Học Tiếng Việt", "Back to Learn Vietnamese")}
+                className="rounded-lg bg-background/20 p-2 backdrop-blur-sm transition-colors hover:bg-background/30"
+              >
+                <ArrowLeft className="w-5 h-5 text-background" />
+              </Link>
+              <h1 className="text-2xl md:text-4xl font-bold font-display text-background drop-shadow">
+                {t("Bảng Chữ Cái Tiếng Việt", "Vietnamese Alphabet")}
+              </h1>
+            </div>
+            <p className="mt-2 ml-12 text-sm md:text-base text-background/90">
+              {t("29 chữ cái + 6 dấu thanh - bấm vào để nghe phát âm và luyện viết",
+                 "29 letters + 6 tone marks - click to hear pronunciation and practice writing")}
+            </p>
           </div>
-          <p className="text-muted-foreground ml-12">
-            {t("29 chữ cái + 6 dấu thanh - bấm vào để nghe phát âm và luyện viết",
-               "29 letters + 6 tone marks - click to hear pronunciation and practice writing")}
-          </p>
         </motion.div>
 
         {/* ══════ LETTERS SECTION ══════ */}
@@ -515,17 +534,27 @@ const VietnameseAlphabet = () => {
           <p className="text-center text-sm text-muted-foreground mb-6 italic">
             {t("Đất nước con người - từ đồng quê đến thành phố", "Land and people - from countryside to city")}
           </p>
-          <Carousel opts={{ loop: true, align: "start" }} className="mx-auto max-w-5xl px-10">
+          <Carousel
+            opts={{ loop: true, align: "start" }}
+            plugins={[Autoplay({ delay: 4000, stopOnInteraction: false, stopOnMouseEnter: true })]}
+            className="mx-auto max-w-5xl px-10"
+          >
             <CarouselContent>
               {[
-                { src: "/vietnam-beauty-1.webp", title: t("Tuổi thơ đồng quê", "Countryside childhood"), caption: t("Trẻ em chăn trâu trên cánh đồng lúa xanh - hình ảnh quen thuộc của làng quê Việt Nam.", "Children herding buffalo across green rice fields - a classic scene of rural Vietnam.") },
                 { src: "/vietnam-beauty-2.webp", title: t("Ruộng bậc thang Mù Cang Chải", "Mu Cang Chai rice terraces"), caption: t("Những thửa ruộng bậc thang uốn lượn trên sườn núi Yên Bái, đẹp nhất vào mùa lúa chín.", "Terraced fields curving along the mountains of Yen Bai, most stunning in harvest season.") },
+                { src: "/vietnam-beauty-11.webp", title: t("Thung lũng Sa Pa", "Sa Pa valley"), caption: t("Ruộng bậc thang Sa Pa soi bóng núi Fansipan - nóc nhà Đông Dương.", "Sa Pa terraces below Fansipan, the highest peak of Indochina.") },
+                { src: "/vietnam-beauty-13.webp", title: t("Phố cổ Hà Nội", "Hanoi Old Quarter"), caption: t("Xích lô qua Hồ Gươm - nhịp sống ngàn năm của Thủ đô.", "Cyclos passing Hoan Kiem lake - the thousand-year rhythm of the capital.") },
                 { src: "/vietnam-beauty-4.webp", title: t("Vịnh Hạ Long", "Ha Long Bay"), caption: t("Di sản thiên nhiên thế giới với hàng nghìn đảo đá vôi giữa làn nước xanh ngọc.", "A UNESCO World Heritage site with thousands of limestone islands in emerald water.") },
                 { src: "/vietnam-beauty-5.webp", title: t("Bình minh Bắc Sơn", "Bac Son sunrise"), caption: t("Thung lũng Bắc Sơn (Lạng Sơn) chìm trong sương sớm và ánh nắng đầu ngày.", "Bac Son valley (Lang Son) wrapped in morning mist and first light.") },
+                { src: "/vietnam-beauty-14.webp", title: t("Tràng An, Ninh Bình", "Trang An, Ninh Binh"), caption: t("Thuyền nhỏ len qua các hang đá vôi ở quần thể danh thắng Tràng An.", "Boats gliding through limestone caves at the Trang An landscape complex.") },
                 { src: "/vietnam-beauty-7.webp", title: t("Kinh thành Huế", "Hue Imperial City"), caption: t("Khinh khí cầu bay trên cố đô Huế - nơi lưu giữ dấu ấn triều Nguyễn.", "Hot-air balloons above the former capital Hue, home of the Nguyen dynasty heritage.") },
-                { src: "/vietnam-beauty-9.webp", title: t("Ngư dân quăng lưới", "Fisherman casting a net"), caption: t("Nghề chài lưới truyền thống gắn bó với đời sống các làng ven biển.", "Traditional net fishing, part of daily life in coastal villages.") },
+                { src: "/vietnam-beauty-10.webp", title: t("Đèn lồng Hội An", "Hoi An lanterns"), caption: t("Phố cổ Hội An lung linh đèn lồng mỗi tối - Di sản Văn hóa Thế giới.", "Hoi An Ancient Town glowing with lanterns every evening - a UNESCO World Heritage site.") },
                 { src: "/vietnam-beauty-3.webp", title: t("Nha Trang về đêm", "Nha Trang at night"), caption: t("Thành phố biển rực rỡ ánh đèn bên vịnh Nha Trang.", "The seaside city glowing with lights along Nha Trang Bay.") },
+                { src: "/vietnam-beauty-9.webp", title: t("Ngư dân quăng lưới", "Fisherman casting a net"), caption: t("Nghề chài lưới truyền thống gắn bó với đời sống các làng ven biển.", "Traditional net fishing, part of daily life in coastal villages.") },
+                { src: "/vietnam-beauty-12.webp", title: t("Chợ nổi miền Tây", "Mekong floating market"), caption: t("Ghe thuyền đầy trái cây trên sông - nhịp sống sông nước của miền Tây Nam Bộ.", "Boats loaded with fruit on the river - the waterway life of the Mekong Delta.") },
                 { src: "/vietnam-beauty-6.webp", title: t("Landmark 81, Sài Gòn", "Landmark 81, Saigon"), caption: t("Tòa nhà cao nhất Việt Nam, biểu tượng của TP. Hồ Chí Minh hiện đại.", "Vietnam's tallest building, a symbol of modern Ho Chi Minh City.") },
+                { src: "/vietnam-beauty-15.webp", title: t("Hoàng hôn Phú Quốc", "Phu Quoc sunset"), caption: t("Bãi cát trắng và nước biển xanh ngọc trên đảo ngọc Phú Quốc.", "White sand and turquoise water on the pearl island of Phu Quoc.") },
+                { src: "/vietnam-beauty-1.webp", title: t("Tuổi thơ đồng quê", "Countryside childhood"), caption: t("Trẻ em chăn trâu trên cánh đồng lúa xanh - hình ảnh quen thuộc của làng quê Việt Nam.", "Children herding buffalo across green rice fields - a classic scene of rural Vietnam.") },
                 { src: "/vietnam-beauty-8.webp", title: t("Quốc kỳ Việt Nam", "Flag of Vietnam"), caption: t("Cờ đỏ sao vàng - niềm tự hào của người Việt Nam.", "The red flag with a yellow star - a source of national pride.") },
               ].map((img) => (
                 <CarouselItem key={img.src} className="basis-full md:basis-1/2 lg:basis-1/3">
