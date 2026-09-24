@@ -29,3 +29,10 @@
 - [x] Add authentic visual coverage to cuisine, culture, regions, kids, phrasebook and Daily Vietnamese.
 - [x] Correct the highest-risk history, population, trade and time-sensitive visa claims; add travel verification guidance.
 - [x] Expand automated Vietnamese quality checks and verify authenticated desktop/mobile flows.
+
+# Vietnamese Alphabet Pronunciation
+
+- [x] Define explicit Hanoi-standard names and anchored sounds for all 29 letters.
+- [x] Separate letter-name, letter-sound, example-word and six-tone playback.
+- [x] Replace guessed single-character speech with server-generated Vietnamese audio.
+- [x] Verify all controls and representative audio on desktop and mobile.
