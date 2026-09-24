@@ -70,7 +70,7 @@ export const playVietnameseAlphabetTts = async (
     return;
   }
 
-  const key = `hanoi-v5:${kind}:${normalized}`;
+  const key = `hanoi-v6:${kind}:${normalized}`;
   try {
     let dataUrl = audioCache.get(key);
     if (!dataUrl) {
