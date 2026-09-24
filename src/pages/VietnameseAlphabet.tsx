@@ -574,35 +574,39 @@ const VietnameseAlphabet = () => {
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.5 }}
           >
-            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
-              <div>
-                <h2 className="text-2xl md:text-4xl font-bold font-display text-foreground leading-tight">
-                  {t("Những nét đẹp của ", "The Beauty of ")}
-                  <span className="brand-gradient-text">{t("Việt Nam", "Vietnam")}</span>
-                </h2>
-                <p className="mt-2 text-[11px] md:text-xs font-medium uppercase tracking-[0.25em] text-muted-foreground">
-                  {t("Đất nước con người - từ đồng quê đến thành phố", "Land and people - from countryside to city")}
-                </p>
-              </div>
-              <div className="flex gap-3">
-                <Button
-                  size="icon"
-                  variant="outline"
-                  aria-label={t("Ảnh trước", "Previous photo")}
-                  className="h-11 w-11 rounded-full shadow-sm transition-all hover:shadow-md"
-                  onClick={() => galleryApi?.scrollPrev()}
-                >
-                  <ChevronLeft className="h-5 w-5" />
-                </Button>
-                <Button
-                  size="icon"
-                  variant="outline"
-                  aria-label={t("Ảnh sau", "Next photo")}
-                  className="h-11 w-11 rounded-full shadow-sm transition-all hover:shadow-md"
-                  onClick={() => galleryApi?.scrollNext()}
-                >
-                  <ChevronRight className="h-5 w-5" />
-                </Button>
+            <div className="relative mb-10 overflow-hidden rounded-3xl border border-primary/10 bg-gradient-to-br from-primary/10 via-emerald-500/5 to-primary/5 p-6 shadow-sm md:p-8">
+              <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-primary/15 blur-3xl" />
+              <div className="pointer-events-none absolute -bottom-20 -left-10 h-48 w-48 rounded-full bg-emerald-500/10 blur-3xl" />
+              <div className="relative flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+                <div>
+                  <h2 className="text-2xl md:text-4xl font-bold font-display text-foreground leading-tight">
+                    {t("Những nét đẹp của ", "The Beauty of ")}
+                    <span className="text-red-600">{t("Việt Nam", "Vietnam")}</span>
+                  </h2>
+                  <p className="mt-2 text-[11px] md:text-xs font-medium uppercase tracking-[0.25em] text-muted-foreground">
+                    {t("Đất nước con người - từ đồng quê đến thành phố", "Land and people - from countryside to city")}
+                  </p>
+                </div>
+                <div className="flex gap-3">
+                  <Button
+                    size="icon"
+                    variant="outline"
+                    aria-label={t("Ảnh trước", "Previous photo")}
+                    className="h-11 w-11 rounded-full bg-card/80 backdrop-blur shadow-sm transition-all hover:shadow-md"
+                    onClick={() => galleryApi?.scrollPrev()}
+                  >
+                    <ChevronLeft className="h-5 w-5" />
+                  </Button>
+                  <Button
+                    size="icon"
+                    variant="outline"
+                    aria-label={t("Ảnh sau", "Next photo")}
+                    className="h-11 w-11 rounded-full bg-card/80 backdrop-blur shadow-sm transition-all hover:shadow-md"
+                    onClick={() => galleryApi?.scrollNext()}
+                  >
+                    <ChevronRight className="h-5 w-5" />
+                  </Button>
+                </div>
               </div>
             </div>
 
@@ -624,7 +628,7 @@ const VietnameseAlphabet = () => {
                           className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                         />
                       </div>
-                      <figcaption className="absolute bottom-0 left-4 right-4 rounded-xl bg-card p-5 shadow-2xl transition-transform duration-500 group-hover:-translate-y-2">
+                      <figcaption className="absolute bottom-0 left-4 right-4 rounded-xl bg-card p-5 shadow-2xl transition-all duration-500 opacity-0 translate-y-3 max-md:opacity-100 max-md:translate-y-0 group-hover:opacity-100 group-hover:translate-y-0">
                         <div className="brand-gradient mb-3 h-1 w-12 rounded-full" />
                         <p className="font-display text-lg font-bold leading-tight text-foreground">{img.titleVi}</p>
                         <p className="mt-0.5 text-sm font-medium italic text-primary">{img.titleEn}</p>
