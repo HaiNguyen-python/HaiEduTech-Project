@@ -105,6 +105,7 @@ const mcqKeys = { 0: 0, 1: 0, 2: 0, 3: 0 };
 const matchingKeys = {};
 const openingsBySection = { 1: new Map(), 2: new Map(), 3: new Map(), 4: new Map() };
 let fillCount = 0;
+const TTS_MAX_CHARS = 1000;
 
 
 for (const set of ALL_LISTENING_SETS) {
@@ -149,6 +150,17 @@ for (const set of ALL_LISTENING_SETS) {
     issues.push(`${set.id}: Section 4 must be a single speaker, found ${speakers.size}`);
   }
   if (speakers.size > 4) issues.push(`${set.id}: too many speakers (${speakers.size})`);
+  let currentSpeaker = null;
+  let currentLength = 0;
+  for (const line of lines) {
+    const match = line.match(/^([A-Z][a-zA-Z]{1,20}):\s*/);
+    const speaker = match?.[1] ?? currentSpeaker;
+    const bodyLength = line.replace(/^([A-Z][a-zA-Z]{1,20}):\s*/, "").length;
+    if (speaker !== currentSpeaker || currentLength + bodyLength + 1 > TTS_MAX_CHARS) currentLength = bodyLength;
+    else currentLength += bodyLength + 1;
+    currentSpeaker = speaker;
+    if (currentLength > TTS_MAX_CHARS) issues.push(`${set.id}: TTS turn exceeds ${TTS_MAX_CHARS} characters`);
+  }
   // Spelled-out letters must be hyphenated so the voice reads them one by one.
   const badSpelling = set.transcript.match(/\b[A-Z](?:\s[A-Z]){2,}\b/g);
   if (badSpelling) issues.push(`${set.id}: spelled letters need hyphens ("${badSpelling[0]}")`);

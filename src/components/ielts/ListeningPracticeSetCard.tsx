@@ -22,6 +22,7 @@ import { toast } from "@/hooks/use-toast";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { pushListeningAttempt } from "@/lib/ieltsListeningHistory";
 import { useListeningAiAudio } from "@/hooks/useListeningAiAudio";
+import { buildListeningAudioTurnPlan } from "@/lib/ieltsListeningAudioTurns";
 
 type AccentKey = "en-GB" | "en-US" | "en-AU";
 const ACCENT_LABELS: Record<AccentKey, string> = {
@@ -125,51 +126,9 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
 
   // Merge consecutive lines by the same speaker. This gives the voice model enough
   // context for natural prosody and avoids stitching a new MP3 after every sentence.
-  const { chunks, chunkTurn, turnFirstChunk, turns, turnSpeakers } = useMemo(() => {
-    const lines = s.transcript.split(/\n+/).map(l => l.trim()).filter(Boolean);
-    const outChunks: string[] = [];
-    const outTurnOf: number[] = [];
-    const firstChunk: number[] = [];
-    const groupedTurns: string[] = [];
-    const groupedSpeakers: (string | null)[] = [];
-    let inheritedSpeaker: string | null = null;
-    const MAX_TURN_CHARS = 2400;
-
-    lines.forEach((line) => {
-      const speakerMatch = line.match(/^([A-Z][a-zA-Z]{1,20}):\s*/);
-      if (speakerMatch) inheritedSpeaker = speakerMatch[1];
-      const body = line.replace(/^([A-Z][a-zA-Z]{1,20}):\s*/, "");
-      const last = groupedTurns.length - 1;
-      const canMerge = last >= 0
-        && groupedSpeakers[last] === inheritedSpeaker
-        && groupedTurns[last].length + body.length + 1 <= MAX_TURN_CHARS;
-      if (canMerge) groupedTurns[last] = `${groupedTurns[last]} ${body}`;
-      else {
-        groupedTurns.push(body);
-        groupedSpeakers.push(inheritedSpeaker);
-      }
-
-      const parts = line.match(/[^.!?]+[.!?]+["')\]]*|[^.!?]+$/g) ?? [line];
-      for (const p of parts) {
-        const trimmed = p.trim();
-        if (trimmed) outChunks.push(trimmed);
-      }
-    });
-
-    let chunkCursor = 0;
-    groupedTurns.forEach((turn, turnIdx) => {
-      firstChunk[turnIdx] = chunkCursor;
-      const count = (turn.match(/[^.!?]+[.!?]+["')\]]*|[^.!?]+$/g) ?? [turn]).filter(part => part.trim()).length;
-      for (let i = 0; i < count; i++) outTurnOf[chunkCursor++] = turnIdx;
-    });
-    return {
-      chunks: outChunks,
-      chunkTurn: outTurnOf,
-      turnFirstChunk: firstChunk,
-      turns: groupedTurns,
-      turnSpeakers: groupedSpeakers,
-    };
-  }, [s.transcript]);
+  const audioPlan = useMemo(() => buildListeningAudioTurnPlan(s.transcript), [s.transcript]);
+  const { chunks, chunkTurn, turnFirstChunk } = audioPlan;
+  const turns = useMemo(() => audioPlan.turns.map((turn) => turn.text), [audioPlan.turns]);
 
   /** Speaker label that owns a chunk (inherited from the last tagged line). */
   const speakerAt = useCallback((idx: number): string | null => {
@@ -182,12 +141,8 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
 
   // Turns handed to the AI voice service (speaker label stripped from the text).
   const audioLines = useMemo(
-    () => turns.map((text, i) => ({
-      i,
-      speaker: turnSpeakers[i],
-      text,
-    })),
-    [turns, turnSpeakers]
+    () => audioPlan.turns,
+    [audioPlan.turns]
   );
 
   // AI exam voices are always used; the device voice is only a silent fallback.
