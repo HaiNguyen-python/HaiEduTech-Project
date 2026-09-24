@@ -44,6 +44,11 @@ const ClipCard = ({ clip }: { clip: VFFVideoClip }) => {
             <iframe className="w-full h-full" src={`https://www.youtube-nocookie.com/embed/${clip.youtubeId}`} title={clip.title} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope" allowFullScreen onError={() => setVideoUnavailable(true)} />
           )}
         </div>
+        {!videoUnavailable && (
+          <a className="mb-4 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-primary hover:underline" href={`https://www.youtube.com/watch?v=${clip.youtubeId}`} target="_blank" rel="noreferrer">
+            {t("Mở video trên YouTube", "Open video on YouTube")} <ExternalLink className="h-4 w-4" />
+          </a>
+        )}
 
         <details className="mb-3">
           <summary className="cursor-pointer text-sm font-semibold">📝 {t("Lời thoại (VI + EN)", "Transcript (VI + EN)")}</summary>
