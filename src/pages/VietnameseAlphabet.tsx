@@ -353,17 +353,11 @@ const VietnameseAlphabet = () => {
                           <h2 className="text-5xl font-bold text-foreground">
                             {selectedLetter.uppercase} {selectedLetter.letter}
                           </h2>
-                          <div className="mt-2 space-y-1 text-sm">
-                            <p className="text-foreground">
-                              <span className="font-semibold">{t("Cách đọc khi học bảng chữ cái", "Primary-school alphabet reading")}:</span>{" "}
-                              {pronunciation.soundLabel}{" "}
-                              <span className="text-muted-foreground">{selectedLetter.ipa}</span>
-                            </p>
-                            <p className="text-foreground">
-                              <span className="font-semibold">{t("Tên chữ", "Formal letter name")}:</span>{" "}
-                              {pronunciation.nameText}
-                            </p>
-                          </div>
+                          <p className="mt-2 text-sm text-foreground">
+                            <span className="font-semibold">{t("Cách đọc", "Reading")}:</span>{" "}
+                            {pronunciation.soundLabel}{" "}
+                            <span className="text-muted-foreground">{selectedLetter.ipa}</span>
+                          </p>
                         </div>
                         <Button
                           size="icon"
@@ -373,25 +367,6 @@ const VietnameseAlphabet = () => {
                           onClick={() => void playSound(pronunciation.soundText, "letter-sound", `sound:${selectedLetter.letter}`)}
                         >
                           <AudioIcon audioKey={`sound:${selectedLetter.letter}`} />
-                        </Button>
-                      </div>
-
-                      <div className="grid grid-cols-2 gap-2 mb-4">
-                        <Button
-                          variant="outline"
-                          disabled={playingKey !== null}
-                            onClick={() => void playSound(pronunciation.soundText, "letter-sound", `sound:${selectedLetter.letter}`)}
-                        >
-                            <AudioIcon audioKey={`sound:${selectedLetter.letter}`} />
-                            <span className="ml-2">{t(`Cách đọc: ${pronunciation.soundLabel}`, `Reading: ${pronunciation.soundLabel}`)}</span>
-                        </Button>
-                        <Button
-                          variant="outline"
-                          disabled={playingKey !== null}
-                            onClick={() => void playSound(pronunciation.nameText, "letter-name", `name:${selectedLetter.letter}`)}
-                        >
-                            <AudioIcon audioKey={`name:${selectedLetter.letter}`} />
-                            <span className="ml-2">{t(`Tên chữ: ${pronunciation.nameText}`, `Formal name: ${pronunciation.nameText}`)}</span>
                         </Button>
                       </div>
 
@@ -540,37 +515,33 @@ const VietnameseAlphabet = () => {
           <p className="text-center text-sm text-muted-foreground mb-6 italic">
             {t("Đất nước con người - từ đồng quê đến thành phố", "Land and people - from countryside to city")}
           </p>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-            {[
-              { src: "/vietnam-beauty-1.webp", alt: "Trẻ em chăn trâu trên đồng lúa" },
-              { src: "/vietnam-beauty-2.webp", alt: "Ruộng bậc thang Mù Cang Chải" },
-              { src: "/vietnam-beauty-4.webp", alt: "Vịnh Hạ Long" },
-              { src: "/vietnam-beauty-5.webp", alt: "Bắc Sơn bình minh" },
-              { src: "/vietnam-beauty-7.webp", alt: "Khinh khí cầu trên Kinh thành Huế" },
-              { src: "/vietnam-beauty-9.webp", alt: "Ngư dân quăng lưới" },
-              { src: "/vietnam-beauty-3.webp", alt: "Thành phố Nha Trang về đêm" },
-              { src: "/vietnam-beauty-6.webp", alt: "Landmark 81 Sài Gòn" },
-              { src: "/vietnam-beauty-8.webp", alt: "Quốc kỳ Việt Nam" },
-            ].map((img, idx) => (
-              <motion.div
-                key={img.src}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.05 }}
-                className={`rounded-xl overflow-hidden shadow-md ${
-                  idx === 0 || idx === 8 ? "col-span-2 md:col-span-1" : ""
-                }`}
-              >
-                <img
-                  src={img.src}
-                  alt={img.alt}
-                  className="w-full h-40 md:h-48 object-cover hover:scale-105 transition-transform duration-500"
-                  loading="lazy"
-                />
-              </motion.div>
-            ))}
-          </div>
+          <Carousel opts={{ loop: true, align: "start" }} className="mx-auto max-w-5xl px-10">
+            <CarouselContent>
+              {[
+                { src: "/vietnam-beauty-1.webp", title: t("Tuổi thơ đồng quê", "Countryside childhood"), caption: t("Trẻ em chăn trâu trên cánh đồng lúa xanh - hình ảnh quen thuộc của làng quê Việt Nam.", "Children herding buffalo across green rice fields - a classic scene of rural Vietnam.") },
+                { src: "/vietnam-beauty-2.webp", title: t("Ruộng bậc thang Mù Cang Chải", "Mu Cang Chai rice terraces"), caption: t("Những thửa ruộng bậc thang uốn lượn trên sườn núi Yên Bái, đẹp nhất vào mùa lúa chín.", "Terraced fields curving along the mountains of Yen Bai, most stunning in harvest season.") },
+                { src: "/vietnam-beauty-4.webp", title: t("Vịnh Hạ Long", "Ha Long Bay"), caption: t("Di sản thiên nhiên thế giới với hàng nghìn đảo đá vôi giữa làn nước xanh ngọc.", "A UNESCO World Heritage site with thousands of limestone islands in emerald water.") },
+                { src: "/vietnam-beauty-5.webp", title: t("Bình minh Bắc Sơn", "Bac Son sunrise"), caption: t("Thung lũng Bắc Sơn (Lạng Sơn) chìm trong sương sớm và ánh nắng đầu ngày.", "Bac Son valley (Lang Son) wrapped in morning mist and first light.") },
+                { src: "/vietnam-beauty-7.webp", title: t("Kinh thành Huế", "Hue Imperial City"), caption: t("Khinh khí cầu bay trên cố đô Huế - nơi lưu giữ dấu ấn triều Nguyễn.", "Hot-air balloons above the former capital Hue, home of the Nguyen dynasty heritage.") },
+                { src: "/vietnam-beauty-9.webp", title: t("Ngư dân quăng lưới", "Fisherman casting a net"), caption: t("Nghề chài lưới truyền thống gắn bó với đời sống các làng ven biển.", "Traditional net fishing, part of daily life in coastal villages.") },
+                { src: "/vietnam-beauty-3.webp", title: t("Nha Trang về đêm", "Nha Trang at night"), caption: t("Thành phố biển rực rỡ ánh đèn bên vịnh Nha Trang.", "The seaside city glowing with lights along Nha Trang Bay.") },
+                { src: "/vietnam-beauty-6.webp", title: t("Landmark 81, Sài Gòn", "Landmark 81, Saigon"), caption: t("Tòa nhà cao nhất Việt Nam, biểu tượng của TP. Hồ Chí Minh hiện đại.", "Vietnam's tallest building, a symbol of modern Ho Chi Minh City.") },
+                { src: "/vietnam-beauty-8.webp", title: t("Quốc kỳ Việt Nam", "Flag of Vietnam"), caption: t("Cờ đỏ sao vàng - niềm tự hào của người Việt Nam.", "The red flag with a yellow star - a source of national pride.") },
+              ].map((img) => (
+                <CarouselItem key={img.src} className="basis-full md:basis-1/2 lg:basis-1/3">
+                  <figure className="overflow-hidden rounded-xl border bg-card shadow-md h-full">
+                    <img src={img.src} alt={img.title} loading="lazy" className="h-56 w-full object-cover" />
+                    <figcaption className="p-4">
+                      <p className="font-semibold text-foreground">{img.title}</p>
+                      <p className="mt-1 text-sm text-muted-foreground leading-relaxed">{img.caption}</p>
+                    </figcaption>
+                  </figure>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="left-0" />
+            <CarouselNext className="right-0" />
+          </Carousel>
         </section>
       </main>
       <Footer />
