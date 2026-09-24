@@ -11,6 +11,11 @@ import { dailyMicroLessons as dailyBase } from "../src/data/vietnamese/dailyViet
 import { dailyMicroLessonsExpansion } from "../src/data/vietnamese/dailyVietnameseExpansion";
 import { dailyMicroLessonsV10 } from "../src/data/vietnamese/expansionV10Practice";
 import { VFF_VIDEO_BANK } from "../src/data/vietnamese/vffVideoBank";
+import {
+  vietnameseAlphabet,
+  vietnameseAlphabetPronunciations,
+  vietnameseTones,
+} from "../src/data/vietnamese/alphabetData";
 
 const MIN_VOCAB = 10;
 const MIN_QUIZ = 5;
@@ -99,11 +104,26 @@ for (const clip of VFF_VIDEO_BANK) {
   if (!clip.transcript.length || !clip.glossary.length || !clip.quiz.length) issues.push(`VFF_VIDEO_CONTENT_MISSING ${clip.id}`);
 }
 
+const alphabetLetters = new Set(vietnameseAlphabet.map((item) => item.letter));
+const pronunciationLetters = vietnameseAlphabetPronunciations.map((item) => item.letter);
+if (vietnameseAlphabet.length !== 29) issues.push(`ALPHABET_COUNT (${vietnameseAlphabet.length})`);
+if (vietnameseTones.length !== 6) issues.push(`TONE_COUNT (${vietnameseTones.length})`);
+if (new Set(pronunciationLetters).size !== 29) issues.push("ALPHABET_PRONUNCIATION_DUPLICATE");
+for (const item of vietnameseAlphabetPronunciations) {
+  if (!alphabetLetters.has(item.letter)) issues.push(`ALPHABET_PRONUNCIATION_UNKNOWN ${item.letter}`);
+  if (!item.nameText.trim() || !item.soundText.trim()) issues.push(`ALPHABET_PRONUNCIATION_EMPTY ${item.letter}`);
+}
+for (const letter of vietnameseAlphabet) {
+  if (!pronunciationLetters.includes(letter.letter)) issues.push(`ALPHABET_PRONUNCIATION_MISSING ${letter.letter}`);
+  if (!letter.exampleWord.trim()) issues.push(`ALPHABET_EXAMPLE_MISSING ${letter.letter}`);
+}
+
 console.log(`Modules: ${vietnameseLanguageModules.length}`);
 console.log(`Lessons: ${lessonCount}`);
 console.log(`VFF lessons: ${vffLevels.reduce((sum, level) => sum + level.lessons.length, 0)}`);
 console.log(`Daily lessons: ${dailyLessons.length}`);
 console.log(`VFF videos: ${VFF_VIDEO_BANK.length}`);
+console.log(`Alphabet pronunciations: ${vietnameseAlphabetPronunciations.length}`);
 console.log(`Issues: ${issues.length}`);
 issues.slice(0, 80).forEach((issue) => console.log(` - ${issue}`));
 if (issues.length > 80) console.log(` ... and ${issues.length - 80} more`);
