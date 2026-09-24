@@ -40,6 +40,10 @@ const DEST_BG: Record<string, string> = {
 
 const FACT_IMAGES = Object.values(import.meta.glob("@/assets/vietnamese/facts/*.jpg", { eager: true, import: "default" })) as string[];
 const FESTIVAL_IMAGES = import.meta.glob("@/assets/vietnamese/festivals/*.jpg", { eager: true, import: "default" }) as Record<string, string>;
+const HL_IMAGES = import.meta.glob("@/assets/vietnamese/highlights/*.jpg", { eager: true, import: "default" }) as Record<string, string>;
+const highlightImage = (rid: string, i: number) => Object.entries(HL_IMAGES).find(([k]) => k.endsWith(`/${rid}-${i}.jpg`))?.[1];
+const ESS_IMAGES = import.meta.glob("@/assets/vietnamese/essentials/*.jpg", { eager: true, import: "default" }) as Record<string, string>;
+const essentialImage = (id: string) => Object.entries(ESS_IMAGES).find(([k]) => k.endsWith(`/${id}.jpg`))?.[1];
 const festivalImage = (id: string) => Object.entries(FESTIVAL_IMAGES).find(([k]) => k.endsWith(`/${id}.jpg`))?.[1];
 
 const REGION_BG: Record<string, { src: string; vi: string; en: string }> = {
@@ -146,7 +150,11 @@ const VietnameseRegions = () => {
                       <div className="space-y-2">
                         {region.highlights.map((h, i) => (
                           <div key={i} className="flex items-center gap-3 text-sm">
-                            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">{i + 1}</span>
+                            {highlightImage(region.id, i) ? (
+                              <img src={highlightImage(region.id, i)} alt={t(h.name, h.nameEn)} loading="lazy" width={240} height={240} className="h-12 w-12 shrink-0 rounded-lg object-cover ring-1 ring-border" />
+                            ) : (
+                              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-xs font-bold text-primary">{i + 1}</span>
+                            )}
                             <div>
                               <div className="font-medium text-foreground">{t(h.name, h.nameEn)}</div>
                               <div className="text-xs text-muted-foreground">{h.province}</div>
@@ -342,6 +350,11 @@ const VietnameseRegions = () => {
               {travelEssentials.map((e, i) => (
                 <motion.div key={e.id} initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}>
                   <Card className="h-full overflow-hidden border border-border/70 bg-card shadow-[0_14px_40px_-24px_hsl(var(--foreground)/0.35)]">
+                    {essentialImage(e.id) ? (
+                      <div className="aspect-[3/1] overflow-hidden">
+                        <img src={essentialImage(e.id)} alt={t(e.title, e.titleEn)} loading="lazy" width={720} height={240} className="h-full w-full object-cover" />
+                      </div>
+                    ) : null}
                     <div className="h-1 w-full bg-gradient-to-r from-primary via-emerald-500 to-primary" />
                     <CardContent className="p-6">
                       <div className="mb-5 flex items-baseline justify-between gap-3 border-b border-border/60 pb-3">
