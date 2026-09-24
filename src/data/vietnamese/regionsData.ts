@@ -40,7 +40,8 @@ export const regions: RegionInfo[] = [
       { name: "Hà Giang", nameEn: "Ha Giang Loop", province: "Hà Giang", emoji: "🏍️" },
     ],
     unesco: [
-      { name: "Vịnh Hạ Long", nameEn: "Halong Bay", year: 1994, type: "Tự nhiên", typeEn: "Natural" },
+      { name: "Vịnh Hạ Long - Quần đảo Cát Bà", nameEn: "Ha Long Bay - Cat Ba Archipelago", year: 1994, type: "Tự nhiên", typeEn: "Natural" },
+      { name: "Quần thể Yên Tử - Vĩnh Nghiêm - Côn Sơn, Kiếp Bạc", nameEn: "Yen Tu - Vinh Nghiem - Con Son, Kiep Bac Complex", year: 2025, type: "Văn hóa", typeEn: "Cultural" },
       { name: "Hoàng thành Thăng Long", nameEn: "Imperial Citadel of Thang Long", year: 2010, type: "Văn hóa", typeEn: "Cultural" },
       { name: "Quần thể Tràng An", nameEn: "Trang An Landscape", year: 2014, type: "Hỗn hợp", typeEn: "Mixed" },
     ],
