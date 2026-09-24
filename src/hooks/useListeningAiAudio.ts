@@ -33,17 +33,27 @@ export const useListeningAiAudio = (setId: string, section: number, lines: Audio
   linesRef.current = lines;
   // Mirror of `urls` so playback callbacks always read the newest signed URLs.
   const urlsRef = useRef<Record<number, string>>({});
+  const blobUrlsRef = useRef<string[]>([]);
+
+  const clearBlobUrls = useCallback(() => {
+    for (const url of blobUrlsRef.current) URL.revokeObjectURL(url);
+    blobUrlsRef.current = [];
+  }, []);
 
   useEffect(() => {
     // A new recording resets the cache of signed URLs.
+    clearBlobUrls();
     setUrls({});
     urlsRef.current = {};
     setFailed(false);
     setProgress(0);
     startedRef.current = null;
-  }, [setId]);
+  }, [setId, clearBlobUrls]);
 
-  useEffect(() => () => { abortRef.current = true; }, []);
+  useEffect(() => () => {
+    abortRef.current = true;
+    clearBlobUrls();
+  }, [clearBlobUrls]);
 
   const fetchPage = useCallback(
     async (page: number) => {
@@ -63,9 +73,25 @@ export const useListeningAiAudio = (setId: string, section: number, lines: Audio
         },
       });
       if (error || !data?.urls?.length) return false;
+      const downloaded = await Promise.all(
+        (data.urls as { i: number; url: string }[]).map(async (item) => {
+          try {
+            const response = await fetch(item.url);
+            if (!response.ok) return null;
+            const localUrl = URL.createObjectURL(await response.blob());
+            blobUrlsRef.current.push(localUrl);
+            return { i: item.i, url: localUrl };
+          } catch {
+            return null;
+          }
+        })
+      );
+      if (downloaded.some((item) => !item)) return false;
       setUrls((prev) => {
         const next = { ...prev };
-        for (const item of data.urls as { i: number; url: string }[]) next[item.i] = item.url;
+        for (const item of downloaded) {
+          if (item) next[item.i] = item.url;
+        }
         urlsRef.current = next;
         return next;
       });
@@ -103,10 +129,11 @@ export const useListeningAiAudio = (setId: string, section: number, lines: Audio
   /** Ask for fresh signed URLs (the previous batch expired). */
   const refresh = useCallback(async () => {
     startedRef.current = setId;
+    clearBlobUrls();
     setUrls({});
     urlsRef.current = {};
     return load();
-  }, [load, setId]);
+  }, [clearBlobUrls, load, setId]);
 
   const ready = lines.length > 0 && Object.keys(urls).length >= lines.length;
 

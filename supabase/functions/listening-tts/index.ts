@@ -17,6 +17,8 @@ const corsHeaders = {
 
 const BUCKET = "listening-audio";
 const MAX_LINES = 14;
+const MODEL = "openai/gpt-4o-mini-tts";
+const AUDIO_PROFILE_VERSION = "ielts-natural-v3";
 
 interface LineInput {
   i: number;
@@ -77,7 +79,9 @@ serve(async (req) => {
     };
 
     const run = async (line: LineInput) => {
-      const key = await sha256(`${line.voice}|${line.speed}|${line.text}`);
+      const key = await sha256(
+        `${AUDIO_PROFILE_VERSION}|${MODEL}|${line.voice}|${line.speed}|${line.instructions ?? ""}|${line.text}`,
+      );
       const path = `${setId}/${key}.mp3`;
 
       // Cached already? Just hand back a fresh signed URL.
@@ -94,7 +98,7 @@ serve(async (req) => {
         method: "POST",
         headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
         body: JSON.stringify({
-          model: "openai/gpt-4o-mini-tts",
+          model: MODEL,
           input: line.text,
           voice: line.voice,
           instructions: line.instructions,
