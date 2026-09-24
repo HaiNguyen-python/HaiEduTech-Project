@@ -10,10 +10,33 @@ import { Badge } from "@/components/ui/badge";
 import { regions } from "@/data/vietnamese/regionsData";
 import { travelDestinations as baseDestinations } from "@/data/vietnamese/regionsExpansion";
 import { travelDestinationsV10 } from "@/data/vietnamese/expansionV10Culture";
+const travelDestinations = Object.values(
+  [...baseDestinations, ...travelDestinationsV10].reduce<Record<string, (typeof baseDestinations)[number]>>((acc, d) => {
+    acc[d.nameEn.toLowerCase().replace(/[^a-z]/g, "")] = d; // dedupe (giữ bản chi tiết hơn)
+    return acc;
+  }, {})
+);
+import { festivals, travelEssentials, etiquetteRules, countryStats } from "@/data/vietnamese/regionsExtras";
+import regionsAuthentic from "@/assets/vietnamese/regions-authentic.jpg";
+import regionNorth from "@/assets/vietnamese/region-north.jpg";
+import regionCentral from "@/assets/vietnamese/region-central.jpg";
 import regionSouth from "@/assets/vietnamese/region-south.jpg";
 import destPhongNha from "@/assets/vietnamese/destinations/phong-nha.jpg";
 import destDaLat from "@/assets/vietnamese/destinations/dalat.jpg";
 import destHaGiang from "@/assets/vietnamese/destinations/ha-giang.jpg";
+
+const DEST_BG: Record<string, string> = {
+  halong: "/vietnam-beauty-4.webp",
+  sapa: "/vietnam-beauty-11.webp",
+  hoian: "/vietnam-beauty-10.webp",
+  phongnha: destPhongNha,
+  phuquoc: "/vietnam-beauty-15.webp",
+  "phu-quoc": "/vietnam-beauty-15.webp",
+  dalat: destDaLat,
+  mekong: "/vietnam-beauty-12.webp",
+  haggiang: destHaGiang,
+  "ninh-binh": "/vietnam-beauty-14.webp",
+};
 
 const FACT_IMAGES = Object.values(import.meta.glob("@/assets/vietnamese/facts/*.jpg", { eager: true, import: "default" })) as string[];
 const FESTIVAL_IMAGES = import.meta.glob("@/assets/vietnamese/festivals/*.jpg", { eager: true, import: "default" }) as Record<string, string>;
