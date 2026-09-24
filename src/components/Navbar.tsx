@@ -327,6 +327,7 @@ const Navbar = () => {
     { to: "#vn-curriculum-group", label: t("📚 Chương trình học", "📚 Curriculum"), groupLabel: "vn-curriculum", children: [
       { to: "/learn-vietnamese?tab=language", label: t("📝 Ngữ pháp Tiếng Việt", "📝 Vietnamese Grammar") },
       { to: "/learn-vietnamese/vocabulary", label: t("📖 Từ vựng Tiếng Việt", "📖 Vietnamese Vocabulary") },
+      { to: "/learn-vietnamese/alphabet", label: t("🔤 Bảng chữ cái", "🔤 Vietnamese Alphabet") },
       { to: "/learn-vietnamese?tab=history", label: t("📜 History & Culture", "📜 History & Culture") },
       { to: "/learn-vietnamese/national-anthem", label: t("⭐ National Anthem", "⭐ National Anthem") },
       { to: "/specialized-language?lang=vietnamese", label: t("🧠 Tiếng Việt Chuyên ngành", "🧠 Specialized Vietnamese") },
@@ -336,12 +337,15 @@ const Navbar = () => {
       { to: "/learn-vietnamese/regions", label: t("🗺️ Du lịch & Vùng miền", "🗺️ Travel & Regions") },
       { to: "/learn-vietnamese/culture", label: t("🎭 Văn hóa & Phong tục", "🎭 Culture & Customs") },
       { to: "/learn-vietnamese/films", label: t("🎬 Phim & Hội thoại", "🎬 Films & Conversations") },
+      { to: "/learn-vietnamese/poetry", label: t("🪷 Thơ ca Việt Nam", "🪷 Vietnamese Poetry") },
+      { to: "/learn-vietnamese/holidays", label: t("🏮 Ngày lễ Việt Nam", "🏮 Vietnamese Holidays") },
       { to: "/songs/vietnamese", label: t("🎵 Học qua bài hát", "🎵 Learn through Songs") },
     ] },
     { to: "#vn-practice-group", label: t("🎯 Luyện tập & Tương tác", "🎯 Practice & Interactive"), groupLabel: "vn-practice", children: [
       { to: "/learn-vietnamese?tab=game", label: t("🎮 Trò chơi", "🎮 Games") },
       { to: "/learn-vietnamese/arcade", label: t("🕹️ Arcade Hub", "🕹️ Arcade Hub") },
       { to: "/learn-vietnamese/daily", label: t("📅 Daily Vietnamese", "📅 Daily Vietnamese") },
+      { to: "/learn-vietnamese/dictation", label: t("🎧 Nghe chép chính tả", "🎧 Vietnamese Dictation") },
       { to: "/learn-vietnamese/phrasebook", label: t("💬 Phrasebook tình huống", "💬 Situational Phrasebook") },
       { to: "/speaking-coach/vietnamese", label: t("🎙️ Speaking Coach", "🎙️ Speaking Coach") },
     ] },

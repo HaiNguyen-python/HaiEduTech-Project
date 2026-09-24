@@ -488,7 +488,7 @@ const App = () => (
             <Route path="/learn-vietnamese/for-foreigners/a1" element={<LazyRoute><VFFLevelPage levelKey="a1" /></LazyRoute>} />
             <Route path="/learn-vietnamese/for-foreigners/b1" element={<LazyRoute><VFFLevelPage levelKey="b1" /></LazyRoute>} />
             <Route path="/learn-vietnamese/for-foreigners/a2" element={<LazyRoute><VFFLevelPage levelKey="a2" /></LazyRoute>} />
-            <Route path="/learn-vietnamese/for-foreigners/a2-legacy" element={<LazyRoute><VietnameseForForeigners /></LazyRoute>} />
+            <Route path="/learn-vietnamese/for-foreigners/a2-legacy" element={<Navigate to="/learn-vietnamese/for-foreigners/a2" replace />} />
             <Route path="/learn-vietnamese/for-foreigners/lab/pronunciation" element={<LazyRoute><VFFPronunciationLab /></LazyRoute>} />
             <Route path="/learn-vietnamese/for-foreigners/lab/grammar" element={<LazyRoute><VFFGrammarReference /></LazyRoute>} />
             <Route path="/learn-vietnamese/for-foreigners/lab/listening" element={<LazyRoute><VFFListeningLab /></LazyRoute>} />
@@ -503,7 +503,7 @@ const App = () => (
             <Route path="/learn-vietnamese/for-foreigners/placement-adaptive" element={<LazyRoute><VFFPlacementAdaptive /></LazyRoute>} />
             <Route path="/learn-vietnamese/for-foreigners/certificate" element={<LazyRoute><VFFCertificate /></LazyRoute>} />
 
-            <Route path="/learn-vietnamese/for-foreigners/legacy" element={<LazyRoute><VietnameseForForeigners /></LazyRoute>} />
+            <Route path="/learn-vietnamese/for-foreigners/legacy" element={<Navigate to="/learn-vietnamese/for-foreigners/a2" replace />} />
             <Route path="/learn-vietnamese/national-anthem" element={<LazyRoute><NationalAnthem /></LazyRoute>} />
             <Route path="/learn-vietnamese/dictation" element={<LazyRoute><VietnameseDictation /></LazyRoute>} />
             <Route path="/learn-vietnamese/poetry" element={<LazyRoute><VietnamesePoetry /></LazyRoute>} />

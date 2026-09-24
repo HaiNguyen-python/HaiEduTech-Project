@@ -19,3 +19,13 @@
 - [x] Audit and strengthen the bilingual Theory content across all 24 lessons.
 - [x] Differentiate repeated strategy lessons and correct unsupported absolute rules.
 - [x] Add automated Theory consistency checks for all Reading Strategies lessons.
+
+# Vietnamese Quality Upgrade
+
+- [x] Audit all Vietnamese routes, core lessons, VFF content, typography, media and TTS.
+- [ ] Bring every A1-B1 VFF lesson to at least five bilingual quiz questions.
+- [ ] Standardize Vietnamese typography and mobile readability.
+- [ ] Replace broken video embeds and add resilient media fallbacks.
+- [ ] Add authentic visual coverage to cuisine, culture, regions, kids, phrasebook and Daily Vietnamese.
+- [ ] Fact-check history, heritage, festivals and time-sensitive travel guidance.
+- [ ] Expand automated Vietnamese quality checks and verify authenticated desktop/mobile flows.
