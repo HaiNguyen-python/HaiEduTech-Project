@@ -241,8 +241,26 @@ const VietnameseAlphabet = () => {
   const [selectedLetter, setSelectedLetter] = useState<AlphabetLetter | null>(null);
   const [showCanvas, setShowCanvas] = useState(false);
   const [playingKey, setPlayingKey] = useState<string | null>(null);
+  const [galleryApi, setGalleryApi] = useState<CarouselApi | undefined>(undefined);
+  const [galleryPage, setGalleryPage] = useState(0);
+  const [galleryPageCount, setGalleryPageCount] = useState(1);
 
   useEffect(() => () => stopVietnameseAlphabetTts(), []);
+
+  useEffect(() => {
+    if (!galleryApi) return;
+    const updatePagination = (api: CarouselApi) => {
+      const inView = api.slidesInView().length || 1;
+      const total = api.scrollSnapList().length || 1;
+      setGalleryPage(Math.floor(api.selectedScrollSnap() / inView));
+      setGalleryPageCount(Math.max(1, Math.ceil(total / inView)));
+    };
+    updatePagination(galleryApi);
+    galleryApi.on("select", updatePagination).on("reInit", updatePagination);
+    return () => {
+      galleryApi.off("select", updatePagination).off("reInit", updatePagination);
+    };
+  }, [galleryApi]);
 
   const playSound = async (text: string, kind: AlphabetAudioKind, key: string) => {
     stopVietnameseAlphabetTts();
