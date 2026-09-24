@@ -1,16 +1,26 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Volume2, Eraser, Pen, CheckCircle } from "lucide-react";
+import { ArrowLeft, Volume2, Eraser, Pen, CheckCircle, Loader2 } from "lucide-react";
 import confetti from "canvas-confetti";
+import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { vietnameseAlphabet, vietnameseTones, type AlphabetLetter } from "@/data/vietnamese/alphabetData";
+import {
+  vietnameseAlphabet,
+  vietnameseAlphabetPronunciationByLetter,
+  vietnameseTones,
+  type AlphabetLetter,
+} from "@/data/vietnamese/alphabetData";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { playVietnameseTts } from "@/lib/vietnameseTts";
+import {
+  playVietnameseAlphabetTts,
+  stopVietnameseAlphabetTts,
+  type AlphabetAudioKind,
+} from "@/lib/vietnameseAlphabetTts";
 
 // ── Congrats messages ──
 const CONGRATS = [
@@ -227,15 +237,37 @@ const VietnameseAlphabet = () => {
   const { t } = useLanguage();
   const [selectedLetter, setSelectedLetter] = useState<AlphabetLetter | null>(null);
   const [showCanvas, setShowCanvas] = useState(false);
+  const [playingKey, setPlayingKey] = useState<string | null>(null);
 
-  const playSound = (text: string) => {
-    void playVietnameseTts(text, { playbackRate: 0.85, speechRate: 0.7 });
+  useEffect(() => () => stopVietnameseAlphabetTts(), []);
+
+  const playSound = async (text: string, kind: AlphabetAudioKind, key: string) => {
+    stopVietnameseAlphabetTts();
+    setPlayingKey(key);
+    try {
+      await playVietnameseAlphabetTts(text, kind);
+    } catch {
+      toast.error(t(
+        "Không thể phát âm thanh lúc này. Vui lòng thử lại sau.",
+        "Audio is unavailable right now. Please try again later.",
+      ));
+    } finally {
+      setPlayingKey((current) => current === key ? null : current);
+    }
   };
 
   const selectLetter = (letter: AlphabetLetter) => {
     setSelectedLetter(letter);
     setShowCanvas(false);
+    const pronunciation = vietnameseAlphabetPronunciationByLetter.get(letter.letter);
+    if (pronunciation) {
+      void playSound(pronunciation.nameText, "letter-name", `name:${letter.letter}`);
+    }
   };
+
+  const AudioIcon = ({ audioKey }: { audioKey: string }) => playingKey === audioKey
+    ? <Loader2 className="h-4 w-4 animate-spin" />
+    : <Volume2 className="h-4 w-4" />;
 
   return (
     <div className="min-h-screen bg-background">
@@ -310,6 +342,11 @@ const VietnameseAlphabet = () => {
                     className="sticky top-24"
                   >
                     <Card className="p-5">
+                      {(() => {
+                        const pronunciation = vietnameseAlphabetPronunciationByLetter.get(selectedLetter.letter);
+                        if (!pronunciation) return null;
+                        return (
+                          <>
                       <div className="flex items-start justify-between mb-4">
                         <div>
                           <h2 className="text-5xl font-bold text-foreground">
@@ -319,8 +356,33 @@ const VietnameseAlphabet = () => {
                             {t(selectedLetter.name, selectedLetter.nameEn)} - {selectedLetter.ipa}
                           </p>
                         </div>
-                        <Button size="icon" variant="outline" onClick={() => playSound(selectedLetter.letter)}>
-                          <Volume2 className="w-4 h-4" />
+                        <Button
+                          size="icon"
+                          variant="outline"
+                          aria-label={t(`Nghe tên chữ ${selectedLetter.uppercase}`, `Hear the name of ${selectedLetter.uppercase}`)}
+                          disabled={playingKey !== null}
+                          onClick={() => void playSound(pronunciation.nameText, "letter-name", `name:${selectedLetter.letter}`)}
+                        >
+                          <AudioIcon audioKey={`name:${selectedLetter.letter}`} />
+                        </Button>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-2 mb-4">
+                        <Button
+                          variant="outline"
+                          disabled={playingKey !== null}
+                          onClick={() => void playSound(pronunciation.nameText, "letter-name", `name:${selectedLetter.letter}`)}
+                        >
+                          <AudioIcon audioKey={`name:${selectedLetter.letter}`} />
+                          <span className="ml-2">{t("Tên chữ", "Letter name")}</span>
+                        </Button>
+                        <Button
+                          variant="outline"
+                          disabled={playingKey !== null}
+                          onClick={() => void playSound(pronunciation.soundText, "letter-sound", `sound:${selectedLetter.letter}`)}
+                        >
+                          <AudioIcon audioKey={`sound:${selectedLetter.letter}`} />
+                          <span className="ml-2">{t("Âm của chữ", "Letter sound")}</span>
                         </Button>
                       </div>
 
@@ -337,9 +399,11 @@ const VietnameseAlphabet = () => {
                           size="sm"
                           variant="ghost"
                           className="mt-1 h-7 text-xs"
-                          onClick={() => playSound(selectedLetter.exampleWord)}
+                          disabled={playingKey !== null}
+                          onClick={() => void playSound(selectedLetter.exampleWord, "example", `example:${selectedLetter.letter}`)}
                         >
-                          <Volume2 className="w-3 h-3 mr-1" /> {t("Nghe", "Listen")}
+                          <AudioIcon audioKey={`example:${selectedLetter.letter}`} />
+                          <span className="ml-1">{t("Nghe từ mẫu", "Hear example")}</span>
                         </Button>
                       </div>
 
@@ -361,6 +425,9 @@ const VietnameseAlphabet = () => {
                           onClose={() => setShowCanvas(false)}
                         />
                       )}
+                          </>
+                        );
+                      })()}
                     </Card>
                   </motion.div>
                 ) : (
@@ -419,9 +486,10 @@ const VietnameseAlphabet = () => {
                       size="icon"
                       variant="ghost"
                       className="h-8 w-8"
-                      onClick={() => playSound(tone.example)}
+                      disabled={playingKey !== null}
+                      onClick={() => void playSound(tone.example, "tone", `tone:${tone.example}`)}
                     >
-                      <Volume2 className="w-4 h-4" />
+                      <AudioIcon audioKey={`tone:${tone.example}`} />
                     </Button>
                   </div>
                 </Card>
@@ -438,14 +506,17 @@ const VietnameseAlphabet = () => {
               {vietnameseTones.map((tone) => (
                 <button
                   key={tone.example}
-                  onClick={() => playSound(tone.example)}
+                  disabled={playingKey !== null}
+                  onClick={() => void playSound(tone.example, "tone", `tone:${tone.example}`)}
                   className="flex flex-col items-center p-3 rounded-lg bg-muted/50 hover:bg-primary/10 transition-colors cursor-pointer"
                 >
                   <span className="text-2xl font-bold text-foreground">{tone.example}</span>
                   <span className="text-[10px] text-muted-foreground mt-1">
                     {t(tone.exampleMeaning, tone.exampleMeaningEn)}
                   </span>
-                  <Volume2 className="w-3 h-3 text-primary mt-1" />
+                  {playingKey === `tone:${tone.example}`
+                    ? <Loader2 className="w-3 h-3 text-primary mt-1 animate-spin" />
+                    : <Volume2 className="w-3 h-3 text-primary mt-1" />}
                 </button>
               ))}
             </div>
