@@ -372,45 +372,63 @@ const VietnameseRegions = () => {
               <Info className="w-6 h-6 text-primary" />
               {t("Văn hóa ứng xử", "Cultural Etiquette")}
             </h2>
-            <div className="grid md:grid-cols-2 gap-4">
-              <Card className="border-emerald-500/30 bg-emerald-500/5">
-                <CardContent className="p-5">
-                  <h3 className="text-lg font-bold text-emerald-600 dark:text-emerald-400 mb-3 flex items-center gap-2">
-                    <CheckCircle2 className="w-5 h-5" />
-                    {t("NÊN làm", "DO")}
-                  </h3>
-                  <ul className="space-y-2.5">
-                    {etiquetteRules.filter(r => r.type === "do").map((r, i) => (
-                      <li key={i} className="flex gap-2 text-sm">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" />
-                        <div>
-                          <div className="text-foreground">{t(r.vi, r.en)}</div>
-                          <Badge variant="outline" className="text-xs mt-1">{t(r.context, r.contextEn)}</Badge>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-              <Card className="border-rose-500/30 bg-rose-500/5">
-                <CardContent className="p-5">
-                  <h3 className="text-lg font-bold text-rose-600 dark:text-rose-400 mb-3 flex items-center gap-2">
-                    <XCircle className="w-5 h-5" />
-                    {t("KHÔNG nên", "DON'T")}
-                  </h3>
-                  <ul className="space-y-2.5">
-                    {etiquetteRules.filter(r => r.type === "dont").map((r, i) => (
-                      <li key={i} className="flex gap-2 text-sm">
-                        <XCircle className="w-4 h-4 text-rose-500 mt-0.5 shrink-0" />
-                        <div>
-                          <div className="text-foreground">{t(r.vi, r.en)}</div>
-                          <Badge variant="outline" className="text-xs mt-1">{t(r.context, r.contextEn)}</Badge>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
+            <div className="grid md:grid-cols-2 gap-5">
+              {([
+                {
+                  type: "do" as const,
+                  title: t("NÊN làm", "DO"),
+                  icon: CheckCircle2,
+                  bar: "from-emerald-500 to-teal-500",
+                  headerText: "text-emerald-700 dark:text-emerald-300",
+                  headerBg: "bg-emerald-500/10",
+                  chip: "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400",
+                  pill: "border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300",
+                },
+                {
+                  type: "dont" as const,
+                  title: t("KHÔNG nên", "DON'T"),
+                  icon: XCircle,
+                  bar: "from-rose-500 to-red-500",
+                  headerText: "text-rose-700 dark:text-rose-300",
+                  headerBg: "bg-rose-500/10",
+                  chip: "bg-rose-500/15 text-rose-600 dark:text-rose-400",
+                  pill: "border-rose-500/30 bg-rose-500/10 text-rose-700 dark:text-rose-300",
+                },
+              ]).map((col) => {
+                const Icon = col.icon;
+                return (
+                  <Card key={col.type} className="overflow-hidden border-border/60 shadow-sm">
+                    <div className={`h-1.5 bg-gradient-to-r ${col.bar}`} />
+                    <div className={`flex items-center gap-3 px-5 py-4 border-b border-border/50 ${col.headerBg}`}>
+                      <span className={`flex h-9 w-9 items-center justify-center rounded-full ${col.chip}`}>
+                        <Icon className="h-5 w-5" />
+                      </span>
+                      <h3 className={`text-base font-bold tracking-wide ${col.headerText}`}>{col.title}</h3>
+                      <span className={`ml-auto text-xs font-semibold ${col.headerText} opacity-70`}>
+                        {etiquetteRules.filter(r => r.type === col.type).length} {t("quy tắc", "rules")}
+                      </span>
+                    </div>
+                    <CardContent className="p-4 sm:p-5">
+                      <ul className="space-y-2.5">
+                        {etiquetteRules.filter(r => r.type === col.type).map((r, i) => (
+                          <li
+                            key={i}
+                            className="flex items-center gap-3 rounded-xl border border-border/50 bg-card p-3 transition-colors hover:bg-muted/40"
+                          >
+                            <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full ${col.chip}`}>
+                              <Icon className="h-4 w-4" />
+                            </span>
+                            <p className="flex-1 text-sm leading-snug text-foreground">{t(r.vi, r.en)}</p>
+                            <Badge variant="outline" className={`shrink-0 text-[11px] font-medium ${col.pill}`}>
+                              {t(r.context, r.contextEn)}
+                            </Badge>
+                          </li>
+                        ))}
+                      </ul>
+                    </CardContent>
+                  </Card>
+                );
+              })}
             </div>
           </motion.div>
         </div>
