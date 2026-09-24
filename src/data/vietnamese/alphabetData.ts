@@ -43,8 +43,8 @@ export interface AlphabetPronunciation {
  */
 export const vietnameseAlphabetPronunciations: AlphabetPronunciation[] = [
   { letter: "a", nameText: "a", soundLabel: "a", soundText: "a" },
-  { letter: "ă", nameText: "á", soundLabel: "ă", soundText: "ă" },
-  { letter: "â", nameText: "ớ", soundLabel: "â", soundText: "â" },
+  { letter: "ă", nameText: "á", soundLabel: "á", soundText: "á" },
+  { letter: "â", nameText: "ớ", soundLabel: "ớ", soundText: "ớ" },
   { letter: "b", nameText: "bê", soundLabel: "bờ", soundText: "bờ" },
   { letter: "c", nameText: "xê", soundLabel: "cờ", soundText: "cờ" },
   { letter: "d", nameText: "dê", soundLabel: "dờ", soundText: "dờ" },

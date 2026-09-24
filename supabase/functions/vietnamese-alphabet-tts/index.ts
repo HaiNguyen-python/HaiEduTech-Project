@@ -27,7 +27,7 @@ const delivery: Record<z.infer<typeof BodySchema>["kind"], string> = {
 };
 
 const phonicsAnchors: Record<string, string> = {
-  a: "ba", "ă": "ăn", "â": "ân", "bờ": "ba", "cờ": "cá", "dờ": "da",
+  a: "ba", "á": "ăn", "ớ": "ân", "bờ": "ba", "cờ": "cá", "dờ": "da",
   "đờ": "đi", e: "em", "ê": "mê", "gờ": "gà", "hờ": "hoa", i: "im",
   "lờ": "lá", "mờ": "mẹ", "nờ": "na", o: "ong", "ô": "ông", "ơ": "ơi",
   "pờ": "pin", "quờ": "quả", "rờ": "rổ", "sờ": "sách", "tờ": "tay",
