@@ -321,7 +321,7 @@ const VFFLevelPage = ({ levelKey }: { levelKey: LevelKey }) => {
   const [showCheckpoint, setShowCheckpoint] = useState(false);
 
   const level = levelKey === "a1" ? vffLevelA1 : levelKey === "a2" ? vffLevelA2 : vffLevelB1;
-  const unlocked = levelKey === "a1" ? progress.levelUnlocked.A1 : levelKey === "a2" ? progress.levelUnlocked.A2 : progress.levelUnlocked.B1;
+  const unlocked = true;
 
   const activeLesson = level.lessons.find(l => l.id === activeLessonId);
 
@@ -401,7 +401,7 @@ const VFFLevelPage = ({ levelKey }: { levelKey: LevelKey }) => {
                         <Trophy className="w-8 h-8 text-amber-500" />
                         <div className="flex-1">
                           <h3 className="font-bold">{t(`Bài kiểm tra ${level.cefr}`, `${level.cefr} Checkpoint`)}</h3>
-                          <p className="text-xs text-muted-foreground">{t("10 câu · Đạt 80% để mở cấp tiếp theo và nhận chứng chỉ.", "10 questions · Score 80% to unlock next level and get certificate.")}</p>
+                          <p className="text-xs text-muted-foreground">{t(`${level.checkpoint.length} câu · Đạt 80% để ghi nhận checkpoint và nhận chứng chỉ.`, `${level.checkpoint.length} questions · Score 80% to record the checkpoint and earn a certificate.`)}</p>
                         </div>
                         {progress.checkpointsPassed[level.cefr] && <Badge className="bg-emerald-500 text-white">✓ {progress.checkpointsPassed[level.cefr]}%</Badge>}
                         <ChevronRight className="w-5 h-5 text-muted-foreground" />
