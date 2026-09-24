@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Volume2, Eraser, Pen, CheckCircle, Loader2 } from "lucide-react";
+import { ArrowLeft, Volume2, Eraser, Pen, CheckCircle, Loader2, ChevronLeft, ChevronRight } from "lucide-react";
 import confetti from "canvas-confetti";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
@@ -17,7 +17,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import {
   playVietnameseAlphabetTts,
@@ -34,6 +34,25 @@ const CONGRATS = [
   "Chính xác! ✨",
   "Rất tốt! 👏",
   "Cố lên! 💪",
+];
+
+// ── Vietnam Beauty gallery data (bilingual) ──
+const VIETNAM_BEAUTY = [
+  { src: "/vietnam-beauty-2.webp", titleVi: "Ruộng bậc thang Mù Cang Chải", titleEn: "Mu Cang Chai rice terraces", captionVi: "Những thửa ruộng bậc thang uốn lượn trên sườn núi Yên Bái, đẹp nhất vào mùa lúa chín.", captionEn: "Terraced fields curving along the mountains of Yen Bai, most stunning in harvest season." },
+  { src: "/vietnam-beauty-11.webp", titleVi: "Thung lũng Sa Pa", titleEn: "Sa Pa valley", captionVi: "Ruộng bậc thang Sa Pa soi bóng núi Fansipan - nóc nhà Đông Dương.", captionEn: "Sa Pa terraces below Fansipan, the highest peak of Indochina." },
+  { src: "/vietnam-beauty-13.webp", titleVi: "Phố cổ Hà Nội", titleEn: "Hanoi Old Quarter", captionVi: "Xích lô qua Hồ Gươm - nhịp sống ngàn năm của Thủ đô.", captionEn: "Cyclos passing Hoan Kiem lake - the thousand-year rhythm of the capital." },
+  { src: "/vietnam-beauty-4.webp", titleVi: "Vịnh Hạ Long", titleEn: "Ha Long Bay", captionVi: "Di sản thiên nhiên thế giới với hàng nghìn đảo đá vôi giữa làn nước xanh ngọc.", captionEn: "A UNESCO World Heritage site with thousands of limestone islands in emerald water." },
+  { src: "/vietnam-beauty-5.webp", titleVi: "Bình minh Bắc Sơn", titleEn: "Bac Son sunrise", captionVi: "Thung lũng Bắc Sơn (Lạng Sơn) chìm trong sương sớm và ánh nắng đầu ngày.", captionEn: "Bac Son valley (Lang Son) wrapped in morning mist and first light." },
+  { src: "/vietnam-beauty-14.webp", titleVi: "Tràng An, Ninh Bình", titleEn: "Trang An, Ninh Binh", captionVi: "Thuyền nhỏ len qua các hang đá vôi ở quần thể danh thắng Tràng An.", captionEn: "Boats gliding through limestone caves at the Trang An landscape complex." },
+  { src: "/vietnam-beauty-7.webp", titleVi: "Kinh thành Huế", titleEn: "Hue Imperial City", captionVi: "Khinh khí cầu bay trên cố đô Huế - nơi lưu giữ dấu ấn triều Nguyễn.", captionEn: "Hot-air balloons above the former capital Hue, home of the Nguyen dynasty heritage." },
+  { src: "/vietnam-beauty-10.webp", titleVi: "Đèn lồng Hội An", titleEn: "Hoi An lanterns", captionVi: "Phố cổ Hội An lung linh đèn lồng mỗi tối - Di sản Văn hóa Thế giới.", captionEn: "Hoi An Ancient Town glowing with lanterns every evening - a UNESCO World Heritage site." },
+  { src: "/vietnam-beauty-3.webp", titleVi: "Nha Trang về đêm", titleEn: "Nha Trang at night", captionVi: "Thành phố biển rực rỡ ánh đèn bên vịnh Nha Trang.", captionEn: "The seaside city glowing with lights along Nha Trang Bay." },
+  { src: "/vietnam-beauty-9.webp", titleVi: "Ngư dân quăng lưới", titleEn: "Fisherman casting a net", captionVi: "Nghề chài lưới truyền thống gắn bó với đời sống các làng ven biển.", captionEn: "Traditional net fishing, part of daily life in coastal villages." },
+  { src: "/vietnam-beauty-12.webp", titleVi: "Chợ nổi miền Tây", titleEn: "Mekong floating market", captionVi: "Ghe thuyền đầy trái cây trên sông - nhịp sống sông nước của miền Tây Nam Bộ.", captionEn: "Boats loaded with fruit on the river - the waterway life of the Mekong Delta." },
+  { src: "/vietnam-beauty-6.webp", titleVi: "Landmark 81, Sài Gòn", titleEn: "Landmark 81, Saigon", captionVi: "Tòa nhà cao nhất Việt Nam, biểu tượng của TP. Hồ Chí Minh hiện đại.", captionEn: "Vietnam's tallest building, a symbol of modern Ho Chi Minh City." },
+  { src: "/vietnam-beauty-15.webp", titleVi: "Hoàng hôn Phú Quốc", titleEn: "Phu Quoc sunset", captionVi: "Bãi cát trắng và nước biển xanh ngọc trên đảo ngọc Phú Quốc.", captionEn: "White sand and turquoise water on the pearl island of Phu Quoc." },
+  { src: "/vietnam-beauty-1.webp", titleVi: "Tuổi thơ đồng quê", titleEn: "Countryside childhood", captionVi: "Trẻ em chăn trâu trên cánh đồng lúa xanh - hình ảnh quen thuộc của làng quê Việt Nam.", captionEn: "Children herding buffalo across green rice fields - a classic scene of rural Vietnam." },
+  { src: "/vietnam-beauty-8.webp", titleVi: "Quốc kỳ Việt Nam", titleEn: "Flag of Vietnam", captionVi: "Cờ đỏ sao vàng - niềm tự hào của người Việt Nam.", captionEn: "The red flag with a yellow star - a source of national pride." },
 ];
 
 // ── Pitch Contour SVG for tones ──
@@ -241,8 +260,29 @@ const VietnameseAlphabet = () => {
   const [selectedLetter, setSelectedLetter] = useState<AlphabetLetter | null>(null);
   const [showCanvas, setShowCanvas] = useState(false);
   const [playingKey, setPlayingKey] = useState<string | null>(null);
+  const [galleryApi, setGalleryApi] = useState<CarouselApi | undefined>(undefined);
+  const [galleryPage, setGalleryPage] = useState(0);
+  const [galleryPageCount, setGalleryPageCount] = useState(1);
 
   useEffect(() => () => stopVietnameseAlphabetTts(), []);
+
+  useEffect(() => {
+    if (!galleryApi) return;
+    const updatePagination = (api: CarouselApi) => {
+      const slides = api.slideNodes();
+      const total = api.scrollSnapList().length || 1;
+      const inView = slides.length
+        ? Math.max(1, Math.round(api.containerNode().getBoundingClientRect().width / slides[0].getBoundingClientRect().width))
+        : 1;
+      setGalleryPage(Math.floor(api.selectedScrollSnap() / inView));
+      setGalleryPageCount(Math.max(1, Math.ceil(total / inView)));
+    };
+    updatePagination(galleryApi);
+    galleryApi.on("select", updatePagination).on("reInit", updatePagination);
+    return () => {
+      galleryApi.off("select", updatePagination).off("reInit", updatePagination);
+    };
+  }, [galleryApi]);
 
   const playSound = async (text: string, kind: AlphabetAudioKind, key: string) => {
     stopVietnameseAlphabetTts();
@@ -527,50 +567,104 @@ const VietnameseAlphabet = () => {
         </section>
 
         {/* ══════ VIETNAM BEAUTY GALLERY ══════ */}
-        <section className="mb-8">
-          <h2 className="text-xl font-bold text-foreground mb-2 text-center">
-            {t("Những nét đẹp của Việt Nam", "The Beauty of Vietnam")}
-          </h2>
-          <p className="text-center text-sm text-muted-foreground mb-6 italic">
-            {t("Đất nước con người - từ đồng quê đến thành phố", "Land and people - from countryside to city")}
-          </p>
-          <Carousel
-            opts={{ loop: true, align: "start" }}
-            plugins={[Autoplay({ delay: 4000, stopOnInteraction: false, stopOnMouseEnter: true })]}
-            className="mx-auto max-w-5xl px-10"
+        <section className="mb-10">
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.5 }}
           >
-            <CarouselContent>
-              {[
-                { src: "/vietnam-beauty-2.webp", title: t("Ruộng bậc thang Mù Cang Chải", "Mu Cang Chai rice terraces"), caption: t("Những thửa ruộng bậc thang uốn lượn trên sườn núi Yên Bái, đẹp nhất vào mùa lúa chín.", "Terraced fields curving along the mountains of Yen Bai, most stunning in harvest season.") },
-                { src: "/vietnam-beauty-11.webp", title: t("Thung lũng Sa Pa", "Sa Pa valley"), caption: t("Ruộng bậc thang Sa Pa soi bóng núi Fansipan - nóc nhà Đông Dương.", "Sa Pa terraces below Fansipan, the highest peak of Indochina.") },
-                { src: "/vietnam-beauty-13.webp", title: t("Phố cổ Hà Nội", "Hanoi Old Quarter"), caption: t("Xích lô qua Hồ Gươm - nhịp sống ngàn năm của Thủ đô.", "Cyclos passing Hoan Kiem lake - the thousand-year rhythm of the capital.") },
-                { src: "/vietnam-beauty-4.webp", title: t("Vịnh Hạ Long", "Ha Long Bay"), caption: t("Di sản thiên nhiên thế giới với hàng nghìn đảo đá vôi giữa làn nước xanh ngọc.", "A UNESCO World Heritage site with thousands of limestone islands in emerald water.") },
-                { src: "/vietnam-beauty-5.webp", title: t("Bình minh Bắc Sơn", "Bac Son sunrise"), caption: t("Thung lũng Bắc Sơn (Lạng Sơn) chìm trong sương sớm và ánh nắng đầu ngày.", "Bac Son valley (Lang Son) wrapped in morning mist and first light.") },
-                { src: "/vietnam-beauty-14.webp", title: t("Tràng An, Ninh Bình", "Trang An, Ninh Binh"), caption: t("Thuyền nhỏ len qua các hang đá vôi ở quần thể danh thắng Tràng An.", "Boats gliding through limestone caves at the Trang An landscape complex.") },
-                { src: "/vietnam-beauty-7.webp", title: t("Kinh thành Huế", "Hue Imperial City"), caption: t("Khinh khí cầu bay trên cố đô Huế - nơi lưu giữ dấu ấn triều Nguyễn.", "Hot-air balloons above the former capital Hue, home of the Nguyen dynasty heritage.") },
-                { src: "/vietnam-beauty-10.webp", title: t("Đèn lồng Hội An", "Hoi An lanterns"), caption: t("Phố cổ Hội An lung linh đèn lồng mỗi tối - Di sản Văn hóa Thế giới.", "Hoi An Ancient Town glowing with lanterns every evening - a UNESCO World Heritage site.") },
-                { src: "/vietnam-beauty-3.webp", title: t("Nha Trang về đêm", "Nha Trang at night"), caption: t("Thành phố biển rực rỡ ánh đèn bên vịnh Nha Trang.", "The seaside city glowing with lights along Nha Trang Bay.") },
-                { src: "/vietnam-beauty-9.webp", title: t("Ngư dân quăng lưới", "Fisherman casting a net"), caption: t("Nghề chài lưới truyền thống gắn bó với đời sống các làng ven biển.", "Traditional net fishing, part of daily life in coastal villages.") },
-                { src: "/vietnam-beauty-12.webp", title: t("Chợ nổi miền Tây", "Mekong floating market"), caption: t("Ghe thuyền đầy trái cây trên sông - nhịp sống sông nước của miền Tây Nam Bộ.", "Boats loaded with fruit on the river - the waterway life of the Mekong Delta.") },
-                { src: "/vietnam-beauty-6.webp", title: t("Landmark 81, Sài Gòn", "Landmark 81, Saigon"), caption: t("Tòa nhà cao nhất Việt Nam, biểu tượng của TP. Hồ Chí Minh hiện đại.", "Vietnam's tallest building, a symbol of modern Ho Chi Minh City.") },
-                { src: "/vietnam-beauty-15.webp", title: t("Hoàng hôn Phú Quốc", "Phu Quoc sunset"), caption: t("Bãi cát trắng và nước biển xanh ngọc trên đảo ngọc Phú Quốc.", "White sand and turquoise water on the pearl island of Phu Quoc.") },
-                { src: "/vietnam-beauty-1.webp", title: t("Tuổi thơ đồng quê", "Countryside childhood"), caption: t("Trẻ em chăn trâu trên cánh đồng lúa xanh - hình ảnh quen thuộc của làng quê Việt Nam.", "Children herding buffalo across green rice fields - a classic scene of rural Vietnam.") },
-                { src: "/vietnam-beauty-8.webp", title: t("Quốc kỳ Việt Nam", "Flag of Vietnam"), caption: t("Cờ đỏ sao vàng - niềm tự hào của người Việt Nam.", "The red flag with a yellow star - a source of national pride.") },
-              ].map((img) => (
-                <CarouselItem key={img.src} className="basis-full md:basis-1/2 lg:basis-1/3">
-                  <figure className="overflow-hidden rounded-xl border bg-card shadow-md h-full">
-                    <img src={img.src} alt={img.title} loading="lazy" className="h-56 w-full object-cover" />
-                    <figcaption className="p-4">
-                      <p className="font-semibold text-foreground">{img.title}</p>
-                      <p className="mt-1 text-sm text-muted-foreground leading-relaxed">{img.caption}</p>
-                    </figcaption>
-                  </figure>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious className="left-0" />
-            <CarouselNext className="right-0" />
-          </Carousel>
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
+              <div>
+                <h2 className="text-2xl md:text-4xl font-bold font-display text-foreground leading-tight">
+                  {t("Những nét đẹp của ", "The Beauty of ")}
+                  <span className="brand-gradient-text">{t("Việt Nam", "Vietnam")}</span>
+                </h2>
+                <p className="mt-2 text-[11px] md:text-xs font-medium uppercase tracking-[0.25em] text-muted-foreground">
+                  {t("Đất nước con người - từ đồng quê đến thành phố", "Land and people - from countryside to city")}
+                </p>
+              </div>
+              <div className="flex gap-3">
+                <Button
+                  size="icon"
+                  variant="outline"
+                  aria-label={t("Ảnh trước", "Previous photo")}
+                  className="h-11 w-11 rounded-full shadow-sm transition-all hover:shadow-md"
+                  onClick={() => galleryApi?.scrollPrev()}
+                >
+                  <ChevronLeft className="h-5 w-5" />
+                </Button>
+                <Button
+                  size="icon"
+                  variant="outline"
+                  aria-label={t("Ảnh sau", "Next photo")}
+                  className="h-11 w-11 rounded-full shadow-sm transition-all hover:shadow-md"
+                  onClick={() => galleryApi?.scrollNext()}
+                >
+                  <ChevronRight className="h-5 w-5" />
+                </Button>
+              </div>
+            </div>
+
+            <Carousel
+              opts={{ loop: true, align: "start" }}
+              plugins={[Autoplay({ delay: 4000, stopOnInteraction: false, stopOnMouseEnter: true })]}
+              setApi={setGalleryApi}
+              className="mx-auto max-w-5xl"
+            >
+              <CarouselContent>
+                {VIETNAM_BEAUTY.map((img) => (
+                  <CarouselItem key={img.src} className="basis-full md:basis-1/2 lg:basis-1/3">
+                    <figure className="group relative h-full pb-16">
+                      <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-muted shadow-xl">
+                        <img
+                          src={img.src}
+                          alt={img.titleVi}
+                          loading="lazy"
+                          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+                      </div>
+                      <figcaption className="absolute bottom-0 left-4 right-4 rounded-xl bg-card p-5 shadow-2xl transition-transform duration-500 group-hover:-translate-y-2">
+                        <div className="brand-gradient mb-3 h-1 w-12 rounded-full" />
+                        <p className="font-display text-lg font-bold leading-tight text-foreground">{img.titleVi}</p>
+                        <p className="mt-0.5 text-sm font-medium italic text-primary">{img.titleEn}</p>
+                        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{t(img.captionVi, img.captionEn)}</p>
+                      </figcaption>
+                    </figure>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Carousel>
+
+            {/* Progress indicator */}
+            <div className="flex items-center justify-center gap-4">
+              <span className="text-xs font-bold tracking-widest text-muted-foreground">
+                {(galleryPage + 1).toString().padStart(2, "0")}
+              </span>
+              <button
+                type="button"
+                aria-label={t("Chuyển trang ảnh", "Go to photo page")}
+                className="relative h-4 w-48 cursor-pointer"
+                onClick={(e) => {
+                  if (!galleryApi) return;
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  const ratio = Math.min(0.999, Math.max(0, (e.clientX - rect.left) / rect.width));
+                  const page = Math.floor(ratio * galleryPageCount);
+                  const snaps = galleryApi.scrollSnapList().length || 1;
+                  galleryApi.scrollTo(Math.round((page * snaps) / galleryPageCount));
+                }}
+              >
+                <span className="absolute inset-x-0 top-1/2 h-1 -translate-y-1/2 rounded-full bg-muted" />
+                <span
+                  className="brand-gradient absolute top-1/2 h-1 -translate-y-1/2 rounded-full transition-all duration-500"
+                  style={{ width: `${((galleryPage + 1) / galleryPageCount) * 100}%` }}
+                />
+              </button>
+              <span className="text-xs font-bold tracking-widest text-muted-foreground">
+                {galleryPageCount.toString().padStart(2, "0")}
+              </span>
+            </div>
+          </motion.div>
         </section>
       </main>
       <Footer />
