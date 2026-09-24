@@ -262,7 +262,7 @@ const VietnameseAlphabet = () => {
     setShowCanvas(false);
     const pronunciation = vietnameseAlphabetPronunciationByLetter.get(letter.letter);
     if (pronunciation) {
-      void playSound(pronunciation.nameText, "letter-name", `name:${letter.letter}`);
+      void playSound(pronunciation.soundText, "letter-sound", `sound:${letter.letter}`);
     }
   };
 
@@ -355,24 +355,24 @@ const VietnameseAlphabet = () => {
                           </h2>
                           <div className="mt-2 space-y-1 text-sm">
                             <p className="text-foreground">
-                              <span className="font-semibold">{t("Tên chữ", "Vietnamese letter name")}:</span>{" "}
-                              {pronunciation.nameText}
-                            </p>
-                            <p className="text-foreground">
-                              <span className="font-semibold">{t("Âm học vần", "Sound used for phonics")}:</span>{" "}
+                              <span className="font-semibold">{t("Cách đọc khi học bảng chữ cái", "Primary-school alphabet reading")}:</span>{" "}
                               {pronunciation.soundLabel}{" "}
                               <span className="text-muted-foreground">{selectedLetter.ipa}</span>
+                            </p>
+                            <p className="text-foreground">
+                              <span className="font-semibold">{t("Tên chữ", "Formal letter name")}:</span>{" "}
+                              {pronunciation.nameText}
                             </p>
                           </div>
                         </div>
                         <Button
                           size="icon"
                           variant="outline"
-                          aria-label={t(`Nghe tên chữ ${selectedLetter.uppercase}`, `Hear the name of ${selectedLetter.uppercase}`)}
+                          aria-label={t(`Nghe cách đọc chữ ${selectedLetter.uppercase}`, `Hear the primary-school reading of ${selectedLetter.uppercase}`)}
                           disabled={playingKey !== null}
-                          onClick={() => void playSound(pronunciation.nameText, "letter-name", `name:${selectedLetter.letter}`)}
+                          onClick={() => void playSound(pronunciation.soundText, "letter-sound", `sound:${selectedLetter.letter}`)}
                         >
-                          <AudioIcon audioKey={`name:${selectedLetter.letter}`} />
+                          <AudioIcon audioKey={`sound:${selectedLetter.letter}`} />
                         </Button>
                       </div>
 
@@ -380,18 +380,18 @@ const VietnameseAlphabet = () => {
                         <Button
                           variant="outline"
                           disabled={playingKey !== null}
-                          onClick={() => void playSound(pronunciation.nameText, "letter-name", `name:${selectedLetter.letter}`)}
+                            onClick={() => void playSound(pronunciation.soundText, "letter-sound", `sound:${selectedLetter.letter}`)}
                         >
-                          <AudioIcon audioKey={`name:${selectedLetter.letter}`} />
-                          <span className="ml-2">{t(`Tên chữ: ${pronunciation.nameText}`, `Name: ${pronunciation.nameText}`)}</span>
+                            <AudioIcon audioKey={`sound:${selectedLetter.letter}`} />
+                            <span className="ml-2">{t(`Cách đọc: ${pronunciation.soundLabel}`, `Reading: ${pronunciation.soundLabel}`)}</span>
                         </Button>
                         <Button
                           variant="outline"
                           disabled={playingKey !== null}
-                          onClick={() => void playSound(pronunciation.soundText, "letter-sound", `sound:${selectedLetter.letter}`)}
+                            onClick={() => void playSound(pronunciation.nameText, "letter-name", `name:${selectedLetter.letter}`)}
                         >
-                          <AudioIcon audioKey={`sound:${selectedLetter.letter}`} />
-                          <span className="ml-2">{t(`Âm: ${pronunciation.soundLabel}`, `Sound: ${pronunciation.soundLabel}`)}</span>
+                            <AudioIcon audioKey={`name:${selectedLetter.letter}`} />
+                            <span className="ml-2">{t(`Tên chữ: ${pronunciation.nameText}`, `Formal name: ${pronunciation.nameText}`)}</span>
                         </Button>
                       </div>
 

@@ -114,6 +114,7 @@ for (const item of vietnameseAlphabetPronunciations) {
   if (!item.nameText.trim() || !item.soundLabel.trim() || !item.soundText.trim()) {
     issues.push(`ALPHABET_PRONUNCIATION_EMPTY ${item.letter}`);
   }
+  if (item.soundText !== item.soundLabel) issues.push(`ALPHABET_SOUND_NOT_ISOLATED ${item.letter}`);
 }
 for (const letter of vietnameseAlphabet) {
   if (!pronunciationLetters.includes(letter.letter)) issues.push(`ALPHABET_PRONUNCIATION_MISSING ${letter.letter}`);
