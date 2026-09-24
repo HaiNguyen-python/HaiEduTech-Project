@@ -329,7 +329,7 @@ const VFFLevelPage = ({ levelKey }: { levelKey: LevelKey }) => {
   const pct = Math.round((doneCount / level.lessons.length) * 100);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="vietnamese-readable min-h-screen bg-background">
       <SEO title={`${level.titleEn} - Vietnamese for Foreigners | HaiEduTech`} description={level.taglineEn} path={`/learn-vietnamese/for-foreigners/${levelKey}`} />
       <Navbar />
       <main className="pt-6 pb-16">
@@ -341,14 +341,14 @@ const VFFLevelPage = ({ levelKey }: { levelKey: LevelKey }) => {
           {!unlocked ? (
             <Card className="border-2 border-amber-500/30">
               <CardContent className="pt-8 pb-8 text-center">
-                <div className="text-5xl mb-3">🔒</div>
-                <h2 className="text-xl font-bold mb-2">{t("Cấp độ chưa mở khoá", "Level locked")}</h2>
+                <GraduationCap className="mx-auto mb-3 h-12 w-12 text-primary" />
+                <h2 className="text-xl font-bold mb-2">{t("Bắt đầu cấp độ này", "Start this level")}</h2>
                 <p className="text-sm text-muted-foreground mb-4">
-                  {t("Hoàn thành checkpoint cấp trước với ≥80%, hoặc làm placement test.", "Pass the previous checkpoint ≥80%, or take the placement test.")}
+                  {t("Nội dung học luôn mở. Bài kiểm tra đầu vào giúp gợi ý điểm bắt đầu phù hợp.", "Learning content stays open. The placement test can suggest a suitable starting point.")}
                 </p>
                 <div className="flex gap-2 justify-center">
                   <Button onClick={() => navigate("/learn-vietnamese/for-foreigners/placement")}>{t("Placement Test", "Placement Test")}</Button>
-                  <Button variant="outline" onClick={() => navigate("/learn-vietnamese/for-foreigners")}>{t("Về hub", "Back to hub")}</Button>
+                  <Button variant="outline" onClick={() => setActiveLessonId(level.lessons[0]?.id ?? null)}>{t("Học ngay", "Start learning")}</Button>
                 </div>
               </CardContent>
             </Card>

@@ -13,6 +13,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cuisineDishes as baseCuisine } from "@/data/vietnamese/cuisineData";
 import { cuisineExpansion } from "@/data/vietnamese/cuisineExpansion";
 import { cuisineExpansionV10 } from "@/data/vietnamese/expansionV10Culture";
+import cuisineAuthentic from "@/assets/vietnamese/cuisine-authentic.jpg";
 const cuisineDishes = [...baseCuisine, ...cuisineExpansion, ...cuisineExpansionV10];
 
 const regionColors: Record<string, string> = {
@@ -28,7 +29,7 @@ const VietnameseCuisine = () => {
   const filtered = filter === "all" ? cuisineDishes : cuisineDishes.filter(d => d.region === filter);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="vietnamese-readable min-h-screen bg-background">
       <SEO title="Ẩm thực Việt Nam: Phở, Bánh mì, Bún chả | HaiEduTech" description="Khám phá 12 món ăn biểu tượng của Việt Nam với từ vựng, công thức và câu chuyện văn hóa." path="/learn-vietnamese/cuisine" />
       <Navbar />
       <main className="pt-6 pb-16">
@@ -39,6 +40,7 @@ const VietnameseCuisine = () => {
           </Link>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
+            <img src={cuisineAuthentic} alt={t("Phở, bánh mì, gỏi cuốn và các món Việt", "Pho, banh mi, fresh rolls and Vietnamese dishes")} className="mb-6 aspect-[3/1] w-full rounded-lg object-cover" width={1200} height={800} />
             <div className="flex items-center gap-3 mb-2">
               <ChefHat className="w-8 h-8 text-orange-500" />
               <h1 className="text-3xl md:text-4xl font-bold text-foreground">

@@ -13,6 +13,7 @@ import { Progress } from "@/components/ui/progress";
 import { dailyMicroLessons as base } from "@/data/vietnamese/dailyVietnameseData";
 import { dailyMicroLessonsExpansion } from "@/data/vietnamese/dailyVietnameseExpansion";
 import { dailyMicroLessonsV10 } from "@/data/vietnamese/expansionV10Practice";
+import dailyAuthentic from "@/assets/vietnamese/daily-authentic.jpg";
 const dailyMicroLessons = [...base, ...dailyMicroLessonsExpansion, ...dailyMicroLessonsV10];
 const totalDays = dailyMicroLessons.length;
 
@@ -41,7 +42,7 @@ const VietnameseDaily = () => {
   const progress = (completed.length / dailyMicroLessons.length) * 100;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="vietnamese-readable min-h-screen bg-background">
       <SEO title="Daily Vietnamese: 1 phút mỗi ngày | HaiEduTech" description={`${totalDays} bài học siêu ngắn, mỗi bài 1 phút: 1 từ, 1 cụm, 1 câu và 1 thử thách.`} path="/learn-vietnamese/daily" />
       <Navbar />
       <main className="pt-6 pb-16">
@@ -52,6 +53,7 @@ const VietnameseDaily = () => {
           </Link>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
+            <img src={dailyAuthentic} alt={t("Góc học tiếng Việt mỗi ngày bên hồ Hoàn Kiếm", "A daily Vietnamese study corner overlooking Hoan Kiem Lake")} className="mb-6 aspect-[3/1] w-full rounded-lg object-cover" width={1200} height={800} />
             <div className="flex items-center gap-3 mb-2">
               <Calendar className="w-8 h-8 text-blue-500" />
               <h1 className="text-3xl md:text-4xl font-bold text-foreground">

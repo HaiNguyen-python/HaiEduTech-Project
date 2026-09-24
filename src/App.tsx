@@ -74,11 +74,17 @@ const DeferredMount = ({ children, delay = 1200 }: { children: ReactNode; delay?
 const DeferredGlobalWidgets = () => {
   const { pathname } = useLocation();
   const isAdminRoute = pathname === "/admin-dashboard" || pathname.startsWith("/admin/");
+  const isVietnameseRoute = pathname.startsWith("/learn-vietnamese");
 
   // Feed the Ctrl+K palette's "Recently viewed" list.
   useEffect(() => {
     rememberRecentPage(pathname);
   }, [pathname]);
+
+  useEffect(() => {
+    document.body.classList.toggle("vietnamese-readable", isVietnameseRoute);
+    return () => document.body.classList.remove("vietnamese-readable");
+  }, [isVietnameseRoute]);
 
 
   if (isAdminRoute) {

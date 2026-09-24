@@ -17,6 +17,7 @@ import { kidsExpansionV10 } from "@/data/vietnamese/kidsExpansionV10";
 const kidsLessons = [...baseKids, ...kidsExpansion, ...kidsExpansion2, ...kidsExpansion3, ...kidsExpansionV10];
 import { playVietnameseTts, stopVietnameseTts } from "@/lib/vietnameseTts";
 import KidsFlashcard from "@/components/KidsFlashcard";
+import kidsAuthentic from "@/assets/vietnamese/kids-authentic.jpg";
 
 const SpeakButton = ({ text, label, size = "icon" }: { text: string; label: string; size?: "icon" | "sm" }) => {
   const [loading, setLoading] = useState(false);
@@ -187,7 +188,7 @@ const VietnameseKids = () => {
   const filtered = filter === "all" ? kidsLessons : kidsLessons.filter(l => l.ageGroup === filter);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="vietnamese-readable min-h-screen bg-background">
       <SEO title="Tiếng Việt cho trẻ Việt kiều | HaiEduTech" description="Bài học tiếng Việt cho trẻ em Việt kiều: gia đình, chào hỏi, hát ru, truyện ngắn - kết nối tổ tiên." path="/learn-vietnamese/kids-overseas" />
       <Navbar />
       <main className="pt-6 pb-16">
@@ -198,6 +199,7 @@ const VietnameseKids = () => {
           </Link>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
+            <img src={kidsAuthentic} alt="Trẻ em Việt kiều học tiếng Việt cùng ông bà" className="mb-6 aspect-[3/1] w-full rounded-lg object-cover" width={1200} height={800} />
             <div className="flex items-center gap-3 mb-2">
               <Heart className="w-8 h-8 text-rose-500" />
               <h1 className="text-3xl md:text-4xl font-bold text-foreground">

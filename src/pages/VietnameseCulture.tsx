@@ -13,6 +13,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cultureTopics as baseTopics, type CultureTopic } from "@/data/vietnamese/cultureData";
 import { cultureExpansion } from "@/data/vietnamese/cultureExpansion";
 import { cultureExpansionV10 } from "@/data/vietnamese/expansionV10Culture";
+import cultureAuthentic from "@/assets/vietnamese/culture-authentic.jpg";
 const cultureTopics = [...baseTopics, ...cultureExpansion, ...cultureExpansionV10];
 
 const categoryLabels: Record<CultureTopic["category"], { vi: string; en: string }> = {
@@ -30,7 +31,7 @@ const VietnameseCulture = () => {
   const filtered = filter === "all" ? cultureTopics : cultureTopics.filter(c => c.category === filter);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="vietnamese-readable min-h-screen bg-background">
       <SEO title="Văn hóa & Phong tục Việt Nam: Áo dài, Tết, Cưới hỏi | HaiEduTech" description="Áo dài, Tết Nguyên Đán, đám cưới truyền thống, thờ cúng tổ tiên, làng nghề và văn hóa bàn ăn." path="/learn-vietnamese/culture" />
       <Navbar />
       <main className="pt-6 pb-16">
@@ -41,6 +42,7 @@ const VietnameseCulture = () => {
           </Link>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
+            <img src={cultureAuthentic} alt={t("Gia đình Việt mặc áo dài trong không gian Tết và thờ cúng tổ tiên", "Vietnamese family in ao dai during Tet and ancestor remembrance")} className="mb-6 aspect-[3/1] w-full rounded-lg object-cover" width={1200} height={800} />
             <div className="flex items-center gap-3 mb-2">
               <Drum className="w-8 h-8 text-red-500" />
               <h1 className="text-3xl md:text-4xl font-bold text-foreground">
