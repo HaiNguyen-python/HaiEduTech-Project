@@ -120,6 +120,7 @@ const speakWithNative = async (text: string, rate: number, pitch: number) => {
   const viVoice =
     voices.find((v) => v.lang.toLowerCase() === "vi-vn") ||
     voices.find((v) => v.lang.toLowerCase().startsWith("vi"));
+  if (!viVoice) throw new Error("vietnamese_voice_unavailable");
 
   await new Promise<void>((resolve, reject) => {
     const u = new SpeechSynthesisUtterance(text);
@@ -137,7 +138,7 @@ const speakWithNative = async (text: string, rate: number, pitch: number) => {
     u.lang = "vi-VN";
     u.rate = rate;
     u.pitch = pitch;
-    if (viVoice) u.voice = viVoice;
+    u.voice = viVoice;
     u.onend = finish;
     u.onerror = fail;
     window.setTimeout(finish, Math.min(30000, Math.max(6000, text.length * 150)));
