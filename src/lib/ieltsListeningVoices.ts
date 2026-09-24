@@ -55,4 +55,4 @@ export const instructionsForSection = (section: number, speaker: string | null):
 };
 
 /** Slightly brisk recording pace matching modern IELTS audio without clipping. */
-export const speedForSection = (section: number) => 1.0;
+export const speedForSection = (_section?: number) => 1.0;
