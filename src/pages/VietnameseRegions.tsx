@@ -17,6 +17,10 @@ import regionNorth from "@/assets/vietnamese/region-north.jpg";
 import regionCentral from "@/assets/vietnamese/region-central.jpg";
 import regionSouth from "@/assets/vietnamese/region-south.jpg";
 
+const FACT_IMAGES = Object.values(import.meta.glob("@/assets/vietnamese/facts/*.jpg", { eager: true, import: "default" })) as string[];
+const FESTIVAL_IMAGES = import.meta.glob("@/assets/vietnamese/festivals/*.jpg", { eager: true, import: "default" }) as Record<string, string>;
+const festivalImage = (id: string) => Object.entries(FESTIVAL_IMAGES).find(([k]) => k.endsWith(`/${id}.jpg`))?.[1];
+
 const REGION_BG: Record<string, { src: string; vi: string; en: string }> = {
   north: { src: regionNorth, vi: "Vịnh Hạ Long lúc bình minh", en: "Ha Long Bay at dawn" },
   central: { src: regionCentral, vi: "Phố cổ Hội An bên sông Thu Bồn", en: "Hoi An Ancient Town on the Thu Bon River" },
@@ -68,10 +72,14 @@ const VietnameseRegions = () => {
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {countryStats.map((s, i) => (
-                <div key={i} className="bg-card border border-2 border-emerald-500/55 shadow-[0_3px_14px_-6px_rgba(16,185,129,0.28)] rounded-lg p-3 hover:border-primary/40 transition-colors">
-                  <div className="text-2xl mb-1">{s.icon}</div>
+                <div key={i} className="group overflow-hidden bg-card border-2 border-emerald-500/55 shadow-[0_3px_14px_-6px_rgba(16,185,129,0.28)] rounded-lg hover:border-primary/40 transition-colors">
+                  <div className="aspect-[16/9] overflow-hidden">
+                    <img src={FACT_IMAGES[i]} alt={t(s.label, s.labelEn)} loading="lazy" width={400} height={225} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                  </div>
+                  <div className="p-3">
                   <div className="text-xs text-muted-foreground uppercase tracking-wide">{t(s.label, s.labelEn)}</div>
                   <div className="text-sm font-semibold text-foreground mt-0.5">{t(s.value, s.valueEn)}</div>
+                  </div>
                 </div>
               ))}
             </div>
@@ -178,7 +186,6 @@ const VietnameseRegions = () => {
                   <Card className="h-full border-2 border-emerald-500/55 shadow-[0_3px_14px_-6px_rgba(16,185,129,0.28)] hover:border-primary/40 transition-colors">
                     <CardContent className="p-5">
                       <div className="flex items-start gap-3 mb-3">
-                        <span className="text-4xl">{d.emoji}</span>
                         <div className="flex-1">
                           <h3 className="text-lg font-bold text-foreground">{t(d.name, d.nameEn)}</h3>
                           <div className="flex flex-wrap gap-1.5 mt-1">
@@ -246,9 +253,13 @@ const VietnameseRegions = () => {
               {festivals.map((f, i) => (
                 <motion.div key={f.id} initial={{ opacity: 0, scale: 0.97 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}>
                   <Card className="h-full border-2 border-emerald-500/55 shadow-[0_3px_14px_-6px_rgba(16,185,129,0.28)] hover:border-rose-500/40 transition-colors">
+                    {festivalImage(f.id) && (
+                      <div className="aspect-[16/9] overflow-hidden rounded-t-lg">
+                        <img src={festivalImage(f.id)} alt={t(f.name, f.nameEn)} loading="lazy" width={512} height={288} className="h-full w-full object-cover" />
+                      </div>
+                    )}
                     <CardContent className="p-5">
                       <div className="flex items-start gap-3 mb-2">
-                        <span className="text-4xl">{f.emoji}</span>
                         <div className="flex-1">
                           <h3 className="text-lg font-bold text-foreground">{t(f.name, f.nameEn)}</h3>
                           <Badge variant="outline" className="text-xs mt-1 capitalize">{f.region === "all" ? t("Toàn quốc", "Nationwide") : f.region}</Badge>
@@ -292,7 +303,6 @@ const VietnameseRegions = () => {
                   <Card className="h-full border-2 border-emerald-500/55 shadow-[0_3px_14px_-6px_rgba(16,185,129,0.28)]">
                     <CardContent className="p-5">
                       <div className="flex items-center gap-3 mb-4">
-                        <span className="text-3xl">{e.icon}</span>
                         <h3 className="text-lg font-bold text-foreground">{t(e.title, e.titleEn)}</h3>
                       </div>
                       <div className="space-y-2 mb-4">
