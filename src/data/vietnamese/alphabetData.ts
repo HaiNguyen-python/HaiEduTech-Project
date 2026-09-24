@@ -67,7 +67,7 @@ export const vietnameseAlphabetPronunciations: AlphabetPronunciation[] = [
   { letter: "ô", nameText: "ô", soundLabel: "ô", soundText: "ô" },
   { letter: "ơ", nameText: "ơ", soundLabel: "ơ", soundText: "ơ" },
   { letter: "p", nameText: "pê", soundLabel: "pờ", soundText: "pờ" },
-  { letter: "q", nameText: "quy", soundLabel: "quờ", soundText: "quờ" },
+  { letter: "q", nameText: "quy", soundLabel: "quy", soundText: "quy" },
   { letter: "r", nameText: "e-rờ", soundLabel: "rờ", soundText: "rờ" },
   { letter: "s", nameText: "ét-xì", soundLabel: "sờ", soundText: "sờ" },
   { letter: "t", nameText: "tê", soundLabel: "tờ", soundText: "tờ" },
