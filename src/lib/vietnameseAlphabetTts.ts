@@ -55,7 +55,7 @@ export const playVietnameseAlphabetTts = async (
 ): Promise<void> => {
   const normalized = text.normalize("NFC").replace(/\s+/g, " ").trim();
   if (!normalized) throw new Error("empty_audio_text");
-  const key = `hanoi-v4:${kind}:${normalized}`;
+  const key = `hanoi-v5:${kind}:${normalized}`;
   try {
     let dataUrl = audioCache.get(key);
     if (!dataUrl) {

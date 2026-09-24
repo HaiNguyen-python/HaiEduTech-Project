@@ -35,6 +35,11 @@ export interface AlphabetPronunciation {
   soundText: string;
 }
 
+export interface AlphabetExample {
+  word: string;
+  meaningEn: string;
+}
+
 /**
  * Explicit northern-standard prompts prevent a speech engine from guessing how
  * an isolated character should be read. Consonant sounds are anchored in a
@@ -76,6 +81,39 @@ export const vietnameseAlphabetPronunciations: AlphabetPronunciation[] = [
 export const vietnameseAlphabetPronunciationByLetter = new Map(
   vietnameseAlphabetPronunciations.map((item) => [item.letter, item]),
 );
+
+/** Three short, familiar words for hearing each letter in natural Vietnamese. */
+export const vietnameseAlphabetExamples: Record<string, AlphabetExample[]> = {
+  a: [{ word: "ba", meaningEn: "dad" }, { word: "cá", meaningEn: "fish" }, { word: "nhà", meaningEn: "house" }],
+  ă: [{ word: "ăn", meaningEn: "eat" }, { word: "mắt", meaningEn: "eye" }, { word: "trăng", meaningEn: "moon" }],
+  â: [{ word: "ấm", meaningEn: "warm" }, { word: "sân", meaningEn: "yard" }, { word: "cân", meaningEn: "scale" }],
+  b: [{ word: "bàn", meaningEn: "table" }, { word: "bé", meaningEn: "child" }, { word: "bóng", meaningEn: "ball" }],
+  c: [{ word: "cá", meaningEn: "fish" }, { word: "cơm", meaningEn: "rice" }, { word: "cua", meaningEn: "crab" }],
+  d: [{ word: "dê", meaningEn: "goat" }, { word: "da", meaningEn: "skin" }, { word: "dừa", meaningEn: "coconut" }],
+  đ: [{ word: "đi", meaningEn: "go" }, { word: "đỏ", meaningEn: "red" }, { word: "đèn", meaningEn: "lamp" }],
+  e: [{ word: "em", meaningEn: "younger sibling" }, { word: "kem", meaningEn: "ice cream" }, { word: "xe", meaningEn: "vehicle" }],
+  ê: [{ word: "bê", meaningEn: "calf" }, { word: "ghế", meaningEn: "chair" }, { word: "mệt", meaningEn: "tired" }],
+  g: [{ word: "gà", meaningEn: "chicken" }, { word: "gạo", meaningEn: "rice grain" }, { word: "gỗ", meaningEn: "wood" }],
+  h: [{ word: "hoa", meaningEn: "flower" }, { word: "hè", meaningEn: "summer" }, { word: "học", meaningEn: "study" }],
+  i: [{ word: "im", meaningEn: "quiet" }, { word: "đi", meaningEn: "go" }, { word: "tim", meaningEn: "heart" }],
+  k: [{ word: "kẹo", meaningEn: "candy" }, { word: "kính", meaningEn: "glasses" }, { word: "kem", meaningEn: "ice cream" }],
+  l: [{ word: "lá", meaningEn: "leaf" }, { word: "lớp", meaningEn: "class" }, { word: "lúa", meaningEn: "rice plant" }],
+  m: [{ word: "mẹ", meaningEn: "mother" }, { word: "mèo", meaningEn: "cat" }, { word: "mưa", meaningEn: "rain" }],
+  n: [{ word: "na", meaningEn: "custard apple" }, { word: "nón", meaningEn: "hat" }, { word: "nước", meaningEn: "water" }],
+  o: [{ word: "ong", meaningEn: "bee" }, { word: "bò", meaningEn: "cow" }, { word: "hoa", meaningEn: "flower" }],
+  ô: [{ word: "ông", meaningEn: "grandfather" }, { word: "cô", meaningEn: "aunt" }, { word: "số", meaningEn: "number" }],
+  ơ: [{ word: "ơi", meaningEn: "hey" }, { word: "cờ", meaningEn: "flag" }, { word: "mơ", meaningEn: "dream" }],
+  p: [{ word: "pin", meaningEn: "battery" }, { word: "phố", meaningEn: "street" }, { word: "đẹp", meaningEn: "beautiful" }],
+  q: [{ word: "quả", meaningEn: "fruit" }, { word: "quà", meaningEn: "gift" }, { word: "quê", meaningEn: "hometown" }],
+  r: [{ word: "rau", meaningEn: "vegetable" }, { word: "rổ", meaningEn: "basket" }, { word: "rừng", meaningEn: "forest" }],
+  s: [{ word: "sách", meaningEn: "book" }, { word: "sao", meaningEn: "star" }, { word: "sữa", meaningEn: "milk" }],
+  t: [{ word: "tay", meaningEn: "hand" }, { word: "tôm", meaningEn: "shrimp" }, { word: "tóc", meaningEn: "hair" }],
+  u: [{ word: "uốn", meaningEn: "bend" }, { word: "thu", meaningEn: "autumn" }, { word: "bút", meaningEn: "pen" }],
+  ư: [{ word: "ước", meaningEn: "wish" }, { word: "thư", meaningEn: "letter" }, { word: "sữa", meaningEn: "milk" }],
+  v: [{ word: "vui", meaningEn: "happy" }, { word: "voi", meaningEn: "elephant" }, { word: "vở", meaningEn: "notebook" }],
+  x: [{ word: "xanh", meaningEn: "blue / green" }, { word: "xe", meaningEn: "vehicle" }, { word: "xoài", meaningEn: "mango" }],
+  y: [{ word: "yêu", meaningEn: "love" }, { word: "y tá", meaningEn: "nurse" }, { word: "máy", meaningEn: "machine" }],
+};
 
 export const vietnameseAlphabet: AlphabetLetter[] = [
   // ── a ──

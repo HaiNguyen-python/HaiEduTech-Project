@@ -13,6 +13,7 @@ import { dailyMicroLessonsV10 } from "../src/data/vietnamese/expansionV10Practic
 import { VFF_VIDEO_BANK } from "../src/data/vietnamese/vffVideoBank";
 import {
   vietnameseAlphabet,
+  vietnameseAlphabetExamples,
   vietnameseAlphabetPronunciations,
   vietnameseTones,
 } from "../src/data/vietnamese/alphabetData";
@@ -119,6 +120,14 @@ for (const item of vietnameseAlphabetPronunciations) {
 for (const letter of vietnameseAlphabet) {
   if (!pronunciationLetters.includes(letter.letter)) issues.push(`ALPHABET_PRONUNCIATION_MISSING ${letter.letter}`);
   if (!letter.exampleWord.trim()) issues.push(`ALPHABET_EXAMPLE_MISSING ${letter.letter}`);
+  const examples = vietnameseAlphabetExamples[letter.letter] ?? [];
+  if (examples.length !== 3) issues.push(`ALPHABET_EXAMPLE_COUNT ${letter.letter} (${examples.length})`);
+  if (new Set(examples.map((item) => item.word.normalize("NFC").toLocaleLowerCase("vi-VN"))).size !== examples.length) {
+    issues.push(`ALPHABET_EXAMPLE_DUPLICATE ${letter.letter}`);
+  }
+  for (const example of examples) {
+    if (!example.word.trim() || !example.meaningEn.trim()) issues.push(`ALPHABET_EXAMPLE_INVALID ${letter.letter}`);
+  }
 }
 
 console.log(`Modules: ${vietnameseLanguageModules.length}`);
