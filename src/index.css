@@ -748,6 +748,16 @@
     @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-teal-500;
   }
 
+  /* Brand gradient (Royal Blue -> Soft Emerald) - Vietnam Beauty gallery */
+  .brand-gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(90deg, hsl(217 91% 60%), hsl(160 84% 39%));
+  }
+
+  .brand-gradient {
+    background-image: linear-gradient(90deg, hsl(217 91% 60%), hsl(160 84% 39%));
+  }
+
   .glow-border {
     box-shadow: 0 2px 12px hsl(173 58% 39% / 0.12);
     @apply border border-primary/20;
