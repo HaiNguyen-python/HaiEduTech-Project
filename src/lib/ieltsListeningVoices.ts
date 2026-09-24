@@ -6,9 +6,9 @@
  * @copyright 2026 HaiEduTech
  */
 
-/** Voices offered by the AI speech model, split by perceived gender. */
-const FEMALE_VOICES = ["shimmer", "coral", "sage", "nova"] as const;
-const MALE_VOICES = ["onyx", "echo", "ash", "fable"] as const;
+/** Clear, lively voices offered by the AI speech model, split by perceived gender. */
+const FEMALE_VOICES = ["shimmer", "coral", "nova"] as const;
+const MALE_VOICES = ["echo", "ash", "fable"] as const;
 
 const FEMALE_NAMES =
   /^(anna|sarah|chloe|emma|lisa|mary|jane|kate|sophie|olivia|amelia|sophia|grace|lily|mia|ava|ella|zoe|julia|maria|hannah|laura|emily|alice|nora|rachel|claire|receptionist|woman|female|assistant|librarian|clerk)$/i;
@@ -45,14 +45,18 @@ export const instructionsForSection = (section: number, speaker: string | null):
     "Perform this as a polished British IELTS Listening recording with a neutral RP accent.",
     `This line comes from ${role}.`,
     who,
-    section >= 3
-      ? "Use a fluent university speaking pace, connected speech, meaningful pauses and varied emphasis. Never sound like slow dictation."
-      : "Use a fluent everyday conversational pace, connected speech and responsive intonation. Never sound like slow dictation.",
+    "Keep the vocal tone clear, warm, alert and naturally bright, with human variation and forward energy. Avoid a deep, sleepy, flat or announcer-like delivery, but never sound shrill, theatrical or cartoonish.",
+    section === 4
+      ? "Sound like an engaging real university lecturer: fluent, articulate and expressive, with meaningful emphasis rather than a low monotone."
+      : section === 3
+        ? "Sound like a genuinely engaged university discussion: responsive, thoughtful and conversational, with varied emphasis rather than a formal monotone."
+        : "Sound friendly, attentive and spontaneous, using connected speech, responsive intonation and subtle conversational energy.",
+    "Keep a natural 1.0 speaking pace. Never sound like slow dictation.",
     "Never announce answers or add words that are not in the text.",
   ]
     .filter(Boolean)
     .join(" ");
 };
 
-/** Slightly brisk recording pace matching modern IELTS audio without clipping. */
+/** Natural recording pace; the player applies any learner-selected multiplier. */
 export const speedForSection = (_section?: number) => 1.0;
