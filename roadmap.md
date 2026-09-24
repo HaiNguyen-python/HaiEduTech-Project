@@ -23,9 +23,9 @@
 # Vietnamese Quality Upgrade
 
 - [x] Audit all Vietnamese routes, core lessons, VFF content, typography, media and TTS.
-- [ ] Bring every A1-B1 VFF lesson to at least five bilingual quiz questions.
-- [ ] Standardize Vietnamese typography and mobile readability.
-- [ ] Replace broken video embeds and add resilient media fallbacks.
-- [ ] Add authentic visual coverage to cuisine, culture, regions, kids, phrasebook and Daily Vietnamese.
-- [ ] Fact-check history, heritage, festivals and time-sensitive travel guidance.
-- [ ] Expand automated Vietnamese quality checks and verify authenticated desktop/mobile flows.
+- [x] Bring every A1-B1 VFF lesson to at least five bilingual quiz questions.
+- [x] Standardize Vietnamese typography and mobile readability.
+- [x] Replace broken video embeds and add resilient media fallbacks.
+- [x] Add authentic visual coverage to cuisine, culture, regions, kids, phrasebook and Daily Vietnamese.
+- [x] Correct the highest-risk history, population, trade and time-sensitive visa claims; add travel verification guidance.
+- [x] Expand automated Vietnamese quality checks and verify authenticated desktop/mobile flows.

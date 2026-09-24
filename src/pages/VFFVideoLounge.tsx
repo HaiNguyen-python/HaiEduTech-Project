@@ -4,7 +4,7 @@
  */
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Film, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, Film, CheckCircle2, ExternalLink } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
@@ -18,6 +18,7 @@ const ClipCard = ({ clip }: { clip: VFFVideoClip }) => {
   const { t } = useLanguage();
   const [answers, setAnswers] = useState<number[]>([]);
   const [checked, setChecked] = useState(false);
+  const [videoUnavailable, setVideoUnavailable] = useState(false);
   const correct = clip.quiz.filter((q, i) => answers[i] === q.answer).length;
 
   return (
@@ -28,9 +29,26 @@ const ClipCard = ({ clip }: { clip: VFFVideoClip }) => {
           <Badge variant="outline">{clip.topic}</Badge>
         </div>
         <h3 className="text-xl font-bold mb-3">{t(clip.titleVi, clip.title)}</h3>
-        <div className="aspect-video mb-4 rounded-lg overflow-hidden border">
-          <iframe className="w-full h-full" src={`https://www.youtube.com/embed/${clip.youtubeId}`} title={clip.title} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope" allowFullScreen />
+        <div className="aspect-video mb-4 rounded-lg overflow-hidden border bg-muted">
+          {videoUnavailable ? (
+            <div className="flex h-full flex-col items-center justify-center gap-3 p-6 text-center">
+              <Film className="h-10 w-10 text-muted-foreground" />
+              <p className="text-muted-foreground">{t("Video không phát được trong trang này.", "This video cannot play inside this page.")}</p>
+              <Button asChild variant="outline">
+                <a href={`https://www.youtube.com/watch?v=${clip.youtubeId}`} target="_blank" rel="noreferrer">
+                  {t("Mở trên YouTube", "Open on YouTube")} <ExternalLink className="ml-2 h-4 w-4" />
+                </a>
+              </Button>
+            </div>
+          ) : (
+            <iframe className="w-full h-full" src={`https://www.youtube-nocookie.com/embed/${clip.youtubeId}`} title={clip.title} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope" allowFullScreen onError={() => setVideoUnavailable(true)} />
+          )}
         </div>
+        {!videoUnavailable && (
+          <a className="mb-4 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-primary hover:underline" href={`https://www.youtube.com/watch?v=${clip.youtubeId}`} target="_blank" rel="noreferrer">
+            {t("Mở video trên YouTube", "Open video on YouTube")} <ExternalLink className="h-4 w-4" />
+          </a>
+        )}
 
         <details className="mb-3">
           <summary className="cursor-pointer text-sm font-semibold">📝 {t("Lời thoại (VI + EN)", "Transcript (VI + EN)")}</summary>
@@ -90,7 +108,7 @@ const ClipCard = ({ clip }: { clip: VFFVideoClip }) => {
 const VFFVideoLounge = () => {
   const { t } = useLanguage();
   return (
-    <div className="min-h-screen bg-background">
+    <div className="vietnamese-readable min-h-screen bg-background">
       <SEO title="Vietnamese Video Immersion | HaiEduTech" description="Watch Vietnamese culture clips with bilingual transcripts, glossary, and comprehension quizzes." path="/learn-vietnamese/for-foreigners/lab/video" />
       <Navbar />
       <main className="pt-6 pb-16">

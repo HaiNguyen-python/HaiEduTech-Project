@@ -5,6 +5,12 @@
  * Chạy: bun scripts/audit_vietnamese_content.ts
  */
 import { vietnameseLanguageModules } from "../src/data/vietnameseCurriculumData";
+import { vffLevelA1, vffLevelB1 } from "../src/data/vietnamese/vffLevels";
+import { vffLevelA2 } from "../src/data/vietnamese/vffLevelA2";
+import { dailyMicroLessons as dailyBase } from "../src/data/vietnamese/dailyVietnameseData";
+import { dailyMicroLessonsExpansion } from "../src/data/vietnamese/dailyVietnameseExpansion";
+import { dailyMicroLessonsV10 } from "../src/data/vietnamese/expansionV10Practice";
+import { VFF_VIDEO_BANK } from "../src/data/vietnamese/vffVideoBank";
 
 const MIN_VOCAB = 10;
 const MIN_QUIZ = 5;
@@ -59,8 +65,45 @@ for (const mod of vietnameseLanguageModules) {
   }
 }
 
+const vffLevels = [vffLevelA1, vffLevelA2, vffLevelB1];
+const vffIds = new Set<string>();
+for (const level of vffLevels) {
+  for (const lesson of level.lessons) {
+    const where = `${level.id}/${lesson.id}`;
+    if (vffIds.has(lesson.id)) issues.push(`VFF_DUPLICATE_ID ${where}`);
+    vffIds.add(lesson.id);
+    if (lesson.quiz.length < MIN_QUIZ) issues.push(`VFF_QUIZ_TOO_FEW ${where} (${lesson.quiz.length})`);
+    if (!lesson.title.trim() || !lesson.titleEn.trim() || !lesson.goal.trim() || !lesson.goalEn.trim()) {
+      issues.push(`VFF_BILINGUAL_LESSON ${where}`);
+    }
+    lesson.quiz.forEach((item, index) => {
+      if (!item.question.trim() || !item.questionEn.trim() || !item.explanationEn.trim()) {
+        issues.push(`VFF_BILINGUAL_QUIZ ${where} #${index}`);
+      }
+      if (item.answer < 0 || item.answer >= item.options.length) issues.push(`VFF_QUIZ_ANSWER_RANGE ${where} #${index}`);
+      if (new Set(item.options.map((option) => option.trim().toLowerCase())).size !== item.options.length) {
+        issues.push(`VFF_QUIZ_OPTION_DUPLICATE ${where} #${index}`);
+      }
+    });
+  }
+}
+
+const dailyLessons = [...dailyBase, ...dailyMicroLessonsExpansion, ...dailyMicroLessonsV10];
+const dailyDays = dailyLessons.map((lesson) => lesson.day);
+if (new Set(dailyDays).size !== dailyDays.length) issues.push("DAILY_DUPLICATE_DAY");
+if (Math.min(...dailyDays) !== 1 || Math.max(...dailyDays) !== dailyDays.length) issues.push("DAILY_NON_CONTIGUOUS");
+
+const invalidVideoIds = new Set(["0m5v-K3JlZI", "GgQTG3B4RQ4", "gN0Zsm3XPXk"]);
+for (const clip of VFF_VIDEO_BANK) {
+  if (!clip.youtubeId.trim() || invalidVideoIds.has(clip.youtubeId)) issues.push(`VFF_VIDEO_INVALID ${clip.id}`);
+  if (!clip.transcript.length || !clip.glossary.length || !clip.quiz.length) issues.push(`VFF_VIDEO_CONTENT_MISSING ${clip.id}`);
+}
+
 console.log(`Modules: ${vietnameseLanguageModules.length}`);
 console.log(`Lessons: ${lessonCount}`);
+console.log(`VFF lessons: ${vffLevels.reduce((sum, level) => sum + level.lessons.length, 0)}`);
+console.log(`Daily lessons: ${dailyLessons.length}`);
+console.log(`VFF videos: ${VFF_VIDEO_BANK.length}`);
 console.log(`Issues: ${issues.length}`);
 issues.slice(0, 80).forEach((issue) => console.log(` - ${issue}`));
 if (issues.length > 80) console.log(` ... and ${issues.length - 80} more`);
