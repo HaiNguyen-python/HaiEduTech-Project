@@ -1,5 +1,5 @@
 import { invokeTtsFunction, waitForAudioForeground } from "@/lib/ttsFunctionFetch";
-import { stopVietnameseTts } from "@/lib/vietnameseTts";
+import { playVietnameseTts, stopVietnameseTts } from "@/lib/vietnameseTts";
 
 export type AlphabetAudioKind = "letter-name" | "letter-sound" | "example" | "tone";
 
@@ -48,15 +48,24 @@ export const playVietnameseAlphabetTts = async (
   const normalized = text.normalize("NFC").replace(/\s+/g, " ").trim();
   if (!normalized) throw new Error("empty_audio_text");
   const key = `hanoi-v1:${kind}:${normalized}`;
-  let dataUrl = audioCache.get(key);
-  if (!dataUrl) {
-    const payload = await invokeTtsFunction<AlphabetTtsResponse>("vietnamese-alphabet-tts", {
-      text: normalized,
-      kind,
+  try {
+    let dataUrl = audioCache.get(key);
+    if (!dataUrl) {
+      const payload = await invokeTtsFunction<AlphabetTtsResponse>("vietnamese-alphabet-tts", {
+        text: normalized,
+        kind,
+      });
+      if (!payload.audioBase64) throw new Error(payload.error || "audio_unavailable");
+      dataUrl = `data:${payload.mimeType || "audio/wav"};base64,${payload.audioBase64}`;
+      audioCache.set(key, dataUrl);
+    }
+    await playUrl(dataUrl);
+  } catch {
+    const fallbackPlayed = await playVietnameseTts(normalized, {
+      playbackRate: 0.95,
+      speechRate: 0.82,
+      pitch: 1.05,
     });
-    if (!payload.audioBase64) throw new Error(payload.error || "audio_unavailable");
-    dataUrl = `data:${payload.mimeType || "audio/wav"};base64,${payload.audioBase64}`;
-    audioCache.set(key, dataUrl);
+    if (!fallbackPlayed) throw new Error("audio_unavailable");
   }
-  await playUrl(dataUrl);
 };
