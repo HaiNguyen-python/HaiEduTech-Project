@@ -328,30 +328,36 @@ const VietnameseRegions = () => {
             <div className="grid md:grid-cols-2 gap-4">
               {travelEssentials.map((e, i) => (
                 <motion.div key={e.id} initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}>
-                  <Card className="h-full border-2 border-emerald-500/55 shadow-[0_3px_14px_-6px_rgba(16,185,129,0.28)]">
-                    <CardContent className="p-5">
-                      <div className="flex items-center gap-3 mb-4">
+                  <Card className="h-full overflow-hidden border border-border/70 bg-card shadow-[0_14px_40px_-24px_hsl(var(--foreground)/0.35)]">
+                    <div className="h-1 w-full bg-gradient-to-r from-primary via-emerald-500 to-primary" />
+                    <CardContent className="p-6">
+                      <div className="mb-5 flex items-baseline justify-between gap-3 border-b border-border/60 pb-3">
                         <h3 className="text-lg font-bold text-foreground">{t(e.title, e.titleEn)}</h3>
+                        <span className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground/70">{String(i + 1).padStart(2, "0")}</span>
                       </div>
-                      <div className="space-y-2 mb-4">
+                      <div className="rounded-xl bg-muted/40 px-4 py-1">
                         {e.details.map((d, j) => (
-                          <div key={j} className="border-b border-2 border-emerald-500/45 pb-2 last:border-0">
-                            <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                          <div key={j} className="grid gap-0.5 border-b border-border/50 py-3 last:border-0 last:pb-1.5">
+                            <div className="text-[11px] font-semibold uppercase tracking-wider text-primary">
                               {t(d.label, d.labelEn)}
                             </div>
-                            <div className="text-sm text-foreground mt-0.5">{t(d.value, d.valueEn)}</div>
+                            <div className="text-sm leading-relaxed text-foreground/90 mt-0.5">{t(d.value, d.valueEn)}</div>
                           </div>
                         ))}
                       </div>
-                      <div className="space-y-2">
-                        {e.tips.map((tip, j) => (
-                          <div key={j} className="bg-blue-500/10 border-l-2 border-blue-500 rounded-r-md p-2 text-sm">
-                            <div className="flex gap-2">
-                              <Lightbulb className="w-4 h-4 text-blue-500 mt-0.5 shrink-0" />
-                              <span className="text-foreground/90">{t(tip.vi, tip.en)}</span>
-                            </div>
-                          </div>
-                        ))}
+                      <div className="mt-5">
+                        <div className="mb-2 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-muted-foreground">
+                          <Lightbulb className="w-3.5 h-3.5 text-primary" />
+                          {t("Mẹo thực dụng", "Practical tips")}
+                        </div>
+                        <ul className="space-y-2">
+                          {e.tips.map((tip, j) => (
+                            <li key={j} className="flex gap-2.5 rounded-lg border border-primary/15 bg-primary/5 p-3 text-sm">
+                              <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                              <span className="leading-relaxed text-foreground/90">{t(tip.vi, tip.en)}</span>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     </CardContent>
                   </Card>
