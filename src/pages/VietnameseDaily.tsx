@@ -13,7 +13,9 @@ import { Progress } from "@/components/ui/progress";
 import { dailyMicroLessons as base } from "@/data/vietnamese/dailyVietnameseData";
 import { dailyMicroLessonsExpansion } from "@/data/vietnamese/dailyVietnameseExpansion";
 import { dailyMicroLessonsV10 } from "@/data/vietnamese/expansionV10Practice";
+import dailyAuthentic from "@/assets/vietnamese/daily-authentic.jpg";
 const dailyMicroLessons = [...base, ...dailyMicroLessonsExpansion, ...dailyMicroLessonsV10];
+const totalDays = dailyMicroLessons.length;
 
 const STORAGE_KEY = "haiedu_daily_vietnamese_completed";
 
@@ -40,8 +42,8 @@ const VietnameseDaily = () => {
   const progress = (completed.length / dailyMicroLessons.length) * 100;
 
   return (
-    <div className="min-h-screen bg-background">
-      <SEO title="Daily Vietnamese: 1 phút mỗi ngày | HaiEduTech" description="30 bài học siêu ngắn, mỗi bài 1 phút: 1 từ, 1 cụm, 1 câu, 1 thử thách. Học tiếng Việt như Duolingo." path="/learn-vietnamese/daily" />
+    <div className="vietnamese-readable min-h-screen bg-background">
+      <SEO title="Daily Vietnamese: 1 phút mỗi ngày | HaiEduTech" description={`${totalDays} bài học siêu ngắn, mỗi bài 1 phút: 1 từ, 1 cụm, 1 câu và 1 thử thách.`} path="/learn-vietnamese/daily" />
       <Navbar />
       <main className="pt-6 pb-16">
         <div className="container mx-auto px-6 max-w-3xl">
@@ -51,6 +53,7 @@ const VietnameseDaily = () => {
           </Link>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
+            <img src={dailyAuthentic} alt={t("Góc học tiếng Việt mỗi ngày bên hồ Hoàn Kiếm", "A daily Vietnamese study corner overlooking Hoan Kiem Lake")} className="mb-6 aspect-[3/1] w-full rounded-lg object-cover" width={1200} height={800} />
             <div className="flex items-center gap-3 mb-2">
               <Calendar className="w-8 h-8 text-blue-500" />
               <h1 className="text-3xl md:text-4xl font-bold text-foreground">
@@ -87,14 +90,14 @@ const VietnameseDaily = () => {
             </Button>
             <div className="flex-1 text-center">
               <Badge variant="secondary" className="text-base px-4 py-1.5">
-                {t(`Ngày ${currentDay}`, `Day ${currentDay}`)} / 30
+                 {t(`Ngày ${currentDay}`, `Day ${currentDay}`)} / {totalDays}
               </Badge>
             </div>
             <Button
               variant="outline"
               size="icon"
-              disabled={currentDay === 30}
-              onClick={() => setCurrentDay(d => Math.min(30, d + 1))}
+               disabled={currentDay === totalDays}
+               onClick={() => setCurrentDay(d => Math.min(totalDays, d + 1))}
             >
               <ChevronRight className="w-4 h-4" />
             </Button>
@@ -173,7 +176,7 @@ const VietnameseDaily = () => {
           {/* Day grid */}
           <div className="mt-8">
             <h3 className="text-sm font-bold text-foreground mb-3 uppercase tracking-wide">
-              {t("Tất cả 30 ngày", "All 30 Days")}
+               {t(`Tất cả ${totalDays} ngày`, `All ${totalDays} Days`)}
             </h3>
             <div className="grid grid-cols-6 sm:grid-cols-10 gap-2">
               {dailyMicroLessons.map(l => (

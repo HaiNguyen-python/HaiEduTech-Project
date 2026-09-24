@@ -715,6 +715,35 @@
 }
 
 @layer utilities {
+  /* Vietnamese learning pages prioritize comfortable diacritic rendering. */
+  .vietnamese-readable {
+    font-family: 'Manrope', system-ui, sans-serif;
+  }
+
+  .vietnamese-readable h1,
+  .vietnamese-readable h2,
+  .vietnamese-readable h3,
+  .vietnamese-readable h4,
+  .vietnamese-readable h5,
+  .vietnamese-readable h6 {
+    font-family: 'Sora', system-ui, sans-serif;
+    letter-spacing: 0;
+  }
+
+  .vietnamese-readable :is(.text-xs, .text-sm, [class*="text-[9px]"], [class*="text-[10px]"], [class*="text-[11px]"]) {
+    font-size: max(1rem, 16px) !important;
+    line-height: 1.65;
+  }
+
+  .vietnamese-readable button,
+  .vietnamese-readable a {
+    min-height: 44px;
+  }
+
+  .vietnamese-literature {
+    font-family: 'Noto Serif', Georgia, serif;
+  }
+
   .text-gradient {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-teal-500;
   }

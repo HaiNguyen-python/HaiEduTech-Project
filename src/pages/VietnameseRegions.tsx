@@ -12,12 +12,13 @@ import { travelDestinations as baseDestinations } from "@/data/vietnamese/region
 import { travelDestinationsV10 } from "@/data/vietnamese/expansionV10Culture";
 const travelDestinations = [...baseDestinations, ...travelDestinationsV10];
 import { festivals, travelEssentials, etiquetteRules, countryStats } from "@/data/vietnamese/regionsExtras";
+import regionsAuthentic from "@/assets/vietnamese/regions-authentic.jpg";
 
 const VietnameseRegions = () => {
   const { t } = useLanguage();
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="vietnamese-readable min-h-screen bg-background">
       <SEO
         title="Du lịch Việt Nam: 3 miền, Lễ hội & Mẹo du lịch | HaiEduTech"
         description="Khám phá 3 miền Việt Nam, di sản UNESCO, lễ hội truyền thống, mẹo di chuyển, tiền tệ, an toàn và văn hóa ứng xử."
@@ -32,6 +33,7 @@ const VietnameseRegions = () => {
           </Link>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
+            <img src={regionsAuthentic} alt={t("Cảnh quan tiêu biểu của ba miền Việt Nam", "Representative landscapes of northern, central and southern Vietnam")} className="mb-6 aspect-[3/1] w-full rounded-lg object-cover" width={1200} height={800} />
             <div className="flex items-center gap-3 mb-2">
               <Globe className="w-8 h-8 text-emerald-500" />
               <h1 className="text-3xl md:text-4xl font-bold text-foreground">
@@ -43,6 +45,9 @@ const VietnameseRegions = () => {
                 "3 miền · 8 di sản UNESCO · 8 điểm đến · 6 lễ hội · Mẹo thực dụng",
                 "3 regions · 8 UNESCO sites · 8 destinations · 6 festivals · Practical tips"
               )}
+            </p>
+            <p className="mt-3 text-sm text-muted-foreground">
+              {t("Lịch lễ hội, giá và thông tin dịch vụ có thể thay đổi. Hãy kiểm tra nguồn chính thức trước chuyến đi.", "Festival dates, prices and services may change. Check official sources before travelling.")}
             </p>
           </motion.div>
 
