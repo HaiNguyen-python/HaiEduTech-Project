@@ -286,20 +286,38 @@ const VietnameseAlphabet = () => {
           <span className="text-foreground font-medium">{t("Bảng chữ cái", "Alphabet")}</span>
         </div>
 
-        {/* Header */}
-        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
-          <div className="flex items-center gap-3 mb-2">
-            <Link to="/learn-vietnamese" className="p-2 rounded-lg hover:bg-muted transition-colors">
-              <ArrowLeft className="w-5 h-5" />
-            </Link>
-            <h1 className="text-2xl md:text-3xl font-bold font-display text-foreground">
-              {t("Bảng Chữ Cái Tiếng Việt", "Vietnamese Alphabet")}
-            </h1>
+        {/* Header hero - Vietnamese landscape */}
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="relative mb-8 overflow-hidden rounded-3xl border-2 border-emerald-500/40 shadow-lg"
+        >
+          <img
+            src="/vietnam-alphabet-hero.webp"
+            alt={t("Ruộng bậc thang Việt Nam buổi bình minh", "Vietnamese rice terraces at sunrise")}
+            width={1920}
+            height={640}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-foreground/80 via-foreground/45 to-foreground/10" />
+          <div className="relative flex flex-col justify-center px-5 py-10 md:px-10 md:py-14">
+            <div className="flex items-center gap-3">
+              <Link
+                to="/learn-vietnamese"
+                aria-label={t("Quay lại Học Tiếng Việt", "Back to Learn Vietnamese")}
+                className="rounded-lg bg-background/20 p-2 backdrop-blur-sm transition-colors hover:bg-background/30"
+              >
+                <ArrowLeft className="w-5 h-5 text-background" />
+              </Link>
+              <h1 className="text-2xl md:text-4xl font-bold font-display text-background drop-shadow">
+                {t("Bảng Chữ Cái Tiếng Việt", "Vietnamese Alphabet")}
+              </h1>
+            </div>
+            <p className="mt-2 ml-12 text-sm md:text-base text-background/90">
+              {t("29 chữ cái + 6 dấu thanh - bấm vào để nghe phát âm và luyện viết",
+                 "29 letters + 6 tone marks - click to hear pronunciation and practice writing")}
+            </p>
           </div>
-          <p className="text-muted-foreground ml-12">
-            {t("29 chữ cái + 6 dấu thanh - bấm vào để nghe phát âm và luyện viết",
-               "29 letters + 6 tone marks - click to hear pronunciation and practice writing")}
-          </p>
         </motion.div>
 
         {/* ══════ LETTERS SECTION ══════ */}
