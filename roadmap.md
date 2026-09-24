@@ -35,4 +35,4 @@
 - [x] Define explicit Hanoi-standard names and anchored sounds for all 29 letters.
 - [x] Separate letter-name, letter-sound, example-word and six-tone playback.
 - [x] Replace guessed single-character speech with server-generated Vietnamese audio.
-- [ ] Verify all controls and representative audio on desktop and mobile.
+- [x] Verify all controls and representative audio on desktop and mobile.
