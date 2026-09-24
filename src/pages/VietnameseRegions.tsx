@@ -204,15 +204,22 @@ const VietnameseRegions = () => {
             <div className="grid md:grid-cols-2 gap-4">
               {travelDestinations.map((d, i) => (
                 <motion.div key={d.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}>
-                  <Card className="h-full border-2 border-emerald-500/55 shadow-[0_3px_14px_-6px_rgba(16,185,129,0.28)] hover:border-primary/40 transition-colors">
-                    <CardContent className="p-5">
-                      <div className="flex items-start gap-3 mb-3">
-                        <div className="flex-1">
+                  <Card className="relative isolate h-full overflow-hidden border border-border/70 bg-card shadow-[0_14px_40px_-24px_hsl(var(--foreground)/0.35)] transition-shadow hover:shadow-[0_22px_54px_-24px_hsl(var(--foreground)/0.45)]">
+                    {DEST_BG[d.id] && (
+                      <>
+                        <img src={DEST_BG[d.id]} alt="" aria-hidden loading="lazy" className="absolute inset-0 -z-20 h-full w-full scale-110 object-cover opacity-30 blur-[6px] dark:opacity-25" />
+                        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-background/75 via-background/65 to-background/90" />
+                      </>
+                    )}
+                    <CardContent className="relative p-5">
+                      <div className="flex items-start justify-between gap-3 mb-4 border-b border-border/60 pb-3">
+                        <div>
                           <h3 className="text-lg font-bold text-foreground">{t(d.name, d.nameEn)}</h3>
-                          <div className="flex flex-wrap gap-1.5 mt-1">
-                            <Badge variant="secondary" className="text-xs capitalize">{d.region}</Badge>
-                            <Badge variant="outline" className="text-xs capitalize">{d.type}</Badge>
-                          </div>
+                          <div className="text-sm italic text-muted-foreground mt-0.5">{t(d.nameEn, d.name)}</div>
+                        </div>
+                        <div className="flex flex-wrap gap-1.5 justify-end">
+                          <Badge variant="secondary" className="text-xs capitalize">{d.region}</Badge>
+                          <Badge variant="outline" className="text-xs capitalize">{d.type}</Badge>
                         </div>
                       </div>
 
