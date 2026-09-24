@@ -54,7 +54,7 @@ export const vietnameseAlphabetPronunciations: AlphabetPronunciation[] = [
   { letter: "g", nameText: "giê", soundLabel: "gờ", soundText: "gờ" },
   { letter: "h", nameText: "hát", soundLabel: "hờ", soundText: "hờ" },
   { letter: "i", nameText: "i", soundLabel: "i", soundText: "i" },
-  { letter: "k", nameText: "ca", soundLabel: "cờ", soundText: "cờ" },
+  { letter: "k", nameText: "ca", soundLabel: "ca", soundText: "ca" },
   { letter: "l", nameText: "e-lờ", soundLabel: "lờ", soundText: "lờ" },
   { letter: "m", nameText: "em-mờ", soundLabel: "mờ", soundText: "mờ" },
   { letter: "n", nameText: "en-nờ", soundLabel: "nờ", soundText: "nờ" },
@@ -70,7 +70,7 @@ export const vietnameseAlphabetPronunciations: AlphabetPronunciation[] = [
   { letter: "ư", nameText: "ư", soundLabel: "ư", soundText: "ư" },
   { letter: "v", nameText: "vê", soundLabel: "vờ", soundText: "vờ" },
   { letter: "x", nameText: "ích-xì", soundLabel: "xờ", soundText: "xờ" },
-  { letter: "y", nameText: "i dài", soundLabel: "i", soundText: "i" },
+  { letter: "y", nameText: "i", soundLabel: "i", soundText: "i" },
 ];
 
 export const vietnameseAlphabetPronunciationByLetter = new Map(
@@ -417,7 +417,7 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
   },
   // ── y ──
   {
-    letter: "y", uppercase: "Y", name: "i dài", nameEn: "ee-long", ipa: "/i/",
+    letter: "y", uppercase: "Y", name: "i", nameEn: "ee", ipa: "/i/",
     exampleWord: "yêu", exampleMeaning: "yêu thương", exampleMeaningEn: "love",
     strokeDescription: "Viết 2 nét xiên gặp nhau ở giữa, rồi kéo đuôi xuống dưới baseline",
     strokeDescriptionEn: "Write 2 diagonals meeting in the middle, then extend tail below baseline",
