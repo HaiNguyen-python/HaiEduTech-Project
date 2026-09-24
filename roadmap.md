@@ -36,4 +36,4 @@
 - [x] Separate letter-name, letter-sound, example-word and six-tone playback.
 - [x] Replace guessed single-character speech with server-generated Vietnamese audio.
 - [x] Remove English letter-name display and reject non-Vietnamese browser voices.
-- [x] Verify all controls and representative audio on desktop and mobile.
+- [x] Make Grade-1 phonics the primary alphabet reading and verify representative generated audio.

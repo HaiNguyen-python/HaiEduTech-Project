@@ -26,6 +26,14 @@ const delivery: Record<z.infer<typeof BodySchema>["kind"], string> = {
   tone: "Chỉ đọc âm tiết được cung cấp một lần, thể hiện chính xác đường nét thanh điệu.",
 };
 
+const phonicsAnchors: Record<string, string> = {
+  a: "ba", "á": "ăn", "ớ": "ân", "bờ": "ba", "cờ": "cá", "dờ": "da",
+  "đờ": "đi", e: "em", "ê": "mê", "gờ": "gà", "hờ": "hoa", i: "im",
+  "lờ": "lá", "mờ": "mẹ", "nờ": "na", o: "ong", "ô": "ông", "ơ": "ơi",
+  "pờ": "pin", "quờ": "quả", "rờ": "rổ", "sờ": "sách", "tờ": "tay",
+  u: "thu", "ư": "tư", "vờ": "vui", "xờ": "xanh",
+};
+
 const json = (body: unknown, status = 200) => new Response(JSON.stringify(body), {
   status,
   headers: { ...corsHeaders, "Content-Type": "application/json", "Cache-Control": "public, max-age=86400" },
@@ -42,11 +50,15 @@ Deno.serve(async (req) => {
   if (!apiKey) return json({ error: "Dịch vụ phát âm chưa được cấu hình." }, 500);
 
   const { text, kind } = parsed.data;
+  const phonicsAnchor = kind === "letter-sound" ? phonicsAnchors[text.toLocaleLowerCase("vi-VN")] : undefined;
   const prompt = [
     "Bạn là giáo viên lớp Một người Hà Nội, đang dạy âm và chữ tiếng Việt cho trẻ em.",
     "Giọng sáng, tự nhiên, rõ ràng, tốc độ vừa phải.",
     "Không đọc lời hướng dẫn, không giải thích, không thêm bất kỳ từ nào.",
     delivery[kind],
+    phonicsAnchor
+      ? `Dùng từ “${phonicsAnchor}” làm mốc khẩu hình, nhưng TUYỆT ĐỐI KHÔNG đọc từ mốc; chỉ đọc âm “${text}” một lần.`
+      : "",
     `Nội dung cần phát âm: ${text}`,
   ].join(" ");
 
