@@ -204,52 +204,64 @@ const VietnameseRegions = () => {
             <div className="grid md:grid-cols-2 gap-4">
               {travelDestinations.map((d, i) => (
                 <motion.div key={d.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}>
-                  <Card className="relative isolate h-full overflow-hidden border border-border/70 bg-card shadow-[0_14px_40px_-24px_hsl(var(--foreground)/0.35)] transition-shadow hover:shadow-[0_22px_54px_-24px_hsl(var(--foreground)/0.45)]">
-                    {DEST_BG[d.id] && (
-                      <>
-                        <img src={DEST_BG[d.id]} alt="" aria-hidden loading="lazy" className="absolute inset-0 -z-20 h-full w-full scale-110 object-cover opacity-30 blur-[6px] dark:opacity-25" />
-                        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-background/75 via-background/65 to-background/90" />
-                      </>
-                    )}
-                    <CardContent className="relative p-5">
-                      <div className="flex items-start justify-between gap-3 mb-4 border-b border-border/60 pb-3">
-                        <div>
-                          <h3 className="text-lg font-bold text-foreground">{t(d.name, d.nameEn)}</h3>
-                          <div className="text-sm italic text-muted-foreground mt-0.5">{t(d.nameEn, d.name)}</div>
+                  <Card className="group h-full overflow-hidden border border-border/70 bg-card shadow-[0_14px_40px_-24px_hsl(var(--foreground)/0.35)] transition-shadow hover:shadow-[0_22px_54px_-24px_hsl(var(--foreground)/0.45)]">
+                    {/* Scenic header */}
+                    <div className="relative h-36 overflow-hidden sm:h-40">
+                      {DEST_BG[d.id] ? (
+                        <img src={DEST_BG[d.id]} alt={t(d.name, d.nameEn)} loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                      ) : (
+                        <div className="h-full w-full bg-gradient-to-br from-primary/70 to-emerald-600/70" />
+                      )}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/30 to-black/10" />
+                      <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-4">
+                        <div className="min-w-0">
+                          <h3 className="truncate text-lg font-bold text-white drop-shadow-md">{t(d.name, d.nameEn)}</h3>
+                          <div className="mt-0.5 truncate text-sm italic text-white/85">{t(d.nameEn, d.name)}</div>
                         </div>
-                        <div className="flex flex-wrap gap-1.5 justify-end">
-                          <Badge variant="secondary" className="text-xs capitalize">{d.region}</Badge>
-                          <Badge variant="outline" className="text-xs capitalize">{d.type}</Badge>
+                        <div className="flex shrink-0 flex-wrap justify-end gap-1.5">
+                          <Badge className="border-white/40 bg-white/20 text-xs capitalize text-white backdrop-blur-sm hover:bg-white/25">{d.region}</Badge>
+                          <Badge className="border-white/40 bg-white/20 text-xs capitalize text-white backdrop-blur-sm hover:bg-white/25">{d.type}</Badge>
+                        </div>
+                      </div>
+                    </div>
+
+                    <CardContent className="p-4 sm:p-5">
+                      {/* Quick facts */}
+                      <div className="mb-4 grid grid-cols-2 gap-2">
+                        <div className="flex items-start gap-2 rounded-lg border border-border/60 bg-muted/40 p-2.5">
+                          <Calendar className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                          <div className="min-w-0">
+                            <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">{t("Thời điểm đẹp", "Best time")}</div>
+                            <div className="text-xs font-medium leading-snug text-foreground">{t(d.bestTime, d.bestTimeEn)}</div>
+                          </div>
+                        </div>
+                        <div className="flex items-start gap-2 rounded-lg border border-border/60 bg-muted/40 p-2.5">
+                          <Clock className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                          <div className="min-w-0">
+                            <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">{t("Thời lượng", "Duration")}</div>
+                            <div className="text-xs font-medium leading-snug text-foreground">{t(d.duration, d.duringEn)}</div>
+                          </div>
                         </div>
                       </div>
 
-                      <div className="space-y-2 text-sm mb-3">
-                        <div className="flex items-start gap-2">
-                          <Calendar className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-                          <span className="text-foreground">{t(d.bestTime, d.bestTimeEn)}</span>
+                      {/* Experiences */}
+                      <div className="mb-4">
+                        <div className="mb-1.5 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-muted-foreground">
+                          <MapPin className="h-3.5 w-3.5 text-primary" /> {t("Trải nghiệm", "Experiences")}
                         </div>
-                        <div className="flex items-start gap-2">
-                          <Clock className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-                          <span className="text-foreground">{t(d.duration, d.duringEn)}</span>
-                        </div>
-                      </div>
-
-                      <div className="mb-3">
-                        <div className="text-xs font-bold uppercase tracking-wide text-muted-foreground mb-1.5 flex items-center gap-1.5">
-                          <MapPin className="w-3.5 h-3.5" /> {t("Trải nghiệm", "Experiences")}
-                        </div>
-                        <ul className="space-y-1">
+                        <ul className="space-y-1.5">
                           {d.highlights.map((h, j) => (
-                            <li key={j} className="text-sm text-foreground/90 pl-4 relative before:absolute before:left-0 before:top-2 before:w-1 before:h-1 before:bg-primary before:rounded-full">
+                            <li key={j} className="relative pl-4 text-sm leading-snug text-foreground/90 before:absolute before:left-0 before:top-2 before:h-1 before:w-1 before:rounded-full before:bg-primary">
                               {t(h.vi, h.en)}
                             </li>
                           ))}
                         </ul>
                       </div>
 
-                      <div className="mb-3">
-                        <div className="text-xs font-bold uppercase tracking-wide text-muted-foreground mb-1.5 flex items-center gap-1.5">
-                          <Utensils className="w-3.5 h-3.5" /> {t("Phải thử", "Must Eat")}
+                      {/* Must eat */}
+                      <div className="mb-4">
+                        <div className="mb-1.5 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-muted-foreground">
+                          <Utensils className="h-3.5 w-3.5 text-primary" /> {t("Phải thử", "Must Eat")}
                         </div>
                         <div className="flex flex-wrap gap-1.5">
                           {d.mustEat.map((m, j) => (
@@ -258,10 +270,11 @@ const VietnameseRegions = () => {
                         </div>
                       </div>
 
+                      {/* Tip */}
                       <div className="rounded-lg border border-amber-500/25 bg-amber-500/10 p-2.5 text-sm">
                         <div className="flex gap-2">
-                          <Lightbulb className="w-4 h-4 text-amber-500 mt-0.5 shrink-0" />
-                          <span className="text-foreground/90 leading-relaxed">{t(d.tip, d.tipEn)}</span>
+                          <Lightbulb className="mt-0.5 h-4 w-4 shrink-0 text-amber-500" />
+                          <span className="leading-relaxed text-foreground/90">{t(d.tip, d.tipEn)}</span>
                         </div>
                       </div>
                     </CardContent>
