@@ -28,6 +28,54 @@ export interface ToneMark {
   pitchDirection: "flat" | "rising" | "falling" | "dipping" | "rising-broken" | "falling-heavy";
 }
 
+export interface AlphabetPronunciation {
+  letter: string;
+  nameText: string;
+  soundText: string;
+}
+
+/**
+ * Explicit northern-standard prompts prevent a speech engine from guessing how
+ * an isolated character should be read. Consonant sounds are anchored in a
+ * familiar word because Vietnamese consonants are not naturally sustained in
+ * isolation.
+ */
+export const vietnameseAlphabetPronunciations: AlphabetPronunciation[] = [
+  { letter: "a", nameText: "a", soundText: "âm a, trong từ ba" },
+  { letter: "ă", nameText: "á", soundText: "âm ă, trong từ ăn" },
+  { letter: "â", nameText: "ớ", soundText: "âm â, trong từ ân" },
+  { letter: "b", nameText: "bê", soundText: "âm bờ, trong từ ba" },
+  { letter: "c", nameText: "xê", soundText: "âm cờ, trong từ cá" },
+  { letter: "d", nameText: "dê", soundText: "âm dờ, trong từ dê" },
+  { letter: "đ", nameText: "đê", soundText: "âm đờ, trong từ đi" },
+  { letter: "e", nameText: "e", soundText: "âm e, trong từ em" },
+  { letter: "ê", nameText: "ê", soundText: "âm ê, trong từ mê" },
+  { letter: "g", nameText: "giê", soundText: "âm gờ, trong từ gà" },
+  { letter: "h", nameText: "hát", soundText: "âm hờ, trong từ hoa" },
+  { letter: "i", nameText: "i", soundText: "âm i, trong từ im" },
+  { letter: "k", nameText: "ca", soundText: "âm cờ, trong từ kẹo" },
+  { letter: "l", nameText: "e lờ", soundText: "âm lờ, trong từ lá" },
+  { letter: "m", nameText: "em mờ", soundText: "âm mờ, trong từ mẹ" },
+  { letter: "n", nameText: "en nờ", soundText: "âm nờ, trong từ nước" },
+  { letter: "o", nameText: "o", soundText: "âm o, trong từ ong" },
+  { letter: "ô", nameText: "ô", soundText: "âm ô, trong từ ông" },
+  { letter: "ơ", nameText: "ơ", soundText: "âm ơ, trong từ ơi" },
+  { letter: "p", nameText: "pê", soundText: "âm pờ, trong từ pin" },
+  { letter: "q", nameText: "quy", soundText: "âm quờ, trong từ quả" },
+  { letter: "r", nameText: "e rờ", soundText: "âm rờ, trong từ rồng" },
+  { letter: "s", nameText: "ét xì", soundText: "âm sờ, trong từ sách" },
+  { letter: "t", nameText: "tê", soundText: "âm tờ, trong từ tay" },
+  { letter: "u", nameText: "u", soundText: "âm u, trong từ uống" },
+  { letter: "ư", nameText: "ư", soundText: "âm ư, trong từ ước" },
+  { letter: "v", nameText: "vê", soundText: "âm vờ, trong từ vui" },
+  { letter: "x", nameText: "ích xì", soundText: "âm xờ, trong từ xanh" },
+  { letter: "y", nameText: "i dài", soundText: "âm i, trong từ yêu" },
+];
+
+export const vietnameseAlphabetPronunciationByLetter = new Map(
+  vietnameseAlphabetPronunciations.map((item) => [item.letter, item]),
+);
+
 export const vietnameseAlphabet: AlphabetLetter[] = [
   // ── a ──
   {
@@ -272,7 +320,7 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
   },
   // ── q ──
   {
-    letter: "q", uppercase: "Q", name: "cu/quy", nameEn: "koo", ipa: "/k/",
+    letter: "q", uppercase: "Q", name: "quy", nameEn: "quy", ipa: "/k/",
     exampleWord: "quả", exampleMeaning: "quả bóng", exampleMeaningEn: "ball/fruit",
     strokeDescription: "Viết nét cong tròn rồi kéo đuôi xuống dưới bên phải",
     strokeDescriptionEn: "Write a round curve then extend tail down on the right",
@@ -296,7 +344,7 @@ export const vietnameseAlphabet: AlphabetLetter[] = [
   },
   // ── s ──
   {
-    letter: "s", uppercase: "S", name: "ét-sì", nameEn: "es", ipa: "/s/ (Bắc), /ʂ/ (Nam)",
+    letter: "s", uppercase: "S", name: "ét-xì", nameEn: "es", ipa: "/s/ (Bắc), /ʂ/ (Nam)",
     exampleWord: "sách", exampleMeaning: "quyển sách", exampleMeaningEn: "book",
     strokeDescription: "Viết nét cong hình chữ S: cong phải phía trên, cong trái phía dưới",
     strokeDescriptionEn: "Write an S-curve: right curve on top, left curve on bottom",
