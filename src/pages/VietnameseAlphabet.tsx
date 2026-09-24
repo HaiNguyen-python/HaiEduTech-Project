@@ -269,8 +269,11 @@ const VietnameseAlphabet = () => {
   useEffect(() => {
     if (!galleryApi) return;
     const updatePagination = (api: CarouselApi) => {
-      const inView = api.slidesInView().length || 1;
+      const slides = api.slideNodes();
       const total = api.scrollSnapList().length || 1;
+      const inView = slides.length
+        ? Math.max(1, Math.round(api.containerNode().getBoundingClientRect().width / slides[0].getBoundingClientRect().width))
+        : 1;
       setGalleryPage(Math.floor(api.selectedScrollSnap() / inView));
       setGalleryPageCount(Math.max(1, Math.ceil(total / inView)));
     };
