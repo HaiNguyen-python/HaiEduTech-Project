@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Volume2, Eraser, Pen, CheckCircle, Loader2 } from "lucide-react";
+import { ArrowLeft, Volume2, Eraser, Pen, CheckCircle, Loader2, ChevronLeft, ChevronRight } from "lucide-react";
 import confetti from "canvas-confetti";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
@@ -34,6 +34,25 @@ const CONGRATS = [
   "Chính xác! ✨",
   "Rất tốt! 👏",
   "Cố lên! 💪",
+];
+
+// ── Vietnam Beauty gallery data (bilingual) ──
+const VIETNAM_BEAUTY = [
+  { src: "/vietnam-beauty-2.webp", titleVi: "Ruộng bậc thang Mù Cang Chải", titleEn: "Mu Cang Chai rice terraces", captionVi: "Những thửa ruộng bậc thang uốn lượn trên sườn núi Yên Bái, đẹp nhất vào mùa lúa chín.", captionEn: "Terraced fields curving along the mountains of Yen Bai, most stunning in harvest season." },
+  { src: "/vietnam-beauty-11.webp", titleVi: "Thung lũng Sa Pa", titleEn: "Sa Pa valley", captionVi: "Ruộng bậc thang Sa Pa soi bóng núi Fansipan - nóc nhà Đông Dương.", captionEn: "Sa Pa terraces below Fansipan, the highest peak of Indochina." },
+  { src: "/vietnam-beauty-13.webp", titleVi: "Phố cổ Hà Nội", titleEn: "Hanoi Old Quarter", captionVi: "Xích lô qua Hồ Gươm - nhịp sống ngàn năm của Thủ đô.", captionEn: "Cyclos passing Hoan Kiem lake - the thousand-year rhythm of the capital." },
+  { src: "/vietnam-beauty-4.webp", titleVi: "Vịnh Hạ Long", titleEn: "Ha Long Bay", captionVi: "Di sản thiên nhiên thế giới với hàng nghìn đảo đá vôi giữa làn nước xanh ngọc.", captionEn: "A UNESCO World Heritage site with thousands of limestone islands in emerald water." },
+  { src: "/vietnam-beauty-5.webp", titleVi: "Bình minh Bắc Sơn", titleEn: "Bac Son sunrise", captionVi: "Thung lũng Bắc Sơn (Lạng Sơn) chìm trong sương sớm và ánh nắng đầu ngày.", captionEn: "Bac Son valley (Lang Son) wrapped in morning mist and first light." },
+  { src: "/vietnam-beauty-14.webp", titleVi: "Tràng An, Ninh Bình", titleEn: "Trang An, Ninh Binh", captionVi: "Thuyền nhỏ len qua các hang đá vôi ở quần thể danh thắng Tràng An.", captionEn: "Boats gliding through limestone caves at the Trang An landscape complex." },
+  { src: "/vietnam-beauty-7.webp", titleVi: "Kinh thành Huế", titleEn: "Hue Imperial City", captionVi: "Khinh khí cầu bay trên cố đô Huế - nơi lưu giữ dấu ấn triều Nguyễn.", captionEn: "Hot-air balloons above the former capital Hue, home of the Nguyen dynasty heritage." },
+  { src: "/vietnam-beauty-10.webp", titleVi: "Đèn lồng Hội An", titleEn: "Hoi An lanterns", captionVi: "Phố cổ Hội An lung linh đèn lồng mỗi tối - Di sản Văn hóa Thế giới.", captionEn: "Hoi An Ancient Town glowing with lanterns every evening - a UNESCO World Heritage site." },
+  { src: "/vietnam-beauty-3.webp", titleVi: "Nha Trang về đêm", titleEn: "Nha Trang at night", captionVi: "Thành phố biển rực rỡ ánh đèn bên vịnh Nha Trang.", captionEn: "The seaside city glowing with lights along Nha Trang Bay." },
+  { src: "/vietnam-beauty-9.webp", titleVi: "Ngư dân quăng lưới", titleEn: "Fisherman casting a net", captionVi: "Nghề chài lưới truyền thống gắn bó với đời sống các làng ven biển.", captionEn: "Traditional net fishing, part of daily life in coastal villages." },
+  { src: "/vietnam-beauty-12.webp", titleVi: "Chợ nổi miền Tây", titleEn: "Mekong floating market", captionVi: "Ghe thuyền đầy trái cây trên sông - nhịp sống sông nước của miền Tây Nam Bộ.", captionEn: "Boats loaded with fruit on the river - the waterway life of the Mekong Delta." },
+  { src: "/vietnam-beauty-6.webp", titleVi: "Landmark 81, Sài Gòn", titleEn: "Landmark 81, Saigon", captionVi: "Tòa nhà cao nhất Việt Nam, biểu tượng của TP. Hồ Chí Minh hiện đại.", captionEn: "Vietnam's tallest building, a symbol of modern Ho Chi Minh City." },
+  { src: "/vietnam-beauty-15.webp", titleVi: "Hoàng hôn Phú Quốc", titleEn: "Phu Quoc sunset", captionVi: "Bãi cát trắng và nước biển xanh ngọc trên đảo ngọc Phú Quốc.", captionEn: "White sand and turquoise water on the pearl island of Phu Quoc." },
+  { src: "/vietnam-beauty-1.webp", titleVi: "Tuổi thơ đồng quê", titleEn: "Countryside childhood", captionVi: "Trẻ em chăn trâu trên cánh đồng lúa xanh - hình ảnh quen thuộc của làng quê Việt Nam.", captionEn: "Children herding buffalo across green rice fields - a classic scene of rural Vietnam." },
+  { src: "/vietnam-beauty-8.webp", titleVi: "Quốc kỳ Việt Nam", titleEn: "Flag of Vietnam", captionVi: "Cờ đỏ sao vàng - niềm tự hào của người Việt Nam.", captionEn: "The red flag with a yellow star - a source of national pride." },
 ];
 
 // ── Pitch Contour SVG for tones ──
