@@ -55,7 +55,22 @@ export const playVietnameseAlphabetTts = async (
 ): Promise<void> => {
   const normalized = text.normalize("NFC").replace(/\s+/g, " ").trim();
   if (!normalized) throw new Error("empty_audio_text");
-  const key = `hanoi-v4:${kind}:${normalized}`;
+
+  // Whole example words are more reliable through the dedicated Vietnamese
+  // voice. The generative alphabet voice is reserved for isolated letter
+  // readings, where explicit phonics guidance is needed.
+  if (kind === "example") {
+    stopVietnameseAlphabetTts();
+    const played = await playVietnameseTts(normalized, {
+      playbackRate: 0.9,
+      speechRate: 0.78,
+      pitch: 1,
+    });
+    if (!played) throw new Error("audio_unavailable");
+    return;
+  }
+
+  const key = `hanoi-v5:${kind}:${normalized}`;
   try {
     let dataUrl = audioCache.get(key);
     if (!dataUrl) {

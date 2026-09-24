@@ -9,6 +9,7 @@ import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
 import {
   vietnameseAlphabet,
+  vietnameseAlphabetExamples,
   vietnameseAlphabetPronunciationByLetter,
   vietnameseTones,
   type AlphabetLetter,
@@ -364,27 +365,30 @@ const VietnameseAlphabet = () => {
                         </Button>
                       </div>
 
-                      {/* Example word */}
-                      <div className="bg-primary/5 rounded-lg p-3 mb-4">
-                        <p className="text-sm font-medium text-foreground">
-                          <span className="text-primary font-bold">{selectedLetter.exampleWord}</span>
-                          {" "}
-                          <span
-                            className="text-xs text-muted-foreground"
-                            aria-label={t("Nghĩa tiếng Anh", "English meaning")}
-                          >
-                            {t("nghĩa là", "-")} {selectedLetter.exampleMeaningEn}
-                          </span>
-                          <button
-                            type="button"
-                            className="inline-flex align-middle ml-2 text-primary hover:text-primary/80 transition-colors cursor-pointer"
-                            aria-label={t(`Nghe từ ${selectedLetter.exampleWord}`, `Hear ${selectedLetter.exampleWord}`)}
-                            disabled={playingKey !== null}
-                            onClick={() => void playSound(selectedLetter.exampleWord, "example", `example:${selectedLetter.letter}`)}
-                          >
-                            <AudioIcon audioKey={`example:${selectedLetter.letter}`} />
-                          </button>
-                        </p>
+                      {/* Example words */}
+                      <div className="space-y-2 bg-primary/5 rounded-lg p-3 mb-4">
+                        {(vietnameseAlphabetExamples[selectedLetter.letter] ?? []).map((example) => {
+                          const audioKey = `example:${selectedLetter.letter}:${example.word}`;
+                          return (
+                            <div key={example.word} className="flex min-h-9 items-center gap-2">
+                              <Button
+                                type="button"
+                                size="icon"
+                                variant="ghost"
+                                className="h-8 w-8 shrink-0 text-primary"
+                                aria-label={t(`Nghe từ ${example.word}`, `Hear ${example.word}`)}
+                                disabled={playingKey !== null}
+                                onClick={() => void playSound(example.word, "example", audioKey)}
+                              >
+                                <AudioIcon audioKey={audioKey} />
+                              </Button>
+                              <p className="min-w-0 text-sm font-medium text-foreground">
+                                <span className="font-bold text-primary">{example.word}</span>
+                                <span className="text-muted-foreground"> - {example.meaningEn}</span>
+                              </p>
+                            </div>
+                          );
+                        })}
                       </div>
 
                       {/* Practice button */}

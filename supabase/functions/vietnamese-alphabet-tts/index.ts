@@ -22,7 +22,7 @@ const toBase64 = (bytes: Uint8Array) => {
 const delivery: Record<z.infer<typeof BodySchema>["kind"], string> = {
   "letter-name": "Đây là TÊN CHỮ theo bảng chữ cái tiếng Việt, không phải tên chữ tiếng Anh. Chỉ phát âm đúng chuỗi được cung cấp một lần.",
   "letter-sound": "Đây là ÂM DÙNG KHI HỌC VẦN lớp Một. Phát âm tự nhiên đúng chuỗi được cung cấp, không đọc tên chữ và không nói từ âm.",
-  example: "Chỉ đọc từ tiếng Việt được cung cấp một lần, rõ từng âm tiết.",
+  example: "Đọc từ tiếng Việt như trong lời nói tự nhiên của người Hà Nội. Giữ nguyên đầy đủ âm đầu, vần và dấu thanh. Chỉ đọc đúng từ được cung cấp một lần, không đánh vần, không tách âm, không đọc nghĩa.",
   tone: "Chỉ đọc âm tiết được cung cấp một lần, thể hiện chính xác đường nét thanh điệu.",
 };
 
@@ -59,7 +59,9 @@ Deno.serve(async (req) => {
     phonicsAnchor
       ? `Dùng từ “${phonicsAnchor}” làm mốc khẩu hình, nhưng TUYỆT ĐỐI KHÔNG đọc từ mốc; chỉ đọc âm “${text}” một lần.`
       : "",
-    `Nội dung cần phát âm: ${text}`,
+    kind === "example"
+      ? `Từ duy nhất cần đọc là: “${text}”.`
+      : `Nội dung cần phát âm: ${text}`,
   ].join(" ");
 
   try {
