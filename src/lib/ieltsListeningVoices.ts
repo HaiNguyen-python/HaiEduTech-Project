@@ -42,18 +42,17 @@ export const instructionsForSection = (section: number, speaker: string | null):
           : "a university lecture";
   const who = speaker ? `You are the speaker called "${speaker}".` : "";
   return [
-    "Speak British English with a neutral RP accent, as a voice actor recording an official IELTS Listening test.",
+    "Perform this as a polished British IELTS Listening recording with a neutral RP accent.",
     `This line comes from ${role}.`,
     who,
     section >= 3
-      ? "Natural academic speaking pace like a real university talk, clear articulation, natural stress on key information, no slow dictation style, smooth connected speech with natural linking between words."
-      : "Natural conversational pace like real everyday speech, warm and clear, with realistic intonation, no slow dictation style.",
+      ? "Use a fluent university speaking pace, connected speech, meaningful pauses and varied emphasis. Never sound like slow dictation."
+      : "Use a fluent everyday conversational pace, connected speech and responsive intonation. Never sound like slow dictation.",
     "Never announce answers or add words that are not in the text.",
   ]
     .filter(Boolean)
     .join(" ");
 };
 
-/** Recorded at the model's natural pace: forcing it faster made the voice
- * rushed and clipped. Real IELTS recordings sit close to normal speech. */
-export const speedForSection = (section: number) => (section <= 2 ? 1.0 : 0.97);
+/** Slightly brisk recording pace matching modern IELTS audio without clipping. */
+export const speedForSection = (section: number) => (section <= 2 ? 1.12 : 1.08);

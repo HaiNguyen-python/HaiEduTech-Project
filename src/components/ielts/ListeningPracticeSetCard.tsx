@@ -22,6 +22,7 @@ import { toast } from "@/hooks/use-toast";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { pushListeningAttempt } from "@/lib/ieltsListeningHistory";
 import { useListeningAiAudio } from "@/hooks/useListeningAiAudio";
+import { buildListeningAudioTurnPlan } from "@/lib/ieltsListeningAudioTurns";
 
 type AccentKey = "en-GB" | "en-US" | "en-AU";
 const ACCENT_LABELS: Record<AccentKey, string> = {
@@ -89,8 +90,8 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
   const [showTranscript, setShowTranscript] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [paused, setPaused] = useState(false);
-  // Slower, more natural default - matches real exam pacing.
-  const [rate, setRate] = useState(s.rate ?? 0.85);
+  // Relative playback speed. The recording itself is generated at exam pace.
+  const [rate, setRate] = useState(1);
   const chunkTimerRef = useRef<number | null>(null);
   const cancelledRef = useRef(false);
   const generationRef = useRef(0);
@@ -123,26 +124,11 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
   const [restoredOnce, setRestoredOnce] = useState(false);
 
 
-  // Split the transcript into speaker turns (one transcript line = one turn) and,
-  // inside each turn, into sentences used for on-screen highlighting and for the
-  // device voice. AI audio is generated per turn so each voice stays continuous.
-  const { chunks, chunkTurn, turnFirstChunk, turns } = useMemo(() => {
-    const lines = s.transcript.split(/\n+/).map(l => l.trim()).filter(Boolean);
-    const outChunks: string[] = [];
-    const outTurnOf: number[] = [];
-    const firstChunk: number[] = [];
-    lines.forEach((line, turnIdx) => {
-      firstChunk[turnIdx] = outChunks.length;
-      const parts = line.match(/[^.!?]+[.!?]+["')\]]*|[^.!?]+$/g) ?? [line];
-      let added = 0;
-      for (const p of parts) {
-        const trimmed = p.trim();
-        if (trimmed) { outChunks.push(trimmed); outTurnOf.push(turnIdx); added++; }
-      }
-      if (!added) { outChunks.push(line); outTurnOf.push(turnIdx); }
-    });
-    return { chunks: outChunks, chunkTurn: outTurnOf, turnFirstChunk: firstChunk, turns: lines };
-  }, [s.transcript]);
+  // Merge consecutive lines by the same speaker. This gives the voice model enough
+  // context for natural prosody and avoids stitching a new MP3 after every sentence.
+  const audioPlan = useMemo(() => buildListeningAudioTurnPlan(s.transcript), [s.transcript]);
+  const { chunks, chunkTurn, turnFirstChunk } = audioPlan;
+  const turns = useMemo(() => audioPlan.turns.map((turn) => turn.text), [audioPlan.turns]);
 
   /** Speaker label that owns a chunk (inherited from the last tagged line). */
   const speakerAt = useCallback((idx: number): string | null => {
@@ -155,12 +141,8 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
 
   // Turns handed to the AI voice service (speaker label stripped from the text).
   const audioLines = useMemo(
-    () => turns.map((line, i) => ({
-      i,
-      speaker: speakerAt(turnFirstChunk[i] ?? 0),
-      text: line.replace(/^([A-Z][a-zA-Z]{1,20}):\s*/, ""),
-    })),
-    [turns, turnFirstChunk, speakerAt]
+    () => audioPlan.turns,
+    [audioPlan.turns]
   );
 
   // AI exam voices are always used; the device voice is only a silent fallback.
@@ -173,9 +155,8 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
   const preloadRef = useRef<{ idx: number; url: string; el: HTMLAudioElement } | null>(null);
   // Real duration of each AI turn file, read from the playing audio element.
   const [turnDur, setTurnDur] = useState<Record<number, number>>({});
-  /** AI files are recorded at the default pace; the speed picker is relative. */
-  const BASE_RATE = s.rate ?? 0.85;
-  const aiRate = Math.max(0.5, Math.min(1.6, rate / BASE_RATE));
+  /** AI files are recorded at exam pace; the picker is a relative multiplier. */
+  const aiRate = Math.max(0.75, Math.min(1.25, rate));
   const aiMode = !ai.failed;
 
   useEffect(() => { setTurnDur({}); }, [s.id]);
@@ -216,7 +197,7 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
     const next = turnIdx + 1 < turns.length ? speakerAt(turnFirstChunk[turnIdx + 1] ?? 0) : cur;
     // AI files already carry a little natural silence at each edge, so keep
     // the added pause short to sound like one continuous recording.
-    return cur !== next ? 0.3 : 0.12;
+    return cur !== next ? 0.04 : 0;
   }, [speakerAt, turnFirstChunk, turns.length]);
 
   const turnDurations = useMemo(
@@ -399,7 +380,7 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
     const profile = speakerProfile(speakerName, startIdx);
     const u = new SpeechSynthesisUtterance(text);
     u.lang = accent;
-    const baseRate = isSpelling ? Math.min(rate, 0.55) : rate;
+    const baseRate = isSpelling ? Math.min(rate, 0.72) : rate;
     u.rate = Math.max(0.3, Math.min(1.5, baseRate * profile.rateMul));
     const endsWithQ = /\?\s*$/.test(text);
     const endsWithE = /!\s*$/.test(text);
@@ -523,7 +504,6 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
       if (name === "AbortError" || name === "NotAllowedError") return;
       deviceForThisTurn();
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [turns.length, turnFirstChunk, chunks.length, turnGap, aiRate, ai, speakChunks, finishPlayback, detachAudio]);
 
   /**
@@ -957,10 +937,9 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
                     className="text-xs bg-background border border-border rounded px-2 py-1"
                     title={t("Tốc độ phát", "Playback speed")}
                   >
-                    <option value={0.7}>0.7x - {t("rất chậm", "very slow")}</option>
-                    <option value={0.85}>0.85x - {t("tự nhiên", "natural")}</option>
-                    <option value={0.95}>0.95x - {t("đề thi thật", "exam pace")}</option>
-                    <option value={1.1}>1.1x - {t("nhanh", "fast")}</option>
+                    <option value={0.85}>0.85x - {t("chậm", "slow")}</option>
+                    <option value={1}>1.0x - {t("chuẩn đề thi", "exam pace")}</option>
+                    <option value={1.15}>1.15x - {t("nhanh", "fast")}</option>
                   </select>
 
                   <Button onClick={() => setShowTranscript(v => !v)} size="sm" variant="ghost" className="gap-2">

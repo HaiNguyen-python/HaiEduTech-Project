@@ -29,27 +29,20 @@ const { IELTS_FULL_LISTENING_TESTS } = await import("../src/data/ieltsFullListen
 const { instructionsForSection, speedForSection, voiceForSpeaker } = await import(
   "../src/lib/ieltsListeningVoices.ts"
 );
+const { buildListeningAudioTurnPlan } = await import("../src/lib/ieltsListeningAudioTurns.ts");
 
 const count = Number(process.argv[2] ?? 5);
 const wanted = new Set(IELTS_FULL_LISTENING_TESTS.slice(0, count).flatMap(test => test.setIds));
 const sets = ALL_LISTENING_SETS.filter(set => wanted.has(set.id));
 const PAGE = 12;
 
-const speakerOf = (lines, index) => {
-  for (let i = index; i >= 0; i--) {
-    const match = lines[i].match(/^([A-Z][a-zA-Z]{1,20}):/);
-    if (match) return match[1];
-  }
-  return null;
-};
-
 for (const set of sets) {
-  const lines = set.transcript.split(/\n+/).map(line => line.trim()).filter(Boolean);
-  const payload = lines.map((line, i) => ({
-    i,
-    text: line.replace(/^([A-Z][a-zA-Z]{1,20}):\s*/, ""),
-    voice: voiceForSpeaker(speakerOf(lines, i), set.section),
-    instructions: instructionsForSection(set.section, speakerOf(lines, i)),
+  const plan = buildListeningAudioTurnPlan(set.transcript);
+  const payload = plan.turns.map((turn) => ({
+    i: turn.i,
+    text: turn.text,
+    voice: voiceForSpeaker(turn.speaker, set.section),
+    instructions: instructionsForSection(set.section, turn.speaker),
     speed: speedForSection(set.section),
   }));
   for (let p = 0; p * PAGE < payload.length; p++) {
