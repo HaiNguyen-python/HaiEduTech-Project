@@ -574,16 +574,26 @@ const VietnameseAlphabet = () => {
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.5 }}
           >
-            <div className="relative mb-10 overflow-hidden rounded-3xl border border-primary/10 bg-gradient-to-br from-primary/10 via-emerald-500/5 to-primary/5 p-6 shadow-sm md:p-8">
-              <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-primary/15 blur-3xl" />
-              <div className="pointer-events-none absolute -bottom-20 -left-10 h-48 w-48 rounded-full bg-emerald-500/10 blur-3xl" />
-              <div className="relative flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+            <div className="relative mb-10 overflow-hidden rounded-3xl border border-primary/10 shadow-xl">
+              <img
+                src="/vietnam-beauty-header.webp"
+                alt=""
+                aria-hidden="true"
+                className="absolute inset-0 h-full w-full object-cover"
+                width={1920}
+                height={640}
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-black/55" />
+              <div className="relative flex flex-col md:flex-row md:items-end md:justify-between gap-4 p-6 md:p-8">
                 <div>
-                  <h2 className="text-2xl md:text-4xl font-bold font-display text-foreground leading-tight">
+                  <h2
+                    className="text-3xl md:text-5xl leading-tight text-white"
+                    style={{ fontFamily: '"Dancing Script", cursive', textShadow: '0 2px 12px rgba(0,0,0,0.55)' }}
+                  >
                     {t("Những nét đẹp của ", "The Beauty of ")}
-                    <span className="text-red-600">{t("Việt Nam", "Vietnam")}</span>
+                    <span className="text-red-500" style={{ textShadow: '0 2px 12px rgba(0,0,0,0.6)' }}>{t("Việt Nam", "Vietnam")}</span>
                   </h2>
-                  <p className="mt-2 text-[11px] md:text-xs font-medium uppercase tracking-[0.25em] text-muted-foreground">
+                  <p className="mt-2 text-[11px] md:text-xs font-medium uppercase tracking-[0.25em] text-white/85" style={{ textShadow: '0 1px 8px rgba(0,0,0,0.6)' }}>
                     {t("Đất nước con người - từ đồng quê đến thành phố", "Land and people - from countryside to city")}
                   </p>
                 </div>
@@ -592,7 +602,7 @@ const VietnameseAlphabet = () => {
                     size="icon"
                     variant="outline"
                     aria-label={t("Ảnh trước", "Previous photo")}
-                    className="h-11 w-11 rounded-full bg-card/80 backdrop-blur shadow-sm transition-all hover:shadow-md"
+                    className="h-11 w-11 rounded-full bg-white/20 border-white/40 text-white backdrop-blur transition-all hover:bg-white/30 hover:shadow-md"
                     onClick={() => galleryApi?.scrollPrev()}
                   >
                     <ChevronLeft className="h-5 w-5" />
@@ -601,7 +611,7 @@ const VietnameseAlphabet = () => {
                     size="icon"
                     variant="outline"
                     aria-label={t("Ảnh sau", "Next photo")}
-                    className="h-11 w-11 rounded-full bg-card/80 backdrop-blur shadow-sm transition-all hover:shadow-md"
+                    className="h-11 w-11 rounded-full bg-white/20 border-white/40 text-white backdrop-blur transition-all hover:bg-white/30 hover:shadow-md"
                     onClick={() => galleryApi?.scrollNext()}
                   >
                     <ChevronRight className="h-5 w-5" />
