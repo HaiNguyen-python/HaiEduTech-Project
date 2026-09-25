@@ -19,6 +19,16 @@ import { toast } from "sonner";
 import qrImage from "@/assets/vietcombank-qr.png";
 import cardPaymentBg from "@/assets/premium-card-payment-bg.jpg";
 import bankTransferBg from "@/assets/premium-bank-transfer-bg.jpg";
+import perkCourses from "@/assets/perks/perk-courses.png";
+import perkExams from "@/assets/perks/perk-exams.png";
+import perkAiGrading from "@/assets/perks/perk-ai-grading.png";
+import perkCertificate from "@/assets/perks/perk-certificate.png";
+import perkLearningDna from "@/assets/perks/perk-learning-dna.png";
+import perkGames from "@/assets/perks/perk-games.png";
+import perkDictionary from "@/assets/perks/perk-dictionary.png";
+import perkScholarship from "@/assets/perks/perk-scholarship.png";
+import perkNewLessons from "@/assets/perks/perk-new-lessons.png";
+import perkSupport from "@/assets/perks/perk-support.png";
 
 interface UpgradeAccountModalProps {
   open: boolean;
@@ -51,7 +61,7 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
   const paymentOptionsRef = useRef<HTMLDivElement>(null);
   const premium = usePremium();
   const prefersReducedMotion = useMemo(() => window.matchMedia("(prefers-reduced-motion: reduce)").matches, []);
-  const autoplay = useMemo(() => Autoplay({ delay: 3200, stopOnInteraction: true, stopOnMouseEnter: true }), []);
+  const autoplay = useMemo(() => Autoplay({ delay: 2600, stopOnInteraction: true, stopOnMouseEnter: false }), []);
   const returnUrl = useMemo(() => {
     const u = new URL(window.location.href);
     u.searchParams.set("checkout", "success");
@@ -131,16 +141,16 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
   };
 
   const features = [
-    { icon: BookOpenCheck, title: t("Mở mọi khóa học", "All Courses Unlocked"), desc: t("English, Trung, Phần Lan, Việt, Nhật, Lập trình", "English, Chinese, Finnish, Vietnamese, Japanese, Programming") },
-    { icon: ScrollText, title: t("Trọn kho đề thi", "Full Mock Exam Library"), desc: t("125+ đề Cambridge, IELTS, TOEIC, THPT", "125+ Cambridge, IELTS, TOEIC, THPT exams") },
-    { icon: Bot, title: t("AI chấm không giới hạn", "Unlimited AI Grading"), desc: t("Chấm Writing & Speaking band 7.5+ không giới hạn", "Unlimited Writing & Speaking grading, band 7.5+") },
-    { icon: Trophy, title: t("Chứng chỉ hoàn thành", "Completion Certificates"), desc: t("Business, Academic, AI Academy - xác thực online", "Business, Academic, AI Academy - verifiable online") },
-    { icon: BrainCircuit, title: t("Learning DNA & báo cáo", "Learning DNA & Reports"), desc: t("Radar kỹ năng + PDF báo cáo tiến bộ", "Skill radar + progress PDF reports") },
-    { icon: Gamepad2, title: t("Trò chơi & bảng xếp hạng", "Games & Leaderboards"), desc: t("Game Center, Climber, Duel 1v1 toàn trang", "Game Center, Climber, site-wide Duel 1v1") },
-    { icon: LibraryBig, title: t("Siêu từ điển & sổ tay", "Super Dictionary & Notebook"), desc: t("Từ điển, flashcard, Daily Word Mission đầy đủ", "Full dictionary, flashcards, Daily Word Mission") },
-    { icon: GraduationCap, title: t("Học bổng & sự nghiệp", "Scholarship & Career Advisor"), desc: t("Tư vấn học bổng AI + lộ trình sự nghiệp", "AI scholarship advice + career roadmap") },
-    { icon: Rocket, title: t("Nhận bài mới sớm nhất", "New Lessons First"), desc: t("Nhận bài học mới cập nhật hằng ngày", "Get brand-new lessons added daily") },
-    { icon: Headphones, title: t("Hỗ trợ ưu tiên", "Priority Support"), desc: t("Hỗ trợ ưu tiên trực tiếp từ Thầy Hải", "Priority support directly from Teacher Hai") },
+    { icon: BookOpenCheck, img: perkCourses, title: t("Mở mọi khóa học", "All Courses Unlocked"), desc: t("English, Trung, Phần Lan, Việt, Nhật, Lập trình", "English, Chinese, Finnish, Vietnamese, Japanese, Programming") },
+    { icon: ScrollText, img: perkExams, title: t("Trọn kho đề thi", "Full Mock Exam Library"), desc: t("125+ đề Cambridge, IELTS, TOEIC, THPT", "125+ Cambridge, IELTS, TOEIC, THPT exams") },
+    { icon: Bot, img: perkAiGrading, title: t("AI chấm không giới hạn", "Unlimited AI Grading"), desc: t("Chấm Writing & Speaking band 7.5+ không giới hạn", "Unlimited Writing & Speaking grading, band 7.5+") },
+    { icon: Trophy, img: perkCertificate, title: t("Chứng chỉ hoàn thành", "Completion Certificates"), desc: t("Business, Academic, AI Academy - xác thực online", "Business, Academic, AI Academy - verifiable online") },
+    { icon: BrainCircuit, img: perkLearningDna, title: t("Learning DNA & báo cáo", "Learning DNA & Reports"), desc: t("Radar kỹ năng + PDF báo cáo tiến bộ", "Skill radar + progress PDF reports") },
+    { icon: Gamepad2, img: perkGames, title: t("Trò chơi & bảng xếp hạng", "Games & Leaderboards"), desc: t("Game Center, Climber, Duel 1v1 toàn trang", "Game Center, Climber, site-wide Duel 1v1") },
+    { icon: LibraryBig, img: perkDictionary, title: t("Siêu từ điển & sổ tay", "Super Dictionary & Notebook"), desc: t("Từ điển, flashcard, Daily Word Mission đầy đủ", "Full dictionary, flashcards, Daily Word Mission") },
+    { icon: GraduationCap, img: perkScholarship, title: t("Học bổng & sự nghiệp", "Scholarship & Career Advisor"), desc: t("Tư vấn học bổng AI + lộ trình sự nghiệp", "AI scholarship advice + career roadmap") },
+    { icon: Rocket, img: perkNewLessons, title: t("Nhận bài mới sớm nhất", "New Lessons First"), desc: t("Nhận bài học mới cập nhật hằng ngày", "Get brand-new lessons added daily") },
+    { icon: Headphones, img: perkSupport, title: t("Hỗ trợ ưu tiên", "Priority Support"), desc: t("Hỗ trợ ưu tiên trực tiếp từ Thầy Hải", "Priority support directly from Teacher Hai") },
   ];
 
   return (
@@ -223,13 +233,18 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                      <CarouselContent className="-ml-3">
                        {features.map((f) => (
                          <CarouselItem key={f.title} className="basis-full pl-3 sm:basis-1/2 lg:basis-1/3">
-                           <div className="flex h-full min-h-[116px] items-start gap-3 rounded-md border border-primary/20 bg-card p-3 shadow-sm transition hover:border-primary/50 hover:shadow-md">
-                             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary"><f.icon className="h-5 w-5" /></div>
-                             <div className="min-w-0">
-                               <div className="text-base font-bold leading-tight text-foreground">{f.title}</div>
-                               <div className="mt-1.5 text-sm leading-snug text-muted-foreground">{f.desc}</div>
-                             </div>
-                           </div>
+                            <div className="flex h-full min-h-[132px] items-start gap-3 rounded-md border border-primary/20 bg-card p-3 shadow-sm transition hover:border-primary/50 hover:shadow-md">
+                              <div className="relative shrink-0">
+                                <img src={f.img} alt="" loading="lazy" width={1024} height={1024} className="h-14 w-14 rounded-xl bg-background object-cover ring-1 ring-border" />
+                                <span className="absolute -bottom-1.5 -right-1.5 flex h-6 w-6 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm">
+                                  <f.icon className="h-3.5 w-3.5" />
+                                </span>
+                              </div>
+                              <div className="min-w-0">
+                                <div className="text-base font-bold leading-tight text-foreground">{f.title}</div>
+                                <div className="mt-1.5 text-sm leading-snug text-muted-foreground">{f.desc}</div>
+                              </div>
+                            </div>
                          </CarouselItem>
                        ))}
                      </CarouselContent>
