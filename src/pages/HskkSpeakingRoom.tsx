@@ -5,6 +5,7 @@
  * @author Teacher Hai (HaiEduTech)
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
+import { consumeAiGrade } from "@/lib/aiQuota";
 import { useEffect, useMemo, useRef, useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -186,6 +187,7 @@ const HskkSpeakingRoom = () => {
       toast({ title: t("Chưa có nội dung để chấm", "Nothing to grade yet"), variant: "destructive" });
       return;
     }
+    if (!consumeAiGrade()) return;
     setGrading(true);
     try {
       const duration = Math.max(1, Math.round((Date.now() - startTimeRef.current) / 1000));

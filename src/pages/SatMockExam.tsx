@@ -2,6 +2,7 @@
  * @file SatMockExam.tsx
  * @description Digital SAT mock exam runner with real exam timing.
  */
+import PremiumGate from "@/components/premium/PremiumGate";
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useEffect, useState, useCallback, useRef } from "react";
@@ -301,4 +302,10 @@ const SatMockExamPage = () => {
   );
 };
 
-export default SatMockExamPage;
+const SatMockExamGated = () => {
+  const { examId } = useParams();
+  const known = satMockExams.some((e) => e.id === examId);
+  return <PremiumGate free={!known || examId === satMockExams[0]?.id} backTo="/sat-exams"><SatMockExamPage /></PremiumGate>;
+};
+
+export default SatMockExamGated;

@@ -1,5 +1,6 @@
 // Cambridge Speaking Practice - record, transcribe and star-grade answers
 // for the real Cambridge speaking formats (Starters -> PET).
+import { consumeAiGrade } from "@/lib/aiQuota";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -436,6 +437,7 @@ const CambridgeSpeakingPractice = () => {
       setError(t("Chưa nghe được câu trả lời. Hãy thu âm và nói to, rõ nhé!", "No answer was heard. Record again and speak loudly and clearly!"));
       return;
     }
+    if (!consumeAiGrade()) return;
     setLoading(true);
     setError(null);
     try {

@@ -1,4 +1,5 @@
 // IELTS Speaking Grader with real-time speech-to-text transcription
+import { consumeAiGrade } from "@/lib/aiQuota";
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mic, Square, RotateCcw, ChevronDown, ChevronUp, Volume2, Play, Shuffle, BookOpen, AlertTriangle } from "lucide-react";
@@ -196,6 +197,7 @@ const SpeakingGrader = () => {
 
   const handleGrade = async () => {
     if (!audioBlob) return;
+    if (!consumeAiGrade()) return;
     setLoading(true);
     setUpgradeLoading(false);
     const transcriptForGrading = liveTranscript.trim();

@@ -1,3 +1,4 @@
+import { consumeAiGrade } from "@/lib/aiQuota";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
@@ -226,6 +227,7 @@ const IeltsWritingPractice = () => {
 
   const handleSubmit = async () => {
     if (!essay.trim() || !currentPrompt) return;
+    if (!consumeAiGrade()) return;
     setGrading(true);
     setUpgradeLoading(false);
     setTimerActive(false);

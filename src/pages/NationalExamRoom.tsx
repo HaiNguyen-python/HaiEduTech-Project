@@ -1,3 +1,5 @@
+import PremiumGate from "@/components/premium/PremiumGate";
+import { examIndex } from "@/data/thptExamIndex";
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { categoryLabels } from "@/data/thptExamData";
@@ -530,4 +532,10 @@ const NationalExamRoom = () => {
   );
 };
 
-export default NationalExamRoom;
+const NationalExamRoomGated = () => {
+  const { examId } = useParams();
+  const known = examIndex.some((e) => e.id === examId);
+  return <PremiumGate free={!known || examId === examIndex[0]?.id} backTo="/national-exam"><NationalExamRoom /></PremiumGate>;
+};
+
+export default NationalExamRoomGated;

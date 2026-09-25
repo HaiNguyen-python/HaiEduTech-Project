@@ -5,6 +5,7 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  * @license Private / Proprietary - No unauthorized copying or distribution.
  */
+import { consumeAiGrade } from "@/lib/aiQuota";
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSearchParams } from "react-router-dom";
@@ -625,6 +626,7 @@ ${suggestionsHtml}
     }
     setGradeNotice(null);
     setUpgradeError(null);
+    if (!consumeAiGrade()) return;
     setLoading(true);
     let gradedResult: SpeakingResult | null = null;
     const buildInstantResult = (reason: string): SpeakingResult => {
