@@ -85,6 +85,13 @@
       "when": 1790362816582,
       "tag": "0011_scope_social_game_schedule_reads",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1790367334493,
+      "tag": "0012_notify_bank_transfer_pending",
+      "breakpoints": true
     }
   ]
 }
