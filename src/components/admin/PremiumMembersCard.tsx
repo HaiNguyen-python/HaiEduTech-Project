@@ -3,6 +3,7 @@ import { Crown, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { toast } from "sonner";
+import ApplePayDomains from "./ApplePayDomains";
 
 interface Row {
   id: string;
@@ -62,6 +63,7 @@ const PremiumMembersCard = () => {
 
   return (
     <div id="premium-members" className="rounded-xl border border-border bg-card p-4 sm:p-5">
+      <ApplePayDomains />
       {pending.length > 0 && (
         <div className="mb-4 rounded-lg border-2 border-amber-500/50 bg-amber-500/10 p-3">
           <p className="mb-2 text-sm font-bold text-foreground">

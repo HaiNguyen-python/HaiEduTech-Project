@@ -282,6 +282,9 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                     ) : (
                       <StripeEmbeddedCheckout priceId={PREMIUM_PRICE_ID} returnUrl={returnUrl} />
                     )}
+                    <p className="text-center text-xs text-muted-foreground">
+                      {t("Apple Pay hiện trong Safari khi bạn đã lưu thẻ trong Apple Wallet.", "Apple Pay appears in Safari when a card is saved in Apple Wallet.")}
+                    </p>
                   </div>
                 )}
 
