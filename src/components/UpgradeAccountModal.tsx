@@ -122,18 +122,16 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
   };
 
   const features = [
-    { icon: "🎯", title: t("Full Exam Engine", "Full Exam Engine"), desc: t("Toàn bộ đề thi & chấm Smart", "All mock exams & Smart grading") },
-    { icon: "👁️", title: t("AI Vision Sandbox", "AI Vision Sandbox"), desc: t("Thực hành Computer Vision tương tác", "Hands-on Computer Vision labs") },
-    { icon: "🤖", title: t("Smart Feedback Coach", "Smart Feedback Coach"), desc: t("Phản hồi cá nhân hoá tức thì", "Instant personalised feedback") },
-    { icon: "📚", title: t("Premium Lessons", "Premium Lessons"), desc: t("Bài học nâng cao độc quyền", "Exclusive advanced lessons") },
-    { icon: "✍️", title: t("Smart Writing Grading", "Smart Writing Grading"), desc: t("Chấm Writing IELTS/TOEIC chi tiết", "Detailed IELTS/TOEIC writing grading") },
-    { icon: "🗣️", title: t("Smart Speaking Coach", "Smart Speaking Coach"), desc: t("Luyện nói 24/7, chấm điểm & góp ý", "Practice speaking 24/7 with feedback") },
-    { icon: "🧠", title: t("GenAI & Neural Net Labs", "GenAI & Neural Net Labs"), desc: t("Học Generative AI & mạng nơ-ron", "Learn Generative AI & neural networks") },
-    { icon: "🏆", title: t("Priority Support", "Priority Support"), desc: t("Hỗ trợ ưu tiên từ Thầy Hải", "Priority support from Teacher Hai") },
-    { icon: "🛡️", title: t("AI Ethics & Deepfake Lab", "AI Ethics & Deepfake Lab"), desc: t("Nhận biết deepfake & AI an toàn", "Spot deepfakes & stay AI-safe") },
-    { icon: "🎖️", title: t("AI Academy Certificate", "AI Academy Certificate"), desc: t("Chứng chỉ tốt nghiệp AI Academy", "AI Academy graduation certificate") },
-    { icon: "🎓", title: t("Scholarship Advisor", "Scholarship Advisor"), desc: t("Tư vấn học bổng cá nhân hoá", "Personalised scholarship advice") },
-    { icon: "💼", title: t("Smart Career Roadmap", "Smart Career Roadmap"), desc: t("Lộ trình IT & lập trình", "IT & programming career roadmap") },
+    { icon: "🔓", title: t("All Courses Unlocked", "All Courses Unlocked"), desc: t("English, Trung, Phần Lan, Việt, Nhật, Lập trình", "English, Chinese, Finnish, Vietnamese, Japanese, Programming") },
+    { icon: "📝", title: t("Full Mock Exam Library", "Full Mock Exam Library"), desc: t("125+ đề Cambridge, IELTS, TOEIC, THPT", "125+ Cambridge, IELTS, TOEIC, THPT exams") },
+    { icon: "🤖", title: t("Unlimited AI Grading", "Unlimited AI Grading"), desc: t("Chấm Writing & Speaking band 7.5+ không giới hạn", "Unlimited Writing & Speaking grading, band 7.5+") },
+    { icon: "🎖️", title: t("Completion Certificates", "Completion Certificates"), desc: t("Business, Academic, AI Academy - xác thực online", "Business, Academic, AI Academy - verifiable online") },
+    { icon: "🧠", title: t("Learning DNA & Reports", "Learning DNA & Reports"), desc: t("Radar kỹ năng + PDF báo cáo tiến bộ", "Skill radar + progress PDF reports") },
+    { icon: "🎮", title: t("Games & Leaderboards", "Games & Leaderboards"), desc: t("Game Center, Climber, Duel 1v1 toàn trang", "Game Center, Climber, site-wide Duel 1v1") },
+    { icon: "📚", title: t("Super Dictionary & Notebook", "Super Dictionary & Notebook"), desc: t("Từ điển, flashcard, Daily Word Mission đầy đủ", "Full dictionary, flashcards, Daily Word Mission") },
+    { icon: "🎓", title: t("Scholarship & Career Advisor", "Scholarship & Career Advisor"), desc: t("Tư vấn học bổng AI + lộ trình sự nghiệp", "AI scholarship advice + career roadmap") },
+    { icon: "🚀", title: t("New Lessons First", "New Lessons First"), desc: t("Nhận bài học mới cập nhật hằng ngày", "Get brand-new lessons added daily") },
+    { icon: "🛡️", title: t("Priority Support", "Priority Support"), desc: t("Hỗ trợ ưu tiên trực tiếp từ Thầy Hải", "Priority support directly from Teacher Hai") },
   ];
 
   return (
@@ -226,6 +224,33 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                     {t("Premium của bạn còn hạn đến", "Your Premium is active until")} <strong>{new Date(premium.expiresAt).toLocaleDateString()}</strong>. {t("Thanh toán thêm sẽ cộng tiếp 12 tháng.", "Paying again adds another 12 months.")}
                   </div>
                 )}
+                <button
+                  onClick={() => setTab("code")}
+                  className={`w-full rounded-lg border border-dashed px-3 py-2 text-xs font-medium transition ${tab === "code" ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:bg-secondary"}`}
+                >
+                  {t("Học viên nội bộ - Dùng mã kích hoạt", "Internal student - Use activation code")}
+                </button>
+
+                {tab === "code" && (
+                  <div className="rounded-xl border border-border bg-secondary/30 p-4 space-y-3">
+                    <p className="text-sm text-muted-foreground">
+                      {t("Dành cho học viên nội bộ của thầy Hải. Nhập mã để mở khóa toàn bộ nội dung trong 12 tháng.", "For Teacher Hai's enrolled students. Enter your code to unlock everything for 12 months.")}
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-2">
+                      <input value={code} onChange={(e) => setCode(e.target.value)} maxLength={64}
+                        onKeyDown={(e) => { if (e.key === "Enter" && code.trim()) redeem(); }}
+                        placeholder={t("Nhập mã kích hoạt", "Enter activation code")}
+                        className="flex-1 rounded-lg border border-input bg-background px-3 py-2.5 text-base text-foreground focus:outline-none focus:ring-2 focus:ring-primary" />
+                      <button onClick={redeem} disabled={submitting || !user || !code.trim()}
+                        className="rounded-lg bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground disabled:opacity-60 flex items-center justify-center gap-2">
+                        {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <KeyRound className="w-4 h-4" />} {t("Kích hoạt", "Activate")}
+                      </button>
+                    </div>
+                    {codeError && <p className="text-sm font-medium text-destructive">{codeError}</p>}
+                    <p className="text-xs text-muted-foreground">{t("Chưa có mã? Chọn Thanh toán online.", "No code? Choose Pay online.")}</p>
+                  </div>
+                )}
+
                 <div className="grid grid-cols-2 gap-2" role="tablist">
                   {([
                     { id: "online", icon: CreditCard, label: t("Card Payment", "Card Payment"), sub: "Only 19 EUR / year" },
