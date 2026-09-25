@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button";
 import { FREE_LESSONS, openUpgradeModal, usePremium } from "@/hooks/usePremium";
 import { AI_QUOTA_EVENT, FREE_AI_GRADES, getAiGradesUsed } from "@/lib/aiQuota";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { supabase } from "@/integrations/supabase/client";
 
 export const TrialProgressBar = ({ total, completedFree = 0 }: { total: number; completedFree?: number }) => {
   const { t } = useLanguage();
