@@ -5,7 +5,7 @@
 import { PlanComparison } from "@/components/premium/ConversionBits";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Crown, Copy, Check, X, ShieldCheck, Sparkles, Loader2, BadgeCheck, KeyRound, CreditCard, Landmark, BookOpenCheck, BrainCircuit, Bot, Gamepad2, GraduationCap, Headphones, LibraryBig, Rocket, ScrollText, Trophy, ChevronLeft, ChevronRight } from "lucide-react";
+import { Crown, Copy, Check, X, ShieldCheck, Sparkles, Loader2, BadgeCheck, KeyRound, CreditCard, Landmark, BookOpenCheck, BrainCircuit, Bot, Gamepad2, GraduationCap, Headphones, LibraryBig, Rocket, ScrollText, Trophy } from "lucide-react";
 import Autoplay from "embla-carousel-autoplay";
 import { StripeEmbeddedCheckout } from "@/components/StripeEmbeddedCheckout";
 import { PaymentTestModeBanner } from "@/components/PaymentTestModeBanner";
@@ -232,8 +232,8 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                          </CarouselItem>
                        ))}
                      </CarouselContent>
-                     <CarouselPrevious className="left-0 border-primary/30 bg-card" aria-label={t("Đặc quyền trước", "Previous perk")}><ChevronLeft /></CarouselPrevious>
-                     <CarouselNext className="right-0 border-primary/30 bg-card" aria-label={t("Đặc quyền tiếp theo", "Next perk")}><ChevronRight /></CarouselNext>
+                     <CarouselPrevious className="left-0 border-primary/30 bg-card" aria-label={t("Đặc quyền trước", "Previous perk")} />
+                     <CarouselNext className="right-0 border-primary/30 bg-card" aria-label={t("Đặc quyền tiếp theo", "Next perk")} />
                    </Carousel>
                 </div>
 
@@ -307,6 +307,7 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                 {/* Payment block */}
                 <div className="rounded-xl border-2 border-amber-500/30 bg-gradient-to-br from-amber-50 to-yellow-50 dark:from-amber-950/30 dark:to-yellow-950/20 p-3 sm:p-4">
                   <div className="flex items-center gap-2 mb-3">
+                     <VietnamMark />
                     <ShieldCheck className="w-5 h-5 text-emerald-600" />
                     <h3 className="text-base font-bold text-foreground">
                       {t("Chuyển khoản tại Việt Nam", "Bank Transfer in Vietnam")}
@@ -369,6 +370,7 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                 {/* Finland transfer block */}
                 <div className="rounded-xl border-2 border-sky-500/30 bg-gradient-to-br from-sky-50 to-blue-50 dark:from-sky-950/30 dark:to-blue-950/20 p-3 sm:p-4">
                   <div className="flex items-center gap-2 mb-3">
+                     <EuropeMark />
                     <ShieldCheck className="w-5 h-5 text-sky-600" />
                     <h3 className="text-base font-bold text-foreground">
                       {t("Chuyển khoản tại Phần Lan", "Bank Transfer in Finland")}
@@ -446,6 +448,38 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
     </AnimatePresence>
   );
 };
+
+const PaymentMethodMarks = () => (
+  <span className="mt-1 flex flex-wrap items-center gap-1.5" aria-label="Visa, Mastercard, Apple Pay, Google Pay">
+    <span className="rounded bg-card px-2 py-1 text-xs font-black italic text-primary shadow-sm">VISA</span>
+    <span className="flex items-center rounded bg-card px-2 py-1 shadow-sm">
+      <span className="h-4 w-4 rounded-full bg-destructive" />
+      <span className="-ml-1.5 h-4 w-4 rounded-full bg-accent" />
+      <span className="ml-1 text-[10px] font-bold text-foreground">mastercard</span>
+    </span>
+    <span className="rounded bg-foreground px-2 py-1 text-[11px] font-bold text-background">Apple Pay</span>
+    <span className="rounded bg-card px-2 py-1 text-[11px] font-bold text-foreground shadow-sm"><span className="text-primary">G</span> Pay</span>
+  </span>
+);
+
+const VietnamMark = () => (
+  <span className="relative inline-flex h-7 w-10 shrink-0 items-center justify-center overflow-hidden rounded-sm bg-destructive shadow-sm" aria-label="Vietnam">
+    <span className="text-sm text-accent">★</span>
+  </span>
+);
+
+const EuropeMark = () => (
+  <span className="relative inline-flex h-7 w-10 shrink-0 items-center justify-center overflow-hidden rounded-sm bg-primary shadow-sm" aria-label="European Union">
+    <span className="text-[9px] tracking-[1px] text-accent">✦✦✦</span>
+  </span>
+);
+
+const BankRegionMarks = () => (
+  <span className="mt-1 flex items-center gap-2">
+    <span className="flex items-center gap-1 rounded bg-card px-2 py-1 text-[11px] font-bold text-foreground shadow-sm"><VietnamMark /> Vietnam</span>
+    <span className="flex items-center gap-1 rounded bg-card px-2 py-1 text-[11px] font-bold text-foreground shadow-sm"><EuropeMark /> EU / SEPA</span>
+  </span>
+);
 
 interface RowProps {
   label: string; value: string;
