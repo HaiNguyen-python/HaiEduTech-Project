@@ -3,6 +3,8 @@
  * @description Split view: explanation (left) + Pyodide playground (right) + quiz.
  *              Refreshed layout with color callouts, step badges and sticky playground.
  */
+import PremiumGate from "@/components/premium/PremiumGate";
+import { FREE_LESSONS } from "@/hooks/usePremium";
 import { useEffect, useMemo, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -356,4 +358,11 @@ const PythonLessonView = () => {
   );
 };
 
-export default PythonLessonView;
+const PythonLessonViewGated = () => {
+  const { lessonId } = useParams<{ lessonId: string }>();
+  const l = lessonId ? getLessonById(lessonId) : undefined;
+  const idx = l ? getLessonsByModule(l.moduleId).findIndex((x) => x.id === l.id) : -1;
+  return <PremiumGate kind="lesson" free={idx < FREE_LESSONS} backTo="/programming?tab=python-pathway"><PythonLessonView /></PremiumGate>;
+};
+
+export default PythonLessonViewGated;

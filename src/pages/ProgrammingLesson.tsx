@@ -1,3 +1,5 @@
+import { FREE_LESSONS, usePremium } from "@/hooks/usePremium";
+import { PremiumLockPanel } from "@/components/premium/PremiumGate";
 import LessonFeedback from "@/components/LessonFeedback";
 import { useState, useEffect, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
@@ -349,6 +351,7 @@ function encodeTheory(text: string): string {
 
 const ProgrammingLessonPage = () => {
   const { moduleId, lessonId } = useParams();
+  const { isPremium: pgPremium, loading: pgLoading } = usePremium();
   const isMobile = useIsMobile();
   const [mod, setMod] = useState<ProgrammingModule | null>(null);
   const [lesson, setLesson] = useState<PLType | null>(null);
@@ -620,6 +623,17 @@ const ProgrammingLessonPage = () => {
         <div className="pt-6 pb-16 flex justify-center items-center">
           <Loader2 className="w-8 h-8 animate-spin text-primary" />
         </div>
+      </div>
+    );
+  }
+
+  if (!pgLoading && !pgPremium && mod.lessons.findIndex((l) => l.id === lesson.id) >= FREE_LESSONS) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <main className="container mx-auto px-4 pb-16 pt-28">
+          <PremiumLockPanel kind="lesson" backTo={`/programming/${mod.id}`} previewTitle={lesson.title} />
+        </main>
       </div>
     );
   }

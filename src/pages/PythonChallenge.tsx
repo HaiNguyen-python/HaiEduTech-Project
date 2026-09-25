@@ -1,3 +1,5 @@
+import PremiumGate from "@/components/premium/PremiumGate";
+import { FREE_LESSONS } from "@/hooks/usePremium";
 import { useState, useEffect } from "react";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { useParams, Link } from "react-router-dom";
@@ -294,4 +296,10 @@ const PythonChallengePage = () => {
   );
 };
 
-export default PythonChallengePage;
+const PythonChallengeGated = () => {
+  const { challengeId } = useParams();
+  const idx = pythonChallenges.findIndex((c) => c.id === (challengeId || "001"));
+  return <PremiumGate kind="lesson" free={idx < FREE_LESSONS} backTo="/python-challenges"><PythonChallengePage /></PremiumGate>;
+};
+
+export default PythonChallengeGated;

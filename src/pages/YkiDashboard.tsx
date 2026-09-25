@@ -2330,7 +2330,7 @@ const YkiDashboard = () => {
                   {/* Lesson sidebar if module has multiple lessons */}
                   {selectedModule.lessons.length > 1 && (
                     <div className="flex flex-wrap gap-2 mb-6">
-                      {selectedModule.lessons.map((l) => (
+                      {selectedModule.lessons.map((l, li) => li >= FREE_LESSONS && !ykiPremium ? null : (
                         <Button
                           key={l.id}
                           size="sm"
@@ -2596,7 +2596,7 @@ const YkiDashboard = () => {
                         transition={{ delay: i * 0.05 }}
                       >
                         <button
-                          onClick={() => setSelectedLesson(lesson)}
+                          onClick={() => (i >= FREE_LESSONS && !ykiPremium ? openUpgradeModal() : setSelectedLesson(lesson))}
                           className="w-full text-left rounded-xl border border-[#003580]/15 bg-card/80 backdrop-blur-sm p-5 hover:shadow-md hover:border-[#003580]/30 transition-all"
                         >
                           <div className="flex items-center gap-3 mb-2">
