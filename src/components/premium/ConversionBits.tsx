@@ -85,13 +85,22 @@ const ROWS: { vi: string; en: string; free: string | boolean; freeEn?: string }[
 export const PlanComparison = ({ onChoosePremium }: { onChoosePremium?: () => void }) => {
   const { t } = useLanguage();
   return (
-    <div className="overflow-hidden rounded-lg border border-primary/25 bg-card shadow-sm">
-      <div className="bg-primary/10 px-4 py-3 text-center">
-        <p className="text-base font-bold text-foreground">
-        {t("Chỉ 19 EUR/năm - rẻ hơn một buổi học gia sư", "Only 19 EUR/year - less than one private tutoring session")}
-        {t(" · 12.983 học viên đang học cùng HaiEduTech", " · 12,983 learners study with HaiEduTech")}
+    <div className="overflow-hidden rounded-lg border border-primary/30 bg-card shadow-md">
+      <div className="relative overflow-hidden bg-gradient-to-r from-primary/15 via-emerald-500/10 to-primary/15 px-4 py-4 text-center">
+        <div
+          aria-hidden
+          className="premium-light-sweep pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 bg-gradient-to-r from-transparent via-white/70 to-transparent"
+        />
+        <p className="relative text-base font-extrabold text-foreground sm:text-lg">
+          {t("Chỉ ", "Only ")}
+          <span className="mx-0.5 inline-block rounded-md bg-gradient-to-r from-primary to-emerald-500 bg-clip-text px-1.5 py-0.5 text-transparent drop-shadow-[0_0_10px_rgb(59_130_246_/_0.35)]">
+            {t("19 EUR/năm", "19 EUR/year")}
+          </span>
+          {t(" · 12.983 học viên đang học cùng HaiEduTech", " · 12,983 learners study with HaiEduTech")}
         </p>
-        <p className="mt-1 text-sm text-muted-foreground">{t("Một lần thanh toán. Mở toàn bộ nội dung trong 12 tháng.", "One payment. Unlock everything for 12 months.")}</p>
+        <p className="relative mt-1 text-sm font-medium text-muted-foreground">
+          {t("Mở khóa tính năng chuyên nghiệp trong 12 tháng.", "Unlock professional features for 12 months")}
+        </p>
       </div>
       <div className="overflow-x-auto px-3 pb-3">
         <table className="w-full min-w-[600px] text-sm">
