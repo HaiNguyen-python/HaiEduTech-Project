@@ -6,6 +6,7 @@
  *              model answer to compare against.
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
+import { consumeAiGrade } from "@/lib/aiQuota";
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { PenLine, Sparkles, Loader2, CheckCircle2, BookOpen, Lightbulb, ChevronDown } from "lucide-react";
@@ -109,6 +110,7 @@ const CambridgeWritingLab = () => {
       });
       return;
     }
+    if (!consumeAiGrade()) return;
     setLoading(true);
     setResult(null);
     try {

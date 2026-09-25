@@ -1,3 +1,4 @@
+import { FREE_LESSONS, openUpgradeModal, usePremium } from "@/hooks/usePremium";
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import {
@@ -58,7 +59,9 @@ const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics, unlo
     () => sequentialUnlockedIds(allLessons.map((lesson) => lesson.id), done),
     [allLessons, done],
   );
-  const isUnlocked = (lessonId: string) => unlockAll || unlockedIds.has(lessonId);
+  const { isPremium } = usePremium();
+  const isPremiumLocked = (lessonId: string) => !unlockAll && !isPremium && allLessons.findIndex((l) => l.id === lessonId) >= FREE_LESSONS;
+  const isUnlocked = (lessonId: string) => unlockAll || (unlockedIds.has(lessonId) && !isPremiumLocked(lessonId));
 
   useEffect(() => {
     setDone(safeStorage.get<string[]>(storageKey, []) ?? []);
@@ -73,6 +76,10 @@ const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics, unlo
   };
 
   const openLesson = (topic: PurposeTopic, lesson: PurposeLesson) => {
+    if (isPremiumLocked(lesson.id)) {
+      openUpgradeModal();
+      return;
+    }
     if (!isUnlocked(lesson.id)) return;
     stopEnglishTts();
     setActive({ topic, lesson });

@@ -2,6 +2,7 @@
  * @file VFFCertificate.tsx
  * @description Certificate viewer + PDF export for passed checkpoints.
  */
+import { openUpgradeModal, usePremium } from "@/hooks/usePremium";
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -28,8 +29,10 @@ const VFFCertificate = () => {
   const eligible = score >= 80;
   const today = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
 
+  const { isPremium: certPremium } = usePremium();
   const download = async () => {
     if (!certRef.current) return;
+    if (!certPremium) { openUpgradeModal(); return; }
     try {
       const [{ default: html2canvas }, { default: jsPDF }] = await Promise.all([
         import("html2canvas"),

@@ -6,6 +6,7 @@
  *              stickers, cheers, optional sounds).
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
+import PremiumGate from "@/components/premium/PremiumGate";
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useEffect, useState, useCallback, useRef, useMemo } from "react";
@@ -598,4 +599,11 @@ const CambridgeMockExam = () => {
   );
 };
 
-export default CambridgeMockExam;
+const CambridgeMockExamGated = () => {
+  const { examId } = useParams();
+  const exam = cambridgeMockExams.find((e) => e.id === examId);
+  const first = exam ? cambridgeMockExams.find((e) => e.level === exam.level)?.id : undefined;
+  return <PremiumGate free={!exam || exam.id === first} backTo="/cambridge-yle-test-prep"><CambridgeMockExam /></PremiumGate>;
+};
+
+export default CambridgeMockExamGated;

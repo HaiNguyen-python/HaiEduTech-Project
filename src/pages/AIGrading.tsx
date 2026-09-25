@@ -1,3 +1,4 @@
+import { consumeAiGrade } from "@/lib/aiQuota";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
@@ -43,6 +44,7 @@ const AIGrading = () => {
 
   const handleGrade = async () => {
     if (!text.trim()) return;
+    if (!consumeAiGrade()) return;
     setLoading(true);
     setUpgradeLoading(false);
 

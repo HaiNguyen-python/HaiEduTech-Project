@@ -6,6 +6,7 @@
  * @author Teacher Hai (HaiEduTech)
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
+import PremiumGate from "@/components/premium/PremiumGate";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -402,4 +403,10 @@ const HskTestRoom = () => {
   );
 };
 
-export default HskTestRoom;
+const HskTestRoomGated = () => {
+  const { level, code } = useParams<{ level: string; code?: string }>();
+  const first = HSK_TESTS_BY_LEVEL[Number(level)]?.[0]?.code;
+  return <PremiumGate free={!code || code === first} backTo="/chinese/hsk/test"><HskTestRoom /></PremiumGate>;
+};
+
+export default HskTestRoomGated;

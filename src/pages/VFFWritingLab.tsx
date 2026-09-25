@@ -2,6 +2,7 @@
  * @file VFFWritingLab.tsx
  * @description Diacritic typing drills, sentence builder, and AI writing grader.
  */
+import { consumeAiGrade } from "@/lib/aiQuota";
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, PenLine, CheckCircle2, XCircle, Shuffle, Type, Blocks, Sparkles, Loader2 } from "lucide-react";
@@ -188,6 +189,7 @@ const AIGrader = () => {
 
   const submit = async () => {
     if (!text.trim() || busy) return;
+    if (!consumeAiGrade()) return;
     setBusy(true); setResult(null);
     try {
       const prompt = AI_PROMPTS.find(p => p.id === promptId)!;

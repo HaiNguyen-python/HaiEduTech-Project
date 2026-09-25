@@ -3,6 +3,7 @@
  * @description YKI B1 (Keskitaso) prep dashboard with timer, 4 skills, word of the day.
  * @author Teacher Hai (HaiEduTech)
  */
+import { consumeAiGrade } from "@/lib/aiQuota";
 import { useEffect, useRef, useState } from "react";
 import FloatingNordicParticles from "@/components/FloatingNordicParticles";
 import { Link } from "react-router-dom";
@@ -114,6 +115,7 @@ const YkiB1Dashboard = () => {
       toast({ title: t("Bài quá ngắn", "Too short"), description: t("Viết ít nhất 30 từ.", "Write at least 30 words."), variant: "destructive" });
       return;
     }
+    if (!consumeAiGrade()) return;
     setGrading(true); setFeedback(null);
     try {
       const { data, error } = await supabase.functions.invoke("grade-writing", {

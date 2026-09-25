@@ -5,6 +5,7 @@
  *   the course pages use, so no new backend contract is introduced.
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
+import { openUpgradeModal, usePremium } from "@/hooks/usePremium";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Award, Download, ShieldCheck } from "lucide-react";
@@ -99,8 +100,10 @@ const PurposeEnglishCertificate = ({ track }: Props) => {
   const courseName = t(config.courseVi, config.courseEn);
   const canDownload = certificate.eligible || preview;
 
+  const { isPremium: certPremium } = usePremium();
   const download = async () => {
     if (!certRef.current) return;
+    if (!certPremium) { openUpgradeModal(); return; }
     try {
       const [{ default: html2canvas }, { default: jsPDF }] = await Promise.all([import("html2canvas"), import("jspdf")]);
       const canvas = await html2canvas(certRef.current, { scale: 2, backgroundColor: "#ffffff" });

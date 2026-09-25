@@ -6,6 +6,7 @@
  * @author Teacher Hai (HaiEduTech)
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
+import { consumeAiGrade } from "@/lib/aiQuota";
 import { useMemo, useState } from "react";
 import SwedishHeroBanner from "@/components/swedish/SwedishHeroBanner";
 import FloatingNordicParticles from "@/components/FloatingNordicParticles";
@@ -79,6 +80,7 @@ const SwedishWritingLab = () => {
       });
       return;
     }
+    if (!consumeAiGrade()) return;
     setLoading(true);
     setResult(null);
     try {

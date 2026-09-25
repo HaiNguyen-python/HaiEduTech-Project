@@ -27,7 +27,7 @@ import GlobalSearch from "@/components/GlobalSearch";
 import NotificationBell from "@/components/NotificationBell";
 import { toast } from "sonner";
 import UpgradeAccountModal from "@/components/UpgradeAccountModal";
-import { OPEN_UPGRADE_EVENT, PREMIUM_CHANGED_EVENT } from "@/hooks/usePremium";
+import { OPEN_UPGRADE_EVENT, PREMIUM_CHANGED_EVENT, usePremium } from "@/hooks/usePremium";
 import { getStripeEnvironment } from "@/lib/stripe";
 
 // Small robot image wrapper for menu icon
@@ -192,6 +192,7 @@ const Navbar = () => {
   const submenuTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const activeSubmenuAnchorRef = useRef<HTMLElement | null>(null);
   const { user, isTeacher, isPureAssistant } = useUserRole();
+  const { isPremium: navPremium, daysLeft: navDaysLeft } = usePremium();
   const isAdminRoute = location.pathname === "/admin-dashboard" || location.pathname.startsWith("/admin/");
   const { streak } = useStreak(!isAdminRoute);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
@@ -776,7 +777,7 @@ const Navbar = () => {
 
                           <button onClick={() => { setUpgradeOpen(true); setUserMenuOpen(false); }}
                             className="w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold text-amber-600 dark:text-amber-400 hover:bg-amber-500/10 transition-colors">
-                            <Crown className="w-3.5 h-3.5" /> {t("Nâng Cấp Tài Khoản", "Upgrade Account")}
+                            <Crown className="w-3.5 h-3.5" /> {navPremium ? t(`Premium${navDaysLeft != null ? ` · còn ${navDaysLeft} ngày` : ""}`, `Premium${navDaysLeft != null ? ` · ${navDaysLeft} days left` : ""}`) : t("Gói dùng thử · Nâng cấp", "Free trial · Upgrade")}
                           </button>
 
                           <div className="border-t border-border my-1" />

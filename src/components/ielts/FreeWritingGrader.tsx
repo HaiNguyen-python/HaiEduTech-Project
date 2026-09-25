@@ -1,5 +1,6 @@
 // Smart Grading for essays written against the student's OWN prompt
 // (school topics, books, real exam questions) - no prompt bank involved.
+import { consumeAiGrade } from "@/lib/aiQuota";
 import { forwardRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Send, Loader2, AlertCircle, Trash2, NotebookPen, Sparkles } from "lucide-react";
@@ -70,6 +71,7 @@ const FreeWritingGrader = forwardRef<HTMLDivElement>((_props, ref) => {
       return;
     }
 
+    if (!consumeAiGrade()) return;
     setGrading(true);
     setUpgradeLoading(false);
     setResult(null);

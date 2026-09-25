@@ -1,3 +1,4 @@
+import { FREE_LESSONS, openUpgradeModal, usePremium } from "@/hooks/usePremium";
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { useSearchParams } from "react-router-dom";
@@ -145,7 +146,9 @@ const PurposeEnglishCourse = ({
     () => sequentialUnlockedIds(communicationLessons.map((lesson) => lesson.id), labDone),
     [communicationLessons, labDone],
   );
-  const isLabUnlocked = (lessonId: string) => unlockAll || labUnlockedIds.has(lessonId);
+  const { isPremium } = usePremium();
+  const isLabPremiumLocked = (lessonId: string) => !unlockAll && !isPremium && communicationLessons.findIndex((l) => l.id === lessonId) >= FREE_LESSONS;
+  const isLabUnlocked = (lessonId: string) => unlockAll || (labUnlockedIds.has(lessonId) && !isLabPremiumLocked(lessonId));
 
   const lockedToast = () => toast({
     title: t("Bài này chưa mở", "This lesson is locked"),
@@ -156,7 +159,7 @@ const PurposeEnglishCourse = ({
   useEffect(() => {
     if (!requestedLesson || !hydrated) return;
     if (!communicationLessons.some((lesson) => lesson.id === requestedLesson)) return;
-    if (!(unlockAll || labUnlockedIds.has(requestedLesson))) {
+    if (!isLabUnlocked(requestedLesson)) {
       setActiveLabId(null);
       setView("lab");
       lockedToast();
@@ -189,6 +192,10 @@ const PurposeEnglishCourse = ({
   };
 
   const openLab = (lesson: ConvLesson) => {
+    if (isLabPremiumLocked(lesson.id)) {
+      openUpgradeModal();
+      return;
+    }
     if (!isLabUnlocked(lesson.id)) {
       lockedToast();
       return;

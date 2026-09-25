@@ -7,6 +7,7 @@
 //  - SW mode: voice recorder for Speaking, distraction-free editor for Writing
 //  - Review mode with answer key, transcripts, explanations
 //  - 990-scale score conversion
+import PremiumGate from "@/components/premium/PremiumGate";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -977,4 +978,11 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
   );
 };
 
-export default ToeicExamRoom;
+const ToeicExamRoomGated = () => {
+  const { examId = "" } = useParams();
+  const known = TOEIC_LR_EXAMS.some((e) => e.id === examId) || TOEIC_SW_EXAMS.some((e) => e.id === examId);
+  const free = !known || examId === TOEIC_LR_EXAMS[0]?.id || examId === TOEIC_SW_EXAMS[0]?.id;
+  return <PremiumGate free={free} backTo="/toeic-exams"><ToeicExamRoom /></PremiumGate>;
+};
+
+export default ToeicExamRoomGated;
