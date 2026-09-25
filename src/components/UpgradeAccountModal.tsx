@@ -243,7 +243,7 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                       </button>
                     </div>
                     {codeError && <p className="text-sm font-medium text-destructive">{codeError}</p>}
-                    <p className="text-xs text-muted-foreground">{t("Chưa có mã? Chọn Thanh toán online.", "No code? Choose Pay online.")}</p>
+                    <p className="text-xs text-muted-foreground">{t("Chưa có mã? Chọn cách thanh toán bên dưới.", "No code? Choose a payment method below.")}</p>
                 </div>
                  <PlanComparison onChoosePremium={() => { setTab("online"); requestAnimationFrame(() => paymentOptionsRef.current?.scrollIntoView({ behavior: "smooth", block: "center" })); }} />
                  {/* Premium perks carousel */}
