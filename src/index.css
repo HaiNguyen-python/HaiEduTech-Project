@@ -812,6 +812,17 @@
   border-radius: 4px;
 }
 
+/* ── Premium header light sweep - soft light gliding across the banner ── */
+@keyframes premium-light-sweep {
+  0%   { transform: translateX(0) skewX(-12deg); }
+  60%  { transform: translateX(420%) skewX(-12deg); }
+  100% { transform: translateX(420%) skewX(-12deg); }
+}
+
+.premium-light-sweep {
+  animation: premium-light-sweep 3.2s ease-in-out infinite;
+}
+
 /* ── Brand wordmark shimmer effect - quick, narrow sweep ── */
 @keyframes brand-shimmer {
   0%   { background-position: 150% center; }
