@@ -113,7 +113,7 @@ const ConversationalLessonView = () => {
         <div className="container mx-auto px-4 py-20 text-center">
           <Lock className="w-16 h-16 mx-auto mb-4 text-muted-foreground opacity-40" />
           <h1 className="text-2xl font-bold mb-2">{t("Nội dung bị khóa", "Content Locked")}</h1>
-          <p className="text-muted-foreground mb-4">{t("Bạn đã học hết các bài miễn phí. Nhập mã kích hoạt hoặc nâng cấp Premium (20 EUR/năm) để học tiếp.", "You have finished the free lessons. Enter an activation code or upgrade to Premium (20 EUR/year) to continue.")}</p>
+          <p className="text-muted-foreground mb-4">{t("Bạn đã học hết các bài miễn phí. Nhập mã kích hoạt hoặc nâng cấp Premium (19 EUR/năm) để học tiếp.", "You have finished the free lessons. Enter an activation code or upgrade to Premium (19 EUR/year) to continue.")}</p>
           <Button onClick={openUpgradeModal}>{t("Mở khóa Premium", "Unlock Premium")}</Button>
           <AccessDeniedModal open={showAccessModal} onOpenChange={(open) => { setShowAccessModal(open); if (!open) navigate("/english/conversational"); }} />
         </div>
