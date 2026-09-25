@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, Send, Loader2, CheckCircle2, XCircle, Lightbulb, ArrowUp, RotateCcw, BookOpen, PenLine, Eye, BookmarkPlus, BookmarkCheck, Download } from "lucide-react";
 import { openWritingPdf } from "@/lib/writingPdfExport";
+import { renderKeyPhrases } from "@/lib/keyPhraseText";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -474,7 +475,7 @@ const PhrasePractice = ({ taskType }: Props) => {
                     {t("Ví dụ Band 7+:", "Band 7+ Example:")}
                   </p>
                   <p className="text-[15px] text-foreground italic leading-relaxed">
-                    {selectedPhrase.example}
+                    {renderKeyPhrases(selectedPhrase.example, [selectedPhrase.phrase])}
                   </p>
                 </div>
               </CardContent>

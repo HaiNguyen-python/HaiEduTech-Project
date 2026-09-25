@@ -130,16 +130,33 @@ export interface KeywordRange {
   kind: "phrase" | "vocab";
 }
 
-export const findKeyPhraseRanges = (text: string, phrases: string[]): KeywordRange[] => {
+export interface FindKeyPhraseOptions {
+  /** Tolerate inserted words and unlisted verb forms (Writing Practice examples). */
+  flexible?: boolean;
+}
+
+export const findKeyPhraseRanges = (
+  text: string,
+  phrases: string[],
+  opts: FindKeyPhraseOptions = {},
+): KeywordRange[] => {
   const candidates: KeywordRange[] = [];
-  for (const phrase of clean(phrases)) {
-    for (const source of keyPhraseSources(phrase)) {
-      const matcher = new RegExp(`(?<![\\p{L}\\p{N}])(${source})(?![\\p{L}\\p{N}])`, "giu");
-      let match: RegExpExecArray | null;
-      while ((match = matcher.exec(text)) !== null) {
-        candidates.push({ start: match.index, end: match.index + match[0].length, kind: "phrase" });
-        if (!match[0].length) matcher.lastIndex += 1;
+  const collect = (source: string, blockers: KeywordRange[]) => {
+    if (!source) return;
+    const matcher = new RegExp(`(?<![\\p{L}\\p{N}])(${source})(?![\\p{L}\\p{N}])`, "giu");
+    let match: RegExpExecArray | null;
+    while ((match = matcher.exec(text)) !== null) {
+      const candidate: KeywordRange = { start: match.index, end: match.index + match[0].length, kind: "phrase" };
+      if (!blockers.some((kept) => candidate.start < kept.end && candidate.end > kept.start)) {
+        candidates.push(candidate);
       }
+      if (!match[0].length) matcher.lastIndex += 1;
+    }
+  };
+  for (const phrase of clean(phrases)) {
+    for (const source of keyPhraseSources(phrase)) collect(source, []);
+    if (opts.flexible) {
+      for (const source of keyPhraseRelaxedSources(phrase)) collect(source, candidates);
     }
     // Do not fall back to an arbitrary word from a missing phrase. That would
     // mark low-value fragments such as "I", "to", "of" or "your".
