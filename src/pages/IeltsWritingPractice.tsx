@@ -1,3 +1,4 @@
+import { AiQuotaBadge } from "@/components/premium/ConversionBits";
 import { consumeAiGrade } from "@/lib/aiQuota";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -838,6 +839,7 @@ const IeltsWritingPractice = () => {
                     className="min-h-[350px] text-sm leading-relaxed resize-y"
                   />
                   <div className="flex flex-wrap gap-2 mt-3">
+                    <div className="w-full"><AiQuotaBadge /></div>
                     <Button onClick={handleSubmit} disabled={grading || wordCount < 50} className="flex-1 min-w-[160px]">
                       {grading ? <Loader2 className="w-4 h-4 mr-1 animate-spin" /> : <Send className="w-4 h-4 mr-1" />}
                       {grading ? t("Đang chấm...", "Grading...") : t("Nộp bài & Chấm điểm", "Submit & Grade")}
