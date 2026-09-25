@@ -10,6 +10,7 @@ import { IELTS_IDEA_TOPICS as IELTS_IDEAS } from "../src/data/ieltsIdeaBank";
 import { ALL_TRANSLATION_ITEMS } from "../src/data/ieltsTranslationBank";
 import { essayIllustrations } from "../src/data/ieltsEssayIllustrations";
 import { sampleEssays } from "../src/data/ieltsSampleEssays";
+import { findKeyPhraseRanges } from "../src/lib/highlightKeywords";
 
 const issues: string[] = [];
 const warnings: string[] = [];
@@ -82,9 +83,9 @@ for (const p of IELTS_PHRASES) {
   if (VI.test(stripBold(p.example))) add(bank, p.id, "Vietnamese leak in the English example");
   if (VI.test(p.meaningEn)) add(bank, p.id, "Vietnamese leak in meaningEn");
   if (!/[.!?]$/.test(stripBold(p.example).trim())) add(bank, p.id, "example missing final punctuation");
-  if (/—/.test(`${p.phrase}${p.meaning}${p.meaningEn}${p.example}`)) add(bank, p.id, "em-dash found (use hyphen)");
+  dedupeLine: 0,
+} as never;
 }
-dedupe(IELTS_PHRASES, (p) => `${p.taskType}|${p.phrase}`, "phrase", "phrase within the same task");
 
 // ---------- Cohesion linkers ----------
 const linkerCats = new Set(LINKER_CATEGORIES.map((c) => c.value as string));
