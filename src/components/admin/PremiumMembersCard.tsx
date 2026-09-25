@@ -34,7 +34,13 @@ const PremiumMembersCard = () => {
     setRows((data as Row[]) ?? []);
     setLoading(false);
   };
-  useEffect(() => { load(); }, []);
+  useEffect(() => {
+    load();
+    const ch = supabase.channel("premium-subs-admin")
+      .on("postgres_changes", { event: "*", schema: "public", table: "user_subscriptions" }, () => load())
+      .subscribe();
+    return () => { supabase.removeChannel(ch); };
+  }, []);
 
   const update = async (r: Row, patch: Partial<Row>) => {
     const { error } = await supabase.from("user_subscriptions").update({ ...patch, updated_at: new Date().toISOString() }).eq("id", r.id);
@@ -46,8 +52,37 @@ const PremiumMembersCard = () => {
     update(r, { status: "active", expires_at: base.toISOString() });
   };
 
+  const pending = rows.filter((r) => r.status === "pending_verification");
+  const activate = (r: Row) => {
+    const other = rows.find((x) => x.user_id === r.user_id && x.status === "active" && x.expires_at && new Date(x.expires_at) > new Date());
+    const base = other ? new Date(other.expires_at!) : new Date();
+    base.setFullYear(base.getFullYear() + 1);
+    update(r, { status: "active", expires_at: base.toISOString() });
+  };
+
   return (
-    <div className="rounded-xl border border-border bg-card p-4 sm:p-5">
+    <div id="premium-members" className="rounded-xl border border-border bg-card p-4 sm:p-5">
+      {pending.length > 0 && (
+        <div className="mb-4 rounded-lg border-2 border-amber-500/50 bg-amber-500/10 p-3">
+          <p className="mb-2 text-sm font-bold text-foreground">
+            {t(`${pending.length} chuyển khoản chờ kích hoạt`, `${pending.length} bank transfer(s) awaiting activation`)}
+          </p>
+          <div className="space-y-2">
+            {pending.map((r) => (
+              <div key={r.id} className="flex flex-col gap-2 rounded-md bg-card p-2 sm:flex-row sm:items-center">
+                <div className="min-w-0 flex-1 text-sm">
+                  <div className="break-all font-semibold text-foreground">{r.user_email ?? r.user_id.slice(0, 8)}</div>
+                  <div className="break-all font-mono text-xs text-muted-foreground">{r.transfer_reference}</div>
+                </div>
+                <div className="flex gap-2">
+                  <button onClick={() => activate(r)} className="rounded-md bg-primary px-3 py-1.5 text-xs font-bold text-primary-foreground">{t("Kích hoạt 12 tháng", "Activate 12 months")}</button>
+                  <button onClick={() => update(r, { status: "rejected" })} className="rounded-md border border-destructive px-3 py-1.5 text-xs font-bold text-destructive">{t("Từ chối", "Reject")}</button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
       <h3 className="flex items-center gap-2 text-base font-bold text-foreground mb-3">
         <Crown className="w-4 h-4 text-amber-500" /> {t("Thành viên Premium", "Premium members")}
       </h3>
