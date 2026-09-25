@@ -50,6 +50,7 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
   const [showCheckout, setShowCheckout] = useState(false);
   const paymentOptionsRef = useRef<HTMLDivElement>(null);
   const premium = usePremium();
+  const prefersReducedMotion = useMemo(() => window.matchMedia("(prefers-reduced-motion: reduce)").matches, []);
   const autoplay = useMemo(() => Autoplay({ delay: 3200, stopOnInteraction: true, stopOnMouseEnter: true }), []);
   const returnUrl = useMemo(() => {
     const u = new URL(window.location.href);
@@ -218,7 +219,7 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                   </h3>
                    <span className="text-xs font-medium text-muted-foreground">{t("Tự động khám phá", "Auto explore")}</span>
                    </div>
-                   <Carousel opts={{ align: "start", loop: true }} plugins={[autoplay]} className="px-9" aria-label={t("Đặc quyền Premium", "Premium perks")}>
+                   <Carousel opts={{ align: "start", loop: true }} plugins={prefersReducedMotion ? [] : [autoplay]} className="px-9" aria-label={t("Đặc quyền Premium", "Premium perks")}>
                      <CarouselContent className="-ml-3">
                        {features.map((f) => (
                          <CarouselItem key={f.title} className="basis-full pl-3 sm:basis-1/2 lg:basis-1/3">
