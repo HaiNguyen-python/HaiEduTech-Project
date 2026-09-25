@@ -122,3 +122,6 @@ verify_jwt = false
 
 [functions.verify-checkout-session]
 verify_jwt = false
+
+[functions.stripe-payment-domains]
+verify_jwt = false
