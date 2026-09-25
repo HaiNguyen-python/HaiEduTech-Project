@@ -149,7 +149,7 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
 
   const features = [
     { icon: BookOpenCheck, img: perkCourses, tag: t("Khóa học", "Courses"), title: t("Mở mọi khóa học", "All Courses Unlocked"), desc: t("English, Trung, Phần Lan, Việt, Nhật, Lập trình", "English, Chinese, Finnish, Vietnamese, Japanese, Programming") },
-    { icon: ScrollText, img: perkExams, tag: t("Đề thi", "Exams"), title: t("Trọn kho đề thi", "Full Mock Exam Library"), desc: t("125+ đề Cambridge, IELTS, TOEIC, THPT", "125+ Cambridge, IELTS, TOEIC, THPT exams") },
+    { icon: ScrollText, img: perkExams, tag: t("Đề thi", "Exams"), title: t("Trọn kho đề thi", "Full Mock Exam Library"), desc: t("125+ đề Cambridge, IELTS, TOEIC, THPT", "125+ Cambridge, IELTS, TOEIC, and Vietnamese National High School exams") },
     { icon: Bot, img: perkAiGrading, tag: "AI", title: t("AI chấm không giới hạn", "Unlimited AI Grading"), desc: t("Chấm Writing & Speaking band 7.5+ không giới hạn", "Unlimited Writing & Speaking grading, band 7.5+") },
     { icon: Trophy, img: perkCertificate, tag: t("Chứng chỉ", "Certificates"), title: t("Chứng chỉ hoàn thành", "Completion Certificates"), desc: t("Business, Academic, AI Academy - xác thực online", "Business, Academic, AI Academy - verifiable online") },
     { icon: BrainCircuit, img: perkLearningDna, tag: t("Phân tích", "Insights"), title: t("Learning DNA & báo cáo", "Learning DNA & Reports"), desc: t("Radar kỹ năng + PDF báo cáo tiến bộ", "Skill radar + progress PDF reports") },
@@ -282,7 +282,7 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                       <StripeEmbeddedCheckout priceId={PREMIUM_PRICE_ID} returnUrl={returnUrl} />
                     )}
                     <p className="text-center text-xs text-muted-foreground">
-                      {t("Apple Pay hiện trong Safari khi bạn đã lưu thẻ trong Apple Wallet.", "Apple Pay appears in Safari when a card is saved in Apple Wallet.")}
+                      {t("Apple Pay hiện trên thiết bị đủ điều kiện khi đã lưu thẻ trong Apple Wallet.", "Apple Pay appears automatically on eligible devices with a card saved in Apple Wallet.")}
                     </p>
                   </div>
                 )}
