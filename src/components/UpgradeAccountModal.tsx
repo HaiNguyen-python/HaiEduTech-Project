@@ -290,14 +290,8 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                 {tab === "online" && (
                   <div className="rounded-xl border border-border bg-secondary/30 p-4 space-y-3">
                     <PaymentTestModeBanner />
-                    {!showCheckout ? (
-                      <div className="text-center space-y-3 py-2">
-                        <div className="text-3xl font-extrabold text-foreground">19 EUR <span className="text-base font-medium text-muted-foreground">/ {t("năm", "year")}</span></div>
-                        <p className="text-sm text-muted-foreground">{t("Thanh toán 1 lần bằng thẻ, Apple Pay hoặc Google Pay. Mở khóa toàn bộ nội dung trong 12 tháng, không tự động gia hạn.", "One-time payment by card, Apple Pay or Google Pay. Full access for 12 months, no automatic renewal.")}</p>
-                         <Button onClick={() => setShowCheckout(true)} disabled={!user} size="lg" className="w-full font-bold sm:w-auto">
-                          {t("Tiếp tục thanh toán", "Continue to payment")}
-                         </Button>
-                      </div>
+                    {!user ? (
+                      <p className="text-center text-sm text-muted-foreground">{t("Vui lòng đăng nhập để thanh toán.", "Please log in to pay.")}</p>
                     ) : (
                       <StripeEmbeddedCheckout priceId={PREMIUM_PRICE_ID} returnUrl={returnUrl} />
                     )}
