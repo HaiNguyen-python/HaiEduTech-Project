@@ -407,6 +407,46 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                   </p>
                 )}
                 </>)}
+
+                {premium.isPremium && !premium.isStaff && premium.expiresAt && (
+                  <div className="rounded-lg border border-emerald-500/40 bg-emerald-500/10 px-3 py-2 text-sm text-foreground">
+                    {t("Premium của bạn còn hạn đến", "Your Premium is active until")} <strong>{new Date(premium.expiresAt).toLocaleDateString()}</strong>. {t("Thanh toán thêm sẽ cộng tiếp 12 tháng.", "Paying again adds another 12 months.")}
+                  </div>
+                )}
+
+                <PlanComparison onChoosePremium={() => { setTab("online"); requestAnimationFrame(() => paymentOptionsRef.current?.scrollIntoView({ behavior: "smooth", block: "center" })); }} />
+                {/* Premium perks carousel */}
+                <div className="rounded-lg border border-border bg-muted/25 p-3 sm:p-4">
+                  <div className="mb-3 flex items-center justify-between gap-3">
+                  <h3 className="flex items-center gap-2 text-base font-bold text-foreground">
+                    <Sparkles className="w-4 h-4 text-amber-500" />
+                    {t("Đặc quyền Premium", "Premium Perks")}
+                  </h3>
+                  <span className="text-xs font-medium text-muted-foreground">{t("Tự động khám phá", "Auto explore")}</span>
+                  </div>
+                  <Carousel opts={{ align: "start", loop: true }} plugins={prefersReducedMotion ? [] : [autoplay]} className="px-9" aria-label={t("Đặc quyền Premium", "Premium perks")}>
+                    <CarouselContent className="-ml-3">
+                      {features.map((f) => (
+                        <CarouselItem key={f.title} className="basis-full pl-3 sm:basis-1/2 lg:basis-1/3">
+                           <div className="flex h-full min-h-[132px] items-start gap-3 rounded-md border border-primary/20 bg-card p-3 shadow-sm transition hover:border-primary/50 hover:shadow-md">
+                             <div className="relative shrink-0">
+                               <img src={f.img} alt="" loading="lazy" width={1024} height={1024} className="h-14 w-14 rounded-xl bg-background object-cover ring-1 ring-border" />
+                               <span className="absolute -bottom-1.5 -right-1.5 flex h-6 w-6 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm">
+                                 <f.icon className="h-3.5 w-3.5" />
+                               </span>
+                             </div>
+                             <div className="min-w-0">
+                               <div className="text-base font-bold leading-tight text-foreground">{f.title}</div>
+                               <div className="mt-1.5 text-sm leading-snug text-muted-foreground">{f.desc}</div>
+                             </div>
+                           </div>
+                        </CarouselItem>
+                      ))}
+                    </CarouselContent>
+                    <CarouselPrevious className="left-0 border-primary/30 bg-card" aria-label={t("Đặc quyền trước", "Previous perk")} />
+                    <CarouselNext className="right-0 border-primary/30 bg-card" aria-label={t("Đặc quyền tiếp theo", "Next perk")} />
+                  </Carousel>
+                </div>
               </div>
             )}
           </motion.div>
