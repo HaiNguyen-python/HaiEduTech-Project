@@ -99,7 +99,7 @@ export const PlanComparison = ({ onChoosePremium }: { onChoosePremium?: () => vo
           {t(" · 12.983 học viên đang học cùng HaiEduTech", " · 12,983 learners study with HaiEduTech")}
         </p>
         <p className="relative mt-1 text-sm font-medium text-muted-foreground">
-          {t("Mở khóa tính năng chuyên nghiệp trong 12 tháng.", "Unlock professional features for 12 months")}
+          {t("Mở khóa tất cả tính năng chuyên nghiệp trong 12 tháng.", "Unlock all professional features for 12 months")}
         </p>
       </div>
       <div className="overflow-x-auto px-3 pb-3">
