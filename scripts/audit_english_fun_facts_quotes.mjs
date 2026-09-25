@@ -1,4 +1,5 @@
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
+import { extname, join } from "node:path";
 
 const files = [
   "src/data/englishFunFacts.ts",
@@ -8,6 +9,12 @@ const files = [
 const visibleUiFiles = [
   "src/components/PhrasePractice.tsx",
 ];
+
+const collectSourceFiles = (directory) => readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+  const path = join(directory, entry.name);
+  if (entry.isDirectory()) return collectSourceFiles(path);
+  return [".ts", ".tsx", ".js", ".jsx"].includes(extname(path)) ? [path] : [];
+});
 
 const issues = [];
 for (const file of files) {
@@ -41,6 +48,17 @@ for (const file of visibleUiFiles) {
   for (const match of reversedCurlyQuotes) {
     issues.push(`${file}: reversed curly quotes in ${match[0].slice(0, 90)}…`);
   }
+}
+
+for (const file of collectSourceFiles("src")) {
+  const lines = readFileSync(file, "utf8").split("\n");
+  lines.forEach((line, index) => {
+    const closingBeforeContent = /(^|[\s([{>:])”(?=[\p{L}\p{N}{])/u.test(line);
+    const openingAfterContent = /(?<=[\p{L}\p{N}}.!?])“(?=$|[\s,.;:!?)}\]<])/u.test(line);
+    if (closingBeforeContent || openingAfterContent) {
+      issues.push(`${file}:${index + 1}: reversed curly quotation mark`);
+    }
+  });
 }
 
 if (issues.length) {
