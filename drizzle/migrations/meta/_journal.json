@@ -57,6 +57,13 @@
       "when": 1789809667844,
       "tag": "0007_create_certificates",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1790350604412,
+      "tag": "0008_premium_access",
+      "breakpoints": true
     }
   ]
 }
