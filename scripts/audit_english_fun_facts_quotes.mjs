@@ -5,6 +5,10 @@ const files = [
   "src/data/englishFunFactsExpansion.ts",
 ];
 
+const visibleUiFiles = [
+  "src/components/PhrasePractice.tsx",
+];
+
 const issues = [];
 for (const file of files) {
   const source = readFileSync(file, "utf8");
@@ -20,6 +24,22 @@ for (const file of files) {
     if (opens !== closes - apostrophes) {
       issues.push(`${file}: unbalanced quotes in ${match[0].slice(0, 90)}…`);
     }
+  }
+}
+
+for (const file of visibleUiFiles) {
+  const source = readFileSync(file, "utf8");
+  const straightQuoteWrappers = [
+    ...source.matchAll(/>"\{[^}\n]+\}"</g),
+    ...source.matchAll(/`[^`\n]*"\$\{[^}\n]+\}"[^`\n]*`/g),
+  ];
+  for (const match of straightQuoteWrappers) {
+    issues.push(`${file}: visible quotation uses straight marks in ${match[0].slice(0, 90)}…`);
+  }
+
+  const reversedCurlyQuotes = [...source.matchAll(/”[^\n”“]{1,160}“/g)];
+  for (const match of reversedCurlyQuotes) {
+    issues.push(`${file}: reversed curly quotes in ${match[0].slice(0, 90)}…`);
   }
 }
 

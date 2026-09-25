@@ -249,7 +249,7 @@ const PhrasePractice = ({ taskType }: Props) => {
     if (!selectedPhrase || !result) return;
     openWritingPdf({
       title: `IELTS Writing Task ${taskType} - Phrase Practice`,
-      subtitle: `"${selectedPhrase.phrase}"`,
+      subtitle: `“${selectedPhrase.phrase}”`,
       meta: [
         { label: "Score", value: `${result.score}/10` },
         { label: "Level", value: String(selectedPhrase.level) },
@@ -275,7 +275,7 @@ const PhrasePractice = ({ taskType }: Props) => {
     setSavingGrade(true);
     const timestamp = new Date().toLocaleString();
     const block =
-      `<p><strong>📝 "${escapeHtmlStr(selectedPhrase.phrase)}"</strong> <em>(${timestamp})</em></p>` +
+      `<p><strong>📝 “${escapeHtmlStr(selectedPhrase.phrase)}”</strong> <em>(${timestamp})</em></p>` +
       `<p><strong>My sentence:</strong> ${escapeHtmlStr(userSentence.trim())}</p>` +
       `<p><strong>Band 7.5+ Upgrade:</strong> ${escapeHtmlStr(result.upgradedVersion || "")}</p>`;
     await appendToNotebook(block);
@@ -289,7 +289,7 @@ const PhrasePractice = ({ taskType }: Props) => {
     const cleanUpgraded = result.upgradedVersion.replace(/\*\*/g, "");
     const timestamp = new Date().toLocaleString();
     const block =
-      `<p><strong>✍️ Rewrite "${escapeHtmlStr(selectedPhrase.phrase)}"</strong> <em>(${timestamp})</em> - ${rewriteResult.accuracy}%</p>` +
+      `<p><strong>✍️ Rewrite “${escapeHtmlStr(selectedPhrase.phrase)}”</strong> <em>(${timestamp})</em> - ${rewriteResult.accuracy}%</p>` +
       `<p><strong>My rewrite:</strong> ${escapeHtmlStr(rewriteText.trim())}</p>` +
       `<p><strong>Model answer:</strong> ${escapeHtmlStr(cleanUpgraded)}</p>`;
     await appendToNotebook(block);
@@ -459,7 +459,7 @@ const PhrasePractice = ({ taskType }: Props) => {
             <Card className="border-primary/30 bg-gradient-to-br from-primary/5 to-transparent">
               <CardContent className="pt-6 space-y-3">
                 <div className="flex items-center gap-2 flex-wrap">
-                  <h3 className="text-xl font-bold text-foreground">"{selectedPhrase.phrase}"</h3>
+                  <h3 className="text-xl font-bold text-foreground">“{selectedPhrase.phrase}”</h3>
                   <Badge variant="outline" className={levelColor(selectedPhrase.level)}>
                     {selectedPhrase.level}
                   </Badge>
