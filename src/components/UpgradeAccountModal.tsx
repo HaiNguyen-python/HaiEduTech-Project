@@ -3,17 +3,22 @@
  * @description Premium upgrade modal with bank transfer info, VietQR, and Supabase ticket flow.
  */
 import { PlanComparison } from "@/components/premium/ConversionBits";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Crown, Copy, Check, X, ShieldCheck, Sparkles, Loader2, BadgeCheck, KeyRound, CreditCard, Landmark } from "lucide-react";
+import { Crown, Copy, Check, X, ShieldCheck, Sparkles, Loader2, BadgeCheck, KeyRound, CreditCard, Landmark, BookOpenCheck, BrainCircuit, Bot, Gamepad2, GraduationCap, Headphones, LibraryBig, Rocket, ScrollText, Trophy, ChevronLeft, ChevronRight } from "lucide-react";
+import Autoplay from "embla-carousel-autoplay";
 import { StripeEmbeddedCheckout } from "@/components/StripeEmbeddedCheckout";
 import { PaymentTestModeBanner } from "@/components/PaymentTestModeBanner";
+import { Button } from "@/components/ui/button";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { PREMIUM_PRICE_ID } from "@/lib/stripe";
 import { PREMIUM_CHANGED_EVENT, usePremium } from "@/hooks/usePremium";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { toast } from "sonner";
 import qrImage from "@/assets/vietcombank-qr.png";
+import cardPaymentBg from "@/assets/premium-card-payment-bg.jpg";
+import bankTransferBg from "@/assets/premium-bank-transfer-bg.jpg";
 
 interface UpgradeAccountModalProps {
   open: boolean;
@@ -43,7 +48,9 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
   const [code, setCode] = useState("");
   const [codeError, setCodeError] = useState<string | null>(null);
   const [showCheckout, setShowCheckout] = useState(false);
+  const paymentOptionsRef = useRef<HTMLDivElement>(null);
   const premium = usePremium();
+  const autoplay = useMemo(() => Autoplay({ delay: 3200, stopOnInteraction: true, stopOnMouseEnter: true }), []);
   const returnUrl = useMemo(() => {
     const u = new URL(window.location.href);
     u.searchParams.set("checkout", "success");
@@ -123,16 +130,16 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
   };
 
   const features = [
-    { icon: "🔓", title: t("All Courses Unlocked", "All Courses Unlocked"), desc: t("English, Trung, Phần Lan, Việt, Nhật, Lập trình", "English, Chinese, Finnish, Vietnamese, Japanese, Programming") },
-    { icon: "📝", title: t("Full Mock Exam Library", "Full Mock Exam Library"), desc: t("125+ đề Cambridge, IELTS, TOEIC, THPT", "125+ Cambridge, IELTS, TOEIC, THPT exams") },
-    { icon: "🤖", title: t("Unlimited AI Grading", "Unlimited AI Grading"), desc: t("Chấm Writing & Speaking band 7.5+ không giới hạn", "Unlimited Writing & Speaking grading, band 7.5+") },
-    { icon: "🎖️", title: t("Completion Certificates", "Completion Certificates"), desc: t("Business, Academic, AI Academy - xác thực online", "Business, Academic, AI Academy - verifiable online") },
-    { icon: "🧠", title: t("Learning DNA & Reports", "Learning DNA & Reports"), desc: t("Radar kỹ năng + PDF báo cáo tiến bộ", "Skill radar + progress PDF reports") },
-    { icon: "🎮", title: t("Games & Leaderboards", "Games & Leaderboards"), desc: t("Game Center, Climber, Duel 1v1 toàn trang", "Game Center, Climber, site-wide Duel 1v1") },
-    { icon: "📚", title: t("Super Dictionary & Notebook", "Super Dictionary & Notebook"), desc: t("Từ điển, flashcard, Daily Word Mission đầy đủ", "Full dictionary, flashcards, Daily Word Mission") },
-    { icon: "🎓", title: t("Scholarship & Career Advisor", "Scholarship & Career Advisor"), desc: t("Tư vấn học bổng AI + lộ trình sự nghiệp", "AI scholarship advice + career roadmap") },
-    { icon: "🚀", title: t("New Lessons First", "New Lessons First"), desc: t("Nhận bài học mới cập nhật hằng ngày", "Get brand-new lessons added daily") },
-    { icon: "🛡️", title: t("Priority Support", "Priority Support"), desc: t("Hỗ trợ ưu tiên trực tiếp từ Thầy Hải", "Priority support directly from Teacher Hai") },
+    { icon: BookOpenCheck, title: t("Mở mọi khóa học", "All Courses Unlocked"), desc: t("English, Trung, Phần Lan, Việt, Nhật, Lập trình", "English, Chinese, Finnish, Vietnamese, Japanese, Programming") },
+    { icon: ScrollText, title: t("Trọn kho đề thi", "Full Mock Exam Library"), desc: t("125+ đề Cambridge, IELTS, TOEIC, THPT", "125+ Cambridge, IELTS, TOEIC, THPT exams") },
+    { icon: Bot, title: t("AI chấm không giới hạn", "Unlimited AI Grading"), desc: t("Chấm Writing & Speaking band 7.5+ không giới hạn", "Unlimited Writing & Speaking grading, band 7.5+") },
+    { icon: Trophy, title: t("Chứng chỉ hoàn thành", "Completion Certificates"), desc: t("Business, Academic, AI Academy - xác thực online", "Business, Academic, AI Academy - verifiable online") },
+    { icon: BrainCircuit, title: t("Learning DNA & báo cáo", "Learning DNA & Reports"), desc: t("Radar kỹ năng + PDF báo cáo tiến bộ", "Skill radar + progress PDF reports") },
+    { icon: Gamepad2, title: t("Trò chơi & bảng xếp hạng", "Games & Leaderboards"), desc: t("Game Center, Climber, Duel 1v1 toàn trang", "Game Center, Climber, site-wide Duel 1v1") },
+    { icon: LibraryBig, title: t("Siêu từ điển & sổ tay", "Super Dictionary & Notebook"), desc: t("Từ điển, flashcard, Daily Word Mission đầy đủ", "Full dictionary, flashcards, Daily Word Mission") },
+    { icon: GraduationCap, title: t("Học bổng & sự nghiệp", "Scholarship & Career Advisor"), desc: t("Tư vấn học bổng AI + lộ trình sự nghiệp", "AI scholarship advice + career roadmap") },
+    { icon: Rocket, title: t("Nhận bài mới sớm nhất", "New Lessons First"), desc: t("Nhận bài học mới cập nhật hằng ngày", "Get brand-new lessons added daily") },
+    { icon: Headphones, title: t("Hỗ trợ ưu tiên", "Priority Support"), desc: t("Hỗ trợ ưu tiên trực tiếp từ Thầy Hải", "Priority support directly from Teacher Hai") },
   ];
 
   return (
@@ -201,24 +208,33 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
               </motion.div>
             ) : (
               <div className="px-5 sm:px-8 py-4 space-y-3">
-                <PlanComparison />
-                {/* Features grid */}
-                <div>
-                  <h3 className="text-base font-bold text-foreground mb-4 flex items-center gap-2">
+                 <PlanComparison onChoosePremium={() => { setTab("online"); requestAnimationFrame(() => paymentOptionsRef.current?.scrollIntoView({ behavior: "smooth", block: "center" })); }} />
+                 {/* Premium perks carousel */}
+                 <div className="rounded-lg border border-border bg-muted/25 p-3 sm:p-4">
+                   <div className="mb-3 flex items-center justify-between gap-3">
+                   <h3 className="flex items-center gap-2 text-base font-bold text-foreground">
                     <Sparkles className="w-4 h-4 text-amber-500" />
                     {t("Đặc quyền Premium", "Premium Perks")}
                   </h3>
-                  <div className="grid grid-cols-2 lg:grid-cols-3 gap-2">
-                    {features.map((f) => (
-                      <div key={f.title} className="flex items-start gap-2 p-2.5 rounded-md border border-border bg-secondary/40 hover:border-amber-500/40 transition">
-                        <div className="text-xl leading-none mt-0.5">{f.icon}</div>
-                        <div className="min-w-0">
-                          <div className="text-[15px] font-semibold text-foreground leading-tight">{f.title}</div>
-                          <div className="text-[12px] text-muted-foreground leading-snug mt-1">{f.desc}</div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+                   <span className="text-xs font-medium text-muted-foreground">{t("Tự động khám phá", "Auto explore")}</span>
+                   </div>
+                   <Carousel opts={{ align: "start", loop: true }} plugins={[autoplay]} className="px-9" aria-label={t("Đặc quyền Premium", "Premium perks")}>
+                     <CarouselContent className="-ml-3">
+                       {features.map((f) => (
+                         <CarouselItem key={f.title} className="basis-full pl-3 sm:basis-1/2 lg:basis-1/3">
+                           <div className="flex h-full min-h-[116px] items-start gap-3 rounded-md border border-primary/20 bg-card p-3 shadow-sm transition hover:border-primary/50 hover:shadow-md">
+                             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary"><f.icon className="h-5 w-5" /></div>
+                             <div className="min-w-0">
+                               <div className="text-base font-bold leading-tight text-foreground">{f.title}</div>
+                               <div className="mt-1.5 text-sm leading-snug text-muted-foreground">{f.desc}</div>
+                             </div>
+                           </div>
+                         </CarouselItem>
+                       ))}
+                     </CarouselContent>
+                     <CarouselPrevious className="left-0 border-primary/30 bg-card" aria-label={t("Đặc quyền trước", "Previous perk")}><ChevronLeft /></CarouselPrevious>
+                     <CarouselNext className="right-0 border-primary/30 bg-card" aria-label={t("Đặc quyền tiếp theo", "Next perk")}><ChevronRight /></CarouselNext>
+                   </Carousel>
                 </div>
 
                 {premium.isPremium && !premium.isStaff && premium.expiresAt && (
@@ -253,17 +269,21 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                   </div>
                 )}
 
-                <div className="grid grid-cols-2 gap-2" role="tablist">
+                 <div ref={paymentOptionsRef} className="grid grid-cols-1 gap-3 sm:grid-cols-2" role="tablist">
                   {([
-                    { id: "online", icon: CreditCard, label: t("Card Payment", "Card Payment"), sub: "Only 19 EUR / year" },
-                    { id: "bank", icon: Landmark, label: t("Bank Transfer", "Bank Transfer"), sub: "Only 19 EUR/ year (599k VND)" },
+                     { id: "online", icon: CreditCard, label: t("Card Payment", "Card Payment"), sub: "Only 19 EUR / year", image: cardPaymentBg },
+                     { id: "bank", icon: Landmark, label: t("Bank Transfer", "Bank Transfer"), sub: "Only 19 EUR/ year (599k VND)", image: bankTransferBg },
                   ] as const).map((o) => (
-                    <button key={o.id} role="tab" aria-selected={tab === o.id} onClick={() => setTab(o.id)}
-                      className={`flex flex-col items-center justify-center gap-1 rounded-xl border-2 px-2 py-4 text-sm sm:text-base font-semibold transition ${tab === o.id ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:bg-secondary"}`}>
-                      <o.icon className="w-6 h-6 shrink-0" />
-                      <span className="text-center">{o.label}</span>
-                      <span className="text-[11px] font-medium text-muted-foreground">{o.sub}</span>
-                    </button>
+                     <Button key={o.id} role="tab" aria-selected={tab === o.id} onClick={() => setTab(o.id)} variant="outline"
+                       className={`group relative h-[168px] overflow-hidden whitespace-normal border-2 p-0 text-left ${tab === o.id ? "border-primary ring-2 ring-primary/20" : "border-border hover:border-primary/50"}`}>
+                       <img src={o.image} alt="" loading="lazy" width={1200} height={608} className="absolute inset-0 h-full w-full object-cover transition duration-300 group-hover:scale-[1.03]" />
+                       <span className="absolute inset-0 bg-gradient-to-t from-background via-background/90 to-background/20" />
+                       <span className="relative mt-auto flex w-full flex-col items-start gap-1 p-4">
+                         <span className="flex w-full items-center gap-2 text-base font-extrabold text-foreground"><o.icon className="h-5 w-5 text-primary" />{o.label}{tab === o.id && <BadgeCheck className="ml-auto h-5 w-5 text-primary" />}</span>
+                         <span className="text-sm font-bold text-primary">{o.sub}</span>
+                         {o.id === "online" ? <PaymentMethodMarks /> : <BankRegionMarks />}
+                       </span>
+                     </Button>
                   ))}
                 </div>
                 {tab === "online" && (
@@ -273,10 +293,9 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                       <div className="text-center space-y-3 py-2">
                         <div className="text-3xl font-extrabold text-foreground">19 EUR <span className="text-base font-medium text-muted-foreground">/ {t("năm", "year")}</span></div>
                         <p className="text-sm text-muted-foreground">{t("Thanh toán 1 lần bằng thẻ, Apple Pay hoặc Google Pay. Mở khóa toàn bộ nội dung trong 12 tháng, không tự động gia hạn.", "One-time payment by card, Apple Pay or Google Pay. Full access for 12 months, no automatic renewal.")}</p>
-                        <button onClick={() => setShowCheckout(true)} disabled={!user}
-                          className="w-full sm:w-auto rounded-xl bg-gradient-to-r from-primary to-emerald-500 px-8 py-3 text-sm font-bold text-primary-foreground shadow-lg disabled:opacity-60">
+                         <Button onClick={() => setShowCheckout(true)} disabled={!user} size="lg" className="w-full font-bold sm:w-auto">
                           {t("Tiếp tục thanh toán", "Continue to payment")}
-                        </button>
+                         </Button>
                       </div>
                     ) : (
                       <StripeEmbeddedCheckout priceId={PREMIUM_PRICE_ID} returnUrl={returnUrl} />
