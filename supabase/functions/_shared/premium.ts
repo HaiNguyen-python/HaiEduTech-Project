@@ -39,3 +39,25 @@ export async function extendPremiumOneYear(
   if (error) throw error;
   return expires.toISOString();
 }
+
+/** Grants premium for a paid Stripe checkout session. Idempotent per session id. */
+export async function fulfillStripeSession(session: any, env: string) {
+  const userId = session.metadata?.userId;
+  if (!userId) {
+    console.error("No userId on session", session.id);
+    return false;
+  }
+  const { data } = await adminClient()
+    .from("user_subscriptions")
+    .select("stripe_session_id")
+    .eq("user_id", userId)
+    .maybeSingle();
+  if (data?.stripe_session_id === session.id) return true;
+  await extendPremiumOneYear(userId, {
+    source: "stripe",
+    email: session.customer_details?.email ?? null,
+    stripe_session_id: session.id,
+    environment: env,
+  });
+  return true;
+}
