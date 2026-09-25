@@ -8,6 +8,14 @@ const files = [
 
 const visibleUiFiles = [
   "src/components/PhrasePractice.tsx",
+  "src/components/TranslationPractice.tsx",
+  "src/components/GrammarPractice.tsx",
+  "src/components/IdeaPractice.tsx",
+  "src/components/CohesionLab.tsx",
+  "src/components/cohesion/LinkerBank.tsx",
+  "src/components/cohesion/ParagraphReorder.tsx",
+  "src/components/cohesion/CohesionAnalyser.tsx",
+  "src/pages/IeltsWritingPractice.tsx",
 ];
 
 const collectSourceFiles = (directory) => readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {

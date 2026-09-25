@@ -91,7 +91,7 @@ const SentenceLinking = ({ taskType }: Props) => {
     try {
       const { data, error } = await supabase.functions.invoke("grade-phrase-sentence", {
         body: {
-          phrase: `cohesive combination of: "${current.sentenceA}" + "${current.sentenceB}"`,
+          phrase: `cohesive combination of: “${current.sentenceA}” + “${current.sentenceB}”`,
           phraseMeaning: `Suggested linkers: ${current.suggestedLinkers.join(", ")} | Model answers: ${current.modelAnswers.join(" || ")}`,
           userSentence: combined.trim(),
           taskType,
