@@ -44,6 +44,7 @@ import AdminWorkspaceNav, {
   type AdminTabGroup,
 } from "@/components/admin/AdminWorkspaceNav";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import PremiumMembersCard from "@/components/admin/PremiumMembersCard";
 import NewSignupsCard from "@/components/admin/NewSignupsCard";
 
 const SystemStatusTab = lazy(() => import("@/components/SystemStatusTab"));
@@ -610,6 +611,7 @@ const AdminDashboard = () => {
                 {/* Newest sign-ups so the teacher can welcome and place them */}
                 <div className="mb-6">
                   <NewSignupsCard onOpenStudents={() => handleTabChange("students", "students")} />
+                  <PremiumMembersCard />
                 </div>
                 <div className="grid lg:grid-cols-2 gap-6">
                   {/* Domain Distribution Pie */}
