@@ -45,6 +45,11 @@ const regularVerbForms = (word: string): string[] => {
   return forms;
 };
 
+const verbSource = (word: string) => {
+  const forms = [...regularVerbForms(word), ...(IRREGULAR_VERBS[word.toLowerCase()] ?? [])];
+  return `(?:${Array.from(new Set(forms)).sort((a, b) => b.length - a.length).map(escape).join("|")})`;
+};
+
 const IRREGULAR_FORM_TO_BASE: Record<string, string> = (() => {
   const map: Record<string, string> = {};
   for (const [base, forms] of Object.entries(IRREGULAR_VERBS)) {
