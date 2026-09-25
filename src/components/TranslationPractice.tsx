@@ -10,6 +10,7 @@ import {
   CheckCircle2, Eye, BookmarkPlus, BookmarkCheck, Sparkles, Volume2, Download,
 } from "lucide-react";
 import { openWritingPdf } from "@/lib/writingPdfExport";
+import { renderKeyPhrases, markKeyPhrases } from "@/lib/keyPhraseText";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -280,7 +281,7 @@ const TranslationPractice = ({ taskType }: Props) => {
       sections: [
         { heading: "Vietnamese sentence", kind: "text", text: item.vi },
         { heading: "Your translation", kind: "text", text: answer },
-        { heading: "Reference version", kind: "text", text: item.en },
+        { heading: "Reference version", kind: "text", text: markKeyPhrases(item.en, item.keywords) },
         ...(ai
           ? ([
               {
@@ -536,7 +537,7 @@ const TranslationPractice = ({ taskType }: Props) => {
               </CardHeader>
               <CardContent className="space-y-3">
                 <div className="flex items-start gap-2">
-                  <p className="text-base font-medium flex-1">{item.en}</p>
+                  <p className="text-base font-medium flex-1">{renderKeyPhrases(item.en, item.keywords)}</p>
                   <Button variant="ghost" size="icon" onClick={() => speak(item.en)} aria-label="Play model sentence">
                     <Volume2 className="w-4 h-4" />
                   </Button>
