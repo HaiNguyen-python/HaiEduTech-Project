@@ -119,3 +119,6 @@ verify_jwt = false
 
 [functions.redeem-activation-code]
 verify_jwt = false
+
+[functions.verify-checkout-session]
+verify_jwt = false
