@@ -290,8 +290,11 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                   <div className="flex items-center gap-2 mb-3">
                     <ShieldCheck className="w-5 h-5 text-emerald-600" />
                     <h3 className="text-base font-bold text-foreground">
-                      {t("Thông tin chuyển khoản", "Bank Transfer Details")}
+                      {t("Chuyển khoản tại Việt Nam", "Bank Transfer in Vietnam")}
                     </h3>
+                    <span className="ml-auto rounded-full bg-amber-100 dark:bg-amber-900/40 px-2.5 py-1 text-xs font-bold text-amber-800 dark:text-amber-200">
+                      599.000đ / {t("năm", "year")}
+                    </span>
                   </div>
 
                   <div className="mb-2 px-3 py-1.5 rounded-lg bg-amber-100/70 dark:bg-amber-900/30 border border-amber-300/60 dark:border-amber-700/40 text-xs font-semibold text-amber-900 dark:text-amber-100 flex items-center gap-2">
@@ -344,6 +347,60 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                   </div>
                 </div>
 
+                {/* Finland transfer block */}
+                <div className="rounded-xl border-2 border-sky-500/30 bg-gradient-to-br from-sky-50 to-blue-50 dark:from-sky-950/30 dark:to-blue-950/20 p-3 sm:p-4">
+                  <div className="flex items-center gap-2 mb-3">
+                    <ShieldCheck className="w-5 h-5 text-sky-600" />
+                    <h3 className="text-base font-bold text-foreground">
+                      {t("Chuyển khoản tại Phần Lan", "Bank Transfer in Finland")}
+                    </h3>
+                    <span className="ml-auto rounded-full bg-sky-100 dark:bg-sky-900/40 px-2.5 py-1 text-xs font-bold text-sky-800 dark:text-sky-200">
+                      19 EUR / {t("năm", "year")}
+                    </span>
+                  </div>
+
+                  <div className="mb-2 px-3 py-1.5 rounded-lg bg-sky-100/70 dark:bg-sky-900/30 border border-sky-300/60 dark:border-sky-700/40 text-xs font-semibold text-sky-900 dark:text-sky-100 flex items-center gap-2">
+                    <Landmark className="w-3.5 h-3.5 text-sky-600 dark:text-sky-300 shrink-0" />
+                    {t(
+                      "Chuyển khoản SEPA (Phần Lan) - thầy Hải duyệt thủ công.",
+                      "SEPA transfer (Finland) - approved manually by Teacher Hai.",
+                    )}
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <Row tone="sky" label={t("Ngân hàng", "Bank")} value={BANK_FI.name} />
+                    <Row
+                      tone="sky"
+                      label="IBAN"
+                      value={BANK_FI.account}
+                      copyable
+                      copied={copied === "iban"}
+                      onCopy={() => copy(BANK_FI.account.replace(/\s/g, ""), "iban")}
+                      big
+                      mono
+                    />
+                    <Row tone="sky" label={t("Chủ tài khoản", "Account Holder")} value={BANK_FI.holder} />
+                    <Row
+                      tone="sky"
+                      label={t("Số tiền", "Amount")}
+                      value="19 EUR"
+                      copyable
+                      copied={copied === "amount-fi"}
+                      onCopy={() => copy("19", "amount-fi")}
+                      big
+                    />
+                    <Row
+                      tone="sky"
+                      label={t("Nội dung CK", "Transfer Note")}
+                      value={transferRefDisplay}
+                      copyable
+                      copied={copied === "ref-fi"}
+                      onCopy={() => copy(transferRef, "ref-fi")}
+                      mono
+                    />
+                  </div>
+                </div>
+
                 {/* Confirm button */}
                 <button
                   onClick={handleConfirm}
@@ -374,10 +431,10 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
 interface RowProps {
   label: string; value: string;
   copyable?: boolean; copied?: boolean; onCopy?: () => void;
-  big?: boolean; mono?: boolean;
+  big?: boolean; mono?: boolean; tone?: "amber" | "sky";
 }
-const Row = ({ label, value, copyable, copied, onCopy, big, mono }: RowProps) => (
-  <div className="grid grid-cols-[110px_1fr_auto] items-center gap-2 py-1.5 border-b border-amber-200/50 dark:border-amber-800/30 last:border-0">
+const Row = ({ label, value, copyable, copied, onCopy, big, mono, tone = "amber" }: RowProps) => (
+  <div className={`grid grid-cols-[110px_1fr_auto] items-center gap-2 py-1.5 border-b last:border-0 ${tone === "sky" ? "border-sky-200/50 dark:border-sky-800/30" : "border-amber-200/50 dark:border-amber-800/30"}`}>
     <span className="text-xs font-medium text-muted-foreground">{label}</span>
     <span className={`text-foreground break-all text-right ${big ? "text-sm sm:text-base font-extrabold tracking-wider" : "text-xs font-semibold"} ${mono ? "font-mono text-xs sm:text-sm" : ""}`}>
       {value}
@@ -385,10 +442,10 @@ const Row = ({ label, value, copyable, copied, onCopy, big, mono }: RowProps) =>
     {copyable ? (
       <button
         onClick={onCopy}
-        className="p-1 rounded-md bg-white dark:bg-card border border-amber-300 dark:border-amber-700 hover:bg-amber-100 dark:hover:bg-amber-900/30 transition shrink-0"
+        className={`p-1 rounded-md bg-white dark:bg-card border transition shrink-0 ${tone === "sky" ? "border-sky-300 dark:border-sky-700 hover:bg-sky-100 dark:hover:bg-sky-900/30" : "border-amber-300 dark:border-amber-700 hover:bg-amber-100 dark:hover:bg-amber-900/30"}`}
         aria-label="Copy"
       >
-        {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5 text-amber-700 dark:text-amber-400" />}
+        {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className={`w-3.5 h-3.5 ${tone === "sky" ? "text-sky-700 dark:text-sky-400" : "text-amber-700 dark:text-amber-400"}`} />}
       </button>
     ) : (
       <div className="w-[27px]" />
