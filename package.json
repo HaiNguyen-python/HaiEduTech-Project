@@ -13,7 +13,8 @@
     "test:watch": "vitest",
     "audit:programming-english": "bun scripts/validateProgrammingEnglish.ts",
     "audit:purpose-english": "bun scripts/audit_purpose_english_core.ts && bun scripts/audit_purpose_english_lab.ts && bun scripts/audit_conversational_listening.ts",
-    "audit:ielts-reading-theory": "bun scripts/audit_ielts_reading_theory.ts"
+    "audit:ielts-reading-theory": "bun scripts/audit_ielts_reading_theory.ts",
+    "audit:quotes": "bun scripts/audit_english_fun_facts_quotes.mjs"
   },
   "dependencies": {
     "@codemirror/lang-python": "^6.2.1",
