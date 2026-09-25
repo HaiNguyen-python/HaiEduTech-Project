@@ -122,6 +122,14 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
       return;
     }
     setSubmitting(true);
+    const { data: existing } = await supabase.from("user_subscriptions").select("id")
+      .eq("user_id", user.id).eq("status", "pending_verification").limit(1);
+    if (existing && existing.length) {
+      setSubmitting(false);
+      toast.info(t("Bạn đã gửi xác nhận rồi, thầy Hải đang kiểm tra.", "You already submitted - Teacher Hai is checking."));
+      setSuccess(true);
+      return;
+    }
     const { error } = await supabase.from("user_subscriptions").insert({
       user_id: user.id,
       status: "pending_verification",
@@ -219,6 +227,24 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
               </motion.div>
             ) : (
               <div className="px-5 sm:px-8 py-4 space-y-3">
+                <div className="rounded-xl border-2 border-primary/40 bg-primary/5 p-4 space-y-3">
+                  <p className="flex items-center gap-2 text-base font-bold text-foreground"><KeyRound className="w-4 h-4 text-primary" />{t("Học viên nội bộ - Dùng mã kích hoạt", "Internal student - Use activation code")}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {t("Dành cho học viên nội bộ của thầy Hải. Nhập mã để mở khóa toàn bộ nội dung trong 12 tháng.", "For Teacher Hai's enrolled students. Enter your code to unlock everything for 12 months.")}
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-2">
+                      <input value={code} onChange={(e) => setCode(e.target.value)} maxLength={64}
+                        onKeyDown={(e) => { if (e.key === "Enter" && code.trim()) redeem(); }}
+                        placeholder={t("Nhập mã kích hoạt", "Enter activation code")}
+                        className="flex-1 rounded-lg border border-input bg-background px-3 py-2.5 text-base text-foreground focus:outline-none focus:ring-2 focus:ring-primary" />
+                      <button onClick={redeem} disabled={submitting || !user || !code.trim()}
+                        className="rounded-lg bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground disabled:opacity-60 flex items-center justify-center gap-2">
+                        {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <KeyRound className="w-4 h-4" />} {t("Kích hoạt", "Activate")}
+                      </button>
+                    </div>
+                    {codeError && <p className="text-sm font-medium text-destructive">{codeError}</p>}
+                    <p className="text-xs text-muted-foreground">{t("Chưa có mã? Chọn Thanh toán online.", "No code? Choose Pay online.")}</p>
+                </div>
                  <PlanComparison onChoosePremium={() => { setTab("online"); requestAnimationFrame(() => paymentOptionsRef.current?.scrollIntoView({ behavior: "smooth", block: "center" })); }} />
                  {/* Premium perks carousel */}
                  <div className="rounded-lg border border-border bg-muted/25 p-3 sm:p-4">
@@ -256,32 +282,6 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                 {premium.isPremium && !premium.isStaff && premium.expiresAt && (
                   <div className="rounded-lg border border-emerald-500/40 bg-emerald-500/10 px-3 py-2 text-sm text-foreground">
                     {t("Premium của bạn còn hạn đến", "Your Premium is active until")} <strong>{new Date(premium.expiresAt).toLocaleDateString()}</strong>. {t("Thanh toán thêm sẽ cộng tiếp 12 tháng.", "Paying again adds another 12 months.")}
-                  </div>
-                )}
-                <button
-                  onClick={() => setTab("code")}
-                  className={`w-full rounded-lg border border-dashed px-3 py-2 text-xs font-medium transition ${tab === "code" ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:bg-secondary"}`}
-                >
-                  {t("Học viên nội bộ - Dùng mã kích hoạt", "Internal student - Use activation code")}
-                </button>
-
-                {tab === "code" && (
-                  <div className="rounded-xl border border-border bg-secondary/30 p-4 space-y-3">
-                    <p className="text-sm text-muted-foreground">
-                      {t("Dành cho học viên nội bộ của thầy Hải. Nhập mã để mở khóa toàn bộ nội dung trong 12 tháng.", "For Teacher Hai's enrolled students. Enter your code to unlock everything for 12 months.")}
-                    </p>
-                    <div className="flex flex-col sm:flex-row gap-2">
-                      <input value={code} onChange={(e) => setCode(e.target.value)} maxLength={64}
-                        onKeyDown={(e) => { if (e.key === "Enter" && code.trim()) redeem(); }}
-                        placeholder={t("Nhập mã kích hoạt", "Enter activation code")}
-                        className="flex-1 rounded-lg border border-input bg-background px-3 py-2.5 text-base text-foreground focus:outline-none focus:ring-2 focus:ring-primary" />
-                      <button onClick={redeem} disabled={submitting || !user || !code.trim()}
-                        className="rounded-lg bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground disabled:opacity-60 flex items-center justify-center gap-2">
-                        {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <KeyRound className="w-4 h-4" />} {t("Kích hoạt", "Activate")}
-                      </button>
-                    </div>
-                    {codeError && <p className="text-sm font-medium text-destructive">{codeError}</p>}
-                    <p className="text-xs text-muted-foreground">{t("Chưa có mã? Chọn Thanh toán online.", "No code? Choose Pay online.")}</p>
                   </div>
                 )}
 
