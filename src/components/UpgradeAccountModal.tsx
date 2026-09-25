@@ -111,7 +111,7 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
   }, [user]);
 
   // Display-friendly transfer note example (always shows generic placeholder)
-  const transferRefDisplay = "HAIEDUTECH_UPGRADE_TÊN CỦA BẠN";
+  const transferRefDisplay = "HAIEDUTECH_UPGRADE_YOUR NAME";
 
   useEffect(() => {
     if (!open) {
