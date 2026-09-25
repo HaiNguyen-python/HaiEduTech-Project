@@ -506,18 +506,29 @@ const VietnamMark = () => (
 );
 
 const EuropeMark = () => (
-  <span className="relative inline-flex h-7 w-10 shrink-0 items-center justify-center overflow-hidden rounded-sm bg-primary shadow-sm" aria-label="European Union">
-    <span className="text-[9px] tracking-[1px] text-accent">✦✦✦</span>
+  <span
+    className="relative inline-flex h-7 w-10 shrink-0 items-center justify-center overflow-hidden rounded-sm bg-blue-700 shadow-sm"
+    aria-label="European Union"
+  >
+    {Array.from({ length: 8 }).map((_, i) => (
+      <span
+        key={i}
+        className="absolute left-1/2 top-1/2 text-[6px] leading-none text-yellow-400"
+        style={{ transform: `translate(-50%, -50%) rotate(${i * 45}deg) translateY(-9px)` }}
+      >
+        ★
+      </span>
+    ))}
   </span>
 );
 
 const FinlandMark = () => (
   <span
-    className="relative inline-flex h-7 w-10 shrink-0 items-center justify-center overflow-hidden rounded-sm border border-border bg-card shadow-sm"
+    className="relative inline-flex h-7 w-10 shrink-0 items-center justify-center overflow-hidden rounded-sm border border-border bg-white shadow-sm"
     aria-label="Finland"
   >
-    <span className="absolute top-0 h-full w-[20%] bg-primary" style={{ left: "30%" }} />
-    <span className="absolute left-0 h-[20%] w-full bg-primary" style={{ top: "40%" }} />
+    <span className="absolute top-0 h-full w-[20%] bg-blue-700" style={{ left: "30%" }} />
+    <span className="absolute left-0 h-[20%] w-full bg-blue-700" style={{ top: "40%" }} />
   </span>
 );
 
