@@ -13,7 +13,6 @@ const visibleUiFiles = [
   "src/components/IdeaPractice.tsx",
   "src/components/CohesionLab.tsx",
   "src/components/cohesion/LinkerBank.tsx",
-  "src/components/cohesion/SentenceLinking.tsx",
   "src/components/cohesion/ParagraphReorder.tsx",
   "src/components/cohesion/CohesionAnalyser.tsx",
   "src/pages/IeltsWritingPractice.tsx",
