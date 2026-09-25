@@ -43,4 +43,4 @@
 - [x] Strengthen the Free versus Premium comparison and payment call to action.
 - [x] Convert Premium perks into a compact auto-scrolling carousel.
 - [x] Add clear card-payment and EU/Vietnam bank-transfer visuals.
-- [ ] Verify the upgraded window on desktop and mobile.
+- [x] Verify the upgraded window on desktop and mobile.
