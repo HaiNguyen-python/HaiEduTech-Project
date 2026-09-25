@@ -83,9 +83,12 @@ for (const p of IELTS_PHRASES) {
   if (VI.test(stripBold(p.example))) add(bank, p.id, "Vietnamese leak in the English example");
   if (VI.test(p.meaningEn)) add(bank, p.id, "Vietnamese leak in meaningEn");
   if (!/[.!?]$/.test(stripBold(p.example).trim())) add(bank, p.id, "example missing final punctuation");
-  dedupeLine: 0,
-} as never;
+  if (/—/.test(`${p.phrase}${p.meaning}${p.meaningEn}${p.example}`)) add(bank, p.id, "em-dash found (use hyphen)");
+  if (!findKeyPhraseRanges(stripBold(p.example), [p.phrase]).length) {
+    add(bank, p.id, "example does not contain a highlightable form of the phrase");
+  }
 }
+dedupe(IELTS_PHRASES, (p) => `${p.taskType}|${p.phrase}`, "phrase", "phrase within the same task");
 
 // ---------- Cohesion linkers ----------
 const linkerCats = new Set(LINKER_CATEGORIES.map((c) => c.value as string));
