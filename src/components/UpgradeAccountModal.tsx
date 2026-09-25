@@ -438,7 +438,7 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                     <p className="text-sm text-muted-foreground">{t("Tất cả công cụ học tập nâng cao trong một gói duy nhất", "Every advanced learning tool in one package")}</p>
                   </div>
                   <div className="relative">
-                    <Carousel setApi={setPerkApi} opts={{ align: "start", loop: true }} plugins={prefersReducedMotion ? [] : [autoplay]} className="px-9" aria-label={t("Đặc quyền Premium", "Premium perks")}>
+                    <Carousel setApi={setPerkApi} opts={{ align: "start", loop: true, duration: 45 }} plugins={prefersReducedMotion ? [] : [autoplay]} className="px-9" aria-label={t("Đặc quyền Premium", "Premium perks")}>
                       <CarouselContent className="-ml-3">
                         {features.map((f) => (
                           <CarouselItem key={f.title} className="basis-full pl-3 sm:basis-1/2 lg:basis-1/3">
