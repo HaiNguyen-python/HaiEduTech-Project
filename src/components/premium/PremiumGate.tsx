@@ -13,11 +13,12 @@ import { useLanguage } from "@/contexts/LanguageContext";
 
 interface Props {
   free: boolean;
+  kind?: "exam" | "lesson";
   backTo: string;
   children: ReactNode;
 }
 
-export const PremiumLockPanel = ({ backTo, kind = "exam" }: { backTo?: string; kind?: "exam" | "lesson" }) => {
+export const PremiumLockPanel = ({ backTo, kind = "exam", previewTitle }: { backTo?: string; kind?: "exam" | "lesson"; previewTitle?: string }) => {
   const { t } = useLanguage();
   const { user } = usePremium();
   return (
@@ -28,6 +29,14 @@ export const PremiumLockPanel = ({ backTo, kind = "exam" }: { backTo?: string; k
       <h1 className="mb-2 text-2xl font-bold text-foreground">
         {kind === "exam" ? t("Đề thi này dành cho Premium", "This mock exam is Premium") : t("Bài học này dành cho Premium", "This lesson is Premium")}
       </h1>
+      {previewTitle && (
+        <div className="relative mb-4 overflow-hidden rounded-xl border border-border bg-muted/40 p-4 text-left">
+          <p className="text-sm font-semibold uppercase tracking-wide text-primary">{t("Bài tiếp theo", "Up next")}</p>
+          <p className="text-lg font-bold text-foreground">{previewTitle}</p>
+          <p className="mt-1 text-sm text-muted-foreground blur-[2px] select-none">{t("Lý thuyết chi tiết, ví dụ minh họa, bài tập tương tác và quiz cuối bài đang chờ bạn...", "Detailed theory, worked examples, interactive practice and an end-of-lesson quiz are waiting for you...")}</p>
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-card to-transparent" />
+        </div>
+      )}
       <p className="mb-6 text-base text-muted-foreground">
         {kind === "exam"
           ? t("Bạn đã được làm miễn phí đề đầu tiên. Nâng cấp để luyện trọn bộ 125+ đề thi có giải thích chi tiết.", "Your first paper is free. Upgrade to practise the full library of 125+ mock exams with detailed explanations.")
@@ -43,7 +52,7 @@ export const PremiumLockPanel = ({ backTo, kind = "exam" }: { backTo?: string; k
             <Link to="/login"><Crown className="h-5 w-5" /> {t("Đăng nhập để nâng cấp", "Sign in to upgrade")}</Link>
           </Button>
         )}
-        {backTo && (
+        {backTo !== undefined && backTo !== "" && (
           <Button size="lg" variant="outline" asChild className="gap-2">
             <Link to={backTo}><ArrowLeft className="h-4 w-4" /> {t("Quay lại", "Back")}</Link>
           </Button>
@@ -53,7 +62,7 @@ export const PremiumLockPanel = ({ backTo, kind = "exam" }: { backTo?: string; k
   );
 };
 
-const PremiumGate = ({ free, backTo, children }: Props) => {
+const PremiumGate = ({ free, backTo, kind = "exam", children }: Props) => {
   const { isPremium, loading } = usePremium();
   if (free || isPremium) return <>{children}</>;
   return (
@@ -63,7 +72,7 @@ const PremiumGate = ({ free, backTo, children }: Props) => {
         {loading ? (
           <div className="flex justify-center py-20"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>
         ) : (
-          <PremiumLockPanel backTo={backTo} />
+          <PremiumLockPanel backTo={backTo} kind={kind} />
         )}
       </main>
       <Footer />
