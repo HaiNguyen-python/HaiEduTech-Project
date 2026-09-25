@@ -122,28 +122,13 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
       return;
     }
     setSubmitting(true);
-    const { data: existing } = await supabase.from("user_subscriptions").select("id")
-      .eq("user_id", user.id).eq("status", "pending_verification").limit(1);
-    if (existing && existing.length) {
-      setSubmitting(false);
-      toast.info(t("Bạn đã gửi xác nhận rồi, thầy Hải đang kiểm tra.", "You already submitted - Teacher Hai is checking."));
-      setSuccess(true);
-      return;
-    }
-    const { error } = await supabase.from("user_subscriptions").insert({
-      user_id: user.id,
-      status: "pending_verification",
-      plan: "premium",
-      source: "bank",
-      transfer_reference: transferRef,
-      user_email: user.email ?? null,
-      requested_at: new Date().toISOString(),
-    });
+    const { data, error } = await supabase.rpc("request_bank_transfer", { _ref: transferRef });
     setSubmitting(false);
     if (error) {
       toast.error(t("Có lỗi xảy ra, thử lại", "Something went wrong"));
       return;
     }
+    if (data === "already_pending") toast.info(t("Bạn đã gửi xác nhận rồi, thầy Hải đang kiểm tra.", "Already submitted - Teacher Hai is checking."));
     setSuccess(true);
     setTimeout(() => { onClose(); }, 2600);
   };
