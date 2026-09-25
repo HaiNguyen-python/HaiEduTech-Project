@@ -14,7 +14,6 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { PREMIUM_PRICE_ID } from "@/lib/stripe";
 import { PREMIUM_CHANGED_EVENT, usePremium } from "@/hooks/usePremium";
 import { supabase } from "@/integrations/supabase/client";
-import { useLanguage } from "@/contexts/LanguageContext";
 import { toast } from "sonner";
 import qrImage from "@/assets/vietcombank-qr.png";
 import cardPaymentBg from "@/assets/premium-card-payment-bg.jpg";
@@ -42,7 +41,7 @@ const BANK = {
   name: "Vietcombank",
   account: "1025536199",
   holder: "NGUYEN TRAN THANH HAI",
-  branch: "Trụ sở CN Tân Bình",
+  branch: "Tan Binh Branch Headquarters",
 };
 
 const BANK_FI = {
@@ -52,7 +51,7 @@ const BANK_FI = {
 };
 
 const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) => {
-  const { t } = useLanguage();
+  const t = (_vi: string, en: string) => en;
   const [copied, setCopied] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -256,7 +255,7 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                 </div>
 
 
-                <PlanComparison onChoosePremium={() => { setTab("online"); requestAnimationFrame(() => paymentOptionsRef.current?.scrollIntoView({ behavior: "smooth", block: "center" })); }} />
+                <PlanComparison englishOnly onChoosePremium={() => { setTab("online"); requestAnimationFrame(() => paymentOptionsRef.current?.scrollIntoView({ behavior: "smooth", block: "center" })); }} />
                  <div ref={paymentOptionsRef} className="grid grid-cols-1 gap-3 sm:grid-cols-2" role="tablist">
                   {([
                      { id: "online", icon: CreditCard, label: t("Card Payment", "Card Payment"), sub: "Only 29 EUR / year", image: cardPaymentBg },
