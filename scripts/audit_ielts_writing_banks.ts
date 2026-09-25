@@ -84,7 +84,7 @@ for (const p of IELTS_PHRASES) {
   if (VI.test(p.meaningEn)) add(bank, p.id, "Vietnamese leak in meaningEn");
   if (!/[.!?]$/.test(stripBold(p.example).trim())) add(bank, p.id, "example missing final punctuation");
   if (/—/.test(`${p.phrase}${p.meaning}${p.meaningEn}${p.example}`)) add(bank, p.id, "em-dash found (use hyphen)");
-  if (!findKeyPhraseRanges(stripBold(p.example), [p.phrase]).length) {
+  if (!findKeyPhraseRanges(stripBold(p.example), [p.phrase], { flexible: true }).length) {
     add(bank, p.id, "example does not contain a highlightable form of the phrase");
   }
 }

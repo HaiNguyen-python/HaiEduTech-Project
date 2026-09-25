@@ -50,19 +50,60 @@ const verbSource = (word: string) => {
   return `(?:${Array.from(new Set(forms)).sort((a, b) => b.length - a.length).map(escape).join("|")})`;
 };
 
+const IRREGULAR_FORM_TO_BASE: Record<string, string> = (() => {
+  const map: Record<string, string> = {};
+  for (const [base, forms] of Object.entries(IRREGULAR_VERBS)) {
+    for (const form of forms) {
+      const key = form.toLowerCase();
+      if (!(key in map)) map[key] = base;
+    }
+  }
+  return map;
+})();
+
+/** Verb entries may appear in any natural form ("takes" written as "take"),
+ * so collect every plausible base plus its inflections before matching. */
+const verbBases = (word: string): string[] => {
+  const bases = new Set<string>([word]);
+  const irregular = IRREGULAR_FORM_TO_BASE[word.toLowerCase()];
+  if (irregular) bases.add(irregular);
+  if (/ies$/i.test(word)) bases.add(word.replace(/ies$/i, "y"));
+  if (/s$/i.test(word)) bases.add(word.slice(0, -1));
+  return Array.from(bases);
+};
+
+const verbSourceFor = (word: string): string => {
+  const sources = verbBases(word).map(verbSource);
+  return sources.length === 1 ? sources[0] : `(?:${Array.from(new Set(sources)).join("|")})`;
+};
+
 const DETERMINER = String.raw`(?:a|an|the|this|that|my|your|our|their)`;
 const SLOT = String.raw`(?:[^\s,.!?;]+(?:\s+[^\s,.!?;]+){0,5})`;
+const REFLEXIVE = String.raw`(?:oneself|myself|yourself|himself|herself|itself|ourselves|themselves)`;
+const POSSESSIVE = String.raw`(?:one['’]s|my|your|his|her|its|our|their)`;
 const isReplaceable = (token: string) => /^(?:someone|somebody|something)(?:['’]s)?$/i.test(token);
 
+/** Relaxed separator: up to three inserted words between phrase tokens
+ * ("cut carbon footprints" -> "cut household carbon footprints"). */
+const GAP = String.raw`(?:\s+[\p{L}\p{N}'’-]+){0,3}\s+`;
+const slotSep = String.raw`(?:\s+|\s*[,;:]\s*)`;
+const wordSep = String.raw`\s+`;
+
+type PhraseSources = { exact: string[]; relaxed: string[] };
+
 /** Build natural-language matchers from dictionary-style entries such as
- * "to chair a meeting", "Would ... suit you?" or "by end of day (EOD)". */
-export const keyPhraseSources = (phrase: string): string[] => {
+ * "to chair a meeting", "Would ... suit you?" or "by end of day (EOD)".
+ * Relaxed variants tolerate inserted words and unlisted verb forms and are
+ * consumed only through findKeyPhraseRanges(..., { flexible: true }). */
+const buildPhraseSources = (phrase: string): PhraseSources => {
+  const exact: string[] = [];
+  const relaxed: string[] = [];
   const trimmed = phrase.trim();
-  if (!trimmed) return [];
-  const sources = [escape(trimmed.replace(/[?.!]$/u, ""))];
-  sources.push(...(PHRASE_ALIASES[trimmed.toLowerCase()] ?? []).map(escape));
+  if (!trimmed) return { exact, relaxed };
+  exact.push(escape(trimmed.replace(/[?.!]$/u, "")));
+  exact.push(...(PHRASE_ALIASES[trimmed.toLowerCase()] ?? []).map(escape));
   const parentheticals = Array.from(trimmed.matchAll(/\(([^)]+)\)/g), (match) => match[1]?.trim()).filter(Boolean) as string[];
-  sources.push(...parentheticals.map(escape));
+  exact.push(...parentheticals.map(escape));
 
   let template = trimmed
     .replace(/\s*\([^)]*\)/g, "")
@@ -77,36 +118,33 @@ export const keyPhraseSources = (phrase: string): string[] => {
   const parts = tokens.map((token) => {
     const lower = token.toLowerCase();
     if (token === "..." || isReplaceable(token) || token === "A" || token === "B") return "__SLOT__";
+    if (lower === "oneself") return REFLEXIVE;
+    if (lower === "one's" || lower === "one’s") return POSSESSIVE;
     if (["a", "an", "the"].includes(lower)) return DETERMINER;
     if (leadingInfinitive && firstLexical) {
       firstLexical = false;
-      return verbSource(token);
+      return verbSourceFor(token);
     }
     firstLexical = false;
     return escape(token);
   });
+  const strictSep = (part: string, previous: string) => (part === "__SLOT__" || previous === "__SLOT__" ? slotSep : wordSep);
+  const join = (head: string, rest: string[], separator: (part: string, previous: string) => string) =>
+    rest.reduce((result, part, index) => {
+      const previous = index === 0 ? head : rest[index - 1];
+      return `${result}${separator(part, previous)}${part}`;
+    }, head).replace(/__SLOT__/g, SLOT);
+
   if (parts.length) {
-    const source = parts.reduce((result, part, index) => {
-      if (index === 0) return part;
-      const touchesSlot = part === "__SLOT__" || parts[index - 1] === "__SLOT__";
-      const separator = touchesSlot ? String.raw`(?:\s+|\s*[,;:]\s*)` : String.raw`\s+`;
-      return `${result}${separator}${part}`;
-    }, "").replace(/__SLOT__/g, SLOT);
-    sources.push(source);
+    exact.push(join(parts[0], parts.slice(1), strictSep));
   }
   if (!leadingInfinitive && tokens[0]) {
-    const firstVerb = [verbSource(tokens[0]), ...parts.slice(1)].reduce((result, part, index) => {
-      const previous = index === 0 ? parts[0] : parts[index];
-      const touchesSlot = part === "__SLOT__" || previous === "__SLOT__";
-      const separator = touchesSlot ? String.raw`(?:\s+|\s*[,;:]\s*)` : String.raw`\s+`;
-      return `${result}${separator}${part}`;
-    }).replace(/__SLOT__/g, SLOT);
-    sources.push(firstVerb);
+    exact.push(join(verbSourceFor(tokens[0]), parts.slice(1), strictSep));
   }
-  if (tokens.length === 1 && tokens[0]) sources.push(verbSource(tokens[0]));
+  if (tokens.length === 1 && tokens[0]) exact.push(verbSourceFor(tokens[0]));
   if (/^to\s+be\s+/i.test(trimmed)) {
     const complement = tokens.slice(1).map((token) => ["a", "an", "the"].includes(token.toLowerCase()) ? DETERMINER : escape(token));
-    sources.push(complement.join(String.raw`\s+`));
+    exact.push(complement.join(wordSep));
   }
 
   // A safe fallback for dictionary infinitives whose example replaces the
@@ -114,15 +152,30 @@ export const keyPhraseSources = (phrase: string): string[] => {
   // verb or phrasal verb rather than silently leaving the example unmarked.
   if (leadingInfinitive && tokens[0]) {
     const particles = new Set(["about", "across", "along", "around", "at", "away", "back", "down", "for", "forward", "in", "into", "off", "on", "out", "over", "through", "to", "up", "with"]);
-    const core = [verbSource(tokens[0])];
+    const core = [verbSourceFor(tokens[0])];
     for (const token of tokens.slice(1)) {
       if (!particles.has(token.toLowerCase())) break;
       core.push(String.raw`(?:\s+${WORD}){0,3}\s+${escape(token)}`);
     }
-    sources.push(core.join(""));
+    exact.push(core.join(""));
   }
-  return Array.from(new Set(sources.filter(Boolean))).sort((a, b) => b.length - a.length);
+
+  if (parts.length > 1) {
+    const gapped = (head: string, rest: string[]) => join(head, rest, (part, previous) => (part === "__SLOT__" || previous === "__SLOT__" ? slotSep : GAP));
+    relaxed.push(gapped(parts[0], parts.slice(1)));
+    if (!leadingInfinitive && tokens[0]) relaxed.push(gapped(verbSourceFor(tokens[0]), parts.slice(1)));
+    if (parts.length > 2) relaxed.push(gapped(parts[1], parts.slice(2)));
+  }
+
+  return { exact, relaxed };
 };
+
+export const keyPhraseSources = (phrase: string): string[] =>
+  buildPhraseSources(phrase).exact.filter(Boolean);
+
+/** Relaxed variants used only in flexible highlighting mode. */
+export const keyPhraseRelaxedSources = (phrase: string): string[] =>
+  buildPhraseSources(phrase).relaxed.filter(Boolean);
 
 export interface KeywordRange {
   start: number;
