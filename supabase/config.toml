@@ -110,3 +110,12 @@ verify_jwt = false
 
 [functions.listening-tts]
 verify_jwt = false
+
+[functions.create-checkout]
+verify_jwt = false
+
+[functions.payments-webhook]
+verify_jwt = false
+
+[functions.redeem-activation-code]
+verify_jwt = false
