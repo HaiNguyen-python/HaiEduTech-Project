@@ -27,6 +27,12 @@ const BANK = {
   branch: "Trụ sở CN Tân Bình",
 };
 
+const BANK_FI = {
+  name: "Nordea",
+  account: "FI09 1040 3500 5258 23",
+  holder: "Nguyen Tran Thanh Hai",
+};
+
 const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) => {
   const { t } = useLanguage();
   const [copied, setCopied] = useState<string | null>(null);
@@ -220,18 +226,25 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                     {t("Premium của bạn còn hạn đến", "Your Premium is active until")} <strong>{new Date(premium.expiresAt).toLocaleDateString()}</strong>. {t("Thanh toán thêm sẽ cộng tiếp 12 tháng.", "Paying again adds another 12 months.")}
                   </div>
                 )}
-                <div className="grid grid-cols-3 gap-2" role="tablist">
+                <div className="grid grid-cols-2 gap-2" role="tablist">
                   {([
-                    { id: "code", icon: KeyRound, label: t("Mã kích hoạt", "Activation code") },
-                    { id: "online", icon: CreditCard, label: t("Thanh toán online 19 EUR/năm", "Pay online 19 EUR/year") },
-                    { id: "bank", icon: Landmark, label: t("Chuyển khoản VN", "VN bank transfer") },
+                    { id: "online", icon: CreditCard, label: t("Card Payment", "Card Payment"), sub: "19 EUR / " + t("năm", "year") },
+                    { id: "bank", icon: Landmark, label: t("Bank Transfer", "Bank Transfer"), sub: t("599.000đ - 19 EUR", "599.000đ - 19 EUR") },
                   ] as const).map((o) => (
                     <button key={o.id} role="tab" aria-selected={tab === o.id} onClick={() => setTab(o.id)}
-                      className={`flex flex-col sm:flex-row items-center justify-center gap-1.5 rounded-lg border px-2 py-2.5 text-xs sm:text-sm font-semibold transition ${tab === o.id ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:bg-secondary"}`}>
-                      <o.icon className="w-4 h-4 shrink-0" /> <span className="text-center">{o.label}</span>
+                      className={`flex flex-col items-center justify-center gap-1 rounded-xl border-2 px-2 py-4 text-sm sm:text-base font-semibold transition ${tab === o.id ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:bg-secondary"}`}>
+                      <o.icon className="w-6 h-6 shrink-0" />
+                      <span className="text-center">{o.label}</span>
+                      <span className="text-[11px] font-medium text-muted-foreground">{o.sub}</span>
                     </button>
                   ))}
                 </div>
+                <button
+                  onClick={() => setTab("code")}
+                  className={`w-full rounded-lg border border-dashed px-3 py-2 text-xs font-medium transition ${tab === "code" ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:bg-secondary"}`}
+                >
+                  {t("Học viên nội bộ - Dùng mã kích hoạt", "Internal student - Use activation code")}
+                </button>
 
                 {tab === "code" && (
                   <div className="rounded-xl border border-border bg-secondary/30 p-4 space-y-3">
