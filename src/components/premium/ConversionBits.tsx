@@ -72,12 +72,16 @@ const ROWS: { vi: string; en: string; free: string | boolean; freeEn?: string }[
   { vi: "Bài học mỗi khóa", en: "Lessons per course", free: "3 bài", freeEn: "3 lessons" },
   { vi: "Đề thi thử", en: "Mock exams", free: "1 đề/loại", freeEn: "1 per test" },
   { vi: "Chấm AI Writing/Speaking", en: "AI Writing/Speaking grading", free: "3 lượt", freeEn: "3 total" },
+  { vi: "AI Speaking Coach (phát âm & IPA)", en: "AI Speaking Coach (pronunciation & IPA)", free: "3 lượt", freeEn: "3 total" },
+  { vi: "Siêu từ điển & sổ tay học tập", en: "Super Dictionary & study notebook", free: "Cơ bản", freeEn: "Basic" },
+  { vi: "Trò chơi học tập & bảng xếp hạng", en: "Learning games & leaderboards", free: "Cơ bản", freeEn: "Basic" },
   { vi: "Tải chứng chỉ có mã xác thực", en: "Verified certificate download", free: false },
   { vi: "Nội dung nâng cao (Kanji, JLPT, YKI...)", en: "Advanced content (Kanji, JLPT, YKI...)", free: false },
   { vi: "Toàn bộ đề thi IELTS/TOEIC/HSK/Cambridge (125+)", en: "Full IELTS/TOEIC/HSK/Cambridge exam bank (125+)", free: false },
   { vi: "Khóa Python, Nhật, Phần Lan, Business English đầy đủ", en: "Full Python, Japanese, Finnish, Business English", free: false },
   { vi: "Báo cáo Learning DNA & PDF tiến độ", en: "Learning DNA & PDF progress reports", free: false },
   { vi: "Tư vấn AI học bổng & nghề nghiệp", en: "AI scholarship & career advisor", free: "Cơ bản", freeEn: "Basic" },
+  { vi: "Lộ trình cá nhân hóa & tư vấn 1-1 với thầy", en: "Personalized roadmap & 1-1 teacher guidance", free: false },
   { vi: "Bài học mới cập nhật hằng ngày", en: "New lessons added daily", free: false },
   { vi: "Hỗ trợ ưu tiên từ thầy Hải", en: "Priority support from Teacher Hai", free: false },
 ];
@@ -114,8 +118,8 @@ export const PlanComparison = ({ onChoosePremium }: { onChoosePremium?: () => vo
           <tbody>
             {ROWS.map((r) => (
               <tr key={r.en} className="border-b border-border/60">
-                <td className="py-2 pr-2 text-foreground">{t(r.vi, r.en)}</td>
-                <td className="py-2 px-2 text-center text-muted-foreground">
+                <td className="py-2 pr-2 font-semibold text-foreground">{t(r.vi, r.en)}</td>
+                <td className="py-2 px-2 text-center font-medium text-muted-foreground">
                   {r.free === false ? <X className="mx-auto h-4 w-4" /> : t(String(r.free), r.freeEn ?? String(r.free))}
                 </td>
                  <td className="bg-primary/5 py-2 pl-2 text-center"><span className="inline-flex items-center gap-1 font-bold text-primary"><Check className="h-4 w-4" /> {t("Đầy đủ", "Full")}</span></td>
