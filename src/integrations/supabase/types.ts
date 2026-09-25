@@ -4467,6 +4467,25 @@ export type Database = {
         Args: { payload: Json; queue_name: string }
         Returns: number
       }
+      find_game_room: {
+        Args: { _code: string }
+        Returns: {
+          created_at: string
+          created_by: string | null
+          ended_at: string | null
+          id: string
+          room_code: string
+          settings: Json
+          started_at: string | null
+          status: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "game_rooms"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
       get_admin_dashboard_snapshot: { Args: { _since: string }; Returns: Json }
       get_admin_user_meta: {
         Args: { _since: string }
@@ -4483,6 +4502,16 @@ export type Database = {
           raw_count: number
         }[]
       }
+      get_game_leaderboard: {
+        Args: { _game_type: string }
+        Returns: {
+          created_at: string
+          max_streak: number
+          score: number
+          user_id: string
+        }[]
+      }
+      get_game_room_status: { Args: { _room_id: string }; Returns: string }
       get_mastery_leaderboard: {
         Args: { _subject: string }
         Returns: {

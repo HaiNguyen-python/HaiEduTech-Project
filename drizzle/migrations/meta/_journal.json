@@ -78,6 +78,13 @@
       "when": 1790362433155,
       "tag": "0010_tighten_permissive_policies",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1790362816582,
+      "tag": "0011_scope_social_game_schedule_reads",
+      "breakpoints": true
     }
   ]
 }
