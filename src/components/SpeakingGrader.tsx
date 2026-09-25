@@ -1,4 +1,5 @@
 // IELTS Speaking Grader with real-time speech-to-text transcription
+import { AiQuotaBadge } from "@/components/premium/ConversionBits";
 import { consumeAiGrade } from "@/lib/aiQuota";
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -473,6 +474,7 @@ const SpeakingGrader = () => {
                     <button onClick={resetRecording} className="flex items-center gap-2 px-6 py-3 rounded-xl bg-secondary text-secondary-foreground text-base font-semibold hover:bg-primary/5 transition-colors">
                       <RotateCcw className="w-5 h-5" /> {t("Ghi lại", "Re-record")}
                     </button>
+                    <div className="w-full"><AiQuotaBadge /></div>
                     <button onClick={handleGrade} disabled={loading} className="flex items-center gap-2 px-8 py-3 rounded-xl bg-primary text-primary-foreground text-base font-bold disabled:opacity-50 hover:brightness-110 transition-all shadow-lg">
                       {loading ? <motion.div className="w-5 h-5 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full" animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }} /> : <Play className="w-5 h-5 fill-current" />}
                       {loading ? t("Đang chấm...", "Grading...") : t("Chấm điểm", "Grade")}

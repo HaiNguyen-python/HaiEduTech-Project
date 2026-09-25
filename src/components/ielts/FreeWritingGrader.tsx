@@ -1,5 +1,6 @@
 // Smart Grading for essays written against the student's OWN prompt
 // (school topics, books, real exam questions) - no prompt bank involved.
+import { AiQuotaBadge } from "@/components/premium/ConversionBits";
 import { consumeAiGrade } from "@/lib/aiQuota";
 import { forwardRef, useState } from "react";
 import { motion } from "framer-motion";
@@ -328,6 +329,7 @@ const FreeWritingGrader = forwardRef<HTMLDivElement>((_props, ref) => {
             </div>
 
             <div className="flex flex-wrap gap-2">
+              <div className="w-full"><AiQuotaBadge /></div>
               <Button onClick={handleGrade} disabled={grading} className="flex-1 min-w-[160px]">
                 {grading ? <Loader2 className="w-4 h-4 mr-1 animate-spin" /> : <Send className="w-4 h-4 mr-1" />}
                 {grading ? t("Đang chấm...", "Grading...") : t("Chấm bài ngay", "Grade now")}

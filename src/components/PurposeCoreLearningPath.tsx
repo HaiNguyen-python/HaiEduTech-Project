@@ -1,3 +1,4 @@
+import { TrialProgressBar } from "@/components/premium/ConversionBits";
 import { FREE_LESSONS, openUpgradeModal, usePremium } from "@/hooks/usePremium";
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
@@ -353,6 +354,7 @@ const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics, unlo
 
   return (
     <div className="purpose-course mx-auto max-w-6xl py-5 text-foreground">
+      {!unlockAll && <TrialProgressBar total={allLessons.length} completedFree={allLessons.slice(0, FREE_LESSONS).filter((l) => done.includes(l.id)).length} />}
       <div className="mb-7 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div><p className="text-sm font-extrabold uppercase text-primary">{purposeTrackLabel(track, vi)}</p><h2 className="mt-1 text-2xl font-extrabold text-foreground sm:text-3xl">{t("Lộ trình Core Lessons", "Core Lessons learning path")}</h2><p className="mt-2 text-base font-medium text-foreground/75">{t("Đi từng chặng, luyện từng kỹ năng và áp dụng ngay.", "Build each skill step by step and apply it immediately.")}</p>
           <p className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-foreground/70">

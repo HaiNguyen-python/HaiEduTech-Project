@@ -4,6 +4,8 @@
  * @author Teacher Hai (HaiEduTech)
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
+import { usePremium } from "@/hooks/usePremium";
+import { PremiumLockPanel } from "@/components/premium/PremiumGate";
 import { useState, useMemo, useEffect, useRef, lazy, Suspense } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Volume2, Star } from "lucide-react";
@@ -556,6 +558,8 @@ const Japanese = () => {
   const [params, setParams] = useSearchParams();
   const initialTab = params.get("tab") || "overview";
   const [tab, setTab] = useState(initialTab);
+  const { isPremium: jpPremium, loading: jpLoading } = usePremium();
+  const jpLocked = !jpPremium && !jpLoading;
   const [dueToday, setDueToday] = useState(() => countDue(loadSrs("japanese")));
   useEffect(() => {
     const id = window.setInterval(() => setDueToday(countDue(loadSrs("japanese"))), 5000);
@@ -1132,6 +1136,7 @@ const Japanese = () => {
           </TabsContent>
 
           <TabsContent value="kanji" className="mt-6 space-y-4">
+{jpLocked ? <PremiumLockPanel kind="lesson" /> : (<>
             <Card className="border-pink-200 bg-white/80 p-4 text-base text-slate-700">
               {t(
                 "Kanji có 2 cách đọc: âm On (gốc Hán) và âm Kun (thuần Nhật). Bấm vào chữ để nghe phát âm.",
@@ -1143,49 +1148,63 @@ const Japanese = () => {
               labels={sectionLabels}
               searchPlaceholder={t("Tìm kanji hoặc nghĩa...", "Search kanji or meaning...")}
             />
-          </TabsContent>
+          </>)}
+</TabsContent>
 
           <TabsContent value="dialogues" className="mt-6">
+{jpLocked ? <PremiumLockPanel kind="lesson" /> : (<>
             <JaSection
               items={dialogueSections}
               labels={sectionLabels}
               searchPlaceholder={t("Tìm hội thoại theo tình huống...", "Search dialogues by situation...")}
             />
-          </TabsContent>
+          </>)}
+</TabsContent>
 
           <TabsContent value="grammar" className="mt-6">
+{jpLocked ? <PremiumLockPanel kind="lesson" /> : (<>
             <JaSection
               items={grammarSections}
               labels={sectionLabels}
               searchPlaceholder={t("Tìm điểm ngữ pháp...", "Search grammar points...")}
             />
-          </TabsContent>
+          </>)}
+</TabsContent>
 
           <TabsContent value="verbs" className="mt-6">
+{jpLocked ? <PremiumLockPanel kind="lesson" /> : (<>
             <Suspense fallback={<div className="p-6 text-base text-slate-600">...</div>}>
               <JapaneseVerbTrainer t={t} lang={lang} speak={speakJa} />
             </Suspense>
-          </TabsContent>
+          </>)}
+</TabsContent>
 
           <TabsContent value="counters" className="mt-6">
+{jpLocked ? <PremiumLockPanel kind="lesson" /> : (<>
             <Suspense fallback={<div className="p-6 text-base text-slate-600">...</div>}>
               <JapaneseCounters t={t} lang={lang} speak={speakJa} />
             </Suspense>
-          </TabsContent>
+          </>)}
+</TabsContent>
 
           <TabsContent value="keigo" className="mt-6">
+{jpLocked ? <PremiumLockPanel kind="lesson" /> : (<>
             <Suspense fallback={<div className="p-6 text-base text-slate-600">...</div>}>
               <JapaneseKeigo t={t} lang={lang} speak={speakJa} />
             </Suspense>
-          </TabsContent>
+          </>)}
+</TabsContent>
 
           <TabsContent value="reading" className="mt-6">
+{jpLocked ? <PremiumLockPanel kind="lesson" /> : (<>
             <Suspense fallback={<div className="p-6 text-base text-slate-600">...</div>}>
               <JapaneseReading t={t} lang={lang} speak={speakJa} />
             </Suspense>
-          </TabsContent>
+          </>)}
+</TabsContent>
 
           <TabsContent value="listening" className="mt-6">
+{jpLocked ? <PremiumLockPanel kind="lesson" /> : (<>
 
             <Suspense fallback={<div className="p-6 text-base text-slate-600">...</div>}>
 
@@ -1193,10 +1212,12 @@ const Japanese = () => {
 
             </Suspense>
 
-          </TabsContent>
+          </>)}
+</TabsContent>
 
 
           <TabsContent value="dictation" className="mt-6">
+{jpLocked ? <PremiumLockPanel kind="lesson" /> : (<>
 
             <Suspense fallback={<div className="p-6 text-base text-slate-600">...</div>}>
 
@@ -1204,10 +1225,12 @@ const Japanese = () => {
 
             </Suspense>
 
-          </TabsContent>
+          </>)}
+</TabsContent>
 
 
           <TabsContent value="flashcards" className="mt-6">
+{jpLocked ? <PremiumLockPanel kind="lesson" /> : (<>
 
             <Suspense fallback={<div className="p-6 text-base text-slate-600">...</div>}>
 
@@ -1253,10 +1276,12 @@ const Japanese = () => {
 
             </Suspense>
 
-          </TabsContent>
+          </>)}
+</TabsContent>
 
 
           <TabsContent value="jlpt" className="mt-6">
+{jpLocked ? <PremiumLockPanel kind="lesson" /> : (<>
 
             <Suspense fallback={<div className="p-6 text-base text-slate-600">...</div>}>
 
@@ -1264,10 +1289,12 @@ const Japanese = () => {
 
             </Suspense>
 
-          </TabsContent>
+          </>)}
+</TabsContent>
 
 
           <TabsContent value="culture" className="mt-6">
+{jpLocked ? <PremiumLockPanel kind="lesson" /> : (<>
 
             <Suspense fallback={<div className="p-6 text-base text-slate-600">...</div>}>
 
@@ -1275,14 +1302,17 @@ const Japanese = () => {
 
             </Suspense>
 
-          </TabsContent>
+          </>)}
+</TabsContent>
 
 
           <TabsContent value="speaking" className="mt-6">
+{jpLocked ? <PremiumLockPanel kind="lesson" /> : (<>
             <Suspense fallback={<div className="p-6 text-base text-slate-600">{t("Đang tải...", "Loading...")}</div>}>
               <JapaneseSpeakingCoach language="japanese" />
             </Suspense>
-          </TabsContent>
+          </>)}
+</TabsContent>
 
           <TabsContent value="quiz" className="mt-6">
             <JaSection items={quizSections} labels={sectionLabels} />

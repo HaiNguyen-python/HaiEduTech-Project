@@ -2,6 +2,7 @@
  * @file UpgradeAccountModal.tsx
  * @description Premium upgrade modal with bank transfer info, VietQR, and Supabase ticket flow.
  */
+import { PlanComparison } from "@/components/premium/ConversionBits";
 import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Crown, Copy, Check, X, ShieldCheck, Sparkles, Loader2, BadgeCheck, KeyRound, CreditCard, Landmark } from "lucide-react";
@@ -200,6 +201,7 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
               </motion.div>
             ) : (
               <div className="px-5 sm:px-8 py-4 space-y-3">
+                <PlanComparison />
                 {/* Features grid */}
                 <div>
                   <h3 className="text-base font-bold text-foreground mb-4 flex items-center gap-2">
