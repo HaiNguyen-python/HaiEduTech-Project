@@ -28,6 +28,7 @@ import NotificationBell from "@/components/NotificationBell";
 import { toast } from "sonner";
 import UpgradeAccountModal from "@/components/UpgradeAccountModal";
 import { OPEN_UPGRADE_EVENT, PREMIUM_CHANGED_EVENT } from "@/hooks/usePremium";
+import { getStripeEnvironment } from "@/lib/stripe";
 
 // Small robot image wrapper for menu icon
 const RobotIcon = ({ className }: { className?: string }) => (
@@ -200,8 +201,30 @@ const Navbar = () => {
     window.addEventListener(OPEN_UPGRADE_EVENT, openIt);
     const params = new URLSearchParams(window.location.search);
     if (params.get("checkout") === "success") {
-      toast.success(t("Thanh toán thành công! Premium đang được kích hoạt.", "Payment successful! Activating your Premium."));
-      [1500, 4000, 8000].forEach((ms) => setTimeout(() => window.dispatchEvent(new Event(PREMIUM_CHANGED_EVENT)), ms));
+      const sessionId = params.get("session_id");
+      const toastId = toast.loading(t("Thanh toán thành công! Đang kích hoạt Premium...", "Payment successful! Activating your Premium..."));
+      (async () => {
+        const { data: { session } } = await supabase.auth.getSession();
+        const uid = session?.user?.id;
+        const started = Date.now();
+        let env: "sandbox" | "live" | null = null;
+        try { env = getStripeEnvironment(); } catch { /* not configured */ }
+        while (Date.now() - started < 30000) {
+          if (sessionId && env) {
+            await supabase.functions.invoke("verify-checkout-session", { body: { sessionId, environment: env } }).catch(() => null);
+          }
+          if (uid) {
+            const { data } = await supabase.from("user_subscriptions").select("status, expires_at").eq("user_id", uid).maybeSingle();
+            if (data?.status === "active" && (!data.expires_at || new Date(data.expires_at) > new Date())) {
+              window.dispatchEvent(new Event(PREMIUM_CHANGED_EVENT));
+              toast.success(t("Premium đã được mở khóa!", "Premium is unlocked!"), { id: toastId });
+              return;
+            }
+          }
+          await new Promise((r) => setTimeout(r, 2000));
+        }
+        toast.error(t("Chưa xác nhận được thanh toán. Vui lòng tải lại trang hoặc liên hệ thầy Hải.", "Payment not confirmed yet. Please reload or contact Teacher Hai."), { id: toastId });
+      })();
       params.delete("checkout"); params.delete("session_id");
       const q = params.toString();
       window.history.replaceState(null, "", window.location.pathname + (q ? `?${q}` : "") + window.location.hash);
