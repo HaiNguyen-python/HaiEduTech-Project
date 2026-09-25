@@ -1,4 +1,5 @@
 // YKI Finnish Prep Dashboard - Vocabulary, Grammar, Mock Exams with progress tracking
+import { FREE_LESSONS, openUpgradeModal, usePremium } from "@/hooks/usePremium";
 import { useState, useMemo, useCallback, useRef, useEffect } from "react";
 import FloatingNordicParticles from "@/components/FloatingNordicParticles";
 import finnishFlagImg from "@/assets/finnish-flag.png";
@@ -1899,6 +1900,7 @@ const YkiReadyBadge = ({ show, onClose }: { show: boolean; onClose: () => void }
 // Main Dashboard Component
 const YkiDashboard = () => {
   const { t } = useLanguage();
+  const { isPremium: ykiPremium } = usePremium();
   const [searchParams] = useSearchParams();
   const initialModule = searchParams.get("module");
 
