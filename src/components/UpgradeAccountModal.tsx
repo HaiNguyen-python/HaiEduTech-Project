@@ -10,7 +10,7 @@ import Autoplay from "embla-carousel-autoplay";
 import { StripeEmbeddedCheckout } from "@/components/StripeEmbeddedCheckout";
 import { PaymentTestModeBanner } from "@/components/PaymentTestModeBanner";
 import { Button } from "@/components/ui/button";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi } from "@/components/ui/carousel";
 import { PREMIUM_PRICE_ID } from "@/lib/stripe";
 import { PREMIUM_CHANGED_EVENT, usePremium } from "@/hooks/usePremium";
 import { supabase } from "@/integrations/supabase/client";
@@ -64,6 +64,19 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
   const premium = usePremium();
   const prefersReducedMotion = useMemo(() => window.matchMedia("(prefers-reduced-motion: reduce)").matches, []);
   const autoplay = useMemo(() => Autoplay({ delay: 2600, stopOnInteraction: true, stopOnMouseEnter: false }), []);
+  const [perkApi, setPerkApi] = useState<CarouselApi>();
+  const [perkSelected, setPerkSelected] = useState(0);
+  useEffect(() => {
+    if (!perkApi) return;
+    const onSelect = () => setPerkSelected(perkApi.selectedScrollSnap());
+    perkApi.on("select", onSelect);
+    perkApi.on("reInit", onSelect);
+    onSelect();
+    return () => {
+      perkApi.off("select", onSelect);
+      perkApi.off("reInit", onSelect);
+    };
+  }, [perkApi]);
   const returnUrl = useMemo(() => {
     const u = new URL(window.location.href);
     u.searchParams.set("checkout", "success");
@@ -136,16 +149,16 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
   };
 
   const features = [
-    { icon: BookOpenCheck, img: perkCourses, title: t("Mở mọi khóa học", "All Courses Unlocked"), desc: t("English, Trung, Phần Lan, Việt, Nhật, Lập trình", "English, Chinese, Finnish, Vietnamese, Japanese, Programming") },
-    { icon: ScrollText, img: perkExams, title: t("Trọn kho đề thi", "Full Mock Exam Library"), desc: t("125+ đề Cambridge, IELTS, TOEIC, THPT", "125+ Cambridge, IELTS, TOEIC, THPT exams") },
-    { icon: Bot, img: perkAiGrading, title: t("AI chấm không giới hạn", "Unlimited AI Grading"), desc: t("Chấm Writing & Speaking band 7.5+ không giới hạn", "Unlimited Writing & Speaking grading, band 7.5+") },
-    { icon: Trophy, img: perkCertificate, title: t("Chứng chỉ hoàn thành", "Completion Certificates"), desc: t("Business, Academic, AI Academy - xác thực online", "Business, Academic, AI Academy - verifiable online") },
-    { icon: BrainCircuit, img: perkLearningDna, title: t("Learning DNA & báo cáo", "Learning DNA & Reports"), desc: t("Radar kỹ năng + PDF báo cáo tiến bộ", "Skill radar + progress PDF reports") },
-    { icon: Gamepad2, img: perkGames, title: t("Trò chơi & bảng xếp hạng", "Games & Leaderboards"), desc: t("Game Center, Climber, Duel 1v1 toàn trang", "Game Center, Climber, site-wide Duel 1v1") },
-    { icon: LibraryBig, img: perkDictionary, title: t("Siêu từ điển & sổ tay", "Super Dictionary & Notebook"), desc: t("Từ điển, flashcard, Daily Word Mission đầy đủ", "Full dictionary, flashcards, Daily Word Mission") },
-    { icon: GraduationCap, img: perkScholarship, title: t("Học bổng & sự nghiệp", "Scholarship & Career Advisor"), desc: t("Tư vấn học bổng AI + lộ trình sự nghiệp", "AI scholarship advice + career roadmap") },
-    { icon: Rocket, img: perkNewLessons, title: t("Nhận bài mới sớm nhất", "New Lessons First"), desc: t("Nhận bài học mới cập nhật hằng ngày", "Get brand-new lessons added daily") },
-    { icon: Headphones, img: perkSupport, title: t("Hỗ trợ ưu tiên", "Priority Support"), desc: t("Hỗ trợ ưu tiên trực tiếp từ Thầy Hải", "Priority support directly from Teacher Hai") },
+    { icon: BookOpenCheck, img: perkCourses, tag: t("Khóa học", "Courses"), title: t("Mở mọi khóa học", "All Courses Unlocked"), desc: t("English, Trung, Phần Lan, Việt, Nhật, Lập trình", "English, Chinese, Finnish, Vietnamese, Japanese, Programming") },
+    { icon: ScrollText, img: perkExams, tag: t("Đề thi", "Exams"), title: t("Trọn kho đề thi", "Full Mock Exam Library"), desc: t("125+ đề Cambridge, IELTS, TOEIC, THPT", "125+ Cambridge, IELTS, TOEIC, THPT exams") },
+    { icon: Bot, img: perkAiGrading, tag: "AI", title: t("AI chấm không giới hạn", "Unlimited AI Grading"), desc: t("Chấm Writing & Speaking band 7.5+ không giới hạn", "Unlimited Writing & Speaking grading, band 7.5+") },
+    { icon: Trophy, img: perkCertificate, tag: t("Chứng chỉ", "Certificates"), title: t("Chứng chỉ hoàn thành", "Completion Certificates"), desc: t("Business, Academic, AI Academy - xác thực online", "Business, Academic, AI Academy - verifiable online") },
+    { icon: BrainCircuit, img: perkLearningDna, tag: t("Phân tích", "Insights"), title: t("Learning DNA & báo cáo", "Learning DNA & Reports"), desc: t("Radar kỹ năng + PDF báo cáo tiến bộ", "Skill radar + progress PDF reports") },
+    { icon: Gamepad2, img: perkGames, tag: t("Trò chơi", "Games"), title: t("Trò chơi & bảng xếp hạng", "Games & Leaderboards"), desc: t("Game Center, Climber, Duel 1v1 toàn trang", "Game Center, Climber, site-wide Duel 1v1") },
+    { icon: LibraryBig, img: perkDictionary, tag: t("Công cụ", "Tools"), title: t("Siêu từ điển & sổ tay", "Super Dictionary & Notebook"), desc: t("Từ điển, flashcard, Daily Word Mission đầy đủ", "Full dictionary, flashcards, Daily Word Mission") },
+    { icon: GraduationCap, img: perkScholarship, tag: t("Tư vấn", "Guidance"), title: t("Học bổng & sự nghiệp", "Scholarship & Career Advisor"), desc: t("Tư vấn học bổng AI + lộ trình sự nghiệp", "AI scholarship advice + career roadmap") },
+    { icon: Rocket, img: perkNewLessons, tag: t("Mỗi ngày", "Daily"), title: t("Nhận bài mới sớm nhất", "New Lessons First"), desc: t("Nhận bài học mới cập nhật hằng ngày", "Get brand-new lessons added daily") },
+    { icon: Headphones, img: perkSupport, tag: t("Hỗ trợ", "Support"), title: t("Hỗ trợ ưu tiên", "Priority Support"), desc: t("Hỗ trợ ưu tiên trực tiếp từ Thầy Hải", "Priority support directly from Teacher Hai") },
   ];
 
   return (
@@ -415,37 +428,54 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                 )}
 
                 <PlanComparison onChoosePremium={() => { setTab("online"); requestAnimationFrame(() => paymentOptionsRef.current?.scrollIntoView({ behavior: "smooth", block: "center" })); }} />
-                {/* Premium perks carousel */}
-                <div className="rounded-lg border border-border bg-muted/25 p-3 sm:p-4">
-                  <div className="mb-3 flex items-center justify-between gap-3">
-                  <h3 className="flex items-center gap-2 text-base font-bold text-foreground">
-                    <Sparkles className="w-4 h-4 text-amber-500" />
-                    {t("Đặc quyền Premium", "Premium Perks")}
-                  </h3>
-                  <span className="text-xs font-medium text-muted-foreground">{t("Tự động khám phá", "Auto explore")}</span>
+                {/* Premium perks carousel - elegant glass style */}
+                <div className="rounded-2xl border border-border bg-muted/25 p-4 sm:p-5">
+                  <div className="mb-4 text-center">
+                    <span className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-primary">
+                      <Sparkles className="h-3 w-3" /> {t("Tự động khám phá", "Auto explore")}
+                    </span>
+                    <h3 className="text-lg font-bold text-foreground">{t("Đặc quyền Premium", "Premium Perks")}</h3>
+                    <p className="text-sm text-muted-foreground">{t("Tất cả công cụ học tập nâng cao trong một gói duy nhất", "Every advanced learning tool in one package")}</p>
                   </div>
-                  <Carousel opts={{ align: "start", loop: true }} plugins={prefersReducedMotion ? [] : [autoplay]} className="px-9" aria-label={t("Đặc quyền Premium", "Premium perks")}>
-                    <CarouselContent className="-ml-3">
-                      {features.map((f) => (
-                        <CarouselItem key={f.title} className="basis-full pl-3 sm:basis-1/2 lg:basis-1/3">
-                           <div className="flex h-full min-h-[132px] items-start gap-3 rounded-md border border-primary/20 bg-card p-3 shadow-sm transition hover:border-primary/50 hover:shadow-md">
-                             <div className="relative shrink-0">
-                               <img src={f.img} alt="" loading="lazy" width={1024} height={1024} className="h-14 w-14 rounded-xl bg-background object-cover ring-1 ring-border" />
-                               <span className="absolute -bottom-1.5 -right-1.5 flex h-6 w-6 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm">
-                                 <f.icon className="h-3.5 w-3.5" />
-                               </span>
-                             </div>
-                             <div className="min-w-0">
-                               <div className="text-base font-bold leading-tight text-foreground">{f.title}</div>
-                               <div className="mt-1.5 text-sm leading-snug text-muted-foreground">{f.desc}</div>
-                             </div>
-                           </div>
-                        </CarouselItem>
-                      ))}
-                    </CarouselContent>
-                    <CarouselPrevious className="left-0 border-primary/30 bg-card" aria-label={t("Đặc quyền trước", "Previous perk")} />
-                    <CarouselNext className="right-0 border-primary/30 bg-card" aria-label={t("Đặc quyền tiếp theo", "Next perk")} />
-                  </Carousel>
+                  <div className="relative">
+                    <Carousel setApi={setPerkApi} opts={{ align: "start", loop: true }} plugins={prefersReducedMotion ? [] : [autoplay]} className="px-9" aria-label={t("Đặc quyền Premium", "Premium perks")}>
+                      <CarouselContent className="-ml-3">
+                        {features.map((f) => (
+                          <CarouselItem key={f.title} className="basis-full pl-3 sm:basis-1/2 lg:basis-1/3">
+                            <div className="flex h-full min-h-[178px] flex-col rounded-2xl border border-border bg-card p-4 shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)]">
+                              <div className="mb-4 flex items-start justify-between">
+                                <div className="relative shrink-0">
+                                  <div className="rounded-xl bg-gradient-to-br from-primary/10 to-emerald-500/10 p-1">
+                                    <img src={f.img} alt="" loading="lazy" width={1024} height={1024} className="h-16 w-16 rounded-lg object-cover" />
+                                  </div>
+                                  <span className="absolute -bottom-1.5 -right-1.5 flex h-6 w-6 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm">
+                                    <f.icon className="h-3.5 w-3.5" />
+                                  </span>
+                                </div>
+                                <span className="rounded-full bg-primary/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-primary">{f.tag}</span>
+                              </div>
+                              <div className="mt-auto">
+                                <div className="text-base font-semibold leading-snug text-foreground">{f.title}</div>
+                                <div className="mt-1.5 text-sm leading-snug text-muted-foreground">{f.desc}</div>
+                              </div>
+                            </div>
+                          </CarouselItem>
+                        ))}
+                      </CarouselContent>
+                      <CarouselPrevious className="left-0 border-primary/30 bg-card" aria-label={t("Đặc quyền trước", "Previous perk")} />
+                      <CarouselNext className="right-0 border-primary/30 bg-card" aria-label={t("Đặc quyền tiếp theo", "Next perk")} />
+                    </Carousel>
+                  </div>
+                  <div className="mt-3 flex justify-center gap-1.5">
+                    {Array.from({ length: perkApi?.scrollSnapList().length ?? 0 }).map((_, i) => (
+                      <button
+                        key={i}
+                        onClick={() => perkApi?.scrollTo(i)}
+                        aria-label={`${t("Đặc quyền", "Perk")} ${i + 1}`}
+                        className={i === perkSelected ? "h-1.5 w-6 rounded-full bg-primary transition-all" : "h-1.5 w-1.5 rounded-full bg-muted-foreground/30 transition-all hover:bg-muted-foreground/60"}
+                      />
+                    ))}
+                  </div>
                 </div>
               </div>
             )}
