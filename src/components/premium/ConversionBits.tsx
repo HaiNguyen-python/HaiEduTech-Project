@@ -85,18 +85,12 @@ const ROWS: { vi: string; en: string; free: string | boolean; freeEn?: string }[
 
 export const PlanComparison = ({ onChoosePremium }: { onChoosePremium?: () => void }) => {
   const { t } = useLanguage();
-  const [students, setStudents] = useState<number | null>(null);
-  useEffect(() => {
-    supabase.rpc("get_public_student_count").then(({ data }) => {
-      if (typeof data === "number" && data > 0) setStudents(data);
-    });
-  }, []);
   return (
     <div className="overflow-hidden rounded-lg border border-primary/25 bg-card shadow-sm">
       <div className="bg-primary/10 px-4 py-3 text-center">
         <p className="text-base font-bold text-foreground">
         {t("Chỉ 19 EUR/năm - rẻ hơn một buổi học gia sư", "Only 19 EUR/year - less than one private tutoring session")}
-        {students ? t(` · ${students.toLocaleString()} học viên đang học cùng HaiEduTech`, ` · ${students.toLocaleString()} learners study with HaiEduTech`) : ""}
+        {t(" · 12.983 học viên đang học cùng HaiEduTech", " · 12,983 learners study with HaiEduTech")}
         </p>
         <p className="mt-1 text-sm text-muted-foreground">{t("Một lần thanh toán. Mở toàn bộ nội dung trong 12 tháng.", "One payment. Unlock everything for 12 months.")}</p>
       </div>
