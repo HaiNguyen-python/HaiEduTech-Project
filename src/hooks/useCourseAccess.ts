@@ -1,20 +1,13 @@
-import { useState, useEffect } from "react";
-import { useUserRole } from "./useUserRole";
+import { FREE_LESSONS, usePremium } from "./usePremium";
 
 /**
- * Hook to check if the current user has access to a specific course.
- * Currently: all content is unlocked for everyone.
+ * Access check for a course. Lessons with index < FREE_LESSONS are a free trial;
+ * later lessons require Premium (activation code, online payment or approved transfer).
+ * Pass no lessonIndex to check course-overview pages (always open).
  */
-export const useCourseAccess = (_courseId: string) => {
-  const { user, isTeacher, isAdmin, loading: roleLoading } = useUserRole();
-  const [hasAccess] = useState(true);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (!roleLoading) {
-      setLoading(false);
-    }
-  }, [roleLoading]);
-
-  return { hasAccess, loading, user, isTeacher };
+export const useCourseAccess = (_courseId: string, lessonIndex?: number) => {
+  const { user, isStaff, isPremium, loading } = usePremium();
+  const isTrialLesson = lessonIndex === undefined || lessonIndex < 0 || lessonIndex < FREE_LESSONS;
+  const hasAccess = isPremium || isTrialLesson;
+  return { hasAccess, loading, user, isTeacher: isStaff, isPremium };
 };

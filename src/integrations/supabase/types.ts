@@ -3803,12 +3803,17 @@ export type Database = {
       }
       user_subscriptions: {
         Row: {
+          code_redeemed_at: string | null
           created_at: string
+          environment: string | null
+          expires_at: string | null
           id: string
           notes: string | null
           plan: string
           requested_at: string
+          source: string
           status: string
+          stripe_session_id: string | null
           transfer_reference: string | null
           updated_at: string
           user_email: string | null
@@ -3816,12 +3821,17 @@ export type Database = {
           verified_at: string | null
         }
         Insert: {
+          code_redeemed_at?: string | null
           created_at?: string
+          environment?: string | null
+          expires_at?: string | null
           id?: string
           notes?: string | null
           plan?: string
           requested_at?: string
+          source?: string
           status?: string
+          stripe_session_id?: string | null
           transfer_reference?: string | null
           updated_at?: string
           user_email?: string | null
@@ -3829,12 +3839,17 @@ export type Database = {
           verified_at?: string | null
         }
         Update: {
+          code_redeemed_at?: string | null
           created_at?: string
+          environment?: string | null
+          expires_at?: string | null
           id?: string
           notes?: string | null
           plan?: string
           requested_at?: string
+          source?: string
           status?: string
+          stripe_session_id?: string | null
           transfer_reference?: string | null
           updated_at?: string
           user_email?: string | null
@@ -4585,6 +4600,7 @@ export type Database = {
           user_id: string
         }[]
       }
+      has_premium: { Args: { _user_id: string }; Returns: boolean }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]

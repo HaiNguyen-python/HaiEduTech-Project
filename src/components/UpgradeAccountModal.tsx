@@ -4,7 +4,11 @@
  */
 import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Crown, Copy, Check, X, ShieldCheck, Sparkles, Loader2, BadgeCheck } from "lucide-react";
+import { Crown, Copy, Check, X, ShieldCheck, Sparkles, Loader2, BadgeCheck, KeyRound, CreditCard, Landmark } from "lucide-react";
+import { StripeEmbeddedCheckout } from "@/components/StripeEmbeddedCheckout";
+import { PaymentTestModeBanner } from "@/components/PaymentTestModeBanner";
+import { PREMIUM_PRICE_ID } from "@/lib/stripe";
+import { PREMIUM_CHANGED_EVENT, usePremium } from "@/hooks/usePremium";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { toast } from "sonner";
@@ -28,6 +32,35 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
   const [copied, setCopied] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [tab, setTab] = useState<"code" | "online" | "bank">("code");
+  const [code, setCode] = useState("");
+  const [codeError, setCodeError] = useState<string | null>(null);
+  const [showCheckout, setShowCheckout] = useState(false);
+  const premium = usePremium();
+  const returnUrl = useMemo(() => {
+    const u = new URL(window.location.href);
+    u.searchParams.set("checkout", "success");
+    return `${u.toString()}&session_id={CHECKOUT_SESSION_ID}`;
+  }, [open]);
+
+  const redeem = async () => {
+    if (!user) { toast.error(t("Vui lòng đăng nhập trước", "Please log in first")); return; }
+    setSubmitting(true); setCodeError(null);
+    const { data, error } = await supabase.functions.invoke("redeem-activation-code", { body: { code } });
+    setSubmitting(false);
+    if (error || !data?.ok) {
+      let reason = "invalid_code";
+      try { reason = (await (error as any)?.context?.json())?.error ?? reason; } catch { /* ignore */ }
+      setCodeError(reason === "already_redeemed"
+        ? t("Tài khoản này đã dùng mã kích hoạt rồi.", "This account has already used an activation code.")
+        : t("Mã kích hoạt không đúng.", "Invalid activation code."));
+      return;
+    }
+    window.dispatchEvent(new Event(PREMIUM_CHANGED_EVENT));
+    toast.success(t("Đã kích hoạt Premium 12 tháng!", "Premium activated for 12 months!"));
+    setSuccess(true);
+    setTimeout(() => { onClose(); }, 2200);
+  };
 
   // Build a unique transfer reference per student
   const transferRef = useMemo(() => {
@@ -43,7 +76,7 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
   useEffect(() => {
     if (!open) {
       // Reset when fully closed
-      setTimeout(() => { setSuccess(false); setSubmitting(false); }, 300);
+      setTimeout(() => { setSuccess(false); setSubmitting(false); setShowCheckout(false); setCode(""); setCodeError(null); }, 300);
     }
   }, [open]);
 
@@ -64,17 +97,15 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
       return;
     }
     setSubmitting(true);
-    const { error } = await supabase.from("user_subscriptions").upsert(
-      {
-        user_id: user.id,
-        status: "pending_verification",
-        plan: "premium",
-        transfer_reference: transferRef,
-        user_email: user.email ?? null,
-        requested_at: new Date().toISOString(),
-      },
-      { onConflict: "user_id" },
-    );
+    const { error } = await supabase.from("user_subscriptions").insert({
+      user_id: user.id,
+      status: "pending_verification",
+      plan: "premium",
+      source: "bank",
+      transfer_reference: transferRef,
+      user_email: user.email ?? null,
+      requested_at: new Date().toISOString(),
+    });
     setSubmitting(false);
     if (error) {
       toast.error(t("Có lỗi xảy ra, thử lại", "Something went wrong"));
@@ -158,10 +189,9 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                   {t("Cảm ơn bạn! 🎉", "Thank you! 🎉")}
                 </h3>
                 <p className="text-sm text-muted-foreground max-w-md mx-auto">
-                  {t(
-                    "Thầy Hải đang xác minh giao dịch của bạn. Tài khoản sẽ được nâng cấp ngay sau khi xác nhận.",
-                    "Teacher Hai is verifying your transfer. Your account will be upgraded shortly.",
-                  )}
+                  {tab === "bank"
+                    ? t("Thầy Hải đang xác minh giao dịch của bạn. Tài khoản sẽ được nâng cấp ngay sau khi xác nhận.", "Teacher Hai is verifying your transfer. Your account will be upgraded shortly.")
+                    : t("Tài khoản của bạn đã được mở khóa toàn bộ nội dung trong 12 tháng.", "Your account now has full access for 12 months.")}
                 </p>
               </motion.div>
             ) : (
@@ -185,6 +215,63 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                   </div>
                 </div>
 
+                {premium.isPremium && !premium.isStaff && premium.expiresAt && (
+                  <div className="rounded-lg border border-emerald-500/40 bg-emerald-500/10 px-3 py-2 text-sm text-foreground">
+                    {t("Premium của bạn còn hạn đến", "Your Premium is active until")} <strong>{new Date(premium.expiresAt).toLocaleDateString()}</strong>. {t("Thanh toán thêm sẽ cộng tiếp 12 tháng.", "Paying again adds another 12 months.")}
+                  </div>
+                )}
+                <div className="grid grid-cols-3 gap-2" role="tablist">
+                  {([
+                    { id: "code", icon: KeyRound, label: t("Mã kích hoạt", "Activation code") },
+                    { id: "online", icon: CreditCard, label: t("Thanh toán online 20 EUR/năm", "Pay online 20 EUR/year") },
+                    { id: "bank", icon: Landmark, label: t("Chuyển khoản VN", "VN bank transfer") },
+                  ] as const).map((o) => (
+                    <button key={o.id} role="tab" aria-selected={tab === o.id} onClick={() => setTab(o.id)}
+                      className={`flex flex-col sm:flex-row items-center justify-center gap-1.5 rounded-lg border px-2 py-2.5 text-xs sm:text-sm font-semibold transition ${tab === o.id ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:bg-secondary"}`}>
+                      <o.icon className="w-4 h-4 shrink-0" /> <span className="text-center">{o.label}</span>
+                    </button>
+                  ))}
+                </div>
+
+                {tab === "code" && (
+                  <div className="rounded-xl border border-border bg-secondary/30 p-4 space-y-3">
+                    <p className="text-sm text-muted-foreground">
+                      {t("Dành cho học viên nội bộ của thầy Hải. Nhập mã để mở khóa toàn bộ nội dung trong 12 tháng.", "For Teacher Hai's enrolled students. Enter your code to unlock everything for 12 months.")}
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-2">
+                      <input value={code} onChange={(e) => setCode(e.target.value)} maxLength={64}
+                        onKeyDown={(e) => { if (e.key === "Enter" && code.trim()) redeem(); }}
+                        placeholder={t("Nhập mã kích hoạt", "Enter activation code")}
+                        className="flex-1 rounded-lg border border-input bg-background px-3 py-2.5 text-base text-foreground focus:outline-none focus:ring-2 focus:ring-primary" />
+                      <button onClick={redeem} disabled={submitting || !user || !code.trim()}
+                        className="rounded-lg bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground disabled:opacity-60 flex items-center justify-center gap-2">
+                        {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <KeyRound className="w-4 h-4" />} {t("Kích hoạt", "Activate")}
+                      </button>
+                    </div>
+                    {codeError && <p className="text-sm font-medium text-destructive">{codeError}</p>}
+                    <p className="text-xs text-muted-foreground">{t("Chưa có mã? Chọn Thanh toán online.", "No code? Choose Pay online.")}</p>
+                  </div>
+                )}
+
+                {tab === "online" && (
+                  <div className="rounded-xl border border-border bg-secondary/30 p-4 space-y-3">
+                    <PaymentTestModeBanner />
+                    {!showCheckout ? (
+                      <div className="text-center space-y-3 py-2">
+                        <div className="text-3xl font-extrabold text-foreground">20 EUR <span className="text-base font-medium text-muted-foreground">/ {t("năm", "year")}</span></div>
+                        <p className="text-sm text-muted-foreground">{t("Thanh toán 1 lần bằng thẻ, Apple Pay hoặc Google Pay. Mở khóa toàn bộ nội dung trong 12 tháng, không tự động gia hạn.", "One-time payment by card, Apple Pay or Google Pay. Full access for 12 months, no automatic renewal.")}</p>
+                        <button onClick={() => setShowCheckout(true)} disabled={!user}
+                          className="w-full sm:w-auto rounded-xl bg-gradient-to-r from-primary to-emerald-500 px-8 py-3 text-sm font-bold text-primary-foreground shadow-lg disabled:opacity-60">
+                          {t("Tiếp tục thanh toán", "Continue to payment")}
+                        </button>
+                      </div>
+                    ) : (
+                      <StripeEmbeddedCheckout priceId={PREMIUM_PRICE_ID} returnUrl={returnUrl} />
+                    )}
+                  </div>
+                )}
+
+                {tab === "bank" && (<>
                 {/* Payment block */}
                 <div className="rounded-xl border-2 border-amber-500/30 bg-gradient-to-br from-amber-50 to-yellow-50 dark:from-amber-950/30 dark:to-yellow-950/20 p-3 sm:p-4">
                   <div className="flex items-center gap-2 mb-3">
@@ -197,8 +284,8 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                   <div className="mb-2 px-3 py-1.5 rounded-lg bg-amber-100/70 dark:bg-amber-900/30 border border-amber-300/60 dark:border-amber-700/40 text-xs font-semibold text-amber-900 dark:text-amber-100 flex items-center gap-2">
                     <Crown className="w-3.5 h-3.5 text-amber-600 dark:text-amber-300 shrink-0" />
                     {t(
-                      "Đây là phí dành cho tài khoản Premium VĨNH VIỄN - đóng 1 lần, dùng trọn đời.",
-                      "This is a fee for a LIFETIME Premium account - pay once, use forever.",
+                      "Chuyển khoản trong nước (Việt Nam) - thầy Hải duyệt thủ công.",
+                      "Domestic transfer (Vietnam) - approved manually by Teacher Hai.",
                     )}
                   </div>
 
@@ -261,6 +348,7 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                     {t("Vui lòng đăng nhập để gửi xác nhận.", "Please log in to submit your confirmation.")}
                   </p>
                 )}
+                </>)}
               </div>
             )}
           </motion.div>
