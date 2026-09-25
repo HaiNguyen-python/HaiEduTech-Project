@@ -264,33 +264,6 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                     </button>
                   ))}
                 </div>
-                <button
-                  onClick={() => setTab("code")}
-                  className={`w-full rounded-lg border border-dashed px-3 py-2 text-xs font-medium transition ${tab === "code" ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:bg-secondary"}`}
-                >
-                  {t("Học viên nội bộ - Dùng mã kích hoạt", "Internal student - Use activation code")}
-                </button>
-
-                {tab === "code" && (
-                  <div className="rounded-xl border border-border bg-secondary/30 p-4 space-y-3">
-                    <p className="text-sm text-muted-foreground">
-                      {t("Dành cho học viên nội bộ của thầy Hải. Nhập mã để mở khóa toàn bộ nội dung trong 12 tháng.", "For Teacher Hai's enrolled students. Enter your code to unlock everything for 12 months.")}
-                    </p>
-                    <div className="flex flex-col sm:flex-row gap-2">
-                      <input value={code} onChange={(e) => setCode(e.target.value)} maxLength={64}
-                        onKeyDown={(e) => { if (e.key === "Enter" && code.trim()) redeem(); }}
-                        placeholder={t("Nhập mã kích hoạt", "Enter activation code")}
-                        className="flex-1 rounded-lg border border-input bg-background px-3 py-2.5 text-base text-foreground focus:outline-none focus:ring-2 focus:ring-primary" />
-                      <button onClick={redeem} disabled={submitting || !user || !code.trim()}
-                        className="rounded-lg bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground disabled:opacity-60 flex items-center justify-center gap-2">
-                        {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <KeyRound className="w-4 h-4" />} {t("Kích hoạt", "Activate")}
-                      </button>
-                    </div>
-                    {codeError && <p className="text-sm font-medium text-destructive">{codeError}</p>}
-                    <p className="text-xs text-muted-foreground">{t("Chưa có mã? Chọn Thanh toán online.", "No code? Choose Pay online.")}</p>
-                  </div>
-                )}
-
                 {tab === "online" && (
                   <div className="rounded-xl border border-border bg-secondary/30 p-4 space-y-3">
                     <PaymentTestModeBanner />
