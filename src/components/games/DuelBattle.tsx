@@ -100,7 +100,8 @@ const DuelBattle = ({ onBack }: DuelBattleProps) => {
       const name = nickname.trim().slice(0, 30);
       localStorage.setItem("arena-nickname", name);
 
-      const { data: room } = await supabase.from("game_rooms").select("*").eq("room_code", inputCode.toUpperCase()).single();
+      const { data: rooms } = await (supabase as any).rpc("find_game_room", { _code: inputCode });
+      const room = (rooms as any[] | null)?.[0];
       if (!room) { setError(t("Không tìm thấy phòng", "Room not found")); setLoading(false); return; }
 
       const { data: participant } = await supabase

@@ -48,11 +48,9 @@ const ClassroomBattle = ({ onBack, initialRoomCode }: ClassroomBattleProps) => {
       const currentUserId = userData.user?.id ?? null;
 
       // Find the room
-      const { data: room, error: roomErr } = await supabase
-        .from("game_rooms")
-        .select("*")
-        .eq("room_code", roomCode.toUpperCase().trim())
-        .single();
+      const { data: rooms, error: roomErr } = await (supabase as any)
+        .rpc("find_game_room", { _code: roomCode });
+      const room = (rooms as any[] | null)?.[0];
 
       if (roomErr || !room) {
         setError(t("Không tìm thấy phòng", "Room not found"));
