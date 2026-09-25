@@ -36,7 +36,7 @@ export const consumeAiGrade = (): boolean => {
   const used = getAiGradesUsed();
   if (used >= FREE_AI_GRADES) {
     toast.error("Bạn đã dùng hết 3 lượt chấm AI miễn phí / You've used your 3 free AI gradings", {
-      description: "Nâng cấp Premium (19 EUR/năm) để chấm AI không giới hạn. Upgrade for unlimited AI grading.",
+      description: "Nâng cấp Premium (29 EUR/năm) để chấm AI không giới hạn. Upgrade for unlimited AI grading.",
     });
     window.dispatchEvent(new Event("haiedutech:open-upgrade"));
     return false;

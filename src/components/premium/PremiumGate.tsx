@@ -45,7 +45,7 @@ export const PremiumLockPanel = ({ backTo, kind = "exam", previewTitle }: { back
       <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
         {user ? (
           <Button size="lg" onClick={openUpgradeModal} className="gap-2">
-            <Crown className="h-5 w-5" /> {t("Nâng cấp - chỉ 19 EUR/năm", "Upgrade - only 19 EUR/year")}
+            <Crown className="h-5 w-5" /> {t("Nâng cấp - chỉ 29 EUR/năm", "Upgrade - only 29 EUR/year")}
           </Button>
         ) : (
           <Button size="lg" asChild className="gap-2">

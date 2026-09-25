@@ -98,7 +98,7 @@ export const PlanComparison = ({ onChoosePremium }: { onChoosePremium?: () => vo
         <p className="relative text-base font-extrabold text-foreground sm:text-lg">
           {t("Chỉ ", "Only ")}
           <span className="mx-0.5 inline-block rounded-md bg-gradient-to-r from-primary to-emerald-500 bg-clip-text px-1.5 py-0.5 text-transparent drop-shadow-[0_0_10px_rgb(59_130_246_/_0.35)]">
-            {t("19 EUR/năm", "19 EUR/year")}
+            {t("29 EUR/năm", "29 EUR/year")}
           </span>
           {t(" · 12.983 học viên đang học cùng HaiEduTech", " · 12,983 learners study with HaiEduTech")}
         </p>
