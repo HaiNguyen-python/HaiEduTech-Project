@@ -64,6 +64,13 @@
       "when": 1790350604412,
       "tag": "0008_premium_access",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1790350776385,
+      "tag": "0009_tighten_subscription_insert",
+      "breakpoints": true
     }
   ]
 }
