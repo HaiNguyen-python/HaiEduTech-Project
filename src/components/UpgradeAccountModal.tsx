@@ -223,7 +223,7 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                 <div className="grid grid-cols-3 gap-2" role="tablist">
                   {([
                     { id: "code", icon: KeyRound, label: t("Mã kích hoạt", "Activation code") },
-                    { id: "online", icon: CreditCard, label: t("Thanh toán online 20 EUR/năm", "Pay online 20 EUR/year") },
+                    { id: "online", icon: CreditCard, label: t("Thanh toán online 19 EUR/năm", "Pay online 19 EUR/year") },
                     { id: "bank", icon: Landmark, label: t("Chuyển khoản VN", "VN bank transfer") },
                   ] as const).map((o) => (
                     <button key={o.id} role="tab" aria-selected={tab === o.id} onClick={() => setTab(o.id)}
@@ -258,7 +258,7 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                     <PaymentTestModeBanner />
                     {!showCheckout ? (
                       <div className="text-center space-y-3 py-2">
-                        <div className="text-3xl font-extrabold text-foreground">20 EUR <span className="text-base font-medium text-muted-foreground">/ {t("năm", "year")}</span></div>
+                        <div className="text-3xl font-extrabold text-foreground">19 EUR <span className="text-base font-medium text-muted-foreground">/ {t("năm", "year")}</span></div>
                         <p className="text-sm text-muted-foreground">{t("Thanh toán 1 lần bằng thẻ, Apple Pay hoặc Google Pay. Mở khóa toàn bộ nội dung trong 12 tháng, không tự động gia hạn.", "One-time payment by card, Apple Pay or Google Pay. Full access for 12 months, no automatic renewal.")}</p>
                         <button onClick={() => setShowCheckout(true)} disabled={!user}
                           className="w-full sm:w-auto rounded-xl bg-gradient-to-r from-primary to-emerald-500 px-8 py-3 text-sm font-bold text-primary-foreground shadow-lg disabled:opacity-60">
@@ -313,10 +313,10 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                       <Row label={t("Chi nhánh", "Branch")} value={BANK.branch} />
                       <Row
                         label={t("Số tiền", "Amount")}
-                        value="199.000đ"
+                        value="599.000đ"
                         copyable
                         copied={copied === "amount"}
-                        onCopy={() => copy("199000", "amount")}
+                        onCopy={() => copy("599000", "amount")}
                         big
                       />
                       <Row
