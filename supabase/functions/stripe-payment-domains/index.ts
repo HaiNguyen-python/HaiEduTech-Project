@@ -23,7 +23,7 @@ Deno.serve(async (req) => {
 
     const body = req.method === "POST" ? await req.json().catch(() => ({})) : {};
     const action = body?.action;
-    if (action !== undefined && action !== "register" && action !== "update_product_name") {
+    if (action !== undefined && action !== "register") {
       return json({ error: "invalid_action" }, 400);
     }
     const env: StripeEnv = body?.environment === "sandbox" ? "sandbox" : "live";
@@ -46,17 +46,6 @@ Deno.serve(async (req) => {
         }
       }
       existing = await list();
-    }
-
-    if (action === "update_product_name") {
-      const prices = await stripe.prices.list({ lookup_keys: ["premium_yearly_eur"], limit: 1 });
-      const price = prices.data[0];
-      if (!price) return json({ error: "premium_price_not_found" }, 404);
-      const productId = typeof price.product === "string" ? price.product : price.product.id;
-      await stripe.products.update(productId, {
-        name: "HaiEduTech Premium - 1 year",
-        description: "Full access to HaiEduTech Premium features for 1 year",
-      });
     }
 
     return json({

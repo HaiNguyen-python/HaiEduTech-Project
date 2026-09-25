@@ -45,6 +45,6 @@
 - [x] Add clear card-payment and EU/Vietnam bank-transfer visuals.
 - [x] Verify the upgraded window on desktop and mobile.
 - [x] Make the entire Upgrade Account window English-only.
-- [ ] Register Apple Pay domains in both test and live payment environments.
-- [ ] Rename the payment product duration from Vietnamese to `1 year`.
+- [x] Register Apple Pay domains in both test and live payment environments.
+- [x] Rename the payment product duration from Vietnamese to `1 year`.
 - [ ] Verify the embedded checkout after the payment configuration update.
