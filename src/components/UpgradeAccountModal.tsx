@@ -228,8 +228,8 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                 )}
                 <div className="grid grid-cols-2 gap-2" role="tablist">
                   {([
-                    { id: "online", icon: CreditCard, label: t("Card Payment", "Card Payment"), sub: "19 EUR / " + t("năm", "year") },
-                    { id: "bank", icon: Landmark, label: t("Bank Transfer", "Bank Transfer"), sub: t("599.000đ - 19 EUR", "599.000đ - 19 EUR") },
+                    { id: "online", icon: CreditCard, label: t("Card Payment", "Card Payment"), sub: "Only 19 EUR / year" },
+                    { id: "bank", icon: Landmark, label: t("Bank Transfer", "Bank Transfer"), sub: "Only 19 EUR/ year (599k VND)" },
                   ] as const).map((o) => (
                     <button key={o.id} role="tab" aria-selected={tab === o.id} onClick={() => setTab(o.id)}
                       className={`flex flex-col items-center justify-center gap-1 rounded-xl border-2 px-2 py-4 text-sm sm:text-base font-semibold transition ${tab === o.id ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:bg-secondary"}`}>
