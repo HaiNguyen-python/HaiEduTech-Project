@@ -25,7 +25,9 @@ import teacherWave from "@/assets/teacher-wave.webp";
 import robotIconImg from "@/assets/ai-chibi-robot.png";
 import GlobalSearch from "@/components/GlobalSearch";
 import NotificationBell from "@/components/NotificationBell";
+import { toast } from "sonner";
 import UpgradeAccountModal from "@/components/UpgradeAccountModal";
+import { OPEN_UPGRADE_EVENT, PREMIUM_CHANGED_EVENT } from "@/hooks/usePremium";
 
 // Small robot image wrapper for menu icon
 const RobotIcon = ({ className }: { className?: string }) => (
@@ -193,6 +195,19 @@ const Navbar = () => {
   const { streak } = useStreak(!isAdminRoute);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [upgradeOpen, setUpgradeOpen] = useState(false);
+  useEffect(() => {
+    const openIt = () => setUpgradeOpen(true);
+    window.addEventListener(OPEN_UPGRADE_EVENT, openIt);
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("checkout") === "success") {
+      toast.success(t("Thanh toán thành công! Premium đang được kích hoạt.", "Payment successful! Activating your Premium."));
+      [1500, 4000, 8000].forEach((ms) => setTimeout(() => window.dispatchEvent(new Event(PREMIUM_CHANGED_EVENT)), ms));
+      params.delete("checkout"); params.delete("session_id");
+      const q = params.toString();
+      window.history.replaceState(null, "", window.location.pathname + (q ? `?${q}` : "") + window.location.hash);
+    }
+    return () => window.removeEventListener(OPEN_UPGRADE_EVENT, openIt);
+  }, []);
   const userMenuRef = useRef<HTMLDivElement>(null);
 
   // Display name comes from the saved profile first (see useDisplayName),
@@ -736,12 +751,10 @@ const Navbar = () => {
                             </Link>
                           )}
 
-                          {/* Temporarily hidden: Upgrade Account button
                           <button onClick={() => { setUpgradeOpen(true); setUserMenuOpen(false); }}
                             className="w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold text-amber-600 dark:text-amber-400 hover:bg-amber-500/10 transition-colors">
                             <Crown className="w-3.5 h-3.5" /> {t("Nâng Cấp Tài Khoản", "Upgrade Account")}
                           </button>
-                          */}
 
                           <div className="border-t border-border my-1" />
                           <button onClick={() => { handleLogout(); setUserMenuOpen(false); }}
@@ -1227,12 +1240,10 @@ const Navbar = () => {
                       <Map className="w-5 h-5" /> {t("Lộ trình của tôi", "My Learning Path")}
                     </Link>
 
-                    {/* Temporarily hidden: Upgrade Account button
                     <button onClick={() => { setUpgradeOpen(true); setOpen(false); }}
                       className="w-full flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl text-sm font-bold text-amber-600 dark:text-amber-400 border border-amber-500/40 bg-amber-500/10 hover:bg-amber-500/20 transition-all">
                       <Crown className="w-5 h-5" /> {t("Nâng Cấp Tài Khoản", "Upgrade Account")}
                     </button>
-                    */}
 
                     <button onClick={() => { handleLogout(); setOpen(false); }}
                       className="w-full flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl text-sm font-semibold text-destructive hover:bg-destructive/10 transition-all">

@@ -17,6 +17,7 @@ import Footer from "@/components/Footer";
 import ConversationalRoleplay from "@/components/ConversationalRoleplay";
 import { expandChineseListeningChallenge } from "@/lib/chineseListeningChallengeExpander";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
+import { openUpgradeModal } from "@/hooks/usePremium";
 import { useCourseAccess } from "@/hooks/useCourseAccess";
 import AccessDeniedModal from "@/components/AccessDeniedModal";
 import ChineseVocabReviewQuiz from "@/components/conversational/ChineseVocabReviewQuiz";
@@ -74,7 +75,8 @@ const ChineseConversationalLessonView = () => {
   const [listeningScore, setListeningScore] = useState<{ correct: number; total: number; percent: number } | null>(null);
   const [isCompleted, setIsCompleted] = useState(false);
   const [illustrationFailed, setIllustrationFailed] = useState(false);
-  const { hasAccess, loading: accessLoading } = useCourseAccess("conversational-chinese");
+  const lessonIndex = lessonId ? (getChinesePillarByLessonId(lessonId)?.lessons.findIndex((l: { id: string }) => l.id === lessonId) ?? -1) : -1;
+  const { hasAccess, loading: accessLoading } = useCourseAccess("conversational-chinese", lessonIndex);
   const [showAccessModal, setShowAccessModal] = useState(false);
 
   const baseLesson = lessonId ? getChineseConvLessonById(lessonId) : null;
@@ -135,8 +137,8 @@ const ChineseConversationalLessonView = () => {
         <div className="container mx-auto px-4 py-20 text-center">
           <Lock className="w-16 h-16 mx-auto mb-4 text-muted-foreground opacity-40" />
           <h1 className="text-2xl font-bold mb-2">{t("Nội dung bị khóa", "Content Locked")}</h1>
-          <p className="text-muted-foreground mb-4">{t("Bạn chưa có quyền truy cập bài học này.", "You don't have access to this lesson.")}</p>
-          <Button onClick={() => setShowAccessModal(true)}>{t("Xem hướng dẫn đăng ký", "Learn how to enroll")}</Button>
+          <p className="text-muted-foreground mb-4">{t("Bạn đã học hết các bài miễn phí. Nhập mã kích hoạt hoặc nâng cấp Premium (20 EUR/năm) để học tiếp.", "You have finished the free lessons. Enter an activation code or upgrade to Premium (20 EUR/year) to continue.")}</p>
+          <Button onClick={openUpgradeModal}>{t("Mở khóa Premium", "Unlock Premium")}</Button>
           <AccessDeniedModal open={showAccessModal} onOpenChange={(open) => { setShowAccessModal(open); if (!open) navigate("/chinese/conversational"); }} />
         </div>
         <Footer />
