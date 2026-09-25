@@ -172,7 +172,13 @@ const ClassroomBattle = ({ onBack, initialRoomCode }: ClassroomBattleProps) => {
       .subscribe();
 
     // Polling fallback - 2s while active so the leaderboard cannot get stuck.
-    const interval = setInterval(fetchLeaderboard, 2000);
+    // Also poll room status (guest players may not receive room realtime events).
+    const interval = setInterval(async () => {
+      fetchLeaderboard();
+      const { data: status } = await (supabase as any).rpc("get_game_room_status", { _room_id: roomId });
+      if (status === "playing" && phase === "waiting") setPhase("playing");
+      if (status === "ended" && phase !== "results") setPhase("results");
+    }, 2000);
 
     return () => {
       supabase.removeChannel(channel);
