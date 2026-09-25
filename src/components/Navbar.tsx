@@ -5,6 +5,7 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  * @license Private / Proprietary - No unauthorized copying or distribution.
  */
+import { RenewalReminder } from "@/components/premium/ConversionBits";
 import { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -651,6 +652,7 @@ const Navbar = () => {
 
   return (
     <header className="site-header flex flex-col">
+      <RenewalReminder />
       {/* Row 1: Branding - fixed on all devices.
           `translateZ(0)` + `will-change: transform` promotes this fixed bar to
           its own GPU compositor layer so scrolling heavy content (Mermaid SVGs,
