@@ -37,3 +37,10 @@
 - [x] Replace guessed single-character speech with server-generated Vietnamese audio.
 - [x] Remove English letter-name display and reject non-Vietnamese browser voices.
 - [x] Make Grade-1 phonics the primary alphabet reading and verify representative generated audio.
+
+# Premium Upgrade Window
+
+- [ ] Strengthen the Free versus Premium comparison and payment call to action.
+- [ ] Convert Premium perks into a compact auto-scrolling carousel.
+- [ ] Add clear card-payment and EU/Vietnam bank-transfer visuals.
+- [ ] Verify the upgraded window on desktop and mobile.
