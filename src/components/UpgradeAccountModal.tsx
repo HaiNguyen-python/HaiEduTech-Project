@@ -259,7 +259,7 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                  <div ref={paymentOptionsRef} className="grid grid-cols-1 gap-3 sm:grid-cols-2" role="tablist">
                   {([
                      { id: "online", icon: CreditCard, label: t("Card Payment", "Card Payment"), sub: "Only 29 EUR / year", image: cardPaymentBg },
-                     { id: "bank", icon: Landmark, label: t("Bank Transfer", "Bank Transfer"), sub: "Only 29 EUR/ year (699k VND)", image: bankTransferBg },
+                      { id: "bank", icon: Landmark, label: t("Bank Transfer", "Bank Transfer"), sub: "Only 29 EUR / year (899k VND)", image: bankTransferBg },
                   ] as const).map((o) => (
                      <Button key={o.id} role="tab" aria-selected={tab === o.id} onClick={() => setTab(o.id)} variant="outline"
                        className={`group relative h-[168px] overflow-hidden whitespace-normal border-2 p-0 text-left ${tab === o.id ? "border-primary ring-2 ring-primary/20" : "border-border hover:border-primary/50"}`}>
@@ -297,7 +297,7 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                       {t("Chuyển khoản tại Việt Nam", "Bank Transfer in Vietnam")}
                     </h3>
                     <span className="ml-auto rounded-full bg-amber-100 dark:bg-amber-900/40 px-2.5 py-1 text-xs font-bold text-amber-800 dark:text-amber-200">
-                      699.000đ / {t("năm", "year")}
+                      899.000đ / {t("năm", "year")}
                     </span>
                   </div>
 
@@ -333,10 +333,10 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                       <Row label={t("Chi nhánh", "Branch")} value={BANK.branch} />
                       <Row
                         label={t("Số tiền", "Amount")}
-                        value="699.000đ"
+                        value="899.000đ"
                         copyable
                         copied={copied === "amount"}
-                        onCopy={() => copy("699000", "amount")}
+                        onCopy={() => copy("899000", "amount")}
                         big
                       />
                       <Row
