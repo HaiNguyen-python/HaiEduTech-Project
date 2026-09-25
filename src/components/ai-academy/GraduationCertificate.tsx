@@ -9,6 +9,7 @@
  *  - Print / PDF via window.print() with a scoped print stylesheet
  *  - Responsive scaling via aspect-ratio + viewport-aware container
  */
+import { openUpgradeModal, usePremium } from "@/hooks/usePremium";
 import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Printer, X, Share2, Pencil, Check } from "lucide-react";
@@ -52,7 +53,9 @@ export default function GraduationCertificate({ open, onClose, studentName, seed
   const issueDate = useMemo(() => formatDate(new Date()), [open]);
   const serial = useMemo(() => buildSerial(seed || name || "guest"), [seed, name]);
 
+  const { isPremium: certPremium } = usePremium();
   const handlePrint = () => {
+    if (!certPremium) { openUpgradeModal(); return; }
     // Triggers the browser print dialog. The @media print rules below
     // ensure only the certificate is shown on paper / PDF.
     window.print();
