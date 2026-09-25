@@ -352,7 +352,7 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                 {/* Finland transfer block */}
                 <div className="rounded-xl border-2 border-sky-500/30 bg-gradient-to-br from-sky-50 to-blue-50 dark:from-sky-950/30 dark:to-blue-950/20 p-3 sm:p-4">
                   <div className="flex items-center gap-2 mb-3">
-                     <EuropeMark />
+                     <FinlandMark />
                     <ShieldCheck className="w-5 h-5 text-sky-600" />
                     <h3 className="text-base font-bold text-foreground">
                       {t("Chuyển khoản tại Phần Lan", "Bank Transfer in Finland")}
@@ -494,7 +494,7 @@ const PaymentMethodMarks = () => (
       <span className="-ml-1.5 h-4 w-4 rounded-full bg-accent" />
       <span className="ml-1 text-[10px] font-bold text-foreground">mastercard</span>
     </span>
-    <span className="rounded bg-foreground px-2 py-1 text-[11px] font-bold text-background">Apple Pay</span>
+    <span className="rounded border border-border bg-card px-2 py-1 text-[11px] font-bold text-foreground shadow-sm">Apple Pay</span>
     <span className="rounded bg-card px-2 py-1 text-[11px] font-bold text-foreground shadow-sm"><span className="text-primary">G</span> Pay</span>
   </span>
 );
@@ -511,9 +511,20 @@ const EuropeMark = () => (
   </span>
 );
 
+const FinlandMark = () => (
+  <span
+    className="relative inline-flex h-7 w-10 shrink-0 items-center justify-center overflow-hidden rounded-sm border border-border bg-card shadow-sm"
+    aria-label="Finland"
+  >
+    <span className="absolute top-0 h-full w-[20%] bg-primary" style={{ left: "30%" }} />
+    <span className="absolute left-0 h-[20%] w-full bg-primary" style={{ top: "40%" }} />
+  </span>
+);
+
 const BankRegionMarks = () => (
   <span className="mt-1 flex items-center gap-2">
     <span className="flex items-center gap-1 rounded bg-card px-2 py-1 text-[11px] font-bold text-foreground shadow-sm"><VietnamMark /> Vietnam</span>
+    <span className="flex items-center gap-1 rounded bg-card px-2 py-1 text-[11px] font-bold text-foreground shadow-sm"><FinlandMark /> Finland</span>
     <span className="flex items-center gap-1 rounded bg-card px-2 py-1 text-[11px] font-bold text-foreground shadow-sm"><EuropeMark /> EU / SEPA</span>
   </span>
 );
