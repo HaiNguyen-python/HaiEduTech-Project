@@ -92,6 +92,13 @@
       "when": 1790367334493,
       "tag": "0012_notify_bank_transfer_pending",
       "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1790367404265,
+      "tag": "0013_bank_transfer_request_rpc",
+      "breakpoints": true
     }
   ]
 }

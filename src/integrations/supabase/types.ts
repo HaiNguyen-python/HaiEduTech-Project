@@ -3803,6 +3803,7 @@ export type Database = {
       }
       user_subscriptions: {
         Row: {
+          bank_request_pending: boolean
           code_redeemed_at: string | null
           created_at: string
           environment: string | null
@@ -3821,6 +3822,7 @@ export type Database = {
           verified_at: string | null
         }
         Insert: {
+          bank_request_pending?: boolean
           code_redeemed_at?: string | null
           created_at?: string
           environment?: string | null
@@ -3839,6 +3841,7 @@ export type Database = {
           verified_at?: string | null
         }
         Update: {
+          bank_request_pending?: boolean
           code_redeemed_at?: string | null
           created_at?: string
           environment?: string | null
@@ -4696,6 +4699,7 @@ export type Database = {
         Args: { _code: string; _name: string; _visitor_hash: string }
         Returns: boolean
       }
+      request_bank_transfer: { Args: { _ref: string }; Returns: string }
       set_notebook_share_permission: {
         Args: { _can_edit: boolean; _share_id: string }
         Returns: undefined
