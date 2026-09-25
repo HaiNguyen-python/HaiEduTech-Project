@@ -263,7 +263,7 @@ const CohesionAnalyser = ({ taskType }: Props) => {
                       {result.linkersFound.map((l, i) => (
                         <div key={i} className={`p-2.5 rounded-md border text-sm ${usageStyle[l.usage] || usageStyle.good}`}>
                           <div className="flex items-center gap-2 flex-wrap mb-1">
-                            <span className="font-semibold">"{l.device}"</span>
+                            <span className="font-semibold">“{l.device}”</span>
                             <Badge variant="outline" className="text-[10px] capitalize">{l.usage}</Badge>
                           </div>
                           <p className="text-xs opacity-90">{l.note}</p>

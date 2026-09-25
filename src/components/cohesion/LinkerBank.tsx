@@ -130,7 +130,7 @@ const LinkerBank = ({ taskType }: Props) => {
     setSaving(true);
     const ts = new Date().toLocaleString();
     const block =
-      `<p><strong>🔗 "${escapeCohesionHtml(selected.linker)}"</strong> <em>(${ts})</em></p>` +
+      `<p><strong>🔗 “${escapeCohesionHtml(selected.linker)}”</strong> <em>(${ts})</em></p>` +
       `<p><strong>My sentence:</strong> ${escapeCohesionHtml(sentence.trim())}</p>` +
       `<p><strong>Band 7.5+ Upgrade:</strong> ${escapeCohesionHtml(result.upgradedVersion || "")}</p>`;
     const ok = await appendCohesionNotebook(block, taskType, {
@@ -242,7 +242,7 @@ const LinkerBank = ({ taskType }: Props) => {
             <Card className="border-primary/30 bg-gradient-to-br from-primary/5 to-transparent">
               <CardContent className="pt-6 space-y-3">
                 <div className="flex items-center gap-2 flex-wrap">
-                  <h3 className="text-xl font-bold text-foreground">"{selected.linker}"</h3>
+                  <h3 className="text-xl font-bold text-foreground">“{selected.linker}”</h3>
                   <Badge variant="outline" className={categoryColor(selected.category)}>
                     {selected.level}
                   </Badge>
