@@ -118,8 +118,8 @@ export const PlanComparison = ({ onChoosePremium }: { onChoosePremium?: () => vo
           <tbody>
             {ROWS.map((r) => (
               <tr key={r.en} className="border-b border-border/60">
-                <td className="py-2 pr-2 text-foreground">{t(r.vi, r.en)}</td>
-                <td className="py-2 px-2 text-center text-muted-foreground">
+                <td className="py-2 pr-2 font-semibold text-foreground">{t(r.vi, r.en)}</td>
+                <td className="py-2 px-2 text-center font-medium text-muted-foreground">
                   {r.free === false ? <X className="mx-auto h-4 w-4" /> : t(String(r.free), r.freeEn ?? String(r.free))}
                 </td>
                  <td className="bg-primary/5 py-2 pl-2 text-center"><span className="inline-flex items-center gap-1 font-bold text-primary"><Check className="h-4 w-4" /> {t("Đầy đủ", "Full")}</span></td>
