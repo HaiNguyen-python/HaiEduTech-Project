@@ -75,6 +75,11 @@ const ROWS: { vi: string; en: string; free: string | boolean; freeEn?: string }[
   { vi: "Chấm AI Writing/Speaking", en: "AI Writing/Speaking grading", free: "3 lượt", freeEn: "3 total" },
   { vi: "Tải chứng chỉ có mã xác thực", en: "Verified certificate download", free: false },
   { vi: "Nội dung nâng cao (Kanji, JLPT, YKI...)", en: "Advanced content (Kanji, JLPT, YKI...)", free: false },
+  { vi: "Toàn bộ đề thi IELTS/TOEIC/HSK/Cambridge (125+)", en: "Full IELTS/TOEIC/HSK/Cambridge exam bank (125+)", free: false },
+  { vi: "Khóa Python, Nhật, Phần Lan, Business English đầy đủ", en: "Full Python, Japanese, Finnish, Business English", free: false },
+  { vi: "Báo cáo Learning DNA & PDF tiến độ", en: "Learning DNA & PDF progress reports", free: false },
+  { vi: "Tư vấn AI học bổng & nghề nghiệp", en: "AI scholarship & career advisor", free: "Cơ bản", freeEn: "Basic" },
+  { vi: "Bài học mới cập nhật hằng ngày", en: "New lessons added daily", free: false },
   { vi: "Hỗ trợ ưu tiên từ thầy Hải", en: "Priority support from Teacher Hai", free: false },
 ];
 

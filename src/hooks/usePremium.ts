@@ -31,6 +31,7 @@ export const usePremium = () => {
       .from("user_subscriptions")
       .select("status, source, expires_at")
       .eq("user_id", user.id)
+      .limit(1)
       .maybeSingle();
     setState({ status: data?.status ?? null, source: data?.source ?? null, expiresAt: data?.expires_at ?? null });
     setLoading(false);
