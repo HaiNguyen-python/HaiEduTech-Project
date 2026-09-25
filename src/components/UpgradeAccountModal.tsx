@@ -255,6 +255,8 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                     <p className="text-xs text-muted-foreground">{t("Chưa có mã? Chọn cách thanh toán bên dưới.", "No code? Choose a payment method below.")}</p>
                 </div>
 
+
+                <PlanComparison onChoosePremium={() => { setTab("online"); requestAnimationFrame(() => paymentOptionsRef.current?.scrollIntoView({ behavior: "smooth", block: "center" })); }} />
                  <div ref={paymentOptionsRef} className="grid grid-cols-1 gap-3 sm:grid-cols-2" role="tablist">
                   {([
                      { id: "online", icon: CreditCard, label: t("Card Payment", "Card Payment"), sub: "Only 19 EUR / year", image: cardPaymentBg },
@@ -426,8 +428,6 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                     {t("Premium của bạn còn hạn đến", "Your Premium is active until")} <strong>{new Date(premium.expiresAt).toLocaleDateString()}</strong>. {t("Thanh toán thêm sẽ cộng tiếp 12 tháng.", "Paying again adds another 12 months.")}
                   </div>
                 )}
-
-                <PlanComparison onChoosePremium={() => { setTab("online"); requestAnimationFrame(() => paymentOptionsRef.current?.scrollIntoView({ behavior: "smooth", block: "center" })); }} />
                 {/* Premium perks carousel - elegant glass style */}
                 <div className="rounded-2xl border border-border bg-muted/25 p-4 sm:p-5">
                   <div className="mb-4 text-center">
