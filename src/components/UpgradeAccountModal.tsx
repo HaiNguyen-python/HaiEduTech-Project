@@ -14,7 +14,6 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { PREMIUM_PRICE_ID } from "@/lib/stripe";
 import { PREMIUM_CHANGED_EVENT, usePremium } from "@/hooks/usePremium";
 import { supabase } from "@/integrations/supabase/client";
-import { useLanguage } from "@/contexts/LanguageContext";
 import { toast } from "sonner";
 import qrImage from "@/assets/vietcombank-qr.png";
 import cardPaymentBg from "@/assets/premium-card-payment-bg.jpg";
@@ -42,7 +41,7 @@ const BANK = {
   name: "Vietcombank",
   account: "1025536199",
   holder: "NGUYEN TRAN THANH HAI",
-  branch: "Trụ sở CN Tân Bình",
+  branch: "Tan Binh Branch Headquarters",
 };
 
 const BANK_FI = {
@@ -52,7 +51,7 @@ const BANK_FI = {
 };
 
 const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) => {
-  const { t } = useLanguage();
+  const t = (_vi: string, en: string) => en;
   const [copied, setCopied] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -150,7 +149,7 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
 
   const features = [
     { icon: BookOpenCheck, img: perkCourses, tag: t("Khóa học", "Courses"), title: t("Mở mọi khóa học", "All Courses Unlocked"), desc: t("English, Trung, Phần Lan, Việt, Nhật, Lập trình", "English, Chinese, Finnish, Vietnamese, Japanese, Programming") },
-    { icon: ScrollText, img: perkExams, tag: t("Đề thi", "Exams"), title: t("Trọn kho đề thi", "Full Mock Exam Library"), desc: t("125+ đề Cambridge, IELTS, TOEIC, THPT", "125+ Cambridge, IELTS, TOEIC, THPT exams") },
+    { icon: ScrollText, img: perkExams, tag: t("Đề thi", "Exams"), title: t("Trọn kho đề thi", "Full Mock Exam Library"), desc: t("125+ đề Cambridge, IELTS, TOEIC, THPT", "125+ Cambridge, IELTS, TOEIC, and Vietnamese National High School exams") },
     { icon: Bot, img: perkAiGrading, tag: "AI", title: t("AI chấm không giới hạn", "Unlimited AI Grading"), desc: t("Chấm Writing & Speaking band 7.5+ không giới hạn", "Unlimited Writing & Speaking grading, band 7.5+") },
     { icon: Trophy, img: perkCertificate, tag: t("Chứng chỉ", "Certificates"), title: t("Chứng chỉ hoàn thành", "Completion Certificates"), desc: t("Business, Academic, AI Academy - xác thực online", "Business, Academic, AI Academy - verifiable online") },
     { icon: BrainCircuit, img: perkLearningDna, tag: t("Phân tích", "Insights"), title: t("Learning DNA & báo cáo", "Learning DNA & Reports"), desc: t("Radar kỹ năng + PDF báo cáo tiến bộ", "Skill radar + progress PDF reports") },
@@ -256,7 +255,7 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                 </div>
 
 
-                <PlanComparison onChoosePremium={() => { setTab("online"); requestAnimationFrame(() => paymentOptionsRef.current?.scrollIntoView({ behavior: "smooth", block: "center" })); }} />
+                <PlanComparison englishOnly onChoosePremium={() => { setTab("online"); requestAnimationFrame(() => paymentOptionsRef.current?.scrollIntoView({ behavior: "smooth", block: "center" })); }} />
                  <div ref={paymentOptionsRef} className="grid grid-cols-1 gap-3 sm:grid-cols-2" role="tablist">
                   {([
                      { id: "online", icon: CreditCard, label: t("Card Payment", "Card Payment"), sub: "Only 29 EUR / year", image: cardPaymentBg },
@@ -283,7 +282,7 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
                       <StripeEmbeddedCheckout priceId={PREMIUM_PRICE_ID} returnUrl={returnUrl} />
                     )}
                     <p className="text-center text-xs text-muted-foreground">
-                      {t("Apple Pay hiện trong Safari khi bạn đã lưu thẻ trong Apple Wallet.", "Apple Pay appears in Safari when a card is saved in Apple Wallet.")}
+                      {t("Apple Pay hiện trên thiết bị đủ điều kiện khi đã lưu thẻ trong Apple Wallet.", "Apple Pay appears automatically on eligible devices with a card saved in Apple Wallet.")}
                     </p>
                   </div>
                 )}

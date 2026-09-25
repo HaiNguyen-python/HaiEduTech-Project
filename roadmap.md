@@ -44,3 +44,7 @@
 - [x] Convert Premium perks into a compact auto-scrolling carousel.
 - [x] Add clear card-payment and EU/Vietnam bank-transfer visuals.
 - [x] Verify the upgraded window on desktop and mobile.
+- [x] Make the entire Upgrade Account window English-only.
+- [x] Register Apple Pay domains in both test and live payment environments.
+- [x] Rename the payment product duration from Vietnamese to `1 year`.
+- [x] Verify the embedded checkout after the payment configuration update.

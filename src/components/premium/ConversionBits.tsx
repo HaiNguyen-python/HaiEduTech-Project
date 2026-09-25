@@ -86,8 +86,9 @@ const ROWS: { vi: string; en: string; free: string | boolean; freeEn?: string }[
   { vi: "Hỗ trợ ưu tiên từ thầy Hải", en: "Priority support from Teacher Hai", free: false },
 ];
 
-export const PlanComparison = ({ onChoosePremium }: { onChoosePremium?: () => void }) => {
-  const { t } = useLanguage();
+export const PlanComparison = ({ onChoosePremium, englishOnly = false }: { onChoosePremium?: () => void; englishOnly?: boolean }) => {
+  const { t: localizedText } = useLanguage();
+  const t = (vi: string, en: string) => englishOnly ? en : localizedText(vi, en);
   return (
     <div className="overflow-hidden rounded-lg border border-primary/30 bg-card shadow-md">
       <div className="relative overflow-hidden bg-gradient-to-r from-primary/15 via-emerald-500/10 to-primary/15 px-4 py-4 text-center">

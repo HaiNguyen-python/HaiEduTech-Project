@@ -2,7 +2,12 @@ import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 import { createStripeClient, type StripeEnv } from "../_shared/stripe.ts";
 import { adminClient } from "../_shared/premium.ts";
 
-const DOMAINS = ["haiedutech.com", "www.haiedutech.com", "haiedutech.lovable.app"];
+const DOMAINS = [
+  "haiedutech.com",
+  "www.haiedutech.com",
+  "haiedutech.lovable.app",
+  "id-preview--69bf04b5-2aaf-44a8-ab3b-d9285d8ce64b.lovable.app",
+];
 const json = (b: unknown, s = 200) =>
   new Response(JSON.stringify(b), { status: s, headers: { ...corsHeaders, "Content-Type": "application/json" } });
 
@@ -17,13 +22,17 @@ Deno.serve(async (req) => {
     if (!isStaff) return json({ error: "forbidden" }, 403);
 
     const body = req.method === "POST" ? await req.json().catch(() => ({})) : {};
+    const action = body?.action;
+    if (action !== undefined && action !== "register") {
+      return json({ error: "invalid_action" }, 400);
+    }
     const env: StripeEnv = body?.environment === "sandbox" ? "sandbox" : "live";
     const stripe = createStripeClient(env);
 
     const list = async () => (await stripe.paymentMethodDomains.list({ limit: 100 })).data;
     let existing = await list();
 
-    if (body?.action === "register") {
+    if (action === "register") {
       for (const d of DOMAINS) {
         const found = existing.find((x) => x.domain_name === d);
         try {
