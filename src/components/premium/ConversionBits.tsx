@@ -78,7 +78,7 @@ const ROWS: { vi: string; en: string; free: string | boolean; freeEn?: string }[
   { vi: "Hỗ trợ ưu tiên từ thầy Hải", en: "Priority support from Teacher Hai", free: false },
 ];
 
-export const PlanComparison = () => {
+export const PlanComparison = ({ onChoosePremium }: { onChoosePremium?: () => void }) => {
   const { t } = useLanguage();
   const [students, setStudents] = useState<number | null>(null);
   useEffect(() => {
@@ -87,18 +87,21 @@ export const PlanComparison = () => {
     });
   }, []);
   return (
-    <div className="space-y-3">
-      <p className="text-center text-sm font-semibold text-foreground">
+    <div className="overflow-hidden rounded-lg border border-primary/25 bg-card shadow-sm">
+      <div className="bg-primary/10 px-4 py-3 text-center">
+        <p className="text-base font-bold text-foreground">
         {t("Chỉ 19 EUR/năm - rẻ hơn một buổi học gia sư", "Only 19 EUR/year - less than one private tutoring session")}
         {students ? t(` · ${students.toLocaleString()} học viên đang học cùng HaiEduTech`, ` · ${students.toLocaleString()} learners study with HaiEduTech`) : ""}
-      </p>
-      <div className="overflow-x-auto">
-        <table className="w-full min-w-[420px] text-sm">
+        </p>
+        <p className="mt-1 text-sm text-muted-foreground">{t("Một lần thanh toán. Mở toàn bộ nội dung trong 12 tháng.", "One payment. Unlock everything for 12 months.")}</p>
+      </div>
+      <div className="overflow-x-auto px-3 pb-3">
+        <table className="w-full min-w-[600px] text-sm">
           <thead>
             <tr className="border-b border-border text-left">
               <th className="py-2 pr-2 font-semibold text-muted-foreground">{t("Tính năng", "Feature")}</th>
               <th className="py-2 px-2 text-center font-semibold text-muted-foreground">{t("Miễn phí", "Free")}</th>
-              <th className="py-2 pl-2 text-center font-bold text-primary">Premium</th>
+               <th className="rounded-t-md bg-primary/10 py-2 pl-2 text-center font-extrabold text-primary">Premium</th>
             </tr>
           </thead>
           <tbody>
@@ -108,11 +111,16 @@ export const PlanComparison = () => {
                 <td className="py-2 px-2 text-center text-muted-foreground">
                   {r.free === false ? <X className="mx-auto h-4 w-4" /> : t(String(r.free), r.freeEn ?? String(r.free))}
                 </td>
-                <td className="py-2 pl-2 text-center"><Check className="mx-auto h-4 w-4 text-secondary" /></td>
+                 <td className="bg-primary/5 py-2 pl-2 text-center"><span className="inline-flex items-center gap-1 font-bold text-primary"><Check className="h-4 w-4" /> {t("Đầy đủ", "Full")}</span></td>
               </tr>
             ))}
           </tbody>
         </table>
+        {onChoosePremium && (
+          <Button onClick={onChoosePremium} className="mt-3 w-full gap-2 font-bold">
+            <Crown className="h-4 w-4" /> {t("Chọn cách thanh toán", "Choose a payment method")}
+          </Button>
+        )}
       </div>
     </div>
   );
