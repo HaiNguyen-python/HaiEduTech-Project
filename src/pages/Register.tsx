@@ -6,6 +6,7 @@ import { Send, CheckCircle, UserPlus, Loader2 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { Button } from "@/components/ui/button";
 import { z } from "zod";
 
 const registrationSchema = z.object({
