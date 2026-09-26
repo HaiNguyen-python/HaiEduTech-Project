@@ -204,7 +204,7 @@ const FlashcardDeck = ({
             </div>
 
             <div className="flex h-full flex-col items-center justify-center gap-4 text-center">
-              <VocabIllustration word={word.word} definition={word.definition.en} category={word.category} size={132} subject="ielts" />
+              <VocabIllustration word={word.word} definition={word.definition.en} category={word.category} size={200} subject="ielts" />
               <h3 className="font-extrabold" style={{ fontSize: "2.75rem", lineHeight: 1.1, color: "#111827" }}>{word.word}</h3>
               <p className="font-mono" style={{ fontSize: "1.15rem", color: "#4b5563" }}>{word.ipa}</p>
               <div className="flex flex-wrap items-center justify-center gap-2">
@@ -1995,7 +1995,7 @@ const IeltsVocabulary = () => {
                                     </motion.button>
                                   </div>
                                 </div>
-                                <VocabIllustration word={w.word} definition={w.definition.en} category={w.category} size={48} subject="ielts" />
+                                <VocabIllustration word={w.word} definition={w.definition.en} category={w.category} size={88} subject="ielts" />
                               </div>
 
                               {/* Badges */}
