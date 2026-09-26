@@ -63,3 +63,9 @@
 - [x] Link verified certificate badges to the public /verify/:code page.
 - [x] Add the admin Student results tab: add, edit, publish-toggle, delete, avatar upload, certificate-code existence check.
 
+# Public Course Tuition
+
+- [x] Keep the three home-page course buttons linked to their existing subject pages.
+- [x] Add bilingual 12-week group and one-to-one tuition to English, Chinese and Programming pages.
+- [x] Verify all three tuition sections on desktop and mobile.
+

@@ -18,6 +18,7 @@ import EnglishHeroBanner from "@/components/EnglishHeroBanner";
 import EnglishOverviewBento from "@/components/english/EnglishOverviewBento";
 import { Button } from "@/components/ui/button";
 import EnglishLearningModules from "@/components/english/EnglishLearningModules";
+import CourseTuitionSection from "@/components/courses/CourseTuitionSection";
 
 interface DictionaryDefinition {
   definition: string;
@@ -167,8 +168,7 @@ const English = () => {
               </div>
             </div>
 
-
-
+            <CourseTuitionSection subject="english" />
             <EnglishOverviewBento programs={programs} />
 
             {/* Interactive Data Dashboard - supporting reference */}

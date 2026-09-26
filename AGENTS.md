@@ -1,2 +1,3 @@
 - Keep curated IELTS vocabulary imagery in an explicit one-word-to-one-photo mapping, separate from shared multilingual emoji resolution, so meaning-reviewed images cannot be replaced by unrelated cached art.
 - Home page student results come only from the `testimonials` table (public reads published rows, staff manage all); never hardcode or auto-generate testimonial content - the section self-hides when the table is empty.
+- Keep public course tuition in the shared `CourseTuitionSection` data so English, Chinese and Programming prices and the 3x one-to-one rule stay consistent.
