@@ -3594,6 +3594,54 @@ export type Database = {
         }
         Relationships: []
       }
+      testimonials: {
+        Row: {
+          avatar_url: string | null
+          certificate_code: string | null
+          course: string
+          created_at: string
+          display_order: number
+          id: string
+          is_published: boolean
+          quote_en: string
+          quote_vi: string
+          score: string
+          score_label: string
+          student_name: string
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          certificate_code?: string | null
+          course?: string
+          created_at?: string
+          display_order?: number
+          id?: string
+          is_published?: boolean
+          quote_en?: string
+          quote_vi?: string
+          score?: string
+          score_label?: string
+          student_name: string
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          certificate_code?: string | null
+          course?: string
+          created_at?: string
+          display_order?: number
+          id?: string
+          is_published?: boolean
+          quote_en?: string
+          quote_vi?: string
+          score?: string
+          score_label?: string
+          student_name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       time_logs: {
         Row: {
           calculated_salary: number | null
