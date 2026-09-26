@@ -989,4 +989,4 @@ const Classroom3D = ({ students, lastActivityByUser, classAvg, onSelectStudent, 
   );
 };
 
-export default Classroom3D;
+export default memo(Classroom3D);
