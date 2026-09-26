@@ -2,6 +2,7 @@ import "../_shared/ai-fallback.ts";
 // Grade a Vietnamese -> English IELTS Writing PARAGRAPH translation.
 // Uses Lovable AI Gateway. Returns strict JSON with 5 sub-scores + bilingual, per-sentence feedback.
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
+import { premiumDenied } from "../_shared/premium.ts";
 
 interface ReqBody {
   vi: string;
@@ -29,6 +30,7 @@ function tryParseJson(raw: string) {
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
+  { const denied = await premiumDenied(req, corsHeaders); if (denied) return denied; }
 
   try {
     const body = (await req.json()) as ReqBody;

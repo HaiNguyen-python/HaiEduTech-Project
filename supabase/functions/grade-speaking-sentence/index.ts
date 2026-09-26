@@ -3,6 +3,7 @@ import { createOpenAI } from "npm:@ai-sdk/openai";
 import { NoObjectGeneratedError, Output, streamText } from "npm:ai";
 import { z } from "npm:zod";
 import { buildSentenceGradePrompt, clampGrade, parseSentenceGradeInput } from "./logic.ts";
+import { premiumDenied } from "../_shared/premium.ts";
 
 const jsonHeaders = { ...corsHeaders, "Content-Type": "application/json" };
 
@@ -62,6 +63,7 @@ const statusFromError = (error: unknown): number => {
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
+  { const denied = await premiumDenied(req, corsHeaders); if (denied) return denied; }
   if (req.method !== "POST") return new Response(JSON.stringify({ error: "Method not allowed" }), { status: 405, headers: jsonHeaders });
 
   try {

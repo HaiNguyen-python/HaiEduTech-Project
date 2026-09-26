@@ -1,6 +1,7 @@
 import "../_shared/ai-fallback.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { premiumDenied } from "../_shared/premium.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -22,6 +23,7 @@ async function logUsage(functionName: string, model: string, domain: string, tok
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
+  { const denied = await premiumDenied(req, corsHeaders); if (denied) return denied; }
 
   try {
     // Public endpoint (verify_jwt=false). Skip auth roundtrip to cut latency.

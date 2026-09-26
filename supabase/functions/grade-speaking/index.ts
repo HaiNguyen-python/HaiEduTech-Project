@@ -3,6 +3,7 @@ import "../_shared/ai-fallback.ts";
 // Accuracy-first: strong model, full rubric, generous timeout, multiple highlighted errors.
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { premiumDenied } from "../_shared/premium.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -147,6 +148,7 @@ The transcript comes from browser speech recognition, not from a human. It has n
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
+  { const denied = await premiumDenied(req, corsHeaders); if (denied) return denied; }
 
   try {
     const { question, part, duration, transcript } = await req.json();
