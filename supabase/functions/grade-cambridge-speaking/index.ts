@@ -2,6 +2,7 @@ import "../_shared/ai-fallback.ts";
 // Edge function: Grade Cambridge Speaking (Starters -> PET) with kid-friendly stars.
 // Returns 4 criteria scored 1-5 stars plus warm, actionable feedback for young learners.
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { premiumDenied } from "../_shared/premium.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -59,6 +60,7 @@ function buildFallback(level: string, transcript: string, duration: number, reas
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
+  { const denied = await premiumDenied(req, corsHeaders); if (denied) return denied; }
 
   try {
     const body = await req.json().catch(() => ({}));

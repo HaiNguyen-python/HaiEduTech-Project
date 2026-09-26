@@ -8,6 +8,7 @@ import "../_shared/ai-fallback.ts";
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { z } from "https://esm.sh/zod@3.23.8";
+import { premiumDenied } from "../_shared/premium.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -87,6 +88,7 @@ Trả về JSON THUẦN:
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
+  { const denied = await premiumDenied(req, corsHeaders); if (denied) return denied; }
 
   try {
     const parsed = BodySchema.safeParse(await req.json());

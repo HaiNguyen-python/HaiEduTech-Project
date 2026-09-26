@@ -38,6 +38,20 @@ export const isPublicPath = (pathname: string): boolean => {
   );
 };
 
+/** Signed-in areas that do not require Premium (account, info, staff tools). */
+export const PREMIUM_FREE_PREFIXES = [
+  "/dashboard", "/register", "/global-scholarship", "/knowledge-hub",
+  "/for-vietnamese-children", "/edtech-research", "/admin", "/admin-dashboard",
+  "/teacher-admin", "/teacher-dashboard", "/assistant", "/agency-admin",
+] as const;
+
+export const isPremiumFreePath = (pathname: string): boolean => {
+  const path = normalize(pathname);
+  return (PREMIUM_FREE_PREFIXES as readonly string[]).some(
+    (p) => path === p || path.startsWith(`${p}/`),
+  );
+};
+
 /** Bilingual labels for the first path segment, shown on the invite card. */
 const SECTION_LABELS: Record<string, { vi: string; en: string }> = {
   english: { vi: "Tiếng Anh", en: "English" },

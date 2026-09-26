@@ -39,8 +39,8 @@ export const PremiumLockPanel = ({ backTo, kind = "exam", previewTitle }: { back
       )}
       <p className="mb-6 text-base text-muted-foreground">
         {kind === "exam"
-          ? t("Bạn đã được làm miễn phí đề đầu tiên. Nâng cấp để luyện trọn bộ 125+ đề thi có giải thích chi tiết.", "Your first paper is free. Upgrade to practise the full library of 125+ mock exams with detailed explanations.")
-          : t("Bạn đã học thử 3 bài đầu. Nâng cấp để mở khóa toàn bộ lộ trình.", "You've tried the first 3 lessons. Upgrade to unlock the whole path.")}
+          ? t("Nâng cấp hoặc nhập mã kích hoạt để luyện trọn bộ 125+ đề thi có giải thích chi tiết.", "Upgrade or enter your activation code to practise the full library of 125+ mock exams with detailed explanations.")
+          : t("Nâng cấp hoặc nhập mã kích hoạt để mở khóa toàn bộ lộ trình.", "Upgrade or enter your activation code to unlock the whole path.")}
       </p>
       <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
         {user ? (

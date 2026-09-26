@@ -1,6 +1,7 @@
 // Edge function: grade a single sentence using a target IELTS phrase
 // Uses Perplexity API (sonar) — consistent with project's AI standards
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { premiumDenied } from "../_shared/premium.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -49,6 +50,7 @@ serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
+  { const denied = await premiumDenied(req, corsHeaders); if (denied) return denied; }
 
   try {
     const body = await req.json() as ReqBody;

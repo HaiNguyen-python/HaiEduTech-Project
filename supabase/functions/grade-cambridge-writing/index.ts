@@ -2,6 +2,7 @@ import "../_shared/ai-fallback.ts";
 // Edge function: Grade Cambridge writing tasks (Starters -> PET).
 // Scores the four official criteria 1-5 and returns bilingual feedback plus fixes.
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { premiumDenied } from "../_shared/premium.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -62,6 +63,7 @@ function buildFallback(level: string, text: string, minWords: number, maxWords: 
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
+  { const denied = await premiumDenied(req, corsHeaders); if (denied) return denied; }
 
   try {
     const body = await req.json().catch(() => ({}));

@@ -61,3 +61,19 @@ export async function fulfillStripeSession(session: any, env: string) {
   });
   return true;
 }
+
+/**
+ * Returns a 403 response unless the caller is signed in and has Premium
+ * (activation code, payment, or staff role). Returns null when allowed.
+ */
+export async function premiumDenied(req: Request, cors: Record<string, string>): Promise<Response | null> {
+  const deny = (status: number, error: string) =>
+    new Response(JSON.stringify({ error }), { status, headers: { ...cors, "Content-Type": "application/json" } });
+  const token = (req.headers.get("Authorization") ?? "").replace(/^Bearer\s+/i, "");
+  if (!token) return deny(401, "not_authenticated");
+  const db = adminClient();
+  const { data: userData, error } = await db.auth.getUser(token);
+  if (error || !userData?.user) return deny(401, "not_authenticated");
+  const { data: ok } = await db.rpc("has_premium", { _user_id: userData.user.id });
+  return ok ? null : deny(403, "premium_required");
+}
