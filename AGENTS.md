@@ -2,3 +2,4 @@
 - Home page student results come only from the `testimonials` table (public reads published rows, staff manage all); never hardcode or auto-generate testimonial content - the section self-hides when the table is empty.
 - Keep public course tuition in the shared `CourseTuitionSection` data so English, Chinese and Programming prices and the 3x one-to-one rule stay consistent.
 - Keep only the exact `/english`, `/chinese`, `/programming`, and `/register` overview routes public; nested learning routes remain authentication and Premium protected.
+- Keep Lovable auth emails in the shared six-template set, styled with HaiEduTech branding and deployed through the required auth email hook.
