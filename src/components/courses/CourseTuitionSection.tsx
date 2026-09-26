@@ -118,9 +118,6 @@ const CourseTuitionSection = ({ subject }: { subject: TuitionSubject }) => {
         ))}
       </div>
 
-      <p className="border-t border-border bg-muted/40 px-5 py-4 text-sm text-muted-foreground sm:px-7">
-        Học phí kèm riêng 1-1 bằng 3 lần học phí lớp nhóm. / One-to-one tuition is three times the group-class fee.
-      </p>
     </section>
   );
 };

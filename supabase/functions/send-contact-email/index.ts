@@ -1,12 +1,29 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
-
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-};
+import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
+import { z } from "npm:zod@3.25.76";
 
 const TEACHER_EMAIL = "hainguyen240195@gmail.com";
+
+const ContactRequestSchema = z.object({
+  name: z.string().trim().min(1).max(100),
+  email: z.string().trim().email().max(255).optional().or(z.literal("")),
+  phone: z.string().trim().max(20).regex(/^[+()\d\s.-]+$/).optional().or(z.literal("")),
+  subject: z.string().trim().max(200).optional(),
+  message: z.string().trim().max(2000).optional().or(z.literal("")),
+  type: z.enum(["ask_teacher", "course_registration"]).optional(),
+  program: z.string().trim().max(100).optional().or(z.literal("")),
+  level: z.string().trim().max(100).optional().or(z.literal("")),
+  submittedAt: z.string().trim().max(100).optional(),
+  idempotencyKey: z.string().trim().min(1).max(255).optional(),
+}).superRefine((data, context) => {
+  if (data.type === "course_registration" && (!data.phone || !data.program)) {
+    context.addIssue({ code: z.ZodIssueCode.custom, message: "Phone and program are required for course registration" });
+  }
+  if (data.type === "ask_teacher" && !data.message) {
+    context.addIssue({ code: z.ZodIssueCode.custom, message: "Message is required" });
+  }
+});
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -14,6 +31,14 @@ serve(async (req) => {
   }
 
   try {
+    const parsed = ContactRequestSchema.safeParse(await req.json());
+    if (!parsed.success) {
+      return new Response(
+        JSON.stringify({ error: parsed.error.flatten().fieldErrors }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
+    }
+
     const {
       name,
       email,
@@ -25,10 +50,11 @@ serve(async (req) => {
       level,
       submittedAt,
       idempotencyKey,
-    } = await req.json();
+    } = parsed.data;
 
-    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
-    const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    const supabaseUrl = Deno.env.get("SUPABASE_URL");
+    const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+    if (!supabaseUrl || !serviceKey) throw new Error("Email service is not configured");
     const supabase = createClient(supabaseUrl, serviceKey);
 
     const isAskTeacher = type === "ask_teacher";

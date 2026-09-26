@@ -6,6 +6,17 @@ import { Send, CheckCircle, UserPlus, Loader2 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { Button } from "@/components/ui/button";
+import { z } from "zod";
+
+const registrationSchema = z.object({
+  name: z.string().trim().min(1).max(100),
+  phone: z.string().trim().min(6).max(20).regex(/^[+()\d\s.-]+$/),
+  email: z.union([z.literal(""), z.string().trim().email().max(255)]),
+  program: z.string().trim().min(1).max(100),
+  level: z.string().trim().max(100),
+  message: z.string().trim().max(1000),
+});
 
 const Register = () => {
   const { t } = useLanguage();
@@ -20,6 +31,7 @@ const Register = () => {
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [emailNotificationSent, setEmailNotificationSent] = useState(true);
   const [submitting, setSubmitting] = useState(false);
 
   const programs = [
@@ -36,33 +48,42 @@ const Register = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.name.trim() || !form.phone.trim() || !form.program) {
+    const selectedProgram = form.program === "other" ? form.programOther : form.program;
+    const parsed = registrationSchema.safeParse({
+      name: form.name,
+      phone: form.phone,
+      email: form.email,
+      program: selectedProgram,
+      level: form.level,
+      message: form.message,
+    });
+
+    if (!parsed.success) {
       toast({
-        title: t("Vui lòng điền đầy đủ thông tin", "Please fill in all required fields"),
+        title: t("Vui lòng kiểm tra lại thông tin", "Please check your information"),
+        description: t(
+          "Họ tên, số điện thoại và chương trình là bắt buộc. Email và độ dài các nội dung phải hợp lệ.",
+          "Name, phone number and program are required. Please also check the email and field lengths.",
+        ),
         variant: "destructive",
       });
       return;
     }
-    if (form.program === "other" && !form.programOther.trim()) {
-      toast({
-        title: t("Vui lòng nhập chương trình bạn muốn đăng ký", "Please specify the program you want to register for"),
-        variant: "destructive",
-      });
-      return;
-    }
+
     setSubmitting(true);
     try {
+      const clean = parsed.data;
       const programLabel =
         form.program === "other"
-          ? form.programOther.trim()
+          ? clean.program
           : programs.find((p) => p.value === form.program)?.label || form.program;
       const { error: insertError } = await supabase.from("course_registrations").insert({
-        name: form.name.trim(),
-        phone: form.phone.trim(),
-        email: form.email.trim() || null,
+        name: clean.name,
+        phone: clean.phone,
+        email: clean.email || null,
         program: programLabel,
-        level: form.level.trim() || null,
-        message: form.message.trim() || null,
+        level: clean.level || null,
+        message: clean.message || null,
       });
       if (insertError) throw insertError;
 
@@ -71,34 +92,46 @@ const Register = () => {
         timeStyle: "short",
       });
 
-      const { error: emailError } = await supabase.functions.invoke("send-contact-email", {
-        body: {
-          type: "course_registration",
-          idempotencyKey: `course-registration-${form.phone.trim()}-${Date.now()}`,
-          name: form.name.trim(),
-          email: form.email.trim() || undefined,
-          phone: form.phone.trim(),
-          subject: `[Đăng ký khóa học] ${programLabel}`,
-          program: programLabel,
-          level: form.level.trim() || undefined,
-          message: form.message.trim() || undefined,
-          submittedAt,
-        },
-      });
-
-      if (emailError) {
-        console.error("Registration email queue failed:", emailError);
+      let notificationSent = false;
+      try {
+        const { data: emailResult, error: emailError } = await supabase.functions.invoke("send-contact-email", {
+          body: {
+            type: "course_registration",
+            idempotencyKey: `course-registration-${clean.phone}-${Date.now()}`,
+            name: clean.name,
+            email: clean.email || undefined,
+            phone: clean.phone,
+            subject: `[Đăng ký khóa học] ${programLabel}`,
+            program: programLabel,
+            level: clean.level || undefined,
+            message: clean.message || undefined,
+            submittedAt,
+          },
+        });
+        notificationSent = !emailError && emailResult?.success === true;
+      } catch (emailError) {
+        console.error("Registration email notification failed:", emailError);
       }
 
+      setEmailNotificationSent(notificationSent);
       setSubmitted(true);
       toast({
-        title: t("Đăng ký thành công!", "Registration successful!"),
-        description: t("Chúng tôi sẽ liên hệ bạn sớm nhất.", "We will contact you shortly."),
+        title: notificationSent
+          ? t("Đăng ký thành công!", "Registration successful!")
+          : t("Đã lưu đăng ký", "Registration saved"),
+        description: notificationSent
+          ? t("Chúng tôi sẽ liên hệ bạn sớm nhất.", "We will contact you shortly.")
+          : t(
+              "Email thông báo đang tạm gián đoạn, nhưng thông tin của bạn đã được lưu và không cần gửi lại.",
+              "Email notification is temporarily unavailable, but your details were saved and you do not need to resubmit.",
+            ),
+        variant: notificationSent ? "default" : "destructive",
       });
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const description = err instanceof Error ? err.message : "";
       toast({
         title: t("Có lỗi xảy ra", "Something went wrong"),
-        description: err?.message ?? "",
+        description,
         variant: "destructive",
       });
     } finally {
@@ -128,17 +161,22 @@ const Register = () => {
               {t("Cảm ơn bạn đã đăng ký!", "Thank you for registering!")}
             </h2>
             <p className="text-muted-foreground mb-6">
-              {t(
-                "Chúng tôi đã nhận được thông tin đăng ký của bạn. Thầy Hải sẽ liên hệ bạn trong thời gian sớm nhất để tư vấn chi tiết.",
-                "We have received your registration. Teacher Hai will contact you shortly for detailed consultation."
-              )}
+              {emailNotificationSent
+                ? t(
+                    "Chúng tôi đã nhận được thông tin đăng ký của bạn. Thầy Hải sẽ liên hệ bạn trong thời gian sớm nhất để tư vấn chi tiết.",
+                    "We have received your registration. Teacher Hai will contact you shortly for detailed consultation.",
+                  )
+                : t(
+                    "Thông tin đăng ký của bạn đã được lưu. Email thông báo đang tạm gián đoạn; bạn không cần gửi lại biểu mẫu.",
+                    "Your registration has been saved. Email notification is temporarily unavailable; you do not need to submit the form again.",
+                  )}
             </p>
-            <button
+            <Button
               onClick={() => setSubmitted(false)}
-              className="px-6 py-2.5 rounded-lg bg-primary text-primary-foreground font-semibold hover:brightness-110 transition-all"
+              size="lg"
             >
               {t("Đăng ký thêm", "Register another")}
-            </button>
+            </Button>
           </motion.div>
         </div>
         <Footer />
@@ -263,14 +301,15 @@ const Register = () => {
                 />
               </div>
 
-              <button
+              <Button
                 type="submit"
                 disabled={submitting}
-                className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-primary text-primary-foreground font-semibold hover:brightness-110 transition-all shadow-lg shadow-primary/20 disabled:opacity-60 disabled:cursor-not-allowed"
+                size="lg"
+                className="w-full gap-2 shadow-lg shadow-primary/20"
               >
                 {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
                 {submitting ? t("Đang gửi...", "Sending...") : t("Gửi đăng ký", "Submit Registration")}
-              </button>
+              </Button>
             </form>
           </motion.div>
         </div>
