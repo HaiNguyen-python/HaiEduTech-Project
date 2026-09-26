@@ -17,6 +17,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 const LearningRoadmaps = lazy(() => import("@/components/LearningRoadmaps"));
 const ModernTechTools = lazy(() => import("@/components/ModernTechTools"));
 const SuccessMetrics = lazy(() => import("@/components/SuccessMetrics"));
+const StudentResultsWall = lazy(() => import("@/components/results/StudentResultsWall"));
 const MonthlyTopStudents = lazy(() => import("@/components/home/MonthlyTopStudents"));
 const WorldVisitorMap = lazy(() => import("@/components/home/WorldVisitorMap"));
 
@@ -105,6 +106,8 @@ const Index = () => {
     <LazySection><ModernTechTools /></LazySection>
     <SectionDivider flip />
     <LazySection><SuccessMetrics /></LazySection>
+    <SectionDivider flip />
+    <LazySection><StudentResultsWall /></LazySection>
     <SectionDivider />
     <LazySection><WorldVisitorMap /></LazySection>
     
