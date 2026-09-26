@@ -173,7 +173,9 @@ export async function createAssignment(
     ? new Date(deadlineIso).toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit", year: "numeric" })
     : "không có";
   const body = `🔔 Bài tập mới! Teacher Hai Nguyen vừa giao bài: ${title}. Hạn chót: ${deadlineText}.`;
-  const { data: notified, error: notifError } = await supabase
+  // No .select() here: teachers may insert notifications for students but are
+  // not allowed to read them back, so RETURNING would trip row-level security.
+  const { error: notifError } = await supabase
     .from("assignment_notifications")
     .insert(
       studentIds.map((uid) => ({
@@ -183,13 +185,12 @@ export async function createAssignment(
         body,
         route: input.sourceRef || null,
       })),
-    )
-    .select("id");
+    );
 
   return {
     assignmentId: created.id,
     assigned: studentIds.length,
-    notified: notified?.length ?? 0,
+    notified: notifError ? 0 : studentIds.length,
     notifyError: notifError ? notifError.message : null,
   };
 }
