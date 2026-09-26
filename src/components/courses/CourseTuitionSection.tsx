@@ -1,6 +1,7 @@
 import { ArrowRight, CalendarDays, GraduationCap, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export type TuitionSubject = "english" | "chinese" | "programming";
 
@@ -33,15 +34,22 @@ const headingBySubject: Record<TuitionSubject, string> = {
   programming: "Khóa học Lập trình / Programming Courses",
 };
 
+const subjectStyles: Record<TuitionSubject, { header: string; accent: string; button: "default" | "destructive" | "secondary" }> = {
+  english: { header: "bg-primary/5", accent: "text-primary", button: "default" },
+  chinese: { header: "bg-destructive/5", accent: "text-destructive", button: "destructive" },
+  programming: { header: "bg-accent/10", accent: "text-accent-foreground", button: "secondary" },
+};
+
 const CourseTuitionSection = ({ subject }: { subject: TuitionSubject }) => {
   const courses = tuitionBySubject[subject];
+  const styles = subjectStyles[subject];
 
   return (
     <section aria-labelledby={`${subject}-tuition-heading`} className="mb-14 overflow-hidden rounded-lg border border-border bg-card shadow-sm">
-      <div className="border-b border-border bg-primary/5 px-5 py-6 sm:px-7">
+      <div className={cn("border-b border-border px-5 py-6 sm:px-7", styles.header)}>
         <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-primary">
+            <div className={cn("mb-2 flex items-center gap-2 text-sm font-semibold", styles.accent)}>
               <GraduationCap className="h-4 w-4" />
               <span>Học trực tiếp cùng Thầy Hải / Learn directly with Teacher Hai</span>
             </div>
@@ -52,7 +60,7 @@ const CourseTuitionSection = ({ subject }: { subject: TuitionSubject }) => {
               Học phí trọn khóa 12 tuần / Tuition for one complete 12-week course
             </p>
           </div>
-          <Button asChild size="lg" className="w-full shrink-0 sm:w-auto">
+          <Button asChild size="lg" variant={styles.button} className="w-full shrink-0 sm:w-auto">
             <Link to="/register">
               Đăng ký tư vấn / Register
               <ArrowRight className="h-4 w-4" />
@@ -79,7 +87,7 @@ const CourseTuitionSection = ({ subject }: { subject: TuitionSubject }) => {
                   <p className="mt-1 text-sm text-muted-foreground">{course.nameEn}</p>
                 </td>
                 <td className="px-6 py-5 text-foreground">12 tuần / 12 weeks</td>
-                <td className="px-6 py-5 text-xl font-bold text-primary">{course.groupPrice} EUR</td>
+                <td className={cn("px-6 py-5 text-xl font-bold", styles.accent)}>{course.groupPrice} EUR</td>
                 <td className="px-6 py-5 font-semibold text-foreground">{course.groupPrice * 3} EUR</td>
               </tr>
             ))}
@@ -93,13 +101,13 @@ const CourseTuitionSection = ({ subject }: { subject: TuitionSubject }) => {
             <h3 className="font-display text-lg font-bold text-foreground">{course.nameVi}</h3>
             <p className="mt-1 text-sm text-muted-foreground">{course.nameEn}</p>
             <div className="mt-4 flex items-center gap-2 text-sm text-muted-foreground">
-              <CalendarDays className="h-4 w-4 text-primary" />
+              <CalendarDays className={cn("h-4 w-4", styles.accent)} />
               <span>12 tuần / 12 weeks</span>
             </div>
             <dl className="mt-4 grid grid-cols-2 gap-3 border-t border-border pt-4">
               <div>
                 <dt className="flex items-center gap-1 text-xs text-muted-foreground"><Users className="h-3.5 w-3.5" /> Lớp nhóm / Group</dt>
-                <dd className="mt-1 text-xl font-bold text-primary">{course.groupPrice} EUR</dd>
+                <dd className={cn("mt-1 text-xl font-bold", styles.accent)}>{course.groupPrice} EUR</dd>
               </div>
               <div>
                 <dt className="text-xs text-muted-foreground">Kèm 1-1 / One-to-one</dt>

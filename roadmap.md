@@ -67,5 +67,5 @@
 
 - [x] Keep the three home-page course buttons linked to their existing subject pages.
 - [x] Add bilingual 12-week group and one-to-one tuition to English, Chinese and Programming pages.
-- [ ] Verify all three tuition sections on desktop and mobile.
+- [x] Verify all three tuition sections on desktop and mobile.
 
