@@ -1,6 +1,8 @@
 // Static IELTS Writing prompt bank for fallback and quick access
 import { ChartDataConfig } from "@/components/Task1Chart";
 import { MapDiagramData, ProcessDiagramData } from "@/components/Task1Visual";
+import { task1ExtraPrompts } from "./ieltsWritingPromptsTask1Extra";
+import { task2ExtraPrompts } from "./ieltsWritingPromptsTask2Extra";
 
 export interface WritingPrompt {
   id: string;
@@ -738,7 +740,9 @@ function expandBrainstormingIdeas(prompt: WritingPrompt): string[] {
 /**
  * Get a random prompt by task type and optional sub-type
  */
-export function getRandomPrompt(taskType: 1 | 2, subType?: string): WritingPrompt {
+writingPrompts.push(...task1ExtraPrompts, ...task2ExtraPrompts);
+
+export function getRandomPrompt(taskType: 1 | 2, subType?: string, excludeId?: string): WritingPrompt {
   let filtered = writingPrompts.filter(p => p.taskType === taskType);
   if (subType) {
     filtered = filtered.filter(p =>
@@ -746,6 +750,7 @@ export function getRandomPrompt(taskType: 1 | 2, subType?: string): WritingPromp
     );
   }
   if (filtered.length === 0) filtered = writingPrompts.filter(p => p.taskType === taskType);
+  if (excludeId && filtered.length > 1) filtered = filtered.filter(p => p.id !== excludeId);
   const selected = filtered[Math.floor(Math.random() * filtered.length)];
   // Auto-expand brainstorming ideas to at least 10
   return { ...selected, brainstormingIdeas: expandBrainstormingIdeas(selected) };
