@@ -5,7 +5,9 @@ const issues: string[] = [];
 const MIN = 8;
 const ids = new Map<string, number>();
 const counts: Record<string, number> = {};
-const words = (s: string) => new Set(s.toLowerCase().replace(/[^a-z\s]/g, " ").split(/\s+/).filter((w) => w.length > 3));
+const BOILER = /summarise the information.*$|discuss both views and give (your own|your) opinion\.?|to what extent do you agree or disagree( with this statement)?\??|what are the advantages and disadvantages[^?]*\?|do the advantages[^?]*\?/gi;
+const STOP = new Set(["below", "shows", "show", "diagram", "chart", "charts", "graph", "maps", "table", "some", "people", "think", "believe", "that", "others", "while", "this", "their", "they", "should", "more", "many", "what", "which", "with", "from", "have", "there", "these", "those", "than", "into", "between"]);
+const words = (s: string) => new Set(s.replace(BOILER, "").toLowerCase().replace(/[^a-z\s]/g, " ").split(/\s+/).filter((w) => w.length > 3 && !STOP.has(w)));
 
 for (const p of writingPrompts) {
   ids.set(p.id, (ids.get(p.id) || 0) + 1);
@@ -45,7 +47,7 @@ for (let i = 0; i < writingPrompts.length; i++) for (let j = i + 1; j < writingP
   const a = words(writingPrompts[i].prompt), b = words(writingPrompts[j].prompt);
   const inter = [...a].filter((w) => b.has(w)).length;
   const sim = inter / Math.min(a.size, b.size);
-  if (sim > 0.7) issues.push(`near-duplicate: ${writingPrompts[i].id} ~ ${writingPrompts[j].id} (${sim.toFixed(2)})`);
+  if (Math.min(a.size, b.size) >= 3 && sim > 0.6) issues.push(`near-duplicate: ${writingPrompts[i].id} ~ ${writingPrompts[j].id} (${sim.toFixed(2)})`);
 }
 for (const k of ["T1:bar", "T1:line", "T1:pie", "T1:table", "T1:map", "T1:process", "T2:opinion", "T2:discussion", "T2:advantage-disadvantage", "T2:problem-solution", "T2:direct-question"])
   if ((counts[k] || 0) < MIN) issues.push(`${k}: only ${counts[k] || 0} prompts`);
