@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -16,7 +16,7 @@ const ApplePayDomains = () => {
     setRows((data?.domains as Dom[]) ?? []);
     setBusy(false);
   };
-  useEffect(() => { run(); }, []);
+  // Checked on demand only: calling Stripe on every admin load slowed the page.
 
   const badge = (s: string) => (
     <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${s === "active" ? "bg-primary/10 text-primary" : "bg-destructive/10 text-destructive"}`}>{s}</span>

@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState, useEffect, useCallback, useMemo, useRef } from "react";
+import { lazy, Suspense, useState, useEffect, useCallback, useMemo, useRef, useDeferredValue } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -188,6 +188,14 @@ const AdminDashboard = () => {
     window.history.replaceState({}, "", `${url.pathname}${url.search}${url.hash}`);
   }, []);
   const [searchQuery, setSearchQuery] = useState("");
+  const deferredSearch = useDeferredValue(searchQuery);
+  // Mount the heavy 3D classroom after the first paint so the page opens instantly.
+  const [show3D, setShow3D] = useState(false);
+  useEffect(() => {
+    const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number };
+    if (w.requestIdleCallback) { w.requestIdleCallback(() => setShow3D(true), { timeout: 1200 }); }
+    else { const id = window.setTimeout(() => setShow3D(true), 400); return () => window.clearTimeout(id); }
+  }, []);
   const [classStats, setClassStats] = useState({
     totalStudents: 0,
     totalActivities: 0,
@@ -332,10 +340,11 @@ const AdminDashboard = () => {
   }, [canAccessDashboard, fetchAll]);
 
   // Select student and generate recommendations
-  const handleSelectStudent = (state: StudentState) => {
+  const handleSelectStudent = useCallback((state: StudentState) => {
     setSelectedStudent(state);
     setRecommendations(generateRecommendations(state));
-  };
+  }, []);
+  const openStudentsTab = useCallback(() => handleTabChange("students", "students"), [handleTabChange]);
 
   // Build heatmap data from all student states (memoized - heavy iteration)
   const heatmapData = useMemo(() => {
@@ -405,10 +414,10 @@ const AdminDashboard = () => {
 
   // Filtered student list (diacritic-insensitive, memoized)
   const filteredStudents = useMemo(() => {
-    if (!searchQuery) return studentStates;
-    const q = normalizeForSearch(searchQuery);
+    if (!deferredSearch) return studentStates;
+    const q = normalizeForSearch(deferredSearch);
     return studentStates.filter(s => normalizeForSearch(s.fullName).includes(q));
-  }, [studentStates, searchQuery]);
+  }, [studentStates, deferredSearch]);
 
   // Students needing intervention (score < 5 OR declining OR silent on speak/write > 14 days)
   const interventionNeeded = useMemo(() => {
@@ -600,14 +609,20 @@ const AdminDashboard = () => {
               {/* ===== GLOBAL OVERVIEW TAB ===== */}
               <TabsContent value="overview">
                 {/* 3D classroom - visual class management */}
-                <Classroom3D
-                  students={studentStates}
-                  lastActivityByUser={lastActivityByUser}
-                  classAvg={classStats.classAvg}
-                  onSelectStudent={(s) => handleSelectStudent(s)}
-                  onOpenStudentTab={() => handleTabChange("students", "students")}
-                  selectedUserId={selectedStudent?.userId ?? null}
-                />
+                <Suspense fallback={<div className="mb-6 h-[520px] animate-pulse rounded-2xl bg-muted/40" />}>
+                  {show3D ? (
+                    <Classroom3D
+                      students={studentStates}
+                      lastActivityByUser={lastActivityByUser}
+                      classAvg={classStats.classAvg}
+                      onSelectStudent={handleSelectStudent}
+                      onOpenStudentTab={openStudentsTab}
+                      selectedUserId={selectedStudent?.userId ?? null}
+                    />
+                  ) : (
+                    <div className="mb-6 h-[520px] animate-pulse rounded-2xl bg-muted/40" />
+                  )}
+                </Suspense>
                 {/* Newest sign-ups so the teacher can welcome and place them */}
                 <div className="mb-6">
                   <NewSignupsCard onOpenStudents={() => handleTabChange("students", "students")} />
