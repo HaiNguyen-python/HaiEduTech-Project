@@ -570,10 +570,9 @@ function CreateAssignmentDialog({ open, onOpenChange, students, classes, classMe
       body: notifBody,
       route: sourceRef || null,
     }));
-    const { data: notified, error: notifError } = await supabase
+    const { error: notifError } = await supabase
       .from("assignment_notifications")
-      .insert(notifRows)
-      .select("id");
+      .insert(notifRows);
 
     setSubmitting(false);
     reset();
@@ -585,7 +584,7 @@ function CreateAssignmentDialog({ open, onOpenChange, students, classes, classMe
         variant: "destructive",
       });
     } else {
-      const sent = notified?.length ?? 0;
+      const sent = notifRows.length;
       toast({
         title: "Assignment created",
         description: `${target_student_ids.length} student(s) assigned · ${sent} notified.`,
