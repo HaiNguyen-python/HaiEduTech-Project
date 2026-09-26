@@ -15,6 +15,7 @@ import SongsBanner from "@/components/songs/SongsBanner";
 import { cn } from "@/lib/utils";
 import CollapsibleDataDashboard from "@/components/CollapsibleDataDashboard";
 import KangxiRadicalsBrowser from "@/components/KangxiRadicalsBrowser";
+import CourseTuitionSection from "@/components/courses/CourseTuitionSection";
 
 const Chinese = () => {
   const { t } = useLanguage();
@@ -128,6 +129,8 @@ const Chinese = () => {
                 "From zero to confident communication - structured modules from Foundation to HSK to real-world Conversation, blending culture and technology."
               )}
             </p>
+
+            <CourseTuitionSection subject="chinese" />
 
             {/* Interactive Data Dashboard - Overview (collapsible) */}
             <CollapsibleDataDashboard language="chinese" />

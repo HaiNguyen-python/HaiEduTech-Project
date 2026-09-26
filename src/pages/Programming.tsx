@@ -35,6 +35,7 @@ import mascotRl from "@/assets/programming/mascot-rl.png";
 import mascotCybersecurity from "@/assets/programming/mascot-cybersecurity.png";
 import mascotEdtech from "@/assets/programming/mascot-edtech.png";
 import mascotProjects from "@/assets/programming/mascot-professional-projects.png";
+import CourseTuitionSection from "@/components/courses/CourseTuitionSection";
 
 const PILLAR_MASCOTS: Record<string, string> = {
   "python-pathway": mascotPythonPathway,
@@ -390,6 +391,10 @@ const Programming = () => {
               6 core pillars taking you from beginner to data & cloud technology expert.
             </p>
           </motion.div>
+
+          <div className="mx-auto max-w-5xl">
+            <CourseTuitionSection subject="programming" />
+          </div>
 
           {/* 5 Pillar Cards */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 max-w-6xl mx-auto mb-10">
