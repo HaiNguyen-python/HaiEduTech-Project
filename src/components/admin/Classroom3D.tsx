@@ -7,7 +7,7 @@
  *   Falls back to a 2D colour grid on mobile / reduced motion.
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
-import { useMemo, useRef, useState, useEffect, Suspense, useCallback, type ReactNode } from "react";
+import { useMemo, useRef, useState, useEffect, Suspense, useCallback, type ReactNode, memo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Html, RoundedBox } from "@react-three/drei";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
