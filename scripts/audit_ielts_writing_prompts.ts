@@ -6,7 +6,7 @@ const MIN = 8;
 const ids = new Map<string, number>();
 const counts: Record<string, number> = {};
 const BOILER = /summarise the information.*$|discuss both views and give (your own|your) opinion\.?|to what extent do you agree or disagree( with this statement)?\??|what are the advantages and disadvantages[^?]*\?|do the advantages[^?]*\?/gi;
-const STOP = new Set(["below", "shows", "show", "diagram", "chart", "charts", "graph", "maps", "table", "some", "people", "think", "believe", "that", "others", "while", "this", "their", "they", "should", "more", "many", "what", "which", "with", "from", "have", "there", "these", "those", "than", "into", "between"]);
+const STOP = new Set(["below", "shows", "show", "diagram", "chart", "charts", "graph", "maps", "table", "some", "people", "think", "believe", "that", "others", "while", "this", "their", "they", "should", "more", "many", "what", "which", "with", "from", "have", "there", "these", "those", "than", "into", "between", "problem", "problems", "causes", "cause", "measures", "solutions", "suggest", "today", "young", "cities", "solve"]);
 const words = (s: string) => new Set(s.replace(BOILER, "").toLowerCase().replace(/[^a-z\s]/g, " ").split(/\s+/).filter((w) => w.length > 3 && !STOP.has(w)));
 
 for (const p of writingPrompts) {
