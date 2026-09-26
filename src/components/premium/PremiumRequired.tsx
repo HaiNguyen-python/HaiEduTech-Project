@@ -5,16 +5,19 @@
  *
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
+import UpgradeAccountModal from "@/components/UpgradeAccountModal";
 import { Link } from "react-router-dom";
 import { Crown, KeyRound, Loader2, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { openUpgradeModal, usePremium } from "@/hooks/usePremium";
+import { usePremium } from "@/hooks/usePremium";
 import { sectionLabel } from "@/lib/publicRoutes";
 
 const PremiumRequired = ({ pathname, children }: { pathname: string; children: ReactNode }) => {
-  const { isPremium, loading } = usePremium();
+  const { isPremium, loading, user } = usePremium();
+  const [open, setOpen] = useState(false);
+  const openUpgradeModal = () => setOpen(true);
   const { t, lang } = useLanguage();
 
   if (loading) {
@@ -59,6 +62,7 @@ const PremiumRequired = ({ pathname, children }: { pathname: string; children: R
           {t("Về trang chủ", "Back to home")}
         </Link>
       </section>
+      <UpgradeAccountModal open={open} onClose={() => setOpen(false)} user={user ? { id: user.id, email: user.email } : null} />
     </main>
   );
 };
