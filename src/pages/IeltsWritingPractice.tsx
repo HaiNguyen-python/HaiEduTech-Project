@@ -121,7 +121,7 @@ const IeltsWritingPractice = () => {
   };
 
   const handleStaticPrompt = () => {
-    const prompt = getRandomPrompt(taskType, subType || undefined);
+    const prompt = getRandomPrompt(taskType, subType || undefined, currentPrompt?.id);
     setCurrentPrompt(prompt);
     setResult(null);
     setEssay("");
@@ -204,7 +204,14 @@ const IeltsWritingPractice = () => {
         body: { taskType, essayType: taskType === 2 ? (subType || "opinion") : undefined, chartType: taskType === 1 ? (subType || "bar") : undefined },
       });
       if (error) throw error;
+      const visual = taskType === 1 ? sanitizeAiVisual(data) : {};
+      if (taskType === 1 && !visual.chartData && !visual.processData && !visual.mapData) {
+        // No usable visual: use a built-in prompt of the same type so a diagram is always shown
+        handleStaticPrompt();
+        return;
+      }
       setCurrentPrompt({
+        ...visual,
         id: `ai-${Date.now()}`,
         taskType,
         ...(taskType === 2 ? { essayType: data.essayType } : { chartType: data.chartType }),
@@ -910,3 +917,23 @@ const IeltsWritingPractice = () => {
 };
 
 export default IeltsWritingPractice;
+
+// Validate visual data returned by the AI prompt generator so only drawable data reaches the page
+function sanitizeAiVisual(data: any): Partial<WritingPrompt> {
+  const out: Partial<WritingPrompt> = {};
+  const pd = data?.processData;
+  if (pd && Array.isArray(pd.steps) && pd.steps.length >= 4 && pd.steps.length <= 14 && pd.steps.every((st: any) => st && typeof st.title === "string" && st.title.trim())) {
+    out.processData = {
+      title: String(pd.title || "Process"),
+      cyclical: !!pd.cyclical,
+      steps: pd.steps.map((st: any) => ({ icon: typeof st.icon === "string" && st.icon ? st.icon : "⚙️", title: String(st.title), ...(st.detail ? { detail: String(st.detail) } : {}) })),
+    };
+  }
+  const validChart = (c: any) => c && ["line", "bar", "pie", "area", "table"].includes(c.chart_type) && typeof c.x_axis === "string" && Array.isArray(c.series) && c.series.length > 0
+    && Array.isArray(c.data) && c.data.length >= 2 && c.data.every((r: any) => r && r[c.x_axis] !== undefined && c.series.every((k: string) => typeof r[k] === "number" || (c.chart_type === "table" && r[k] !== undefined)));
+  if (validChart(data?.chartData)) out.chartData = data.chartData;
+  if (out.chartData && validChart(data?.chartData2)) out.chartData2 = data.chartData2;
+  const validScene = (sc: any) => sc && Array.isArray(sc.elements) && sc.elements.length >= 2 && sc.elements.every((e: any) => e && typeof e.type === "string" && typeof e.x === "number" && typeof e.y === "number");
+  if (data?.mapData && validScene(data.mapData.before) && validScene(data.mapData.after)) out.mapData = data.mapData;
+  return out;
+}

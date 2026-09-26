@@ -35,6 +35,15 @@ serve(async (req) => {
 
     const taskDesc = taskType === 1 ? `Task 1 (${chartType || "bar chart"})` : `Task 2 (${essayType || "opinion"} essay)`;
 
+    const ct = String(chartType || "bar");
+    const visualSpec = ct === "process"
+      ? `"processData": { "title": "<diagram title>", "cyclical": <true|false>, "steps": [ { "icon": "<one emoji>", "title": "<2-3 word stage name>", "detail": "<short detail>" } ] }  (6-10 steps, in order, matching the prompt exactly)`
+      : ct === "map"
+      ? `"mapData": { "before": { "title": "Before (<year>)", "elements": [ ... ] }, "after": { "title": "After (<year>)", "elements": [ ... ] } }  where each element is { "type": "building"|"field"|"water"|"road"|"trees"|"carpark", "x": 0-100, "y": 0-100, "w": 0-100, "h": 0-100, "label": "<text>" }, 5-10 non-overlapping elements per map`
+      : ct === "pie"
+      ? `"chartData": { "chart_type": "pie", "title": "<title year 1>", "x_axis": "Category", "y_axis": "Percentage", "series": ["Percentage"], "data": [ { "Category": "<name>", "Percentage": <number> } ] }, "chartData2": { same shape for year 2 }  (4-6 categories, each chart sums to 100)`
+      : `"chartData": { "chart_type": "${ct === "table" ? "table" : ct === "line" ? "line" : "bar"}", "title": "<title>", "x_axis": "<x key>", "y_axis": "<unit>", "series": ["<series1>", "<series2>", ...], "data": [ { "<x key>": "<label>", "<series1>": <number>, ... } ] }  (4-8 rows, 2-4 series, realistic numbers)`;
+
     const systemPrompt = `You are a Senior IELTS Examiner creating authentic Writing prompts.
 
 Generate ONE brand-new IELTS Writing ${taskDesc} question that has NEVER appeared in any Cambridge practice book. Make it current and relevant to 2024-2025 topics.
@@ -48,7 +57,7 @@ Return this exact JSON structure:
   ${taskType === 1 ? `"chartType": "${chartType || "bar"}"` : `"essayType": "${essayType || "opinion"}"`},
   "writingGuide": ["<step1>", "<step2>", "<step3>", "<step4>"],
   "vocabularyBank": ["<word1>", "<word2>", ... at least 10 academic collocations],
-  "brainstormingIdeas": ["<idea1>", "<idea2>", "<idea3>", "<idea4>", "<idea5>"]${taskType === 1 ? ',\n  "imageDescription": "<Detailed description of the chart/diagram for the question>"' : ''}
+  "brainstormingIdeas": ["<idea1>", "<idea2>", "<idea3>", "<idea4>", "<idea5>"]${taskType === 1 ? ',\n  "imageDescription": "<Detailed description of the chart/diagram for the question>",\n  ' + visualSpec : ''}
 }
 
 RULES:
