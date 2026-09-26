@@ -31,6 +31,7 @@ const Register = () => {
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [emailNotificationSent, setEmailNotificationSent] = useState(true);
   const [submitting, setSubmitting] = useState(false);
 
   const programs = [
@@ -91,32 +92,40 @@ const Register = () => {
         timeStyle: "short",
       });
 
-      const { data: emailResult, error: emailError } = await supabase.functions.invoke("send-contact-email", {
-        body: {
-          type: "course_registration",
-          idempotencyKey: `course-registration-${clean.phone}-${Date.now()}`,
-          name: clean.name,
-          email: clean.email || undefined,
-          phone: clean.phone,
-          subject: `[Đăng ký khóa học] ${programLabel}`,
-          program: programLabel,
-          level: clean.level || undefined,
-          message: clean.message || undefined,
-          submittedAt,
-        },
-      });
+      let notificationSent = false;
+      try {
+        const { data: emailResult, error: emailError } = await supabase.functions.invoke("send-contact-email", {
+          body: {
+            type: "course_registration",
+            idempotencyKey: `course-registration-${clean.phone}-${Date.now()}`,
+            name: clean.name,
+            email: clean.email || undefined,
+            phone: clean.phone,
+            subject: `[Đăng ký khóa học] ${programLabel}`,
+            program: programLabel,
+            level: clean.level || undefined,
+            message: clean.message || undefined,
+            submittedAt,
+          },
+        });
+        notificationSent = !emailError && emailResult?.success === true;
+      } catch (emailError) {
+        console.error("Registration email notification failed:", emailError);
+      }
 
-      if (emailError || !emailResult?.success) throw new Error(
-        t(
-          "Đăng ký đã được lưu nhưng email thông báo chưa gửi được. Vui lòng thử lại hoặc liên hệ trực tiếp với Thầy Hải.",
-          "Your registration was saved, but the notification email could not be sent. Please try again or contact Teacher Hai directly.",
-        ),
-      );
-
+      setEmailNotificationSent(notificationSent);
       setSubmitted(true);
       toast({
-        title: t("Đăng ký thành công!", "Registration successful!"),
-        description: t("Chúng tôi sẽ liên hệ bạn sớm nhất.", "We will contact you shortly."),
+        title: notificationSent
+          ? t("Đăng ký thành công!", "Registration successful!")
+          : t("Đã lưu đăng ký", "Registration saved"),
+        description: notificationSent
+          ? t("Chúng tôi sẽ liên hệ bạn sớm nhất.", "We will contact you shortly.")
+          : t(
+              "Email thông báo đang tạm gián đoạn, nhưng thông tin của bạn đã được lưu và không cần gửi lại.",
+              "Email notification is temporarily unavailable, but your details were saved and you do not need to resubmit.",
+            ),
+        variant: notificationSent ? "default" : "destructive",
       });
     } catch (err: unknown) {
       const description = err instanceof Error ? err.message : "";
@@ -152,10 +161,15 @@ const Register = () => {
               {t("Cảm ơn bạn đã đăng ký!", "Thank you for registering!")}
             </h2>
             <p className="text-muted-foreground mb-6">
-              {t(
-                "Chúng tôi đã nhận được thông tin đăng ký của bạn. Thầy Hải sẽ liên hệ bạn trong thời gian sớm nhất để tư vấn chi tiết.",
-                "We have received your registration. Teacher Hai will contact you shortly for detailed consultation."
-              )}
+              {emailNotificationSent
+                ? t(
+                    "Chúng tôi đã nhận được thông tin đăng ký của bạn. Thầy Hải sẽ liên hệ bạn trong thời gian sớm nhất để tư vấn chi tiết.",
+                    "We have received your registration. Teacher Hai will contact you shortly for detailed consultation.",
+                  )
+                : t(
+                    "Thông tin đăng ký của bạn đã được lưu. Email thông báo đang tạm gián đoạn; bạn không cần gửi lại biểu mẫu.",
+                    "Your registration has been saved. Email notification is temporarily unavailable; you do not need to submit the form again.",
+                  )}
             </p>
             <Button
               onClick={() => setSubmitted(false)}
