@@ -7,8 +7,8 @@ import { TEMPLATES } from '../_shared/transactional-email-templates/registry.ts'
 // Configuration baked in at scaffold time — do NOT change these manually.
 // To update, re-run the email domain setup flow.
 const SITE_NAME = "HaiEduTech Smart Learning Platform"
-const SENDER_DOMAIN = "notify.mail.haiedutech.com"
-const FROM_DOMAIN = "notify.mail.haiedutech.com"
+const SENDER_DOMAIN = "info.haiedutech.com"
+const FROM_DOMAIN = "info.haiedutech.com"
 const FROM_LOCAL_PART = "contact"
 
 // Generate a cryptographically random 32-byte hex token
