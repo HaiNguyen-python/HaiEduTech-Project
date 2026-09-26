@@ -871,7 +871,7 @@ const WordQuest = ({
                     onClick={() => handlePick(o.key, word.key)}
                     className={`flex items-center gap-3 rounded-xl border p-3 text-left transition-all ${optionClass(o.key === word.key, wrongPicks.includes(o.key))}`}
                   >
-                    <span className="text-2xl">{subject === "ielts" ? <VocabIllustration word={allWords.find(w => w.key === o.key)?.word ?? ""} definition="" subject="ielts" size={32} /> : o.emoji}</span>
+                    <span className="text-2xl">{subject === "ielts" ? <VocabIllustration word={o.key} definition="" subject="ielts" size={32} /> : o.emoji}</span>
                     <span className="text-sm text-foreground">{o.label}</span>
                   </button>
                 ))}

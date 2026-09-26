@@ -1,0 +1,1 @@
+- Keep curated IELTS vocabulary imagery in an explicit one-word-to-one-photo mapping, separate from shared multilingual emoji resolution, so meaning-reviewed images cannot be replaced by unrelated cached art.
