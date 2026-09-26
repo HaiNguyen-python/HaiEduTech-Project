@@ -1,127 +1,85 @@
 project_id = "ldbrjxtqcnrbdimexrif"
 
-[functions.dialog-tts]
-verify_jwt = false
-
-
-[functions.exercise-helper]
-verify_jwt = false
-
-[functions.finnish-tts]
-verify_jwt = false
-
-[functions.swedish-tts]
-verify_jwt = false
-
-[functions.japanese-tts]
-verify_jwt = false
-
-[functions.dictionary-lookup]
-verify_jwt = false
-
-[functions.super-translate]
-verify_jwt = false
-
-[functions.multi-lang-lookup]
-verify_jwt = false
-
-[functions.scholarship-advisor]
-verify_jwt = false
-
-[functions.draft-motivation-letter]
-verify_jwt = false
-
-[functions.draft-cold-email]
-verify_jwt = false
-
-[functions.draft-research-proposal-section]
-verify_jwt = false
-
-[functions.generate-specialized-lesson]
-verify_jwt = false
-
-[functions.grade-speaking]
-verify_jwt = false
-
-[functions.upgrade-speaking]
-verify_jwt = false
-
-[functions.grade-writing]
-verify_jwt = false
-
-[functions.upgrade-writing]
-verify_jwt = false
-
-[functions.shortlist-universities]
-verify_jwt = false
-
-[functions.interview-prep-ai]
-verify_jwt = false
-
-[functions.study-abroad-deadline-reminder]
-verify_jwt = false
-
-
-[functions.process-email-queue]
-verify_jwt = true
-
-[functions.send-transactional-email]
-verify_jwt = true
-
-[functions.preview-transactional-email]
-verify_jwt = false
-
-[functions.handle-email-unsubscribe]
-verify_jwt = false
-
-[functions.handle-email-suppression]
-verify_jwt = false
-
-[functions.send-contact-email]
-verify_jwt = false
-
-
-[functions.monthly-progress-report]
-verify_jwt = true
-
-[functions.career-roadmap-ai]
-verify_jwt = false
-
-[functions.analyze-presentation]
-verify_jwt = false
-
-[functions.analyze-free-talk]
-verify_jwt = false
-
-[functions.speak-with-mr-hai]
-verify_jwt = false
-
-[functions.mr-hai-voice]
-verify_jwt = false
-
-
-[functions.grade-speaking-sentence]
-verify_jwt = false
-
-
-
-[functions.grade-cambridge-writing]
-verify_jwt = false
-
-[functions.listening-tts]
-verify_jwt = false
-
-[functions.create-checkout]
-verify_jwt = false
-
-[functions.payments-webhook]
-verify_jwt = false
-
-[functions.redeem-activation-code]
-verify_jwt = false
-
-[functions.verify-checkout-session]
-verify_jwt = false
-
-[functions.stripe-payment-domains]
-verify_jwt = false
+[functions]
+  [functions.analyze-free-talk]
+    verify_jwt = false
+  [functions.analyze-presentation]
+    verify_jwt = false
+  [functions.auth-email-hook]
+    verify_jwt = false
+  [functions.career-roadmap-ai]
+    verify_jwt = false
+  [functions.create-checkout]
+    verify_jwt = false
+  [functions.dialog-tts]
+    verify_jwt = false
+  [functions.dictionary-lookup]
+    verify_jwt = false
+  [functions.draft-cold-email]
+    verify_jwt = false
+  [functions.draft-motivation-letter]
+    verify_jwt = false
+  [functions.draft-research-proposal-section]
+    verify_jwt = false
+  [functions.exercise-helper]
+    verify_jwt = false
+  [functions.finnish-tts]
+    verify_jwt = false
+  [functions.generate-specialized-lesson]
+    verify_jwt = false
+  [functions.grade-cambridge-writing]
+    verify_jwt = false
+  [functions.grade-speaking]
+    verify_jwt = false
+  [functions.grade-speaking-sentence]
+    verify_jwt = false
+  [functions.grade-writing]
+    verify_jwt = false
+  [functions.handle-email-suppression]
+    verify_jwt = false
+  [functions.handle-email-unsubscribe]
+    verify_jwt = false
+  [functions.interview-prep-ai]
+    verify_jwt = false
+  [functions.japanese-tts]
+    verify_jwt = false
+  [functions.listening-tts]
+    verify_jwt = false
+  [functions.monthly-progress-report]
+    verify_jwt = true
+  [functions.mr-hai-voice]
+    verify_jwt = false
+  [functions.multi-lang-lookup]
+    verify_jwt = false
+  [functions.payments-webhook]
+    verify_jwt = false
+  [functions.preview-transactional-email]
+    verify_jwt = false
+  [functions.process-email-queue]
+    verify_jwt = true
+  [functions.redeem-activation-code]
+    verify_jwt = false
+  [functions.scholarship-advisor]
+    verify_jwt = false
+  [functions.send-contact-email]
+    verify_jwt = false
+  [functions.send-transactional-email]
+    verify_jwt = true
+  [functions.shortlist-universities]
+    verify_jwt = false
+  [functions.speak-with-mr-hai]
+    verify_jwt = false
+  [functions.stripe-payment-domains]
+    verify_jwt = false
+  [functions.study-abroad-deadline-reminder]
+    verify_jwt = false
+  [functions.super-translate]
+    verify_jwt = false
+  [functions.swedish-tts]
+    verify_jwt = false
+  [functions.upgrade-speaking]
+    verify_jwt = false
+  [functions.upgrade-writing]
+    verify_jwt = false
+  [functions.verify-checkout-session]
+    verify_jwt = false
