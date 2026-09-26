@@ -54,4 +54,12 @@
 - [x] Trace the incorrect/generic IELTS image fallback and create 24 meaning-specific photographs, including commerce.
 - [x] Show curated photos consistently in IELTS flashcards, word list and Word Quest; prevent old browser cache from overriding them.
 - [x] Add an audit for image files and mapped vocabulary keys.
-- [ ] Create and meaning-review individual photos for the remaining 1,776 IELTS entries (large image-production workload); keep unmapped entries neutral until reviewed.
+ - [ ] Create and meaning-review individual photos for the remaining 1,776 IELTS entries (large image-production workload); keep unmapped entries neutral until reviewed.
+
+# Student Results Wall
+
+- [x] Add a testimonials table with RLS: public reads published rows, staff manage all.
+- [x] Replace the simulated SocialProof block with the DB-backed StudentResultsWall on the home page (self-hides when empty).
+- [x] Link verified certificate badges to the public /verify/:code page.
+- [x] Add the admin Student results tab: add, edit, publish-toggle, delete, avatar upload, certificate-code existence check.
+

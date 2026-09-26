@@ -62,6 +62,7 @@ const EnglishDictionaryAdmin = lazy(() => import("@/components/admin/EnglishDict
 const ServiceRequestsTab = lazy(() => import("@/components/admin/ServiceRequestsTab"));
 const HealthMonitorTab = lazy(() => import("@/components/admin/HealthMonitorTab"));
 const CertificatesTab = lazy(() => import("@/components/admin/CertificatesTab"));
+const TestimonialsTab = lazy(() => import("@/components/admin/TestimonialsTab"));
 const ProgrammingDeepDiveWarmer = lazy(() => import("@/components/admin/ProgrammingDeepDiveWarmer"));
 const PhdResearchTab = lazy(() => import("@/components/admin/PhdResearchTab"));
 const EdTechResearchInsightsTab = lazy(() => import("@/components/admin/EdTechResearchInsightsTab"));
@@ -1233,6 +1234,11 @@ const AdminDashboard = () => {
               <TabsContent value="certificates">
                 <CertificatesTab />
               </TabsContent>
+
+              <TabsContent value="testimonials">
+                <TestimonialsTab />
+              </TabsContent>
+
 
               <TabsContent value="content-studio">
                 <ContentStudioTab />
