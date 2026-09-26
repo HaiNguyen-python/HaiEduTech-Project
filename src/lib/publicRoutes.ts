@@ -19,6 +19,10 @@ export const PUBLIC_PATHS = [
   "/signup",
   "/forgot-password",
   "/reset-password",
+  "/english",
+  "/chinese",
+  "/programming",
+  "/register",
 ] as const;
 
 /** Public path prefixes (marketing + blog, kept crawlable). */
@@ -40,7 +44,7 @@ export const isPublicPath = (pathname: string): boolean => {
 
 /** Signed-in areas that do not require Premium (account, info, staff tools). */
 export const PREMIUM_FREE_PREFIXES = [
-  "/dashboard", "/register", "/global-scholarship", "/knowledge-hub",
+  "/dashboard", "/global-scholarship", "/knowledge-hub",
   "/for-vietnamese-children", "/edtech-research", "/admin", "/admin-dashboard",
   "/teacher-admin", "/teacher-dashboard", "/assistant", "/agency-admin",
 ] as const;

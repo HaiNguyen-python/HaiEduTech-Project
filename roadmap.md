@@ -69,3 +69,11 @@
 - [x] Add bilingual 12-week group and one-to-one tuition to English, Chinese and Programming pages.
 - [x] Verify all three tuition sections on desktop and mobile.
 
+# Public Course Introductions and Registration
+
+- [x] Remove the redundant one-to-one tuition note below the pricing tables.
+- [x] Open only the English, Chinese, Programming overview pages and registration form to everyone.
+- [x] Keep every nested lesson and learning feature behind authentication and Premium access.
+- [x] Validate registration details and surface email delivery failures instead of silently reporting success.
+- [ ] Reconnect the HaiEduTech sender domain and confirm a real registration email reaches Teacher Hai.
+
