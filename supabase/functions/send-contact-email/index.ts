@@ -1,7 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { createClient } from "npm:@supabase/supabase-js@2";
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 import { z } from "npm:zod@3.25.76";
+import { sendAndLog } from "../_shared/transactional-email-templates/send-and-log.ts";
 
 const TEACHER_EMAIL = "hainguyen240195@gmail.com";
 
@@ -52,10 +52,6 @@ serve(async (req) => {
       idempotencyKey,
     } = parsed.data;
 
-    const supabaseUrl = Deno.env.get("SUPABASE_URL");
-    const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
-    if (!supabaseUrl || !serviceKey) throw new Error("Email service is not configured");
-    const supabase = createClient(supabaseUrl, serviceKey);
 
     const isAskTeacher = type === "ask_teacher";
     const isCourseRegistration =
@@ -71,21 +67,16 @@ serve(async (req) => {
         idempotencyKey ||
         `ask-teacher-${email || phone || name || crypto.randomUUID()}-${Date.now()}`;
 
-      const { error } = await supabase.functions.invoke("send-transactional-email", {
-        body: {
-          templateName: "ask-teacher",
-          recipientEmail: TEACHER_EMAIL,
-          idempotencyKey: key,
-          templateData: {
+      await sendAndLog("ask-teacher", TEACHER_EMAIL, {
+        idempotencyKey: key,
+        templateData: {
             name: name || "Học viên",
             email: email || "",
             phone: phone || "",
             message: message || "",
             submittedAt: sentAt,
           },
-        },
       });
-      if (error) throw error;
     } else if (isCourseRegistration) {
       const programName =
         (typeof program === "string" && program.trim()) ||
@@ -98,12 +89,9 @@ serve(async (req) => {
         idempotencyKey ||
         `course-registration-${phone || email || name || crypto.randomUUID()}-${Date.now()}`;
 
-      const { error } = await supabase.functions.invoke("send-transactional-email", {
-        body: {
-          templateName: "registration-notification",
-          recipientEmail: TEACHER_EMAIL,
-          idempotencyKey: key,
-          templateData: {
+      await sendAndLog("registration-notification", TEACHER_EMAIL, {
+        idempotencyKey: key,
+        templateData: {
             name: name || "",
             email: email || "",
             phone: phone || "",
@@ -112,9 +100,7 @@ serve(async (req) => {
             message: message || "",
             submittedAt: sentAt,
           },
-        },
       });
-      if (error) throw error;
     }
 
     return new Response(

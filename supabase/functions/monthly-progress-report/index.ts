@@ -1,3 +1,4 @@
+import { sendAndLog } from '../_shared/transactional-email-templates/send-and-log.ts'
 // Monthly Progress Report dispatcher
 // Aggregates the last 30 days of activity per active student and enqueues
 // a branded transactional email summarizing their learning journey.
@@ -295,15 +296,10 @@ Deno.serve(async (req) => {
     }
 
     try {
-      const { error } = await admin.functions.invoke('send-transactional-email', {
-        body: {
-          templateName: 'monthly-progress-report',
-          recipientEmail: email,
-          idempotencyKey: `monthly-report-${uid}-${periodStart.toISOString().slice(0, 7)}`,
-          templateData,
-        },
+      await sendAndLog('monthly-progress-report', email, {
+        idempotencyKey: `monthly-report-${uid}-${periodStart.toISOString().slice(0, 7)}`,
+        templateData,
       })
-      if (error) throw error
       sent += 1
       logRows.push({
         period_start: periodStart.toISOString().slice(0, 10),
