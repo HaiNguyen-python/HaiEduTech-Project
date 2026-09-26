@@ -48,3 +48,10 @@
 - [x] Register Apple Pay domains in both test and live payment environments.
 - [x] Rename the payment product duration from Vietnamese to `1 year`.
 - [x] Verify the embedded checkout after the payment configuration update.
+
+# IELTS Vocabulary Illustrations
+
+- [x] Trace the incorrect/generic IELTS image fallback and create 24 meaning-specific photographs, including commerce.
+- [x] Show curated photos consistently in IELTS flashcards, word list and Word Quest; prevent old browser cache from overriding them.
+- [x] Add an audit for image files and mapped vocabulary keys.
+- [ ] Create and meaning-review individual photos for the remaining 1,776 IELTS entries (large image-production workload); keep unmapped entries neutral until reviewed.
