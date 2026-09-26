@@ -1,7 +1,7 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { ieltsVocabData } from "../src/data/ieltsVocabData";
-import { curatedIeltsWords } from "../src/lib/ieltsVocabIllustrations";
+import { curatedIeltsWords } from "../src/data/ieltsVocabIllustrationWords";
 
 const directory = join(import.meta.dir, "../src/assets/ielts-vocab");
 const words = new Set(ieltsVocabData.map(item => item.word.trim().toLowerCase()));
