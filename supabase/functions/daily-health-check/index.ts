@@ -31,7 +31,7 @@ const EDGE_FUNCTIONS = [
   'hskk-grade','interview-prep-ai','it-job-market','lookup-university','monthly-progress-report',
   'multi-lang-lookup','pedagogical-assistant','polish-motivation-letter','preview-transactional-email',
   'process-email-queue','review-python-code','roleplay-chat','scholarship-advisor','send-contact-email',
-  'send-transactional-email','shortlist-universities','study-abroad-deadline-reminder','super-translate',
+  'shortlist-universities','study-abroad-deadline-reminder','super-translate',
   'sync-google-sheet','translate-example','translate-finnish-word','translate-vi-en','upgrade-speaking',
   'vietnamese-tts',
 ];
