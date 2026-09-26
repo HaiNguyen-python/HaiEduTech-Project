@@ -6,7 +6,7 @@ import { setPremiumCache } from "@/lib/aiQuota";
 export const PREMIUM_CHANGED_EVENT = "haiedutech:premium-changed";
 export const OPEN_UPGRADE_EVENT = "haiedutech:open-upgrade";
 /** Number of lessons per course that every signed-in learner can open for free. */
-export const FREE_LESSONS = 3;
+export const FREE_LESSONS = 0;
 
 export const openUpgradeModal = () => window.dispatchEvent(new Event(OPEN_UPGRADE_EVENT));
 

@@ -12,7 +12,8 @@ import { BookOpenCheck, ClipboardList, Loader2, LogIn, Sparkles, Trophy, UserPlu
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
-import { isPublicPath, sectionLabel } from "@/lib/publicRoutes";
+import { isPremiumFreePath, isPublicPath, sectionLabel } from "@/lib/publicRoutes";
+import PremiumRequired from "@/components/premium/PremiumRequired";
 import teacherLogo from "@/assets/teacher-logo.webp";
 
 const setMeta = (name: string, content: string) => {
@@ -138,7 +139,9 @@ const AuthGate = ({ children }: { children: ReactNode }) => {
 
   if (status === "guest") return <LoginInvite pathname={pathname} search={search} />;
 
-  return <>{children}</>;
+  if (isPremiumFreePath(pathname)) return <>{children}</>;
+
+  return <PremiumRequired pathname={pathname}>{children}</PremiumRequired>;
 };
 
 export default AuthGate;

@@ -5,7 +5,7 @@
  */
 import { toast } from "sonner";
 
-export const FREE_AI_GRADES = 3;
+export const FREE_AI_GRADES = 0;
 export const AI_QUOTA_EVENT = "haiedutech:ai-quota-changed";
 
 let cache: { uid: string | null; isPremium: boolean; ready: boolean } = { uid: null, isPremium: false, ready: false };
