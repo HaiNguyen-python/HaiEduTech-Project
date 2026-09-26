@@ -1,4 +1,3 @@
-import { ImageIcon } from "lucide-react";
 import { useVocabIllustration } from "@/hooks/useVocabIllustration";
 import { useState } from "react";
 
@@ -7,22 +6,25 @@ interface VocabIllustrationProps {
   definition: string;
   category?: string;
   size?: number;
+  subject?: "ielts";
 }
 
-const VocabIllustration = ({ word, definition, category, size = 64 }: VocabIllustrationProps) => {
-  const { imageUrl, fallbackEmoji } = useVocabIllustration(word, definition, category);
-  const [imgError, setImgError] = useState(false);
+const VocabIllustration = ({ word, definition, category, size = 64, subject }: VocabIllustrationProps) => {
+  const { imageUrl, fallbackEmoji } = useVocabIllustration(word, definition, category, subject);
+  const [failedUrl, setFailedUrl] = useState<string | null>(null);
 
   // Show cached AI image if available from previous sessions
-  if (imageUrl && !imgError) {
+  if (imageUrl && imageUrl !== failedUrl) {
     return (
       <img
         src={imageUrl}
         alt={`Illustration for ${word}`}
         className="rounded-lg object-cover shrink-0"
         style={{ width: size, height: size }}
-        onError={() => setImgError(true)}
+        onError={() => setFailedUrl(imageUrl)}
         loading="lazy"
+        width={size}
+        height={size}
       />
     );
   }
@@ -34,7 +36,7 @@ const VocabIllustration = ({ word, definition, category, size = 64 }: VocabIllus
       style={{ width: size, height: size }}
       title={word}
     >
-      <span className="text-2xl">{fallbackEmoji}</span>
+      <span className="text-2xl text-muted-foreground" aria-hidden="true">{fallbackEmoji}</span>
     </div>
   );
 };

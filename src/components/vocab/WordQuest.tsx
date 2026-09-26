@@ -25,6 +25,7 @@ import { Badge } from "@/components/ui/badge";
 import type { QuestItem } from "@/lib/vocab/vocabAdapter";
 import { playEnglishTts, stopEnglishTts } from "@/lib/englishTts";
 import { resolveVocabEmoji } from "@/lib/vocabEmojiMap";
+import VocabIllustration from "@/components/VocabIllustration";
 import { safeStorage } from "@/lib/safeStorage";
 import { maskAnswerForms, normForCompare } from "@/lib/vocab/questionQuality";
 import { recordVocabReviewTracked } from "@/lib/vocabReview";
@@ -714,7 +715,7 @@ const WordQuest = ({
             className="rounded-2xl border border-primary/30 bg-card p-6 sm:p-8"
           >
             <div className="flex flex-col items-center gap-3 text-center">
-              <div className="text-6xl">{swEmoji}</div>
+              {subject === "ielts" ? <VocabIllustration word={sw.word} definition={sw.definition.en} category={sw.category} subject="ielts" size={120} /> : <div className="text-6xl">{swEmoji}</div>}
               <h3 className="text-3xl font-extrabold text-foreground">{sw.word}</h3>
               {sw.subtitle && sw.subtitle !== sw.ipa && (
                 <p className="text-base font-semibold text-primary">{sw.subtitle}</p>
@@ -833,7 +834,7 @@ const WordQuest = ({
           {/* Meet the word */}
           {kind === "meet" && (
             <div className="flex flex-col items-center gap-3 text-center">
-              <div className="text-6xl">{emoji}</div>
+              {subject === "ielts" ? <VocabIllustration word={word.word} definition={word.definition.en} category={word.category} subject="ielts" size={120} /> : <div className="text-6xl">{emoji}</div>}
               <h3 className="text-3xl font-extrabold text-foreground">{word.word}</h3>
               {word.subtitle && word.subtitle !== word.ipa && (
                 <p className="text-base font-semibold text-primary">{word.subtitle}</p>
@@ -870,7 +871,7 @@ const WordQuest = ({
                     onClick={() => handlePick(o.key, word.key)}
                     className={`flex items-center gap-3 rounded-xl border p-3 text-left transition-all ${optionClass(o.key === word.key, wrongPicks.includes(o.key))}`}
                   >
-                    <span className="text-2xl">{o.emoji}</span>
+                    <span className="text-2xl">{subject === "ielts" ? <VocabIllustration word={allWords.find(w => w.key === o.key)?.word ?? ""} definition="" subject="ielts" size={32} /> : o.emoji}</span>
                     <span className="text-sm text-foreground">{o.label}</span>
                   </button>
                 ))}
@@ -931,7 +932,7 @@ const WordQuest = ({
           {/* Type it back */}
           {kind === "type" && (
             <div className="flex flex-col items-center gap-3 text-center">
-              <div className="text-5xl">{emoji}</div>
+              {subject === "ielts" ? <VocabIllustration word={word.word} definition={word.definition.en} category={word.category} subject="ielts" size={100} /> : <div className="text-5xl">{emoji}</div>}
               <p className="text-sm text-muted-foreground">
                 {typingLabel ? t(typingLabel.vi, typingLabel.en) : t("Gõ lại từ có nghĩa:", "Type the word that means:")}
               </p>
@@ -1077,7 +1078,7 @@ const WordQuest = ({
           {/* Active recall */}
           {kind === "recall" && (
             <div className="flex flex-col items-center gap-3 text-center">
-              <div className="text-5xl">{emoji}</div>
+              {subject === "ielts" ? <VocabIllustration word={word.word} definition={word.definition.en} category={word.category} subject="ielts" size={100} /> : <div className="text-5xl">{emoji}</div>}
               <p className="text-sm text-muted-foreground">{t("Bạn còn nhớ từ nào mang nghĩa này?", "Which word carries this meaning?")}</p>
               <p className="text-lg font-semibold text-foreground">{word.definition.vi}</p>
               <p className="text-sm text-muted-foreground">{word.definition.en}</p>
@@ -1128,7 +1129,7 @@ const WordQuest = ({
           {/* Pick the sentence that uses the word correctly */}
           {kind === "usage" && usageOptions.length === 0 && (
             <div className="flex flex-col items-center gap-3 text-center">
-              <div className="text-5xl">{emoji}</div>
+              {subject === "ielts" ? <VocabIllustration word={word.word} definition={word.definition.en} category={word.category} subject="ielts" size={100} /> : <div className="text-5xl">{emoji}</div>}
               <p className="text-sm text-muted-foreground">{t("Đọc câu ví dụ và ghi nhớ cách dùng:", "Read the example and notice how the word is used:")}</p>
               <h3 className="text-2xl font-extrabold text-foreground">{word.word}</h3>
               <p className="rounded-xl bg-secondary/50 p-4 text-base italic text-foreground">"{word.example}"</p>
