@@ -87,3 +87,8 @@
 - [x] Review representative public pages, course selection and payment entry, navigation, access gates and preview errors on desktop and mobile; live payments and email delivery remain separate checks above.
 - [x] Run the security scan before publishing; all 13 reported findings were previously ignored by the owner, with no new critical finding in this scan.
 
+# Subject Header Illustrations
+
+- [x] Add polished, subject-specific image backgrounds to the Programming Career Path and Chinese Modules title sections.
+- [ ] Verify both title banners on desktop and mobile.
+
