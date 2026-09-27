@@ -96,4 +96,6 @@
 
 - [x] Increase the navbar slogan weight and contrast on desktop and mobile.
 - [x] Emphasize important concepts consistently across every Programming Theory lesson.
+- [x] Repair malformed inline and display formulas across Programming Theory lessons.
+- [x] Add regression checks for nested dollar delimiters and formulas embedded in prose.
 

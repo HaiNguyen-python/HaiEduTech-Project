@@ -233,6 +233,40 @@ export function normalizeMath(input: string): string {
       // Escape them before remark-math can consume the surrounding sentence.
       out = out.replace(/\${3,}(?=[)\],.;:\s]|$)/g, (run) => "\\$".repeat(run.length));
 
+      // Display delimiters are only valid as a standalone block. Older cached
+      // lessons also used $$...$$ inside list labels and sentences, which makes
+      // remark-math split the surrounding prose into broken math nodes. Keep
+      // genuine display-only lines intact and downgrade every inline occurrence
+      // to $...$ before applying the remaining repairs.
+      out = out
+        .split("\n")
+        .map((line) => {
+          const trimmed = line.trim();
+          if (/^\$\$[\s\S]*\$\$[.,;:]?$/.test(trimmed)) return line;
+          return line.replace(/\$\$([^$\n]+?)\$\$/g, (_, body: string) => `$${body.trim()}$`);
+        })
+        .join("\n");
+
+      // Repair malformed definition labels produced by old AI content:
+      //   $Coefficients ($\beta$)$  ->  **Coefficients** ($\beta$)
+      //   **Coefficients ($\beta$)** -> **Coefficients** ($\beta$)
+      // This is deliberately limited to short prose labels followed by one
+      // parenthesized formula, so valid nested mathematical expressions remain
+      // untouched.
+      const repairDefinitionLabel = (_whole: string, label: string, formula: string) => {
+        const cleanLabel = label.trim();
+        if (!/[A-Za-z]/.test(cleanLabel) || cleanLabel.length > 80) return _whole;
+        return `**${cleanLabel}** ($${formula.trim()}$)`;
+      };
+      out = out.replace(
+        /\$([A-Za-z][A-Za-z0-9 /&+,'-]{1,79})\s*\(\$([^$\n]+)\$\)\$/g,
+        repairDefinitionLabel,
+      );
+      out = out.replace(
+        /\*\*([A-Za-z][A-Za-z0-9 /&+,'-]{1,79})\s*\(\$([^$\n]+)\$\)\*\*/g,
+        repairDefinitionLabel,
+      );
+
       // AI output sometimes applies Markdown emphasis directly to raw LaTeX,
       // such as **\hat{P}, \hat{R}**. Markdown parses the underscores before
       // KaTeX sees them, producing the garbled italic text reported by learners.
@@ -259,6 +293,14 @@ export function normalizeMath(input: string): string {
       // Also handle one-sided whitespace.
       out = out.replace(/(^|[^$])\$\s+([^$\n]+?)\$(?!\$)/g, (_, pre, body) => `${pre}$${body}$`);
       out = out.replace(/(^|[^$])\$([^$\n]+?)\s+\$(?!\$)/g, (_, pre, body) => `${pre}$${body}$`);
+
+      // A few legacy rows contain an unmatched outer dollar around prose after
+      // an otherwise valid inline formula. Convert only the high-confidence
+      // `$Short label ($formula$)$:` shape, including labels with punctuation.
+      out = out.replace(
+        /\$([^$\n()]{2,80})\s*\(\$([^$\n]+)\$\)\$(?=\s*:)/g,
+        repairDefinitionLabel,
+      );
 
       // Markdown emphasis has no meaning inside KaTeX delimiters. Remove it
       // without touching emphasis in ordinary lesson prose.
