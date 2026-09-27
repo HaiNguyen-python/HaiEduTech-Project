@@ -590,14 +590,12 @@ const Navbar = () => {
                       onClick={() => setUserMenuOpen(!userMenuOpen)}
                       className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border border-border/70 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
                     >
-                      <User className="w-3.5 h-3.5" />
-                      Hello, {displayName.split(" ")[0]}
-                      {navPremium && (
-                        <span title={t("Tài khoản Premium - toàn bộ nội dung đã mở khóa", "Premium account - all content unlocked")}
-                          className="hidden sm:flex items-center gap-0.5 px-1.5 py-0.5 rounded-full bg-gradient-to-r from-amber-500/20 to-yellow-500/20 border border-amber-500/40 text-amber-600 dark:text-amber-400 text-[10px] font-bold">
-                          <Crown className="w-3 h-3" />{t("Premium", "Premium")}
-                        </span>
+                      {navPremium ? (
+                        <Crown title={t("Tài khoản Premium - toàn bộ nội dung đã mở khóa", "Premium account - all content unlocked")} className="w-3.5 h-3.5 text-amber-500" />
+                      ) : (
+                        <Sparkles title={t("Tài khoản dùng thử - một số nội dung bị khóa", "Trial account - some content locked")} className="w-3.5 h-3.5 text-muted-foreground" />
                       )}
+                      Hello, {displayName.split(" ")[0]}
                       {streak > 0 && (
                         <span title={t(`Chuỗi ${streak} ngày liên tục`, `${streak}-day streak`)}
                           className="flex items-center gap-0.5 px-1.5 py-0.5 rounded-full bg-orange-500/15 text-orange-500 text-[10px] font-bold">
@@ -1099,7 +1097,7 @@ const Navbar = () => {
                 {user ? (
                   <>
                     <div className="text-center text-sm font-medium text-foreground mb-2 flex items-center justify-center gap-2">
-                      <User className="w-4 h-4 inline" />
+                      {navPremium ? <Crown className="w-4 h-4 inline text-amber-500" /> : <Sparkles className="w-4 h-4 inline text-muted-foreground" />}
                       Hello, {displayName}
                       {streak > 0 && (
                         <span className="flex items-center gap-0.5 px-2 py-0.5 rounded-full bg-orange-500/15 text-orange-500 text-xs font-bold">
