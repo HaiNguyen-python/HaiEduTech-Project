@@ -14,7 +14,7 @@ import {
   Menu, X, Brain, BookOpen, Languages, Code2, GraduationCap, ArrowRight,
   Globe, UserPlus, Heart, LogIn, ChevronDown, ChevronRight, Cpu, LogOut, Library, Shield,
   FileText, PenTool, Map, MessageSquare, Award, School, Swords, User, LayoutDashboard, Newspaper,
-  FolderLock, Compass, Briefcase, Trophy, Sparkles, Bot, Database, Workflow, Cloud, Network, Gamepad2, MessagesSquare, Target, Settings2, Flame, Music, Quote, Mic2, Crown, BookType, Blocks, Rocket, Users, Plane, ClipboardCheck, FlaskConical, Route, Ruler, Volume2, Headphones, Landmark, Puzzle
+  FolderLock, Compass, Briefcase, Trophy, Sparkles, Bot, Database, Workflow, Cloud, Network, Gamepad2, MessagesSquare, Target, Settings2, Flame, Music, Quote, Mic2, Crown, BookType, Blocks, Rocket, Users, Plane, ClipboardCheck, FlaskConical, Route, Ruler, Volume2, Headphones, Landmark, Puzzle, Wallet, Handshake, Activity, PartyPopper, LifeBuoy
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -403,15 +403,15 @@ const Navbar = () => {
     { to: "/chinese", label: t("Tiếng Trung", "Chinese"), icon: Languages, subs: [...chineseSubs, teacherNotes("Chinese")], key: "cn" },
     { to: "/programming", label: t("Lập Trình", "ICT"), icon: Code2, subs: [...programmingSubs, teacherNotes("Programming")], key: "prog" },
     { to: "/lifestyle-academy", label: t("Lifestyle", "Interpersonal Skills"), icon: Heart, subs: [
-      { to: "/lifestyle-academy", label: t("🌿 Tổng quan Lifestyle Academy", "🌿 Lifestyle Academy Overview") },
-      
-      { to: "/lifestyle-academy?pillar=finance", label: t("💰 Tài chính Thông minh", "💰 Smart Finance") },
-      { to: "/lifestyle-academy?pillar=etiquette", label: t("💬 Nghệ thuật Ứng xử", "💬 Eloquence & Etiquette") },
-      { to: "/lifestyle-academy?pillar=presence", label: t("🌟 Khí chất & Bản lĩnh", "🌟 Presence & Resilience") },
-      { to: "/lifestyle-academy?pillar=wellness", label: t("💪 Thân thể Khoẻ mạnh", "💪 Physical Wellness") },
-      { to: "/lifestyle-academy?pillar=selfstudy", label: t("📚 Kỹ năng Tự học", "📚 Self-Study Skills") },
-      { to: "/lifestyle-academy?pillar=partying", label: t("🎉 Tiệc tùng & Sự kiện", "🎉 Parties & Events") },
-      { to: "/lifestyle-academy#micro-coach", label: t("🧘 Micro-Coach hôm nay", "🧘 Micro-Coach for Today") },
+      { to: "/lifestyle-academy", label: t("Tổng quan Lifestyle Academy", "Lifestyle Academy Overview"), icon: Compass },
+
+      { to: "/lifestyle-academy?pillar=finance", label: t("Tài chính Thông minh", "Smart Finance"), icon: Wallet },
+      { to: "/lifestyle-academy?pillar=etiquette", label: t("Nghệ thuật Ứng xử", "Eloquence & Etiquette"), icon: Handshake },
+      { to: "/lifestyle-academy?pillar=presence", label: t("Khí chất & Bản lĩnh", "Presence & Resilience"), icon: Flame },
+      { to: "/lifestyle-academy?pillar=wellness", label: t("Thân thể Khoẻ mạnh", "Physical Wellness"), icon: Activity },
+      { to: "/lifestyle-academy?pillar=selfstudy", label: t("Kỹ năng Tự học", "Self-Study Skills"), icon: BookOpen },
+      { to: "/lifestyle-academy?pillar=partying", label: t("Tiệc tùng & Sự kiện", "Parties & Events"), icon: PartyPopper },
+      { to: "/lifestyle-academy#micro-coach", label: t("Micro-Coach hôm nay", "Micro-Coach for Today"), icon: LifeBuoy },
       teacherNotes("Lifestyle"),
     ], key: "lifestyle" },
 
