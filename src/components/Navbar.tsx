@@ -86,15 +86,6 @@ const SUBJECT_COLORS: Record<string, SubjectColor> = {
     header: "text-blue-600",
     accent: "hover:border-blue-500",
   },
-  vn: {
-    trigger: "hover:text-amber-600 hover:bg-amber-500/10",
-    rowHover: "hover:text-amber-600 hover:bg-amber-500/10",
-    rowActive: "text-amber-600 bg-amber-500/10",
-    childHover: "hover:text-amber-600 hover:bg-amber-500/10",
-    icon: "text-amber-500/80",
-    header: "text-amber-600",
-    accent: "hover:border-amber-500",
-  },
   cn: {
     trigger: "hover:text-red-600 hover:bg-red-500/10",
     rowHover: "hover:text-red-600 hover:bg-red-500/10",
@@ -103,33 +94,6 @@ const SUBJECT_COLORS: Record<string, SubjectColor> = {
     icon: "text-red-500/80",
     header: "text-red-600",
     accent: "hover:border-red-500",
-  },
-  jp: {
-    trigger: "hover:text-rose-600 hover:bg-rose-500/10",
-    rowHover: "hover:text-rose-600 hover:bg-rose-500/10",
-    rowActive: "text-rose-600 bg-rose-500/10",
-    childHover: "hover:text-rose-600 hover:bg-rose-500/10",
-    icon: "text-rose-500/80",
-    header: "text-rose-600",
-    accent: "hover:border-rose-500",
-  },
-  fi: {
-    trigger: "hover:text-cyan-600 hover:bg-cyan-500/10",
-    rowHover: "hover:text-cyan-600 hover:bg-cyan-500/10",
-    rowActive: "text-cyan-600 bg-cyan-500/10",
-    childHover: "hover:text-cyan-600 hover:bg-cyan-500/10",
-    icon: "text-cyan-500/80",
-    header: "text-cyan-600",
-    accent: "hover:border-cyan-500",
-  },
-  sv: {
-    trigger: "hover:text-indigo-600 hover:bg-indigo-500/10",
-    rowHover: "hover:text-indigo-600 hover:bg-indigo-500/10",
-    rowActive: "text-indigo-600 bg-indigo-500/10",
-    childHover: "hover:text-indigo-600 hover:bg-indigo-500/10",
-    icon: "text-indigo-500/80",
-    header: "text-indigo-600",
-    accent: "hover:border-indigo-500",
   },
   prog: {
     trigger: "hover:text-emerald-600 hover:bg-emerald-500/10",
@@ -361,72 +325,6 @@ const Navbar = () => {
       { to: "/specialized-language?lang=chinese", label: t("🧠 Tiếng Trung Chuyên ngành", "🧠 Specialized Chinese") },
     ] },
   ];
-  const vietnameseSubs: SubItem[] = [
-    { to: "/learn-vietnamese", label: t("📚 Tổng quan", "📚 Overview") },
-    { to: "/placement-test?subject=vietnamese", label: t("📝 Placement Test & Personalization", "📝 Placement Test & Personalization") },
-    { to: "#vn-curriculum-group", label: t("📚 Chương trình học", "📚 Curriculum"), groupLabel: "vn-curriculum", children: [
-      { to: "/learn-vietnamese?tab=language", label: t("📝 Ngữ pháp Tiếng Việt", "📝 Vietnamese Grammar") },
-      { to: "/learn-vietnamese/vocabulary", label: t("📖 Từ vựng Tiếng Việt", "📖 Vietnamese Vocabulary") },
-      { to: "/learn-vietnamese/alphabet", label: t("🔤 Bảng chữ cái", "🔤 Vietnamese Alphabet") },
-      { to: "/learn-vietnamese?tab=history", label: t("📜 History & Culture", "📜 History & Culture") },
-      { to: "/learn-vietnamese/national-anthem", label: t("⭐ National Anthem", "⭐ National Anthem") },
-      { to: "/specialized-language?lang=vietnamese", label: t("🧠 Tiếng Việt Chuyên ngành", "🧠 Specialized Vietnamese") },
-    ] },
-    { to: "#vn-culture-group", label: t("🎎 Văn hóa & Đời sống", "🎎 Culture & Lifestyle"), groupLabel: "vn-culture", children: [
-      { to: "/learn-vietnamese/cuisine", label: t("🍜 Ẩm thực Việt Nam", "🍜 Vietnamese Cuisine") },
-      { to: "/learn-vietnamese/regions", label: t("🗺️ Du lịch & Vùng miền", "🗺️ Travel & Regions") },
-      { to: "/learn-vietnamese/culture", label: t("🎭 Văn hóa & Phong tục", "🎭 Culture & Customs") },
-      { to: "/learn-vietnamese/films", label: t("🎬 Phim & Hội thoại", "🎬 Films & Conversations") },
-      { to: "/learn-vietnamese/poetry", label: t("🪷 Thơ ca Việt Nam", "🪷 Vietnamese Poetry") },
-      { to: "/learn-vietnamese/holidays", label: t("🏮 Ngày lễ Việt Nam", "🏮 Vietnamese Holidays") },
-      { to: "/songs/vietnamese", label: t("🎵 Học qua bài hát", "🎵 Learn through Songs") },
-    ] },
-    { to: "#vn-practice-group", label: t("🎯 Luyện tập & Tương tác", "🎯 Practice & Interactive"), groupLabel: "vn-practice", children: [
-      { to: "/learn-vietnamese?tab=game", label: t("🎮 Trò chơi", "🎮 Games") },
-      { to: "/learn-vietnamese/arcade", label: t("🕹️ Arcade Hub", "🕹️ Arcade Hub") },
-      { to: "/learn-vietnamese/daily", label: t("📅 Daily Vietnamese", "📅 Daily Vietnamese") },
-      { to: "/learn-vietnamese/dictation", label: t("🎧 Nghe chép chính tả", "🎧 Vietnamese Dictation") },
-      { to: "/learn-vietnamese/phrasebook", label: t("💬 Phrasebook tình huống", "💬 Situational Phrasebook") },
-      { to: "/speaking-coach/vietnamese", label: t("🎙️ Speaking Coach", "🎙️ Speaking Coach") },
-    ] },
-    { to: "#vn-foreigners-group", label: t("🌏 Cho người học đặc biệt", "🌏 For Special Learners"), groupLabel: "vn-foreigners", children: [
-      { to: "/learn-vietnamese/for-foreigners", label: t("🌏 Vietnamese for Foreigners", "🌏 Vietnamese for Foreigners") },
-      { to: "/learn-vietnamese/kids-overseas", label: t("👨‍👩‍👧 For Overseas Vietnamese Children", "👨‍👩‍👧 For Overseas Vietnamese Children") },
-    ] },
-  ];
-
-  const finnishSubs: SubItem[] = [
-    { to: "/finnish", label: t("📚 Tổng quan", "📚 Overview") },
-    { to: "/placement-test?subject=finnish", label: t("📝 Placement Test & Personalization", "📝 Placement Test & Personalization") },
-    { to: "#fi-path-group", label: t("🎓 Lộ trình A1-B1", "🎓 Study Path A1-B1"), groupLabel: "fi-path", children: [
-      { to: "/finnish/beginner", label: t("🌱 Người mới (A1–A2)", "🌱 Beginner (A1–A2)") },
-      { to: "/finnish/yki-dashboard", label: t("❄️ YKI A2 Dashboard", "❄️ YKI A2 Dashboard") },
-      { to: "/finnish/yki-b1", label: t("🎯 YKI B1 Dashboard", "🎯 YKI B1 Dashboard") },
-    ] },
-    { to: "/finnish-vocabulary", label: t("📚 Từ vựng tiếng Phần Lan A1–B1", "📚 Finnish Vocabulary A1–B1") },
-    { to: "#fi-practice-group", label: t("🎯 Luyện tập & Giải trí", "🎯 Practice & Fun"), groupLabel: "fi-practice", children: [
-      { to: "/finnish/arcade", label: t("🕹️ Finnish Arcade Hub", "🕹️ Finnish Arcade Hub") },
-      { to: "/songs/finnish", label: t("🎵 Học qua bài hát", "🎵 Learn through Songs") },
-      { to: "/speaking-coach/finnish", label: t("🎙️ Speaking Coach", "🎙️ Speaking Coach") },
-      { to: "/specialized-language?lang=finnish", label: t("🧠 Tiếng Phần Lan Chuyên ngành", "🧠 Specialized Finnish") },
-    ] },
-  ];
-  const swedishSubs: SubItem[] = [
-    { to: "/swedish", label: t("📚 Tổng quan", "📚 Overview") },
-    { to: "/placement-test?subject=swedish", label: t("📝 Placement Test & Personalization", "📝 Placement Test & Personalization") },
-    { to: "#sv-path-group", label: t("🎓 Lộ trình A1-B1", "🎓 Study Path A1-B1"), groupLabel: "sv-path", children: [
-      { to: "/swedish/beginner", label: t("🌱 Người mới A1", "🌱 Swedish Beginner A1") },
-      { to: "/swedish/yki-a2", label: t("❄️ Swedish YKI A2", "❄️ Swedish YKI A2") },
-      { to: "/swedish/yki-b1", label: t("🎯 Swedish YKI B1", "🎯 Swedish YKI B1") },
-    ] },
-    { to: "#sv-learning-group", label: t("📚 Học tập & Kỹ năng", "📚 Learning & Skills"), groupLabel: "sv-learning", children: [
-      { to: "/swedish/vocabulary", label: t("📚 Vocabulary A1–B1", "📚 Vocabulary A1–B1") },
-      { to: "/swedish/curriculum", label: t("📖 Interactive Curriculum", "📖 Interactive Curriculum") },
-      { to: "/swedish/skills", label: t("🧪 Skills Lab - Nghe · Đọc · Viết · Nói A1-B1", "🧪 Skills Lab") },
-      { to: "/speaking-coach/swedish", label: t("🗣️ Speaking Coach", "🗣️ Speaking Coach") },
-      { to: "/specialized-language?lang=swedish", label: t("🧠 Tiếng Thụy Điển Chuyên ngành", "🧠 Specialized Swedish") },
-    ] },
-  ];
   const programmingSubs: SubItem[] = [
     { to: "/programming", label: t("Tổng quan", "Overview"), icon: Compass },
     { to: "/placement-test?subject=programming", label: t("Placement Test & Personalization", "Placement Test & Personalization"), icon: ClipboardCheck },
@@ -501,55 +399,7 @@ const Navbar = () => {
     { to: "/", label: t("Trang chủ", "Home"), icon: GraduationCap, key: "home" },
     { to: "/about", label: t("Giới thiệu", "About"), icon: Brain, key: "about" },
     { to: "/english", label: t("Tiếng Anh", "English"), icon: BookOpen, subs: [...englishSubs, teacherNotes("English")], key: "en" },
-    { to: "/learn-vietnamese", label: t("Tiếng Việt", "Vietnamese"), icon: Globe, subs: [...vietnameseSubs, teacherNotes("Vietnamese")], key: "vn" },
     { to: "/chinese", label: t("Tiếng Trung", "Chinese"), icon: Languages, subs: [...chineseSubs, teacherNotes("Chinese")], key: "cn" },
-    { to: "/japanese", label: t("Tiếng Nhật", "Japanese"), icon: Globe, subs: [
-      { to: "/japanese", label: t("🌸 Tổng quan Tiếng Nhật", "🌸 Japanese Overview") },
-      { to: "/placement-test?subject=japanese", label: t("📝 Placement Test & Personalization", "📝 Placement Test & Personalization") },
-      { to: "#ja-learning-group", label: t("📚 Chương trình học", "📚 Learning Program"), groupLabel: "ja-learning", children: [
-        { to: "/japanese?tab=kana", label: t("🈶 Hiragana & Katakana", "🈶 Hiragana & Katakana") },
-        { to: "/japanese?tab=greetings", label: t("💬 Conversation", "💬 Conversation") },
-        { to: "/japanese?tab=numbers", label: t("🔢 Số đếm & Thời gian", "🔢 Numbers & Time") },
-        { to: "/japanese?tab=grammar", label: t("✍️ Ngữ pháp N5", "✍️ N5 Grammar") },
-      ] },
-      { to: "#ja-vocab-group", label: t("📖 Từ vựng & Kanji", "📖 Vocabulary & Kanji"), groupLabel: "ja-vocab", children: [
-        { to: "/japanese?tab=vocab", label: t("📖 Từ vựng theo chủ đề", "📖 Vocabulary by Topic") },
-        { to: "/japanese?tab=kanji", label: t("🈴 Kanji theo nhóm", "🈴 Kanji by Group") },
-        { to: "/japanese?tab=flashcards", label: t("🃏 Flashcard", "🃏 Flashcards") },
-        { to: "/japanese?tab=quest", label: t("✨ Word Quest", "✨ Word Quest") },
-        { to: "/japanese?tab=mission", label: t("🎯 Nhiệm vụ hằng ngày", "🎯 Daily Mission") },
-      ] },
-      { to: "#ja-grammar-group", label: t("🔀 Ngữ pháp nâng cao", "🔀 Advanced Grammar"), groupLabel: "ja-grammar", children: [
-        { to: "/japanese?tab=verbs", label: t("🔀 Chia động từ", "🔀 Verb Trainer") },
-        { to: "/japanese?tab=counters", label: t("🔢 Lượng từ", "🔢 Counters") },
-        { to: "/japanese?tab=keigo", label: t("🎓 Kính ngữ", "🎓 Keigo Lab") },
-      ] },
-      { to: "#ja-skills-group", label: t("🎯 Luyện 4 kỹ năng", "🎯 Four Skills Practice"), groupLabel: "ja-skills", children: [
-        { to: "/japanese?tab=dialogues", label: t("🗣️ Hội thoại tình huống", "🗣️ Situational Dialogues") },
-        { to: "/japanese?tab=reading", label: t("📖 Luyện đọc", "📖 Reading Lab") },
-        { to: "/japanese?tab=listening", label: t("🎧 Luyện nghe", "🎧 Listening") },
-        { to: "/japanese?tab=dictation", label: t("⌨️ Chính tả kana", "⌨️ Kana Dictation") },
-        { to: "/japanese?tab=speaking", label: t("🎤 Speaking Coach", "🎤 Speaking Coach") },
-        { to: "/specialized-language?lang=japanese", label: t("🧠 Tiếng Nhật Chuyên ngành", "🧠 Specialized Japanese") },
-      ] },
-      { to: "#ja-tests-group", label: t("📝 Kiểm tra & Văn hoá", "📝 Tests & Culture"), groupLabel: "ja-tests", children: [
-        { to: "/japanese?tab=quiz", label: t("🧠 Ôn tập & Kiểm tra", "🧠 Review & Quiz") },
-        { to: "/japanese?tab=jlpt", label: t("📝 Đề JLPT", "📝 JLPT Tests") },
-        { to: "/japanese?tab=culture", label: t("🎎 Văn hoá & Du học", "🎎 Culture & Study Abroad") },
-      ] },
-
-      teacherNotes("Japanese"),
-    ], key: "jp" },
-    { to: "/finnish", label: t("Tiếng Phần Lan", "Finnish"), icon: Globe, subs: [
-      ...finnishSubs,
-      { to: "/finnish/life-in-finland", label: t("🇫🇮 Cuộc sống ở Phần Lan", "🇫🇮 Life in Finland") },
-      teacherNotes("Finnish"),
-    ], key: "fi" },
-    { to: "/swedish", label: t("Tiếng Thụy Điển", "Swedish"), icon: Globe, subs: [
-      ...swedishSubs,
-      { to: "/swedish/svenskfinland", label: t("🇸🇪 Sống bằng tiếng Thụy Điển ở Phần Lan", "🇸🇪 Life in Swedish-speaking Finland") },
-      teacherNotes("Swedish"),
-    ], key: "sv" },
     { to: "/programming", label: t("Lập Trình", "Programming"), icon: Code2, subs: [...programmingSubs, teacherNotes("Programming")], key: "prog" },
     { to: "/lifestyle-academy", label: t("Lifestyle", "Lifestyle"), icon: Heart, subs: [
       { to: "/lifestyle-academy", label: t("🌿 Tổng quan Lifestyle Academy", "🌿 Lifestyle Academy Overview") },
@@ -971,19 +821,6 @@ const Navbar = () => {
                                                 : sub.groupLabel === "cn-conv" ? t("Giao tiếp & Tương tác", "Conversational")
                                                 : sub.groupLabel === "cn-foundation-skills" ? t("Kỹ năng nền tảng", "Foundation Skills")
                                                 : sub.groupLabel === "cn-practice" ? t("Luyện tập & Giải trí", "Practice & Fun")
-                                                : sub.groupLabel === "fi-path" ? t("Lộ trình A1-B1", "Study Path A1-B1")
-                                                : sub.groupLabel === "fi-practice" ? t("Luyện tập & Giải trí", "Practice & Fun")
-                                                : sub.groupLabel === "sv-path" ? t("Lộ trình A1-B1", "Study Path A1-B1")
-                                                : sub.groupLabel === "sv-learning" ? t("Học tập & Kỹ năng", "Learning & Skills")
-                                                : sub.groupLabel === "ja-learning" ? t("Chương trình học", "Learning Program")
-                                                : sub.groupLabel === "ja-vocab" ? t("Từ vựng & Kanji", "Vocabulary & Kanji")
-                                                : sub.groupLabel === "ja-grammar" ? t("Ngữ pháp nâng cao", "Advanced Grammar")
-                                                : sub.groupLabel === "ja-skills" ? t("Luyện 4 kỹ năng", "Four Skills Practice")
-                                                : sub.groupLabel === "ja-tests" ? t("Kiểm tra & Văn hoá", "Tests & Culture")
-                                                : sub.groupLabel === "vn-curriculum" ? t("Chương trình học", "Curriculum")
-                                                : sub.groupLabel === "vn-culture" ? t("Văn hóa & Đời sống", "Culture & Lifestyle")
-                                                : sub.groupLabel === "vn-foreigners" ? t("Cho người học đặc biệt", "For Special Learners")
-                                                : sub.groupLabel === "vn-practice" ? t("Luyện tập & Tương tác", "Practice & Interactive")
                                                 : sub.groupLabel === "ielts-skills" ? t("IELTS Skills Practice", "IELTS Skills Practice")
                                                 : sub.label}
                                             </span>
