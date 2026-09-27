@@ -13,6 +13,7 @@ import { StripeEmbeddedCheckout } from "@/components/StripeEmbeddedCheckout";
 import { PaymentTestModeBanner } from "@/components/PaymentTestModeBanner";
 import { getStripeEnvironment } from "@/lib/stripe";
 import { tuitionBySubject, EUR_TO_VND } from "@/components/courses/CourseTuitionSection";
+import { CourseBankTransfer } from "@/components/courses/CourseBankTransfer";
 
 const COURSES = Object.fromEntries(
   Object.values(tuitionBySubject).flat().map((course) => [course.key, course]),
@@ -238,7 +239,12 @@ const Register = () => {
               <div className="mt-4"><PaymentTestModeBanner /></div>
               {!authenticated ? <Button asChild className="mt-4"><Link to={`/login?next=${encodeURIComponent(window.location.pathname + window.location.search)}`}>{t("Đăng nhập để thanh toán", "Sign in to pay")}</Link></Button>
                 : checkoutOpen ? <div className="mt-4"><StripeEmbeddedCheckout key={`${selectedCourse}-${classType}`} priceId={`class_${selectedCourse}_${classType}`} returnUrl={returnUrl} /></div>
-                : <Button className="mt-4 gap-2" disabled={paymentStatus === "paid"} onClick={() => setCheckoutOpen(true)}><CreditCard className="h-4 w-4" />{t("Thanh toán", "Pay")} {course.groupPrice * (classType === "private" ? 3 : 1)} EUR</Button>}
+                : <Button className="mt-4 gap-2" disabled={paymentStatus === "paid"} onClick={() => setCheckoutOpen(true)}><CreditCard className="h-4 w-4" />{t("Thanh toán thẻ", "Pay by card")} {course.groupPrice * (classType === "private" ? 3 : 1)} EUR</Button>}
+              {paymentStatus !== "paid" && <CourseBankTransfer
+                eur={course.groupPrice * (classType === "private" ? 3 : 1)}
+                vnd={course.groupPrice * (classType === "private" ? 3 : 1) * EUR_TO_VND}
+                reference={`${selectedCourse} ${classType === "private" ? "1-1" : "group"}`}
+              />}
             </div>}
             <Button
               onClick={() => setSubmitted(false)}
