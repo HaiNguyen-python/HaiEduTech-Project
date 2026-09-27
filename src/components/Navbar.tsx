@@ -402,7 +402,7 @@ const Navbar = () => {
     { to: "/english", label: t("Tiếng Anh", "English"), icon: BookOpen, subs: [...englishSubs, teacherNotes("English")], key: "en" },
     { to: "/chinese", label: t("Tiếng Trung", "Chinese"), icon: Languages, subs: [...chineseSubs, teacherNotes("Chinese")], key: "cn" },
     { to: "/programming", label: t("Lập Trình", "ICT"), icon: Code2, subs: [...programmingSubs, teacherNotes("Programming")], key: "prog" },
-    { to: "/lifestyle-academy", label: t("Lifestyle", "Interpersonal Skills"), icon: Heart, subs: [
+    { to: "/lifestyle-academy", label: t("Lifestyle", "Interpersonal Skills"), icon: Heart, subs: ([
       { to: "/lifestyle-academy", label: t("Tổng quan Lifestyle Academy", "Lifestyle Academy Overview"), icon: Compass },
 
       { to: "/lifestyle-academy?pillar=finance", label: t("Tài chính Thông minh", "Smart Finance"), icon: Wallet },
@@ -413,7 +413,7 @@ const Navbar = () => {
       { to: "/lifestyle-academy?pillar=partying", label: t("Tiệc tùng & Sự kiện", "Parties & Events"), icon: PartyPopper },
       { to: "/lifestyle-academy#micro-coach", label: t("Micro-Coach hôm nay", "Micro-Coach for Today"), icon: LifeBuoy },
       teacherNotes("Lifestyle"),
-    ], key: "lifestyle" },
+    ] as SubItem[]), key: "lifestyle" },
 
     // Study Abroad and standalone EdTech entries are hidden — EdTech is now nested inside Programming.
     { to: "/your-corner", label: t("Your Corner", "Your Corner"), icon: Users, key: "yc" },
