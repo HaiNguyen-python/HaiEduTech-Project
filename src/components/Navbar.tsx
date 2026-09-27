@@ -166,7 +166,8 @@ const Navbar = () => {
     const openIt = () => setUpgradeOpen(true);
     window.addEventListener(OPEN_UPGRADE_EVENT, openIt);
     const params = new URLSearchParams(window.location.search);
-    if (params.get("checkout") === "success") {
+    // Course checkout is verified by Register; only the Premium return flow belongs here.
+    if (params.get("checkout") === "success" && window.location.pathname !== "/register") {
       const sessionId = params.get("session_id");
       const toastId = toast.loading(t("Thanh toán thành công! Đang kích hoạt Premium...", "Payment successful! Activating your Premium..."));
       (async () => {
