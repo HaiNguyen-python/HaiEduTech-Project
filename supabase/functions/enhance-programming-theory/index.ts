@@ -57,6 +57,7 @@ MATH RULES (STRICT):
 - NEVER write formulas as raw parentheses like \`( \\frac{1}{n} \\sum (y - \\hat{y})^2 )\` — they will render as broken text.
 - NEVER use \`\\(\` \`\\)\` or \`\\[\` \`\\]\` — only \`$\` and \`$$\`.
 - Keep each display formula short (1 line). For multi-step derivations, use multiple \`$$...$$\` blocks.
+- In bullet definitions and prose, short symbols must use inline math, for example \`- $\\beta$ - coefficient\`; never place \`$$...$$\` inside a sentence or list item.
 - Norms: write \`$\\|\\beta\\|^2$\` (NEVER \`||\\beta||^2\`, NEVER \`((\\lambda ||\\beta||^2))\`).
 - L2 penalty example: \`$\\lambda \\|\\beta\\|^2$\`
 - Sum example: \`$\\sum_{i=1}^{n} (y_i - \\hat{y}_i)^2$\`
