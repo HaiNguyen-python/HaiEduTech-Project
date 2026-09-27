@@ -134,11 +134,11 @@ const CourseTuitionSection = ({ subject }: { subject: TuitionSubject }) => {
                   </span>
                   <span className="mt-1 block text-xs font-medium text-muted-foreground">{COURSE_SESSIONS}</span>
                 </td>
-                <td className="px-6 py-5">
-                  <PriceCell eur={course.groupPrice} tone={styles.chip} href={`/register?course=${course.key}&class=group`} />
+                <td className="px-6 py-5 text-center">
+                  <PriceCell eur={course.groupPrice} href={`/register?course=${course.key}&class=group`} />
                 </td>
-                <td className="px-6 py-5">
-                  <PriceCell eur={course.groupPrice * 3} tone={styles.solid} href={`/register?course=${course.key}&class=private`} />
+                <td className="px-6 py-5 text-center">
+                  <PriceCell eur={course.groupPrice * 3} featured featuredTone={styles.featured} href={`/register?course=${course.key}&class=private`} />
                 </td>
               </tr>
             ))}
