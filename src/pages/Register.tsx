@@ -1,13 +1,30 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
-import { useState } from "react";
-import { Send, CheckCircle, UserPlus, Loader2 } from "lucide-react";
+import { useState, useEffect, useMemo } from "react";
+import { useSearchParams, Link } from "react-router-dom";
+import { Send, CheckCircle, UserPlus, Loader2, CreditCard } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { z } from "zod";
+import { StripeEmbeddedCheckout } from "@/components/StripeEmbeddedCheckout";
+import { PaymentTestModeBanner } from "@/components/PaymentTestModeBanner";
+import { getStripeEnvironment } from "@/lib/stripe";
+
+const COURSES = {
+  english_ielts: { vi: "Luyện thi IELTS (Cơ bản - Nâng cao)", en: "IELTS Preparation", price: 210 },
+  english_business: { vi: "Tiếng Anh Giao Tiếp & Thương mại", en: "Business English", price: 210 },
+  english_sat: { vi: "Luyện thi SAT", en: "SAT Preparation", price: 250 },
+  english_starters: { vi: "Cambridge Starters - Movers - Flyers", en: "Cambridge Starters - Movers - Flyers", price: 160 },
+  english_ket: { vi: "Cambridge KET - PET", en: "Cambridge KET - PET", price: 180 },
+  chinese_hsk: { vi: "HSK 1 - HSK 3", en: "HSK 1 - HSK 3", price: 180 },
+  chinese_conversation: { vi: "Giao tiếp căn bản", en: "Basic Conversation", price: 180 },
+  programming_python: { vi: "Lập trình Python", en: "Python Programming", price: 180 },
+  programming_ai: { vi: "Nền tảng Trí tuệ Nhân tạo", en: "AI Foundation", price: 180 },
+} as const;
+type CourseKey = keyof typeof COURSES;
 
 const registrationSchema = z.object({
   name: z.string().trim().min(1).max(100),
@@ -20,12 +37,44 @@ const registrationSchema = z.object({
 
 const Register = () => {
   const { t } = useLanguage();
+  const [params, setParams] = useSearchParams();
+  const key = params.get("course");
+  const selectedCourse: CourseKey | null = key && Object.prototype.hasOwnProperty.call(COURSES, key) ? key as CourseKey : null;
+  const course = selectedCourse ? COURSES[selectedCourse] : null;
+  const classType = params.get("class") === "private" ? "private" : "group";
+  const [checkoutOpen, setCheckoutOpen] = useState(false);
+  const [paymentStatus, setPaymentStatus] = useState<"idle" | "checking" | "paid" | "pending" | "error">("idle");
+  const [authenticated, setAuthenticated] = useState(false);
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => setAuthenticated(Boolean(data.user)));
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => setAuthenticated(Boolean(session?.user)));
+    return () => subscription.unsubscribe();
+  }, []);
+  useEffect(() => {
+    const sessionId = params.get("session_id");
+    if (!sessionId || params.get("checkout") !== "success" || !selectedCourse) return;
+    setPaymentStatus("checking");
+    (async () => {
+      try {
+        const { data, error } = await supabase.functions.invoke("verify-checkout-session", { body: { sessionId, environment: getStripeEnvironment() } });
+        if (error) throw error;
+        setPaymentStatus(data?.activated && data?.course ? "paid" : "pending");
+      } catch { setPaymentStatus("error"); }
+    })();
+    // Keep session ID for retry on refresh when payment confirmation is delayed.
+  }, [params, selectedCourse]);
+  const returnUrl = useMemo(() => {
+    const url = new URL(window.location.href);
+    url.searchParams.set("checkout", "success");
+    url.searchParams.delete("session_id");
+    return `${url.toString()}&session_id={CHECKOUT_SESSION_ID}`;
+  }, [selectedCourse, classType]);
   const { toast } = useToast();
   const [form, setForm] = useState({
     name: "",
     phone: "",
     email: "",
-    program: "",
+    program: selectedCourse ? `course:${selectedCourse}` : "",
     programOther: "",
     level: "",
     message: "",
@@ -35,6 +84,7 @@ const Register = () => {
   const [submitting, setSubmitting] = useState(false);
 
   const programs = [
+    ...Object.entries(COURSES).map(([value, c]) => ({ value: `course:${value}`, label: t(c.vi, c.en) })),
     { value: "english-cambridge", label: t("Tiếng Anh – Cambridge (Starters–PET)", "English – Cambridge (Starters–PET)") },
     { value: "english-ielts", label: t("Tiếng Anh – Luyện thi IELTS", "English – IELTS Preparation") },
     { value: "english-toeic", label: t("Tiếng Anh – TOEIC", "English – TOEIC") },
@@ -77,11 +127,14 @@ const Register = () => {
         form.program === "other"
           ? clean.program
           : programs.find((p) => p.value === form.program)?.label || form.program;
+      const courseLabel = selectedCourse && form.program === `course:${selectedCourse}`
+        ? `${programLabel} - ${classType === "private" ? "1-1" : t("Lớp nhóm", "Group class")}`
+        : programLabel;
       const { error: insertError } = await supabase.from("course_registrations").insert({
         name: clean.name,
         phone: clean.phone,
         email: clean.email || null,
-        program: programLabel,
+        program: courseLabel,
         level: clean.level || null,
         message: clean.message || null,
       });
@@ -101,8 +154,8 @@ const Register = () => {
             name: clean.name,
             email: clean.email || undefined,
             phone: clean.phone,
-            subject: `[Đăng ký khóa học] ${programLabel}`,
-            program: programLabel,
+            subject: `[Đăng ký khóa học] ${courseLabel}`,
+            program: courseLabel,
             level: clean.level || undefined,
             message: clean.message || undefined,
             submittedAt,

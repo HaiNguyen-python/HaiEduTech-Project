@@ -925,6 +925,42 @@ export type Database = {
         }
         Relationships: []
       }
+      course_payments: {
+        Row: {
+          amount_eur: number
+          class_type: string
+          course_key: string
+          environment: string
+          id: string
+          paid_at: string
+          price_id: string
+          stripe_session_id: string
+          user_id: string
+        }
+        Insert: {
+          amount_eur: number
+          class_type: string
+          course_key: string
+          environment: string
+          id?: string
+          paid_at?: string
+          price_id: string
+          stripe_session_id: string
+          user_id: string
+        }
+        Update: {
+          amount_eur?: number
+          class_type?: string
+          course_key?: string
+          environment?: string
+          id?: string
+          paid_at?: string
+          price_id?: string
+          stripe_session_id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       course_registrations: {
         Row: {
           created_at: string

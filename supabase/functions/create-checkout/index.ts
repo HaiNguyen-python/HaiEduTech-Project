@@ -2,6 +2,7 @@ import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 import type Stripe from "https://esm.sh/stripe@22.0.2";
 import { type StripeEnv, createStripeClient } from "../_shared/stripe.ts";
 import { adminClient } from "../_shared/premium.ts";
+import { COURSE_PRICES } from "../_shared/course-prices.ts";
 
 const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
@@ -44,14 +45,21 @@ Deno.serve(async (req) => {
     const priceId = body?.priceId;
     const returnUrl = body?.returnUrl;
     const environment = body?.environment as StripeEnv;
-    if (typeof priceId !== "string" || !/^[a-zA-Z0-9_-]+$/.test(priceId)) return json({ error: "Invalid priceId" }, 400);
+    if (typeof priceId !== "string" || (priceId !== "premium_yearly_eur" && !COURSE_PRICES[priceId])) return json({ error: "Invalid priceId" }, 400);
     if (typeof returnUrl !== "string" || !/^https?:\/\//.test(returnUrl)) return json({ error: "Invalid returnUrl" }, 400);
+    const returnTarget = new URL(returnUrl);
+    const requestOrigin = req.headers.get("origin");
+    if (!requestOrigin || returnTarget.origin !== requestOrigin) return json({ error: "Invalid return origin" }, 400);
     if (environment !== "sandbox" && environment !== "live") return json({ error: "Invalid environment" }, 400);
 
     const stripe = createStripeClient(environment);
     const prices = await stripe.prices.list({ lookup_keys: [priceId] });
     if (!prices.data.length) return json({ error: "Price not found" }, 404);
     const stripePrice = prices.data[0];
+    const coursePrice = COURSE_PRICES[priceId];
+    if (coursePrice && (stripePrice.unit_amount !== coursePrice.cents || stripePrice.currency !== "eur" || stripePrice.type !== "one_time")) {
+      return json({ error: "Tuition price mismatch" }, 409);
+    }
     const productId = typeof stripePrice.product === "string" ? stripePrice.product : stripePrice.product.id;
     const product = await stripe.products.retrieve(productId);
 
@@ -64,8 +72,8 @@ Deno.serve(async (req) => {
       return_url: returnUrl,
       customer: customerId,
       payment_intent_data: { description: product.name },
-      managed_payments: { enabled: true },
-      metadata: { userId: user.id, priceId, managed_payments: "true" },
+      ...(coursePrice ? { automatic_tax: { enabled: true } } : { managed_payments: { enabled: true } }),
+      metadata: { userId: user.id, priceId, managed_payments: coursePrice ? "false" : "true" },
     } as Stripe.Checkout.SessionCreateParams);
 
     return json({ clientSecret: session.client_secret });

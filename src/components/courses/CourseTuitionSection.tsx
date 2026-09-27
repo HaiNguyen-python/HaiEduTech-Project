@@ -1,4 +1,4 @@
-import { ArrowRight, CalendarDays, GraduationCap, Users } from "lucide-react";
+import { ArrowRight, CalendarDays, GraduationCap, CreditCard } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -9,6 +9,7 @@ interface TuitionCourse {
   nameVi: string;
   nameEn: string;
   groupPrice: number;
+  key: string;
 }
 
 // Reference rate: 1 EUR = 31,000 VND (display only, settled per invoice)
@@ -24,19 +25,19 @@ const COURSE_SESSIONS = "24 buổi - 36 giờ mỗi khóa";
 
 const tuitionBySubject: Record<TuitionSubject, TuitionCourse[]> = {
   english: [
-    { nameVi: "Luyện thi IELTS (Cơ bản - Nâng cao)", nameEn: "IELTS Preparation", groupPrice: 210 },
-    { nameVi: "Tiếng Anh Giao Tiếp & Thương mại", nameEn: "Business English", groupPrice: 210 },
-    { nameVi: "Luyện thi SAT", nameEn: "SAT Preparation", groupPrice: 250 },
-    { nameVi: "Cambridge Starters - Movers - Flyers", nameEn: "Cambridge Starters - Movers - Flyers", groupPrice: 160 },
-    { nameVi: "Cambridge KET - PET", nameEn: "Cambridge KET - PET", groupPrice: 180 },
+    { nameVi: "Luyện thi IELTS (Cơ bản - Nâng cao)", nameEn: "IELTS Preparation", groupPrice: 210, key: "english_ielts" },
+    { nameVi: "Tiếng Anh Giao Tiếp & Thương mại", nameEn: "Business English", groupPrice: 210, key: "english_business" },
+    { nameVi: "Luyện thi SAT", nameEn: "SAT Preparation", groupPrice: 250, key: "english_sat" },
+    { nameVi: "Cambridge Starters - Movers - Flyers", nameEn: "Cambridge Starters - Movers - Flyers", groupPrice: 160, key: "english_starters" },
+    { nameVi: "Cambridge KET - PET", nameEn: "Cambridge KET - PET", groupPrice: 180, key: "english_ket" },
   ],
   chinese: [
-    { nameVi: "HSK 1 - HSK 3", nameEn: "HSK 1 - HSK 3", groupPrice: 180 },
-    { nameVi: "Giao tiếp căn bản", nameEn: "Basic Conversation", groupPrice: 180 },
+    { nameVi: "HSK 1 - HSK 3", nameEn: "HSK 1 - HSK 3", groupPrice: 180, key: "chinese_hsk" },
+    { nameVi: "Giao tiếp căn bản", nameEn: "Basic Conversation", groupPrice: 180, key: "chinese_conversation" },
   ],
   programming: [
-    { nameVi: "Lập trình Python", nameEn: "Python Programming", groupPrice: 180 },
-    { nameVi: "Nền tảng Trí tuệ Nhân tạo", nameEn: "AI Foundation", groupPrice: 180 },
+    { nameVi: "Lập trình Python", nameEn: "Python Programming", groupPrice: 180, key: "programming_python" },
+    { nameVi: "Nền tảng Trí tuệ Nhân tạo", nameEn: "AI Foundation", groupPrice: 180, key: "programming_ai" },
   ],
 };
 
@@ -67,7 +68,7 @@ const CourseTuitionSection = ({ subject }: { subject: TuitionSubject }) => {
   const styles = subjectStyles[subject];
 
   return (
-    <section aria-labelledby={`${subject}-tuition-heading`} className="mb-14 overflow-hidden rounded-xl border border-border bg-card shadow-sm shadow-primary/5">
+    <section aria-labelledby={`${subject}-tuition-heading`} className="mb-14 border-y border-border bg-card shadow-sm shadow-primary/5">
       <div className={cn("border-b border-border bg-gradient-to-r from-background via-background to-transparent px-5 py-6 sm:px-7", styles.header)}>
         <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
           <div>
@@ -91,7 +92,7 @@ const CourseTuitionSection = ({ subject }: { subject: TuitionSubject }) => {
         </div>
       </div>
 
-      <div className="hidden overflow-x-auto md:block">
+      <div className="overflow-x-auto">
         <table className="w-full min-w-[760px] border-collapse text-left">
           <thead className="border-b border-border bg-muted/50 text-xs uppercase tracking-wide text-muted-foreground">
             <tr>
@@ -131,38 +132,6 @@ const CourseTuitionSection = ({ subject }: { subject: TuitionSubject }) => {
             ))}
           </tbody>
         </table>
-      </div>
-
-      <div className="grid gap-4 p-4 md:hidden">
-        {courses.map((course) => (
-          <article key={course.nameEn} className="rounded-lg border border-border bg-background p-5">
-            <h3 className="font-display text-lg font-bold text-foreground">{course.nameVi}</h3>
-            <p className="mt-1 text-sm text-muted-foreground">{course.nameEn}</p>
-            <div className="mt-4 flex flex-col gap-1 text-sm text-muted-foreground">
-              <span className="inline-flex items-center gap-2">
-                <CalendarDays className={cn("h-4 w-4", styles.accent)} />
-                {COURSE_DURATION}
-              </span>
-              <span className="text-xs font-medium text-muted-foreground">{COURSE_SESSIONS}</span>
-            </div>
-            <dl className="mt-4 grid grid-cols-2 gap-3 border-t border-border pt-4">
-              <div>
-                <dt className="flex items-center gap-1 text-xs text-muted-foreground"><Users className="h-3.5 w-3.5" /> Lớp nhóm / Group</dt>
-                <dd className={cn("mt-1 flex flex-col", styles.accent)}>
-                  <span className="text-xl font-bold">{course.groupPrice} EUR</span>
-                  <span className="text-xs font-medium text-muted-foreground">≈ {formatVnd(course.groupPrice)}</span>
-                </dd>
-              </div>
-              <div>
-                <dt className="text-xs text-muted-foreground">Kèm 1-1 / One-to-one</dt>
-                <dd className="mt-1 flex flex-col text-foreground">
-                  <span className="text-xl font-bold">{course.groupPrice * 3} EUR</span>
-                  <span className="text-xs font-medium text-muted-foreground">≈ {formatVnd(course.groupPrice * 3)}</span>
-                </dd>
-              </div>
-            </dl>
-          </article>
-        ))}
       </div>
 
     </section>
