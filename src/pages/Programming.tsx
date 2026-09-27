@@ -35,6 +35,7 @@ import mascotRl from "@/assets/programming/mascot-rl.png";
 import mascotCybersecurity from "@/assets/programming/mascot-cybersecurity.png";
 import mascotEdtech from "@/assets/programming/mascot-edtech.png";
 import mascotProjects from "@/assets/programming/mascot-professional-projects.png";
+import programmingCareerHeader from "@/assets/programming-career-header.jpg";
 import CourseTuitionSection from "@/components/courses/CourseTuitionSection";
 
 const PILLAR_MASCOTS: Record<string, string> = {
@@ -374,23 +375,35 @@ const Programming = () => {
       <div className="pt-6 pb-16 relative z-10">
         <div className="container mx-auto px-4 sm:px-6">
           {/* Header */}
-          <motion.div
+          <motion.section
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="max-w-5xl mx-auto text-center mb-10"
+            className="relative isolate mx-auto mb-10 max-w-5xl overflow-hidden rounded-2xl border border-primary/25 shadow-2xl shadow-primary/15 sm:rounded-3xl"
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/30 bg-primary/5 text-primary text-xs font-medium mb-4">
-              <Code2 className="w-3 h-3" /> Career Path
+            <img
+              src={programmingCareerHeader}
+              alt=""
+              width={1536}
+              height={640}
+              fetchPriority="high"
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-foreground/90 via-foreground/70 to-foreground/30" />
+            <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-transparent to-transparent" />
+            <div className="relative flex min-h-[250px] flex-col items-center justify-center px-6 py-12 text-center sm:min-h-[310px] sm:px-10 sm:py-16">
+              <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-primary-foreground/30 bg-foreground/35 px-4 py-1.5 text-xs font-semibold text-primary-foreground backdrop-blur-md">
+                <Code2 className="h-4 w-4 text-primary" /> Career Path
+              </div>
+              <h1 className="mb-4 font-sora text-3xl font-extrabold leading-tight text-primary-foreground sm:text-4xl md:text-5xl">
+                Programming{" "}
+                <span className="text-primary">Career Path</span>
+              </h1>
+              <p className="mx-auto max-w-2xl text-base leading-relaxed text-primary-foreground/80 sm:text-lg">
+                6 core pillars taking you from beginner to data &amp; cloud technology expert.
+              </p>
             </div>
-            <h1 className="text-3xl sm:text-4xl font-display font-bold mb-3 text-foreground leading-tight">
-              Programming{" "}
-              <span className="text-gradient">Career Path</span>
-            </h1>
-            <p className="text-muted-foreground text-sm max-w-xl mx-auto">
-              6 core pillars taking you from beginner to data & cloud technology expert.
-            </p>
-          </motion.div>
+          </motion.section>
 
           <div className="mx-auto max-w-5xl">
             <CourseTuitionSection subject="programming" />

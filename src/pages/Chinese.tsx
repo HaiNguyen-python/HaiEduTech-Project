@@ -16,6 +16,7 @@ import { cn } from "@/lib/utils";
 import CollapsibleDataDashboard from "@/components/CollapsibleDataDashboard";
 import KangxiRadicalsBrowser from "@/components/KangxiRadicalsBrowser";
 import CourseTuitionSection from "@/components/courses/CourseTuitionSection";
+import chineseModulesHeader from "@/assets/chinese-modules-header.jpg";
 
 const Chinese = () => {
   const { t } = useLanguage();
@@ -116,19 +117,33 @@ const Chinese = () => {
       <div className="pt-6 pb-16">
         <div className="container mx-auto px-6">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-6xl mx-auto">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-red-500/30 bg-red-500/5 text-red-500 text-sm font-medium mb-4">
-              <Languages className="w-4 h-4" /> {t("Chương trình Tiếng Trung", "Chinese Program")}
-            </div>
-            <h1 className="text-4xl font-display font-bold mb-4 text-foreground">
-              {t("Khóa học ", "Chinese ")}
-              <span className="text-gradient">{t("Tiếng Trung", "Modules")}</span>
-            </h1>
-            <p className="text-lg text-muted-foreground mb-10">
-              {t(
-                "Từ con số 0 đến giao tiếp tự tin - chương trình bài bản từ Nền tảng, HSK đến Giao tiếp thực tế, kết hợp văn hóa và công nghệ.",
-                "From zero to confident communication - structured modules from Foundation to HSK to real-world Conversation, blending culture and technology."
-              )}
-            </p>
+            <section className="relative isolate mb-10 overflow-hidden rounded-2xl border border-destructive/20 shadow-xl shadow-primary/10 sm:rounded-3xl">
+              <img
+                src={chineseModulesHeader}
+                alt=""
+                width={1536}
+                height={640}
+                fetchPriority="high"
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/82 to-background/20" />
+              <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-destructive via-primary to-primary/20" />
+              <div className="relative flex min-h-[260px] max-w-4xl flex-col items-start justify-center px-6 py-12 sm:min-h-[320px] sm:px-10 lg:px-12">
+                <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-destructive/30 bg-background/70 px-4 py-1.5 text-sm font-semibold text-destructive backdrop-blur-md">
+                  <Languages className="h-4 w-4" /> {t("Chương trình Tiếng Trung", "Chinese Program")}
+                </div>
+                <h1 className="mb-4 font-sora text-3xl font-extrabold leading-tight text-foreground sm:text-4xl md:text-5xl">
+                  {t("Khóa học ", "Chinese ")}
+                  <span className="text-primary">{t("Tiếng Trung", "Modules")}</span>
+                </h1>
+                <p className="max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+                  {t(
+                    "Từ con số 0 đến giao tiếp tự tin - chương trình bài bản từ Nền tảng, HSK đến Giao tiếp thực tế, kết hợp văn hóa và công nghệ.",
+                    "From zero to confident communication - structured modules from Foundation to HSK to real-world Conversation, blending culture and technology."
+                  )}
+                </p>
+              </div>
+            </section>
 
             <CourseTuitionSection subject="chinese" />
 
