@@ -1,4 +1,5 @@
 import { createClient } from "npm:@supabase/supabase-js@2";
+import { COURSE_PRICES } from "./course-prices.ts";
 
 export const adminClient = () =>
   createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
@@ -42,11 +43,27 @@ export async function extendPremiumOneYear(
 
 /** Grants premium for a paid Stripe checkout session. Idempotent per session id. */
 export async function fulfillStripeSession(session: any, env: string) {
+  if (session.payment_status === "unpaid" || (session.payment_status !== "paid" && session.payment_status !== "no_payment_required")) return false;
   const userId = session.metadata?.userId;
   if (!userId) {
     console.error("No userId on session", session.id);
     return false;
   }
+  const coursePrice = COURSE_PRICES[session.metadata?.priceId];
+  if (coursePrice) {
+    const { error } = await adminClient().from("course_payments").upsert({
+      user_id: userId,
+      course_key: coursePrice.course,
+      class_type: coursePrice.classType,
+      price_id: session.metadata.priceId,
+      amount_eur: coursePrice.cents / 100,
+      environment: env,
+      stripe_session_id: session.id,
+    }, { onConflict: "stripe_session_id", ignoreDuplicates: true });
+    if (error) throw error;
+    return true;
+  }
+  if (session.metadata?.priceId !== "premium_yearly_eur") return false;
   const { data } = await adminClient()
     .from("user_subscriptions")
     .select("stripe_session_id")
