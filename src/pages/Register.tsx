@@ -2,8 +2,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
 import { useState, useEffect, useMemo } from "react";
-import { useSearchParams, Link } from "react-router-dom";
-import { Send, CheckCircle, UserPlus, Loader2, CreditCard } from "lucide-react";
+import { useSearchParams, Link, useNavigate } from "react-router-dom";
+import { Send, CheckCircle, UserPlus, Loader2, CreditCard, ArrowLeft } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -192,6 +192,17 @@ const Register = () => {
     setForm((prev) => ({ ...prev, [field]: value }));
   };
 
+  const subjectPath = selectedCourse ? `/${String(selectedCourse).split("_")[0]}` : "/";
+  const goBack = () => {
+    if (window.history.length > 1 && document.referrer.startsWith(window.location.origin)) navigate(-1);
+    else navigate(subjectPath);
+  };
+  const backButton = (
+    <Button type="button" variant="ghost" size="sm" onClick={goBack} className="mb-4 -ml-3 gap-2 text-muted-foreground hover:text-foreground">
+      <ArrowLeft className="h-4 w-4" /> {t("Quay lại", "Back")}
+    </Button>
+  );
+
   if (submitted) {
     return (
       <div className="min-h-screen bg-background">
@@ -202,6 +213,7 @@ const Register = () => {
             animate={{ opacity: 1, scale: 1 }}
             className="text-center max-w-md mx-auto px-6"
           >
+            <div className="text-left">{backButton}</div>
             <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
               <CheckCircle className="w-8 h-8 text-primary" />
             </div>
@@ -246,6 +258,7 @@ const Register = () => {
       <div className="pt-6 pb-16">
         <div className="container mx-auto px-6">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-xl mx-auto">
+            {backButton}
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/30 bg-primary/5 text-primary text-xs font-medium mb-4">
               <UserPlus className="w-3 h-3" /> {t("Đăng ký khóa học", "Course Registration")}
             </div>
