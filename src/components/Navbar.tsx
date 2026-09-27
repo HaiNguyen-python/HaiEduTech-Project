@@ -858,7 +858,7 @@ const Navbar = () => {
         style={{ transform: "translateZ(0)", willChange: "transform" }}
       >
         <div className="w-full px-6 xl:px-10">
-          <div className="flex items-center h-11 w-full">
+          <div className="flex items-center h-11 w-full max-w-6xl mx-auto">
 
             {navLinks.map((l) => {
               const active = location.pathname === l.to;
