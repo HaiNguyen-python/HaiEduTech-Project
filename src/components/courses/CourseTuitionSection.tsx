@@ -13,8 +13,8 @@ interface TuitionCourse {
 
 const tuitionBySubject: Record<TuitionSubject, TuitionCourse[]> = {
   english: [
-    { nameVi: "Luyện thi IELTS", nameEn: "IELTS Preparation", groupPrice: 210 },
-    { nameVi: "Tiếng Anh Thương mại", nameEn: "Business English", groupPrice: 210 },
+    { nameVi: "Luyện thi IELTS (Cơ bản - Nâng cao)", nameEn: "IELTS Preparation", groupPrice: 210 },
+    { nameVi: "Tiếng Anh Giao Tiếp & Thương mại", nameEn: "Business English", groupPrice: 210 },
     { nameVi: "Cambridge Starters - Movers - Flyers", nameEn: "Cambridge Starters - Movers - Flyers", groupPrice: 160 },
     { nameVi: "Cambridge KET - PET", nameEn: "Cambridge KET - PET", groupPrice: 180 },
   ],

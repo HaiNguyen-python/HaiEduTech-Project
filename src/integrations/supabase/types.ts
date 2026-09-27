@@ -4509,16 +4509,7 @@ export type Database = {
         Args: { _name: string; _require_public: boolean }
         Returns: boolean
       }
-      delete_email: {
-        Args: { message_id: number; queue_name: string }
-        Returns: boolean
-      }
       delete_user_data: { Args: { _uid: string }; Returns: undefined }
-      email_queue_dispatch: { Args: never; Returns: undefined }
-      enqueue_email: {
-        Args: { payload: Json; queue_name: string }
-        Returns: number
-      }
       find_game_room: {
         Args: { _code: string }
         Returns: {
@@ -4723,26 +4714,9 @@ export type Database = {
           updated_at: string
         }[]
       }
-      move_to_dlq: {
-        Args: {
-          dlq_name: string
-          message_id: number
-          payload: Json
-          source_queue: string
-        }
-        Returns: number
-      }
       notify_super_admins: {
         Args: { p_body: string; p_route?: string; p_title: string }
         Returns: number
-      }
-      read_email_batch: {
-        Args: { batch_size: number; queue_name: string; vt: number }
-        Returns: {
-          message: Json
-          msg_id: number
-          read_ct: number
-        }[]
       }
       record_country_visit: {
         Args: { _code: string; _name: string; _visitor_hash: string }
