@@ -1,7 +1,6 @@
-import { ArrowRight, CalendarDays, GraduationCap, CreditCard } from "lucide-react";
+import { ArrowRight, CalendarDays, GraduationCap } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 
 export type TuitionSubject = "english" | "chinese" | "programming";
 
@@ -47,59 +46,41 @@ const headingBySubject: Record<TuitionSubject, string> = {
   programming: "Khóa học Lập trình / Programming Courses",
 };
 
-const subjectStyles: Record<TuitionSubject, { header: string; accent: string; featured: string; button: "default" | "destructive" | "secondary" }> = {
-  english: { header: "bg-primary/5", accent: "text-primary", featured: "border-primary/25 bg-primary/[0.04]", button: "default" },
-  chinese: { header: "bg-destructive/5", accent: "text-destructive", featured: "border-destructive/25 bg-destructive/[0.04]", button: "destructive" },
-  programming: { header: "bg-accent/10", accent: "text-accent", featured: "border-accent/30 bg-accent/[0.06]", button: "secondary" },
-};
-
-const PriceCell = ({ eur, featured = false, featuredTone = "", href }: { eur: number; featured?: boolean; featuredTone?: string; href: string }) => (
-  <div
-    className={cn(
-      "mx-auto flex w-full max-w-[180px] flex-col items-center rounded-lg border px-4 py-3 text-center transition-colors",
-      featured ? cn(featuredTone, "shadow-sm") : "border-border bg-card",
-    )}
-  >
-    {featured && (
-      <span className="mb-1.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-        Kèm riêng / One-to-one
-      </span>
-    )}
-    <span className="inline-flex items-baseline gap-1 font-display text-lg font-bold leading-none">
-      {eur}
-      <span className="text-[11px] font-semibold text-muted-foreground">EUR</span>
+const PriceOption = ({ eur, type, href, privateClass = false }: { eur: number; type: string; href: string; privateClass?: boolean }) => (
+  <div className={`flex min-w-0 flex-col items-start border-t border-tuition-line pt-4 sm:items-center sm:text-center lg:border-t-0 lg:border-l lg:py-2 lg:pl-5 ${privateClass ? "bg-tuition-wash/80 px-3 pb-4 sm:px-4 lg:rounded-md lg:border lg:border-tuition-line lg:py-3" : ""}`}>
+    <span className="mb-2 text-xs font-bold text-tuition-subtle">{type}</span>
+    <span className="font-sora text-xl font-bold leading-tight text-tuition-ink">
+      {eur} <span className="font-manrope text-xs font-semibold text-tuition-subtle">EUR</span>
     </span>
-    <span className="mt-1 text-xs font-medium text-muted-foreground">≈ {formatVnd(eur)}</span>
-    <Link
-      to={href}
-      className="mt-3 inline-flex items-center gap-1.5 rounded-md border border-border bg-background px-2.5 py-1.5 text-[11px] font-semibold text-foreground transition-colors hover:border-primary/40 hover:text-primary"
-    >
-      <CreditCard className="h-3 w-3" />Đăng ký / Register
-    </Link>
+    <span className="mt-1 whitespace-nowrap text-sm font-medium text-tuition-subtle">≈ {formatVnd(eur)}</span>
+    <Button asChild variant="link" className="mt-2 h-auto p-0 text-sm font-bold text-tuition-teal hover:text-tuition-ink">
+      <Link to={href} aria-label={`${type} - ${eur} EUR - Đăng ký / Register`}>
+        Đăng ký / Register <ArrowRight className="ml-1 h-3.5 w-3.5" />
+      </Link>
+    </Button>
   </div>
 );
 
 const CourseTuitionSection = ({ subject }: { subject: TuitionSubject }) => {
   const courses = tuitionBySubject[subject];
-  const styles = subjectStyles[subject];
 
   return (
-    <section aria-labelledby={`${subject}-tuition-heading`} className="mb-14 border-y border-border bg-card shadow-sm shadow-primary/5">
-      <div className={cn("border-b border-border px-5 py-6 sm:px-7", styles.header)}>
-        <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+    <section aria-labelledby={`${subject}-tuition-heading`} className="course-tuition mb-14 border-y border-tuition-line bg-tuition-surface text-tuition-ink">
+      <div className="border-b border-tuition-line px-5 py-8 sm:px-8 lg:px-10 lg:py-10">
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <div className={cn("mb-2 flex items-center gap-2 text-sm font-semibold", styles.accent)}>
+            <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-tuition-teal">
               <GraduationCap className="h-4 w-4" />
               <span>Học trực tiếp cùng Thầy Hải / Learn directly with Teacher Hai</span>
             </div>
-            <h2 id={`${subject}-tuition-heading`} className="font-display text-2xl font-bold text-foreground sm:text-3xl">
+            <h2 id={`${subject}-tuition-heading`} className="font-sora text-2xl font-bold text-tuition-ink sm:text-3xl">
               {headingBySubject[subject]}
             </h2>
-            <p className="mt-2 text-base text-muted-foreground">
+            <p className="mt-2 text-base text-tuition-subtle">
               Học phí trọn khóa 12 tuần / Tuition for one complete 12-week course
             </p>
           </div>
-          <Button asChild size="lg" variant={styles.button} className="w-full shrink-0 sm:w-auto">
+          <Button asChild size="lg" className="w-full shrink-0 bg-tuition-teal text-tuition-surface hover:bg-tuition-ink sm:w-auto">
             <Link to="/register">
               Đăng ký tư vấn / Register
               <ArrowRight className="h-4 w-4" />
@@ -108,44 +89,28 @@ const CourseTuitionSection = ({ subject }: { subject: TuitionSubject }) => {
         </div>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="w-full min-w-[760px] border-collapse text-left">
-          <thead className="border-b border-border bg-muted/50 text-xs uppercase tracking-wide text-muted-foreground">
-            <tr>
-              <th className="px-6 py-4 font-semibold">Khóa học / Course</th>
-              <th className="px-6 py-4 font-semibold">Thời lượng / Duration</th>
-              <th className="px-6 py-4 font-semibold">Lớp nhóm / Group class</th>
-              <th className="px-6 py-4 font-semibold">Kèm 1-1 / One-to-one</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-border/70">
-            {courses.map((course, index) => (
-              <tr key={course.nameEn} className={cn("transition-colors hover:bg-muted/40", index % 2 === 1 && "bg-muted/20")}>
-                <td className="px-6 py-5">
-                  <Link to={`/register?course=${course.key}`} className="group inline-flex items-start gap-2 font-semibold text-primary hover:underline focus-visible:underline">
-                    <span>{course.nameVi}<span className="mt-1 block text-sm font-normal text-muted-foreground">{course.nameEn}</span></span>
-                    <ArrowRight className="mt-1 h-4 w-4 shrink-0 transition-transform group-hover:translate-x-1" />
-                  </Link>
-                </td>
-                <td className="px-6 py-5 text-foreground">
-                  <span className="inline-flex items-center gap-2 text-sm">
-                    <CalendarDays className={cn("h-4 w-4", styles.accent)} />
-                    {COURSE_DURATION}
-                  </span>
-                  <span className="mt-1 block text-xs font-medium text-muted-foreground">{COURSE_SESSIONS}</span>
-                </td>
-                <td className="px-6 py-5 text-center">
-                  <PriceCell eur={course.groupPrice} href={`/register?course=${course.key}&class=group`} />
-                </td>
-                <td className="px-6 py-5 text-center">
-                  <PriceCell eur={course.groupPrice * 3} featured featuredTone={styles.featured} href={`/register?course=${course.key}&class=private`} />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="divide-y divide-tuition-line">
+        {courses.map((course) => (
+          <div key={course.key} className="grid gap-x-4 gap-y-5 px-5 py-7 transition-colors hover:bg-tuition-wash/30 sm:grid-cols-2 sm:px-8 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,0.9fr)_minmax(0,0.85fr)_minmax(0,0.95fr)] lg:items-center lg:gap-x-6 lg:px-10 lg:py-7 motion-reduce:transition-none">
+            <div className="min-w-0 sm:col-span-2 lg:col-span-1">
+              <Link to={`/register?course=${course.key}`} className="group inline-flex items-start gap-2 font-sora text-lg font-bold leading-snug text-tuition-teal hover:underline focus-visible:underline">
+                <span>{course.nameVi}</span>
+                <ArrowRight className="mt-1 h-4 w-4 shrink-0 transition-transform group-hover:translate-x-1 motion-reduce:transition-none" />
+              </Link>
+              <p className="mt-1 text-sm text-tuition-subtle">{course.nameEn}</p>
+            </div>
+            <div className="min-w-0 sm:col-span-2 lg:col-span-1">
+              <span className="flex items-center gap-2 text-sm font-semibold text-tuition-ink">
+                <CalendarDays className="h-4 w-4 shrink-0 text-tuition-teal" />
+                {COURSE_DURATION}
+              </span>
+              <span className="mt-1 block text-sm text-tuition-subtle lg:pl-6">{COURSE_SESSIONS}</span>
+            </div>
+            <PriceOption eur={course.groupPrice} type="Lớp nhóm / Group class" href={`/register?course=${course.key}&class=group`} />
+            <PriceOption eur={course.groupPrice * 3} type="Kèm 1-1 / One-to-one" privateClass href={`/register?course=${course.key}&class=private`} />
+          </div>
+        ))}
       </div>
-
     </section>
   );
 };

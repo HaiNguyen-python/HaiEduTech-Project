@@ -47,6 +47,14 @@
 
     --radius: 0.75rem;
 
+    /* Shared public course-list palette */
+    --tuition-ink: 204 32% 21%;
+    --tuition-teal: 176 71% 29%;
+    --tuition-wash: 166 41% 93%;
+    --tuition-surface: 0 0% 100%;
+    --tuition-subtle: 204 15% 39%;
+    --tuition-line: 174 19% 84%;
+
     --sidebar-background: 0 0% 100%;
     --sidebar-foreground: 222 47% 25%;
     --sidebar-primary: 173 58% 39%;
@@ -94,6 +102,20 @@
 }
 
 @layer utilities {
+  .course-tuition {
+    font-family: "Manrope", sans-serif;
+    letter-spacing: 0;
+  }
+
+  .dark .course-tuition {
+    --tuition-ink: 166 31% 94%;
+    --tuition-teal: 166 56% 68%;
+    --tuition-wash: 177 26% 17%;
+    --tuition-surface: 204 29% 12%;
+    --tuition-subtle: 168 13% 73%;
+    --tuition-line: 180 17% 31%;
+  }
+
   .admin-workspace {
     font-family: "Manrope", sans-serif;
     letter-spacing: 0;
