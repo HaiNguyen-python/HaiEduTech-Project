@@ -857,17 +857,17 @@ const Navbar = () => {
         className="w-full fixed top-12 z-50 bg-card border-b border-border hidden lg:block"
         style={{ transform: "translateZ(0)", willChange: "transform" }}
       >
-        <div className="container mx-auto px-6">
-          <div className="flex items-center justify-center h-11 gap-0.5">
+        <div className="w-full px-6 xl:px-10">
+          <div className="flex items-center h-11 w-full">
 
             {navLinks.map((l) => {
               const active = location.pathname === l.to;
               const sc = SUBJECT_COLORS[(l as { key?: string }).key ?? ""] ?? DEFAULT_SUBJECT_COLOR;
               if (l.subs) {
                 return (
-                  <div key={l.to} className="relative" onMouseEnter={() => handleMouseEnter(l.key!)} onMouseLeave={handleMouseLeave}>
+                  <div key={l.to} className="relative flex-1 flex justify-center" onMouseEnter={() => handleMouseEnter(l.key!)} onMouseLeave={handleMouseLeave}>
                     <Link to={l.to}
-                      className={`flex items-center gap-1 px-2.5 py-1.5 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
+                      className={`flex items-center justify-center gap-1 w-full px-3 py-1.5 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
                         active ? "text-primary bg-primary/10" : `text-muted-foreground ${sc.trigger}`
                       }`}>
                       {l.label}
@@ -887,7 +887,7 @@ const Navbar = () => {
                             clearMenuCloseTimers();
                           }}
                           onMouseLeave={handleMouseLeave}
-                          className="absolute top-full left-0 pt-1 w-64 z-50 before:content-[''] before:absolute before:-top-3 before:left-0 before:right-0 before:h-5"
+                          className="absolute top-full left-1/2 -ml-32 pt-1 w-64 z-50 before:content-[''] before:absolute before:-top-3 before:left-0 before:right-0 before:h-5"
                         >
                           {/* Panel scrolls inside itself instead of being clipped below the viewport.
                               Scrolling closes any open flyout since it is position:fixed and would
@@ -1069,7 +1069,7 @@ const Navbar = () => {
               }
               return (
                 <Link key={l.to} to={l.to}
-                  className={`px-2.5 py-1.5 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
+                  className={`flex-1 flex items-center justify-center px-3 py-1.5 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
                     active ? "text-primary bg-primary/10" : `text-muted-foreground ${sc.trigger}`
                   }`}>
                   {l.label}
