@@ -903,15 +903,7 @@ const Navbar = () => {
                   </div>
                 );
               }
-              return l.key === "yc" ? (
-                <Link key={l.to} to={l.to}
-                  className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-semibold transition-colors whitespace-nowrap ${
-                    active ? "bg-primary text-primary-foreground" : "bg-primary/10 text-primary hover:bg-primary/20"
-                  }`}>
-                  {l.label}
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              ) : (
+              return (
                 <Link key={l.to} to={l.to}
                   className={`relative px-3 py-1.5 rounded-md text-sm font-medium transition-colors whitespace-nowrap after:absolute after:left-3 after:right-3 after:-bottom-0.5 after:h-0.5 after:rounded-full after:bg-gradient-to-r after:from-primary after:to-accent after:content-[''] after:transition-opacity after:duration-200 ${
                     active ? "text-primary after:opacity-100" : `text-muted-foreground hover:text-foreground ${sc.trigger} after:opacity-0`
