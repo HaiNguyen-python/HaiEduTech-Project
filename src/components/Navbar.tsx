@@ -497,7 +497,7 @@ const Navbar = () => {
     icon: Newspaper,
   });
 
-  const baseLinks = [
+  const allNavItems = [
     { to: "/", label: t("Trang chủ", "Home"), icon: GraduationCap, key: "home" },
     { to: "/about", label: t("Giới thiệu", "About"), icon: Brain, key: "about" },
     { to: "/english", label: t("Tiếng Anh", "English"), icon: BookOpen, subs: [...englishSubs, teacherNotes("English")], key: "en" },
@@ -568,11 +568,12 @@ const Navbar = () => {
     { to: "/your-corner", label: t("Your Corner", "Your Corner"), icon: Users, key: "yc" },
   ];
 
-  // Dashboard and Admin entries are intentionally omitted from the main menu —
-  // they are accessible from the user dropdown after login to keep the navbar clean.
-  const navLinks = user && isPureAssistant
-    ? [...baseLinks, { to: "/assistant", label: t("CTV", "Assistant"), icon: Shield, key: "assistant" }]
-    : baseLinks;
+  // TEMP: temporarily hide Vietnamese, Japanese, Finnish and Swedish from the
+  // navbar (desktop dropdowns + mobile drawer). Routes stay reachable by URL.
+  const hiddenNavKeys = new Set<string>(["vn", "jp", "fi", "sv"]);
+  const baseLinks = allNavItems.filter(
+    (l) => !l.key || !hiddenNavKeys.has(l.key)
+  );
 
 
   // Hover bridge + intent debounce: opening is instant, closing is delayed
