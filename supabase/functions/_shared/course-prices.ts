@@ -1,0 +1,21 @@
+/** Fixed course catalog. Prices are cents in EUR; these are one-time tuition payments. */
+export const COURSE_PRICES: Record<string, { course: string; classType: "group" | "private"; cents: number }> = {
+  class_english_ielts_group: { course: "english_ielts", classType: "group", cents: 21000 },
+  class_english_ielts_private: { course: "english_ielts", classType: "private", cents: 63000 },
+  class_english_business_group: { course: "english_business", classType: "group", cents: 21000 },
+  class_english_business_private: { course: "english_business", classType: "private", cents: 63000 },
+  class_english_sat_group: { course: "english_sat", classType: "group", cents: 25000 },
+  class_english_sat_private: { course: "english_sat", classType: "private", cents: 75000 },
+  class_english_starters_group: { course: "english_starters", classType: "group", cents: 16000 },
+  class_english_starters_private: { course: "english_starters", classType: "private", cents: 48000 },
+  class_english_ket_group: { course: "english_ket", classType: "group", cents: 18000 },
+  class_english_ket_private: { course: "english_ket", classType: "private", cents: 54000 },
+  class_chinese_hsk_group: { course: "chinese_hsk", classType: "group", cents: 18000 },
+  class_chinese_hsk_private: { course: "chinese_hsk", classType: "private", cents: 54000 },
+  class_chinese_conversation_group: { course: "chinese_conversation", classType: "group", cents: 18000 },
+  class_chinese_conversation_private: { course: "chinese_conversation", classType: "private", cents: 54000 },
+  class_programming_python_group: { course: "programming_python", classType: "group", cents: 18000 },
+  class_programming_python_private: { course: "programming_python", classType: "private", cents: 54000 },
+  class_programming_ai_group: { course: "programming_ai", classType: "group", cents: 18000 },
+  class_programming_ai_private: { course: "programming_ai", classType: "private", cents: 54000 },
+};
