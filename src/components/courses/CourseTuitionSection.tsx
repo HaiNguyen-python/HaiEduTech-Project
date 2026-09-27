@@ -122,18 +122,10 @@ const CourseTuitionSection = ({ subject }: { subject: TuitionSubject }) => {
                   <span className="mt-1 block text-xs font-medium text-muted-foreground">{COURSE_SESSIONS}</span>
                 </td>
                 <td className="px-6 py-5">
-                  <PriceCell eur={course.groupPrice} accent={styles.accent} chip={styles.chip} />
-                  <Link to={`/register?course=${course.key}&class=group`} className="mt-2 flex items-center gap-1 text-xs font-semibold text-primary hover:underline"><CreditCard className="h-3.5 w-3.5" />Đăng ký / Register</Link>
+                  <PriceCell eur={course.groupPrice} tone={styles.chip} href={`/register?course=${course.key}&class=group`} />
                 </td>
                 <td className="px-6 py-5">
-                  <div className="inline-flex flex-col items-start">
-                    <span className="font-display text-lg font-semibold text-foreground">
-                      {course.groupPrice * 3}
-                      <span className="ml-1 text-sm font-semibold text-muted-foreground">EUR</span>
-                    </span>
-                    <span className="mt-1 text-xs font-medium text-muted-foreground">≈ {formatVnd(course.groupPrice * 3)}</span>
-                    <Link to={`/register?course=${course.key}&class=private`} className="mt-2 flex items-center gap-1 text-xs font-semibold text-primary hover:underline"><CreditCard className="h-3.5 w-3.5" />Đăng ký / Register</Link>
-                  </div>
+                  <PriceCell eur={course.groupPrice * 3} tone={styles.solid} href={`/register?course=${course.key}&class=private`} />
                 </td>
               </tr>
             ))}
