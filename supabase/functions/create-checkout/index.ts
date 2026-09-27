@@ -72,7 +72,7 @@ Deno.serve(async (req) => {
       return_url: returnUrl,
       customer: customerId,
       payment_intent_data: { description: product.name },
-      ...(coursePrice ? { automatic_tax: { enabled: true } } : { managed_payments: { enabled: true } }),
+      ...(coursePrice ? { automatic_tax: { enabled: true }, customer_update: { address: "auto" } } : { managed_payments: { enabled: true } }),
       metadata: { userId: user.id, priceId, managed_payments: coursePrice ? "false" : "true" },
     } as Stripe.Checkout.SessionCreateParams);
 
