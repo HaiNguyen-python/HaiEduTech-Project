@@ -65,4 +65,11 @@ describe("Programming theory key-term emphasis", () => {
     const input = "**CAPEX** and `OPEX` with [cloud computing](https://example.com).";
     expect(emphasizeKeyTerms(input)).toBe(input);
   });
+
+  it("emphasizes repeated concepts and meaningful scale figures", () => {
+    const input = "AWS runs cloud infrastructure. AWS can scale to 100,000+ instances across 33 regions.";
+    expect(emphasizeKeyTerms(input)).toBe(
+      "**AWS** runs cloud infrastructure. **AWS** can scale to **100,000+ instances** across **33 regions**.",
+    );
+  });
 });
