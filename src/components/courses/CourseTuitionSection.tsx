@@ -47,21 +47,34 @@ const headingBySubject: Record<TuitionSubject, string> = {
   programming: "Khóa học Lập trình / Programming Courses",
 };
 
-const subjectStyles: Record<TuitionSubject, { header: string; accent: string; chip: string; solid: string; button: "default" | "destructive" | "secondary" }> = {
-  english: { header: "bg-primary/5", accent: "text-primary", chip: "border-primary/40 bg-primary/10 text-primary", solid: "border-primary bg-primary text-primary-foreground", button: "default" },
-  chinese: { header: "bg-destructive/5", accent: "text-destructive", chip: "border-destructive/40 bg-destructive/10 text-destructive", solid: "border-destructive bg-destructive text-destructive-foreground", button: "destructive" },
-  programming: { header: "bg-accent/10", accent: "text-accent", chip: "border-accent/50 bg-accent/15 text-foreground", solid: "border-accent bg-accent text-accent-foreground", button: "secondary" },
+const subjectStyles: Record<TuitionSubject, { header: string; accent: string; featured: string; button: "default" | "destructive" | "secondary" }> = {
+  english: { header: "bg-primary/5", accent: "text-primary", featured: "border-primary/25 bg-primary/[0.04]", button: "default" },
+  chinese: { header: "bg-destructive/5", accent: "text-destructive", featured: "border-destructive/25 bg-destructive/[0.04]", button: "destructive" },
+  programming: { header: "bg-accent/10", accent: "text-accent", featured: "border-accent/30 bg-accent/[0.06]", button: "secondary" },
 };
 
-const PriceCell = ({ eur, tone, href }: { eur: number; tone: string; href: string }) => (
-  <div className={cn("flex w-full max-w-[200px] flex-col rounded-xl border-2 px-4 py-3 shadow-sm", tone)}>
-    <span className="inline-flex items-baseline gap-1 font-display text-2xl font-extrabold leading-none">
+const PriceCell = ({ eur, featured = false, featuredTone = "", href }: { eur: number; featured?: boolean; featuredTone?: string; href: string }) => (
+  <div
+    className={cn(
+      "mx-auto flex w-full max-w-[180px] flex-col items-center rounded-lg border px-4 py-3 text-center transition-colors",
+      featured ? cn(featuredTone, "shadow-sm") : "border-border bg-card",
+    )}
+  >
+    {featured && (
+      <span className="mb-1.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+        Kèm riêng / One-to-one
+      </span>
+    )}
+    <span className="inline-flex items-baseline gap-1 font-display text-lg font-bold leading-none">
       {eur}
-      <span className="text-sm font-bold">EUR</span>
+      <span className="text-[11px] font-semibold text-muted-foreground">EUR</span>
     </span>
-    <span className="mt-1.5 text-sm font-semibold opacity-90">≈ {formatVnd(eur)}</span>
-    <Link to={href} className="mt-3 inline-flex items-center gap-1 border-t border-current/20 pt-2 text-xs font-bold underline-offset-2 hover:underline">
-      <CreditCard className="h-3.5 w-3.5" />Đăng ký / Register
+    <span className="mt-1 text-xs font-medium text-muted-foreground">≈ {formatVnd(eur)}</span>
+    <Link
+      to={href}
+      className="mt-3 inline-flex items-center gap-1.5 rounded-md border border-border bg-background px-2.5 py-1.5 text-[11px] font-semibold text-foreground transition-colors hover:border-primary/40 hover:text-primary"
+    >
+      <CreditCard className="h-3 w-3" />Đăng ký / Register
     </Link>
   </div>
 );
@@ -121,11 +134,11 @@ const CourseTuitionSection = ({ subject }: { subject: TuitionSubject }) => {
                   </span>
                   <span className="mt-1 block text-xs font-medium text-muted-foreground">{COURSE_SESSIONS}</span>
                 </td>
-                <td className="px-6 py-5">
-                  <PriceCell eur={course.groupPrice} tone={styles.chip} href={`/register?course=${course.key}&class=group`} />
+                <td className="px-6 py-5 text-center">
+                  <PriceCell eur={course.groupPrice} href={`/register?course=${course.key}&class=group`} />
                 </td>
-                <td className="px-6 py-5">
-                  <PriceCell eur={course.groupPrice * 3} tone={styles.solid} href={`/register?course=${course.key}&class=private`} />
+                <td className="px-6 py-5 text-center">
+                  <PriceCell eur={course.groupPrice * 3} featured featuredTone={styles.featured} href={`/register?course=${course.key}&class=private`} />
                 </td>
               </tr>
             ))}
