@@ -42,3 +42,4 @@
 - [IELTS Speaking Practice Bank](mem://features/ielts/speaking-practice-bank) - 301/188/190 Qs, merged Part 3 topics, per-phrase audio, audit rules
 - [Speaking Coach Modes](mem://features/speaking-coach-modes) - /speaking-coach/:language 5 modes: Sentences, Shadowing, Sound drill, Free Talk, Weak-word review
 - [AI Provider Routing](mem://tech/ai-provider-routing) — Perplexity là nhà cung cấp AI chính qua _shared/ai-fallback.ts, Lovable AI là dự phòng
+- [Navbar Subjects Hidden](mem://features/navbar-hidden-subjects) - VN/JP/FI/SV hidden from navbar for all users, direct URL access only
