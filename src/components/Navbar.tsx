@@ -11,7 +11,7 @@ import { createPortal } from "react-dom";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Menu, X, Brain, BookOpen, Languages, Code2, GraduationCap,
+  Menu, X, Brain, BookOpen, Languages, Code2, GraduationCap, ArrowRight,
   Globe, UserPlus, Heart, LogIn, ChevronDown, ChevronRight, Cpu, LogOut, Library, Shield,
   FileText, PenTool, Map, MessageSquare, Award, School, Swords, User, LayoutDashboard, Newspaper,
   FolderLock, Compass, Briefcase, Trophy, Sparkles, Bot, Database, Workflow, Cloud, Network, Gamepad2, MessagesSquare, Target, Settings2, Flame, Music, Quote, Mic2, Crown, BookType, Blocks, Rocket, Users, Plane, ClipboardCheck, FlaskConical
@@ -509,7 +509,7 @@ const Navbar = () => {
           long lessons) doesn't repaint the navbar on every frame - fixes the
           flicker reported at the bottom of long pages. */}
       <div
-        className="w-full z-[60] bg-card border-b border-border fixed top-0"
+        className="w-full z-[60] bg-background/80 backdrop-blur-md border-b border-border/60 fixed top-0"
         style={{ transform: "translateZ(0)", willChange: "transform" }}
       >
         <div className="container mx-auto px-4 sm:px-6">
@@ -552,8 +552,8 @@ const Navbar = () => {
                     HaiEduTech
                   </span>
                   <Sparkles
-                    className="brand-sparkle absolute -top-1 -right-3 w-3 h-3 text-amber-400"
-                    style={{ filter: "drop-shadow(0 0 4px rgba(251,191,36,0.7))" }}
+                    className="brand-sparkle absolute -top-1 -right-3 w-3 h-3 text-accent"
+                    style={{ filter: "drop-shadow(0 0 4px rgba(16,185,129,0.7))" }}
                   />
                 </span>
               </Link>
@@ -562,18 +562,15 @@ const Navbar = () => {
               <div className="hidden lg:flex items-center justify-center flex-1 min-w-0 mx-3 relative group/slogan">
                 <div className="flex flex-col items-center relative overflow-hidden">
                   <span
-                    className="slogan-text relative text-[11px] lg:text-xs uppercase font-semibold tracking-[0.18em] truncate"
+                    className="slogan-text relative text-[10px] lg:text-[11px] uppercase font-semibold tracking-[0.2em] truncate text-muted-foreground/70"
                     style={{ fontFamily: "'Space Grotesk', 'Inter', sans-serif", fontWeight: 600 }}
                   >
-                    <span style={{ color: "#1A1A1A" }}>THE UNIQUE INTERSECTION OF </span>
-                    <span style={{ color: "#10B981" }}>LANGUAGE</span>
-                    <span style={{ color: "#1A1A1A" }}> & </span>
-                    <span style={{ color: "#10B981" }}>TECHNOLOGY</span>
+                    THE UNIQUE INTERSECTION OF LANGUAGE & TECHNOLOGY
                     {/* Ripple overlay - CSS-only, hardware-accelerated */}
                     <span className="slogan-ripple" aria-hidden="true" />
                   </span>
                   {/* Elegant underline */}
-                  <div className="w-full h-[1px] mt-1 bg-gradient-to-r from-transparent via-[#10B981]/40 to-transparent" />
+                  <div className="w-full h-[1px] mt-1 bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
                 </div>
                 {/* Mascot speech bubble on hover */}
                 <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 opacity-0 group-hover/slogan:opacity-100 transition-opacity duration-300 pointer-events-none z-[100]">
@@ -591,7 +588,7 @@ const Navbar = () => {
                   <div ref={userMenuRef} className="relative">
                     <button
                       onClick={() => setUserMenuOpen(!userMenuOpen)}
-                      className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+                      className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border border-border/70 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
                     >
                       <User className="w-3.5 h-3.5" />
                       Hello, {displayName.split(" ")[0]}
@@ -644,11 +641,11 @@ const Navbar = () => {
                   </>
                 ) : (
                   <>
-                    <Link to="/login" className="flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-medium bg-primary text-primary-foreground hover:brightness-110 transition-all">
+                    <Link to="/login" className="flex items-center gap-1 px-3.5 py-1.5 rounded-full text-xs font-semibold text-muted-foreground hover:text-foreground hover:bg-secondary transition-all">
                       <LogIn className="w-3.5 h-3.5" />
                       {t("Đăng Nhập", "Login")}
                     </Link>
-                    <Link to="/signup" className="flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-medium border border-primary text-primary hover:bg-primary/10 transition-all">
+                    <Link to="/signup" className="flex items-center gap-1 px-4 py-1.5 rounded-full text-xs font-semibold bg-gradient-to-r from-primary to-accent text-white shadow-md shadow-primary/20 hover:shadow-lg hover:brightness-110 transition-all">
                       <UserPlus className="w-3.5 h-3.5" />
                       {t("Đăng Ký", "Sign Up")}
                     </Link>
@@ -657,9 +654,9 @@ const Navbar = () => {
                 <GlobalSearch variant="icon" />
                 <button onClick={() => setLang(lang === "vi" ? "en" : "vi")}
                   aria-label={lang === "vi" ? "Switch to English" : "Chuyển sang tiếng Việt"}
-                  className="flex items-center gap-1 px-2.5 py-1.5 rounded-md text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">
+                  className="flex items-center gap-1 border border-border rounded-full px-2.5 py-1 text-[11px] font-semibold text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors">
                   <Globe className="w-3.5 h-3.5" />
-                  {lang === "vi" ? "EN" : "VI"}
+                  <span className="text-primary">{lang === "vi" ? "EN" : "VI"}</span>
                 </button>
               </div>
 
@@ -679,13 +676,10 @@ const Navbar = () => {
             {/* Row 1b: Slogan on mobile - separate row, smaller text, centered */}
             <div className="lg:hidden text-center pb-1.5 -mt-1">
               <span
-                className="text-[8px] sm:text-[10px] uppercase font-semibold tracking-[0.15em]"
+                className="text-[8px] sm:text-[10px] uppercase font-semibold tracking-[0.15em] text-muted-foreground/70"
                 style={{ fontFamily: "'Space Grotesk', 'Inter', sans-serif", fontWeight: 600 }}
               >
-                <span style={{ color: "#1A1A1A" }}>THE UNIQUE INTERSECTION OF </span>
-                <span style={{ color: "#10B981" }}>LANGUAGE</span>
-                <span style={{ color: "#1A1A1A" }}> & </span>
-                <span style={{ color: "#10B981" }}>TECHNOLOGY</span>
+                THE UNIQUE INTERSECTION OF LANGUAGE & TECHNOLOGY
               </span>
             </div>
           </div>
@@ -695,21 +689,26 @@ const Navbar = () => {
       {/* Row 2: Navigation - always sticky below Row 1 (desktop only).
           GPU layer promotion mirrors Row 1 to prevent scroll-time repaint flicker. */}
       <nav
-        className="w-full fixed top-12 z-50 bg-card border-b border-border hidden lg:block"
+        className="w-full fixed top-12 z-50 bg-background/85 backdrop-blur-md border-b border-border/60 hidden lg:block"
         style={{ transform: "translateZ(0)", willChange: "transform" }}
       >
         <div className="container mx-auto px-6">
-          <div className="flex items-center justify-center h-11 gap-0.5">
+          <div className="flex items-center justify-center h-11 gap-1">
 
             {navLinks.map((l) => {
               const active = location.pathname === l.to;
               const sc = SUBJECT_COLORS[(l as { key?: string }).key ?? ""] ?? DEFAULT_SUBJECT_COLOR;
               if (l.subs) {
                 return (
-                  <div key={l.to} className="relative" onMouseEnter={() => handleMouseEnter(l.key!)} onMouseLeave={handleMouseLeave}>
+                  <div key={l.to} className="relative flex items-center" onMouseEnter={() => handleMouseEnter(l.key!)} onMouseLeave={handleMouseLeave}>
+                    {(l.key === "en" || l.key === "lifestyle") && (
+                      <span className="w-px h-4 bg-border mx-2 shrink-0" aria-hidden="true" />
+                    )}
                     <Link to={l.to}
-                      className={`flex items-center gap-1 px-2.5 py-1.5 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
-                        active ? "text-primary bg-primary/10" : `text-muted-foreground ${sc.trigger}`
+                      className={`relative flex items-center gap-1 px-3 py-1.5 rounded-md text-sm font-medium transition-colors whitespace-nowrap after:absolute after:left-3 after:right-3 after:-bottom-0.5 after:h-0.5 after:rounded-full after:bg-gradient-to-r after:from-primary after:to-accent after:content-[''] after:transition-opacity after:duration-200 ${
+                        active
+                          ? "text-primary after:opacity-100"
+                          : `text-muted-foreground hover:text-foreground ${sc.trigger} after:opacity-0`
                       }`}>
                       {l.label}
                       <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${dropdown === l.key ? "rotate-180" : ""}`} />
@@ -895,10 +894,18 @@ const Navbar = () => {
                   </div>
                 );
               }
-              return (
+              return l.key === "yc" ? (
                 <Link key={l.to} to={l.to}
-                  className={`px-2.5 py-1.5 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
-                    active ? "text-primary bg-primary/10" : `text-muted-foreground ${sc.trigger}`
+                  className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-semibold transition-colors whitespace-nowrap ${
+                    active ? "bg-primary text-primary-foreground" : "bg-primary/10 text-primary hover:bg-primary/20"
+                  }`}>
+                  {l.label}
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              ) : (
+                <Link key={l.to} to={l.to}
+                  className={`relative px-3 py-1.5 rounded-md text-sm font-medium transition-colors whitespace-nowrap after:absolute after:left-3 after:right-3 after:-bottom-0.5 after:h-0.5 after:rounded-full after:bg-gradient-to-r after:from-primary after:to-accent after:content-[''] after:transition-opacity after:duration-200 ${
+                    active ? "text-primary after:opacity-100" : `text-muted-foreground hover:text-foreground ${sc.trigger} after:opacity-0`
                   }`}>
                   {l.label}
                 </Link>
@@ -1120,7 +1127,7 @@ const Navbar = () => {
                       <LogIn className="w-5 h-5" /> {t("Đăng Nhập", "Login")}
                     </Link>
                     <Link to="/signup" onClick={() => setOpen(false)}
-                      className="w-full flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl text-[15px] font-bold border-2 border-primary text-primary hover:bg-primary/5 transition-all">
+                      className="w-full flex items-center justify-center gap-2 px-4 py-3.5 rounded-full text-[15px] font-bold bg-gradient-to-r from-primary to-accent text-white shadow-md shadow-primary/20 hover:shadow-lg transition-all">
                       <UserPlus className="w-5 h-5" /> {t("Đăng Ký", "Sign Up")}
                     </Link>
                   </>
