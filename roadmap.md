@@ -84,6 +84,6 @@
 
 # Pre-publish review
 
-- [ ] Review public pages, course registration, payment entry, navigation, access gates and preview errors on desktop and mobile.
-- [ ] Check outstanding security scan findings before publishing.
+- [x] Review representative public pages, course selection and payment entry, navigation, access gates and preview errors on desktop and mobile; live payments and email delivery remain separate checks above.
+- [x] Run the security scan before publishing; all 13 reported findings were previously ignored by the owner, with no new critical finding in this scan.
 
