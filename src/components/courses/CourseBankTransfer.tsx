@@ -97,7 +97,7 @@ export const CourseBankTransfer = ({ eur, vnd, reference }: CourseBankTransferPr
             </div>
           </div>
           <div className="min-w-0 space-y-1.5">
-            <CopyRow tone="amber" label={t("Ngân hàng", "Bank")} value={VIETCOMBANK.branch} />
+            <CopyRow tone="amber" label={t("Ngân hàng", "Bank")} value="Vietcombank" />
             <CopyRow tone="amber" label={t("Số tài khoản", "Account")} value={VIETCOMBANK.account} copyValue={VIETCOMBANK.account} />
             <CopyRow tone="amber" label={t("Chủ tài khoản", "Holder")} value={VIETCOMBANK.holder} />
             <CopyRow tone="amber" label={t("Số tiền", "Amount")} value={vndText} copyValue={String(vnd)} />
