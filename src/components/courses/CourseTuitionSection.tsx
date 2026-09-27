@@ -19,10 +19,14 @@ const formatVnd = (eur: number) => {
   return `${new Intl.NumberFormat("vi-VN").format(vnd)}₫`;
 };
 
+const COURSE_DURATION = "12 tuần / 12 weeks";
+const COURSE_SESSIONS = "24 buổi - 36 giờ mỗi khóa";
+
 const tuitionBySubject: Record<TuitionSubject, TuitionCourse[]> = {
   english: [
     { nameVi: "Luyện thi IELTS (Cơ bản - Nâng cao)", nameEn: "IELTS Preparation", groupPrice: 210 },
     { nameVi: "Tiếng Anh Giao Tiếp & Thương mại", nameEn: "Business English", groupPrice: 210 },
+    { nameVi: "Luyện thi SAT", nameEn: "SAT Preparation", groupPrice: 250 },
     { nameVi: "Cambridge Starters - Movers - Flyers", nameEn: "Cambridge Starters - Movers - Flyers", groupPrice: 160 },
     { nameVi: "Cambridge KET - PET", nameEn: "Cambridge KET - PET", groupPrice: 180 },
   ],
@@ -107,8 +111,9 @@ const CourseTuitionSection = ({ subject }: { subject: TuitionSubject }) => {
                 <td className="px-6 py-5 text-foreground">
                   <span className="inline-flex items-center gap-2 text-sm">
                     <CalendarDays className={cn("h-4 w-4", styles.accent)} />
-                    12 tuần / 12 weeks
+                    {COURSE_DURATION}
                   </span>
+                  <span className="mt-1 block text-xs font-medium text-muted-foreground">{COURSE_SESSIONS}</span>
                 </td>
                 <td className="px-6 py-5">
                   <PriceCell eur={course.groupPrice} accent={styles.accent} chip={styles.chip} />
@@ -133,9 +138,12 @@ const CourseTuitionSection = ({ subject }: { subject: TuitionSubject }) => {
           <article key={course.nameEn} className="rounded-lg border border-border bg-background p-5">
             <h3 className="font-display text-lg font-bold text-foreground">{course.nameVi}</h3>
             <p className="mt-1 text-sm text-muted-foreground">{course.nameEn}</p>
-            <div className="mt-4 flex items-center gap-2 text-sm text-muted-foreground">
-              <CalendarDays className={cn("h-4 w-4", styles.accent)} />
-              <span>12 tuần / 12 weeks</span>
+            <div className="mt-4 flex flex-col gap-1 text-sm text-muted-foreground">
+              <span className="inline-flex items-center gap-2">
+                <CalendarDays className={cn("h-4 w-4", styles.accent)} />
+                {COURSE_DURATION}
+              </span>
+              <span className="text-xs font-medium text-muted-foreground">{COURSE_SESSIONS}</span>
             </div>
             <dl className="mt-4 grid grid-cols-2 gap-3 border-t border-border pt-4">
               <div>
