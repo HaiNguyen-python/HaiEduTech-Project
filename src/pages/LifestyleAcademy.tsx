@@ -50,6 +50,7 @@ import { getLessonImage } from "@/data/lifestyleLessonImages";
 import LessonDialog from "@/components/lifestyle/LessonDialog";
 import SoftSkillsRadar from "@/components/lifestyle/SoftSkillsRadar";
 import { useLifestyleProgress, type LifestyleLessonResult } from "@/hooks/useLifestyleProgress";
+import heroBg from "@/assets/lifestyle/interpersonal-hero-bg.jpg";
 
 
 // Pillar-specific styles used across cards for consistent theming.
@@ -507,9 +508,19 @@ const LifestyleAcademy = () => {
 
       <main>
         {/* ────────── Hero ────────── */}
-        <section className="relative overflow-hidden border-b border-border/60 bg-gradient-to-br from-emerald-50 via-white to-amber-50 dark:from-slate-900 dark:via-slate-950 dark:to-slate-900 pt-10 lg:pt-14">
-          <div aria-hidden className="pointer-events-none absolute -top-24 -right-24 h-96 w-96 rounded-full bg-emerald-400/20 blur-3xl dark:bg-emerald-500/10" />
-          <div aria-hidden className="pointer-events-none absolute -bottom-32 -left-24 h-96 w-96 rounded-full bg-amber-300/25 blur-3xl dark:bg-amber-400/10" />
+        <section className="relative overflow-hidden border-b border-border/60 pt-10 lg:pt-14">
+          <img
+            src={heroBg}
+            alt=""
+            aria-hidden
+            width={1920}
+            height={640}
+            className="absolute inset-0 h-full w-full object-cover object-right"
+          />
+          <div
+            aria-hidden
+            className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-white/20 dark:from-slate-950/95 dark:via-slate-950/85 dark:to-slate-950/40"
+          />
 
           <div className="container relative mx-auto px-4 py-5 md:py-8">
             <motion.div
@@ -526,7 +537,7 @@ const LifestyleAcademy = () => {
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.18] tracking-tight text-slate-900 dark:text-slate-50">
                 HaiEduTech{" "}
                 <span className="bg-gradient-to-r from-emerald-500 via-teal-500 to-amber-500 bg-clip-text text-transparent">
-                  Lifestyle Academy
+                  Interpersonal Skills Academy
                 </span>
               </h1>
 
