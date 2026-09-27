@@ -58,11 +58,11 @@ const Register = () => {
       try {
         const { data, error } = await supabase.functions.invoke("verify-checkout-session", { body: { sessionId, environment: getStripeEnvironment() } });
         if (error) throw error;
-        setPaymentStatus(data?.activated && data?.course ? "paid" : "pending");
+        setPaymentStatus(data?.activated && data?.course && data?.priceId === `class_${selectedCourse}_${classType}` ? "paid" : "pending");
       } catch { setPaymentStatus("error"); }
     })();
     // Keep session ID for retry on refresh when payment confirmation is delayed.
-  }, [params, selectedCourse]);
+  }, [params, selectedCourse, classType]);
   const returnUrl = useMemo(() => {
     const url = new URL(window.location.href);
     url.searchParams.set("checkout", "success");
@@ -82,6 +82,9 @@ const Register = () => {
   const [submitted, setSubmitted] = useState(false);
   const [emailNotificationSent, setEmailNotificationSent] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  useEffect(() => {
+    if (selectedCourse) setForm((current) => ({ ...current, program: `course:${selectedCourse}` }));
+  }, [selectedCourse]);
 
   const programs = [
     ...Object.entries(COURSES).map(([value, c]) => ({ value: `course:${value}`, label: t(c.vi, c.en) })),
@@ -224,6 +227,14 @@ const Register = () => {
                     "Your registration has been saved. Email notification is temporarily unavailable; you do not need to submit the form again.",
                   )}
             </p>
+            {course && <div className="mb-8 text-left border-t border-border pt-6">
+              <h3 className="text-xl font-bold text-foreground">{t("Thanh toán khóa học", "Pay for the course")}</h3>
+              <p className="text-muted-foreground">{t(course.vi, course.en)} · {classType === "private" ? "1-1" : t("Lớp nhóm", "Group class")} · {course.price * (classType === "private" ? 3 : 1)} EUR</p>
+              <div className="mt-4"><PaymentTestModeBanner /></div>
+              {!authenticated ? <Button asChild className="mt-4"><Link to={`/login?next=${encodeURIComponent(window.location.pathname + window.location.search)}`}>{t("Đăng nhập để thanh toán", "Sign in to pay")}</Link></Button>
+                : checkoutOpen ? <div className="mt-4"><StripeEmbeddedCheckout key={`${selectedCourse}-${classType}`} priceId={`class_${selectedCourse}_${classType}`} returnUrl={returnUrl} /></div>
+                : <Button className="mt-4 gap-2" onClick={() => setCheckoutOpen(true)}><CreditCard className="h-4 w-4" />{t("Thanh toán", "Pay")} {course.price * (classType === "private" ? 3 : 1)} EUR</Button>}
+            </div>}
             <Button
               onClick={() => setSubmitted(false)}
               size="lg"
@@ -256,6 +267,17 @@ const Register = () => {
                 "Fill in the form below to register for English or Chinese programs. Teacher Hai will contact you for consultation."
               )}
             </p>
+            {course && <div className="mb-7 border-y border-border bg-muted/30 py-5">
+              <p className="font-display text-xl font-bold text-foreground">{t(course.vi, course.en)}</p>
+              <p className="text-sm text-muted-foreground">12 tuần / 12 weeks · 24 buổi - 36 giờ</p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                <Button type="button" variant={classType === "group" ? "default" : "outline"} onClick={() => { const next = new URLSearchParams(params); next.set("class", "group"); next.delete("checkout"); next.delete("session_id"); setParams(next); setCheckoutOpen(false); }}>Lớp nhóm / Group · {course.price} EUR</Button>
+                <Button type="button" variant={classType === "private" ? "default" : "outline"} onClick={() => { const next = new URLSearchParams(params); next.set("class", "private"); next.delete("checkout"); next.delete("session_id"); setParams(next); setCheckoutOpen(false); }}>Kèm 1-1 · {course.price * 3} EUR</Button>
+              </div>
+              <p className="mt-3 text-sm text-muted-foreground">≈ {new Intl.NumberFormat("vi-VN").format(course.price * (classType === "private" ? 3 : 1) * 31000)}₫ · 1 EUR = 31.000 ₫</p>
+            </div>}
+            {paymentStatus === "paid" && <p role="status" className="mb-5 font-semibold text-primary">{t("Đã nhận thanh toán. Thầy Hải sẽ liên hệ để xếp lớp.", "Payment received. Teacher Hai will contact you about scheduling.")}</p>}
+            {(paymentStatus === "pending" || paymentStatus === "error") && <p role="status" className="mb-5 text-destructive">{t("Chưa xác nhận được thanh toán. Hãy liên hệ thầy Hải trước khi thử thanh toán lại.", "Payment is not confirmed. Contact Teacher Hai before trying to pay again.")}</p>}
 
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>

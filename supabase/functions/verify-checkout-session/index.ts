@@ -21,7 +21,7 @@ Deno.serve(async (req) => {
     if (session.metadata?.userId !== user.id) return json({ error: "forbidden" }, 403);
     if (session.payment_status === "unpaid") return json({ activated: false, pending: true });
     const activated = await fulfillStripeSession(session, environment);
-    return json({ activated, course: session.metadata?.priceId?.startsWith("class_") === true });
+    return json({ activated, course: session.metadata?.priceId?.startsWith("class_") === true, priceId: session.metadata?.priceId });
   } catch (e) {
     console.error(e);
     return json({ error: e instanceof Error ? e.message : "server_error" }, 500);
