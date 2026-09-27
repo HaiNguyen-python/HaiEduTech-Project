@@ -401,8 +401,8 @@ const Navbar = () => {
     { to: "/about", label: t("Giới thiệu", "About"), icon: Brain, key: "about" },
     { to: "/english", label: t("Tiếng Anh", "English"), icon: BookOpen, subs: [...englishSubs, teacherNotes("English")], key: "en" },
     { to: "/chinese", label: t("Tiếng Trung", "Chinese"), icon: Languages, subs: [...chineseSubs, teacherNotes("Chinese")], key: "cn" },
-    { to: "/programming", label: t("Lập Trình", "Technology\n"), icon: Code2, subs: [...programmingSubs, teacherNotes("Programming")], key: "prog" },
-    { to: "/lifestyle-academy", label: t("Lifestyle", "Interpersonal Skills"), icon: Heart, subs: ([
+    { to: "/programming", label: t("Công nghệ", "Technology\n"), icon: Code2, subs: [...programmingSubs, teacherNotes("Programming")], key: "prog" },
+    { to: "/lifestyle-academy", label: t("Kỹ năng mềm", "Interpersonal Skills"), icon: Heart, subs: ([
       { to: "/lifestyle-academy", label: t("Tổng quan Lifestyle Academy", "Lifestyle Academy Overview"), icon: Compass },
 
       { to: "/lifestyle-academy?pillar=finance", label: t("Tài chính Thông minh", "Smart Finance"), icon: Wallet },
@@ -416,7 +416,7 @@ const Navbar = () => {
     ] as SubItem[]), key: "lifestyle" },
 
     // Study Abroad and standalone EdTech entries are hidden — EdTech is now nested inside Programming.
-    { to: "/your-corner", label: t("Your Corner", "Your Corner"), icon: Users, key: "yc" },
+    { to: "/your-corner", label: t("Góc của bạn", "Your Corner"), icon: Users, key: "yc" },
   ];
 
   // Dashboard and Admin entries are intentionally omitted from the main menu —
