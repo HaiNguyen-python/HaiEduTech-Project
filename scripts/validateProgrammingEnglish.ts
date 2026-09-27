@@ -11,6 +11,8 @@ const errors: string[] = [];
 const malformedTheoryPatterns: Array<[RegExp, string]> = [
   [/\*\*[^*\n]*(?:\\[A-Za-z]+|[_^]\{)[^*\n]*\*\*/, "raw LaTeX wrapped in Markdown bold"],
   [/`\$\$?[^`\n]+\$\$?`/, "math wrapped in inline code"],
+  [/\$[A-Za-z][^$\n]{1,80}\(\$[^$\n]+\$\)\$(?=\s*:)/, "definition label wrapped around inline math"],
+  [/^(?!\s*\$\$[^$]+\$\$\s*$).*\$\$[^$\n]+\$\$.*$/m, "display math used inside prose"],
 ];
 const required = (value: unknown, path: string) => {
   if (typeof value !== "string" || !value.trim()) errors.push(`${path}: missing English content`);

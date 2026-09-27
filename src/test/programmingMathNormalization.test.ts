@@ -17,6 +17,28 @@ describe("Programming theory math normalization", () => {
       .toBe("$x_t = r_t$ and $$\\sum_i x_i$$");
   });
 
+  it("repairs inline display delimiters without changing standalone display math", () => {
+    const input = [
+      "- Coefficient ($$\\beta$$): Learned weight.",
+      "Prediction: $$\\hat{y} = X\\beta$$ for this sample.",
+      "",
+      "$$\\sum_{i=1}^{n} x_i$$",
+    ].join("\n");
+    expect(normalizeMath(input)).toBe([
+      "- Coefficient ($\\beta$): Learned weight.",
+      "Prediction: $\\hat{y} = X\\beta$ for this sample.",
+      "",
+      "$$\\sum_{i=1}^{n} x_i$$",
+    ].join("\n"));
+  });
+
+  it("repairs malformed nested dollars around definition labels", () => {
+    expect(normalizeMath("- $Coefficients ($\\beta$)$: Learned weights indicating feature impact."))
+      .toBe("- **Coefficients** ($\\beta$): Learned weights indicating feature impact.");
+    expect(normalizeMath("- **Intercept ($$\\beta_0$$)**: Baseline prediction."))
+      .toBe("- **Intercept** ($\\beta_0$): Baseline prediction.");
+  });
+
   it("keeps consecutive formulas separate", () => {
     expect(normalizeMath("$$x=1$$$$y=2$$"))
       .toBe("$$x=1$$$$y=2$$");
