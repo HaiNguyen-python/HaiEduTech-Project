@@ -401,8 +401,8 @@ const Navbar = () => {
     { to: "/about", label: t("Giới thiệu", "About"), icon: Brain, key: "about" },
     { to: "/english", label: t("Tiếng Anh", "English"), icon: BookOpen, subs: [...englishSubs, teacherNotes("English")], key: "en" },
     { to: "/chinese", label: t("Tiếng Trung", "Chinese"), icon: Languages, subs: [...chineseSubs, teacherNotes("Chinese")], key: "cn" },
-    { to: "/programming", label: t("Lập Trình", "Programming"), icon: Code2, subs: [...programmingSubs, teacherNotes("Programming")], key: "prog" },
-    { to: "/lifestyle-academy", label: t("Lifestyle", "Lifestyle"), icon: Heart, subs: [
+    { to: "/programming", label: t("Lập Trình", "ICT"), icon: Code2, subs: [...programmingSubs, teacherNotes("Programming")], key: "prog" },
+    { to: "/lifestyle-academy", label: t("Lifestyle", "Interpersonal Skills"), icon: Heart, subs: [
       { to: "/lifestyle-academy", label: t("🌿 Tổng quan Lifestyle Academy", "🌿 Lifestyle Academy Overview") },
       
       { to: "/lifestyle-academy?pillar=finance", label: t("💰 Tài chính Thông minh", "💰 Smart Finance") },
