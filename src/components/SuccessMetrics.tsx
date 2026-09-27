@@ -19,13 +19,15 @@ const SuccessMetrics = () => {
       icon: Mic,
       titleVi: "AI Speaking Coach Đa Ngôn Ngữ",
       titleEn: "Multilingual AI Speaking Coach",
-      descVi: "Luyện phát âm Anh • Trung với chấm điểm AI thời gian thực, IPA và Pinyin.",
-      descEn: "Practice English • Chinese with real-time AI scoring, IPA and Pinyin.",
+      descVi: "Luyện phát âm Anh • Trung • Việt • Phần Lan với chấm điểm AI thời gian thực, IPA và Pinyin.",
+      descEn: "Practice English • Chinese • Vietnamese • Finnish with real-time AI scoring, IPA and Pinyin.",
       gradient: "from-sky-500 via-blue-500 to-indigo-600",
       glow: "shadow-sky-500/30",
       links: [
         { to: "/speaking-coach/english", label: "EN", flag: "🇬🇧" },
         { to: "/speaking-coach/chinese", label: "ZH", flag: "🇨🇳" },
+        { to: "/speaking-coach/vietnamese", label: "VI", flag: "🇻🇳" },
+        { to: "/speaking-coach/finnish", label: "FI", flag: "🇫🇮" },
       ],
     },
     {

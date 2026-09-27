@@ -84,6 +84,7 @@ const Footer = () => {
             <div className="space-y-2.5">
               <Link to="/english" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">🇬🇧 {t("Tiếng Anh (IELTS · TOEIC)", "English (IELTS · TOEIC)")}</Link>
               <Link to="/chinese" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">🇨🇳 {t("Tiếng Trung (HSK 1-6)", "Chinese (HSK 1-6)")}</Link>
+              <Link to="/learn-vietnamese" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">🇻🇳 {t("Tiếng Việt", "Vietnamese")}</Link>
               <Link to="/programming" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">💻 {t("Lập trình & AI", "Programming & AI")}</Link>
             </div>
           </div>
