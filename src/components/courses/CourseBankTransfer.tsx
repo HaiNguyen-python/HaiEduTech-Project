@@ -83,7 +83,7 @@ export const CourseBankTransfer = ({ eur, vnd, reference }: CourseBankTransferPr
           <h4 className="text-base font-bold text-foreground">Vietnam · Vietcombank</h4>
           <span className="ml-auto rounded-full bg-amber-100 px-2.5 py-1 text-xs font-bold text-amber-800 dark:bg-amber-900/40 dark:text-amber-200">{vndText}</span>
         </div>
-        <div className="grid grid-cols-1 gap-3 md:grid-cols-[170px,minmax(0,1fr)]">
+        <div className="grid grid-cols-1 items-start gap-3 md:grid-cols-[170px,minmax(0,1fr)]">
           <div className="mx-auto w-[170px] max-w-full rounded-xl border border-amber-200 bg-white p-1.5 shadow-sm dark:border-amber-700/50">
             <img
               src={qrFailed ? staticQr : qrSrc}
