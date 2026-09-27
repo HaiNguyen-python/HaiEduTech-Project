@@ -71,6 +71,7 @@
 - [x] Refresh course tuition tables and link each course and class price to a preselected registration form.
 - [x] Add embedded online payment at the listed group and private tuition prices and record successful course payments separately from Premium.
 - [ ] Verify a completed course payment and teacher notification end-to-end (requires a test card transaction).
+- [x] Present card and bank transfer as separate payment options, with course-and-payer transfer reference and legible bank details.
 
 # Public Course Introductions and Registration
 
