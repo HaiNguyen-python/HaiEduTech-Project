@@ -3,7 +3,7 @@ import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
 import { useState, useEffect, useMemo } from "react";
 import { useSearchParams, Link, useNavigate } from "react-router-dom";
-import { Send, CheckCircle, UserPlus, Loader2, CreditCard, ArrowLeft } from "lucide-react";
+import { Send, CheckCircle, UserPlus, Loader2, CreditCard, ArrowLeft, Landmark } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -213,16 +213,16 @@ const Register = () => {
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="text-center max-w-md mx-auto px-6"
+             className="w-full max-w-5xl mx-auto px-5 sm:px-8"
           >
             <div className="text-left">{backButton}</div>
-            <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+             <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
               <CheckCircle className="w-8 h-8 text-primary" />
             </div>
-            <h2 className="text-2xl font-display font-bold text-foreground mb-2">
+             <h2 className="text-center text-2xl font-display font-bold text-foreground mb-2">
               {t("Cảm ơn bạn đã đăng ký!", "Thank you for registering!")}
             </h2>
-            <p className="text-muted-foreground mb-6">
+             <p className="mx-auto max-w-xl text-center text-muted-foreground mb-8">
               {emailNotificationSent
                 ? t(
                     "Chúng tôi đã nhận được thông tin đăng ký của bạn. Thầy Hải sẽ liên hệ bạn trong thời gian sớm nhất để tư vấn chi tiết.",
@@ -233,25 +233,40 @@ const Register = () => {
                     "Your registration has been saved. Email notification is temporarily unavailable; you do not need to submit the form again.",
                   )}
             </p>
-            {course && <div className="mb-8 text-left border-t border-border pt-6">
-              <h3 className="text-xl font-bold text-foreground">{t("Thanh toán khóa học", "Pay for the course")}</h3>
-              <p className="text-muted-foreground">{t(course.nameVi, course.nameEn)} · {classType === "private" ? "1-1" : t("Lớp nhóm", "Group class")} · {course.groupPrice * (classType === "private" ? 3 : 1)} EUR</p>
-              <div className="mt-4"><PaymentTestModeBanner /></div>
-              {!authenticated ? <Button asChild className="mt-4"><Link to={`/login?next=${encodeURIComponent(window.location.pathname + window.location.search)}`}>{t("Đăng nhập để thanh toán", "Sign in to pay")}</Link></Button>
-                : checkoutOpen ? <div className="mt-4"><StripeEmbeddedCheckout key={`${selectedCourse}-${classType}`} priceId={`class_${selectedCourse}_${classType}`} returnUrl={returnUrl} /></div>
-                : <Button className="mt-4 gap-2" disabled={paymentStatus === "paid"} onClick={() => setCheckoutOpen(true)}><CreditCard className="h-4 w-4" />{t("Thanh toán thẻ", "Pay by card")} {course.groupPrice * (classType === "private" ? 3 : 1)} EUR</Button>}
-              {paymentStatus !== "paid" && <CourseBankTransfer
-                eur={course.groupPrice * (classType === "private" ? 3 : 1)}
-                vnd={course.groupPrice * (classType === "private" ? 3 : 1) * EUR_TO_VND}
-                reference={`${selectedCourse} ${classType === "private" ? "1-1" : "group"}`}
-              />}
+             {course && <div className="mb-8 border-t border-border pt-7 text-left">
+               <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
+                 <div>
+                   <h3 className="text-xl font-display font-bold text-foreground">{t("Thanh toán khóa học", "Pay for the course")}</h3>
+                   <p className="mt-1 text-sm text-muted-foreground">{t(course.nameVi, course.nameEn)} · {classType === "private" ? "1-1" : t("Lớp nhóm", "Group class")}</p>
+                 </div>
+                 <p className="font-display text-2xl font-bold text-foreground">{course.groupPrice * (classType === "private" ? 3 : 1)} EUR</p>
+               </div>
+               <div className="grid items-start gap-5 md:grid-cols-2">
+                 <section className="min-w-0 rounded-md border border-border bg-card p-5 shadow-sm sm:p-6" aria-labelledby="card-payment-title">
+                   <h4 id="card-payment-title" className="flex items-center gap-2 font-display text-lg font-bold text-foreground"><CreditCard className="h-5 w-5 text-primary" />Card Payment</h4>
+                   <p className="mt-1 text-sm text-muted-foreground">{t("Thanh toán trực tuyến an toàn", "Secure online checkout")}</p>
+                   <div className="mt-5"><PaymentTestModeBanner /></div>
+                   {!authenticated ? <Button asChild className="mt-5 w-full"><Link to={`/login?next=${encodeURIComponent(window.location.pathname + window.location.search)}`}>{t("Đăng nhập để thanh toán", "Sign in to pay")}</Link></Button>
+                     : checkoutOpen ? <div className="mt-5 min-w-0"><StripeEmbeddedCheckout key={`${selectedCourse}-${classType}`} priceId={`class_${selectedCourse}_${classType}`} returnUrl={returnUrl} /></div>
+                     : <Button className="mt-5 w-full" disabled={paymentStatus === "paid" || paymentStatus === "checking"} onClick={() => setCheckoutOpen(true)}><CreditCard className="h-4 w-4" />{t("Thanh toán thẻ", "Pay by card")} · {course.groupPrice * (classType === "private" ? 3 : 1)} EUR</Button>}
+                 </section>
+                 <section className="min-w-0 rounded-md border border-border bg-card p-5 shadow-sm sm:p-6" aria-labelledby="bank-payment-title">
+                   <h4 id="bank-payment-title" className="flex items-center gap-2 font-display text-lg font-bold text-foreground"><Landmark className="h-5 w-5 text-primary" />Bank Transfer</h4>
+                   <p className="mt-1 mb-5 text-sm text-muted-foreground">{t("Chọn tài khoản Việt Nam hoặc Phần Lan", "Choose a Vietnam or Finland account")}</p>
+                   {paymentStatus === "paid" ? <p className="text-sm text-primary">{t("Thanh toán đã được xác nhận.", "Payment confirmed.")}</p> : <CourseBankTransfer
+                     eur={course.groupPrice * (classType === "private" ? 3 : 1)}
+                     vnd={course.groupPrice * (classType === "private" ? 3 : 1) * EUR_TO_VND}
+                     reference={`${course.nameEn}_${form.name.trim().replace(/\s+/g, " ")}`}
+                   />}
+                 </section>
+               </div>
             </div>}
-            <Button
+             <div className="text-center"><Button
               onClick={() => setSubmitted(false)}
               size="lg"
             >
               {t("Đăng ký thêm", "Register another")}
-            </Button>
+             </Button></div>
           </motion.div>
         </div>
         <Footer />
