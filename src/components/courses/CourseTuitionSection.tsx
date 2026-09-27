@@ -19,10 +19,14 @@ const formatVnd = (eur: number) => {
   return `${new Intl.NumberFormat("vi-VN").format(vnd)}₫`;
 };
 
+const COURSE_DURATION = "12 tuần / 12 weeks";
+const COURSE_SESSIONS = "24 buổi - 36 giờ mỗi khóa";
+
 const tuitionBySubject: Record<TuitionSubject, TuitionCourse[]> = {
   english: [
     { nameVi: "Luyện thi IELTS (Cơ bản - Nâng cao)", nameEn: "IELTS Preparation", groupPrice: 210 },
     { nameVi: "Tiếng Anh Giao Tiếp & Thương mại", nameEn: "Business English", groupPrice: 210 },
+    { nameVi: "Luyện thi SAT", nameEn: "SAT Preparation", groupPrice: 250 },
     { nameVi: "Cambridge Starters - Movers - Flyers", nameEn: "Cambridge Starters - Movers - Flyers", groupPrice: 160 },
     { nameVi: "Cambridge KET - PET", nameEn: "Cambridge KET - PET", groupPrice: 180 },
   ],
