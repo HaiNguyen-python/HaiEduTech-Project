@@ -30,6 +30,7 @@ const registrationSchema = z.object({
 const Register = () => {
   const { t } = useLanguage();
   const [params, setParams] = useSearchParams();
+  const navigate = useNavigate();
   const key = params.get("course");
   const selectedCourse = key && Object.prototype.hasOwnProperty.call(COURSES, key) ? key : null;
   const course = selectedCourse ? COURSES[selectedCourse] : null;
