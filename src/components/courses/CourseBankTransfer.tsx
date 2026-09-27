@@ -53,12 +53,19 @@ const CopyRow = ({ label, value, copyValue, mono = false, tone }: { label: strin
     }
   };
   return (
-    <div className={`grid grid-cols-[92px_minmax(0,1fr)_auto] items-center gap-2 border-b py-1.5 last:border-0 sm:grid-cols-[110px_minmax(0,1fr)_auto] ${tone === "sky" ? "border-sky-200/50 dark:border-sky-800/30" : "border-amber-200/50 dark:border-amber-800/30"}`}>
-      <span className="text-xs font-medium text-muted-foreground">{label}</span>
-      <span className={`min-w-0 break-words text-right text-foreground ${mono ? "font-mono text-xs sm:text-sm" : "text-sm font-semibold"} ${copyValue ? "font-extrabold" : ""}`} title={value}>{value}</span>
+    <div className={`flex items-start justify-between gap-3 border-b py-2 last:border-0 ${tone === "sky" ? "border-sky-200/50 dark:border-sky-800/30" : "border-amber-200/50 dark:border-amber-800/30"}`}>
+      <div className="min-w-0">
+        <div className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">{label}</div>
+        <div
+          className={`mt-0.5 break-words leading-snug text-foreground ${mono ? "font-mono text-xs sm:text-sm" : "text-sm"} ${copyValue ? "font-extrabold" : "font-semibold"}`}
+          title={value}
+        >
+          {value}
+        </div>
+      </div>
       <button
         type="button" onClick={copy}
-        className={`rounded-md border bg-white p-1 transition shrink-0 dark:bg-card ${tone === "sky" ? "border-sky-300 dark:border-sky-700 hover:bg-sky-100 dark:hover:bg-sky-900/30" : "border-amber-300 dark:border-amber-700 hover:bg-amber-100 dark:hover:bg-amber-900/30"}`}
+        className={`mt-0.5 rounded-md border bg-white p-1.5 transition shrink-0 dark:bg-card ${tone === "sky" ? "border-sky-300 dark:border-sky-700 hover:bg-sky-100 dark:hover:bg-sky-900/30" : "border-amber-300 dark:border-amber-700 hover:bg-amber-100 dark:hover:bg-amber-900/30"}`}
         aria-label={`${copied ? "Copied" : "Copy"} ${label}`} title={`${copied ? "Copied" : "Copy"} ${label}`}
       >
         {copied ? <Check className="h-4 w-4 text-primary" /> : <Copy className="h-4 w-4" />}
