@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 import PlacementCta from "@/components/personalization/PlacementCta";
 import SEO from "@/components/SEO";
 import { motion } from "framer-motion";
-import { Languages, CheckCircle, ArrowRight, Search, GraduationCap, Mic } from "lucide-react";
+import { Languages, CheckCircle, ArrowRight, Search, GraduationCap, Mic, BookOpen, ChevronRight, Target, Volume2, PenTool, Brain, Gamepad2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useState } from "react";
@@ -222,21 +222,23 @@ const Chinese = () => {
               </Link>
             </motion.div>
 
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }} className="glass-card rounded-2xl p-8 mb-10 border-red-500/20">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 rounded-xl bg-red-500/10 flex items-center justify-center text-2xl">📚</div>
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }} className="glass-card rounded-2xl p-8 mb-10">
+              <div className="flex items-start gap-4 mb-5">
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shrink-0 shadow-lg">
+                  <BookOpen className="w-7 h-7 text-primary-foreground" />
+                </div>
                 <div>
                   <h2 className="text-2xl font-display font-bold text-foreground">HSK Vocabulary Bank</h2>
                   <p className="text-sm text-muted-foreground">{t("Kho từ vựng HSK 1-6 chuẩn quốc tế", "Official HSK 1-6 Vocabulary Collection")}</p>
                 </div>
               </div>
-              <p className="text-muted-foreground mb-6">
+              <p className="text-muted-foreground mb-6 max-w-3xl">
                 {t(
                   "Hệ thống 1000+ từ vựng HSK từ cấp 1 đến cấp 6, tích hợp Flashcard 3D, bài tập trắc nghiệm, phát âm TTS chuẩn bản xứ và theo dõi tiến độ học tập.",
                   "1000+ HSK vocabulary words from Level 1 to 6, featuring 3D Flashcards, MCQ exercises, native TTS pronunciation, and learning progress tracking."
                 )}
               </p>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 mb-6">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 mb-8">
                 {[1, 2, 3, 4, 5, 6].map((level) => (
                   <Link key={level} to={`/chinese/hsk/vocabulary?level=HSK ${level}`}
                     className="rounded-xl p-4 bg-secondary hover:bg-red-500/10 transition-all text-center group cursor-pointer border border-border hover:border-red-500/30">
@@ -247,40 +249,61 @@ const Chinese = () => {
                   </Link>
                 ))}
               </div>
-              <div className="flex flex-wrap gap-4">
-                <Link to="/chinese/hsk-guide" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-red-500 to-amber-500 text-white font-semibold hover:brightness-110 transition-all shadow-lg">
-                  🎓 {t("Cẩm nang HSK Hub", "HSK Exam Guide Hub")} <ArrowRight className="w-4 h-4" />
-                </Link>
-                <Link to="/chinese/hsk/test" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-rose-600 to-orange-600 text-white font-semibold hover:brightness-110 transition-all shadow-lg ring-2 ring-amber-300/60">
-                  📝 {t("HSK Test · Đề thi thử", "HSK Test · Mock Exams")} <ArrowRight className="w-4 h-4" />
-                </Link>
-                <Link to="/chinese/hskk" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 via-red-500 to-rose-600 text-white font-semibold hover:brightness-110 transition-all shadow-lg ring-2 ring-amber-300/60">
-                  🎙️ {t("HSKK Speaking Room", "HSKK Speaking Room")} <span className="text-[10px] px-1.5 py-0.5 rounded bg-white/20">Beta</span>
-                </Link>
-                <Link to="/chinese/tone-drill" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-yellow-500 via-amber-500 to-orange-500 text-white font-semibold hover:brightness-110 transition-all shadow-lg ring-2 ring-yellow-300/60">
-                  🎯 {t("Tone Drill 四声训练", "Tone Drill 四声训练")} <span className="text-[10px] px-1.5 py-0.5 rounded bg-white/20">New</span>
-                </Link>
-                <Link to="/chinese/pronunciation" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-blue-500 to-emerald-500 text-white font-semibold hover:brightness-110 transition-all shadow-lg ring-2 ring-emerald-300/60">
-                  🔊 {t("Phát âm Pinyin", "Pinyin Pronunciation")} <span className="text-[10px] px-1.5 py-0.5 rounded bg-white/20">New</span>
-                </Link>
-                <Link to="/chinese/strokes" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-slate-600 to-slate-800 text-white font-semibold hover:brightness-110 transition-all shadow-lg ring-2 ring-slate-300/60">
-                  ✍️ {t("Hướng dẫn nét bút", "Stroke Order Guide")} <span className="text-[10px] px-1.5 py-0.5 rounded bg-white/20">New</span>
-                </Link>
-                <Link to="/chinese/hsk/vocabulary?mode=srs" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white font-semibold hover:brightness-110 transition-all shadow-lg">
-                  🧠 {t("Ôn SRS thông minh", "Smart SRS Review")}
-                </Link>
-                <Link to="/chinese/hsk/vocabulary" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-red-500 text-white font-semibold hover:brightness-110 transition-all">
-                  {t("Vào học ngay", "Start Learning")} <ArrowRight className="w-4 h-4" />
-                </Link>
-                <Link to="/chinese/hsk/vocabulary?mode=flashcard" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-secondary text-foreground font-semibold hover:bg-red-500/10 transition-all border border-border">
-                  🃏 Flashcard
-                </Link>
-                <Link to="/chinese/hsk/vocabulary?mode=exercise" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-secondary text-foreground font-semibold hover:bg-red-500/10 transition-all border border-border">
-                  ✍️ {t("Bài tập", "Exercise")}
-                </Link>
-                <Link to="/chinese/arcade" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 via-pink-500 to-amber-500 text-white font-semibold hover:brightness-110 transition-all shadow-lg">
-                  🎮 {t("Chơi Arcade tiếng Trung", "Chinese Arcade Hub")} <ArrowRight className="w-4 h-4" />
-                </Link>
+              <div className="pt-6 border-t border-border/60 grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="space-y-3">
+                  <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">{t("Trung tâm kiểm tra", "Exam Center")}</h3>
+                  <Link to="/chinese/hsk-guide" className="flex items-center justify-between px-4 py-2.5 rounded-lg bg-secondary hover:bg-red-500/10 text-foreground text-sm font-medium transition-colors group">
+                    {t("Cẩm nang HSK Hub", "HSK Exam Guide Hub")}
+                    <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                  </Link>
+                  <Link to="/chinese/hsk/test" className="flex items-center justify-between px-4 py-2.5 rounded-lg bg-secondary hover:bg-red-500/10 text-foreground text-sm font-medium transition-colors group">
+                    {t("HSK Test · Đề thi thử", "HSK Test · Mock Exams")}
+                    <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                  </Link>
+                  <Link to="/chinese/hskk" className="flex items-center justify-between px-4 py-2.5 rounded-lg bg-secondary hover:bg-red-500/10 text-foreground text-sm font-medium transition-colors group">
+                    <span className="flex items-center gap-2">
+                      {t("HSKK Speaking Room", "HSKK Speaking Room")}
+                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-primary/10 text-primary font-bold uppercase">Beta</span>
+                    </span>
+                    <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                  </Link>
+                </div>
+                <div className="space-y-3">
+                  <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">{t("Luyện kỹ năng", "Skill Mastery")}</h3>
+                  <Link to="/chinese/tone-drill" className="flex items-center gap-3 px-4 py-2.5 rounded-lg border border-border hover:bg-secondary/60 text-foreground text-sm font-medium transition-colors">
+                    <Target className="w-4 h-4 text-primary shrink-0" />
+                    {t("Tone Drill 四声训练", "Tone Drill 四声训练")}
+                  </Link>
+                  <Link to="/chinese/pronunciation" className="flex items-center gap-3 px-4 py-2.5 rounded-lg border border-border hover:bg-secondary/60 text-foreground text-sm font-medium transition-colors">
+                    <Volume2 className="w-4 h-4 text-primary shrink-0" />
+                    {t("Phát âm Pinyin", "Pinyin Pronunciation")}
+                  </Link>
+                  <Link to="/chinese/strokes" className="flex items-center gap-3 px-4 py-2.5 rounded-lg border border-border hover:bg-secondary/60 text-foreground text-sm font-medium transition-colors">
+                    <PenTool className="w-4 h-4 text-primary shrink-0" />
+                    {t("Hướng dẫn nét bút", "Stroke Order Guide")}
+                  </Link>
+                  <Link to="/chinese/hsk/vocabulary?mode=srs" className="flex items-center gap-3 px-4 py-2.5 rounded-lg border border-border hover:bg-secondary/60 text-foreground text-sm font-medium transition-colors">
+                    <Brain className="w-4 h-4 text-primary shrink-0" />
+                    {t("Ôn SRS thông minh", "Smart SRS Review")}
+                  </Link>
+                </div>
+                <div className="space-y-3">
+                  <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">{t("Trung tâm học tập", "Learning Hub")}</h3>
+                  <Link to="/chinese/hsk/vocabulary" className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-primary to-accent text-primary-foreground font-bold text-sm shadow-md hover:opacity-90 transition-opacity">
+                    {t("Vào học ngay", "Start Learning")} <ArrowRight className="w-4 h-4" />
+                  </Link>
+                  <div className="grid grid-cols-2 gap-2">
+                    <Link to="/chinese/hsk/vocabulary?mode=flashcard" className="py-2.5 rounded-lg border border-border hover:bg-secondary/60 text-foreground text-xs font-semibold text-center transition-colors">
+                      Flashcard
+                    </Link>
+                    <Link to="/chinese/hsk/vocabulary?mode=exercise" className="py-2.5 rounded-lg border border-border hover:bg-secondary/60 text-foreground text-xs font-semibold text-center transition-colors">
+                      {t("Bài tập", "Exercise")}
+                    </Link>
+                  </div>
+                  <Link to="/chinese/arcade" className="flex items-center justify-center gap-2 py-2.5 rounded-lg bg-secondary hover:bg-red-500/10 text-foreground text-xs font-semibold transition-colors">
+                    <Gamepad2 className="w-4 h-4 text-primary" /> {t("Chơi Arcade tiếng Trung", "Chinese Arcade Hub")}
+                  </Link>
+                </div>
               </div>
             </motion.div>
 
