@@ -243,7 +243,7 @@ const Register = () => {
               {paymentStatus !== "paid" && <CourseBankTransfer
                 eur={course.groupPrice * (classType === "private" ? 3 : 1)}
                 vnd={course.groupPrice * (classType === "private" ? 3 : 1) * EUR_TO_VND}
-                reference={`${selectedCourse} ${classType === "private" ? "1-1" : "group"} ${formData.name}`.trim().slice(0, 60)}
+                reference={`${selectedCourse} ${classType === "private" ? "1-1" : "group"}`}
               />}
             </div>}
             <Button
