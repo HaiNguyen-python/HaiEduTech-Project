@@ -157,7 +157,7 @@ const HeroSection = () => {
                   className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-accent px-5 py-3 text-sm font-semibold text-accent-foreground shadow-lg shadow-accent/20 transition-all hover:brightness-110"
                 >
                   <Code2 className="h-4 w-4 shrink-0" />
-                  <span>{t("Các khóa Lập trình", "Programming Courses")}</span>
+                  <span>{t("Các khóa ICT", "ICT Courses")}</span>
                   <ArrowRight className="h-3.5 w-3.5 shrink-0" />
                 </Link>
               </div>
