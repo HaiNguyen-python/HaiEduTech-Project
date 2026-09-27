@@ -47,19 +47,22 @@ const headingBySubject: Record<TuitionSubject, string> = {
   programming: "Khóa học Lập trình / Programming Courses",
 };
 
-const subjectStyles: Record<TuitionSubject, { header: string; accent: string; chip: string; button: "default" | "destructive" | "secondary" }> = {
-  english: { header: "bg-primary/5", accent: "text-primary", chip: "bg-primary/10", button: "default" },
-  chinese: { header: "bg-destructive/5", accent: "text-destructive", chip: "bg-destructive/10", button: "destructive" },
-  programming: { header: "bg-accent/10", accent: "text-accent-foreground", chip: "bg-accent/40", button: "secondary" },
+const subjectStyles: Record<TuitionSubject, { header: string; accent: string; chip: string; solid: string; button: "default" | "destructive" | "secondary" }> = {
+  english: { header: "bg-primary/5", accent: "text-primary", chip: "border-primary/40 bg-primary/10 text-primary", solid: "border-primary bg-primary text-primary-foreground", button: "default" },
+  chinese: { header: "bg-destructive/5", accent: "text-destructive", chip: "border-destructive/40 bg-destructive/10 text-destructive", solid: "border-destructive bg-destructive text-destructive-foreground", button: "destructive" },
+  programming: { header: "bg-accent/10", accent: "text-accent", chip: "border-accent/50 bg-accent/15 text-foreground", solid: "border-accent bg-accent text-accent-foreground", button: "secondary" },
 };
 
-const PriceCell = ({ eur, accent, chip }: { eur: number; accent: string; chip: string }) => (
-  <div className="inline-flex flex-col items-start">
-    <span className={cn("inline-flex items-baseline gap-1 rounded-md border border-border px-3 py-1 font-display text-xl font-bold", accent, chip)}>
+const PriceCell = ({ eur, tone, href }: { eur: number; tone: string; href: string }) => (
+  <div className={cn("flex w-full max-w-[200px] flex-col rounded-xl border-2 px-4 py-3 shadow-sm", tone)}>
+    <span className="inline-flex items-baseline gap-1 font-display text-2xl font-extrabold leading-none">
       {eur}
-      <span className="text-sm font-semibold opacity-80">EUR</span>
+      <span className="text-sm font-bold">EUR</span>
     </span>
-    <span className="mt-1 pl-1 text-xs font-medium text-muted-foreground">≈ {formatVnd(eur)}</span>
+    <span className="mt-1.5 text-sm font-semibold opacity-90">≈ {formatVnd(eur)}</span>
+    <Link to={href} className="mt-3 inline-flex items-center gap-1 border-t border-current/20 pt-2 text-xs font-bold underline-offset-2 hover:underline">
+      <CreditCard className="h-3.5 w-3.5" />Đăng ký / Register
+    </Link>
   </div>
 );
 
