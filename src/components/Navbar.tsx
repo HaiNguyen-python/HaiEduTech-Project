@@ -14,7 +14,7 @@ import {
   Menu, X, Brain, BookOpen, Languages, Code2, GraduationCap, ArrowRight,
   Globe, UserPlus, Heart, LogIn, ChevronDown, ChevronRight, Cpu, LogOut, Library, Shield,
   FileText, PenTool, Map, MessageSquare, Award, School, Swords, User, LayoutDashboard, Newspaper,
-  FolderLock, Compass, Briefcase, Trophy, Sparkles, Bot, Database, Workflow, Cloud, Network, Gamepad2, MessagesSquare, Target, Settings2, Flame, Music, Quote, Mic2, Crown, BookType, Blocks, Rocket, Users, Plane, ClipboardCheck, FlaskConical
+  FolderLock, Compass, Briefcase, Trophy, Sparkles, Bot, Database, Workflow, Cloud, Network, Gamepad2, MessagesSquare, Target, Settings2, Flame, Music, Quote, Mic2, Crown, BookType, Blocks, Rocket, Users, Plane, ClipboardCheck, FlaskConical, Route, Ruler, Volume2, Headphones, Landmark, Puzzle
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -258,27 +258,27 @@ const Navbar = () => {
   ];
 
   const englishSubs: SubItem[] = [
-    { to: "/english", label: t("📚 Tổng quan", "📚 Overview") },
-    { to: "/placement-test?subject=english", label: t("📝 Placement Test & Personalization", "📝 Placement Test & Personalization") },
+    { to: "/english", label: t("Khóa học & Lộ trình học", "Courses & Learning Roadmap"), icon: Route },
+    { to: "/placement-test?subject=english", label: t("Placement Test & Personalization", "Placement Test & Personalization"), icon: ClipboardCheck },
     { to: "#en-div1", label: "", divider: true },
     // Cambridge exam groups first
-    { to: "#en-foundation-group", label: t("📖 Cambridge YLE", "📖 Cambridge YLE"), groupLabel: "en-foundation", children: [
-      { to: "/cambridge-lectures", label: t("🎓 Cambridge Test Prep", "🎓 Cambridge Test Prep") },
-      { to: "/cambridge-yle-vocabulary", label: t("🌈 Vocabulary & Games", "🌈 Vocabulary & Games") },
-      { to: "/cambridge-speaking-practice", label: t("🎤 Speaking Practice", "🎤 Speaking Practice") },
+    { to: "#en-foundation-group", label: t("Cambridge YLE", "Cambridge YLE"), icon: School, groupLabel: "en-foundation", children: [
+      { to: "/cambridge-lectures", label: t("Cambridge Test Prep", "Cambridge Test Prep"), icon: GraduationCap },
+      { to: "/cambridge-yle-vocabulary", label: t("Vocabulary & Games", "Vocabulary & Games"), icon: Puzzle },
+      { to: "/cambridge-speaking-practice", label: t("Speaking Practice", "Speaking Practice"), icon: Mic2 },
     ] },
 
     // IELTS - promoted to top-level so all 10 IELTS items are reachable in one hover
-    { to: "#ielts-group", label: t("🎯 Cambridge IELTS", "🎯 Cambridge IELTS"), groupLabel: "ielts", children: ieltsChildren },
+    { to: "#ielts-group", label: t("Cambridge IELTS", "Cambridge IELTS"), icon: Target, groupLabel: "ielts", children: ieltsChildren },
     // English Essentials and Advanced English
-    { to: "/english/essentials", label: t("💎 Tinh hoa Anh ngữ", "💎 Foundational English") },
-    { to: "#en-advanced-group", label: t("🚀 Tiếng Anh Nâng cao", "🚀 Advanced English"), groupLabel: "en-advanced", children: [
-      { to: "/english/business", label: t("💼 Tiếng Anh Thương mại", "💼 Business English") },
-      { to: "/english/academic", label: t("🎓 Tiếng Anh Học thuật", "🎓 Academic English") },
-      { to: "/specialized-language?lang=english", label: t("🧠 Tiếng Anh Chuyên ngành", "🧠 Specialized English") },
+    { to: "/english/essentials", label: t("Tinh hoa Anh ngữ", "Foundational English"), icon: BookOpen },
+    { to: "#en-advanced-group", label: t("Tiếng Anh Nâng cao", "Advanced English"), icon: GraduationCap, groupLabel: "en-advanced", children: [
+      { to: "/english/business", label: t("Tiếng Anh Thương mại", "Business English"), icon: Briefcase },
+      { to: "/english/academic", label: t("Tiếng Anh Học thuật", "Academic English"), icon: School },
+      { to: "/specialized-language?lang=english", label: t("Tiếng Anh Chuyên ngành", "Specialized English"), icon: Brain },
     ] },
     // Combined: international exams + national exam under one group
-    { to: "#en-other-exams-group", label: t("🌐 Các kỳ thi tiếng Anh khác", "🌐 Other English Exams"), groupLabel: "en-other-exams", children: [
+    { to: "#en-other-exams-group", label: t("Các kỳ thi tiếng Anh khác", "Other English Exams"), icon: ClipboardCheck, groupLabel: "en-other-exams", children: [
       { to: "/toeic", label: "TOEIC", icon: BookOpen },
       { to: "/pte", label: "PTE Academic", icon: Target },
       { to: "/english/sat", label: "SAT", icon: PenTool },
@@ -287,46 +287,46 @@ const Navbar = () => {
     ] },
     { to: "#en-div2", label: "", divider: true },
     // Combined: fun facts + songs under one group
-    { to: "#en-fun-group", label: t("✨ Bài học tiếng Anh vui", "✨ Fun English Lessons"), groupLabel: "en-fun", children: [
-      { to: "/english/fun-facts", label: t("✨ Fun Facts tiếng Anh", "✨ English Fun Facts") },
-      { to: "/songs/english", label: t("🎵 Học qua bài hát", "🎵 Learn through Songs") },
+    { to: "#en-fun-group", label: t("Bài học tiếng Anh vui", "Fun English Lessons"), icon: Sparkles, groupLabel: "en-fun", children: [
+      { to: "/english/fun-facts", label: t("Fun Facts tiếng Anh", "English Fun Facts"), icon: BookType },
+      { to: "/songs/english", label: t("Học qua bài hát", "Learn through Songs"), icon: Music },
     ] },
     // Combined: speaking coach + presentation studio under one group
-    { to: "#en-speaking-group", label: t("🎙️ Luyện nói", "🎙️ Speaking Studio"), groupLabel: "en-speaking", children: [
-      { to: "/speaking-coach/english", label: t("🎙️ Speaking Coach", "🎙️ Speaking Coach") },
-      { to: "/presentation-studio", label: t("🎤 Public Speaking", "🎤 Public Speaking") },
+    { to: "#en-speaking-group", label: t("Luyện nói", "Speaking Studio"), icon: Mic2, groupLabel: "en-speaking", children: [
+      { to: "/speaking-coach/english", label: t("Speaking Coach", "Speaking Coach"), icon: Mic2 },
+      { to: "/presentation-studio", label: t("Public Speaking", "Public Speaking"), icon: MessagesSquare },
     ] },
   ];
   const chineseSubs: SubItem[] = [
-    { to: "/chinese", label: t("📚 Tổng quan", "📚 Overview") },
-    { to: "/placement-test?subject=chinese", label: t("📝 Placement Test & Personalization", "📝 Placement Test & Personalization") },
-    { to: "#cn-hsk-group", label: t("🎓 Lộ trình HSK", "🎓 HSK Program"), groupLabel: "cn-hsk", children: [
-      { to: "/chinese/hsk-guide", label: t("🎓 HSK Exam Guide", "🎓 HSK Exam Guide") },
-      { to: "/chinese/hsk-grammar", label: t("📐 HSK Grammar", "📐 HSK Grammar") },
-      { to: "/chinese/hsk/vocabulary", label: t("📖 HSK Vocabulary", "📖 HSK Vocabulary") },
-      { to: "/chinese/hsk/test", label: t("📝 HSK Test", "📝 HSK Test") },
-      { to: "/chinese/hskk", label: t("🎙️ HSKK Speaking", "🎙️ HSKK Speaking") },
+    { to: "/chinese", label: t("Khóa học & Lộ trình học", "Courses & Learning Roadmap"), icon: Route },
+    { to: "/placement-test?subject=chinese", label: t("Placement Test & Personalization", "Placement Test & Personalization"), icon: ClipboardCheck },
+    { to: "#cn-hsk-group", label: t("Lộ trình HSK", "HSK Program"), icon: GraduationCap, groupLabel: "cn-hsk", children: [
+      { to: "/chinese/hsk-guide", label: t("HSK Exam Guide", "HSK Exam Guide"), icon: Map },
+      { to: "/chinese/hsk-grammar", label: t("HSK Grammar", "HSK Grammar"), icon: Ruler },
+      { to: "/chinese/hsk/vocabulary", label: t("HSK Vocabulary", "HSK Vocabulary"), icon: BookOpen },
+      { to: "/chinese/hsk/test", label: t("HSK Test", "HSK Test"), icon: FileText },
+      { to: "/chinese/hskk", label: t("HSKK Speaking", "HSKK Speaking"), icon: Mic2 },
     ] },
-    { to: "#cn-foundation-skills-group", label: t("🈶 Kỹ năng nền tảng", "🈶 Foundation Skills"), groupLabel: "cn-foundation-skills", children: [
-      { to: "/chinese/pronunciation", label: t("🔊 Phát âm Pinyin", "🔊 Pinyin Pronunciation") },
-      { to: "/chinese/strokes", label: t("✍️ Hướng dẫn nét bút", "✍️ Stroke Order Guide") },
-      { to: "/chinese/tone-drill", label: t("🎯 Tone Drill", "🎯 Tone Drill") },
+    { to: "#cn-foundation-skills-group", label: t("Kỹ năng nền tảng", "Foundation Skills"), icon: BookType, groupLabel: "cn-foundation-skills", children: [
+      { to: "/chinese/pronunciation", label: t("Phát âm Pinyin", "Pinyin Pronunciation"), icon: Volume2 },
+      { to: "/chinese/strokes", label: t("Hướng dẫn nét bút", "Stroke Order Guide"), icon: PenTool },
+      { to: "/chinese/tone-drill", label: t("Tone Drill", "Tone Drill"), icon: Target },
     ] },
-    { to: "#cn-foundation-group", label: t("🧱 Communication Program", "🧱 Communication Program"), groupLabel: "cn-foundation", children: [
-      { to: "/chinese/conversational/curriculum", label: t("🎯 Chương trình Tương tác", "🎯 Interactive Curriculum") },
-      { to: "/chinese/culture", label: t("🎎 Văn hóa Giao tiếp", "🎎 Communication Culture") },
-      { to: "/chinese/reading", label: t("📖 Luyện đọc", "📖 Reading Practice") },
-      { to: "/chinese/listening", label: t("🎧 Luyện nghe", "🎧 Listening Practice") },
+    { to: "#cn-foundation-group", label: t("Communication Program", "Communication Program"), icon: MessageSquare, groupLabel: "cn-foundation", children: [
+      { to: "/chinese/conversational/curriculum", label: t("Chương trình Tương tác", "Interactive Curriculum"), icon: MessagesSquare },
+      { to: "/chinese/culture", label: t("Văn hóa Giao tiếp", "Communication Culture"), icon: Landmark },
+      { to: "/chinese/reading", label: t("Luyện đọc", "Reading Practice"), icon: BookOpen },
+      { to: "/chinese/listening", label: t("Luyện nghe", "Listening Practice"), icon: Headphones },
     ] },
-    { to: "#cn-practice-group", label: t("🎯 Luyện tập & Giải trí", "🎯 Practice & Fun"), groupLabel: "cn-practice", children: [
-      { to: "/chinese/arcade", label: t("🎮 Chinese Arcade Hub", "🎮 Chinese Arcade Hub") },
-      { to: "/songs/chinese", label: t("🎵 Học qua bài hát", "🎵 Learn through Songs") },
-      { to: "/speaking-coach/chinese", label: t("🎙️ Speaking Coach", "🎙️ Speaking Coach") },
-      { to: "/specialized-language?lang=chinese", label: t("🧠 Tiếng Trung Chuyên ngành", "🧠 Specialized Chinese") },
+    { to: "#cn-practice-group", label: t("Luyện tập & Giải trí", "Practice & Fun"), icon: Target, groupLabel: "cn-practice", children: [
+      { to: "/chinese/arcade", label: t("Chinese Arcade Hub", "Chinese Arcade Hub"), icon: Gamepad2 },
+      { to: "/songs/chinese", label: t("Học qua bài hát", "Learn through Songs"), icon: Music },
+      { to: "/speaking-coach/chinese", label: t("Speaking Coach", "Speaking Coach"), icon: Mic2 },
+      { to: "/specialized-language?lang=chinese", label: t("Tiếng Trung Chuyên ngành", "Specialized Chinese"), icon: Brain },
     ] },
   ];
   const programmingSubs: SubItem[] = [
-    { to: "/programming", label: t("Tổng quan", "Overview"), icon: Compass },
+    { to: "/programming", label: t("Khóa học & Lộ trình học", "Courses & Learning Roadmap"), icon: Route },
     { to: "/placement-test?subject=programming", label: t("Placement Test & Personalization", "Placement Test & Personalization"), icon: ClipboardCheck },
     { to: "#prog-foundation-group", label: t("Lộ trình Cơ bản", "Foundation Track"), icon: Blocks, groupLabel: "prog-foundation", children: [
       { to: "/programming?pillar=python-pathway", label: t("Introduction to Programming", "Introduction to Programming"), icon: Code2 },
@@ -369,7 +369,7 @@ const Navbar = () => {
     { to: "#prog-career-group", label: t("Sự nghiệp & Dự án", "Career & Projects"), icon: Rocket, groupLabel: "prog-career", children: [
       { to: "/programming/career-roadmap", label: t("Career Roadmap", "Career Roadmap"), icon: Sparkles },
       { to: "/programming/interview-questions", label: t("Câu hỏi Phỏng vấn", "Interview Questions"), icon: MessagesSquare },
-      { to: "/programming/job-opportunities", label: t("Cơ hội Việc làm 🇫🇮", "Job Opportunities 🇫🇮"), icon: Target },
+      { to: "/programming/job-opportunities", label: t("Cơ hội Việc làm", "Job Opportunities"), icon: Briefcase },
       { to: "/programming?pillar=professional-projects", label: t("Dự án Chuyên nghiệp", "Professional Projects"), icon: Rocket },
     ] },
     { to: "/programming/arcade", label: t("Tech & Code Game Hub", "Tech & Code Game Hub"), icon: Gamepad2 },
