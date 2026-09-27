@@ -1007,6 +1007,9 @@ const Navbar = () => {
                               <div className="ml-5 pl-4 border-l-[3px] border-primary/30 space-y-0.5 py-2">
                                 {l.subs.map((sub) => {
                                   // Nested group (IELTS / THPT) in mobile
+                                  if (sub.divider) {
+                                    return <div key={sub.to} className="my-2 border-t border-border/60" />;
+                                  }
                                   if (sub.children) {
                                     const isSubOpen = mobileSubExpanded === sub.groupLabel;
                                     return (
@@ -1019,7 +1022,10 @@ const Navbar = () => {
                                               : "text-[#1A1A1A] hover:text-primary hover:bg-gray-50"
                                           }`}
                                         >
-                                          <span>{sub.label}</span>
+                                          <span className="flex min-w-0 items-center gap-2.5 text-left">
+                                            {sub.icon && <sub.icon className="h-4 w-4 shrink-0 text-primary/70" />}
+                                            <span>{sub.label}</span>
+                                          </span>
                                           <ChevronRight className={`w-5 h-5 transition-transform duration-300 ease-out ${isSubOpen ? "rotate-90" : ""}`} />
                                         </button>
                                         <AnimatePresence>
@@ -1074,12 +1080,13 @@ const Navbar = () => {
                                   const subActive = location.pathname === sub.to;
                                   return (
                                     <Link key={sub.to + sub.label} to={sub.to} onClick={() => setOpen(false)}
-                                      className={`block px-4 py-3.5 text-[15px] rounded-xl transition-all ${
+                                      className={`flex items-center gap-2.5 px-4 py-3.5 text-[15px] rounded-xl transition-all ${
                                         subActive
                                           ? "text-primary bg-primary/10 font-bold"
                                           : "text-[#4B5563] font-medium hover:text-primary hover:bg-gray-50"
                                       }`}>
-                                      {sub.label}
+                                      {sub.icon && <sub.icon className="h-4 w-4 shrink-0 text-primary/70" />}
+                                      <span>{sub.label}</span>
                                     </Link>
                                   );
                                 })}
