@@ -68,6 +68,9 @@
 - [x] Keep the three home-page course buttons linked to their existing subject pages.
 - [x] Add bilingual 12-week group and one-to-one tuition to English, Chinese and Programming pages.
 - [x] Verify all three tuition sections on desktop and mobile.
+- [x] Refresh course tuition tables and link each course and class price to a preselected registration form.
+- [x] Add embedded online payment at the listed group and private tuition prices and record successful course payments separately from Premium.
+- [ ] Verify a completed course payment and teacher notification end-to-end (requires a test card transaction).
 
 # Public Course Introductions and Registration
 
