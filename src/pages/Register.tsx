@@ -3,7 +3,7 @@ import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
 import { useState, useEffect, useMemo } from "react";
 import { useSearchParams, Link, useNavigate } from "react-router-dom";
-import { Send, CheckCircle, UserPlus, Loader2, CreditCard, ArrowLeft, Landmark } from "lucide-react";
+import { Send, CheckCircle, UserPlus, Loader2, CreditCard, ArrowLeft, Landmark, BadgeCheck } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -14,6 +14,9 @@ import { PaymentTestModeBanner } from "@/components/PaymentTestModeBanner";
 import { getStripeEnvironment } from "@/lib/stripe";
 import { tuitionBySubject, EUR_TO_VND } from "@/components/courses/CourseTuitionSection";
 import { CourseBankTransfer } from "@/components/courses/CourseBankTransfer";
+import { PaymentMethodMarks, BankRegionMarks } from "@/components/UpgradeAccountModal";
+import cardPaymentBg from "@/assets/premium-card-payment-bg.jpg";
+import bankTransferBg from "@/assets/premium-bank-transfer-bg.jpg";
 
 const COURSES = Object.fromEntries(
   Object.values(tuitionBySubject).flat().map((course) => [course.key, course]),
@@ -38,6 +41,7 @@ const Register = () => {
   const classType = params.get("class") === "private" ? "private" : "group";
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [paymentStatus, setPaymentStatus] = useState<"idle" | "checking" | "paid" | "pending" | "error">("idle");
+  const [payMethod, setPayMethod] = useState<"card" | "bank" | null>(null);
   const [authenticated, setAuthenticated] = useState(false);
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => setAuthenticated(Boolean(data.user)));

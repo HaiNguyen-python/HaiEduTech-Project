@@ -488,7 +488,7 @@ const UpgradeAccountModal = ({ open, onClose, user }: UpgradeAccountModalProps) 
   );
 };
 
-const PaymentMethodMarks = () => (
+export const PaymentMethodMarks = () => (
   <span className="mt-1 flex flex-wrap items-center gap-1.5" aria-label="Visa, Mastercard, Apple Pay, Google Pay">
     <span className="rounded bg-card px-2 py-1 text-xs font-black italic text-primary shadow-sm">VISA</span>
     <span className="flex items-center rounded bg-card px-2 py-1 shadow-sm">
@@ -534,7 +534,7 @@ const FinlandMark = () => (
   </span>
 );
 
-const BankRegionMarks = () => (
+export const BankRegionMarks = () => (
   <span className="mt-1 flex items-center gap-2">
     <span className="flex items-center gap-1 rounded bg-card px-2 py-1 text-[11px] font-bold text-foreground shadow-sm"><VietnamMark /> Vietnam</span>
     <span className="flex items-center gap-1 rounded bg-card px-2 py-1 text-[11px] font-bold text-foreground shadow-sm"><FinlandMark /> Finland</span>
