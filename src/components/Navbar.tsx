@@ -591,9 +591,13 @@ const Navbar = () => {
                       className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border border-border/70 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
                     >
                       {navPremium ? (
-                        <Crown title={t("Tài khoản Premium - toàn bộ nội dung đã mở khóa", "Premium account - all content unlocked")} className="w-3.5 h-3.5 text-amber-500" />
+                        <span title={t("Tài khoản Premium - toàn bộ nội dung đã mở khóa", "Premium account - all content unlocked")} className="inline-flex">
+                          <Crown className="w-3.5 h-3.5 text-amber-500" />
+                        </span>
                       ) : (
-                        <Sparkles title={t("Tài khoản dùng thử - một số nội dung bị khóa", "Trial account - some content locked")} className="w-3.5 h-3.5 text-muted-foreground" />
+                        <span title={t("Tài khoản dùng thử - một số nội dung bị khóa", "Trial account - some content locked")} className="inline-flex">
+                          <Sparkles className="w-3.5 h-3.5 text-muted-foreground" />
+                        </span>
                       )}
                       Hello, {displayName.split(" ")[0]}
                       {streak > 0 && (
