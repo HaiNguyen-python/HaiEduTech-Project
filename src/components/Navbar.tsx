@@ -563,8 +563,8 @@ const Navbar = () => {
               <div className="hidden lg:flex items-center justify-center flex-1 min-w-0 mx-3 relative group/slogan">
                 <div className="flex flex-col items-center relative overflow-hidden">
                   <span
-                    className="slogan-text relative text-[10px] lg:text-[11px] uppercase font-semibold tracking-[0.2em] truncate text-muted-foreground/70"
-                    style={{ fontFamily: "'Space Grotesk', 'Inter', sans-serif", fontWeight: 600 }}
+                    className="slogan-text relative text-[10px] lg:text-[11px] uppercase font-bold tracking-[0.2em] truncate text-muted-foreground/90"
+                    style={{ fontFamily: "'Space Grotesk', 'Inter', sans-serif", fontWeight: 700 }}
                   >
                     THE UNIQUE INTERSECTION OF LANGUAGE & TECHNOLOGY
                     {/* Ripple overlay - CSS-only, hardware-accelerated */}
@@ -685,8 +685,8 @@ const Navbar = () => {
             {/* Row 1b: Slogan on mobile - separate row, smaller text, centered */}
             <div className="lg:hidden text-center pb-1.5 -mt-1">
               <span
-                className="text-[8px] sm:text-[10px] uppercase font-semibold tracking-[0.15em] text-muted-foreground/70"
-                style={{ fontFamily: "'Space Grotesk', 'Inter', sans-serif", fontWeight: 600 }}
+                className="text-[8px] sm:text-[10px] uppercase font-bold tracking-[0.15em] text-muted-foreground/90"
+                style={{ fontFamily: "'Space Grotesk', 'Inter', sans-serif", fontWeight: 700 }}
               >
                 THE UNIQUE INTERSECTION OF LANGUAGE & TECHNOLOGY
               </span>
