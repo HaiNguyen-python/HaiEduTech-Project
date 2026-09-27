@@ -3,7 +3,7 @@ import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
 import { useState, useEffect, useMemo } from "react";
 import { useSearchParams, Link, useNavigate } from "react-router-dom";
-import { Send, CheckCircle, UserPlus, Loader2, CreditCard, ArrowLeft, Landmark } from "lucide-react";
+import { Send, CheckCircle, UserPlus, Loader2, CreditCard, ArrowLeft, Landmark, BadgeCheck } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -14,6 +14,9 @@ import { PaymentTestModeBanner } from "@/components/PaymentTestModeBanner";
 import { getStripeEnvironment } from "@/lib/stripe";
 import { tuitionBySubject, EUR_TO_VND } from "@/components/courses/CourseTuitionSection";
 import { CourseBankTransfer } from "@/components/courses/CourseBankTransfer";
+import { PaymentMethodMarks, BankRegionMarks } from "@/components/UpgradeAccountModal";
+import cardPaymentBg from "@/assets/premium-card-payment-bg.jpg";
+import bankTransferBg from "@/assets/premium-bank-transfer-bg.jpg";
 
 const COURSES = Object.fromEntries(
   Object.values(tuitionBySubject).flat().map((course) => [course.key, course]),
@@ -38,6 +41,7 @@ const Register = () => {
   const classType = params.get("class") === "private" ? "private" : "group";
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [paymentStatus, setPaymentStatus] = useState<"idle" | "checking" | "paid" | "pending" | "error">("idle");
+  const [payMethod, setPayMethod] = useState<"card" | "bank" | null>(null);
   const [authenticated, setAuthenticated] = useState(false);
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => setAuthenticated(Boolean(data.user)));
@@ -241,25 +245,60 @@ const Register = () => {
                  </div>
                  <p className="font-display text-2xl font-bold text-foreground">{course.groupPrice * (classType === "private" ? 3 : 1)} EUR</p>
                </div>
-               <div className="grid items-start gap-5 md:grid-cols-2">
-                 <section className="min-w-0 rounded-md border border-border bg-card p-5 shadow-sm sm:p-6" aria-labelledby="card-payment-title">
-                   <h4 id="card-payment-title" className="flex items-center gap-2 font-display text-lg font-bold text-foreground"><CreditCard className="h-5 w-5 text-primary" />Card Payment</h4>
-                   <p className="mt-1 text-sm text-muted-foreground">{t("Thanh toán trực tuyến an toàn", "Secure online checkout")}</p>
-                   <div className="mt-5"><PaymentTestModeBanner /></div>
-                   {!authenticated ? <Button asChild className="mt-5 w-full"><Link to={`/login?next=${encodeURIComponent(window.location.pathname + window.location.search)}`}>{t("Đăng nhập để thanh toán", "Sign in to pay")}</Link></Button>
-                     : checkoutOpen ? <div className="mt-5 min-w-0"><StripeEmbeddedCheckout key={`${selectedCourse}-${classType}`} priceId={`class_${selectedCourse}_${classType}`} returnUrl={returnUrl} /></div>
-                     : <Button className="mt-5 w-full" disabled={paymentStatus === "paid" || paymentStatus === "checking"} onClick={() => setCheckoutOpen(true)}><CreditCard className="h-4 w-4" />{t("Thanh toán thẻ", "Pay by card")} · {course.groupPrice * (classType === "private" ? 3 : 1)} EUR</Button>}
-                 </section>
-                 <section className="min-w-0 rounded-md border border-border bg-card p-5 shadow-sm sm:p-6" aria-labelledby="bank-payment-title">
-                   <h4 id="bank-payment-title" className="flex items-center gap-2 font-display text-lg font-bold text-foreground"><Landmark className="h-5 w-5 text-primary" />Bank Transfer</h4>
-                   <p className="mt-1 mb-5 text-sm text-muted-foreground">{t("Chọn tài khoản Việt Nam hoặc Phần Lan", "Choose a Vietnam or Finland account")}</p>
-                   {paymentStatus === "paid" ? <p className="text-sm text-primary">{t("Thanh toán đã được xác nhận.", "Payment confirmed.")}</p> : <CourseBankTransfer
-                     eur={course.groupPrice * (classType === "private" ? 3 : 1)}
-                     vnd={course.groupPrice * (classType === "private" ? 3 : 1) * EUR_TO_VND}
-                     reference={`${course.nameEn}_${form.name.trim().replace(/\s+/g, " ")}`}
-                   />}
-                 </section>
-               </div>
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2" role="tablist">
+                  {([
+                    {
+                      id: "card" as const,
+                      icon: CreditCard,
+                      label: t("Card Payment", "Card Payment"),
+                      sub: t(
+                        `Chỉ ${course.groupPrice * (classType === "private" ? 3 : 1)} EUR`,
+                        `Only ${course.groupPrice * (classType === "private" ? 3 : 1)} EUR / course`,
+                      ),
+                      image: cardPaymentBg,
+                    },
+                    {
+                      id: "bank" as const,
+                      icon: Landmark,
+                      label: t("Bank Transfer", "Bank Transfer"),
+                      sub: t(
+                        `Chỉ ${course.groupPrice * (classType === "private" ? 3 : 1)} EUR (≈ ${new Intl.NumberFormat("vi-VN").format(course.groupPrice * (classType === "private" ? 3 : 1) * EUR_TO_VND)}₫)`,
+                        `Only ${course.groupPrice * (classType === "private" ? 3 : 1)} EUR (≈ ${new Intl.NumberFormat("vi-VN").format(course.groupPrice * (classType === "private" ? 3 : 1) * EUR_TO_VND)}₫)`,
+                      ),
+                      image: bankTransferBg,
+                    },
+                  ]).map((o) => (
+                    <Button key={o.id} role="tab" aria-selected={payMethod === o.id}
+                      onClick={() => setPayMethod(payMethod === o.id ? null : o.id)}
+                      variant="outline"
+                      className={`group relative h-[168px] overflow-hidden whitespace-normal border-2 p-0 text-left ${payMethod === o.id ? "border-primary ring-2 ring-primary/20" : "border-border hover:border-primary/50"}`}>
+                      <img src={o.image} alt="" loading="lazy" width={1200} height={608} className="absolute inset-0 h-full w-full object-cover transition duration-300 group-hover:scale-[1.03]" />
+                      <span className="absolute inset-0 bg-gradient-to-t from-background via-background/90 to-background/20" />
+                      <span className="relative mt-auto flex w-full flex-col items-start gap-1 p-4">
+                        <span className="flex w-full items-center gap-2 text-base font-extrabold text-foreground"><o.icon className="h-5 w-5 text-primary" />{o.label}{payMethod === o.id && <BadgeCheck className="ml-auto h-5 w-5 text-primary" />}</span>
+                        <span className="text-sm font-bold text-primary">{o.sub}</span>
+                        {o.id === "card" ? <PaymentMethodMarks /> : <BankRegionMarks />}
+                      </span>
+                    </Button>
+                  ))}
+                </div>
+                {payMethod === "card" && (
+                  <div className="mt-3 rounded-xl border border-border bg-secondary/30 p-4 space-y-3">
+                    <PaymentTestModeBanner />
+                    {!authenticated ? <Button asChild className="w-full"><Link to={`/login?next=${encodeURIComponent(window.location.pathname + window.location.search)}`}>{t("Đăng nhập để thanh toán", "Sign in to pay")}</Link></Button>
+                      : checkoutOpen ? <div className="min-w-0"><StripeEmbeddedCheckout key={`${selectedCourse}-${classType}`} priceId={`class_${selectedCourse}_${classType}`} returnUrl={returnUrl} /></div>
+                      : <Button className="w-full" disabled={paymentStatus === "paid" || paymentStatus === "checking"} onClick={() => setCheckoutOpen(true)}><CreditCard className="h-4 w-4" />{t("Thanh toán thẻ", "Pay by card")} · {course.groupPrice * (classType === "private" ? 3 : 1)} EUR</Button>}
+                  </div>
+                )}
+                {payMethod === "bank" && (
+                  <div className="mt-3">
+                    {paymentStatus === "paid" ? <p className="text-sm font-semibold text-primary">{t("Thanh toán đã được xác nhận.", "Payment confirmed.")}</p> : <CourseBankTransfer
+                      eur={course.groupPrice * (classType === "private" ? 3 : 1)}
+                      vnd={course.groupPrice * (classType === "private" ? 3 : 1) * EUR_TO_VND}
+                      reference={`${course.nameEn}_${form.name.trim().replace(/\s+/g, " ")}`}
+                    />}
+                  </div>
+                )}
             </div>}
              <div className="text-center"><Button
               onClick={() => setSubmitted(false)}
