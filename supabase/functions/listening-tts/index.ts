@@ -78,6 +78,8 @@ serve(async (req) => {
       return data?.signedUrl ?? null;
     };
 
+    // Stay well under the 150s platform idle limit; unfinished lines are retried by the client.
+    const deadline = Date.now() + 100_000;
     const run = async (line: LineInput) => {
       const key = await sha256(
         `${AUDIO_PROFILE_VERSION}|${MODEL}|${line.voice}|${line.speed}|${line.instructions ?? ""}|${line.text}`,
@@ -106,7 +108,12 @@ serve(async (req) => {
           response_format: "mp3",
           stream_format: "audio",
         }),
+        signal: AbortSignal.timeout(Math.max(5_000, Math.min(70_000, deadline - Date.now()))),
+      }).catch((err) => {
+        console.error("listening-tts gateway timeout", String(err));
+        return null;
       });
+      if (!resp) return;
 
       if (!resp.ok) {
         const detail = await resp.text().catch(() => "");
@@ -131,10 +138,10 @@ serve(async (req) => {
 
     // Small concurrency keeps us inside the gateway rate limit.
     const queue = [...lines];
-    const workers = Array.from({ length: 3 }, async () => {
+    const workers = Array.from({ length: 5 }, async () => {
       while (queue.length) {
         const next = queue.shift();
-        if (!next || blocked) return;
+        if (!next || blocked || Date.now() > deadline - 15_000) return;
         await run(next);
       }
     });

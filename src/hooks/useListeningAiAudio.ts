@@ -20,7 +20,7 @@ export interface AudioLine {
 }
 
 /** Lines per request; the edge function accepts at most 14. */
-const PAGE = 12;
+const PAGE = 6;
 
 export const useListeningAiAudio = (setId: string, section: number, lines: AudioLine[]) => {
   const [urls, setUrls] = useState<Record<number, string>>({});
@@ -58,8 +58,10 @@ export const useListeningAiAudio = (setId: string, section: number, lines: Audio
   const fetchPage = useCallback(
     async (page: number) => {
       const all = linesRef.current;
-      const slice = all.slice(page * PAGE, page * PAGE + PAGE);
+      let slice = all.slice(page * PAGE, page * PAGE + PAGE);
       if (!slice.length) return true;
+      // The server may return only part of a page when generation is slow; retry the rest.
+      for (let attempt = 0; attempt < 4 && slice.length; attempt++) {
       const { data, error } = await supabase.functions.invoke("listening-tts", {
         body: {
           setId,
@@ -72,9 +74,11 @@ export const useListeningAiAudio = (setId: string, section: number, lines: Audio
           })),
         },
       });
-      if (error || !data?.urls?.length || data.urls.length !== slice.length) return false;
+      if (error) return false;
+      const got = (data?.urls ?? []) as { i: number; url: string }[];
+      if (!got.length && attempt > 0) return false;
       const downloaded = await Promise.all(
-        (data.urls as { i: number; url: string }[]).map(async (item) => {
+        got.map(async (item) => {
           try {
             const response = await fetch(item.url);
             if (!response.ok) return null;
@@ -95,7 +99,10 @@ export const useListeningAiAudio = (setId: string, section: number, lines: Audio
         urlsRef.current = next;
         return next;
       });
-      return true;
+      const done = new Set(got.map((g) => g.i));
+      slice = slice.filter((l) => !done.has(l.i));
+      }
+      return slice.length === 0;
     },
     [section, setId]
   );
