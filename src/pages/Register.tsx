@@ -301,7 +301,7 @@ const Register = () => {
                 <Button type="button" variant={classType === "group" ? "default" : "outline"} onClick={() => { const next = new URLSearchParams(params); next.set("class", "group"); next.delete("checkout"); next.delete("session_id"); setParams(next); setCheckoutOpen(false); setPaymentStatus("idle"); }}>Lớp nhóm / Group · {course.groupPrice} EUR</Button>
                 <Button type="button" variant={classType === "private" ? "default" : "outline"} onClick={() => { const next = new URLSearchParams(params); next.set("class", "private"); next.delete("checkout"); next.delete("session_id"); setParams(next); setCheckoutOpen(false); setPaymentStatus("idle"); }}>Kèm 1-1 · {course.groupPrice * 3} EUR</Button>
               </div>
-              <p className="mt-3 text-sm text-muted-foreground">≈ {new Intl.NumberFormat("vi-VN").format(course.groupPrice * (classType === "private" ? 3 : 1) * EUR_TO_VND)}₫ · 1 EUR = 31.000 ₫</p>
+              <p className="mt-3 text-sm text-muted-foreground">≈ {new Intl.NumberFormat("vi-VN").format(course.groupPrice * (classType === "private" ? 3 : 1) * EUR_TO_VND)}₫</p>
             </div>}
             {paymentStatus === "paid" && <p role="status" className="mb-5 font-semibold text-primary">{t("Đã nhận thanh toán. Thầy Hải sẽ liên hệ để xếp lớp.", "Payment received. Teacher Hai will contact you about scheduling.")}</p>}
             {(paymentStatus === "pending" || paymentStatus === "error") && <p role="status" className="mb-5 text-destructive">{t("Chưa xác nhận được thanh toán. Hãy liên hệ thầy Hải trước khi thử thanh toán lại.", "Payment is not confirmed. Contact Teacher Hai before trying to pay again.")}</p>}
