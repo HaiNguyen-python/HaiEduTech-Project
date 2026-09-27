@@ -39,7 +39,6 @@ const Register = () => {
   const selectedCourse = key && Object.prototype.hasOwnProperty.call(COURSES, key) ? key : null;
   const course = selectedCourse ? COURSES[selectedCourse] : null;
   const classType = params.get("class") === "private" ? "private" : "group";
-  const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [paymentStatus, setPaymentStatus] = useState<"idle" | "checking" | "paid" | "pending" | "error">("idle");
   const [payMethod, setPayMethod] = useState<"card" | "bank" | null>(null);
   const [authenticated, setAuthenticated] = useState(false);
@@ -286,8 +285,7 @@ const Register = () => {
                   <div className="mt-3 rounded-xl border border-border bg-secondary/30 p-4 space-y-3">
                     <PaymentTestModeBanner />
                     {!authenticated ? <Button asChild className="w-full"><Link to={`/login?next=${encodeURIComponent(window.location.pathname + window.location.search)}`}>{t("Đăng nhập để thanh toán", "Sign in to pay")}</Link></Button>
-                      : checkoutOpen ? <div className="min-w-0"><StripeEmbeddedCheckout key={`${selectedCourse}-${classType}`} priceId={`class_${selectedCourse}_${classType}`} returnUrl={returnUrl} /></div>
-                      : <Button className="w-full" disabled={paymentStatus === "paid" || paymentStatus === "checking"} onClick={() => setCheckoutOpen(true)}><CreditCard className="h-4 w-4" />{t("Thanh toán thẻ", "Pay by card")} · {course.groupPrice * (classType === "private" ? 3 : 1)} EUR</Button>}
+                      : <div className="min-w-0"><StripeEmbeddedCheckout key={`${selectedCourse}-${classType}`} priceId={`class_${selectedCourse}_${classType}`} returnUrl={returnUrl} /></div>}
                   </div>
                 )}
                 {payMethod === "bank" && (
@@ -337,8 +335,8 @@ const Register = () => {
               <p className="font-display text-xl font-bold text-foreground">{t(course.nameVi, course.nameEn)}</p>
               <p className="text-sm text-muted-foreground">12 tuần / 12 weeks · 24 buổi - 36 giờ</p>
               <div className="mt-4 flex flex-wrap gap-2">
-                <Button type="button" variant={classType === "group" ? "default" : "outline"} onClick={() => { const next = new URLSearchParams(params); next.set("class", "group"); next.delete("checkout"); next.delete("session_id"); setParams(next); setCheckoutOpen(false); setPaymentStatus("idle"); }}>Lớp nhóm / Group · {course.groupPrice} EUR</Button>
-                <Button type="button" variant={classType === "private" ? "default" : "outline"} onClick={() => { const next = new URLSearchParams(params); next.set("class", "private"); next.delete("checkout"); next.delete("session_id"); setParams(next); setCheckoutOpen(false); setPaymentStatus("idle"); }}>Kèm 1-1 · {course.groupPrice * 3} EUR</Button>
+                <Button type="button" variant={classType === "group" ? "default" : "outline"} onClick={() => { const next = new URLSearchParams(params); next.set("class", "group"); next.delete("checkout"); next.delete("session_id"); setParams(next); setPaymentStatus("idle"); }}>Lớp nhóm / Group · {course.groupPrice} EUR</Button>
+                <Button type="button" variant={classType === "private" ? "default" : "outline"} onClick={() => { const next = new URLSearchParams(params); next.set("class", "private"); next.delete("checkout"); next.delete("session_id"); setParams(next); setPaymentStatus("idle"); }}>Kèm 1-1 · {course.groupPrice * 3} EUR</Button>
               </div>
               <p className="mt-3 text-sm text-muted-foreground">≈ {new Intl.NumberFormat("vi-VN").format(course.groupPrice * (classType === "private" ? 3 : 1) * EUR_TO_VND)}₫</p>
             </div>}
@@ -401,7 +399,7 @@ const Register = () => {
                     if (nextCourse && Object.prototype.hasOwnProperty.call(COURSES, nextCourse)) next.set("course", nextCourse);
                     else next.delete("course");
                     next.delete("checkout"); next.delete("session_id");
-                    setParams(next); setCheckoutOpen(false); setPaymentStatus("idle");
+                    setParams(next); setPaymentStatus("idle");
                   }}
                   className="w-full px-4 py-2.5 rounded-lg border border-border bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
                 >
