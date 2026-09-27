@@ -251,8 +251,8 @@ const Register = () => {
                       icon: CreditCard,
                       label: t("Card Payment", "Card Payment"),
                       sub: t(
-                        `Chỉ ${course.groupPrice * (classType === "private" ? 3 : 1)} EUR`,
-                        `Only ${course.groupPrice * (classType === "private" ? 3 : 1)} EUR / course`,
+                        `${course.groupPrice * (classType === "private" ? 3 : 1)} EUR · ${new Intl.NumberFormat("vi-VN").format(course.groupPrice * (classType === "private" ? 3 : 1) * EUR_TO_VND)}₫ / khóa`,
+                        `${course.groupPrice * (classType === "private" ? 3 : 1)} EUR · ${new Intl.NumberFormat("vi-VN").format(course.groupPrice * (classType === "private" ? 3 : 1) * EUR_TO_VND)}₫ / course`,
                       ),
                       image: cardPaymentBg,
                     },
@@ -261,8 +261,8 @@ const Register = () => {
                       icon: Landmark,
                       label: t("Bank Transfer", "Bank Transfer"),
                       sub: t(
-                        `Chỉ ${course.groupPrice * (classType === "private" ? 3 : 1)} EUR (≈ ${new Intl.NumberFormat("vi-VN").format(course.groupPrice * (classType === "private" ? 3 : 1) * EUR_TO_VND)}₫)`,
-                        `Only ${course.groupPrice * (classType === "private" ? 3 : 1)} EUR (≈ ${new Intl.NumberFormat("vi-VN").format(course.groupPrice * (classType === "private" ? 3 : 1) * EUR_TO_VND)}₫)`,
+                        `${course.groupPrice * (classType === "private" ? 3 : 1)} EUR · ${new Intl.NumberFormat("vi-VN").format(course.groupPrice * (classType === "private" ? 3 : 1) * EUR_TO_VND)}₫ / khóa`,
+                        `${course.groupPrice * (classType === "private" ? 3 : 1)} EUR · ${new Intl.NumberFormat("vi-VN").format(course.groupPrice * (classType === "private" ? 3 : 1) * EUR_TO_VND)}₫ / course`,
                       ),
                       image: bankTransferBg,
                     },
