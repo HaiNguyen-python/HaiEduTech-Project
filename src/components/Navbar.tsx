@@ -11,10 +11,10 @@ import { createPortal } from "react-dom";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Menu, X, Brain, BookOpen, Languages, Code2, GraduationCap, ArrowRight,
+  Menu, X, Brain, BookOpen, Languages, Code2, GraduationCap,
   Globe, UserPlus, Heart, LogIn, ChevronDown, ChevronRight, Cpu, LogOut, Library, Shield,
   FileText, PenTool, Map, MessageSquare, Award, School, Swords, User, LayoutDashboard, Newspaper,
-  FolderLock, Compass, Briefcase, Trophy, Sparkles, Bot, Database, Workflow, Cloud, Network, Gamepad2, MessagesSquare, Target, Settings2, Flame, Music, Quote, Mic2, Crown, BookType, Blocks, Rocket, Users, Plane, ClipboardCheck, FlaskConical, Route, Ruler, Volume2, Headphones, Landmark, Puzzle
+  FolderLock, Compass, Briefcase, Trophy, Sparkles, Bot, Database, Workflow, Cloud, Network, Gamepad2, MessagesSquare, Target, Settings2, Flame, Music, Quote, Mic2, Crown, BookType, Blocks, Rocket, Users, Plane, ClipboardCheck, FlaskConical, Route, Ruler, Volume2, Headphones, Landmark, Puzzle, Wallet, Handshake, Activity, PartyPopper, LifeBuoy
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -402,18 +402,18 @@ const Navbar = () => {
     { to: "/english", label: t("Tiếng Anh", "English"), icon: BookOpen, subs: [...englishSubs, teacherNotes("English")], key: "en" },
     { to: "/chinese", label: t("Tiếng Trung", "Chinese"), icon: Languages, subs: [...chineseSubs, teacherNotes("Chinese")], key: "cn" },
     { to: "/programming", label: t("Lập Trình", "ICT"), icon: Code2, subs: [...programmingSubs, teacherNotes("Programming")], key: "prog" },
-    { to: "/lifestyle-academy", label: t("Lifestyle", "Interpersonal Skills"), icon: Heart, subs: [
-      { to: "/lifestyle-academy", label: t("🌿 Tổng quan Lifestyle Academy", "🌿 Lifestyle Academy Overview") },
-      
-      { to: "/lifestyle-academy?pillar=finance", label: t("💰 Tài chính Thông minh", "💰 Smart Finance") },
-      { to: "/lifestyle-academy?pillar=etiquette", label: t("💬 Nghệ thuật Ứng xử", "💬 Eloquence & Etiquette") },
-      { to: "/lifestyle-academy?pillar=presence", label: t("🌟 Khí chất & Bản lĩnh", "🌟 Presence & Resilience") },
-      { to: "/lifestyle-academy?pillar=wellness", label: t("💪 Thân thể Khoẻ mạnh", "💪 Physical Wellness") },
-      { to: "/lifestyle-academy?pillar=selfstudy", label: t("📚 Kỹ năng Tự học", "📚 Self-Study Skills") },
-      { to: "/lifestyle-academy?pillar=partying", label: t("🎉 Tiệc tùng & Sự kiện", "🎉 Parties & Events") },
-      { to: "/lifestyle-academy#micro-coach", label: t("🧘 Micro-Coach hôm nay", "🧘 Micro-Coach for Today") },
+    { to: "/lifestyle-academy", label: t("Lifestyle", "Interpersonal Skills"), icon: Heart, subs: ([
+      { to: "/lifestyle-academy", label: t("Tổng quan Lifestyle Academy", "Lifestyle Academy Overview"), icon: Compass },
+
+      { to: "/lifestyle-academy?pillar=finance", label: t("Tài chính Thông minh", "Smart Finance"), icon: Wallet },
+      { to: "/lifestyle-academy?pillar=etiquette", label: t("Nghệ thuật Ứng xử", "Eloquence & Etiquette"), icon: Handshake },
+      { to: "/lifestyle-academy?pillar=presence", label: t("Khí chất & Bản lĩnh", "Presence & Resilience"), icon: Flame },
+      { to: "/lifestyle-academy?pillar=wellness", label: t("Thân thể Khoẻ mạnh", "Physical Wellness"), icon: Activity },
+      { to: "/lifestyle-academy?pillar=selfstudy", label: t("Kỹ năng Tự học", "Self-Study Skills"), icon: BookOpen },
+      { to: "/lifestyle-academy?pillar=partying", label: t("Tiệc tùng & Sự kiện", "Parties & Events"), icon: PartyPopper },
+      { to: "/lifestyle-academy#micro-coach", label: t("Micro-Coach hôm nay", "Micro-Coach for Today"), icon: LifeBuoy },
       teacherNotes("Lifestyle"),
-    ], key: "lifestyle" },
+    ] as SubItem[]), key: "lifestyle" },
 
     // Study Abroad and standalone EdTech entries are hidden — EdTech is now nested inside Programming.
     { to: "/your-corner", label: t("Your Corner", "Your Corner"), icon: Users, key: "yc" },
@@ -903,15 +903,7 @@ const Navbar = () => {
                   </div>
                 );
               }
-              return l.key === "yc" ? (
-                <Link key={l.to} to={l.to}
-                  className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-semibold transition-colors whitespace-nowrap ${
-                    active ? "bg-primary text-primary-foreground" : "bg-primary/10 text-primary hover:bg-primary/20"
-                  }`}>
-                  {l.label}
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              ) : (
+              return (
                 <Link key={l.to} to={l.to}
                   className={`relative px-3 py-1.5 rounded-md text-sm font-medium transition-colors whitespace-nowrap after:absolute after:left-3 after:right-3 after:-bottom-0.5 after:h-0.5 after:rounded-full after:bg-gradient-to-r after:from-primary after:to-accent after:content-[''] after:transition-opacity after:duration-200 ${
                     active ? "text-primary after:opacity-100" : `text-muted-foreground hover:text-foreground ${sc.trigger} after:opacity-0`
