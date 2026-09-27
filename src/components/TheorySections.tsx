@@ -722,6 +722,19 @@ const KEY_TERM_PATTERNS = [
   "promise", "memoization", "type coercion", "scope", "closure", "namespace", "module",
   "parameter", "argument", "return value", "conditional statement", "loop", "data type",
   "syntax error", "runtime error", "logical error", "debugging", "refactoring",
+  // Foundational concepts, platforms and operational decisions
+  "compute resources", "computing power", "data center", "cloud provider", "cloud platform",
+  "cloud service", "cloud-native", "internet protocol", "operating cost", "upfront cost",
+  "fixed cost", "variable cost", "cost optimization", "vendor lock-in", "fault domain",
+  "availability region", "availability zone", "edge location", "global infrastructure",
+  "business continuity", "capacity planning", "resource utilization", "performance optimization",
+  "application programming", "source code", "machine code", "control flow", "memory management",
+  "input validation", "error handling", "exception", "test case", "technical requirement",
+  "functional requirement", "non-functional requirement", "software architecture", "system design",
+  "development environment", "production environment", "staging environment", "production system",
+  "AWS", "Microsoft Azure", "Google Cloud Platform", "GCP", "NIST", "Linux", "GitHub",
+  "NumPy", "Pandas", "PyTorch", "TensorFlow", "PostgreSQL", "MongoDB", "Apache Spark",
+  "Apache Kafka", "Redis", "Terraform", "Jenkins", "CI/CD", "DevOps", "MLOps",
 ] as const;
 
 /** Add restrained emphasis to prose only. Code, math, links and existing Markdown emphasis stay byte-for-byte intact. */
@@ -732,7 +745,6 @@ export function emphasizeKeyTerms(markdown: string): string {
   // Reset term tracking at every H2 so a core concept can be highlighted once
   // in each self-contained, collapsible section rather than only once per lesson.
   return markdown.split(/(?=^##\s+)/m).map((section) => {
-    const seen = new Set<string>();
     const headingTerms = Array.from(section.matchAll(/^###\s+(?:\d+\.\s*)?([^\n]{3,60})$/gm))
       .map((match) => match[1].replace(/[*_`]/g, "").trim())
       .filter((term) => !genericHeadings.test(term) && term.split(/\s+/).length <= 6);
@@ -752,12 +764,11 @@ export function emphasizeKeyTerms(markdown: string): string {
             `${lineStart}${prefix}**${label.trim()}**`,
         );
 
-        emphasized = emphasized.replace(termPattern, (match) => {
-          const key = match.toLowerCase();
-          if (seen.has(key)) return match;
-          seen.add(key);
-          return `**${match}**`;
-        });
+        emphasized = emphasized.replace(termPattern, (match) => `**${match}**`);
+        emphasized = emphasized.replace(
+          /\b\d+(?:[.,]\d+)?(?:\+|%)?(?:\s*(?:million|billion|trillion|users|instances|regions|availability zones|AZs|edge locations|Tbps|Gbps|ms|seconds|minutes|hours|days|GB|TB|PB))\b/gi,
+          (match) => `**${match}**`,
+        );
         return emphasized;
       })
       .join("");
