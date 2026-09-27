@@ -21,6 +21,14 @@ export default {
         mono: ["JetBrains Mono", "monospace"],
       },
       colors: {
+        tuition: {
+          ink: "hsl(var(--tuition-ink))",
+          teal: "hsl(var(--tuition-teal))",
+          wash: "hsl(var(--tuition-wash))",
+          surface: "hsl(var(--tuition-surface))",
+          subtle: "hsl(var(--tuition-subtle))",
+          line: "hsl(var(--tuition-line))",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
