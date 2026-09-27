@@ -242,7 +242,10 @@ const Register = () => {
                    <h3 className="text-xl font-display font-bold text-foreground">{t("Thanh toán khóa học", "Pay for the course")}</h3>
                    <p className="mt-1 text-sm text-muted-foreground">{t(course.nameVi, course.nameEn)} · {classType === "private" ? "1-1" : t("Lớp nhóm", "Group class")}</p>
                  </div>
-                 <p className="font-display text-2xl font-bold text-foreground">{course.groupPrice * (classType === "private" ? 3 : 1)} EUR</p>
+                  <p className="text-right font-display text-2xl font-bold text-foreground">
+                    {course.groupPrice * (classType === "private" ? 3 : 1)} EUR
+                    <span className="block text-sm font-semibold text-muted-foreground">≈ {new Intl.NumberFormat("vi-VN").format(course.groupPrice * (classType === "private" ? 3 : 1) * EUR_TO_VND)}₫</span>
+                  </p>
                </div>
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2" role="tablist">
                   {([
