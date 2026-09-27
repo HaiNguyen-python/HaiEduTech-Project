@@ -92,3 +92,8 @@
 - [x] Add polished, subject-specific image backgrounds to the Programming Career Path and Chinese Modules title sections.
 - [x] Verify both title banners on desktop and mobile.
 
+# Programming Theory Readability
+
+- [x] Increase the navbar slogan weight and contrast on desktop and mobile.
+- [x] Emphasize important concepts consistently across every Programming Theory lesson.
+

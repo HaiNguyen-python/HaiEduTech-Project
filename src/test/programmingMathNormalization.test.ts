@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { normalizeMath } from "@/components/TheorySections";
+import { emphasizeKeyTerms, normalizeMath } from "@/components/TheorySections";
 
 describe("Programming theory math normalization", () => {
   it("turns Markdown-wrapped LaTeX into inline math", () => {
@@ -41,5 +41,28 @@ describe("Programming theory math normalization", () => {
   it("keeps probability bars and nested fractions renderable", () => {
     expect(normalizeMath("$P(y|x) = \\frac{P(x|y)P(y)}{P(x)}$"))
       .toBe("$P(y\\mid x) = \\frac{P(x\\mid y)P(y)}{P(x)}$");
+  });
+});
+
+describe("Programming theory key-term emphasis", () => {
+  it("bolds important cloud concepts in each Theory section", () => {
+    const input = [
+      "## Why and When",
+      "Cloud computing shifts CAPEX to OPEX and enables auto-scaling for variable workloads.",
+      "",
+      "## Architecture",
+      "Cloud computing supports high availability through a load balancer.",
+    ].join("\n");
+
+    expect(emphasizeKeyTerms(input)).toContain("**Cloud computing** shifts **CAPEX** to **OPEX**");
+    expect(emphasizeKeyTerms(input)).toContain("**auto-scaling**");
+    expect(emphasizeKeyTerms(input)).toContain("**variable workloads**");
+    expect(emphasizeKeyTerms(input)).toContain("**high availability**");
+    expect(emphasizeKeyTerms(input)).toContain("**load balancer**");
+  });
+
+  it("does not alter code, links, or existing bold text", () => {
+    const input = "**CAPEX** and `OPEX` with [cloud computing](https://example.com).";
+    expect(emphasizeKeyTerms(input)).toBe(input);
   });
 });

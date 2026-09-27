@@ -692,10 +692,33 @@ const KEY_TERM_PATTERNS = [
   "minimum viable product", "product-market fit", "unit economics", "customer acquisition cost",
   "lifetime value", "monthly recurring revenue", "total addressable market", "learning management system",
   "adaptive learning", "learning analytics", "instructional design",
+  // Cloud, architecture and production engineering
+  "AWS EC2/S3", "AWS EC2", "Amazon EC2", "Amazon S3", "CAPEX to OPEX", "CAPEX", "OPEX",
+  "pay-as-you-go", "auto-scaling", "elastic scaling", "rapid iteration", "variable workloads",
+  "fixed workloads", "on-premise", "on-premises", "edge IoT", "carbon-aware scheduling",
+  "high availability", "disaster recovery", "shared responsibility model", "service level agreement",
+  "content delivery network", "object storage", "block storage", "identity and access management",
+  "virtual private cloud", "event-driven architecture", "message queue", "publish-subscribe",
+  "horizontal scaling", "vertical scaling", "distributed system", "eventual consistency",
+  "circuit breaker", "rate limiting", "observability", "monitoring", "logging", "tracing",
+  // Data, AI and analytics
+  "data engineering", "data modeling", "schema evolution", "data quality", "data catalog",
+  "data orchestration", "data transformation", "data ingestion", "data validation", "data partitioning",
+  "online transaction processing", "online analytical processing", "slowly changing dimension",
+  "star schema", "snowflake schema", "data mart", "feature store", "vector database",
+  "semantic search", "model training", "model inference", "AI training", "foundation model",
+  "generative AI", "responsible AI", "explainable AI", "model drift", "concept drift",
+  // Software, web and security
+  "clean code", "code review", "pull request", "dependency management", "semantic versioning",
+  "application state", "user interface", "web application", "REST API", "GraphQL",
+  "request-response cycle", "client-server architecture", "domain name system", "transport layer security",
+  "role-based access control", "security group", "network access control list", "defense in depth",
+  "continuous delivery", "continuous monitoring", "deployment pipeline", "blue-green deployment",
+  "canary deployment", "rollback strategy", "recovery point objective", "recovery time objective",
 ] as const;
 
 /** Add restrained emphasis to prose only. Code, math, links and existing Markdown emphasis stay byte-for-byte intact. */
-function emphasizeKeyTerms(markdown: string): string {
+export function emphasizeKeyTerms(markdown: string): string {
   const protectedPattern = /(```[\s\S]*?```|`[^`\n]+`|\$\$[\s\S]*?\$\$|\$[^$\n]+\$|!\[[^\]]*\]\([^)]*\)|\[[^\]]+\]\([^)]*\)|https?:\/\/\S+|\*\*[^*\n]+\*\*|^#{1,6}\s+.+$)/gm;
   const genericHeadings = /^(executive summary|lesson overview|detailed breakdown|key concepts|terminology|comparative table|best practices|anti-patterns|pro tips|pitfalls|summary|example|examples)$/i;
 
