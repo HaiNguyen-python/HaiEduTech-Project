@@ -494,12 +494,12 @@ const LifestyleAcademy = () => {
     <div className="min-h-screen bg-background text-foreground">
       <SEO
         title={t(
-          "Lifestyle Academy - Tài chính, Ứng xử, Khí chất, Thân thể, Tự học & Tiệc",
-          "Lifestyle Academy - Finance, Etiquette, Presence, Wellness, Self-Study & Parties",
+          "Interpersonal Skills Academy - Tài chính, Ứng xử, Khí chất, Thân thể, Tự học & Tiệc",
+          "Interpersonal Skills Academy - Finance, Etiquette, Presence, Wellness, Self-Study & Parties",
         )}
         description={t(
-          "Học viện lối sống HaiEduTech: 6 trụ cột cho công dân toàn cầu - tài chính thông minh, ứng xử tinh tế, khí chất bản lĩnh, thân thể khoẻ mạnh, kỹ năng tự học và nghi thức tiệc - sự kiện.",
-          "HaiEduTech Lifestyle Academy: six pillars for global citizens - smart finance, elegant eloquence, inner presence, physical wellness, self-study skills, and party and event etiquette.",
+          "Học viện kỹ năng giao tiếp - ứng xử HaiEduTech: 6 trụ cột cho công dân toàn cầu - tài chính thông minh, ứng xử tinh tế, khí chất bản lĩnh, thân thể khoẻ mạnh, kỹ năng tự học và nghi thức tiệc - sự kiện.",
+          "HaiEduTech Interpersonal Skills Academy: six pillars for global citizens - smart finance, elegant eloquence, inner presence, physical wellness, self-study skills, and party and event etiquette.",
         )}
         path="/lifestyle-academy"
       />
