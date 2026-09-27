@@ -90,5 +90,5 @@
 # Subject Header Illustrations
 
 - [x] Add polished, subject-specific image backgrounds to the Programming Career Path and Chinese Modules title sections.
-- [ ] Verify both title banners on desktop and mobile.
+- [x] Verify both title banners on desktop and mobile.
 
