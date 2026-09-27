@@ -65,7 +65,7 @@
 
 # Public Course Tuition
 
-- [x] Rename the three subject menu overview links to Courses & Learning Roadmap and replace their menu emoji with consistent line icons on desktop and mobile.
+- [x] Rename the three subject menu overview links to Courses & Roadmap and replace their menu emoji with consistent line icons on desktop and mobile.
 - [x] Keep the three home-page course buttons linked to their existing subject pages.
 - [x] Add bilingual 12-week group and one-to-one tuition to English, Chinese and Programming pages.
 - [x] Verify all three tuition sections on desktop and mobile.
@@ -81,4 +81,9 @@
 - [x] Keep every nested lesson and learning feature behind authentication and Premium access.
 - [x] Validate registration details and surface email delivery failures instead of silently reporting success.
 - [ ] Reconnect the HaiEduTech sender domain and confirm a real registration email reaches Teacher Hai.
+
+# Pre-publish review
+
+- [x] Review representative public pages, course selection and payment entry, navigation, access gates and preview errors on desktop and mobile; live payments and email delivery remain separate checks above.
+- [x] Run the security scan before publishing; all 13 reported findings were previously ignored by the owner, with no new critical finding in this scan.
 

@@ -26,6 +26,10 @@ const Signup = () => {
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!fullName.trim()) {
+      toast({ title: t("Vui lòng nhập họ và tên", "Please enter your full name"), variant: "destructive" });
+      return;
+    }
     if (password !== confirmPw) {
       toast({ title: t("Mật khẩu không khớp!", "Passwords don't match!"), variant: "destructive" });
       return;
@@ -39,7 +43,7 @@ const Signup = () => {
       email,
       password,
       options: {
-        data: { full_name: fullName },
+        data: { full_name: fullName.trim() },
         emailRedirectTo: window.location.origin,
       },
     });
@@ -58,7 +62,9 @@ const Signup = () => {
   const handleGoogleSignup = async () => {
     setGoogleLoading(true);
     const { error } = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin,
+      redirect_uri: nextPath.startsWith("/") && !nextPath.startsWith("//")
+        ? `${window.location.origin}/login?next=${encodeURIComponent(nextPath)}`
+        : window.location.origin,
     });
     if (error) {
       setGoogleLoading(false);

@@ -166,7 +166,8 @@ const Navbar = () => {
     const openIt = () => setUpgradeOpen(true);
     window.addEventListener(OPEN_UPGRADE_EVENT, openIt);
     const params = new URLSearchParams(window.location.search);
-    if (params.get("checkout") === "success") {
+    // Course checkout is verified by Register; only the Premium return flow belongs here.
+    if (params.get("checkout") === "success" && window.location.pathname !== "/register") {
       const sessionId = params.get("session_id");
       const toastId = toast.loading(t("Thanh toán thành công! Đang kích hoạt Premium...", "Payment successful! Activating your Premium..."));
       (async () => {
@@ -258,7 +259,7 @@ const Navbar = () => {
   ];
 
   const englishSubs: SubItem[] = [
-    { to: "/english", label: t("Khóa học & Lộ trình học", "Courses & Learning Roadmap"), icon: Route },
+    { to: "/english", label: t("Khóa học & Lộ trình", "Courses & Roadmap"), icon: Route },
     { to: "/placement-test?subject=english", label: t("Placement Test & Personalization", "Placement Test & Personalization"), icon: ClipboardCheck },
     { to: "#en-div1", label: "", divider: true },
     // Cambridge exam groups first
@@ -298,7 +299,7 @@ const Navbar = () => {
     ] },
   ];
   const chineseSubs: SubItem[] = [
-    { to: "/chinese", label: t("Khóa học & Lộ trình học", "Courses & Learning Roadmap"), icon: Route },
+    { to: "/chinese", label: t("Khóa học & Lộ trình", "Courses & Roadmap"), icon: Route },
     { to: "/placement-test?subject=chinese", label: t("Placement Test & Personalization", "Placement Test & Personalization"), icon: ClipboardCheck },
     { to: "#cn-hsk-group", label: t("Lộ trình HSK", "HSK Program"), icon: GraduationCap, groupLabel: "cn-hsk", children: [
       { to: "/chinese/hsk-guide", label: t("HSK Exam Guide", "HSK Exam Guide"), icon: Map },
@@ -326,7 +327,7 @@ const Navbar = () => {
     ] },
   ];
   const programmingSubs: SubItem[] = [
-    { to: "/programming", label: t("Khóa học & Lộ trình học", "Courses & Learning Roadmap"), icon: Route },
+    { to: "/programming", label: t("Khóa học & Lộ trình", "Courses & Roadmap"), icon: Route },
     { to: "/placement-test?subject=programming", label: t("Placement Test & Personalization", "Placement Test & Personalization"), icon: ClipboardCheck },
     { to: "#prog-foundation-group", label: t("Lộ trình Cơ bản", "Foundation Track"), icon: Blocks, groupLabel: "prog-foundation", children: [
       { to: "/programming?pillar=python-pathway", label: t("Introduction to Programming", "Introduction to Programming"), icon: Code2 },
