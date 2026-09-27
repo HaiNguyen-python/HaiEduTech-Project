@@ -13,7 +13,7 @@ interface TuitionCourse {
 }
 
 // Reference rate: 1 EUR = 31,000 VND (display only, settled per invoice)
-const EUR_TO_VND = 31000;
+export const EUR_TO_VND = 31000;
 
 const formatVnd = (eur: number) => {
   const vnd = eur * EUR_TO_VND;
@@ -23,7 +23,7 @@ const formatVnd = (eur: number) => {
 const COURSE_DURATION = "12 tuần / 12 weeks";
 const COURSE_SESSIONS = "24 buổi - 36 giờ mỗi khóa";
 
-const tuitionBySubject: Record<TuitionSubject, TuitionCourse[]> = {
+export const tuitionBySubject: Record<TuitionSubject, TuitionCourse[]> = {
   english: [
     { nameVi: "Luyện thi IELTS (Cơ bản - Nâng cao)", nameEn: "IELTS Preparation", groupPrice: 210, key: "english_ielts" },
     { nameVi: "Tiếng Anh Giao Tiếp & Thương mại", nameEn: "Business English", groupPrice: 210, key: "english_business" },
@@ -55,7 +55,7 @@ const subjectStyles: Record<TuitionSubject, { header: string; accent: string; ch
 
 const PriceCell = ({ eur, accent, chip }: { eur: number; accent: string; chip: string }) => (
   <div className="inline-flex flex-col items-start">
-    <span className={cn("inline-flex items-baseline gap-1 rounded-full px-3 py-1 font-display text-xl font-bold", accent, chip)}>
+    <span className={cn("inline-flex items-baseline gap-1 rounded-md border border-border px-3 py-1 font-display text-xl font-bold", accent, chip)}>
       {eur}
       <span className="text-sm font-semibold opacity-80">EUR</span>
     </span>
@@ -69,7 +69,7 @@ const CourseTuitionSection = ({ subject }: { subject: TuitionSubject }) => {
 
   return (
     <section aria-labelledby={`${subject}-tuition-heading`} className="mb-14 border-y border-border bg-card shadow-sm shadow-primary/5">
-      <div className={cn("border-b border-border bg-gradient-to-r from-background via-background to-transparent px-5 py-6 sm:px-7", styles.header)}>
+      <div className={cn("border-b border-border px-5 py-6 sm:px-7", styles.header)}>
         <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <div className={cn("mb-2 flex items-center gap-2 text-sm font-semibold", styles.accent)}>
@@ -106,8 +106,10 @@ const CourseTuitionSection = ({ subject }: { subject: TuitionSubject }) => {
             {courses.map((course, index) => (
               <tr key={course.nameEn} className={cn("transition-colors hover:bg-muted/40", index % 2 === 1 && "bg-muted/20")}>
                 <td className="px-6 py-5">
-                  <p className="font-semibold text-foreground">{course.nameVi}</p>
-                  <p className="mt-1 text-sm text-muted-foreground">{course.nameEn}</p>
+                  <Link to={`/register?course=${course.key}`} className="group inline-flex items-start gap-2 font-semibold text-primary hover:underline focus-visible:underline">
+                    <span>{course.nameVi}<span className="mt-1 block text-sm font-normal text-muted-foreground">{course.nameEn}</span></span>
+                    <ArrowRight className="mt-1 h-4 w-4 shrink-0 transition-transform group-hover:translate-x-1" />
+                  </Link>
                 </td>
                 <td className="px-6 py-5 text-foreground">
                   <span className="inline-flex items-center gap-2 text-sm">
@@ -118,6 +120,7 @@ const CourseTuitionSection = ({ subject }: { subject: TuitionSubject }) => {
                 </td>
                 <td className="px-6 py-5">
                   <PriceCell eur={course.groupPrice} accent={styles.accent} chip={styles.chip} />
+                  <Link to={`/register?course=${course.key}&class=group`} className="mt-2 flex items-center gap-1 text-xs font-semibold text-primary hover:underline"><CreditCard className="h-3.5 w-3.5" />Đăng ký / Register</Link>
                 </td>
                 <td className="px-6 py-5">
                   <div className="inline-flex flex-col items-start">
@@ -126,6 +129,7 @@ const CourseTuitionSection = ({ subject }: { subject: TuitionSubject }) => {
                       <span className="ml-1 text-sm font-semibold text-muted-foreground">EUR</span>
                     </span>
                     <span className="mt-1 text-xs font-medium text-muted-foreground">≈ {formatVnd(course.groupPrice * 3)}</span>
+                    <Link to={`/register?course=${course.key}&class=private`} className="mt-2 flex items-center gap-1 text-xs font-semibold text-primary hover:underline"><CreditCard className="h-3.5 w-3.5" />Đăng ký / Register</Link>
                   </div>
                 </td>
               </tr>
