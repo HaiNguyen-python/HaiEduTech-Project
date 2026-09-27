@@ -715,6 +715,13 @@ const KEY_TERM_PATTERNS = [
   "role-based access control", "security group", "network access control list", "defense in depth",
   "continuous delivery", "continuous monitoring", "deployment pipeline", "blue-green deployment",
   "canary deployment", "rollback strategy", "recovery point objective", "recovery time objective",
+  // Programming language concepts
+  "pass by reference", "pass by value", "shallow copy", "deep copy", "higher-order function",
+  "anonymous function", "pure function", "side effect", "immutable data", "mutable data",
+  "asynchronous programming", "synchronous programming", "callback function", "callback",
+  "promise", "memoization", "type coercion", "scope", "closure", "namespace", "module",
+  "parameter", "argument", "return value", "conditional statement", "loop", "data type",
+  "syntax error", "runtime error", "logical error", "debugging", "refactoring",
 ] as const;
 
 /** Add restrained emphasis to prose only. Code, math, links and existing Markdown emphasis stay byte-for-byte intact. */

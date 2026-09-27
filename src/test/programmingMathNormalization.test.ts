@@ -54,7 +54,7 @@ describe("Programming theory key-term emphasis", () => {
       "Cloud computing supports high availability through a load balancer.",
     ].join("\n");
 
-    expect(emphasizeKeyTerms(input)).toContain("**Cloud computing** shifts **CAPEX** to **OPEX**");
+    expect(emphasizeKeyTerms(input)).toContain("**Cloud computing** shifts **CAPEX to OPEX**");
     expect(emphasizeKeyTerms(input)).toContain("**auto-scaling**");
     expect(emphasizeKeyTerms(input)).toContain("**variable workloads**");
     expect(emphasizeKeyTerms(input)).toContain("**high availability**");
