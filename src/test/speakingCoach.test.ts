@@ -7,6 +7,7 @@ import { buildFreeTalkQuickReport, splitGrammarFix } from "@/lib/freeTalkPractic
 import { sortWeakWords } from "@/lib/weakWordCoach";
 import { mergeSpeakingThemes } from "@/data/speakingCoachMerge";
 import { speakingCoachLanguages } from "@/data/speakingCoachData";
+import { DRILL_LEVELS, fillSentence, getPatterns, splitDrillFrame } from "@/data/patternDrills";
 
 describe("Speaking Coach safeguards", () => {
   it("grades Nordic diacritics and CJK units consistently", () => {
@@ -96,5 +97,38 @@ describe("Speaking Coach safeguards", () => {
     ];
     expect(sortWeakWords(words)[0].word).toBe("sheep");
     expect(sortWeakWords(words, "drill")).toHaveLength(1);
+  });
+
+  it("keeps Pattern Drilling balanced from Starter through C1", () => {
+    expect(DRILL_LEVELS.map((level) => level.key)).toEqual(["starter", "a1", "a2", "b1", "b2", "c1"]);
+    for (const language of ["english", "chinese"]) {
+      const patterns = getPatterns(language);
+      expect(patterns).toHaveLength(90);
+      expect(new Set(patterns.map((pattern) => pattern.id)).size).toBe(90);
+      const sentences = new Set<string>();
+      for (const level of DRILL_LEVELS) {
+        expect(patterns.filter((pattern) => pattern.level === level.key), `${language} ${level.key}`).toHaveLength(15);
+      }
+      for (const pattern of patterns) {
+        expect(pattern.frame.match(/___/g), `${pattern.id} target frame`).toHaveLength(1);
+        expect(pattern.frameVi.match(/___/g), `${pattern.id} Vietnamese frame`).toHaveLength(1);
+        expect(pattern.fills, `${pattern.id} substitutions`).toHaveLength(5);
+        if (language === "chinese") {
+          expect(pattern.framePy?.match(/___/g), `${pattern.id} Pinyin frame`).toHaveLength(1);
+        }
+        for (const fill of pattern.fills) {
+          expect(fill.vi.trim(), `${pattern.id} Vietnamese meaning`).not.toBe("");
+          if (language === "chinese") expect(fill.py?.trim(), `${pattern.id} Pinyin fill`).not.toBe("");
+          const sentence = fillSentence(pattern.frame, fill.w).toLocaleLowerCase().trim();
+          expect(sentences.has(sentence), `${pattern.id} repeats ${sentence}`).toBe(false);
+          sentences.add(sentence);
+        }
+      }
+    }
+  });
+
+  it("preserves the active Pattern Drilling slot for green emphasis", () => {
+    expect(splitDrillFrame("It takes me ___ to get to work.")).toEqual({ before: "It takes me ", after: " to get to work." });
+    expect(splitDrillFrame("我想___。 ")).toEqual({ before: "我想", after: "。 " });
   });
 });
