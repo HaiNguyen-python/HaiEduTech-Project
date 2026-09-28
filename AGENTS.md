@@ -8,5 +8,5 @@
 - Keep Programming math cleanup in shared `normalizeMath` and audit malformed delimiters.
 - Resolve HSK vocabulary visuals from the Hanzi-aware resolver, with explicit common-word mappings and stable category fallbacks, so unknown meanings do not repeat one generic icon.
 
-- Public subject UI exposes Home, About, English, Chinese, Vietnamese, Finnish, Technology, Interpersonal Skills and Your Corner. Finnish pages are open to all signed-in users (same as other languages). Hide JA/SV from navigation (teacher-gated routes), Specialized Language and Super Dictionary; keep direct course URLs.
+- Public subject UI exposes Home, About, English, Chinese, Vietnamese, Technology, Interpersonal Skills and Your Corner. Finnish is hidden from navigation but its pages stay open to all signed-in users via direct URLs (same as other languages). Hide JA/SV from navigation (teacher-gated routes), Specialized Language and Super Dictionary; keep direct course URLs.
 - Pattern Drilling is English/Chinese only: 15 frames per Starter-C1 level and five substitutions per frame.

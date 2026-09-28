@@ -12,7 +12,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Menu, X, Brain, BookOpen, Languages, Code2, GraduationCap,
-  Globe, UserPlus, Heart, LogIn, ChevronDown, ChevronRight, Cpu, LogOut, Library, Shield, Snowflake,
+  Globe, UserPlus, Heart, LogIn, ChevronDown, ChevronRight, Cpu, LogOut, Library, Shield,
   FileText, PenTool, Map, MessageSquare, Award, School, Swords, User, LayoutDashboard, Newspaper,
   FolderLock, Compass, Briefcase, Trophy, Sparkles, Bot, Database, Workflow, Cloud, Network, Gamepad2, MessagesSquare, Target, Settings2, Flame, Music, Quote, Mic2, Crown, BookType, Blocks, Rocket, Users, Plane, ClipboardCheck, FlaskConical, Route, Ruler, Volume2, Headphones, Landmark, Puzzle, Wallet, Handshake, Activity, PartyPopper, LifeBuoy
 } from "lucide-react";
@@ -103,15 +103,6 @@ const SUBJECT_COLORS: Record<string, SubjectColor> = {
     icon: "text-amber-500/80",
     header: "text-amber-600",
     accent: "hover:border-amber-500",
-  },
-  fi: {
-    trigger: "hover:text-sky-600 hover:bg-sky-500/10",
-    rowHover: "hover:text-sky-600 hover:bg-sky-500/10",
-    rowActive: "text-sky-600 bg-sky-500/10",
-    childHover: "hover:text-sky-600 hover:bg-sky-500/10",
-    icon: "text-sky-500/80",
-    header: "text-sky-600",
-    accent: "hover:border-sky-500",
   },
   prog: {
     trigger: "hover:text-emerald-600 hover:bg-emerald-500/10",
@@ -366,23 +357,6 @@ const Navbar = () => {
       { to: "/speaking-coach/vietnamese", label: t("Speaking Coach", "Speaking Coach"), icon: Mic2 },
     ] },
   ];
-  const finnishSubs: SubItem[] = [
-    { to: "/finnish", label: t("Khóa học & Lộ trình", "Courses & Roadmap"), icon: Route },
-    { to: "#fi-yki-group", label: t("Bảng YKI", "YKI Program"), icon: Award, groupLabel: "fi-yki", children: [
-      { to: "/finnish/yki-dashboard", label: t("YKI A2", "YKI A2"), icon: Award },
-      { to: "/finnish/yki-b1", label: t("YKI B1", "YKI B1"), icon: GraduationCap },
-    ] },
-    { to: "#fi-language-group", label: t("Ngôn ngữ", "Language"), icon: BookType, groupLabel: "fi-language", children: [
-      { to: "/finnish/beginner", label: t("Tiếng Phần Lan Sơ cấp", "Finnish Beginner"), icon: BookOpen },
-      { to: "/finnish-vocabulary", label: t("Ngân hàng Từ vựng", "Vocabulary Bank"), icon: BookType },
-    ] },
-    { to: "#fi-life-group", label: t("Cuộc sống ở Phần Lan", "Life in Finland"), icon: Map, groupLabel: "fi-life", children: [
-      { to: "/finnish/life-in-finland", label: t("Cẩm nang Cuộc sống", "Living Guide"), icon: Map },
-      { to: "/finnish/arcade", label: t("Finnish Arcade Hub", "Finnish Arcade Hub"), icon: Gamepad2 },
-      { to: "/songs/finnish", label: t("Học qua bài hát", "Learn through Songs"), icon: Music },
-      { to: "/speaking-coach/finnish", label: t("Speaking Coach", "Speaking Coach"), icon: Mic2 },
-    ] },
-  ];
   const programmingSubs: SubItem[] = [
     { to: "/programming", label: t("Khóa học & Lộ trình", "Courses & Roadmap"), icon: Route },
     { to: "/placement-test?subject=programming", label: t("Placement Test & Personalization", "Placement Test & Personalization"), icon: ClipboardCheck },
@@ -459,7 +433,6 @@ const Navbar = () => {
     { to: "/english", label: t("Tiếng Anh", "English"), icon: BookOpen, subs: [...englishSubs, teacherNotes("English")], key: "en" },
     { to: "/chinese", label: t("Tiếng Trung", "Chinese"), icon: Languages, subs: [...chineseSubs, teacherNotes("Chinese")], key: "cn" },
     { to: "/learn-vietnamese", label: t("Tiếng Việt", "Vietnamese"), icon: Library, subs: [...vietnameseSubs, teacherNotes("Vietnamese")], key: "vn" },
-    { to: "/finnish", label: t("Tiếng Phần Lan", "Finnish"), icon: Snowflake, subs: [...finnishSubs, teacherNotes("Finnish")], key: "fi" },
     { to: "/programming", label: t("Công nghệ", "Technology\n"), icon: Code2, subs: [...programmingSubs, teacherNotes("Programming")], key: "prog" },
     { to: "/lifestyle-academy", label: t("Kỹ năng mềm", "Interpersonal Skills"), icon: Heart, subs: ([
       { to: "/lifestyle-academy", label: t("Tổng quan Lifestyle Academy", "Lifestyle Academy Overview"), icon: Compass },
