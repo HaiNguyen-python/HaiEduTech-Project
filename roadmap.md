@@ -20,6 +20,10 @@
 - [x] Differentiate repeated strategy lessons and correct unsupported absolute rules.
 - [x] Add automated Theory consistency checks for all Reading Strategies lessons.
 
+# Chinese Vocabulary Visuals
+
+- [x] Replace repeated generic Chinese vocabulary icons with stable, meaning-aware visuals for each HSK word.
+
 # Vietnamese Quality Upgrade
 
 - [x] Audit all Vietnamese routes, core lessons, VFF content, typography, media and TTS.
