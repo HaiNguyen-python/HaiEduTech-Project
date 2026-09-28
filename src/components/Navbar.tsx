@@ -453,7 +453,7 @@ const Navbar = () => {
     { to: "/english", label: t("Tiếng Anh", "English"), icon: BookOpen, subs: [...englishSubs, teacherNotes("English")], key: "en" },
     { to: "/chinese", label: t("Tiếng Trung", "Chinese"), icon: Languages, subs: [...chineseSubs, teacherNotes("Chinese")], key: "cn" },
     { to: "/learn-vietnamese", label: t("Tiếng Việt", "Vietnamese"), icon: Library, subs: [...vietnameseSubs, teacherNotes("Vietnamese")], key: "vn" },
-    ...(isTeacher ? [{ to: "/finnish", label: t("Tiếng Phần Lan", "Finnish"), icon: Snowflake, subs: [...finnishSubs, teacherNotes("Finnish")], key: "fi" }] : []),
+    { to: "/finnish", label: t("Tiếng Phần Lan", "Finnish"), icon: Snowflake, subs: [...finnishSubs, teacherNotes("Finnish")], key: "fi" },
     { to: "/programming", label: t("Công nghệ", "Technology\n"), icon: Code2, subs: [...programmingSubs, teacherNotes("Programming")], key: "prog" },
     { to: "/lifestyle-academy", label: t("Kỹ năng mềm", "Interpersonal Skills"), icon: Heart, subs: ([
       { to: "/lifestyle-academy", label: t("Tổng quan Lifestyle Academy", "Lifestyle Academy Overview"), icon: Compass },
