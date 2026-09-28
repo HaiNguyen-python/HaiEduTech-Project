@@ -339,9 +339,14 @@ const WordQuest = ({
 
   const reverseOptions = useMemo(() => {
     if (!word) return [] as { key: string; label: string }[];
-    return shuffle([word, ...distractors]).map(w => ({ key: w.key, label: w.definition.vi }));
+    return shuffle([word, ...distractors]).map(w => ({
+      key: w.key,
+      // HSK reverse questions must still test Chinese, not merely connect an
+      // English definition to a Vietnamese translation.
+      label: subject === "hsk" ? w.word : w.definition.vi,
+    }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [wordKey, distractors]);
+  }, [wordKey, distractors, subject]);
 
   const spellingOptions = useMemo(() => {
     if (!word) return [] as string[];
@@ -887,19 +892,23 @@ const WordQuest = ({
             </div>
           )}
 
-          {/* Reverse: English definition -> Vietnamese meaning */}
+          {/* Reverse: definition -> target-language word (HSK: Hanzi) */}
           {kind === "reverse" && (
             <div>
               <p className="mb-2 text-center text-sm text-muted-foreground">
-                {t("Đọc định nghĩa tiếng Anh và chọn nghĩa tiếng Việt đúng:", "Read the English definition and pick the matching meaning:")}
+                {subject === "hsk"
+                  ? t("Đọc nghĩa và chọn Hán tự đúng:", "Read the meaning and choose the correct Hanzi:")
+                  : t("Đọc định nghĩa tiếng Anh và chọn nghĩa tiếng Việt đúng:", "Read the English definition and pick the matching meaning:")}
               </p>
-              <p className="mb-4 rounded-xl bg-secondary/50 p-4 text-center text-base text-foreground">{word.definition.en}</p>
+              <p className="mb-4 rounded-xl bg-secondary/50 p-4 text-center text-base text-foreground">
+                {subject === "hsk" ? t(word.definition.vi, word.definition.en) : word.definition.en}
+              </p>
               <div className="grid gap-3 sm:grid-cols-2">
                 {reverseOptions.map(o => (
                   <button
                     key={o.key}
                     onClick={() => handlePick(o.key, word.key)}
-                    className={`rounded-xl border p-3 text-left text-sm transition-all ${optionClass(o.key === word.key, wrongPicks.includes(o.key))}`}
+                    className={`rounded-xl border p-3 transition-all ${subject === "hsk" ? "text-center text-xl font-semibold" : "text-left text-sm"} ${optionClass(o.key === word.key, wrongPicks.includes(o.key))}`}
                   >
                     {o.label}
                   </button>
