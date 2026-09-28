@@ -4,13 +4,13 @@
  * compact chip bar to switch quickly while practising.
  */
 import { motion } from "framer-motion";
-import { ArrowRight, Brain, MessageCircle, Mic, Repeat, UserRound, Waves } from "lucide-react";
+import { ArrowRight, Brain, Layers, MessageCircle, Mic, Repeat, UserRound, Waves } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-export type SpeakingActivity = "sentences" | "shadow" | "drill" | "freetalk" | "mrhai" | "review";
+export type SpeakingActivity = "sentences" | "pattern" | "shadow" | "drill" | "freetalk" | "mrhai" | "review";
 
 export const ACTIVITY_META = [
   {
@@ -21,6 +21,15 @@ export const ACTIVITY_META = [
     descVi: "Đọc theo câu mẫu theo chủ đề và được chấm từng từ.",
     descEn: "Read themed model sentences and get word-by-word scoring.",
     minutes: 5,
+  },
+  {
+    key: "pattern" as const,
+    icon: Layers,
+    vi: "Luyện khung câu",
+    en: "Pattern Drilling",
+    descVi: "Thay từ vào khung câu phổ biến theo cấp độ, luyện phản xạ nói cho người mất gốc.",
+    descEn: "Swap words into common frames by level to build speaking reflexes.",
+    minutes: 6,
   },
   {
     key: "shadow" as const,
@@ -69,16 +78,21 @@ export const ACTIVITY_META = [
   },
 ];
 
+const PATTERN_LANGS = ["english", "chinese"];
+const visibleActivities = (language?: string) =>
+  ACTIVITY_META.filter((a) => a.key !== "pattern" || PATTERN_LANGS.includes(language || ""));
+
 interface GridProps {
+  language?: string;
   weakCount?: number;
   onPick: (activity: SpeakingActivity) => void;
 }
 
-export const ActivityGrid = ({ weakCount = 0, onPick }: GridProps) => {
+export const ActivityGrid = ({ language, weakCount = 0, onPick }: GridProps) => {
   const { t } = useLanguage();
   return (
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-      {ACTIVITY_META.map((a, i) => {
+      {visibleActivities(language).map((a, i) => {
         const Icon = a.icon;
         return (
           <motion.div
@@ -115,16 +129,17 @@ export const ActivityGrid = ({ weakCount = 0, onPick }: GridProps) => {
 };
 
 interface ChipProps {
+  language?: string;
   active: SpeakingActivity;
   weakCount?: number;
   onPick: (activity: SpeakingActivity) => void;
 }
 
-export const ActivityChips = ({ active, weakCount = 0, onPick }: ChipProps) => {
+export const ActivityChips = ({ language, active, weakCount = 0, onPick }: ChipProps) => {
   const { t } = useLanguage();
   return (
     <div className="flex flex-wrap gap-2">
-      {ACTIVITY_META.map((a) => {
+      {visibleActivities(language).map((a) => {
         const Icon = a.icon;
         return (
           <Button
