@@ -116,5 +116,8 @@ export const CHINESE_PATTERNS: DrillPattern[] = [
     fills: [{ w: "工作很累", py: "gōngzuò hěn lèi", vi: "công việc rất mệt" }, { w: "汉字很难", py: "Hànzì hěn nán", vi: "chữ Hán rất khó" }, { w: "房间很小", py: "fángjiān hěn xiǎo", vi: "phòng rất nhỏ" }, { w: "价格有点贵", py: "jiàgé yǒudiǎn guì", vi: "giá hơi đắt" }, { w: "天气很冷", py: "tiānqì hěn lěng", vi: "trời rất lạnh" }] },
 ];
 
+import { CHINESE_PATTERNS_MORE, ENGLISH_PATTERNS_MORE } from "./patternDrillsMore";
+
 export const getPatterns = (language: string): DrillPattern[] =>
-  language === "chinese" ? CHINESE_PATTERNS : language === "english" ? ENGLISH_PATTERNS : [];
+  language === "chinese" ? [...CHINESE_PATTERNS, ...CHINESE_PATTERNS_MORE]
+    : language === "english" ? [...ENGLISH_PATTERNS, ...ENGLISH_PATTERNS_MORE] : [];
