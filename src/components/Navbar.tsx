@@ -95,6 +95,15 @@ const SUBJECT_COLORS: Record<string, SubjectColor> = {
     header: "text-red-600",
     accent: "hover:border-red-500",
   },
+  vn: {
+    trigger: "hover:text-amber-600 hover:bg-amber-500/10",
+    rowHover: "hover:text-amber-600 hover:bg-amber-500/10",
+    rowActive: "text-amber-600 bg-amber-500/10",
+    childHover: "hover:text-amber-600 hover:bg-amber-500/10",
+    icon: "text-amber-500/80",
+    header: "text-amber-600",
+    accent: "hover:border-amber-500",
+  },
   prog: {
     trigger: "hover:text-emerald-600 hover:bg-emerald-500/10",
     rowHover: "hover:text-emerald-600 hover:bg-emerald-500/10",
@@ -326,6 +335,28 @@ const Navbar = () => {
       { to: "/specialized-language?lang=chinese", label: t("Tiếng Trung Chuyên ngành", "Specialized Chinese"), icon: Brain },
     ] },
   ];
+  const vietnameseSubs: SubItem[] = [
+    { to: "/learn-vietnamese", label: t("Khóa học & Lộ trình", "Courses & Roadmap"), icon: Route },
+    { to: "/placement-test?subject=vietnamese", label: t("Placement Test & Personalization", "Placement Test & Personalization"), icon: ClipboardCheck },
+    { to: "#vn-language-group", label: t("Ngôn ngữ", "Language"), icon: BookType, groupLabel: "vn-language", children: [
+      { to: "/learn-vietnamese/vocabulary", label: t("Từ vựng", "Vocabulary"), icon: BookOpen },
+      { to: "/learn-vietnamese/alphabet", label: t("Bảng chữ cái", "Alphabet"), icon: PenTool },
+      { to: "/learn-vietnamese/dictation", label: t("Nghe chép chính tả", "Dictation"), icon: Headphones },
+      { to: "/learn-vietnamese/for-foreigners", label: t("Tiếng Việt cho người nước ngoài", "Vietnamese for Foreigners"), icon: Globe },
+    ] },
+    { to: "#vn-culture-group", label: t("Lịch sử & Văn hóa", "History & Culture"), icon: Landmark, groupLabel: "vn-culture", children: [
+      { to: "/learn-vietnamese/folklore", label: t("Ca Dao Tục Ngữ", "Folklore Library"), icon: Quote },
+      { to: "/learn-vietnamese/poetry", label: t("Thơ Kinh Điển", "Classic Poetry"), icon: BookOpen },
+      { to: "/learn-vietnamese/regions", label: t("Miền Bắc - Trung - Nam", "Regions of Vietnam"), icon: Map },
+      { to: "/learn-vietnamese/holidays", label: t("Lễ Hội Việt Nam", "Festivals"), icon: Sparkles },
+      { to: "/learn-vietnamese/cuisine", label: t("Ẩm Thực Việt", "Vietnamese Cuisine"), icon: Compass },
+    ] },
+    { to: "#vn-practice-group", label: t("Luyện tập & Giải trí", "Practice & Fun"), icon: Target, groupLabel: "vn-practice", children: [
+      { to: "/learn-vietnamese/arcade", label: t("Vietnamese Arcade Hub", "Vietnamese Arcade Hub"), icon: Gamepad2 },
+      { to: "/songs/vietnamese", label: t("Học qua bài hát", "Learn through Songs"), icon: Music },
+      { to: "/speaking-coach/vietnamese", label: t("Speaking Coach", "Speaking Coach"), icon: Mic2 },
+    ] },
+  ];
   const programmingSubs: SubItem[] = [
     { to: "/programming", label: t("Khóa học & Lộ trình", "Courses & Roadmap"), icon: Route },
     { to: "/placement-test?subject=programming", label: t("Placement Test & Personalization", "Placement Test & Personalization"), icon: ClipboardCheck },
@@ -401,6 +432,7 @@ const Navbar = () => {
     { to: "/about", label: t("Giới thiệu", "About"), icon: Brain, key: "about" },
     { to: "/english", label: t("Tiếng Anh", "English"), icon: BookOpen, subs: [...englishSubs, teacherNotes("English")], key: "en" },
     { to: "/chinese", label: t("Tiếng Trung", "Chinese"), icon: Languages, subs: [...chineseSubs, teacherNotes("Chinese")], key: "cn" },
+    { to: "/learn-vietnamese", label: t("Tiếng Việt", "Vietnamese"), icon: Library, subs: [...vietnameseSubs, teacherNotes("Vietnamese")], key: "vn" },
     { to: "/programming", label: t("Công nghệ", "Technology\n"), icon: Code2, subs: [...programmingSubs, teacherNotes("Programming")], key: "prog" },
     { to: "/lifestyle-academy", label: t("Kỹ năng mềm", "Interpersonal Skills"), icon: Heart, subs: ([
       { to: "/lifestyle-academy", label: t("Tổng quan Lifestyle Academy", "Lifestyle Academy Overview"), icon: Compass },
