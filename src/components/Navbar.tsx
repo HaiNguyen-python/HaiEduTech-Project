@@ -104,15 +104,6 @@ const SUBJECT_COLORS: Record<string, SubjectColor> = {
     header: "text-amber-600",
     accent: "hover:border-amber-500",
   },
-  fi: {
-    trigger: "hover:text-sky-600 hover:bg-sky-500/10",
-    rowHover: "hover:text-sky-600 hover:bg-sky-500/10",
-    rowActive: "text-sky-600 bg-sky-500/10",
-    childHover: "hover:text-sky-600 hover:bg-sky-500/10",
-    icon: "text-sky-500/80",
-    header: "text-sky-600",
-    accent: "hover:border-sky-500",
-  },
   prog: {
     trigger: "hover:text-emerald-600 hover:bg-emerald-500/10",
     rowHover: "hover:text-emerald-600 hover:bg-emerald-500/10",
