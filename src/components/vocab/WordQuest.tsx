@@ -25,6 +25,7 @@ import { Badge } from "@/components/ui/badge";
 import type { QuestItem } from "@/lib/vocab/vocabAdapter";
 import { playEnglishTts, stopEnglishTts } from "@/lib/englishTts";
 import { resolveVocabEmoji } from "@/lib/vocabEmojiMap";
+import { resolveHskVocabEmoji } from "@/lib/hskVocabEmojiMap";
 import VocabIllustration from "@/components/VocabIllustration";
 import { safeStorage } from "@/lib/safeStorage";
 import { maskAnswerForms, normForCompare } from "@/lib/vocab/questionQuality";
@@ -179,6 +180,12 @@ const WordQuest = ({
   const PROGRESS_KEY = storageKey;
   /** Finnish inflects heavily, so answer masking needs gradation stems. */
   const gradation = speechLang.toLowerCase().startsWith("fi");
+  const resolveWordEmoji = useCallback(
+    (item: QuestItem) => subject === "hsk"
+      ? resolveHskVocabEmoji(item.word, item.definition.en, item.category)
+      : resolveVocabEmoji(item.definition.en, item.category),
+    [subject],
+  );
 
   const stages = useMemo(() => {
     const out: QuestItem[][] = [];
@@ -325,10 +332,10 @@ const WordQuest = ({
     return shuffle([word, ...distractors]).map(w => ({
       key: w.key,
       label: w.definition.vi,
-      emoji: resolveVocabEmoji(w.definition.en, w.category),
+      emoji: resolveWordEmoji(w),
     }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [wordKey, distractors]);
+  }, [wordKey, distractors, resolveWordEmoji]);
 
   const reverseOptions = useMemo(() => {
     if (!word) return [] as { key: string; label: string }[];
@@ -670,7 +677,7 @@ const WordQuest = ({
   if (phase === "study") {
     const sIdx = Math.min(studyIdx, stage.length - 1);
     const sw = stage[sIdx];
-    const swEmoji = resolveVocabEmoji(sw.definition.en, sw.category);
+    const swEmoji = resolveWordEmoji(sw);
     const startDrill = () => {
       stopVoice();
       const tasksForWord = queue.some(item => item.wordIdx === sIdx) ? queue : buildWordTasks(stage, sIdx);
@@ -752,7 +759,7 @@ const WordQuest = ({
 
   if (!word) return null;
 
-  const emoji = resolveVocabEmoji(word.definition.en, word.category);
+  const emoji = resolveWordEmoji(word);
   const answer = word.typeAnswer;
   const hint = answer
     .split("")

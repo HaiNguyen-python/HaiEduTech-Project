@@ -765,6 +765,7 @@ const HskVocabulary = () => {
                 storageKey="hsk_word_quest_v1"
                 speak={speakZh}
                 stopSpeak={stopChineseTts}
+                subject="hsk"
                 typingLabel={{ vi: "Gõ Hán tự của từ có nghĩa:", en: "Type the Hanzi for the word meaning:" }}
                 speechLang="zh-CN"
                 knownKeys={mastered}
