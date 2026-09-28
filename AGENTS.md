@@ -8,4 +8,4 @@
 - Keep all Programming theory math cleanup in the shared `normalizeMath` renderer and audit malformed delimiters so cached and newly generated lessons render consistently.
 - Resolve HSK vocabulary visuals from the Hanzi-aware resolver, with explicit common-word mappings and stable category fallbacks, so unknown meanings do not repeat one generic icon.
 
-- Navbar shows only 5 subject areas: Home, About, English, Chinese, Programming, Lifestyle, Your Corner. Vietnamese/Japanese/Finnish/Swedish are hidden from all navigation (desktop + mobile) for every account incl. teacher; their pages remain reachable via direct URL. Do not re-add nav entries without user request.
+- Public subject UI exposes Home, About, English, Chinese, Technology, Interpersonal Skills and Your Corner. Hide VI/JA/FI/SV from navigation, Specialized Language and Super Dictionary; keep direct course URLs.

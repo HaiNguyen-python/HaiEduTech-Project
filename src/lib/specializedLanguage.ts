@@ -1,4 +1,5 @@
 export type SpecializedLang = "english" | "chinese" | "vietnamese" | "finnish" | "swedish" | "japanese";
+export type AvailableSpecializedLang = Extract<SpecializedLang, "english" | "chinese">;
 export type LearnerLevel = "beginner" | "elementary" | "intermediate" | "advanced";
 
 export interface SpecializedVocab {
@@ -73,6 +74,9 @@ export const emptySpecializedProgress = (): SpecializedProgress => ({
 
 export const isSpecializedLang = (value: string | null): value is SpecializedLang =>
   ["english", "chinese", "vietnamese", "finnish", "swedish", "japanese"].includes(value ?? "");
+
+export const isAvailableSpecializedLang = (value: string | null): value is AvailableSpecializedLang =>
+  value === "english" || value === "chinese";
 
 export const speechCodeFor = (language: SpecializedLang): string => ({
   english: "en-US",

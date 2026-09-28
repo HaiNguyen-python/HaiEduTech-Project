@@ -24,6 +24,11 @@
 
 - [x] Replace repeated generic Chinese vocabulary icons with stable, meaning-aware visuals for each HSK word.
 
+# Specialized Language Availability
+
+- [x] Limit Specialized Language pathways and the global dictionary to English and Chinese.
+- [x] Safely reset hidden languages from old links and saved device preferences to English.
+
 # Vietnamese Quality Upgrade
 
 - [x] Audit all Vietnamese routes, core lessons, VFF content, typography, media and TTS.

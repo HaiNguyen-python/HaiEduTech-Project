@@ -19,20 +19,16 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { safeStorage } from "@/lib/safeStorage";
 import type { Json } from "@/integrations/supabase/types";
-import type { LearnerLevel, SpecializedCurriculum, SpecializedLang, SpecializedProgress } from "@/lib/specializedLanguage";
-import { LESSON_COUNT_OPTIONS, curriculumToMarkdown, emptySpecializedProgress, isSpecializedLang, validateCurriculum } from "@/lib/specializedLanguage";
+import type { AvailableSpecializedLang, LearnerLevel, SpecializedCurriculum, SpecializedProgress } from "@/lib/specializedLanguage";
+import { LESSON_COUNT_OPTIONS, curriculumToMarkdown, emptySpecializedProgress, isAvailableSpecializedLang, validateCurriculum } from "@/lib/specializedLanguage";
 import specializedHero from "@/assets/specialized-language-professionals.jpg";
 
 const STORAGE_KEY = "specialized-learning-path-v2";
 const storageKeyFor = (lang: string) => `${STORAGE_KEY}-${lang}`;
 
-const LANG_OPTIONS: { key: SpecializedLang; label: string; code: string }[] = [
+const LANG_OPTIONS: { key: AvailableSpecializedLang; label: string; code: string }[] = [
   { key: "english", label: "English", code: "EN" },
   { key: "chinese", label: "中文 Chinese", code: "ZH" },
-  { key: "vietnamese", label: "Tiếng Việt", code: "VI" },
-  { key: "finnish", label: "Suomi Finnish", code: "FI" },
-  { key: "swedish", label: "Svenska Swedish", code: "SV" },
-  { key: "japanese", label: "日本語 Japanese", code: "JA" },
 ];
 
 const FIELD_PRESETS = [
@@ -54,7 +50,7 @@ interface StoredPath {
   curriculum: SpecializedCurriculum;
   citations: string[];
   progress: SpecializedProgress;
-  form: { language: SpecializedLang; field: string; jobRole: string; goal: string; learnerLevel: LearnerLevel; dailyMinutes: number; lessonCount: number; notes: string };
+  form: { language: AvailableSpecializedLang; field: string; jobRole: string; goal: string; learnerLevel: LearnerLevel; dailyMinutes: number; lessonCount: number; notes: string };
 }
 
 const parseProgress = (value: Json | null): SpecializedProgress => {
@@ -74,7 +70,7 @@ export default function SpecializedLanguage() {
   const { t } = useLanguage();
   const requestedLanguage = searchParams.get("lang");
   const [step, setStep] = useState(1);
-  const [language, setLanguage] = useState<SpecializedLang>(isSpecializedLang(requestedLanguage) ? requestedLanguage : "english");
+  const [language, setLanguage] = useState<AvailableSpecializedLang>(isAvailableSpecializedLang(requestedLanguage) ? requestedLanguage : "english");
   const [learnerLevel, setLearnerLevel] = useState<LearnerLevel>("elementary");
   const [field, setField] = useState("");
   const [jobRole, setJobRole] = useState("");
@@ -96,27 +92,27 @@ export default function SpecializedLanguage() {
 
   const form = useMemo(() => ({ language, field, jobRole, goal, learnerLevel, dailyMinutes, lessonCount, notes }), [language, field, jobRole, goal, learnerLevel, dailyMinutes, lessonCount, notes]);
 
-  const targetLanguage: SpecializedLang | null = isSpecializedLang(requestedLanguage) ? requestedLanguage : null;
+  const targetLanguage: AvailableSpecializedLang = isAvailableSpecializedLang(requestedLanguage) ? requestedLanguage : "english";
 
   useEffect(() => {
     let active = true;
     const restore = async () => {
       setRestoring(true);
       setPathId(undefined); setCurriculum(null); setCitations([]); setProgress(emptySpecializedProgress()); setStep(1);
-      if (targetLanguage) setLanguage(targetLanguage);
+      setLanguage(targetLanguage);
       const { data: authData } = await supabase.auth.getUser();
       if (authData.user) {
         let query = supabase.from("specialized_learning_paths").select("*").eq("user_id", authData.user.id);
-        if (targetLanguage) query = query.eq("language", targetLanguage);
+        query = query.eq("language", targetLanguage);
         const { data } = await query.order("updated_at", { ascending: false }).limit(1).maybeSingle();
         if (active && data && validateCurriculum(data.curriculum)) {
           setPathId(data.id); setCurriculum(data.curriculum); setCitations(data.citations); setProgress(parseProgress(data.progress));
-          setLanguage(isSpecializedLang(data.language) ? data.language : targetLanguage ?? "english"); setField(data.field); setJobRole(data.job_role); setGoal(data.goal);
+          setLanguage(isAvailableSpecializedLang(data.language) ? data.language : targetLanguage); setField(data.field); setJobRole(data.job_role); setGoal(data.goal);
           setLearnerLevel(data.learner_level as LearnerLevel); setDailyMinutes(data.daily_minutes); setNotes(data.notes); setLessonCount(data.curriculum.lessons.length);
         }
       } else {
-        const saved = safeStorage.get<StoredPath>(storageKeyFor(targetLanguage ?? "english")) ?? (targetLanguage ? null : safeStorage.get<StoredPath>(STORAGE_KEY));
-        const matchesLanguage = !targetLanguage || saved?.form?.language === targetLanguage;
+        const saved = safeStorage.get<StoredPath>(storageKeyFor(targetLanguage)) ?? safeStorage.get<StoredPath>(STORAGE_KEY);
+        const matchesLanguage = saved?.form?.language === targetLanguage;
         if (active && saved && matchesLanguage && validateCurriculum(saved.curriculum)) {
           setPathId(saved.pathId); setCurriculum(saved.curriculum); setCitations(saved.citations); setProgress(saved.progress); setLanguage(saved.form.language);
           setField(saved.form.field); setJobRole(saved.form.jobRole); setGoal(saved.form.goal); setLearnerLevel(saved.form.learnerLevel); setDailyMinutes(saved.form.dailyMinutes); setNotes(saved.form.notes); setLessonCount(saved.curriculum.lessons.length);
@@ -193,14 +189,14 @@ export default function SpecializedLanguage() {
   const startNew = () => { setCurriculum(null); setPathId(undefined); setProgress(emptySpecializedProgress()); setStep(1); window.scrollTo({ top: 0, behavior: "smooth" }); };
 
   return <div className="min-h-screen bg-background">
-    <SEO title="Specialized Language Pathways | HaiEduTech" description="Build a 3 to 12 lesson professional language pathway in English, Chinese, Vietnamese, Finnish, Swedish or Japanese." />
+    <SEO title="Specialized English & Chinese Pathways | HaiEduTech" description="Build a 3 to 12 lesson professional language pathway in English or Chinese." />
     <Navbar />
     <section className="relative overflow-hidden border-b bg-primary text-primary-foreground">
       <img src={specializedHero} alt="International professionals learning workplace languages" width={1600} height={900} className="absolute inset-0 h-full w-full object-cover opacity-25" />
       <div className="absolute inset-0 bg-primary/60" />
       <div className="container relative mx-auto grid min-h-[360px] items-end gap-8 px-4 pb-10 pt-28 lg:grid-cols-[1fr_360px] lg:items-center lg:pb-12">
         <div><Badge className="mb-4 bg-background text-foreground">{langMeta.code} · {langMeta.label}</Badge><h1 className="max-w-3xl text-3xl font-bold sm:text-5xl">Specialized Language Hub</h1><p className="mt-4 max-w-2xl text-base leading-relaxed sm:text-lg">{t("Lộ trình chuyên ngành 3-12 bài do bạn chọn, kết hợp từ vựng, hội thoại, phát âm, luyện nói và kiểm tra tiến độ.", "A professional pathway you can size from 3 to 12 lessons, combining vocabulary, dialogue, pronunciation, speaking and progress checks.")}</p></div>
-        <div className="grid grid-cols-3 gap-2 rounded-lg border border-primary-foreground/30 bg-background/10 p-3 backdrop-blur-sm">{LANG_OPTIONS.map((option) => <div key={option.key} className="text-center"><span className="inline-flex h-8 min-w-10 items-center justify-center rounded border border-primary-foreground/40 bg-background/15 px-2 text-sm font-bold">{option.code}</span><p className="mt-1 text-xs font-medium">{option.label.split(" ").at(-1)}</p></div>)}</div>
+        <div className="grid grid-cols-2 gap-3 rounded-lg border border-primary-foreground/30 bg-background/10 p-3 backdrop-blur-sm">{LANG_OPTIONS.map((option) => <div key={option.key} className="text-center"><span className="inline-flex h-8 min-w-10 items-center justify-center rounded border border-primary-foreground/40 bg-background/15 px-2 text-sm font-bold">{option.code}</span><p className="mt-1 text-xs font-medium">{option.label.split(" ").at(-1)}</p></div>)}</div>
       </div>
     </section>
 
@@ -208,7 +204,7 @@ export default function SpecializedLanguage() {
       {restoring ? <div className="flex min-h-52 items-center justify-center"><Loader2 className="h-7 w-7 animate-spin text-primary" /></div> : !curriculum ? <Card className="border-2 shadow-lg"><CardContent className="p-5 sm:p-8">
         <div className="mb-7 flex items-center justify-between gap-4"><div><Badge variant="outline">{t("Bước", "Step")} {step}/{totalSteps}</Badge><p className="mt-2 text-sm text-muted-foreground">{t("Khảo sát nhu cầu học", "Learning needs assessment")}</p></div><Progress value={(step / totalSteps) * 100} className="max-w-44" /></div>
         <AnimatePresence mode="wait"><motion.div key={step} initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -16 }}>
-          {step === 1 && <div><h2 className="mb-5 text-xl font-bold">{t("Chọn ngôn ngữ và trình độ", "Choose your language and level")}</h2><div className="grid grid-cols-2 gap-3 md:grid-cols-3">{LANG_OPTIONS.map((option) => <Button key={option.key} type="button" variant="outline" className={`h-24 flex-col gap-2 whitespace-normal ${language === option.key ? "border-primary bg-primary/10 text-foreground ring-2 ring-primary/20" : ""}`} onClick={() => setLanguage(option.key)}><span className="inline-flex h-9 min-w-11 items-center justify-center rounded border bg-muted px-2 text-sm font-bold">{option.code}</span><span>{option.label}</span></Button>)}</div><div className="mt-5 max-w-sm"><Label>{t("Trình độ hiện tại", "Current level")}</Label><Select value={learnerLevel} onValueChange={(value) => setLearnerLevel(value as LearnerLevel)}><SelectTrigger className="mt-2"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="beginner">Beginner</SelectItem><SelectItem value="elementary">Elementary</SelectItem><SelectItem value="intermediate">Intermediate</SelectItem><SelectItem value="advanced">Advanced</SelectItem></SelectContent></Select></div></div>}
+          {step === 1 && <div><h2 className="mb-5 text-xl font-bold">{t("Chọn ngôn ngữ và trình độ", "Choose your language and level")}</h2><div className="grid grid-cols-2 gap-3">{LANG_OPTIONS.map((option) => <Button key={option.key} type="button" variant="outline" className={`h-24 flex-col gap-2 whitespace-normal ${language === option.key ? "border-primary bg-primary/10 text-foreground ring-2 ring-primary/20" : ""}`} onClick={() => setLanguage(option.key)}><span className="inline-flex h-9 min-w-11 items-center justify-center rounded border bg-muted px-2 text-sm font-bold">{option.code}</span><span>{option.label}</span></Button>)}</div><div className="mt-5 max-w-sm"><Label>{t("Trình độ hiện tại", "Current level")}</Label><Select value={learnerLevel} onValueChange={(value) => setLearnerLevel(value as LearnerLevel)}><SelectTrigger className="mt-2"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="beginner">Beginner</SelectItem><SelectItem value="elementary">Elementary</SelectItem><SelectItem value="intermediate">Intermediate</SelectItem><SelectItem value="advanced">Advanced</SelectItem></SelectContent></Select></div></div>}
           {step === 2 && <div><h2 className="mb-5 text-xl font-bold">{t("Lĩnh vực chuyên ngành", "Your professional field")}</h2><div className="mb-4 grid grid-cols-2 gap-2 md:grid-cols-3">{FIELD_PRESETS.map(({ label, icon: Icon }) => <Button key={label} type="button" variant="outline" className={`h-auto min-h-14 justify-start whitespace-normal text-left ${field === label ? "border-primary bg-primary/10 text-foreground" : ""}`} onClick={() => setField(label)}><Icon className="mr-2 h-4 w-4 shrink-0 text-primary" />{label}</Button>)}</div><Label htmlFor="custom-field">{t("Hoặc nhập lĩnh vực riêng", "Or enter your own field")}</Label><Input id="custom-field" className="mt-2" value={field} onChange={(event) => setField(event.target.value)} maxLength={200} placeholder="Cybersecurity, Renewable Energy..." /></div>}
           {step === 3 && <div><h2 className="mb-5 text-xl font-bold">{t("Vai trò và tình huống công việc", "Your role and work situations")}</h2><Label htmlFor="job-role">{t("Vai trò cụ thể", "Specific job role")}</Label><Input id="job-role" className="mt-2" value={jobRole} onChange={(event) => setJobRole(event.target.value)} maxLength={200} placeholder="Registered Nurse, Backend Developer..." /><p className="mt-2 text-sm text-muted-foreground">{t("Mô tả càng cụ thể, lộ trình càng sát thực tế.", "A specific role produces a more relevant pathway.")}</p></div>}
           {step === 4 && <div className="space-y-5"><div><h2 className="mb-4 text-xl font-bold">{t("Mục tiêu và thời lượng học", "Goal and study time")}</h2><div className="mb-3 flex flex-wrap gap-2">{GOALS.map((item) => <Button key={item} type="button" size="sm" variant="outline" className={goal === item ? "border-primary bg-primary/10 text-foreground" : ""} onClick={() => setGoal(item)}>{item}</Button>)}</div><Input value={goal} onChange={(event) => setGoal(event.target.value)} maxLength={500} placeholder={t("Mô tả mục tiêu của bạn", "Describe your goal")} /></div><div className="max-w-xs"><Label>{t("Thời lượng mỗi ngày", "Daily study time")}</Label><Select value={String(dailyMinutes)} onValueChange={(value) => setDailyMinutes(Number(value))}><SelectTrigger className="mt-2"><SelectValue /></SelectTrigger><SelectContent>{[10, 15, 20, 30, 45, 60].map((minutes) => <SelectItem key={minutes} value={String(minutes)}>{minutes} {t("phút", "minutes")}</SelectItem>)}</SelectContent></Select></div><div className="max-w-xs"><Label>{t("Số lượng bài học", "Number of lessons")}</Label><Select value={String(lessonCount)} onValueChange={(value) => setLessonCount(Number(value))}><SelectTrigger className="mt-2"><SelectValue /></SelectTrigger><SelectContent>{LESSON_COUNT_OPTIONS.map((count) => <SelectItem key={count} value={String(count)}>{count} {t("bài học", "lessons")}</SelectItem>)}</SelectContent></Select><p className="mt-2 text-xs text-muted-foreground">{t("Lộ trình dài hơn sẽ mất nhiều thời gian tạo hơn.", "Longer pathways take more time to generate.")}</p></div><div><Label htmlFor="notes">{t("Yêu cầu riêng", "Special requirements")} ({t("không bắt buộc", "optional")})</Label><Textarea id="notes" className="mt-2" rows={3} value={notes} onChange={(event) => setNotes(event.target.value)} maxLength={1000} /></div></div>}

@@ -28,10 +28,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { playEnglishTts } from "@/lib/englishTts";
 import { playChineseTts } from "@/lib/chineseTts";
-import { playFinnishTts } from "@/lib/finnishTts";
-import { playSwedishTts } from "@/lib/swedishTts";
-import { playVietnameseTts } from "@/lib/vietnameseTts";
-import { playJapaneseTts } from "@/lib/japaneseTts";
 
 // Play pronunciation for the current dictionary language, regardless of
 // whether the lookup entry contains an audio URL. Uses the same reliable
@@ -42,27 +38,19 @@ const playLookupAudio = (word: string, lang: DictLang) => {
   switch (lang) {
     case "en": return playEnglishTts(text);
     case "zh": return playChineseTts(text);
-    case "fi": return playFinnishTts(text);
-    case "sv": return playSwedishTts(text);
-    case "vi": return playVietnameseTts(text);
-    case "ja": return playJapaneseTts(text);
   }
 };
 
 type LookupErrorKind = "notFound" | "busy" | null;
 type SizeMode = "wide";
 type ActiveTab = "dictionary" | "ozdic" | "thesaurus" | "translate";
-type DictLang = "en" | "zh" | "fi" | "sv" | "vi" | "ja";
+type DictLang = "en" | "zh";
 
 const LANG_LABEL: Record<DictLang, string> = {
   en: "🇬🇧 English",
   zh: "🇨🇳 中文",
-  fi: "🇫🇮 Suomi",
-  sv: "🇸🇪 Svenska",
-  vi: "🇻🇳 Tiếng Việt",
-  ja: "🇯🇵 日本語",
 };
-const LANG_OPTIONS: DictLang[] = ["en", "zh", "fi", "sv", "vi", "ja"];
+const LANG_OPTIONS: DictLang[] = ["en", "zh"];
 
 const RECENT_KEY = "super-dict-recent";
 const POSITION_KEY = "super-dict-position";
@@ -72,10 +60,6 @@ const MAX_RECENT = 5;
 const SUGGESTIONS_BY_LANG: Record<DictLang, string[]> = {
   en: ["ambiguous", "perspective", "significant"],
   zh: ["学习", "朋友", "希望"],
-  fi: ["kiitos", "ystävä", "oppia"],
-  sv: ["hej", "tack", "vänskap"],
-  vi: ["học tập", "hi vọng", "bạn bè"],
-  ja: ["ありがとう", "友達", "勉強"],
 };
 
 // Size limits (px) for resizable panel on lg+
@@ -222,7 +206,7 @@ const SuperDictionary = () => {
 
   // Translate tab state
   const [translateSourceLang, setTranslateSourceLang] = useState<DictLang | "auto">("auto");
-  const [translateTargetLang, setTranslateTargetLang] = useState<DictLang>("vi");
+  const [translateTargetLang, setTranslateTargetLang] = useState<DictLang>("zh");
   const [translateInput, setTranslateInput] = useState("");
   const [translateOutput, setTranslateOutput] = useState("");
   const [translateLoading, setTranslateLoading] = useState(false);
@@ -810,7 +794,7 @@ const SuperDictionary = () => {
                       {t("Siêu từ điển", "Super Dictionary")}
                     </p>
                     <p className="text-[10px] text-muted-foreground leading-tight truncate">
-                      {t("Anh • Trung • Phần • Việt · Dịch · Collocations · Synonyms", "EN · ZH · FI · VI · Translate · Collocations · Synonyms")}
+                      {t("Anh • Trung · Dịch · Kết hợp từ · Đồng nghĩa", "EN · ZH · Translate · Collocations · Synonyms")}
                     </p>
                   </div>
                 </div>
@@ -878,11 +862,7 @@ const SuperDictionary = () => {
                             onChange={(e) => setDictSearchWord(e.target.value)}
                             placeholder={
                               dictLang === "en" ? t("Nhập từ tiếng Anh...", "Enter an English word...") :
-                              dictLang === "zh" ? t("Nhập từ tiếng Trung (Hán tự)...", "Enter a Chinese word (Hanzi)...") :
-                              dictLang === "fi" ? t("Nhập từ tiếng Phần Lan...", "Enter a Finnish word...") :
-                              dictLang === "sv" ? t("Nhập từ tiếng Thụy Điển...", "Enter a Swedish word...") :
-                              dictLang === "ja" ? t("Nhập từ tiếng Nhật (kanji/kana)...", "Enter a Japanese word (kanji/kana)...") :
-                              t("Nhập từ tiếng Việt...", "Enter a Vietnamese word...")
+                              t("Nhập từ tiếng Trung (Hán tự)...", "Enter a Chinese word (Hanzi)...")
                             }
                             onKeyDown={(e) => { if (e.key === "Enter") handleDictLookup(dictSearchWord); }}
                             className="h-10 text-sm pr-8"
