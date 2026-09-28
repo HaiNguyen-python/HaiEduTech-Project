@@ -129,15 +129,6 @@ const HskExamplePractice = ({ example, examplePinyin }: Props) => {
           </Button>
         </div>
         <div className="flex items-center gap-1">
-          <Button
-            type="button"
-            onClick={() => speakChinese(example)}
-             size="icon" variant="ghost" className="h-8 w-8 text-primary"
-            title="Nghe mẫu"
-             aria-label="Nghe câu ví dụ"
-          >
-             <Volume2 className="w-4 h-4" />
-           </Button>
           <button
             type="button"
             onClick={() => setShowHint(s => !s)}
