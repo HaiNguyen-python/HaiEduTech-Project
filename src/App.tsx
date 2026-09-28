@@ -111,6 +111,7 @@ const DeferredGlobalWidgets = () => {
 
 
 // Lazy-load all heavy route components for optimal code splitting
+import TeacherOnlyRoute from "./components/TeacherOnlyRoute";
 const About = lazyWithRetry(() => import("./pages/About.tsx"));
 const EdTechWebService = lazyWithRetry(() => import("./pages/EdTechWebService.tsx"));
 const EdTechResearch = lazyWithRetry(() => import("./pages/EdTechResearch.tsx"));
@@ -393,7 +394,7 @@ const App = () => (
             <Route path="/chinese/listening" element={<LazyRoute><ChineseListening /></LazyRoute>} />
             <Route path="/learn-vietnamese/arcade" element={<LazyRoute><VietnameseArcade /></LazyRoute>} />
             <Route path="/english/arcade" element={<Navigate to="/cambridge/arcade" replace />} />
-            <Route path="/finnish/arcade" element={<LazyRoute><FinnishArcade /></LazyRoute>} />
+            <Route path="/finnish/arcade" element={<TeacherOnlyRoute><LazyRoute><FinnishArcade /></LazyRoute></TeacherOnlyRoute>} />
             <Route path="/cambridge/arcade" element={<LazyRoute><CambridgeArcade /></LazyRoute>} />
             <Route path="/arcade-plus" element={<LazyRoute><MultiLangArcade /></LazyRoute>} />
             <Route path="/chinese/hsk-guide" element={<LazyRoute><HskHub /></LazyRoute>} />
@@ -432,7 +433,7 @@ const App = () => (
             <Route path="/ielts-sample-essays/:essayId" element={<LazyRoute><IeltsSampleEssayDetail /></LazyRoute>} />
             <Route path="/ielts-speaking-practice" element={<LazyRoute><SpeakingPractice /></LazyRoute>} />
             <Route path="/ielts-vocabulary" element={<LazyRoute><IeltsVocabulary /></LazyRoute>} />
-            <Route path="/finnish-vocabulary" element={<LazyRoute><FinnishVocabulary /></LazyRoute>} />
+            <Route path="/finnish-vocabulary" element={<TeacherOnlyRoute><LazyRoute><FinnishVocabulary /></LazyRoute></TeacherOnlyRoute>} />
             <Route path="/sat-vocabulary" element={<LazyRoute><SatVocabulary /></LazyRoute>} />
             <Route path="/sat-exercises" element={<LazyRoute><SatExercises /></LazyRoute>} />
             <Route path="/sat-exams" element={<LazyRoute><SatExams /></LazyRoute>} />
@@ -526,24 +527,24 @@ const App = () => (
             <Route path="/learn-vietnamese/for-foreigners/:moduleId/:lessonId" element={<LazyRoute><VietnameseForForeigners /></LazyRoute>} />
             <Route path="/global-scholarship" element={<LazyRoute><KnowledgeHubPage /></LazyRoute>} />
             <Route path="/knowledge-hub" element={<Navigate to="/global-scholarship" replace />} />
-            <Route path="/finnish" element={<LazyRoute><Finnish /></LazyRoute>} />
-            <Route path="/finnish/yki-dashboard" element={<LazyRoute><YkiDashboard /></LazyRoute>} />
-            <Route path="/finnish/beginner" element={<LazyRoute><FinnishBeginner /></LazyRoute>} />
-            <Route path="/finnish/yki-b1" element={<LazyRoute><YkiB1Dashboard /></LazyRoute>} />
-            <Route path="/finnish/life-in-finland" element={<LazyRoute><LifeInFinland /></LazyRoute>} />
-            <Route path="/swedish" element={<LazyRoute><Swedish /></LazyRoute>} />
-            <Route path="/swedish/beginner" element={<LazyRoute><SwedishBeginner /></LazyRoute>} />
-            <Route path="/swedish/yki-a2" element={<LazyRoute><SwedishYkiA2 /></LazyRoute>} />
-            <Route path="/swedish/yki-b1" element={<LazyRoute><SwedishYkiB1 /></LazyRoute>} />
-            <Route path="/swedish/svenskfinland" element={<LazyRoute><SwedishSvenskfinland /></LazyRoute>} />
-            <Route path="/swedish/curriculum" element={<LazyRoute><SwedishInteractiveCurriculum /></LazyRoute>} />
-            <Route path="/swedish/vocabulary" element={<LazyRoute><SwedishVocabulary /></LazyRoute>} />
-            <Route path="/swedish/writing" element={<LazyRoute><SwedishWritingLab /></LazyRoute>} />
-            <Route path="/swedish/speaking" element={<LazyRoute><SwedishSpeakingLab /></LazyRoute>} />
-            <Route path="/swedish/listening" element={<LazyRoute><SwedishListeningLab /></LazyRoute>} />
-            <Route path="/swedish/reading" element={<LazyRoute><SwedishReadingLab /></LazyRoute>} />
-            <Route path="/swedish/skills" element={<LazyRoute><SwedishSkillsLab /></LazyRoute>} />
-            <Route path="/swedish/performance" element={<LazyRoute><SwedishPerformance /></LazyRoute>} />
+            <Route path="/finnish" element={<TeacherOnlyRoute><LazyRoute><Finnish /></LazyRoute></TeacherOnlyRoute>} />
+            <Route path="/finnish/yki-dashboard" element={<TeacherOnlyRoute><LazyRoute><YkiDashboard /></LazyRoute></TeacherOnlyRoute>} />
+            <Route path="/finnish/beginner" element={<TeacherOnlyRoute><LazyRoute><FinnishBeginner /></LazyRoute></TeacherOnlyRoute>} />
+            <Route path="/finnish/yki-b1" element={<TeacherOnlyRoute><LazyRoute><YkiB1Dashboard /></LazyRoute></TeacherOnlyRoute>} />
+            <Route path="/finnish/life-in-finland" element={<TeacherOnlyRoute><LazyRoute><LifeInFinland /></LazyRoute></TeacherOnlyRoute>} />
+            <Route path="/swedish" element={<TeacherOnlyRoute><LazyRoute><Swedish /></LazyRoute></TeacherOnlyRoute>} />
+            <Route path="/swedish/beginner" element={<TeacherOnlyRoute><LazyRoute><SwedishBeginner /></LazyRoute></TeacherOnlyRoute>} />
+            <Route path="/swedish/yki-a2" element={<TeacherOnlyRoute><LazyRoute><SwedishYkiA2 /></LazyRoute></TeacherOnlyRoute>} />
+            <Route path="/swedish/yki-b1" element={<TeacherOnlyRoute><LazyRoute><SwedishYkiB1 /></LazyRoute></TeacherOnlyRoute>} />
+            <Route path="/swedish/svenskfinland" element={<TeacherOnlyRoute><LazyRoute><SwedishSvenskfinland /></LazyRoute></TeacherOnlyRoute>} />
+            <Route path="/swedish/curriculum" element={<TeacherOnlyRoute><LazyRoute><SwedishInteractiveCurriculum /></LazyRoute></TeacherOnlyRoute>} />
+            <Route path="/swedish/vocabulary" element={<TeacherOnlyRoute><LazyRoute><SwedishVocabulary /></LazyRoute></TeacherOnlyRoute>} />
+            <Route path="/swedish/writing" element={<TeacherOnlyRoute><LazyRoute><SwedishWritingLab /></LazyRoute></TeacherOnlyRoute>} />
+            <Route path="/swedish/speaking" element={<TeacherOnlyRoute><LazyRoute><SwedishSpeakingLab /></LazyRoute></TeacherOnlyRoute>} />
+            <Route path="/swedish/listening" element={<TeacherOnlyRoute><LazyRoute><SwedishListeningLab /></LazyRoute></TeacherOnlyRoute>} />
+            <Route path="/swedish/reading" element={<TeacherOnlyRoute><LazyRoute><SwedishReadingLab /></LazyRoute></TeacherOnlyRoute>} />
+            <Route path="/swedish/skills" element={<TeacherOnlyRoute><LazyRoute><SwedishSkillsLab /></LazyRoute></TeacherOnlyRoute>} />
+            <Route path="/swedish/performance" element={<TeacherOnlyRoute><LazyRoute><SwedishPerformance /></LazyRoute></TeacherOnlyRoute>} />
 
             <Route path="/presentation-studio" element={<LazyRoute><PresentationStudio /></LazyRoute>} />
             <Route path="/speaking-coach/:language" element={<LazyRoute><SpeakingCoachPage /></LazyRoute>} />

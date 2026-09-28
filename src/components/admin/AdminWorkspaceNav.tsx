@@ -14,6 +14,7 @@ import {
   ExternalLink,
   FileSearch,
   Gauge,
+  Languages,
   Award,
   HeartPulse,
   LayoutDashboard,
@@ -44,7 +45,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 
-export type AdminTabGroup = "overview" | "students" | "learning" | "content-research" | "operations";
+export type AdminTabGroup = "overview" | "students" | "learning" | "content-research" | "private" | "operations";
 
 type NavItem = {
   id: string;
@@ -107,6 +108,15 @@ export const ADMIN_NAV_GROUPS: Array<{
       { id: "deep-dives", labelVi: "Bài giảng chuyên sâu", labelEn: "Deep-dives", icon: BookOpen },
       { id: "phd-research", labelVi: "Nghiên cứu Tiến sĩ", labelEn: "PhD research", icon: Microscope },
       { id: "edtech-insights", labelVi: "Nghiên cứu EdTech", labelEn: "EdTech insights", icon: FileSearch },
+    ],
+  },
+  {
+    id: "private",
+    labelVi: "Học riêng",
+    labelEn: "Private study",
+    icon: Languages,
+    items: [
+      { id: "private-languages", labelVi: "Phần Lan & Thụy Điển", labelEn: "Finnish & Swedish", icon: Languages, teacherOnly: true },
     ],
   },
   {
