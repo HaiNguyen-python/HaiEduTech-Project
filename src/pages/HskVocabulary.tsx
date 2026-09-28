@@ -194,10 +194,13 @@ const HskExercise = ({ masteredWords, allWords, t }: { masteredWords: HskWord[];
       switch (mode) {
         case "meaning":
         case "example": {
-          correctVal = w.definition.vi;
+          // Keep every answer in the active interface language. Previously
+          // these modes always used Vietnamese, so an English quiz could mix
+          // English-looking source entries with Vietnamese answers.
+          correctVal = t(w.definition.vi, w.definition.en);
           pool = distractorPool
-            .filter(x => x.character !== w.character && x.definition.vi !== w.definition.vi)
-            .map(x => x.definition.vi);
+            .filter(x => x.character !== w.character && t(x.definition.vi, x.definition.en) !== correctVal)
+            .map(x => t(x.definition.vi, x.definition.en));
           break;
         }
         case "hanzi":
@@ -233,7 +236,7 @@ const HskExercise = ({ masteredWords, allWords, t }: { masteredWords: HskWord[];
     setFinished(false);
     scoreSavedRef.current = false;
     autoPlayedRef.current = -1;
-  }, [masteredWords, quizSize]);
+  }, [masteredWords, allWords, quizSize, t]);
 
   useEffect(() => {
     if (!finished || scoreSavedRef.current) return;

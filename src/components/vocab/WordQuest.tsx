@@ -331,11 +331,11 @@ const WordQuest = ({
     if (!word) return [] as { key: string; label: string; emoji: string }[];
     return shuffle([word, ...distractors]).map(w => ({
       key: w.key,
-      label: w.definition.vi,
+      label: t(w.definition.vi, w.definition.en),
       emoji: resolveWordEmoji(w),
     }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [wordKey, distractors, resolveWordEmoji]);
+  }, [wordKey, distractors, resolveWordEmoji, t]);
 
   const reverseOptions = useMemo(() => {
     if (!word) return [] as { key: string; label: string }[];
@@ -952,7 +952,7 @@ const WordQuest = ({
               <p className="text-sm text-muted-foreground">
                 {typingLabel ? t(typingLabel.vi, typingLabel.en) : t("Gõ lại từ có nghĩa:", "Type the word that means:")}
               </p>
-              <p className="text-lg font-semibold text-foreground">{word.definition.vi}</p>
+              <p className="text-lg font-semibold text-foreground">{t(word.definition.vi, word.definition.en)}</p>
               <button onClick={() => speak(word.speakText)} className="rounded-full bg-primary/10 p-3 hover:bg-primary/20">
                 <Volume2 className="h-5 w-5 text-primary" />
               </button>
@@ -987,7 +987,7 @@ const WordQuest = ({
               <p className="text-sm text-muted-foreground">
                 {t("Ghép các mảnh thành từ có nghĩa:", "Put the pieces together to build the word meaning:")}
               </p>
-              <p className="text-lg font-semibold text-foreground">{word.definition.vi}</p>
+              <p className="text-lg font-semibold text-foreground">{t(word.definition.vi, word.definition.en)}</p>
               <div className="flex min-h-[52px] w-full max-w-md flex-wrap items-center justify-center gap-1.5 rounded-xl border border-dashed border-border bg-secondary/40 p-2">
                 {built.length === 0
                   ? <span className="text-xs text-muted-foreground">{t("Bấm các mảnh bên dưới", "Tap the pieces below")}</span>
