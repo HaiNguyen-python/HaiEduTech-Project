@@ -623,6 +623,10 @@
   }
 
   .speaking-word-correct { color: hsl(var(--speaking-success)); }
+  .speaking-drill-focus {
+    color: hsl(var(--success));
+    font-weight: 700;
+  }
   .speaking-word-close { color: hsl(var(--speaking-warning)); }
   .speaking-word-wrong {
     color: hsl(var(--speaking-error));

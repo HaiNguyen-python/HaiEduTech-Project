@@ -1,11 +1,12 @@
-- Keep curated IELTS vocabulary imagery in an explicit one-word-to-one-photo mapping, separate from shared multilingual emoji resolution, so meaning-reviewed images cannot be replaced by unrelated cached art.
+- Keep curated IELTS vocabulary photos in an explicit one-word mapping, separate from shared emoji resolution.
 - Home page student results come only from the `testimonials` table (public reads published rows, staff manage all); never hardcode or auto-generate testimonial content - the section self-hides when the table is empty.
-- Keep public course tuition in the shared `CourseTuitionSection` data so English, Chinese and Programming prices and the 3x one-to-one rule stay consistent.
-- Keep the public course-list visual palette in semantic `--tuition-*` tokens and use the same responsive row layout across the three subject pages, so pricing remains legible and theme-aware.
-- Derive course registration labels and displayed prices from the shared tuition catalog; validate checkout prices against a server-side EUR allowlist and record paid course tuition separately from Premium, so a course payment cannot unlock unrelated lessons.
+- Keep public tuition in shared `CourseTuitionSection` so prices and the 3x one-to-one rule stay consistent.
+- Use semantic `--tuition-*` tokens and one responsive course-list layout across subject pages.
+- Derive registration prices from the shared catalog; server-validate EUR prices and separate course payments from Premium.
 - Keep only the exact `/english`, `/chinese`, `/programming`, and `/register` overview routes public; nested learning routes remain authentication and Premium protected.
-- Keep Lovable auth emails in the shared six-template set, styled with HaiEduTech branding and deployed through the required auth email hook.
-- Keep all Programming theory math cleanup in the shared `normalizeMath` renderer and audit malformed delimiters so cached and newly generated lessons render consistently.
+- Keep auth emails in the shared six HaiEduTech templates deployed through the auth hook.
+- Keep Programming math cleanup in shared `normalizeMath` and audit malformed delimiters.
 - Resolve HSK vocabulary visuals from the Hanzi-aware resolver, with explicit common-word mappings and stable category fallbacks, so unknown meanings do not repeat one generic icon.
 
 - Public subject UI exposes Home, About, English, Chinese, Technology, Interpersonal Skills and Your Corner. Hide VI/JA/FI/SV from navigation, Specialized Language and Super Dictionary; keep direct course URLs.
+- Pattern Drilling is English/Chinese only: 15 frames per Starter-C1 level and five substitutions per frame.

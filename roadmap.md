@@ -24,6 +24,12 @@
 
 - [x] Replace repeated generic Chinese vocabulary icons with stable, meaning-aware visuals for each HSK word.
 
+# English and Chinese Pattern Drilling
+
+- [ ] Highlight the active replacement phrase in green in frames, completed sentences and Chinese Pinyin.
+- [ ] Expand English and Chinese to 15 frames per level from Starter through C1, with five substitutions per frame.
+- [ ] Add curriculum validation and verify desktop/mobile practice flows.
+
 # Specialized Language Availability
 
 - [x] Limit Specialized Language pathways and the global dictionary to English and Chinese.
