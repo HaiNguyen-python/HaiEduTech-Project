@@ -388,9 +388,18 @@ const HskExercise = ({ masteredWords, allWords, t }: { masteredWords: HskWord[];
       </div>
 
       <div className="rounded-xl border border-border bg-card px-4 py-3 mb-3">
-        <Badge variant="secondary" className="mb-2 text-xs">
-          {modeBadge[q.mode].emoji} {modeBadge[q.mode].label}
-        </Badge>
+        <div className="flex items-center justify-between gap-2">
+          <Badge variant="secondary" className="text-xs">
+            {modeBadge[q.mode].emoji} {modeBadge[q.mode].label}
+          </Badge>
+          {/* Next lives inside the word card so learners can tap it without scrolling. */}
+          {selected !== null && (
+            <Button size="sm" className="shrink-0" onClick={handleNext}>
+              {current + 1 >= questions.length ? t("Xem kết quả", "See Results") : t("Câu tiếp", "Next")}
+              <ChevronRight className="w-4 h-4 ml-1" />
+            </Button>
+          )}
+        </div>
 
         {q.mode === "meaning" && (
           <>
@@ -506,12 +515,6 @@ const HskExercise = ({ masteredWords, allWords, t }: { masteredWords: HskWord[];
             </div>
             <p className="text-sm text-foreground mt-1">{q.word.example}</p>
             <p className="text-xs text-muted-foreground italic">{q.word.definition.en}</p>
-          </div>
-          <div className="flex justify-end">
-            <Button onClick={handleNext}>
-              {current + 1 >= questions.length ? t("Xem kết quả", "See Results") : t("Câu tiếp", "Next")}
-              <ChevronRight className="w-4 h-4 ml-1" />
-            </Button>
           </div>
         </div>
       )}
