@@ -101,8 +101,8 @@ export const CHINESE_PATTERNS: DrillPattern[] = [
     fills: [{ w: "看电影", py: "kàn diànyǐng", vi: "xem phim" }, { w: "买衣服", py: "mǎi yīfu", vi: "mua quần áo" }, { w: "见朋友", py: "jiàn péngyou", vi: "gặp bạn" }, { w: "去医院", py: "qù yīyuàn", vi: "đi bệnh viện" }, { w: "加班", py: "jiābān", vi: "tăng ca" }] },
   { id: "zh-b1b", level: "a2", frame: "今天比昨天___。", framePy: "Jīntiān bǐ zuótiān ___.", frameVi: "Hôm nay ___ hơn hôm qua.", tipVi: "A 比 B + tính từ: so sánh hơn.", tipEn: "A 比 B + adjective for comparing.",
     fills: [{ w: "冷", py: "lěng", vi: "lạnh" }, { w: "热", py: "rè", vi: "nóng" }, { w: "忙", py: "máng", vi: "bận" }, { w: "暖和", py: "nuǎnhuo", vi: "ấm" }, { w: "舒服", py: "shūfu", vi: "dễ chịu" }] },
-  { id: "zh-b1c", level: "a2", frame: "你___过吗？", framePy: "Nǐ ___ guo ma?", frameVi: "Bạn đã từng ___ chưa?", tipVi: "过 nói về trải nghiệm.", tipEn: "过 for experiences.",
-    fills: [{ w: "吃过烤鸭", py: "chī kǎoyā", vi: "ăn vịt quay" }, { w: "去长城", py: "qù Chángchéng", vi: "đi Vạn Lý Trường Thành" }, { w: "学游泳", py: "xué yóuyǒng", vi: "học bơi" }, { w: "坐飞机", py: "zuò fēijī", vi: "đi máy bay" }, { w: "看京剧", py: "kàn Jīngjù", vi: "xem Kinh kịch" }] },
+  { id: "zh-b1c", level: "a2", frame: "你___吗？", framePy: "Nǐ ___ ma?", frameVi: "Bạn đã từng ___ chưa?", tipVi: "过 nói về trải nghiệm.", tipEn: "过 for experiences.",
+    fills: [{ w: "吃过烤鸭", py: "chī guo kǎoyā", vi: "ăn vịt quay" }, { w: "去过长城", py: "qù guo Chángchéng", vi: "đi Vạn Lý Trường Thành" }, { w: "学过游泳", py: "xué guo yóuyǒng", vi: "học bơi" }, { w: "坐过飞机", py: "zuò guo fēijī", vi: "đi máy bay" }, { w: "看过京剧", py: "kàn guo Jīngjù", vi: "xem Kinh kịch" }] },
   { id: "zh-b1d", level: "a2", frame: "我打算___。", framePy: "Wǒ dǎsuan ___.", frameVi: "Tôi dự định ___.", tipVi: "打算 + động từ để nói kế hoạch.", tipEn: "打算 + verb for plans.",
     fills: [{ w: "明年去留学", py: "míngnián qù liúxué", vi: "năm sau đi du học" }, { w: "周末爬山", py: "zhōumò pá shān", vi: "cuối tuần leo núi" }, { w: "换工作", py: "huàn gōngzuò", vi: "đổi việc" }, { w: "学开车", py: "xué kāichē", vi: "học lái xe" }, { w: "考HSK四级", py: "kǎo HSK sì jí", vi: "thi HSK 4" }] },
   // B1
