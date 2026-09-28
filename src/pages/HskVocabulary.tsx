@@ -853,8 +853,13 @@ const HskVocabulary = () => {
                                     </button>
                                   </div>
                                 </div>
-                                <div className="mt-2 p-3 rounded-lg bg-secondary/50">
-                                  <p className="text-lg font-bold text-foreground leading-snug">{w.example}</p>
+                                 <div className="mt-2 p-3 rounded-lg bg-secondary/50">
+                                   <div className="flex items-start justify-between gap-2">
+                                     <p className="text-lg font-bold text-foreground leading-snug">{w.example}</p>
+                                     <Button type="button" size="icon" variant="ghost" className="shrink-0 h-8 w-8 text-primary" onClick={() => speakChinese(w.example)} aria-label={t("Nghe câu ví dụ", "Listen to example sentence")} title={t("Nghe câu ví dụ", "Listen to example sentence")}>
+                                       <Volume2 className="w-4 h-4" />
+                                     </Button>
+                                   </div>
                                   <p className="text-sm text-muted-foreground mt-1">{w.examplePinyin}</p>
                                   <HskExampleTranslation example={w.example} />
                                 </div>
