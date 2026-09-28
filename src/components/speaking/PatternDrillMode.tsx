@@ -41,7 +41,7 @@ const PatternDrillMode = ({ language, onPerfectScore }: Props) => {
   const [accuracy, setAccuracy] = useState<number | null>(null);
   const [showHint, setShowHint] = useState(false);
   const [mastered, setMastered] = useState<string[]>(() => {
-    try { return JSON.parse(safeStorage.getItem(storeKey) || "[]"); } catch { return []; }
+    return safeStorage.get<string[]>(storeKey, []) || [];
   });
 
   const pattern = patterns[pIdx];
@@ -80,7 +80,7 @@ const PatternDrillMode = ({ language, onPerfectScore }: Props) => {
     if (!mastered.includes(pattern.id)) {
       const upd = [...mastered, pattern.id];
       setMastered(upd);
-      safeStorage.setItem(storeKey, JSON.stringify(upd));
+      safeStorage.set(storeKey, upd);
     }
     if (pIdx < patterns.length - 1) { setPIdx(pIdx + 1); setFIdx(0); setStep("repeat"); }
   };
