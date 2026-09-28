@@ -1,16 +1,10 @@
 import { useState, useRef, useEffect } from "react";
-import { Keyboard, Mic, MicOff, CheckCircle2, XCircle, Eye, EyeOff, Volume2 } from "lucide-react";
+import { Keyboard, Mic, MicOff, CheckCircle2, XCircle, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { playChineseTts, stopChineseTts } from "@/lib/chineseTts";
 
 // Normalize Chinese text: remove punctuation/whitespace for comparison
 const normalize = (s: string) =>
   s.replace(/[\s\p{P}\p{S}]/gu, "").toLowerCase();
-
-const speakChinese = (text: string) => {
-  stopChineseTts();
-  void playChineseTts(text, { playbackRate: 0.9, speechRate: 0.75 });
-};
 
 interface Props {
   example: string;
@@ -129,15 +123,6 @@ const HskExamplePractice = ({ example, examplePinyin }: Props) => {
           </Button>
         </div>
         <div className="flex items-center gap-1">
-          <Button
-            type="button"
-            onClick={() => speakChinese(example)}
-             size="icon" variant="ghost" className="h-8 w-8 text-primary"
-            title="Nghe mẫu"
-             aria-label="Nghe câu ví dụ"
-          >
-             <Volume2 className="w-4 h-4" />
-           </Button>
           <button
             type="button"
             onClick={() => setShowHint(s => !s)}
