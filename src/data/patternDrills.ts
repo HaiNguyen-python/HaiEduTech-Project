@@ -1,12 +1,12 @@
 /**
  * Pattern Drilling data for the Speaking Coach (English + Chinese).
  * Each pattern is a sentence frame with "___" and a list of substitutions.
- * Levels go from absolute beginner (mat goc) to B1 so learners build automatic
+ * Levels go from absolute beginner (mat goc) to C1 so learners build automatic
  * speaking reflexes one frame at a time.
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 
-export type DrillLevel = "starter" | "a1" | "a2" | "b1";
+export type DrillLevel = "starter" | "a1" | "a2" | "b1" | "b2" | "c1";
 
 export interface DrillFill {
   /** Word/phrase inserted into the frame (English or Hanzi). */
@@ -34,9 +34,17 @@ export const DRILL_LEVELS: { key: DrillLevel; vi: string; en: string; descVi: st
   { key: "a1", vi: "Sơ cấp A1", en: "A1", descVi: "Giới thiệu, nhu cầu, sở thích", descEn: "Intro, needs, likes" },
   { key: "a2", vi: "Cơ bản A2", en: "A2", descVi: "Kế hoạch, quá khứ, so sánh", descEn: "Plans, past, comparing" },
   { key: "b1", vi: "Trung cấp B1", en: "B1", descVi: "Ý kiến, lý do, giả định", descEn: "Opinions, reasons, hypotheticals" },
+  { key: "b2", vi: "Trên trung cấp B2", en: "B2", descVi: "Sắc thái, phản biện, thương lượng", descEn: "Nuance, discussion, negotiation" },
+  { key: "c1", vi: "Nâng cao C1", en: "C1", descVi: "Lập luận, tổng hợp, giao tiếp chuyên nghiệp", descEn: "Reasoning, synthesis, professional speaking" },
 ];
 
 export const fillSentence = (frame: string, fill: string) => frame.replace("___", fill);
+
+export const splitDrillFrame = (frame: string) => {
+  const placeholder = frame.indexOf("___");
+  if (placeholder < 0) return { before: frame, after: "" };
+  return { before: frame.slice(0, placeholder), after: frame.slice(placeholder + 3) };
+};
 
 export const ENGLISH_PATTERNS: DrillPattern[] = [
   // Starter

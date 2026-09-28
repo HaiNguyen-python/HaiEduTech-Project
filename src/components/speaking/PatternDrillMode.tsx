@@ -9,7 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { speakingCoachLanguages } from "@/data/speakingCoachData";
-import { DRILL_LEVELS, fillSentence, getPatterns, type DrillLevel } from "@/data/patternDrills";
+import { DRILL_LEVELS, fillSentence, getPatterns, splitDrillFrame, type DrillLevel } from "@/data/patternDrills";
 import { useSpeechRecognizer } from "@/hooks/useSpeechRecognizer";
 import { addWeakWords } from "@/lib/speakingWeakWords";
 import { safeStorage } from "@/lib/safeStorage";
@@ -26,6 +26,17 @@ interface Props {
 const PASS = 80;
 type Step = "repeat" | "reflex";
 
+interface SlottedSentenceProps {
+  frame: string;
+  fill?: string;
+  placeholder?: boolean;
+}
+
+const SlottedSentence = ({ frame, fill, placeholder = false }: SlottedSentenceProps) => {
+  const { before, after } = splitDrillFrame(frame);
+  return <>{before}<span className="speaking-drill-focus">{placeholder ? "___" : fill}</span>{after}</>;
+};
+
 const PatternDrillMode = ({ language, onPerfectScore }: Props) => {
   const { t } = useLanguage();
   const config = speakingCoachLanguages[language];
@@ -34,6 +45,7 @@ const PatternDrillMode = ({ language, onPerfectScore }: Props) => {
 
   const [level, setLevel] = useState<DrillLevel>("starter");
   const patterns = useMemo(() => all.filter((p) => p.level === level), [all, level]);
+  const levelMeta = DRILL_LEVELS.find((item) => item.key === level);
   const [pIdx, setPIdx] = useState(0);
   const [fIdx, setFIdx] = useState(0);
   const [step, setStep] = useState<Step>("repeat");
@@ -105,15 +117,13 @@ const PatternDrillMode = ({ language, onPerfectScore }: Props) => {
               </Button>
             ))}
           </div>
-          <p className="text-xs text-muted-foreground">
-            {t(DRILL_LEVELS.find((l) => l.key === level)!.descVi, DRILL_LEVELS.find((l) => l.key === level)!.descEn)}
-          </p>
+          {levelMeta && <p className="text-xs text-muted-foreground">{t(levelMeta.descVi, levelMeta.descEn)}</p>}
           <div className="flex flex-wrap gap-2">
             {patterns.map((p, i) => (
               <Button key={p.id} size="sm" variant={i === pIdx ? "secondary" : "ghost"} className="gap-1 border"
                 onClick={() => { setPIdx(i); setFIdx(0); setStep("repeat"); }}>
                 {mastered.includes(p.id) && <CheckCircle2 className="w-3.5 h-3.5 text-primary" />}
-                {p.frame}
+                <SlottedSentence frame={p.frame} placeholder />
               </Button>
             ))}
           </div>
@@ -125,9 +135,9 @@ const PatternDrillMode = ({ language, onPerfectScore }: Props) => {
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div>
               <p className="text-xs uppercase tracking-wide text-muted-foreground">{t("Khung câu", "Frame")}</p>
-              <p className="text-xl font-bold">{pattern.frame}</p>
-              {pattern.framePy && <p className="text-sm text-muted-foreground">{pattern.framePy}</p>}
-              <p className="text-sm text-muted-foreground">{pattern.frameVi}</p>
+              <p className="text-xl font-bold"><SlottedSentence frame={pattern.frame} placeholder /></p>
+              {pattern.framePy && <p className="text-sm text-muted-foreground"><SlottedSentence frame={pattern.framePy} placeholder /></p>}
+              <p className="text-sm text-muted-foreground"><SlottedSentence frame={pattern.frameVi} placeholder /></p>
             </div>
             <Badge variant={step === "repeat" ? "secondary" : "default"} className="gap-1">
               {step === "repeat" ? <Volume2 className="w-3.5 h-3.5" /> : <Zap className="w-3.5 h-3.5" />}
@@ -153,9 +163,11 @@ const PatternDrillMode = ({ language, onPerfectScore }: Props) => {
                     <span key={i} className={r.status === "correct" ? "text-primary" : r.status === "close" ? "text-accent-foreground underline decoration-dotted" : "text-destructive"}>
                       {r.word}{language === "chinese" ? "" : " "}
                     </span>
-                  )) : target}
+                  )) : <SlottedSentence frame={pattern.frame} fill={fill.w} />}
                 </p>
-                {targetPy && <p className="text-muted-foreground">{targetPy}</p>}
+                {targetPy && pattern.framePy && fill.py && (
+                  <p className="text-muted-foreground"><SlottedSentence frame={pattern.framePy} fill={fill.py} /></p>
+                )}
                 {step === "repeat" && <p className="text-sm text-muted-foreground">{cueVi}</p>}
                 {step === "reflex" && showHint && accuracy === null && (
                   <Button size="sm" variant="ghost" className="gap-1" onClick={() => setShowHint(false)}>
