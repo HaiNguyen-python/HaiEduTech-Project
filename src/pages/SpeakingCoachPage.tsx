@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AISpeakingCoach from "@/components/AISpeakingCoach";
 import ShadowingMode from "@/components/speaking/ShadowingMode";
+import PatternDrillMode from "@/components/speaking/PatternDrillMode";
 import SoundDrillMode from "@/components/speaking/SoundDrillMode";
 import FreeTalkMode from "@/components/speaking/FreeTalkMode";
 import WeakWordReview from "@/components/speaking/WeakWordReview";
@@ -260,7 +261,8 @@ const SpeakingCoachPage = () => {
 
         {view === "practice" && (
           <div className="space-y-4">
-            <ActivityChips active={activity} weakCount={weakCount} onPick={pickActivity} />
+            <ActivityChips language={lang} active={activity} weakCount={weakCount} onPick={pickActivity} />
+            {activity === "pattern" && <PatternDrillMode language={lang} onPerfectScore={handlePerfectScore} />}
             {activity === "shadow" && <ShadowingMode language={lang} onPerfectScore={handlePerfectScore} />}
             {activity === "drill" && <SoundDrillMode language={lang} onPerfectScore={handlePerfectScore} />}
             {activity === "freetalk" && <FreeTalkMode language={lang} onPerfectScore={handlePerfectScore} />}

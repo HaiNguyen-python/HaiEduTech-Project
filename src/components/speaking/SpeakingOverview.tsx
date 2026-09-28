@@ -47,7 +47,7 @@ const SpeakingOverview = ({ language, weakCount = 0, hasData, onGoMode, onPickAc
 
       <div className="space-y-3">
         <h2 className="text-lg font-bold">{t("Chọn hoạt động luyện tập", "Choose a practice activity")}</h2>
-        <ActivityGrid weakCount={weakCount} onPick={onPickActivity} />
+        <ActivityGrid language={language} weakCount={weakCount} onPick={onPickActivity} />
       </div>
     </div>
   );
