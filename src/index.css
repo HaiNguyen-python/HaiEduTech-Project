@@ -624,9 +624,11 @@
 
   .speaking-word-correct { color: hsl(var(--speaking-success)); }
   .speaking-drill-focus {
-    color: hsl(var(--success));
+    color: hsl(160 84% 34%);
     font-weight: 700;
   }
+
+  .dark .speaking-drill-focus { color: hsl(160 72% 52%); }
   .speaking-word-close { color: hsl(var(--speaking-warning)); }
   .speaking-word-wrong {
     color: hsl(var(--speaking-error));
