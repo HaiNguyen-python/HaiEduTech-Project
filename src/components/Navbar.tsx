@@ -366,23 +366,6 @@ const Navbar = () => {
       { to: "/speaking-coach/vietnamese", label: t("Speaking Coach", "Speaking Coach"), icon: Mic2 },
     ] },
   ];
-  const finnishSubs: SubItem[] = [
-    { to: "/finnish", label: t("Khóa học & Lộ trình", "Courses & Roadmap"), icon: Route },
-    { to: "#fi-yki-group", label: t("Bảng YKI", "YKI Program"), icon: Award, groupLabel: "fi-yki", children: [
-      { to: "/finnish/yki-dashboard", label: t("YKI A2", "YKI A2"), icon: Award },
-      { to: "/finnish/yki-b1", label: t("YKI B1", "YKI B1"), icon: GraduationCap },
-    ] },
-    { to: "#fi-language-group", label: t("Ngôn ngữ", "Language"), icon: BookType, groupLabel: "fi-language", children: [
-      { to: "/finnish/beginner", label: t("Tiếng Phần Lan Sơ cấp", "Finnish Beginner"), icon: BookOpen },
-      { to: "/finnish-vocabulary", label: t("Ngân hàng Từ vựng", "Vocabulary Bank"), icon: BookType },
-    ] },
-    { to: "#fi-life-group", label: t("Cuộc sống ở Phần Lan", "Life in Finland"), icon: Map, groupLabel: "fi-life", children: [
-      { to: "/finnish/life-in-finland", label: t("Cẩm nang Cuộc sống", "Living Guide"), icon: Map },
-      { to: "/finnish/arcade", label: t("Finnish Arcade Hub", "Finnish Arcade Hub"), icon: Gamepad2 },
-      { to: "/songs/finnish", label: t("Học qua bài hát", "Learn through Songs"), icon: Music },
-      { to: "/speaking-coach/finnish", label: t("Speaking Coach", "Speaking Coach"), icon: Mic2 },
-    ] },
-  ];
   const programmingSubs: SubItem[] = [
     { to: "/programming", label: t("Khóa học & Lộ trình", "Courses & Roadmap"), icon: Route },
     { to: "/placement-test?subject=programming", label: t("Placement Test & Personalization", "Placement Test & Personalization"), icon: ClipboardCheck },
@@ -459,7 +442,6 @@ const Navbar = () => {
     { to: "/english", label: t("Tiếng Anh", "English"), icon: BookOpen, subs: [...englishSubs, teacherNotes("English")], key: "en" },
     { to: "/chinese", label: t("Tiếng Trung", "Chinese"), icon: Languages, subs: [...chineseSubs, teacherNotes("Chinese")], key: "cn" },
     { to: "/learn-vietnamese", label: t("Tiếng Việt", "Vietnamese"), icon: Library, subs: [...vietnameseSubs, teacherNotes("Vietnamese")], key: "vn" },
-    { to: "/finnish", label: t("Tiếng Phần Lan", "Finnish"), icon: Snowflake, subs: [...finnishSubs, teacherNotes("Finnish")], key: "fi" },
     { to: "/programming", label: t("Công nghệ", "Technology\n"), icon: Code2, subs: [...programmingSubs, teacherNotes("Programming")], key: "prog" },
     { to: "/lifestyle-academy", label: t("Kỹ năng mềm", "Interpersonal Skills"), icon: Heart, subs: ([
       { to: "/lifestyle-academy", label: t("Tổng quan Lifestyle Academy", "Lifestyle Academy Overview"), icon: Compass },
