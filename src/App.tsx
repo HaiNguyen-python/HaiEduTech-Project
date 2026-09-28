@@ -394,7 +394,7 @@ const App = () => (
             <Route path="/chinese/listening" element={<LazyRoute><ChineseListening /></LazyRoute>} />
             <Route path="/learn-vietnamese/arcade" element={<LazyRoute><VietnameseArcade /></LazyRoute>} />
             <Route path="/english/arcade" element={<Navigate to="/cambridge/arcade" replace />} />
-            <Route path="/finnish/arcade" element={<TeacherOnlyRoute><LazyRoute><FinnishArcade /></LazyRoute></TeacherOnlyRoute>} />
+            <Route path="/finnish/arcade" element={<LazyRoute><FinnishArcade /></LazyRoute>} />
             <Route path="/cambridge/arcade" element={<LazyRoute><CambridgeArcade /></LazyRoute>} />
             <Route path="/arcade-plus" element={<LazyRoute><MultiLangArcade /></LazyRoute>} />
             <Route path="/chinese/hsk-guide" element={<LazyRoute><HskHub /></LazyRoute>} />
@@ -433,7 +433,7 @@ const App = () => (
             <Route path="/ielts-sample-essays/:essayId" element={<LazyRoute><IeltsSampleEssayDetail /></LazyRoute>} />
             <Route path="/ielts-speaking-practice" element={<LazyRoute><SpeakingPractice /></LazyRoute>} />
             <Route path="/ielts-vocabulary" element={<LazyRoute><IeltsVocabulary /></LazyRoute>} />
-            <Route path="/finnish-vocabulary" element={<TeacherOnlyRoute><LazyRoute><FinnishVocabulary /></LazyRoute></TeacherOnlyRoute>} />
+            <Route path="/finnish-vocabulary" element={<LazyRoute><FinnishVocabulary /></LazyRoute>} />
             <Route path="/sat-vocabulary" element={<LazyRoute><SatVocabulary /></LazyRoute>} />
             <Route path="/sat-exercises" element={<LazyRoute><SatExercises /></LazyRoute>} />
             <Route path="/sat-exams" element={<LazyRoute><SatExams /></LazyRoute>} />
@@ -527,11 +527,11 @@ const App = () => (
             <Route path="/learn-vietnamese/for-foreigners/:moduleId/:lessonId" element={<LazyRoute><VietnameseForForeigners /></LazyRoute>} />
             <Route path="/global-scholarship" element={<LazyRoute><KnowledgeHubPage /></LazyRoute>} />
             <Route path="/knowledge-hub" element={<Navigate to="/global-scholarship" replace />} />
-            <Route path="/finnish" element={<TeacherOnlyRoute><LazyRoute><Finnish /></LazyRoute></TeacherOnlyRoute>} />
-            <Route path="/finnish/yki-dashboard" element={<TeacherOnlyRoute><LazyRoute><YkiDashboard /></LazyRoute></TeacherOnlyRoute>} />
-            <Route path="/finnish/beginner" element={<TeacherOnlyRoute><LazyRoute><FinnishBeginner /></LazyRoute></TeacherOnlyRoute>} />
-            <Route path="/finnish/yki-b1" element={<TeacherOnlyRoute><LazyRoute><YkiB1Dashboard /></LazyRoute></TeacherOnlyRoute>} />
-            <Route path="/finnish/life-in-finland" element={<TeacherOnlyRoute><LazyRoute><LifeInFinland /></LazyRoute></TeacherOnlyRoute>} />
+            <Route path="/finnish" element={<LazyRoute><Finnish /></LazyRoute>} />
+            <Route path="/finnish/yki-dashboard" element={<LazyRoute><YkiDashboard /></LazyRoute>} />
+            <Route path="/finnish/beginner" element={<LazyRoute><FinnishBeginner /></LazyRoute>} />
+            <Route path="/finnish/yki-b1" element={<LazyRoute><YkiB1Dashboard /></LazyRoute>} />
+            <Route path="/finnish/life-in-finland" element={<LazyRoute><LifeInFinland /></LazyRoute>} />
             <Route path="/swedish" element={<TeacherOnlyRoute><LazyRoute><Swedish /></LazyRoute></TeacherOnlyRoute>} />
             <Route path="/swedish/beginner" element={<TeacherOnlyRoute><LazyRoute><SwedishBeginner /></LazyRoute></TeacherOnlyRoute>} />
             <Route path="/swedish/yki-a2" element={<TeacherOnlyRoute><LazyRoute><SwedishYkiA2 /></LazyRoute></TeacherOnlyRoute>} />
