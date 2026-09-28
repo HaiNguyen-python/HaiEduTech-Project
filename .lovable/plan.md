@@ -13,7 +13,8 @@ Nâng Pattern Drilling trong Speaking Coach thành lộ trình 6 cấp độ, gi
 - Mỗi khung có 5 lượt thay thế tự nhiên.
 - Tổng cộng mỗi ngôn ngữ: 90 khung và 450 câu luyện.
 - Cả tiếng Anh và tiếng Trung: 180 khung và 900 câu luyện.
-- Giữ nguyên 40 khung và 200 câu hiện có ở mỗi ngôn ngữ; bổ sung 50 khung và 250 câu mới cho mỗi ngôn ngữ.
+- Hiện mỗi ngôn ngữ có 40 khung nhưng chỉ 104 câu hoàn chỉnh: 16 khung có 5 lượt, 24 khung mới chỉ có 1 lượt.
+- Giữ nguyên ID và nội dung hợp lệ hiện có; bổ sung 4 lượt cho mỗi khung còn thiếu, rồi thêm 50 khung mới. Tổng nội dung mới là 346 câu mỗi ngôn ngữ.
 
 ### Trọng tâm từng cấp độ
 
@@ -45,6 +46,7 @@ Tiếng Trung sẽ dùng các cấu trúc nói tự nhiên tương ứng, có H�
 ## Kiểm soát chất lượng nội dung
 
 - Mỗi khung có đúng một chỗ trống và đúng 5 cụm thay thế.
+- Chuẩn hóa 24 khung hiện chỉ có 1 lượt thay thế thành đủ 5 lượt trước khi thêm khung mới.
 - Câu hoàn chỉnh phải tự nhiên, đúng cấp độ và dùng được trong hội thoại thực tế.
 - Không lặp câu hoàn chỉnh hoặc lặp khung trong cùng ngôn ngữ.
 - Mọi câu có nghĩa tiếng Việt; mọi câu tiếng Trung có Pinyin khớp Hán tự.
