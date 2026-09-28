@@ -12,7 +12,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Menu, X, Brain, BookOpen, Languages, Code2, GraduationCap,
-  Globe, UserPlus, Heart, LogIn, ChevronDown, ChevronRight, Cpu, LogOut, Library, Shield,
+  Globe, UserPlus, Heart, LogIn, ChevronDown, ChevronRight, Cpu, LogOut, Library, Shield, Snowflake,
   FileText, PenTool, Map, MessageSquare, Award, School, Swords, User, LayoutDashboard, Newspaper,
   FolderLock, Compass, Briefcase, Trophy, Sparkles, Bot, Database, Workflow, Cloud, Network, Gamepad2, MessagesSquare, Target, Settings2, Flame, Music, Quote, Mic2, Crown, BookType, Blocks, Rocket, Users, Plane, ClipboardCheck, FlaskConical, Route, Ruler, Volume2, Headphones, Landmark, Puzzle, Wallet, Handshake, Activity, PartyPopper, LifeBuoy
 } from "lucide-react";
@@ -103,6 +103,15 @@ const SUBJECT_COLORS: Record<string, SubjectColor> = {
     icon: "text-amber-500/80",
     header: "text-amber-600",
     accent: "hover:border-amber-500",
+  },
+  fi: {
+    trigger: "hover:text-sky-600 hover:bg-sky-500/10",
+    rowHover: "hover:text-sky-600 hover:bg-sky-500/10",
+    rowActive: "text-sky-600 bg-sky-500/10",
+    childHover: "hover:text-sky-600 hover:bg-sky-500/10",
+    icon: "text-sky-500/80",
+    header: "text-sky-600",
+    accent: "hover:border-sky-500",
   },
   prog: {
     trigger: "hover:text-emerald-600 hover:bg-emerald-500/10",
