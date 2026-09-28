@@ -366,6 +366,17 @@ const Navbar = () => {
       { to: "/speaking-coach/vietnamese", label: t("Speaking Coach", "Speaking Coach"), icon: Mic2 },
     ] },
   ];
+  const finnishSubs: SubItem[] = [
+    { to: "/finnish", label: t("Khóa học & Lộ trình", "Courses & Roadmap"), icon: Route },
+    { to: "/finnish/yki-dashboard", label: t("Bảng YKI A2", "YKI A2 Dashboard"), icon: Award },
+    { to: "/finnish/yki-b1", label: t("Bảng YKI B1", "YKI B1 Dashboard"), icon: GraduationCap },
+    { to: "/finnish/beginner", label: t("Tiếng Phần Lan Sơ cấp", "Finnish Beginner"), icon: BookOpen },
+    { to: "/finnish-vocabulary", label: t("Ngân hàng Từ vựng", "Vocabulary Bank"), icon: BookType },
+    { to: "/finnish/life-in-finland", label: t("Cuộc sống ở Phần Lan", "Life in Finland"), icon: Map },
+    { to: "/finnish/arcade", label: t("Finnish Arcade Hub", "Finnish Arcade Hub"), icon: Gamepad2 },
+    { to: "/songs/finnish", label: t("Học qua bài hát", "Learn through Songs"), icon: Music },
+    { to: "/speaking-coach/finnish", label: t("Speaking Coach", "Speaking Coach"), icon: Mic2 },
+  ];
   const programmingSubs: SubItem[] = [
     { to: "/programming", label: t("Khóa học & Lộ trình", "Courses & Roadmap"), icon: Route },
     { to: "/placement-test?subject=programming", label: t("Placement Test & Personalization", "Placement Test & Personalization"), icon: ClipboardCheck },
