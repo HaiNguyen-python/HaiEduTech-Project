@@ -191,7 +191,11 @@ const HskExercise = ({ masteredWords, allWords, t }: { masteredWords: HskWord[];
 
     const qs: QuizQuestion[] = picked.map((w, i) => {
       // Rotate through modes so each quiz covers all skills
-      const mode = modes[i % modes.length];
+      let mode = modes[i % modes.length];
+      // Words without a sensible example sentence cannot be tested in context.
+      if ((mode === "fill" || mode === "example") && !(w.example && w.example.includes(w.character))) {
+        mode = mode === "fill" ? "hanzi" : "meaning";
+      }
       let correctVal = "";
       let pool: string[] = [];
 
