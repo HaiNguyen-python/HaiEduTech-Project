@@ -48,7 +48,7 @@ export const T1_EXTRA: Record<string, Row[]> = {
     ["B2", "to the north of", "A new car park was built to the north of the railway station.", "Một bãi đỗ xe mới được xây ở phía bắc nhà ga."],
     ["C1", "was converted into", "The former army barracks was converted into a university campus.", "Doanh trại quân đội cũ đã được chuyển đổi thành khuôn viên đại học."],
     ["C1", "was extended", "The main road was extended eastwards to connect the village with the motorway.", "Con đường chính được kéo dài về phía đông để nối ngôi làng với đường cao tốc."],
-    ["C2", "was relocated to", "The bus terminal was relocated to the outskirts, freeing the centre for a pedestrian square.", "Bến xe buýt được dời ra ngoại ô, giải phóng trung tâm cho một quảng trường đi bộ."],
+    ["C2", "was moved to", "The bus terminal was moved to the outskirts, freeing the centre for a pedestrian square.", "Bến xe buýt được dời ra ngoại ô, giải phóng trung tâm cho một quảng trường đi bộ."],
     ["C2", "largely unrecognisable", "By 2020, the seafront had become largely unrecognisable, with hotels lining the entire coast.", "Đến năm 2020, khu bờ biển gần như không thể nhận ra, với khách sạn trải dọc toàn bộ bờ."],
   ],
 };
@@ -63,7 +63,7 @@ export const T2_EXTRA: Record<string, Row[]> = {
     ["C2", "It is hardly surprising that", "It is hardly surprising that urban congestion has become a priority for policymakers worldwide.", "Không có gì ngạc nhiên khi ùn tắc đô thị trở thành ưu tiên của các nhà hoạch định chính sách toàn cầu."],
   ],
   thesis: [
-    ["B2", "I would contend that", "I would contend that learning a second language should begin in primary school.", "Tôi cho rằng việc học ngoại ngữ thứ hai nên bắt đầu từ bậc tiểu học."],
+    ["B2", "I firmly maintain that", "I firmly maintain that learning a second language should begin in primary school.", "Tôi cho rằng việc học ngoại ngữ thứ hai nên bắt đầu từ bậc tiểu học."],
     ["B2", "This essay will argue that", "This essay will argue that the benefits of tourism outweigh its drawbacks.", "Bài luận này sẽ lập luận rằng lợi ích của du lịch lớn hơn tác hại."],
     ["C1", "I am inclined to agree", "While both views have merit, I am inclined to agree that schools should teach financial skills.", "Dù cả hai quan điểm đều có lý, tôi nghiêng về đồng ý rằng trường học nên dạy kỹ năng tài chính."],
     ["C1", "a balanced approach", "In my view, a balanced approach combining regulation and education is most likely to succeed.", "Theo tôi, một cách tiếp cận cân bằng kết hợp quy định và giáo dục có khả năng thành công cao nhất."],
