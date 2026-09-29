@@ -20,11 +20,12 @@ import {
   PROGRAMMING_ADV,
 } from "./placementBanksAdvanced";
 import { TOEIC_BANK, SAT_BANK, PTE_BANK } from "./placementBanksExam";
+import { LIFESTYLE_PLACEMENT_BANK } from "./lifestylePlacementBank";
 
 export type PlacementSubject =
   | "english" | "chinese" | "vietnamese" | "finnish"
   | "japanese" | "swedish" | "programming"
-  | "toeic" | "sat" | "pte";
+  | "toeic" | "sat" | "pte" | "lifestyle";
 
 export interface SubjectMeta {
   title: string;
@@ -66,6 +67,11 @@ export const SUBJECT_META: Record<PlacementSubject, SubjectMeta> = {
   programming: {
     title: "Programming Placement Test",
     subtitle: "24 questions · Python · SQL · Logic · AI Fundamentals",
+    speakLang: "en-US",
+  },
+  lifestyle: {
+    title: "Interpersonal Skills Placement Test",
+    subtitle: "18 scenarios · Communication · Public Speaking · Presence · Teamwork · Self-Management · Etiquette",
     speakLang: "en-US",
   },
   toeic: {
@@ -599,6 +605,7 @@ export function getPlacementBank(subject: PlacementSubject): PlacementQuestion[]
     case "japanese": return [...JAPANESE, ...JAPANESE_ADV];
     case "swedish": return [...SWEDISH, ...SWEDISH_ADV];
     case "programming": return [...PROGRAMMING, ...PROGRAMMING_ADV];
+    case "lifestyle": return LIFESTYLE_PLACEMENT_BANK;
     case "toeic": return TOEIC_BANK;
     case "sat": return SAT_BANK;
     case "pte": return PTE_BANK;
@@ -613,7 +620,7 @@ export function parseSubject(raw: string | null | undefined): PlacementSubject {
   if (
     v === "chinese" || v === "vietnamese" || v === "finnish"
     || v === "japanese" || v === "swedish" || v === "programming"
-    || v === "toeic" || v === "sat" || v === "pte"
+    || v === "toeic" || v === "sat" || v === "pte" || v === "lifestyle"
   ) return v;
   return "english";
 }
