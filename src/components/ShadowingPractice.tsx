@@ -487,7 +487,7 @@ const ShadowingPractice: React.FC<Props> = () => {
           return <span key={i}>{inner}</span>;
         })}
       </p>
-      {showIpa && (() => {
+      {(() => {
         const punctOf = (tok: string) => (tok.match(/[.,!?;:]$/) || [""])[0];
         return (
           <div className="mt-3 pt-3 border-t border-border/60">
