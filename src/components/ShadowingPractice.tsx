@@ -6,7 +6,7 @@
  * @author Teacher Hai (HaiEduTech)
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Headphones, Search, Mic, Square, Award, Play, ArrowRight, ArrowLeft,
@@ -328,6 +328,7 @@ const ShadowingPractice: React.FC<Props> = () => {
     const intonation = Math.round((stressedHit / Math.max(1, current.stressWords.length)) * 100);
     const overall = Math.round(accuracy * 0.55 + wpmScore * 0.2 + intonation * 0.25);
     setScore({ accuracy, wpm, intonation, overall });
+    setSession((p) => ({ done: p.done + 1, total: p.total + overall }));
     saveAttempt({ accuracy, wpm, intonation, overall }, finalTranscript);
   };
 
@@ -373,11 +374,43 @@ const ShadowingPractice: React.FC<Props> = () => {
     }
   };
 
-  if (!current) {
+  if (!level || !current) {
+    const count = (lv: LevelPick) => SHADOWING_SENTENCES.filter((s) => lv === "mix" || s.level === lv).length;
+    const levels: { id: LevelPick; title: string; desc: string }[] = [
+      { id: "B2", title: "B2", desc: t("Band 6.0-6.5 · câu rõ ràng, cấu trúc phổ biến", "Band 6.0-6.5 · clear, common structures") },
+      { id: "C1", title: "C1", desc: t("Band 7.0-7.5 · câu phức, collocation nâng cao", "Band 7.0-7.5 · complex sentences, advanced collocations") },
+      { id: "C2", title: "C2", desc: t("Band 8.0+ · đảo ngữ, cấu trúc học thuật", "Band 8.0+ · inversion, academic structures") },
+      { id: "mix", title: t("Trộn", "Mixed"), desc: t("Ngẫu nhiên mọi cấp độ để tăng phản xạ", "Random across all levels for reflexes") },
+    ];
     return (
       <Card>
-        <CardContent className="py-16 text-center text-muted-foreground">
-          {t("Không tìm thấy câu nào.", "No sentences found.")}
+        <CardHeader>
+          <CardTitle className="text-lg flex items-center gap-2">
+            <Headphones className="w-5 h-5 text-primary" />
+            {t("Chọn cấp độ để bắt đầu Shadowing", "Choose a level to start shadowing")}
+          </CardTitle>
+          <p className="text-sm text-muted-foreground">
+            {t(
+              "Mỗi lượt hệ thống đưa ra một câu ngẫu nhiên. Làm 3 bước: Nghe & Hiểu → Nhại theo → Ghi âm & Chấm, rồi sang câu mới.",
+              "Each round shows a random sentence. Do 3 steps: Listen & Understand → Shadow → Record & Grade, then move on."
+            )}
+          </p>
+        </CardHeader>
+        <CardContent className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          {levels.map((lv) => (
+            <button
+              key={lv.id}
+              type="button"
+              onClick={() => startLevel(lv.id)}
+              className="text-left p-4 rounded-xl border-2 border-border hover:border-primary hover:bg-primary/5 transition-colors"
+            >
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xl font-bold text-foreground">{lv.title}</span>
+                <Badge variant="secondary">{count(lv.id)}</Badge>
+              </div>
+              <p className="text-sm text-muted-foreground">{lv.desc}</p>
+            </button>
+          ))}
         </CardContent>
       </Card>
     );
@@ -447,376 +480,222 @@ const ShadowingPractice: React.FC<Props> = () => {
     );
   };
 
+  const avg = session.done ? Math.round(session.total / session.done) : 0;
+  const levelLabel = level === "mix" ? t("Trộn", "Mixed") : level;
+
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-      {/* LEFT: sentence library */}
-      <div className="lg:col-span-4 space-y-3">
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-base flex items-center gap-2">
-              <Headphones className="w-4 h-4 text-primary" />
-              {t("Thư viện câu Shadowing", "Shadowing Library")}
-              <Badge variant="secondary" className="ml-auto">{filtered.length}</Badge>
-            </CardTitle>
-            <div className="flex gap-1.5 pt-2 flex-wrap">
-              {(["all", "B2", "C1", "C2"] as const).map((lv) => (
-                <button
-                  key={lv}
-                  onClick={() => { setLevelFilter(lv); setActiveIdx(0); }}
-                  className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${
-                    levelFilter === lv
-                      ? "bg-primary text-primary-foreground border-primary"
-                      : "bg-muted/50 border-border hover:bg-muted"
-                  }`}
-                >
-                  {lv === "all" ? t("Tất cả", "All") : lv}
-                </button>
-              ))}
+    <div className="max-w-4xl mx-auto space-y-4">
+      {/* Session bar */}
+      <Card>
+        <CardContent className="py-3 flex flex-wrap items-center gap-3">
+          <Button variant="ghost" size="sm" onClick={() => { stopRecording(); window.speechSynthesis?.cancel(); setLevel(null); setCurrent(undefined); }}>
+            <ArrowLeft className="w-4 h-4 mr-1" />
+            {t("Đổi cấp độ", "Change level")}
+          </Button>
+          <Badge variant="outline">{t("Cấp độ", "Level")}: {levelLabel}</Badge>
+          <span className="text-sm text-muted-foreground">
+            {t("Đã luyện", "Done")}: <strong className="text-foreground">{session.done}</strong>
+            {session.done > 0 && <> · {t("Điểm TB", "Avg")}: <strong className="text-foreground">{avg}</strong></>}
+          </span>
+          <Button variant="outline" size="sm" className="ml-auto" onClick={() => nextSentence()} disabled={isRecording}>
+            <RefreshCw className="w-4 h-4 mr-1" />
+            {t("Bỏ qua, câu khác", "Skip, new sentence")}
+          </Button>
+        </CardContent>
+      </Card>
+
+      {/* Step indicator */}
+      <div className="flex items-center gap-2">
+        {STEPS.map((s, idx) => {
+          const Icon = s.icon;
+          const isActive = step === s.id;
+          const isDone = step > s.id;
+          return (
+            <div key={s.id} className="flex items-center flex-1">
+              <button
+                type="button"
+                onClick={() => !isRecording && setStep(s.id)}
+                className={`flex items-center gap-2 px-3 py-2 rounded-full border text-sm font-medium w-full justify-center transition-colors ${
+                  isActive
+                    ? "bg-primary text-primary-foreground border-primary"
+                    : isDone
+                      ? "bg-primary/10 text-primary border-primary/30"
+                      : "bg-muted text-muted-foreground border-border"
+                }`}
+              >
+                {isDone ? <CheckCircle2 className="w-4 h-4" /> : <Icon className="w-4 h-4" />}
+                <span className="hidden sm:inline">{s.id}. {lang === "vi" ? s.labelVi : s.label}</span>
+                <span className="sm:hidden">{s.id}</span>
+              </button>
+              {idx < STEPS.length - 1 && <div className="h-0.5 w-3 bg-border shrink-0" />}
             </div>
-            <div className="relative pt-2">
-              <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
-              <input
-                value={search}
-                onChange={(e) => { setSearch(e.target.value); setActiveIdx(0); }}
-                placeholder={t("Tìm theo nội dung hoặc ngữ pháp...", "Search by content or grammar...")}
-                className="w-full pl-8 pr-2 py-1.5 text-sm rounded-md border bg-background"
-              />
-            </div>
-          </CardHeader>
-          <CardContent className="max-h-[640px] overflow-y-auto space-y-2">
-            {filtered.map((s, i) => {
-              const active = current?.id === s.id;
-              return (
-                <button
-                  key={s.id}
-                  onClick={() => setActiveIdx(i)}
-                  className={`w-full text-left p-3 rounded-lg border transition-all ${
-                    active
-                      ? "border-primary bg-primary/5 shadow-sm"
-                      : "border-border hover:border-primary/50 hover:bg-muted/40"
-                  }`}
-                >
-                  <div className="flex items-center justify-between gap-2 mb-1">
-                    <Badge variant="outline" className="text-[10px]">{s.level}</Badge>
-                    <span className="text-[11px] text-muted-foreground">{s.grammarPoint}</span>
-                  </div>
-                  <p className="text-sm text-foreground line-clamp-2 leading-snug">
-                    {s.sentence}
-                  </p>
-                </button>
-              );
-            })}
-          </CardContent>
-        </Card>
+          );
+        })}
       </div>
 
-      {/* RIGHT: 4-step practice flow */}
-      <div className="lg:col-span-8 space-y-4">
-        {/* Step indicator */}
-        <Card>
-          <CardContent className="py-4">
-            <div className="flex items-center justify-between gap-2">
-              {STEPS.map((s, idx) => {
-                const Icon = s.icon;
-                const isActive = step === s.id;
-                const isDone = step > s.id;
-                return (
-                  <div key={s.id} className="flex items-center flex-1">
-                    <button
-                      onClick={() => setStep(s.id)}
-                      className={`flex flex-col items-center gap-1 transition-all ${
-                        isActive ? "scale-110" : ""
-                      }`}
-                    >
-                      <div
-                        className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-colors ${
-                          isActive
-                            ? "bg-primary text-primary-foreground border-primary shadow-md"
-                            : isDone
-                              ? "bg-emerald-500/15 text-emerald-600 border-emerald-500/40"
-                              : "bg-muted text-muted-foreground border-border"
-                        }`}
-                      >
-                        {isDone ? <CheckCircle2 className="w-5 h-5" /> : <Icon className="w-5 h-5" />}
-                      </div>
-                      <span
-                        className={`text-[11px] font-medium ${
-                          isActive ? "text-foreground" : "text-muted-foreground"
-                        }`}
-                      >
-                        {s.id}. {lang === "vi" ? s.labelVi : s.label}
-                      </span>
-                    </button>
-                    {idx < STEPS.length - 1 && (
-                      <div className={`h-0.5 flex-1 mx-1 ${step > s.id ? "bg-emerald-500/40" : "bg-border"}`} />
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          </CardContent>
-        </Card>
+      <Card>
+        <CardHeader className="pb-3">
+          <div className="flex items-center justify-between flex-wrap gap-2">
+            <CardTitle className="text-base flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-primary" />
+              {current.grammarPoint}
+              <Badge variant="outline" className="ml-1 text-[10px]">{current.level}</Badge>
+            </CardTitle>
+            <Button variant="ghost" size="sm" onClick={() => setShowVi((v) => !v)}>
+              <Languages className="w-3.5 h-3.5 mr-1" />
+              {showVi ? t("Ẩn nghĩa", "Hide meaning") : t("Xem nghĩa", "Show meaning")}
+            </Button>
+          </div>
+        </CardHeader>
+        <CardContent className="space-y-5">
+          <div className="bg-gradient-to-br from-primary/5 to-transparent rounded-lg p-5 border">
+            {renderHighlightedSentence(step === 1 ? "plain" : "intonation")}
+            {showVi && <p className="text-sm text-muted-foreground italic mt-3">{current.vietnamese}</p>}
+          </div>
 
-        <Card>
-          <CardHeader className="pb-3">
-            <div className="flex items-center justify-between flex-wrap gap-2">
-              <CardTitle className="text-base flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-primary" />
-                {current.grammarPoint}
-                <Badge variant="outline" className="ml-1 text-[10px]">{current.level}</Badge>
-              </CardTitle>
-              <Button variant="ghost" size="sm" onClick={() => setShowVi((v) => !v)}>
-                <Languages className="w-3.5 h-3.5 mr-1" />
-                {showVi ? t("Ẩn nghĩa tiếng Việt", "Hide Vietnamese") : t("Hiện nghĩa tiếng Việt", "Show Vietnamese")}
+          {/* Single audio control row */}
+          <div className="flex flex-wrap items-center gap-2">
+            <Button onClick={() => play()} disabled={isRecording}>
+              <Volume2 className="w-4 h-4 mr-1.5" />
+              {t("Nghe mẫu", "Play model")}
+            </Button>
+            {([0.8, 0.95, 1.1] as const).map((r) => (
+              <Button key={r} variant={rate === r ? "secondary" : "outline"} size="sm" onClick={() => setRate(r)}>
+                {r}x
               </Button>
-            </div>
-          </CardHeader>
-          <CardContent className="space-y-5">
-            {/* Sentence display */}
-            <div className="bg-gradient-to-br from-primary/5 to-transparent rounded-lg p-5 border">
-              {renderHighlightedSentence(step === 3 ? "intonation" : step === 2 ? "stress" : "plain")}
-              {showVi && (
-                <p className="text-sm text-muted-foreground italic mt-3">
-                  🇻🇳 {current.vietnamese}
-                </p>
+            ))}
+            <span className="text-xs text-muted-foreground ml-auto">
+              {t("Đã nghe", "Listened")}: {listenCount}
+            </span>
+          </div>
+
+          <AnimatePresence mode="wait">
+            <motion.div key={step} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.2 }}>
+              {step === 1 && (
+                <div className="space-y-3">
+                  <p className="text-sm text-muted-foreground">
+                    {t("Nghe mẫu 1-2 lần, đọc nghĩa và nắm cấu trúc trọng tâm (tô cam).", "Listen 1-2 times, check the meaning and the key structure (orange).")}
+                  </p>
+                  <div className="p-3 rounded-lg border bg-muted/30 space-y-2">
+                    <p className="text-sm"><span className="font-semibold">{t("Cấu trúc", "Structure")}:</span> <span className="font-mono">{current.grammarSpan}</span></p>
+                    <p className="text-sm text-foreground/80">{current.grammarExplanation}</p>
+                  </div>
+                  <div className="p-3 rounded-lg border bg-muted/30">
+                    <p className="text-sm font-semibold mb-1.5">{t("Từ vựng & collocation", "Vocabulary & collocations")}</p>
+                    <ul className="space-y-1 mb-2">
+                      {current.vocabulary.map((v) => (
+                        <li key={v.word} className="text-sm"><span className="font-semibold text-primary">{v.word}</span> - {v.definition}</li>
+                      ))}
+                    </ul>
+                    <div className="flex flex-wrap gap-1.5">
+                      {current.collocations.map((c) => <Badge key={c} variant="secondary" className="text-xs">{c}</Badge>)}
+                    </div>
+                  </div>
+                </div>
               )}
-            </div>
 
-            {/* TTS controls - visible in all steps */}
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="text-xs font-medium text-muted-foreground">{t("Tốc độ:", "Speed:")}</span>
-              {([0.8, 0.95, 1.1] as const).map((r) => (
-                <Button
-                  key={r}
-                  variant={rate === r ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setRate(r)}
-                >
-                  {r}x
-                </Button>
-              ))}
-              <Button size="sm" onClick={() => speak(current.sentence, rate, current.intonation)} className="ml-1">
-                <Volume2 className="w-4 h-4 mr-1.5" />
-                {t("Nghe", "Listen")}
-              </Button>
-            </div>
+              {step === 2 && (
+                <div className="p-4 rounded-lg border border-primary/20 bg-primary/5 space-y-2">
+                  <p className="text-sm font-medium flex items-center gap-1.5">
+                    <Headphones className="w-4 h-4 text-primary" />
+                    {t("Bấm Nghe mẫu và nói đè theo ngay (không dừng)", "Press Play model and speak along at the same time")}
+                  </p>
+                  <ul className="text-sm text-muted-foreground list-disc pl-5 space-y-0.5">
+                    <li>{t("Lượt 1-2: tốc độ 0.8x, bắt nhịp", "Rounds 1-2: 0.8x to catch the rhythm")}</li>
+                    <li>{t("Lượt 3-5: tốc độ 0.95x-1.1x, nhấn từ in đậm, theo mũi tên ↑↓", "Rounds 3-5: 0.95x-1.1x, stress bold words, follow ↑↓")}</li>
+                  </ul>
+                  <p className="text-xs text-muted-foreground">
+                    {listenCount >= 5 ? t("Tốt! Sẵn sàng ghi âm.", "Great! Ready to record.") : t(`Mục tiêu: 5 lượt (${listenCount}/5)`, `Goal: 5 rounds (${listenCount}/5)`)}
+                  </p>
+                </div>
+              )}
 
-            {/* Step-specific body */}
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={step}
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.2 }}
-              >
-                {step === 1 && (
-                  <div className="space-y-3">
-                    <div className="p-3 rounded-lg bg-blue-500/10 border border-blue-500/20">
-                      <p className="text-sm font-medium text-foreground mb-1 flex items-center gap-1.5">
-                        <BookOpen className="w-4 h-4 text-blue-600" />
-                        {t("Giải thích ngữ pháp", "Grammar Explanation")}
-                      </p>
-                      <p className="text-sm text-foreground/80">{current.grammarExplanation}</p>
+              {step === 3 && (
+                <div className="space-y-4">
+                  <div className="rounded-lg border bg-card p-4">
+                    <div className="flex items-end justify-center gap-1 h-12">
+                      {Array.from({ length: 24 }).map((_, i) => (
+                        <div
+                          key={i}
+                          className={`w-1.5 rounded-full transition-all ${isRecording ? "bg-primary" : "bg-muted-foreground/30"}`}
+                          style={{ height: `${isRecording ? 8 + Math.abs(Math.sin(i + visualLevel / 20)) * (visualLevel / 3 + 8) : 4}px` }}
+                        />
+                      ))}
                     </div>
-                    <div className="p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
-                      <p className="text-sm font-medium text-foreground mb-2">
-                        {t("Từ vựng nâng cao", "Advanced Vocabulary")}
-                      </p>
-                      <ul className="space-y-1.5">
-                        {current.vocabulary.map((v) => (
-                          <li key={v.word} className="text-sm">
-                            <span className="font-semibold text-emerald-700 dark:text-emerald-300">{v.word}</span>
-                            <span className="text-foreground/80"> - {v.definition}</span>
-                            {v.synonyms && (
-                              <span className="text-xs text-muted-foreground"> ({v.synonyms.join(", ")})</span>
-                            )}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                )}
-
-                {step === 2 && (
-                  <div className="space-y-3">
-                    <div className="p-3 rounded-lg bg-purple-500/10 border border-purple-500/20">
-                      <p className="text-sm font-medium mb-1">{t("Cấu trúc trọng tâm", "Target Structure")}</p>
-                      <p className="text-sm text-foreground/80 font-mono bg-background/60 rounded px-2 py-1 inline-block">
-                        {current.grammarSpan}
-                      </p>
-                    </div>
-                    <div className="p-3 rounded-lg bg-amber-500/10 border border-amber-500/20">
-                      <p className="text-sm font-medium mb-1">{t("Collocations", "Collocations")}</p>
-                      <div className="flex flex-wrap gap-1.5">
-                        {current.collocations.map((c) => (
-                          <Badge key={c} variant="secondary" className="text-xs">{c}</Badge>
-                        ))}
-                      </div>
-                    </div>
-                    <p className="text-xs text-muted-foreground italic">
-                      {t(
-                        "Các từ in đậm là từ cần nhấn (stress). Hãy đọc to và nhấn mạnh khi luyện.",
-                        "Bold words are stressed syllables. Read aloud and emphasise them when practising."
-                      )}
+                    <p className="text-center text-xs text-muted-foreground mt-2">
+                      {isRecording ? t(`Đang ghi âm... ${duration}s`, `Recording... ${duration}s`) : t("Nói lại cả câu, không nhìn mẫu nếu có thể", "Say the whole sentence, try not to read")}
                     </p>
                   </div>
-                )}
-
-                {step === 3 && (
-                  <div className="space-y-3">
-                    <div className="p-4 rounded-lg bg-gradient-to-r from-primary/10 to-transparent border border-primary/20">
-                      <p className="text-sm font-medium mb-2 flex items-center gap-1.5">
-                        <Headphones className="w-4 h-4 text-primary" />
-                        {t("Nghe và nhại lại ngay (Shadowing)", "Listen and shadow immediately")}
-                      </p>
-                      <p className="text-xs text-muted-foreground mb-3">
-                        {t(
-                          "Mũi tên ↑ = lên giọng, ↓ = xuống giọng. Lặp lại ít nhất 5 lần trước khi sang bước Ghi âm.",
-                          "↑ = rising intonation, ↓ = falling. Repeat at least 5 times before moving to Recording."
-                        )}
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        <Button size="sm" onClick={() => speak(current.sentence, rate, current.intonation)}>
-                          <Play className="w-4 h-4 mr-1.5" />
-                          {t("Phát mẫu", "Play model")}
-                        </Button>
-                        <Button size="sm" variant="outline" onClick={() => speak(current.sentence, 0.8, current.intonation)}>
-                          0.8x
-                        </Button>
-                        <Button size="sm" variant="outline" onClick={() => speak(current.sentence, 1.1, current.intonation)}>
-                          1.1x
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {step === 4 && (
-                  <div className="space-y-4">
-                    {/* Visualizer */}
-                    <div className="rounded-lg border bg-card p-4">
-                      <div className="flex items-end justify-center gap-1 h-16">
-                        {Array.from({ length: 24 }).map((_, i) => {
-                          const h = isRecording
-                            ? 8 + Math.abs(Math.sin(Date.now() / 100 + i)) * (visualLevel / 2 + 10)
-                            : 4;
-                          return (
-                            <div
-                              key={i}
-                              className={`w-1.5 rounded-full transition-all ${
-                                isRecording ? "bg-primary" : "bg-muted-foreground/30"
-                              }`}
-                              style={{ height: `${h}px` }}
-                            />
-                          );
-                        })}
-                      </div>
-                      <p className="text-center text-xs text-muted-foreground mt-2">
-                        {isRecording
-                          ? t(`Đang ghi âm... ${duration}s`, `Recording... ${duration}s`)
-                          : t("Sẵn sàng ghi âm", "Ready to record")}
-                      </p>
-                    </div>
-
-                    {/* Controls */}
-                    <div className="flex flex-wrap gap-2 justify-center">
-                      {!isRecording ? (
-                        <Button onClick={startRecording} size="lg">
-                          <Mic className="w-4 h-4 mr-2" />
-                          {t("Bắt đầu ghi âm", "Start Recording")}
-                        </Button>
-                      ) : (
-                        <Button onClick={finishAndGrade} size="lg" variant="destructive">
-                          <Square className="w-4 h-4 mr-2" />
-                          {t("Dừng & Chấm điểm", "Stop & Grade")}
-                        </Button>
-                      )}
-                      <Button
-                        onClick={() => { setTranscript(""); setInterim(""); setScore(null); setDuration(0); }}
-                        size="lg"
-                        variant="outline"
-                        disabled={isRecording}
-                      >
-                        <RefreshCw className="w-4 h-4 mr-2" />
-                        {t("Làm lại", "Reset")}
+                  <div className="flex justify-center">
+                    {!isRecording ? (
+                      <Button onClick={startRecording} size="lg">
+                        <Mic className="w-4 h-4 mr-2" />
+                        {score ? t("Ghi âm lại", "Record again") : t("Bắt đầu ghi âm", "Start recording")}
                       </Button>
-                    </div>
-
-                    {(transcript || interim) && (
-                      <div className="rounded-lg border bg-muted/40 p-3">
-                        <p className="text-xs font-medium text-muted-foreground mb-1">
-                          {t("Bạn đã nói:", "You said:")}
-                        </p>
-                        <p className="text-sm">
-                          {transcript}{" "}
-                          <span className="text-muted-foreground italic">{interim}</span>
-                        </p>
-                      </div>
-                    )}
-
-                    {score && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="rounded-lg border-2 border-primary/30 bg-gradient-to-br from-primary/10 to-transparent p-4 space-y-3"
-                      >
-                        <div className="flex items-center justify-between">
-                          <p className="font-semibold flex items-center gap-2">
-                            <Award className="w-5 h-5 text-primary" />
-                            {t("Báo cáo điểm", "Score Report")}
-                          </p>
-                          <span className="text-3xl font-bold text-primary">{score.overall}<span className="text-base text-muted-foreground">/100</span></span>
-                        </div>
-                        <div className="grid grid-cols-3 gap-2">
-                          {[
-                            { label: t("Phát âm", "Pronunciation"), value: `${score.accuracy}%`, band: bandFromAccuracy(score.accuracy) },
-                            { label: t("Trôi chảy", "Fluency"), value: `${score.wpm} wpm`, band: bandFromWpm(score.wpm) },
-                            { label: t("Ngữ điệu", "Intonation"), value: `${score.intonation}%`, band: bandFromAccuracy(score.intonation) },
-                          ].map((m) => (
-                            <div key={m.label} className="rounded-md bg-background/70 border p-2.5 text-center">
-                              <p className="text-[11px] uppercase tracking-wide text-muted-foreground">{m.label}</p>
-                              <p className="font-semibold text-foreground mt-0.5">{m.value}</p>
-                              <Badge variant="outline" className="mt-1 text-[10px]">Band {m.band}</Badge>
-                            </div>
-                          ))}
-                        </div>
-                        <p className="text-xs text-muted-foreground">
-                          {t(
-                            "Mẹo: nếu ngữ điệu thấp, hãy nhấn rõ các từ in đậm và bám theo mũi tên ↑↓.",
-                            "Tip: if intonation is low, emphasise bold words and follow the ↑↓ arrows."
-                          )}
-                        </p>
-                      </motion.div>
+                    ) : (
+                      <Button onClick={finishAndGrade} size="lg" variant="destructive">
+                        <Square className="w-4 h-4 mr-2" />
+                        {t("Dừng & Chấm điểm", "Stop & Grade")}
+                      </Button>
                     )}
                   </div>
-                )}
-              </motion.div>
-            </AnimatePresence>
+                  {(transcript || interim) && (
+                    <div className="rounded-lg border bg-muted/40 p-3">
+                      <p className="text-xs font-medium text-muted-foreground mb-1">{t("Bạn đã nói:", "You said:")}</p>
+                      <p className="text-sm">{transcript} <span className="text-muted-foreground italic">{interim}</span></p>
+                    </div>
+                  )}
+                  {score && (
+                    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="rounded-lg border-2 border-primary/30 bg-primary/5 p-4 space-y-3">
+                      <div className="flex items-center justify-between">
+                        <p className="font-semibold flex items-center gap-2"><Award className="w-5 h-5 text-primary" />{t("Kết quả", "Result")}</p>
+                        <span className="text-3xl font-bold text-primary">{score.overall}<span className="text-base text-muted-foreground">/100</span></span>
+                      </div>
+                      <div className="grid grid-cols-3 gap-2">
+                        {[
+                          { label: t("Phát âm", "Pronunciation"), value: `${score.accuracy}%`, band: bandFromAccuracy(score.accuracy) },
+                          { label: t("Trôi chảy", "Fluency"), value: `${score.wpm} wpm`, band: bandFromWpm(score.wpm) },
+                          { label: t("Ngữ điệu", "Intonation"), value: `${score.intonation}%`, band: bandFromAccuracy(score.intonation) },
+                        ].map((m) => (
+                          <div key={m.label} className="rounded-md bg-background/70 border p-2.5 text-center">
+                            <p className="text-[11px] uppercase tracking-wide text-muted-foreground">{m.label}</p>
+                            <p className="font-semibold text-foreground mt-0.5">{m.value}</p>
+                            <Badge variant="outline" className="mt-1 text-[10px]">Band {m.band}</Badge>
+                          </div>
+                        ))}
+                      </div>
+                      <p className="text-xs text-muted-foreground">
+                        {score.overall >= 75
+                          ? t("Rất tốt! Sang câu mới để tăng phản xạ.", "Great! Move on to a new sentence.")
+                          : t("Nghe lại, nhấn rõ từ in đậm rồi ghi âm lại.", "Listen again, stress the bold words and record again.")}
+                      </p>
+                    </motion.div>
+                  )}
+                </div>
+              )}
+            </motion.div>
+          </AnimatePresence>
 
-            {/* Step nav */}
-            <div className="flex justify-between pt-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setStep((s) => (s > 1 ? ((s - 1) as Step) : s))}
-                disabled={step === 1}
-              >
-                <ArrowLeft className="w-4 h-4 mr-1" />
-                {t("Bước trước", "Previous")}
-              </Button>
-              <Button
-                size="sm"
-                onClick={() => setStep((s) => (s < 4 ? ((s + 1) as Step) : s))}
-                disabled={step === 4}
-              >
-                {t("Bước tiếp", "Next")}
+          {/* Navigation */}
+          <div className="flex justify-between pt-2 border-t">
+            <Button variant="outline" size="sm" onClick={() => setStep((s) => (s > 1 ? ((s - 1) as Step) : s))} disabled={step === 1 || isRecording}>
+              <ArrowLeft className="w-4 h-4 mr-1" />
+              {t("Bước trước", "Previous")}
+            </Button>
+            {step < 3 ? (
+              <Button size="sm" onClick={() => setStep((s) => ((s + 1) as Step))}>
+                {step === 1 ? t("Sang Nhại theo", "Go to Shadow") : t("Sang Ghi âm", "Go to Record")}
                 <ArrowRight className="w-4 h-4 ml-1" />
               </Button>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+            ) : (
+              <Button size="sm" onClick={() => nextSentence()} disabled={isRecording}>
+                {t("Câu ngẫu nhiên tiếp", "Next random sentence")}
+                <ArrowRight className="w-4 h-4 ml-1" />
+              </Button>
+            )}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };
