@@ -593,7 +593,7 @@ const ShadowingPractice: React.FC<Props> = () => {
         <CardContent className="space-y-5">
           <div className="bg-gradient-to-br from-primary/5 to-transparent rounded-lg p-5 border">
             {renderHighlightedSentence("intonation")}
-            {showVi && <p className="text-sm text-muted-foreground italic mt-3">{current.vietnamese}</p>}
+            <p className="text-sm text-muted-foreground italic mt-3">{current.vietnamese}</p>
           </div>
 
           {/* Single audio control row */}
