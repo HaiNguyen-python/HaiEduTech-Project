@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useEnglishIpa } from "@/lib/englishIpa";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import {
