@@ -445,7 +445,7 @@ const ShadowingPractice: React.FC<Props> = () => {
     };
     return (
       <div>
-      <p className="text-lg md:text-2xl leading-relaxed font-medium text-foreground tracking-wide flex flex-wrap gap-x-2 gap-y-3 items-start">
+      <p className="text-lg md:text-2xl leading-relaxed font-medium text-foreground tracking-wide flex flex-wrap gap-x-2 gap-y-1 items-baseline">
         {tokens.map((tok, i) => {
           if (/^\s+$/.test(tok)) return null;
           const key = norm(tok);
@@ -453,25 +453,17 @@ const ShadowingPractice: React.FC<Props> = () => {
           const arrow = intoMap.get(key) ?? autoArrow.get(i);
           const inG = inGrammar(i);
           const vocab = current.vocabulary.find((v) => norm(v.word).split(" ").includes(key));
-          const ipa = showIpa ? ipaMap[key] : undefined;
           const inner = (
-            <span className="inline-flex flex-col items-center leading-tight">
-              <span
-                className={[
-                  inG ? "bg-[#FFEDD5] dark:bg-orange-500/20 rounded px-0.5" : "",
-                  stressed ? "font-bold text-primary" : "",
-                  vocab ? "underline decoration-dotted decoration-emerald-500 underline-offset-4 cursor-help" : "",
-                ].join(" ")}
-              >
-                {tok}
-                {arrow === "up" && <ArrowUp className="inline w-5 h-5 ml-0.5 text-emerald-500" aria-label="rising" />}
-                {arrow === "down" && <ArrowDown className="inline w-5 h-5 ml-0.5 text-blue-500" aria-label="falling" />}
-              </span>
-              {showIpa && (
-                <span className={`text-xs md:text-sm font-normal tracking-normal mt-1 ${stressed ? "text-primary" : "text-muted-foreground"}`}>
-                  {ipa ? `/${ipa}/` : "\u00a0"}
-                </span>
-              )}
+            <span
+              className={[
+                inG ? "bg-[#FFEDD5] dark:bg-orange-500/20 rounded px-0.5" : "",
+                stressed ? "font-bold text-primary" : "",
+                vocab ? "underline decoration-dotted decoration-emerald-500 underline-offset-4 cursor-help" : "",
+              ].join(" ")}
+            >
+              {tok}
+              {arrow === "up" && <ArrowUp className="inline w-5 h-5 ml-0.5 text-emerald-500" aria-label="rising" />}
+              {arrow === "down" && <ArrowDown className="inline w-5 h-5 ml-0.5 text-blue-500" aria-label="falling" />}
             </span>
           );
           if (vocab) {
@@ -498,6 +490,27 @@ const ShadowingPractice: React.FC<Props> = () => {
           return <span key={i}>{inner}</span>;
         })}
       </p>
+      {showIpa && (
+        <div className="mt-3 pt-3 border-t border-border/60">
+          <p className="text-xs md:text-sm leading-loose text-muted-foreground tracking-wide flex flex-wrap gap-x-2 gap-y-1 items-baseline">
+            {tokens.map((tok, i) => {
+              if (/^\s+$/.test(tok)) return null;
+              const key = norm(tok);
+              const ipa = ipaMap[key];
+              if (!ipa) return null;
+              const stressed = stressSet.has(key);
+              return (
+                <span
+                  key={i}
+                  className={stressed ? "font-semibold text-primary" : undefined}
+                >
+                  /{ipa}/
+                </span>
+              );
+            })}
+          </p>
+        </div>
+      )}
       <div className="flex flex-wrap gap-x-4 gap-y-1 mt-4 text-xs text-muted-foreground">
         <span className="flex items-center gap-1"><ArrowUp className="w-3.5 h-3.5 text-emerald-500" />{t("Lên giọng", "Rising")}</span>
         <span className="flex items-center gap-1"><ArrowDown className="w-3.5 h-3.5 text-blue-500" />{t("Xuống giọng", "Falling")}</span>
