@@ -873,11 +873,16 @@ const ListeningPracticeSetCard = ({ set: s, hideHeader, controlled }: Props) => 
           </div>
           <div className="flex flex-wrap items-center gap-2">
             {!playing ? (
-              <Button onClick={() => speak(currentIdx)} size="sm" className="gap-2" disabled={preparing || ai.loading}>
+              <Button
+                onClick={() => (paused ? togglePause() : speak(currentIdx))}
+                size="sm"
+                className="gap-2"
+                disabled={preparing || ai.loading}
+              >
                 <Play className="w-4 h-4" />
                 {preparing || ai.loading
                   ? t("Đang tải...", "Loading...")
-                  : currentIdx > 0 ? t("Tiếp tục", "Resume") : t("Phát", "Play")}
+                  : paused || currentIdx > 0 ? t("Tiếp tục", "Resume") : t("Phát", "Play")}
               </Button>
             ) : (
               <>
