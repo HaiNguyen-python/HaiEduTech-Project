@@ -20,7 +20,7 @@ export const T1_EXTRA: Record<string, Row[]> = {
     ["C2", "reversing the earlier trend", "Birth rates began to climb again after 2015, reversing the earlier trend of steady decline.", "Tỉ lệ sinh bắt đầu tăng trở lại sau 2015, đảo ngược xu hướng giảm đều trước đó."],
   ],
   comparison: [
-    ["B2", "twice as many", "Twice as many women as men enrolled in nursing courses in 2020.", "Số phụ nữ đăng ký khóa học điều dưỡng năm 2020 nhiều gấp đôi nam giới."],
+    ["B2", "three times as much", "Japan spent three times as much on research as Brazil in 2020.", "Năm 2020, Nhật Bản chi cho nghiên cứu gấp ba lần Brazil."],
     ["B2", "In contrast", "In contrast, spending on entertainment in Germany was relatively low.", "Ngược lại, chi tiêu cho giải trí ở Đức tương đối thấp."],
     ["C1", "whereas", "Young adults preferred streaming services, whereas older viewers still relied on television.", "Người trẻ ưa chuộng dịch vụ phát trực tuyến, trong khi khán giả lớn tuổi vẫn dựa vào truyền hình."],
     ["C1", "significantly higher than", "The proportion of graduates in Canada was significantly higher than that in Mexico.", "Tỉ lệ người tốt nghiệp đại học ở Canada cao hơn đáng kể so với ở Mexico."],
@@ -44,11 +44,11 @@ export const T1_EXTRA: Record<string, Row[]> = {
     ["C2", "Having been", "Having been dried and graded, the tea leaves are packed and dispatched to retailers.", "Sau khi được sấy khô và phân loại, lá trà được đóng gói và gửi đến các nhà bán lẻ."],
   ],
   map: [
-    ["B2", "was replaced by", "The old factory was replaced by a modern shopping centre.", "Nhà máy cũ đã được thay thế bằng một trung tâm mua sắm hiện đại."],
+    ["B2", "was demolished", "The old fish market was demolished to create space for a riverside park.", "Chợ cá cũ bị phá bỏ để lấy chỗ cho một công viên ven sông."],
     ["B2", "to the north of", "A new car park was built to the north of the railway station.", "Một bãi đỗ xe mới được xây ở phía bắc nhà ga."],
     ["C1", "was converted into", "The former army barracks was converted into a university campus.", "Doanh trại quân đội cũ đã được chuyển đổi thành khuôn viên đại học."],
     ["C1", "was extended", "The main road was extended eastwards to connect the village with the motorway.", "Con đường chính được kéo dài về phía đông để nối ngôi làng với đường cao tốc."],
-    ["C2", "made way for", "Much of the farmland made way for residential housing and a network of cycle paths.", "Phần lớn đất nông nghiệp đã nhường chỗ cho khu dân cư và mạng lưới đường xe đạp."],
+    ["C2", "gave way to", "Much of the woodland gave way to residential housing and a network of cycle paths.", "Phần lớn rừng cây đã nhường chỗ cho khu dân cư và mạng lưới đường xe đạp."],
     ["C2", "largely unrecognisable", "By 2020, the seafront had become largely unrecognisable, with hotels lining the entire coast.", "Đến năm 2020, khu bờ biển gần như không thể nhận ra, với khách sạn trải dọc toàn bộ bờ."],
   ],
 };
@@ -63,12 +63,12 @@ export const T2_EXTRA: Record<string, Row[]> = {
     ["C2", "It is hardly surprising that", "It is hardly surprising that urban congestion has become a priority for policymakers worldwide.", "Không có gì ngạc nhiên khi ùn tắc đô thị trở thành ưu tiên của các nhà hoạch định chính sách toàn cầu."],
   ],
   thesis: [
-    ["B2", "I strongly believe that", "I strongly believe that governments should invest more in public health.", "Tôi tin chắc rằng chính phủ nên đầu tư nhiều hơn cho y tế công cộng."],
+    ["B2", "It is my firm conviction that", "It is my firm conviction that preventive healthcare deserves far greater public funding.", "Tôi tin chắc rằng chăm sóc sức khỏe dự phòng xứng đáng được cấp nhiều ngân sách công hơn."],
     ["B2", "This essay will argue that", "This essay will argue that the benefits of tourism outweigh its drawbacks.", "Bài luận này sẽ lập luận rằng lợi ích của du lịch lớn hơn tác hại."],
     ["C1", "I am inclined to agree", "While both views have merit, I am inclined to agree that schools should teach financial skills.", "Dù cả hai quan điểm đều có lý, tôi nghiêng về đồng ý rằng trường học nên dạy kỹ năng tài chính."],
     ["C1", "a balanced approach", "In my view, a balanced approach combining regulation and education is most likely to succeed.", "Theo tôi, một cách tiếp cận cân bằng kết hợp quy định và giáo dục có khả năng thành công cao nhất."],
     ["C2", "far from convinced", "I remain far from convinced that banning cars from city centres would solve the problem.", "Tôi vẫn còn rất hoài nghi rằng cấm ô tô khỏi trung tâm thành phố sẽ giải quyết được vấn đề."],
-    ["C2", "is fundamentally misguided", "The notion that success depends solely on talent is fundamentally misguided.", "Quan niệm rằng thành công chỉ phụ thuộc vào tài năng về cơ bản là sai lầm."],
+    ["C2", "rests on a false premise", "The idea that wealth guarantees happiness rests on a false premise.", "Ý tưởng rằng giàu có đảm bảo hạnh phúc dựa trên một tiền đề sai."],
   ],
   argument: [
     ["B2", "The main reason is that", "The main reason is that young people learn new technology much faster than adults.", "Lý do chính là người trẻ học công nghệ mới nhanh hơn nhiều so với người lớn."],
@@ -89,7 +89,7 @@ export const T2_EXTRA: Record<string, Row[]> = {
   example: [
     ["B2", "For example", "For example, many European cities have introduced free bicycle schemes.", "Ví dụ, nhiều thành phố châu Âu đã triển khai chương trình xe đạp miễn phí."],
     ["B2", "such as", "Countries such as Finland provide free school meals to all children.", "Các quốc gia như Phần Lan cung cấp bữa ăn miễn phí ở trường cho mọi trẻ em."],
-    ["C1", "A case in point is", "A case in point is Singapore, where strict laws have kept the streets remarkably clean.", "Một ví dụ điển hình là Singapore, nơi luật nghiêm khắc giữ đường phố sạch sẽ đáng kể."],
+    ["C1", "A prime example is", "A prime example is Copenhagen, where cycling lanes have cut traffic congestion dramatically.", "Một ví dụ tiêu biểu là Copenhagen, nơi làn xe đạp đã giảm ùn tắc giao thông đáng kể."],
     ["C1", "This is clearly illustrated by", "This is clearly illustrated by the success of recycling programmes in South Korea.", "Điều này được minh họa rõ qua thành công của các chương trình tái chế ở Hàn Quốc."],
     ["C2", "A telling example", "A telling example is the collapse of local shops following the arrival of large supermarkets.", "Một ví dụ đầy sức thuyết phục là sự sụp đổ của các cửa hàng địa phương khi siêu thị lớn xuất hiện."],
     ["C2", "Research conducted by", "Research conducted by Harvard University suggests that bilingual children develop stronger problem-solving skills.", "Nghiên cứu do Đại học Harvard thực hiện cho thấy trẻ song ngữ phát triển kỹ năng giải quyết vấn đề tốt hơn."],
