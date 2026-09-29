@@ -640,7 +640,7 @@ const HskVocabulary = () => {
     [hskVocabData, mastered]
   );
   const allWordsForQuiz = useMemo(
-    () => hskVocabData.map(w => ({ word: w.character, definition: w.definition.vi })),
+    () => hskVocabData.map(w => ({ word: w.character, definition: w.definition.en || w.definition.vi })),
     [hskVocabData]
   );
   const lookupWord = useCallback((w: string) => {
@@ -902,6 +902,7 @@ const HskVocabulary = () => {
               lang="zh-CN"
               lookupWord={lookupWord}
               allWordsForQuiz={allWordsForQuiz}
+              quizLanguage="en"
             />
             <WeeklyVocabAchievers subject="hsk" threshold={20} />
           </div>
@@ -913,6 +914,7 @@ const HskVocabulary = () => {
               lang="zh-CN"
               lookupWord={lookupWord}
               allWordsForQuiz={allWordsForQuiz}
+              quizLanguage="en"
             />
             <WeeklyVocabAchievers subject="hsk" threshold={20} />
           </div>
