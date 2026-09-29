@@ -10,7 +10,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Headphones, Search, Mic, Square, Award, Play, ArrowRight, ArrowLeft,
-  RefreshCw, CheckCircle2, BookOpen, Languages, ArrowUp, ArrowDown,
+  RefreshCw, CheckCircle2, BookOpen, ArrowUp, ArrowDown,
   Sparkles, Volume2, Loader2,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -186,7 +186,6 @@ const ShadowingPractice: React.FC<Props> = () => {
   const [listenCount, setListenCount] = useState(0);
   const [step, setStep] = useState<Step>(1);
   const [rate, setRate] = useState<0.8 | 0.95 | 1.1>(0.95);
-  const [showVi, setShowVi] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [transcript, setTranscript] = useState("");
   const [interim, setInterim] = useState("");
@@ -196,9 +195,8 @@ const ShadowingPractice: React.FC<Props> = () => {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const startedAtRef = useRef<number>(0);
   const [visualLevel, setVisualLevel] = useState(0);
-  const [showIpa, setShowIpa] = useState(true);
   const ipaWords = current ? Array.from(new Set(tokenize(current.sentence))) : [];
-  const ipaMap = useEnglishIpa(ipaWords, showIpa);
+  const ipaMap = useEnglishIpa(ipaWords, true);
 
   // Pre-load voices (Chrome quirk)
   useEffect(() => {
@@ -229,7 +227,6 @@ const ShadowingPractice: React.FC<Props> = () => {
     setInterim("");
     setDuration(0);
     setScore(null);
-    setShowVi(false);
     setListenCount(0);
     stopRecording();
     window.speechSynthesis?.cancel();
@@ -490,7 +487,7 @@ const ShadowingPractice: React.FC<Props> = () => {
           return <span key={i}>{inner}</span>;
         })}
       </p>
-      {showIpa && (() => {
+      {(() => {
         const punctOf = (tok: string) => (tok.match(/[.,!?;:]$/) || [""])[0];
         return (
           <div className="mt-3 pt-3 border-t border-border/60">
@@ -590,22 +587,13 @@ const ShadowingPractice: React.FC<Props> = () => {
               <Sparkles className="w-4 h-4 text-primary" />
               {current.grammarPoint}
               <Badge variant="outline" className="ml-1 text-[10px]">{current.level}</Badge>
-            </CardTitle>
-            <div className="flex gap-1">
-            <Button variant={showIpa ? "secondary" : "ghost"} size="sm" onClick={() => setShowIpa((v) => !v)}>
-              IPA
-            </Button>
-            <Button variant="ghost" size="sm" onClick={() => setShowVi((v) => !v)}>
-              <Languages className="w-3.5 h-3.5 mr-1" />
-              {showVi ? t("Ẩn nghĩa", "Hide meaning") : t("Xem nghĩa", "Show meaning")}
-            </Button>
-            </div>
+          </CardTitle>
           </div>
         </CardHeader>
         <CardContent className="space-y-5">
           <div className="bg-gradient-to-br from-primary/5 to-transparent rounded-lg p-5 border">
             {renderHighlightedSentence("intonation")}
-            {showVi && <p className="text-sm text-muted-foreground italic mt-3">{current.vietnamese}</p>}
+            <p className="text-sm text-muted-foreground italic mt-3">{current.vietnamese}</p>
           </div>
 
           {/* Single audio control row */}
