@@ -10,7 +10,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Headphones, Search, Mic, Square, Award, Play, ArrowRight, ArrowLeft,
-  RefreshCw, CheckCircle2, BookOpen, Languages, ArrowUp, ArrowDown,
+  RefreshCw, CheckCircle2, BookOpen,
   Sparkles, Volume2, Loader2,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
