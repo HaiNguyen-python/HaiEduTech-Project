@@ -11,7 +11,7 @@ interface ActivityPayload {
   score: number;
   maxScore?: number;
   timeSpentSeconds?: number;
-  domain?: LearningDomain;
+  domain?: LearningDomain | "vietnamese";
   metadata?: Record<string, any>; // category breakdown, mistakes, etc.
 }
 
@@ -20,8 +20,10 @@ interface ActivityPayload {
 // Swedish, Finnish, Vietnamese) maps to "english" because the RL engine only
 // recognises three domains today — keeping a single bucket avoids dropping
 // activity from the dashboard charts.
-function inferDomain(activityType: string, metadata?: Record<string, any>): LearningDomain {
+function inferDomain(activityType: string, metadata?: Record<string, any>): LearningDomain | "vietnamese" {
   const t = activityType.toLowerCase();
+  // Vietnamese has its own Your Performance dashboard
+  if (t.includes("vietnam") || (typeof metadata?.subject === "string" && metadata.subject.toLowerCase().includes("vietnam"))) return "vietnamese";
   // Chinese
   if (
     t.startsWith("conv_chinese") || t.startsWith("hsk") || t.startsWith("hskk") ||
