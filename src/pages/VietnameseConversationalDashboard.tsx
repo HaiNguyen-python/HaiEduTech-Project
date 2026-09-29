@@ -31,7 +31,7 @@ const VietnameseConversationalDashboard = () => {
             <Link to="/learn-vietnamese" className="mb-6 inline-flex items-center gap-1.5 text-sm font-semibold text-muted-foreground hover:text-primary">
               <ArrowLeft className="h-4 w-4" /> {t("Tiếng Việt", "Vietnamese")}
             </Link>
-            <h1 className="text-3xl font-extrabold sm:text-5xl">Interactive <span className="text-primary">Tiếng Việt</span> Curriculum</h1>
+            <h1 className="text-3xl font-extrabold sm:text-5xl">Interactive <span className="text-primary">Vietnamese</span> Curriculum</h1>
             <p className="mt-4 max-w-3xl text-base font-medium leading-7 text-muted-foreground">
               {t(`${allVietnameseConvLessons.length} bài hội thoại theo 3 trụ cột: Đời sống, Công việc và Giao tiếp xã hội.`, `${allVietnameseConvLessons.length} conversation lessons across Daily Life, Business and Social communication.`)}
             </p>
