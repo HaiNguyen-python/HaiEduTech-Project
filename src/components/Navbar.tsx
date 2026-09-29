@@ -892,7 +892,7 @@ const Navbar = () => {
                                           if (child.header) {
                                             return (
                                               <div key={child.to} className="px-4 pt-2 pb-1 mt-1 first:mt-0">
-                                                <span className={`text-[8px] font-medium uppercase tracking-[0.08em] opacity-80 ${sc.header}`}>
+                                                <span className={`text-[10px] font-bold uppercase tracking-[0.08em] opacity-90 ${sc.header}`}>
                                                   {child.label}
                                                 </span>
                                               </div>
@@ -1089,7 +1089,7 @@ const Navbar = () => {
                                                   if (child.header) {
                                                     return (
                                                       <div key={child.to} className="px-4 pt-2 pb-1">
-                                                        <span className="text-[9px] font-medium uppercase tracking-[0.08em] opacity-80 text-primary/70">
+                                                        <span className="text-[10px] font-bold uppercase tracking-[0.08em] opacity-90 text-primary/70">
                                                           {child.label}
                                                         </span>
                                                       </div>
