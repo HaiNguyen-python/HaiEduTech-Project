@@ -569,15 +569,20 @@ const ShadowingPractice: React.FC<Props> = () => {
               {current.grammarPoint}
               <Badge variant="outline" className="ml-1 text-[10px]">{current.level}</Badge>
             </CardTitle>
+            <div className="flex gap-1">
+            <Button variant={showIpa ? "secondary" : "ghost"} size="sm" onClick={() => setShowIpa((v) => !v)}>
+              IPA
+            </Button>
             <Button variant="ghost" size="sm" onClick={() => setShowVi((v) => !v)}>
               <Languages className="w-3.5 h-3.5 mr-1" />
               {showVi ? t("Ẩn nghĩa", "Hide meaning") : t("Xem nghĩa", "Show meaning")}
             </Button>
+            </div>
           </div>
         </CardHeader>
         <CardContent className="space-y-5">
           <div className="bg-gradient-to-br from-primary/5 to-transparent rounded-lg p-5 border">
-            {renderHighlightedSentence(step === 1 ? "plain" : "intonation")}
+            {renderHighlightedSentence("intonation")}
             {showVi && <p className="text-sm text-muted-foreground italic mt-3">{current.vietnamese}</p>}
           </div>
 
