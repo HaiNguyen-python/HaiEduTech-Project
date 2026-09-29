@@ -863,7 +863,7 @@ const Navbar = () => {
                                         {/* Group header (hidden if children already have section headers) */}
                                         {!sub.children.some(c => c.header) && (
                                           <div className="px-4 py-1.5 mb-1">
-                                            <span className={`text-[8px] font-medium uppercase tracking-[0.08em] opacity-80 ${sc.header}`}>
+                                            <span className={`text-[10px] font-bold uppercase tracking-[0.08em] opacity-90 ${sc.header}`}>
                                             {sub.groupLabel === "ielts" ? "Cambridge IELTS"
                                                 : sub.groupLabel === "national-exam" ? t("Luyện thi THPT", "National Exam Prep")
                                                 : sub.groupLabel === "en-foundation" ? t("Cambridge Starters -> PET", "Cambridge Starters -> PET")
