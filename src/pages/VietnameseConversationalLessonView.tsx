@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, ArrowRight, CheckCircle, Globe, MessageCircle, Volume2 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -25,6 +25,7 @@ const VietnameseConversationalLessonView = () => {
   const [playingLine, setPlayingLine] = useState<string | null>(null);
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [checked, setChecked] = useState(false);
+  useEffect(() => { setAnswers({}); setChecked(false); window.scrollTo(0, 0); }, [lessonId]);
 
   if (!lesson || !pillar) {
     return (
@@ -47,7 +48,7 @@ const VietnameseConversationalLessonView = () => {
       const done = readVnProgress();
       if (!done.includes(lesson.id)) localStorage.setItem(VN_CONV_STORAGE_KEY, JSON.stringify([...done, lesson.id]));
     }
-    void logStudentActivity({ activityType: "vietnamese_conversation_quiz", domain: "vietnamese", score, maxScore: lesson.quiz.length, metadata: { lesson_id: lesson.id, lesson_title: lesson.title, pillar: pillar.id } } as never);
+    void logStudentActivity({ activityType: "vietnamese_conversation_quiz", domain: "vietnamese", score, maxScore: lesson.quiz.length, metadata: { lesson_id: lesson.id, lesson_title: lesson.title, pillar: pillar.id } });
   };
 
   return (
@@ -95,7 +96,7 @@ const VietnameseConversationalLessonView = () => {
                         return (
                           <div key={i} className={`flex gap-3 ${right ? "flex-row-reverse" : ""}`}>
                             <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-2 font-extrabold ${right ? "border-conversation-b text-conversation-b" : "border-conversation-a text-conversation-a"}`}>{d.speaker.charAt(0)}</div>
-                            <div className={`max-w-[82%] rounded-lg border px-4 py-3 shadow-sm ${right ? "bg-conversation-b-soft border-conversation-b/30" : "bg-conversation-a-soft border-conversation-a/30"} ${playingLine === `${si}-${i}` ? "ring-2 ring-primary ring-offset-2" : ""}`}>
+                            <div className={`max-w-[82%] rounded-lg border px-4 py-3 shadow-sm ${right ? "bg-conversation-b-surface border-conversation-b/30" : "bg-conversation-a-surface border-conversation-a/30"} ${playingLine === `${si}-${i}` ? "ring-2 ring-primary ring-offset-2" : ""}`}>
                               <p className="text-sm font-extrabold text-muted-foreground">{d.speaker}</p>
                               <p className="text-lg font-extrabold leading-8">{d.line}</p>
                               <p className="mt-1 border-t border-border/60 pt-1 text-sm">{d.en}</p>

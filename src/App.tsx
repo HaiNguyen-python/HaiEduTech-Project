@@ -189,6 +189,8 @@ const PlacementTest = lazyWithRetry(() => import("./pages/PlacementTest.tsx"));
 const LanguageLessonView = lazyWithRetry(() => import("./pages/LanguageLessonView.tsx"));
 const ConversationalDashboard = lazyWithRetry(() => import("./pages/ConversationalDashboard.tsx"));
 const ConversationalLessonView = lazyWithRetry(() => import("./pages/ConversationalLessonView.tsx"));
+const VietnameseConversationalDashboard = lazyWithRetry(() => import("./pages/VietnameseConversationalDashboard.tsx"));
+const VietnameseConversationalLessonView = lazyWithRetry(() => import("./pages/VietnameseConversationalLessonView.tsx"));
 const ChineseConversationalDashboard = lazyWithRetry(() => import("./pages/ChineseConversationalDashboard.tsx"));
 const ChineseConversationalLessonView = lazyWithRetry(() => import("./pages/ChineseConversationalLessonView.tsx"));
 const ChineseCultureHub = lazyWithRetry(() => import("./pages/ChineseCultureHub.tsx"));
@@ -489,6 +491,8 @@ const App = () => (
             <Route path="/reset-password" element={<LazyRoute><ResetPassword /></LazyRoute>} />
             <Route path="/ai-library" element={<LazyRoute><AILibrary /></LazyRoute>} />
             <Route path="/learn-vietnamese" element={<LazyRoute><Vietnamese /></LazyRoute>} />
+            <Route path="/learn-vietnamese/conversational/curriculum" element={<LazyRoute><VietnameseConversationalDashboard /></LazyRoute>} />
+            <Route path="/learn-vietnamese/conversational/learn/:lessonId" element={<LazyRoute><VietnameseConversationalLessonView /></LazyRoute>} />
             <Route path="/learn-vietnamese/vocabulary" element={<LazyRoute><VietnameseVocabulary /></LazyRoute>} />
             <Route path="/learn-vietnamese/module/:moduleId" element={<LazyRoute><VietnameseLessonView /></LazyRoute>} />
             <Route path="/learn-vietnamese/module/:moduleId/:lessonId" element={<LazyRoute><VietnameseLessonView /></LazyRoute>} />

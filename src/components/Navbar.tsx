@@ -344,6 +344,7 @@ const Navbar = () => {
     { to: "/learn-vietnamese/performance", label: t("Your Performance", "Your Performance"), icon: Activity },
     { to: "#vn-div1", label: "", divider: true },
     { to: "#vn-language-group", label: t("Ngôn ngữ", "Language"), icon: BookType, groupLabel: "vn-language", children: [
+      { to: "/learn-vietnamese/conversational/curriculum", label: t("Chương trình Tương tác", "Interactive Curriculum"), icon: MessagesSquare },
       { to: "/learn-vietnamese/vocabulary", label: t("Từ vựng", "Vocabulary"), icon: BookOpen },
       { to: "/learn-vietnamese/alphabet", label: t("Bảng chữ cái", "Alphabet"), icon: PenTool },
       { to: "/learn-vietnamese/dictation", label: t("Nghe chép chính tả", "Dictation"), icon: Headphones },
