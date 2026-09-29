@@ -505,12 +505,13 @@ const ShadowingPractice: React.FC<Props> = () => {
                   return punct ? <span key={i}>{punct}</span> : null;
                 }
                 const stressed = stressSet.has(key);
+                const bare = ipa.replace(/^\/+|\/+$/g, "");
                 return (
                   <span
                     key={i}
                     className={stressed ? "font-semibold text-primary" : undefined}
                   >
-                    {ipa}{punct}
+                    {bare}{punct}
                   </span>
                 );
               })}
