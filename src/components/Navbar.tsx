@@ -311,6 +311,7 @@ const Navbar = () => {
     { to: "/chinese", label: t("Khóa học & Lộ trình", "Courses & Roadmap"), icon: Route },
     { to: "/placement-test?subject=chinese", label: t("Placement Test & Personalization", "Placement Test & Personalization"), icon: ClipboardCheck },
     { to: "/chinese/performance", label: t("Your Performance", "Your Performance"), icon: Activity },
+    { to: "#cn-div1", label: "", divider: true },
     { to: "#cn-hsk-group", label: t("Lộ trình HSK", "HSK Program"), icon: GraduationCap, groupLabel: "cn-hsk", children: [
       { to: "/chinese/hsk-guide", label: t("HSK Exam Guide", "HSK Exam Guide"), icon: Map },
       { to: "/chinese/hsk-grammar", label: t("HSK Grammar", "HSK Grammar"), icon: Ruler },
@@ -329,6 +330,7 @@ const Navbar = () => {
       { to: "/chinese/reading", label: t("Luyện đọc", "Reading Practice"), icon: BookOpen },
       { to: "/chinese/listening", label: t("Luyện nghe", "Listening Practice"), icon: Headphones },
     ] },
+    { to: "#cn-div2", label: "", divider: true },
     { to: "#cn-practice-group", label: t("Luyện tập & Giải trí", "Practice & Fun"), icon: Target, groupLabel: "cn-practice", children: [
       { to: "/chinese/arcade", label: t("Chinese Arcade Hub", "Chinese Arcade Hub"), icon: Gamepad2 },
       { to: "/songs/chinese", label: t("Học qua bài hát", "Learn through Songs"), icon: Music },
@@ -338,8 +340,9 @@ const Navbar = () => {
   ];
   const vietnameseSubs: SubItem[] = [
     { to: "/learn-vietnamese", label: t("Khóa học & Lộ trình", "Courses & Roadmap"), icon: Route },
-    { to: "/learn-vietnamese/performance", label: t("Your Performance", "Your Performance"), icon: Activity },
     { to: "/placement-test?subject=vietnamese", label: t("Placement Test & Personalization", "Placement Test & Personalization"), icon: ClipboardCheck },
+    { to: "/learn-vietnamese/performance", label: t("Your Performance", "Your Performance"), icon: Activity },
+    { to: "#vn-div1", label: "", divider: true },
     { to: "#vn-language-group", label: t("Ngôn ngữ", "Language"), icon: BookType, groupLabel: "vn-language", children: [
       { to: "/learn-vietnamese/vocabulary", label: t("Từ vựng", "Vocabulary"), icon: BookOpen },
       { to: "/learn-vietnamese/alphabet", label: t("Bảng chữ cái", "Alphabet"), icon: PenTool },
@@ -353,6 +356,7 @@ const Navbar = () => {
       { to: "/learn-vietnamese/holidays", label: t("Lễ Hội Việt Nam", "Festivals"), icon: Sparkles },
       { to: "/learn-vietnamese/cuisine", label: t("Ẩm Thực Việt", "Vietnamese Cuisine"), icon: Compass },
     ] },
+    { to: "#vn-div2", label: "", divider: true },
     { to: "#vn-practice-group", label: t("Luyện tập & Giải trí", "Practice & Fun"), icon: Target, groupLabel: "vn-practice", children: [
       { to: "/learn-vietnamese/arcade", label: t("Vietnamese Arcade Hub", "Vietnamese Arcade Hub"), icon: Gamepad2 },
       { to: "/songs/vietnamese", label: t("Học qua bài hát", "Learn through Songs"), icon: Music },
@@ -363,6 +367,7 @@ const Navbar = () => {
     { to: "/programming", label: t("Khóa học & Lộ trình", "Courses & Roadmap"), icon: Route },
     { to: "/placement-test?subject=programming", label: t("Placement Test & Personalization", "Placement Test & Personalization"), icon: ClipboardCheck },
     { to: "/programming/performance", label: t("Your Performance", "Your Performance"), icon: Activity },
+    { to: "#prog-div1", label: "", divider: true },
     { to: "#prog-foundation-group", label: t("Lộ trình Cơ bản", "Foundation Track"), icon: Blocks, groupLabel: "prog-foundation", children: [
       { to: "/programming?pillar=python-pathway", label: t("Introduction to Programming", "Introduction to Programming"), icon: Code2 },
       { to: "/python-challenges", label: t("150 Thử thách Python", "150 Python Challenges"), icon: Trophy },
@@ -407,6 +412,7 @@ const Navbar = () => {
       { to: "/programming/job-opportunities", label: t("Cơ hội Việc làm", "Job Opportunities"), icon: Briefcase },
       { to: "/programming?pillar=professional-projects", label: t("Dự án Chuyên nghiệp", "Professional Projects"), icon: Rocket },
     ] },
+    { to: "#prog-div2", label: "", divider: true },
     { to: "/programming/arcade", label: t("Tech & Code Game Hub", "Tech & Code Game Hub"), icon: Gamepad2 },
   ];
 
