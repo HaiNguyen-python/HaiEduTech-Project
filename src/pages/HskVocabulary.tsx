@@ -138,11 +138,13 @@ const HskFlashcard = ({ word }: { word: HskWord }) => {
         <div className="absolute inset-0 rounded-xl border border-border bg-card p-5 flex flex-col justify-center gap-2" style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}>
           <p className="text-sm font-semibold text-foreground">{word.definition.en}</p>
           <p className="text-sm text-primary font-medium">{word.definition.vi}</p>
+          {word.example && (
           <div className="mt-2 p-3 rounded-lg bg-secondary/50">
             <p className="text-base font-bold text-foreground">{word.example}</p>
             <p className="text-xs text-muted-foreground mt-1">{word.examplePinyin}</p>
             <HskExampleTranslation example={word.example} />
           </div>
+          )}
           <Badge variant="outline" className="w-fit mt-1 text-xs">{word.category}</Badge>
         </div>
       </motion.div>
@@ -862,6 +864,7 @@ const HskVocabulary = () => {
                                     </button>
                                   </div>
                                 </div>
+                                 {w.example && (<>
                                  <div className="mt-2 p-3 rounded-lg bg-secondary/50">
                                    <div className="flex items-start justify-between gap-2">
                                      <p className="text-lg font-bold text-foreground leading-snug">{w.example}</p>
@@ -873,6 +876,7 @@ const HskVocabulary = () => {
                                   <HskExampleTranslation example={w.example} />
                                 </div>
                                 <HskExamplePractice example={w.example} examplePinyin={w.examplePinyin} />
+                                 </>)}
                                 <HskMnemonic character={w.character} pinyin={w.pinyin} meaning={w.definition.vi} />
                               </div>
                             </div>
