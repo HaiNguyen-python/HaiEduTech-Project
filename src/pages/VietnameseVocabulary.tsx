@@ -116,7 +116,6 @@ const Flashcard = ({ word }: { word: VietnameseBankWord }) => {
           style={{ minHeight: "13rem" }}
         >
           <h3 className="font-extrabold text-2xl text-foreground">{word.word}</h3>
-          {word.ipa && <p className="font-mono text-sm text-muted-foreground">/{word.ipa}/</p>}
           <div className="flex items-center gap-1.5 flex-wrap justify-center">
             <Badge className={levelColors[word.level]}>{levelLabel(word.level, false)}</Badge>
             {word.partOfSpeech && <Badge variant="secondary" className="text-xs italic">{word.partOfSpeech}</Badge>}
@@ -466,7 +465,6 @@ const VocabExercise = ({ words, pool, t }: {
               <h3 className="text-3xl font-bold text-foreground">{q.word.word}</h3>
               <SpeakBtn text={q.word.word} size={20} />
             </div>
-            {q.word.ipa && <p className="text-sm text-muted-foreground font-mono mb-1">/{q.word.ipa}/</p>}
             <p className="text-sm text-muted-foreground mt-3">{t("Chọn nghĩa đúng:", "Choose the correct meaning:")}</p>
           </>
         )}
@@ -670,7 +668,7 @@ const VietnameseVocabulary = () => {
 
               {viewMode === "flashcard" ? (
                 <SimpleVocabDeck
-                  cards={filtered.map(word => ({ key: `${word.word}__${word.lessonId}`, term: word.word, pronunciation: word.ipa ? `/${word.ipa}/` : undefined, level: levelLabel(word.level, isEn), partOfSpeech: word.partOfSpeech, category: isEn ? word.categoryEn : word.category, meaningPrimary: word.meaning, meaningSecondary: word.meaningEn, example: word.example, exampleTranslation: word.exampleEn }))}
+                  cards={filtered.map(word => ({ key: `${word.word}__${word.lessonId}`, term: word.word, level: levelLabel(word.level, isEn), partOfSpeech: word.partOfSpeech, category: isEn ? word.categoryEn : word.category, meaningPrimary: word.meaning, meaningSecondary: word.meaningEn, example: word.example, exampleTranslation: word.exampleEn }))}
                   t={t}
                   speak={text => { void playVietnameseTts(text, { playbackRate: 0.9, speechRate: 0.55, pitch: 1.05 }); }}
                   stopAudio={stopVietnameseTts}
@@ -706,7 +704,6 @@ const VietnameseVocabulary = () => {
                                     <h4 className="break-words font-extrabold text-foreground" style={{ fontSize: "1.2rem", lineHeight: 1.25 }}>
                                       <span className="text-emerald-700 dark:text-emerald-400">{w.word}</span>
                                     </h4>
-                                    {w.ipa && <p className="font-mono text-xs text-muted-foreground mt-0.5">/{w.ipa}/</p>}
                                     <div className="mt-1 flex items-center gap-0.5">
                                       <SpeakBtn text={w.word} size={16} />
                                       <motion.button
