@@ -47,7 +47,7 @@ export const T1_EXTRA: Record<string, Row[]> = {
     ["B2", "was demolished", "The old fish market was demolished to create space for a riverside park.", "Chợ cá cũ bị phá bỏ để lấy chỗ cho một công viên ven sông."],
     ["B2", "to the north of", "A new car park was built to the north of the railway station.", "Một bãi đỗ xe mới được xây ở phía bắc nhà ga."],
     ["C1", "was converted into", "The former army barracks was converted into a university campus.", "Doanh trại quân đội cũ đã được chuyển đổi thành khuôn viên đại học."],
-    ["C1", "was extended", "The main road was extended eastwards to connect the village with the motorway.", "Con đường chính được kéo dài về phía đông để nối ngôi làng với đường cao tốc."],
+    ["C1", "was widened", "The narrow bridge was widened to accommodate two lanes of traffic.", "Cây cầu hẹp được mở rộng để đủ cho hai làn xe."],
     ["C2", "was moved to", "The bus terminal was moved to the outskirts, freeing the centre for a pedestrian square.", "Bến xe buýt được dời ra ngoại ô, giải phóng trung tâm cho một quảng trường đi bộ."],
     ["C2", "largely unrecognisable", "By 2020, the seafront had become largely unrecognisable, with hotels lining the entire coast.", "Đến năm 2020, khu bờ biển gần như không thể nhận ra, với khách sạn trải dọc toàn bộ bờ."],
   ],
@@ -64,7 +64,7 @@ export const T2_EXTRA: Record<string, Row[]> = {
   ],
   thesis: [
     ["B2", "I firmly maintain that", "I firmly maintain that learning a second language should begin in primary school.", "Tôi cho rằng việc học ngoại ngữ thứ hai nên bắt đầu từ bậc tiểu học."],
-    ["B2", "This essay will argue that", "This essay will argue that the benefits of tourism outweigh its drawbacks.", "Bài luận này sẽ lập luận rằng lợi ích của du lịch lớn hơn tác hại."],
+    ["B2", "The purpose of this essay is to show that", "The purpose of this essay is to show that space exploration remains a worthwhile investment.", "Mục đích của bài luận này là chứng minh rằng khám phá không gian vẫn là khoản đầu tư xứng đáng."],
     ["C1", "I am inclined to agree", "While both views have merit, I am inclined to agree that schools should teach financial skills.", "Dù cả hai quan điểm đều có lý, tôi nghiêng về đồng ý rằng trường học nên dạy kỹ năng tài chính."],
     ["C1", "a balanced approach", "In my view, a balanced approach combining regulation and education is most likely to succeed.", "Theo tôi, một cách tiếp cận cân bằng kết hợp quy định và giáo dục có khả năng thành công cao nhất."],
     ["C2", "far from convinced", "I remain far from convinced that banning cars from city centres would solve the problem.", "Tôi vẫn còn rất hoài nghi rằng cấm ô tô khỏi trung tâm thành phố sẽ giải quyết được vấn đề."],
