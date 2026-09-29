@@ -319,7 +319,8 @@ const ReviewBody = ({
   lang,
   lookupWord,
   allWordsForQuiz,
-}: Required<Omit<SmartReviewColumnProps, "className" | "allWordsForQuiz">> & { allWordsForQuiz: QuizCandidate[] }) => {
+  quizLanguage = "vi",
+}: Required<Omit<SmartReviewColumnProps, "className" | "allWordsForQuiz" | "quizLanguage">> & { allWordsForQuiz: QuizCandidate[]; quizLanguage?: "en" | "vi" }) => {
   const { queue, loading, markReviewed } = useReviewQueue(subject);
 
   return (
@@ -376,6 +377,7 @@ const ReviewBody = ({
             <MicroQuiz
               queueWords={queue.map(q => q.word)}
               allWords={allWordsForQuiz}
+              quizLanguage={quizLanguage}
               lookupWord={lookupWord}
               lang={lang}
               onCorrect={(word) => markReviewed(word)}
@@ -392,6 +394,7 @@ const SmartReviewColumn = ({
   lang = "en-US",
   lookupWord,
   allWordsForQuiz = [],
+  quizLanguage,
   className,
 }: SmartReviewColumnProps) => {
   // Inline placement: render directly inside the page layout (e.g. right
@@ -403,6 +406,7 @@ const SmartReviewColumn = ({
         lang={lang}
         lookupWord={lookupWord}
         allWordsForQuiz={allWordsForQuiz}
+        quizLanguage={quizLanguage}
       />
     </div>
   );
