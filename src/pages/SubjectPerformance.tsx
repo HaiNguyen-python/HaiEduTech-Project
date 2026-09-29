@@ -20,8 +20,8 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 
-type Subject = "chinese" | "programming" | "vietnamese";
-interface Row { activity_type: string; score: number | null; max_score: number | null; time_spent_seconds: number | null; created_at: string }
+type Subject = "chinese" | "programming" | "vietnamese" | "interpersonal";
+interface Row { activity_type: string; score: number | null; max_score: number | null; time_spent_seconds: number | null; created_at: string; metadata?: { pillar?: string } | null }
 interface Section { key: string; vi: string; en: string; match: RegExp }
 
 const SECTIONS: Record<Subject, Section[]> = {
@@ -49,6 +49,15 @@ const SECTIONS: Record<Subject, Section[]> = {
     { key: "quiz", vi: "Quiz & Lý thuyết", en: "Quizzes & Theory", match: /quiz|theory|lesson/ },
     { key: "startup", vi: "Startup", en: "Startup", match: /startup/ },
   ],
+  interpersonal: [
+    { key: "finance", vi: "Tài chính", en: "Finance", match: /finance|fin-/ },
+    { key: "etiquette", vi: "Giao tiếp & Ứng xử", en: "Communication & Etiquette", match: /etiquette|etq-/ },
+    { key: "presence", vi: "Khí chất & Bản lĩnh", en: "Presence & Resilience", match: /presence|prs-/ },
+    { key: "wellness", vi: "Sức khỏe", en: "Wellness", match: /wellness|wel-/ },
+    { key: "selfstudy", vi: "Tự học", en: "Self-Study", match: /selfstudy|study-/ },
+    { key: "partying", vi: "Sự kiện", en: "Events", match: /partying|party-/ },
+    { key: "publicspeaking", vi: "Public Speaking", en: "Public Speaking", match: /public_speaking|presentation|speech-/ },
+  ],
 };
 
 const pct = (r: Row) => {
@@ -62,7 +71,12 @@ const SubjectPerformance = ({ subject }: { subject: Subject }) => {
   const [signedIn, setSignedIn] = useState(true);
   const sections = SECTIONS[subject];
   const other = { key: "other", vi: "Khác", en: "Other", match: /.*/ };
-  const sectionOf = (type: string) => sections.find((s) => s.match.test(type.toLowerCase())) ?? other;
+  const sectionOf = (row: Row) => {
+    const type = row.activity_type.toLowerCase();
+    if (subject === "interpersonal" && /public_speaking|presentation/.test(type)) return sections.find((s) => s.key === "publicspeaking") ?? other;
+    const pillar = row.metadata?.pillar?.toLowerCase() ?? "";
+    return sections.find((s) => s.key === pillar || s.match.test(`${type} ${pillar}`)) ?? other;
+  };
 
   useEffect(() => {
     (async () => {
@@ -70,7 +84,7 @@ const SubjectPerformance = ({ subject }: { subject: Subject }) => {
       if (!session) { setSignedIn(false); setRows([]); return; }
       const { data } = await supabase
         .from("student_activity_log")
-        .select("activity_type, score, max_score, time_spent_seconds, created_at, domain")
+        .select("activity_type, score, max_score, time_spent_seconds, created_at, domain, metadata")
         .eq("user_id", session.user.id)
         .in("domain", subject === "vietnamese" ? ["vietnamese", "english"] : [subject])
         .order("created_at", { ascending: true })
@@ -90,7 +104,7 @@ const SubjectPerformance = ({ subject }: { subject: Subject }) => {
     const byWeek = new Map<string, { label: string; activities: number; minutes: number }>();
     let minutes = 0;
     list.forEach((r) => {
-      const s = bySection.get(sectionOf(r.activity_type).key)!;
+      const s = bySection.get(sectionOf(r).key)!;
       const p = pct(r);
       const m = (r.time_spent_seconds ?? 0) / 60;
       s.count += 1; s.total += p; s.minutes += m; minutes += m;
@@ -118,8 +132,9 @@ const SubjectPerformance = ({ subject }: { subject: Subject }) => {
 
   const title = subject === "chinese" ? t("Kết quả học Tiếng Trung", "Your Chinese Performance")
     : subject === "vietnamese" ? t("Kết quả học Tiếng Việt", "Your Vietnamese Performance")
+    : subject === "interpersonal" ? t("Kết quả Kỹ năng mềm", "Your Interpersonal Skills Performance")
     : t("Kết quả học Công nghệ", "Your Technology Performance");
-  const home = subject === "chinese" ? "/chinese" : subject === "vietnamese" ? "/learn-vietnamese" : "/programming";
+  const home = subject === "chinese" ? "/chinese" : subject === "vietnamese" ? "/learn-vietnamese" : subject === "interpersonal" ? "/lifestyle-academy" : "/programming";
   const reportRef = useRef<HTMLDivElement>(null);
   const [exporting, setExporting] = useState(false);
   const downloadPdf = async () => {

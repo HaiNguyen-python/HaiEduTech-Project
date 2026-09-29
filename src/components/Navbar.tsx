@@ -444,15 +444,24 @@ const Navbar = () => {
     { to: "/learn-vietnamese", label: t("Tiếng Việt", "Vietnamese"), icon: Library, subs: [...vietnameseSubs, teacherNotes("Vietnamese")], key: "vn" },
     { to: "/programming", label: t("Công nghệ", "Technology\n"), icon: Code2, subs: [...programmingSubs, teacherNotes("Programming")], key: "prog" },
     { to: "/lifestyle-academy", label: t("Kỹ năng mềm", "Interpersonal Skills"), icon: Heart, subs: ([
-      { to: "/lifestyle-academy", label: t("Tổng quan Lifestyle Academy", "Lifestyle Academy Overview"), icon: Compass },
-
-      { to: "/lifestyle-academy?pillar=finance", label: t("Tài chính Thông minh", "Smart Finance"), icon: Wallet },
-      { to: "/lifestyle-academy?pillar=etiquette", label: t("Nghệ thuật Ứng xử", "Eloquence & Etiquette"), icon: Handshake },
-      { to: "/lifestyle-academy?pillar=presence", label: t("Khí chất & Bản lĩnh", "Presence & Resilience"), icon: Flame },
-      { to: "/lifestyle-academy?pillar=wellness", label: t("Thân thể Khoẻ mạnh", "Physical Wellness"), icon: Activity },
-      { to: "/lifestyle-academy?pillar=selfstudy", label: t("Kỹ năng Tự học", "Self-Study Skills"), icon: BookOpen },
-      { to: "/lifestyle-academy?pillar=partying", label: t("Tiệc tùng & Sự kiện", "Parties & Events"), icon: PartyPopper },
-      { to: "/lifestyle-academy#micro-coach", label: t("Micro-Coach hôm nay", "Micro-Coach for Today"), icon: LifeBuoy },
+      { to: "/lifestyle-academy", label: t("Khóa học & Lộ trình", "Courses & Roadmap"), icon: Route },
+      { to: "/placement-test?subject=lifestyle", label: t("Placement Test & Personalization", "Placement Test & Personalization"), icon: ClipboardCheck },
+      { to: "/lifestyle-academy/performance", label: t("Your Performance", "Your Performance"), icon: Activity },
+      { to: "#life-div1", label: "", divider: true },
+      { to: "#life-foundation-group", label: t("Kỹ năng nền tảng", "Foundation Skills"), icon: Heart, groupLabel: "life-foundation", children: [
+        { to: "/lifestyle-academy?pillar=finance", label: t("Tài chính Thông minh", "Smart Finance"), icon: Wallet },
+        { to: "/lifestyle-academy?pillar=etiquette", label: t("Nghệ thuật Ứng xử", "Eloquence & Etiquette"), icon: Handshake },
+        { to: "/lifestyle-academy?pillar=presence", label: t("Khí chất & Bản lĩnh", "Presence & Resilience"), icon: Flame },
+        { to: "/lifestyle-academy?pillar=wellness", label: t("Thân thể Khoẻ mạnh", "Physical Wellness"), icon: Activity },
+        { to: "/lifestyle-academy?pillar=selfstudy", label: t("Kỹ năng Tự học", "Self-Study Skills"), icon: BookOpen },
+        { to: "/lifestyle-academy?pillar=partying", label: t("Tiệc tùng & Sự kiện", "Parties & Events"), icon: PartyPopper },
+      ] },
+      { to: "#life-div2", label: "", divider: true },
+      { to: "#life-practice-group", label: t("Luyện tập chuyên sâu", "Focused Practice"), icon: Target, groupLabel: "life-practice", children: [
+        { to: "/lifestyle-academy?pillar=publicspeaking", label: "Public Speaking Lessons", icon: MessagesSquare },
+        { to: "/presentation-studio", label: t("Public Speaking Studio", "Public Speaking Studio"), icon: Mic2 },
+        { to: "/lifestyle-academy#micro-coach", label: t("Micro-Coach hôm nay", "Micro-Coach for Today"), icon: LifeBuoy },
+      ] },
       teacherNotes("Lifestyle"),
     ] as SubItem[]), key: "lifestyle" },
 
