@@ -1,5 +1,6 @@
 // IELTS Writing typing bank: B2+ model sentences for Task 1 & Task 2.
 // Tuple: [level, target structure (must appear in sentence), English sentence, Vietnamese meaning]
+import { T1_EXTRA, T2_EXTRA } from "./ieltsTypingBankExtra";
 export type TypingLevel = "B2" | "C1" | "C2";
 export interface TypingSentence {
   id: string;
@@ -214,4 +215,10 @@ const build = (task: 1 | 2, src: Record<string, Row[]>): TypingSentence[] =>
     })),
   );
 
-export const typingSentences: TypingSentence[] = [...build(1, T1), ...build(2, T2)];
+const merge = (a: Record<string, Row[]>, b: Record<string, Row[]>) =>
+  Object.fromEntries(Object.entries(a).map(([k, rows]) => [k, [...rows, ...(b[k] ?? [])]]));
+
+export const typingSentences: TypingSentence[] = [
+  ...build(1, merge(T1, T1_EXTRA)),
+  ...build(2, merge(T2, T2_EXTRA)),
+];
