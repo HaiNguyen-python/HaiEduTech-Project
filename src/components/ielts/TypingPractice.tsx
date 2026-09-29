@@ -50,7 +50,7 @@ export default function TypingPractice({ taskType }: { taskType: 1 | 2 }) {
   const reset = useCallback((nextIdx?: number) => {
     if (nextIdx !== undefined) setIdx(nextIdx);
     setTyped(""); setStart(null); setKeystrokes(0); setErrors(0); setResult(null);
-    setTimeout(() => inputRef.current?.focus(), 0);
+    setTimeout(() => inputRef.current?.focus({ preventScroll: true }), 0);
   }, []);
 
   useEffect(() => { reset(0); setSprint(null); }, [taskType, category, level, mode, reset]);
@@ -184,7 +184,7 @@ export default function TypingPractice({ taskType }: { taskType: 1 | 2 }) {
               value={typed}
               onChange={(e) => onChange(e.target.value)}
               onPaste={block} onDrop={block} onCopy={block} onCut={block}
-              disabled={!!result}
+              readOnly={!!result}
               spellCheck={false} autoCorrect="off" autoCapitalize="off" autoComplete="off"
               rows={3}
               placeholder={t("Bắt đầu gõ câu ở trên...", "Start typing the sentence above...")}
