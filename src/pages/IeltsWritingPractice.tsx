@@ -34,6 +34,8 @@ import PhrasePractice from "@/components/PhrasePractice";
 import GrammarPractice from "@/components/GrammarPractice";
 import IdeaPractice from "@/components/IdeaPractice";
 import CohesionLab from "@/components/CohesionLab";
+import TypingPractice from "@/components/ielts/TypingPractice";
+import { Keyboard } from "lucide-react";
 import WritingSkillChart, { WRITING_ATTEMPT_EVENT } from "@/components/WritingSkillChart";
 import { Sparkles, PenLine, GraduationCap, Lightbulb, Link2, Languages, ClipboardCheck } from "lucide-react";
 import FreeWritingGrader from "@/components/ielts/FreeWritingGrader";
@@ -532,7 +534,7 @@ const IeltsWritingPractice = () => {
 
         {/* Mode Tabs: Essay Writing vs Phrase Practice */}
         <Tabs defaultValue="essay" className="w-full">
-          <TabsList className="grid w-full max-w-6xl grid-cols-3 md:grid-cols-7 mt-6 mb-6 h-auto">
+          <TabsList className="grid w-full max-w-6xl grid-cols-3 md:grid-cols-8 mt-6 mb-6 h-auto">
             <TabsTrigger value="essay" className="gap-1.5 py-2">
               <PenLine className="w-4 h-4" />
               <span className="text-xs md:text-sm">{t("Viết bài luận", "Essay Writing")}</span>
@@ -560,6 +562,10 @@ const IeltsWritingPractice = () => {
             <TabsTrigger value="cohesion" className="gap-1.5 py-2">
               <Link2 className="w-4 h-4" />
               <span className="text-xs md:text-sm">{t("Cohesion Lab", "Cohesion Lab")}</span>
+            </TabsTrigger>
+            <TabsTrigger value="typing" className="gap-1.5 py-2">
+              <Keyboard className="w-4 h-4" />
+              <span className="text-xs md:text-sm">{t("Luyện gõ", "Typing Practice")}</span>
             </TabsTrigger>
           </TabsList>
 
@@ -662,6 +668,23 @@ const IeltsWritingPractice = () => {
               </p>
             </div>
             <CohesionLab taskType={taskType} />
+          </TabsContent>
+
+          <TabsContent value="typing" className="space-y-4">
+            <div className="flex items-center gap-3 flex-wrap mb-4">
+              <div className="flex gap-1 bg-muted rounded-lg p-1 w-fit">
+                {([1, 2] as const).map((n) => (
+                  <button key={n} onClick={() => setTaskType(n)}
+                    className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${taskType === n ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}>
+                    Task {n}
+                  </button>
+                ))}
+              </div>
+              <p className="text-xs text-muted-foreground">
+                {t("Luyện gõ nhanh với mẫu câu Writing B2+ - vừa tăng tốc độ gõ vừa ghi nhớ cấu trúc.", "Build typing speed with B2+ Writing model sentences while memorising key structures.")}
+              </p>
+            </div>
+            <TypingPractice taskType={taskType} />
           </TabsContent>
 
 
