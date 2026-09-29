@@ -188,6 +188,7 @@ export default function TypingPractice({ taskType }: { taskType: 1 | 2 }) {
               ref={inputRef}
               value={typed}
               onChange={(e) => onChange(e.target.value)}
+              onKeyDown={onKeyDown}
               onPaste={block} onDrop={block} onCopy={block} onCut={block}
               readOnly={!!result}
               spellCheck={false} autoCorrect="off" autoCapitalize="off" autoComplete="off"
