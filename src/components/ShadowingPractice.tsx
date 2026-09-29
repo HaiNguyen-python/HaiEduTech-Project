@@ -587,16 +587,7 @@ const ShadowingPractice: React.FC<Props> = () => {
               <Sparkles className="w-4 h-4 text-primary" />
               {current.grammarPoint}
               <Badge variant="outline" className="ml-1 text-[10px]">{current.level}</Badge>
-            </CardTitle>
-            <div className="flex gap-1">
-            <Button variant={showIpa ? "secondary" : "ghost"} size="sm" onClick={() => setShowIpa((v) => !v)}>
-              IPA
-            </Button>
-            <Button variant="ghost" size="sm" onClick={() => setShowVi((v) => !v)}>
-              <Languages className="w-3.5 h-3.5 mr-1" />
-              {showVi ? t("Ẩn nghĩa", "Hide meaning") : t("Xem nghĩa", "Show meaning")}
-            </Button>
-            </div>
+          </CardTitle>
           </div>
         </CardHeader>
         <CardContent className="space-y-5">
