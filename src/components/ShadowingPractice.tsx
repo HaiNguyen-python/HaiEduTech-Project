@@ -160,17 +160,29 @@ interface Props {
 }
 
 const STEPS: { id: Step; label: string; labelVi: string; icon: any }[] = [
-  { id: 1, label: "Understand", labelVi: "Hiểu", icon: BookOpen },
-  { id: 2, label: "Analysis", labelVi: "Phân tích", icon: Sparkles },
-  { id: 3, label: "Shadow", labelVi: "Nhại theo", icon: Headphones },
-  { id: 4, label: "Record & Grade", labelVi: "Ghi âm & Chấm", icon: Award },
+  { id: 1, label: "Listen & Understand", labelVi: "Nghe & Hiểu", icon: BookOpen },
+  { id: 2, label: "Shadow", labelVi: "Nhại theo", icon: Headphones },
+  { id: 3, label: "Record & Grade", labelVi: "Ghi âm & Chấm", icon: Award },
 ];
+
+type LevelPick = "mix" | "B2" | "C1" | "C2";
+
+/** Pick a random sentence of the level, avoiding recently seen ones. */
+function pickRandom(level: LevelPick, recent: string[]): ShadowingSentence | undefined {
+  const pool = SHADOWING_SENTENCES.filter((s) => level === "mix" || s.level === level);
+  if (!pool.length) return undefined;
+  const fresh = pool.filter((s) => !recent.includes(s.id));
+  const src = fresh.length ? fresh : pool;
+  return src[Math.floor(Math.random() * src.length)];
+}
 
 const ShadowingPractice: React.FC<Props> = () => {
   const { t, lang } = useLanguage();
-  const [levelFilter, setLevelFilter] = useState<"all" | "B2" | "C1" | "C2">("all");
-  const [search, setSearch] = useState("");
-  const [activeIdx, setActiveIdx] = useState(0);
+  const [level, setLevel] = useState<LevelPick | null>(null);
+  const [current, setCurrent] = useState<ShadowingSentence | undefined>(undefined);
+  const recentRef = useRef<string[]>([]);
+  const [session, setSession] = useState<{ done: number; total: number }>({ done: 0, total: 0 });
+  const [listenCount, setListenCount] = useState(0);
   const [step, setStep] = useState<Step>(1);
   const [rate, setRate] = useState<0.8 | 0.95 | 1.1>(0.95);
   const [showVi, setShowVi] = useState(false);
@@ -190,20 +202,21 @@ const ShadowingPractice: React.FC<Props> = () => {
       window.speechSynthesis.getVoices();
       window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
     }
+    return () => { window.speechSynthesis?.cancel(); };
   }, []);
 
-  const filtered = useMemo(() => {
-    const q = search.trim().toLowerCase();
-    return SHADOWING_SENTENCES.filter(
-      (s) =>
-        (levelFilter === "all" || s.level === levelFilter) &&
-        (!q ||
-          s.sentence.toLowerCase().includes(q) ||
-          s.grammarPoint.toLowerCase().includes(q))
-    );
-  }, [levelFilter, search]);
+  const nextSentence = (lv: LevelPick = level ?? "mix") => {
+    const s = pickRandom(lv, recentRef.current);
+    if (s) recentRef.current = [s.id, ...recentRef.current].slice(0, 30);
+    setCurrent(s);
+  };
 
-  const current: ShadowingSentence | undefined = filtered[activeIdx] || filtered[0];
+  const startLevel = (lv: LevelPick) => {
+    setLevel(lv);
+    recentRef.current = [];
+    setSession({ done: 0, total: 0 });
+    nextSentence(lv);
+  };
 
   useEffect(() => {
     // Reset state on sentence change
@@ -213,9 +226,17 @@ const ShadowingPractice: React.FC<Props> = () => {
     setDuration(0);
     setScore(null);
     setShowVi(false);
+    setListenCount(0);
     stopRecording();
+    window.speechSynthesis?.cancel();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [current?.id]);
+
+  const play = (r: number = rate) => {
+    if (!current) return;
+    speak(current.sentence, r, current.intonation);
+    setListenCount((c) => c + 1);
+  };
 
   // Animate visualizer while recording
   useEffect(() => {
