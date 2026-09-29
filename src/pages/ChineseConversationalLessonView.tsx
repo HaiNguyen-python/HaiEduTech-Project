@@ -39,6 +39,8 @@ const markLessonComplete = (id: string) => {
 import { playChineseTts, stopChineseTts } from "@/lib/chineseTts";
 import { playMultiVoiceDialog, stopMultiVoiceDialog, parseDialog } from "@/lib/multiVoiceDialog";
 import DialogAudioPlayer from "@/components/DialogAudioPlayer";
+import DialoguePlayAll from "@/components/conversational/DialoguePlayAll";
+const playChineseLine = (text: string) => playChineseTts(text, { playbackRate: 0.85, speechRate: 0.85 });
 const speakChinese = (text: string, rate = 0.85) => {
   stopChineseTts();
   void playChineseTts(text, { playbackRate: rate, speechRate: rate });
@@ -67,6 +69,7 @@ const ChineseConversationalLessonView = () => {
   const validTabs = ["situations", "vocabulary", "structures", "exercises", "listening", "roleplay"];
   const [activeTab, setActiveTab] = useState(validTabs.includes(requestedTab ?? "") ? requestedTab ?? "situations" : "situations");
   const [listeningRevealed, setListeningRevealed] = useState(false);
+  const [playingLine, setPlayingLine] = useState<string | null>(null);
   const [listeningAnswers, setListeningAnswers] = useState<Record<number, number>>({});
   const [fibAnswers, setFibAnswers] = useState<Record<number, string>>({});
   const [fibChecked, setFibChecked] = useState(false);
@@ -327,6 +330,12 @@ const ChineseConversationalLessonView = () => {
                         </div>
                       )}
 
+                      <DialoguePlayAll
+                        lines={situation.sampleDialogue.map((l) => l.line)}
+                        play={playChineseLine}
+                        stop={stopChineseTts}
+                        onLineChange={(i) => setPlayingLine(i === null ? null : `${idx}-${i}`)}
+                      />
                       {/* Sample dialogue - chat bubble style */}
                       <div className="space-y-4">
                         {situation.sampleDialogue.map((line, i) => {
@@ -375,7 +384,7 @@ const ChineseConversationalLessonView = () => {
                                 />
                               </div>
                               {/* Bubble */}
-                              <div className={`max-w-[calc(100%-3.75rem)] rounded-lg border px-4 py-3 shadow-sm sm:max-w-[82%] ${bubbleColor}`}>
+                              <div className={`max-w-[calc(100%-3.75rem)] rounded-lg border px-4 py-3 shadow-sm transition-shadow sm:max-w-[82%] ${bubbleColor} ${playingLine === `${idx}-${i}` ? "ring-2 ring-primary ring-offset-2" : ""}`}>
                                 <p className={`mb-1 text-base font-extrabold ${speakerColor}`}>{line.speaker}</p>
                                 <p className={`text-lg font-extrabold leading-8 sm:text-xl ${dialogueColor}`}>{line.line}</p>
                                 <p className={`mt-1 text-base font-semibold italic leading-7 ${supportingColor}`}>{line.pinyin}</p>
