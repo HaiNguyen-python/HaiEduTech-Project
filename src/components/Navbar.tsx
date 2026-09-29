@@ -338,6 +338,7 @@ const Navbar = () => {
   ];
   const vietnameseSubs: SubItem[] = [
     { to: "/learn-vietnamese", label: t("Khóa học & Lộ trình", "Courses & Roadmap"), icon: Route },
+    { to: "/learn-vietnamese/performance", label: t("Your Performance", "Your Performance"), icon: Activity },
     { to: "/placement-test?subject=vietnamese", label: t("Placement Test & Personalization", "Placement Test & Personalization"), icon: ClipboardCheck },
     { to: "#vn-language-group", label: t("Ngôn ngữ", "Language"), icon: BookType, groupLabel: "vn-language", children: [
       { to: "/learn-vietnamese/vocabulary", label: t("Từ vựng", "Vocabulary"), icon: BookOpen },
