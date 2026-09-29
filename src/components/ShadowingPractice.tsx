@@ -418,10 +418,18 @@ const ShadowingPractice: React.FC<Props> = () => {
 
   // ---- Renderers ----
 
-  const renderHighlightedSentence = (mode: "plain" | "stress" | "intonation") => {
+  const renderHighlightedSentence = (_mode: "plain" | "stress" | "intonation") => {
     const stressSet = new Set(current.stressWords.map(norm));
-    const intoMap = new Map((current.intonation || []).map((i) => [norm(i.word), i.direction]));
+    const intoMap = new Map<string, "up" | "down">();
     const tokens = current.sentence.split(/(\s+)/);
+    // Auto intonation: rise before a clause break, fall (or rise for questions) at the end.
+    const wordIdx = tokens.map((tk, i) => (/^\s+$/.test(tk) ? -1 : i)).filter((i) => i >= 0);
+    const autoArrow = new Map<number, "up" | "down">();
+    wordIdx.forEach((i, n) => {
+      if (/[,;:]$/.test(tokens[i]) && n < wordIdx.length - 1) autoArrow.set(i, "up");
+    });
+    if (wordIdx.length) autoArrow.set(wordIdx[wordIdx.length - 1], /\?$/.test(current.sentence.trim()) ? "up" : "down");
+    (current.intonation || []).forEach((it) => intoMap.set(norm(it.word), it.direction));
     const inGrammar = (idx: number) => {
       const before = tokens.slice(0, idx).join("");
       const after = tokens.slice(0, idx + 1).join("");
@@ -432,25 +440,34 @@ const ShadowingPractice: React.FC<Props> = () => {
       );
     };
     return (
-      <p className="text-lg md:text-2xl leading-relaxed font-medium text-foreground tracking-wide">
+      <div>
+      <p className="text-lg md:text-2xl leading-relaxed font-medium text-foreground tracking-wide flex flex-wrap gap-x-2 gap-y-3 items-start">
         {tokens.map((tok, i) => {
-          if (/^\s+$/.test(tok)) return <span key={i}>{tok}</span>;
+          if (/^\s+$/.test(tok)) return null;
           const key = norm(tok);
-          const stressed = mode !== "plain" && stressSet.has(key);
-          const arrow = mode === "intonation" ? intoMap.get(key) : undefined;
+          const stressed = stressSet.has(key);
+          const arrow = intoMap.get(key) ?? autoArrow.get(i);
           const inG = inGrammar(i);
           const vocab = current.vocabulary.find((v) => norm(v.word).split(" ").includes(key));
+          const ipa = showIpa ? ipaMap[key] : undefined;
           const inner = (
-            <span
-              className={[
-                inG ? "bg-[#FFEDD5] dark:bg-orange-500/20 rounded px-0.5" : "",
-                stressed ? "font-bold text-primary" : "",
-                vocab ? "underline decoration-dotted decoration-emerald-500 underline-offset-4 cursor-help" : "",
-              ].join(" ")}
-            >
-              {tok}
-              {arrow === "up" && <ArrowUp className="inline w-4 h-4 ml-0.5 text-emerald-500" />}
-              {arrow === "down" && <ArrowDown className="inline w-4 h-4 ml-0.5 text-blue-500" />}
+            <span className="inline-flex flex-col items-center leading-tight">
+              <span
+                className={[
+                  inG ? "bg-[#FFEDD5] dark:bg-orange-500/20 rounded px-0.5" : "",
+                  stressed ? "font-bold text-primary" : "",
+                  vocab ? "underline decoration-dotted decoration-emerald-500 underline-offset-4 cursor-help" : "",
+                ].join(" ")}
+              >
+                {tok}
+                {arrow === "up" && <ArrowUp className="inline w-5 h-5 ml-0.5 text-emerald-500" aria-label="rising" />}
+                {arrow === "down" && <ArrowDown className="inline w-5 h-5 ml-0.5 text-blue-500" aria-label="falling" />}
+              </span>
+              {showIpa && (
+                <span className={`text-xs md:text-sm font-normal tracking-normal mt-1 ${stressed ? "text-primary" : "text-muted-foreground"}`}>
+                  {ipa ? `/${ipa}/` : "\u00a0"}
+                </span>
+              )}
             </span>
           );
           if (vocab) {
