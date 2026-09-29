@@ -104,17 +104,22 @@ export default function TypingPractice({ taskType }: { taskType: 1 | 2 }) {
       setErrors((e) => e + errs);
     }
     setTyped(v);
-    if (v === current.text) {
+    if (v === current.text && mode === "sprint") {
       const ms = Date.now() - t0;
-      if (mode === "sprint") {
-        const r = calc(current.text, v, ms, keystrokes + 1, errors);
-        setSprint((s) => ({ done: (s?.done || 0) + 1, chars: (s?.chars || 0) + v.length, results: [...(s?.results || []), r] }));
-        setIdx((i) => i + 1); setTyped(""); setKeystrokes(0); setErrors(0);
-      } else {
-        const r = calc(current.text, v, ms, keystrokes + (v.length - typed.length), errors);
-        setResult(r); saveResult(r, current.id);
-      }
+      const r = calc(current.text, v, ms, keystrokes + 1, errors);
+      setSprint((s) => ({ done: (s?.done || 0) + 1, chars: (s?.chars || 0) + v.length, results: [...(s?.results || []), r] }));
+      setIdx((i) => i + 1); setTyped(""); setKeystrokes(0); setErrors(0);
     }
+  };
+
+  const onKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key !== "Enter") return;
+    e.preventDefault();
+    if (!current) return;
+    if (result) { setSprint(null); reset(idx + 1); return; }
+    if (mode === "sprint" || !typed.trim() || !start) return;
+    const r = calc(current.text, typed, Date.now() - start, keystrokes, errors);
+    setResult(r); saveResult(r, current.id);
   };
 
   const block = (e: React.SyntheticEvent) => e.preventDefault();
