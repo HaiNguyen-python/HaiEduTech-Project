@@ -196,9 +196,8 @@ const ShadowingPractice: React.FC<Props> = () => {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const startedAtRef = useRef<number>(0);
   const [visualLevel, setVisualLevel] = useState(0);
-  const [showIpa, setShowIpa] = useState(true);
   const ipaWords = current ? Array.from(new Set(tokenize(current.sentence))) : [];
-  const ipaMap = useEnglishIpa(ipaWords, showIpa);
+  const ipaMap = useEnglishIpa(ipaWords, true);
 
   // Pre-load voices (Chrome quirk)
   useEffect(() => {
