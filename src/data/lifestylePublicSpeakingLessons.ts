@@ -7,7 +7,7 @@ import type { LifestyleLesson } from "./lifestyleAcademyLessons";
 
 export const LIFESTYLE_PUBLIC_SPEAKING_LESSONS: LifestyleLesson[] = [
   {
-    id: "speech-01", pillar: "etiquette", level: "foundation", minutes: 9, medium: "practice",
+    id: "speech-01", pillar: "publicspeaking", level: "foundation", minutes: 9, medium: "practice",
     titleVi: "Cấu trúc bài nói 3 phần", titleEn: "The Three-Part Speech Structure",
     subtitleVi: "Dẫn khán giả từ một thông điệp rõ ràng đến hành động cụ thể.",
     subtitleEn: "Lead an audience from one clear message to one concrete action.",
@@ -26,7 +26,7 @@ export const LIFESTYLE_PUBLIC_SPEAKING_LESSONS: LifestyleLesson[] = [
     illustrationEmojis: ["🎙️", "1️⃣", "2️⃣", "3️⃣"],
   },
   {
-    id: "speech-02", pillar: "etiquette", level: "foundation", minutes: 8, medium: "practice",
+    id: "speech-02", pillar: "publicspeaking", level: "foundation", minutes: 8, medium: "practice",
     titleVi: "Mở bài khiến người nghe chú ý", titleEn: "Openings That Earn Attention",
     subtitleVi: "Chọn đúng hook cho chủ đề, khán giả và hoàn cảnh.",
     subtitleEn: "Choose the right hook for the topic, audience and occasion.",
@@ -45,7 +45,7 @@ export const LIFESTYLE_PUBLIC_SPEAKING_LESSONS: LifestyleLesson[] = [
     illustrationEmojis: ["🪝", "❓", "💡", "👥"],
   },
   {
-    id: "speech-03", pillar: "etiquette", level: "intermediate", minutes: 11, medium: "practice",
+    id: "speech-03", pillar: "publicspeaking", level: "intermediate", minutes: 11, medium: "practice",
     titleVi: "Kể chuyện có mục đích", titleEn: "Purposeful Storytelling",
     subtitleVi: "Biến trải nghiệm thật thành câu chuyện ngắn, đáng nhớ và liên quan.",
     subtitleEn: "Turn real experience into a brief, memorable and relevant story.",
@@ -64,7 +64,7 @@ export const LIFESTYLE_PUBLIC_SPEAKING_LESSONS: LifestyleLesson[] = [
     illustrationEmojis: ["📖", "🎬", "💬", "✨"],
   },
   {
-    id: "speech-04", pillar: "presence", level: "foundation", minutes: 9, medium: "practice",
+    id: "speech-04", pillar: "publicspeaking", level: "foundation", minutes: 9, medium: "practice",
     titleVi: "Giọng nói có lực và rõ", titleEn: "A Clear, Credible Voice",
     subtitleVi: "Điều khiển hơi thở, tốc độ, cao độ và khoảng dừng thay vì nói đều đều.",
     subtitleEn: "Control breath, pace, pitch and pauses instead of speaking in a monotone.",
@@ -83,7 +83,7 @@ export const LIFESTYLE_PUBLIC_SPEAKING_LESSONS: LifestyleLesson[] = [
     illustrationEmojis: ["🗣️", "⏱️", "⏸️", "🔊"],
   },
   {
-    id: "speech-05", pillar: "presence", level: "intermediate", minutes: 10, medium: "practice",
+    id: "speech-05", pillar: "publicspeaking", level: "intermediate", minutes: 10, medium: "practice",
     titleVi: "Ngôn ngữ cơ thể trên sân khấu", titleEn: "Body Language on Stage",
     subtitleVi: "Dùng ánh mắt, tư thế và cử chỉ để củng cố nội dung thay vì gây nhiễu.",
     subtitleEn: "Use eye contact, posture and gestures to reinforce rather than distract.",
@@ -102,7 +102,7 @@ export const LIFESTYLE_PUBLIC_SPEAKING_LESSONS: LifestyleLesson[] = [
     illustrationEmojis: ["👁️", "🙌", "🧍", "🎥"],
   },
   {
-    id: "speech-06", pillar: "presence", level: "intermediate", minutes: 10, medium: "practice",
+    id: "speech-06", pillar: "publicspeaking", level: "intermediate", minutes: 10, medium: "practice",
     titleVi: "Làm chủ hồi hộp trước khi nói", titleEn: "Manage Speaking Nerves",
     subtitleVi: "Chuyển năng lượng căng thẳng thành sự tập trung có kiểm soát.",
     subtitleEn: "Turn nervous energy into controlled focus.",
@@ -121,7 +121,7 @@ export const LIFESTYLE_PUBLIC_SPEAKING_LESSONS: LifestyleLesson[] = [
     illustrationEmojis: ["🫁", "🧠", "🎯", "🌱"],
   },
   {
-    id: "speech-07", pillar: "etiquette", level: "mastery", minutes: 12, medium: "practice",
+    id: "speech-07", pillar: "publicspeaking", level: "mastery", minutes: 12, medium: "practice",
     titleVi: "Tương tác và đọc khán giả", titleEn: "Audience Engagement and Adaptation",
     subtitleVi: "Điều chỉnh ví dụ, nhịp độ và mức chi tiết theo phản ứng thật của người nghe.",
     subtitleEn: "Adapt examples, pace and detail to the audience's real response.",
@@ -140,7 +140,7 @@ export const LIFESTYLE_PUBLIC_SPEAKING_LESSONS: LifestyleLesson[] = [
     illustrationEmojis: ["👥", "🔄", "💭", "🤝"],
   },
   {
-    id: "speech-08", pillar: "presence", level: "mastery", minutes: 12, medium: "practice",
+    id: "speech-08", pillar: "publicspeaking", level: "mastery", minutes: 12, medium: "practice",
     titleVi: "Q&A: Trả lời khó mà vẫn bình tĩnh", titleEn: "Q&A: Handle Difficult Questions Calmly",
     subtitleVi: "Nghe đúng câu hỏi, suy nghĩ có cấu trúc và trả lời trung thực dưới áp lực.",
     subtitleEn: "Hear the real question, think visibly and answer honestly under pressure.",

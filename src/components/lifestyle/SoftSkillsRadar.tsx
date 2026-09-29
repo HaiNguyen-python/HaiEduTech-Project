@@ -27,6 +27,7 @@ const PILLAR_LABELS: Record<LifestylePillarKey, { vi: string; en: string }> = {
   wellness: { vi: "Thân thể", en: "Wellness" },
   selfstudy: { vi: "Tự học", en: "Self-Study" },
   partying: { vi: "Sự kiện", en: "Events" },
+  publicspeaking: { vi: "Thuyết trình", en: "Public Speaking" },
 };
 
 // Same pillar colors as the lesson group headers, as bar fill classes.
@@ -37,6 +38,7 @@ const PILLAR_BAR: Record<LifestylePillarKey, string> = {
   wellness: "bg-rose-500",
   selfstudy: "bg-indigo-500",
   partying: "bg-pink-500",
+  publicspeaking: "bg-cyan-500",
 };
 
 interface SoftSkillsRadarProps {

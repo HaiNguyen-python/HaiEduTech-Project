@@ -12,7 +12,8 @@ export type LifestylePillarKey =
   | "presence"
   | "wellness"
   | "selfstudy"
-  | "partying";
+  | "partying"
+  | "publicspeaking";
 
 export interface LifestyleLesson {
   id: string;

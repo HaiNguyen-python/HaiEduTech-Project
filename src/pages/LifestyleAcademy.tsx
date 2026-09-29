@@ -35,6 +35,7 @@ import {
   CheckCircle2,
   ClipboardCheck,
   ChevronDown,
+  Mic2,
 } from "lucide-react";
 
 import Navbar from "@/components/Navbar";
@@ -50,6 +51,7 @@ import { getLessonImage } from "@/data/lifestyleLessonImages";
 import LessonDialog from "@/components/lifestyle/LessonDialog";
 import SoftSkillsRadar from "@/components/lifestyle/SoftSkillsRadar";
 import { useLifestyleProgress, type LifestyleLessonResult } from "@/hooks/useLifestyleProgress";
+import PlacementCta from "@/components/personalization/PlacementCta";
 import heroBg from "@/assets/lifestyle/interpersonal-hero-bg.jpg";
 
 
@@ -109,6 +111,14 @@ const PILLAR_STYLES: Record<LifestylePillarKey, {
     bannerTo: "dark:from-rose-500/20 dark:via-pink-500/10 dark:to-amber-500/20",
     chipBg: "bg-pink-50 dark:bg-pink-500/10",
     emojis: ["🎉", "🥂", "💌", "🍽️"],
+  },
+  publicspeaking: {
+    border: "border-cyan-300/70 dark:border-cyan-500/40",
+    borderStrong: "hover:border-cyan-400 dark:hover:border-cyan-400/70",
+    bannerFrom: "from-cyan-100 via-sky-50 to-emerald-100",
+    bannerTo: "dark:from-cyan-500/20 dark:via-sky-500/10 dark:to-emerald-500/20",
+    chipBg: "bg-cyan-50 dark:bg-cyan-500/10",
+    emojis: ["🎙️", "🗣️", "👥", "✨"],
   },
 };
 
@@ -262,6 +272,24 @@ const PILLARS: Pillar[] = [
     ],
     Icon: PartyPopper,
   },
+  {
+    key: "publicspeaking",
+    iconBg: "from-cyan-500 via-sky-500 to-emerald-500",
+    ring: "hover:ring-cyan-400/40",
+    accentText: "text-cyan-600 dark:text-cyan-400",
+    titleVi: "Public Speaking",
+    titleEn: "Public Speaking",
+    taglineVi: "Nói rõ ràng, tự tin và tạo ảnh hưởng trước đám đông.",
+    taglineEn: "Speak clearly, confidently and persuasively in front of an audience.",
+    sampleCourseVi: "Từ cấu trúc bài nói đến giọng nói, ngôn ngữ cơ thể và Q&A",
+    sampleCourseEn: "From speech structure to voice, body language and Q&A",
+    highlights: [
+      { vi: "Cấu trúc & kể chuyện", en: "Structure & Storytelling" },
+      { vi: "Giọng nói & ngôn ngữ cơ thể", en: "Voice & Body Language" },
+      { vi: "Tương tác & xử lý Q&A", en: "Engagement & Q&A" },
+    ],
+    Icon: Mic2,
+  },
 ];
 
 // Filter keys
@@ -274,6 +302,7 @@ const FILTERS: { key: FilterKey; labelVi: string; labelEn: string }[] = [
   { key: "wellness", labelVi: "Thân thể", labelEn: "Wellness" },
   { key: "selfstudy", labelVi: "Tự học", labelEn: "Self-Study" },
   { key: "partying", labelVi: "Tiệc tùng", labelEn: "Parties" },
+  { key: "publicspeaking", labelVi: "Public Speaking", labelEn: "Public Speaking" },
 ];
 
 /** Remembers which pillar groups the learner collapsed on the lessons list. */
@@ -584,7 +613,7 @@ const LifestyleAcademy = () => {
 
               <div className="mt-8 grid grid-cols-3 gap-3 sm:gap-5 max-w-xl">
                 <StatChip value={`${LIFESTYLE_LESSONS.length}`} labelVi="Bài học chuyên sâu" labelEn="Deep lessons" />
-                <StatChip value="6" labelVi="Trụ cột" labelEn="Pillars" />
+                <StatChip value="7" labelVi="Trụ cột" labelEn="Pillars" />
                 <StatChip value="7-12" labelVi="Phút / bài" labelEn="Min / lesson" />
               </div>
             </motion.div>
@@ -596,6 +625,7 @@ const LifestyleAcademy = () => {
         <section id="lessons" className="relative overflow-hidden border-y border-border/60 bg-gradient-to-br from-white to-emerald-50/40 dark:from-slate-950 dark:to-slate-900 scroll-mt-32">
           
           <div className="relative z-10 container mx-auto px-4 py-10 md:py-14">
+            <PlacementCta subject="lifestyle" className="mb-10" />
             <div className="mb-8 max-w-2xl">
               <Badge variant="outline" className="mb-3 border-teal-400/50 bg-teal-50/70 text-teal-700 dark:border-teal-400/40 dark:bg-teal-500/10 dark:text-teal-300">
                 <Lightbulb className="mr-1.5 h-3.5 w-3.5" />
