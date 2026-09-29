@@ -1,5 +1,6 @@
 // Conversational Vietnamese curriculum: 3 pillars mirroring the English and Chinese interactive curricula.
 import { vietnameseExtraLessons } from "./vietnameseConversationalCurriculumExtra";
+import { vietnameseLessonSupplements } from "./vietnameseConversationalSupplements";
 
 export interface VnDialogueLine { speaker: string; line: string; en: string }
 export interface VnSituation { title: string; description: string; culturalNote?: string; dialogue: VnDialogueLine[] }
@@ -522,6 +523,14 @@ export const vietnameseConversationalPillars: VnConvPillar[] = [
 
 for (const p of vietnameseConversationalPillars) {
   for (const l of vietnameseExtraLessons[p.id] ?? []) if (!p.lessons.some((x) => x.id === l.id)) p.lessons.push(l);
+  for (const l of p.lessons) {
+    const s = vietnameseLessonSupplements[l.id];
+    if (!s || l.situations.some((x) => x.title === s.situation.title)) continue;
+    l.situations.push(s.situation);
+    l.vocabulary.push(...s.vocabulary.filter((w) => !l.vocabulary.some((x) => x.vi === w.vi)));
+    l.structures.push(s.structure);
+    l.quiz.push(...s.quiz);
+  }
 }
 
 export const allVietnameseConvLessons = vietnameseConversationalPillars.flatMap((p) => p.lessons);
