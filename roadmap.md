@@ -114,3 +114,6 @@
 - [x] Repair malformed inline and display formulas across Programming Theory lessons.
 - [x] Add regression checks for nested dollar delimiters and formulas embedded in prose.
 
+- [ ] Synchronize the Interpersonal Skills dropdown with subject menus.
+- [ ] Add Interpersonal Skills Placement Test and Your Performance.
+- [ ] Add Public Speaking skills and learning content.
