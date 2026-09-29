@@ -124,6 +124,7 @@ const EnglishFunFacts = lazyWithRetry(() => import("./pages/EnglishFunFacts.tsx"
 const EnglishIdioms = lazyWithRetry(() => import("./pages/EnglishIdioms.tsx"));
 const EnglishCourse = lazyWithRetry(() => import("./pages/EnglishCourse.tsx"));
 const Chinese = lazyWithRetry(() => import("./pages/Chinese.tsx"));
+const SubjectPerformance = lazyWithRetry(() => import("./pages/SubjectPerformance.tsx"));
 const Japanese = lazyWithRetry(() => import("./pages/Japanese.tsx"));
 const ChineseCourse = lazyWithRetry(() => import("./pages/ChineseCourse.tsx"));
 const Programming = lazyWithRetry(() => import("./pages/Programming.tsx"));
@@ -383,6 +384,8 @@ const App = () => (
             <Route path="/english/learn/:moduleId" element={<LazyRoute><LanguageLessonView /></LazyRoute>} />
             <Route path="/english/learn/:moduleId/:lessonId" element={<LazyRoute><LanguageLessonView /></LazyRoute>} />
             <Route path="/chinese" element={<LazyRoute><Chinese /></LazyRoute>} />
+            <Route path="/chinese/performance" element={<LazyRoute><SubjectPerformance subject="chinese" /></LazyRoute>} />
+            <Route path="/programming/performance" element={<LazyRoute><SubjectPerformance subject="programming" /></LazyRoute>} />
             <Route path="/japanese" element={<LazyRoute><Japanese /></LazyRoute>} />
             <Route path="/chinese/conversational/curriculum" element={<LazyRoute><ChineseConversationalDashboard /></LazyRoute>} />
             <Route path="/chinese/conversational/learn/:lessonId" element={<LazyRoute><ChineseConversationalLessonView /></LazyRoute>} />
