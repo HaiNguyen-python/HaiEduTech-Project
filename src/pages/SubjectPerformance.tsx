@@ -20,8 +20,8 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 
-type Subject = "chinese" | "programming" | "vietnamese";
-interface Row { activity_type: string; score: number | null; max_score: number | null; time_spent_seconds: number | null; created_at: string }
+type Subject = "chinese" | "programming" | "vietnamese" | "interpersonal";
+interface Row { activity_type: string; score: number | null; max_score: number | null; time_spent_seconds: number | null; created_at: string; metadata?: { pillar?: string } | null }
 interface Section { key: string; vi: string; en: string; match: RegExp }
 
 const SECTIONS: Record<Subject, Section[]> = {
@@ -49,6 +49,16 @@ const SECTIONS: Record<Subject, Section[]> = {
     { key: "quiz", vi: "Quiz & Lý thuyết", en: "Quizzes & Theory", match: /quiz|theory|lesson/ },
     { key: "startup", vi: "Startup", en: "Startup", match: /startup/ },
   ],
+  interpersonal: [
+    { key: "placement", vi: "Bài đánh giá đầu vào", en: "Placement Assessment", match: /placement/ },
+    { key: "finance", vi: "Tài chính", en: "Finance", match: /finance|fin-/ },
+    { key: "etiquette", vi: "Giao tiếp & Ứng xử", en: "Communication & Etiquette", match: /etiquette|etq-/ },
+    { key: "presence", vi: "Khí chất & Bản lĩnh", en: "Presence & Resilience", match: /presence|prs-/ },
+    { key: "wellness", vi: "Sức khỏe", en: "Wellness", match: /wellness|wel-/ },
+    { key: "selfstudy", vi: "Tự học", en: "Self-Study", match: /selfstudy|study-/ },
+    { key: "partying", vi: "Sự kiện", en: "Events", match: /partying|party-/ },
+    { key: "publicspeaking", vi: "Public Speaking", en: "Public Speaking", match: /public_speaking|presentation|speech-/ },
+  ],
 };
 
 const pct = (r: Row) => {
@@ -62,7 +72,12 @@ const SubjectPerformance = ({ subject }: { subject: Subject }) => {
   const [signedIn, setSignedIn] = useState(true);
   const sections = SECTIONS[subject];
   const other = { key: "other", vi: "Khác", en: "Other", match: /.*/ };
-  const sectionOf = (type: string) => sections.find((s) => s.match.test(type.toLowerCase())) ?? other;
+  const sectionOf = (row: Row) => {
+    const type = row.activity_type.toLowerCase();
+    if (subject === "interpersonal" && /public_speaking|presentation/.test(type)) return sections.find((s) => s.key === "publicspeaking") ?? other;
+    const pillar = row.metadata?.pillar?.toLowerCase() ?? "";
+    return sections.find((s) => s.key === pillar || s.match.test(`${type} ${pillar}`)) ?? other;
+  };
 
   useEffect(() => {
     (async () => {
@@ -70,7 +85,7 @@ const SubjectPerformance = ({ subject }: { subject: Subject }) => {
       if (!session) { setSignedIn(false); setRows([]); return; }
       const { data } = await supabase
         .from("student_activity_log")
-        .select("activity_type, score, max_score, time_spent_seconds, created_at, domain")
+        .select("activity_type, score, max_score, time_spent_seconds, created_at, domain, metadata")
         .eq("user_id", session.user.id)
         .in("domain", subject === "vietnamese" ? ["vietnamese", "english"] : [subject])
         .order("created_at", { ascending: true })
@@ -78,6 +93,35 @@ const SubjectPerformance = ({ subject }: { subject: Subject }) => {
       let list = (data as Row[]) ?? [];
       // Older Vietnamese results were stored under "english"; keep only Vietnamese ones.
       if (subject === "vietnamese") list = list.filter((r) => (r as Row & { domain?: string }).domain === "vietnamese" || /vietnam/i.test(r.activity_type));
+      if (subject === "interpersonal") {
+        const [{ data: lessonRows }, { data: placementRows }] = await Promise.all([
+          supabase.from("lifestyle_lesson_progress").select("lesson_id, pillar, score, max_score, updated_at").eq("user_id", session.user.id),
+          supabase.from("placement_test_results").select("total_score, created_at").eq("user_id", session.user.id).eq("subject", "lifestyle"),
+        ]);
+        const directLessons: Row[] = (lessonRows ?? []).map((r) => ({
+          activity_type: "lifestyle_quiz",
+          score: r.score,
+          max_score: r.max_score,
+          time_spent_seconds: null,
+          created_at: r.updated_at,
+          metadata: { pillar: r.pillar },
+        }));
+        const directPlacements: Row[] = (placementRows ?? []).map((r) => ({
+          activity_type: "placement_test",
+          score: Number(r.total_score),
+          max_score: 100,
+          time_spent_seconds: null,
+          created_at: r.created_at,
+          metadata: { pillar: "placement" },
+        }));
+        // Dedicated tables are authoritative for quizzes and placements; keep
+        // activity_log for Public Speaking and future Interpersonal activities.
+        list = [
+          ...list.filter((r) => r.activity_type !== "lifestyle_quiz" && r.activity_type !== "placement_test"),
+          ...directLessons,
+          ...directPlacements,
+        ].sort((a, b) => a.created_at.localeCompare(b.created_at));
+      }
       setRows(list);
     })();
   }, [subject]);
@@ -90,7 +134,7 @@ const SubjectPerformance = ({ subject }: { subject: Subject }) => {
     const byWeek = new Map<string, { label: string; activities: number; minutes: number }>();
     let minutes = 0;
     list.forEach((r) => {
-      const s = bySection.get(sectionOf(r.activity_type).key)!;
+      const s = bySection.get(sectionOf(r).key)!;
       const p = pct(r);
       const m = (r.time_spent_seconds ?? 0) / 60;
       s.count += 1; s.total += p; s.minutes += m; minutes += m;
@@ -118,8 +162,9 @@ const SubjectPerformance = ({ subject }: { subject: Subject }) => {
 
   const title = subject === "chinese" ? t("Kết quả học Tiếng Trung", "Your Chinese Performance")
     : subject === "vietnamese" ? t("Kết quả học Tiếng Việt", "Your Vietnamese Performance")
+    : subject === "interpersonal" ? t("Kết quả Kỹ năng mềm", "Your Interpersonal Skills Performance")
     : t("Kết quả học Công nghệ", "Your Technology Performance");
-  const home = subject === "chinese" ? "/chinese" : subject === "vietnamese" ? "/learn-vietnamese" : "/programming";
+  const home = subject === "chinese" ? "/chinese" : subject === "vietnamese" ? "/learn-vietnamese" : subject === "interpersonal" ? "/lifestyle-academy" : "/programming";
   const reportRef = useRef<HTMLDivElement>(null);
   const [exporting, setExporting] = useState(false);
   const downloadPdf = async () => {

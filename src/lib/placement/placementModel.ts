@@ -150,6 +150,14 @@ export const CLASS_BY_SUBJECT: Record<string, Record<Cefr, string>> = {
     C1: "Programming Specialisation (ML / Big Data)",
     C2: "Programming Specialisation (ML / Big Data)",
   },
+  lifestyle: {
+    A1: "Interpersonal Skills Foundation",
+    A2: "Interpersonal Skills Foundation",
+    B1: "Interpersonal Skills Developing",
+    B2: "Interpersonal Skills Confident",
+    C1: "Interpersonal Skills Leadership",
+    C2: "Interpersonal Skills Leadership",
+  },
   toeic: {
     A1: "TOEIC Foundation (target 300-400)",
     A2: "TOEIC Elementary (target 450-550)",

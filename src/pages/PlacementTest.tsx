@@ -523,7 +523,7 @@ const PlacementTest = () => {
         score: total,
         maxScore: 100,
         timeSpentSeconds: elapsed > 0 ? elapsed : undefined,
-        domain: subject === "programming" ? "programming" : "english",
+        domain: subject === "programming" ? "programming" : subject === "lifestyle" ? "interpersonal" : "english",
         metadata: {
           subject,
           cefr,

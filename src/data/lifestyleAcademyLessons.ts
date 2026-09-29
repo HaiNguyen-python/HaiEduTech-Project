@@ -12,7 +12,8 @@ export type LifestylePillarKey =
   | "presence"
   | "wellness"
   | "selfstudy"
-  | "partying";
+  | "partying"
+  | "publicspeaking";
 
 export interface LifestyleLesson {
   id: string;
@@ -781,6 +782,7 @@ import { LIFESTYLE_LESSONS_EXPANSION_4 } from "./lifestyleAcademyLessonsExpansio
 import { LIFESTYLE_LESSONS_EXPANSION_5 } from "./lifestyleAcademyLessonsExpansion5";
 import { LIFESTYLE_SELF_STUDY_LESSONS } from "./lifestyleSelfStudyLessons";
 import { LIFESTYLE_PARTYING_LESSONS } from "./lifestylePartyingLessons";
+import { LIFESTYLE_PUBLIC_SPEAKING_LESSONS } from "./lifestylePublicSpeakingLessons";
 
 import { LIFESTYLE_ENRICHMENT } from "./lifestyleAcademyEnrichment";
 import { LIFESTYLE_DEEP_DIVE_BOOST } from "./lifestyleDeepDive";
@@ -821,5 +823,6 @@ export const LIFESTYLE_LESSONS: LifestyleLesson[] = [
   ...wellness,  ...byPillar(LIFESTYLE_LESSONS_EXPANSION, "wellness"),  ...byPillar(LIFESTYLE_LESSONS_EXPANSION_2, "wellness"),  ...byPillar(LIFESTYLE_LESSONS_EXPANSION_3, "wellness"),  ...byPillar(LIFESTYLE_LESSONS_EXPANSION_4, "wellness"),  ...byPillar(LIFESTYLE_LESSONS_EXPANSION_5, "wellness"),
   ...LIFESTYLE_SELF_STUDY_LESSONS,
   ...LIFESTYLE_PARTYING_LESSONS,
+  ...LIFESTYLE_PUBLIC_SPEAKING_LESSONS,
 ].map(withDepth);
 

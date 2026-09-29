@@ -28,6 +28,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
+import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { PRESENTATION_PHRASES } from "@/data/presentationPhrases";
 import PresentationPhraseBank from "@/components/presentation/PresentationPhraseBank";
 import PresentationProgressChart from "@/components/presentation/PresentationProgressChart";
@@ -567,6 +568,22 @@ const PresentationStudio = () => {
       fillers: local.fillers.total,
       eyeContact,
       confidence: body?.confidence ?? 0,
+    });
+    void logStudentActivity({
+      activityType: "public_speaking_session",
+      activityId: scenario.id,
+      score: local.overall,
+      maxScore: 100,
+      timeSpentSeconds: elapsed,
+      domain: "interpersonal",
+      metadata: {
+        subject: "lifestyle",
+        pillar: "publicspeaking",
+        scenario: scenario.label,
+        wpm: local.wpm,
+        fillers: local.fillers.total,
+        eyeContact,
+      },
     });
     // The AI coach needs at least 12 words; below that we keep the local report only.
     if (countWords(fullText) < 12) {

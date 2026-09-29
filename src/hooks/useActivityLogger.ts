@@ -3,7 +3,7 @@
 
 import { supabase } from "@/integrations/supabase/client";
 
-export type LearningDomain = "english" | "chinese" | "programming";
+export type LearningDomain = "english" | "chinese" | "programming" | "interpersonal";
 
 interface ActivityPayload {
   activityType: string; // 'thpt_exam', 'ielts_writing', 'ielts_speaking', 'python_challenge', 'conv_english', 'conv_chinese', 'vocab_mastered', ...
@@ -22,6 +22,7 @@ interface ActivityPayload {
 // activity from the dashboard charts.
 function inferDomain(activityType: string, metadata?: Record<string, any>): LearningDomain | "vietnamese" {
   const t = activityType.toLowerCase();
+  if (t.includes("lifestyle") || t.includes("presentation") || t.includes("public_speaking") || metadata?.subject === "lifestyle") return "interpersonal";
   // Vietnamese has its own Your Performance dashboard
   if (t.includes("vietnam") || (typeof metadata?.subject === "string" && metadata.subject.toLowerCase().includes("vietnam"))) return "vietnamese";
   // Chinese
