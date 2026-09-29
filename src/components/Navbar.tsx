@@ -863,7 +863,7 @@ const Navbar = () => {
                                         {/* Group header (hidden if children already have section headers) */}
                                         {!sub.children.some(c => c.header) && (
                                           <div className="px-4 py-1.5 mb-1">
-                                            <span className={`text-[10px] font-bold uppercase tracking-widest ${sc.header}`}>
+                                            <span className={`text-[9px] font-medium uppercase tracking-[0.06em] ${sc.header}`}>
                                             {sub.groupLabel === "ielts" ? "Cambridge IELTS"
                                                 : sub.groupLabel === "national-exam" ? t("Luyện thi THPT", "National Exam Prep")
                                                 : sub.groupLabel === "en-foundation" ? t("Cambridge Starters -> PET", "Cambridge Starters -> PET")
@@ -892,7 +892,7 @@ const Navbar = () => {
                                           if (child.header) {
                                             return (
                                               <div key={child.to} className="px-4 pt-2 pb-1 mt-1 first:mt-0">
-                                                <span className={`text-[10px] font-bold uppercase tracking-wider ${sc.header}`}>
+                                                <span className={`text-[9px] font-medium uppercase tracking-[0.06em] ${sc.header}`}>
                                                   {child.label}
                                                 </span>
                                               </div>
@@ -1089,7 +1089,7 @@ const Navbar = () => {
                                                   if (child.header) {
                                                     return (
                                                       <div key={child.to} className="px-4 pt-2 pb-1">
-                                                        <span className="text-[11px] font-bold uppercase tracking-wider text-primary/70">
+                                                        <span className="text-[10px] font-medium uppercase tracking-[0.06em] text-primary/70">
                                                           {child.label}
                                                         </span>
                                                       </div>
