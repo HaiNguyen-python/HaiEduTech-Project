@@ -50,7 +50,8 @@ const LessonQuiz = ({ lesson, onFinish, previousScore }: LessonQuizProps) => {
       activityId: lesson.id,
       score,
       maxScore: questions.length,
-      metadata: { pillar: lesson.pillar },
+      domain: "interpersonal",
+      metadata: { pillar: lesson.pillar, subject: "lifestyle", lesson_title: lesson.titleEn },
     });
   };
 

@@ -10,7 +10,7 @@
 
 export type SubjectId =
   | "ielts" | "cambridge" | "toeic" | "sat" | "pte" | "thpt" | "english"
-  | "chinese" | "japanese" | "vietnamese" | "finnish" | "swedish" | "programming";
+  | "chinese" | "japanese" | "vietnamese" | "finnish" | "swedish" | "programming" | "lifestyle";
 
 export type StepKind = "lesson" | "practice" | "vocab" | "review" | "speaking";
 
@@ -237,6 +237,20 @@ export const SUBJECTS: Record<SubjectId, SubjectDef> = {
       T("pg-challenge", "practice", "Giải 2 challenge code", "Solve 2 coding challenges", "/python-challenges", 30, "logic"),
       T("pg-ai", "lesson", "Học 1 bài AI Academy", "Study one AI Academy lesson", "/programming/ai-academy", 25, "logic"),
       T("pg-startup", "lesson", "Học 1 bài Startup", "Study one Startup lesson", "/programming/startup/roadmap", 20, "logic"),
+    ],
+  },
+  lifestyle: {
+    id: "lifestyle", labelVi: "Kỹ năng mềm", labelEn: "Interpersonal Skills", emoji: "🤝",
+    hub: "/lifestyle-academy",
+    ladder: ["Foundation", "Developing", "Confident", "Leadership"],
+    placement: "lifestyle",
+    activityPrefixes: ["lifestyle_", "public_speaking", "presentation"],
+    vocabSubjects: [],
+    tracks: [
+      T("life-communication", "lesson", "Rèn giao tiếp và ứng xử", "Communication and etiquette", "/lifestyle-academy?pillar=etiquette", 25, "listening"),
+      T("life-speaking", "speaking", "Luyện Public Speaking", "Public Speaking practice", "/presentation-studio", 25, "speaking"),
+      T("life-presence", "practice", "Rèn khí chất và bản lĩnh", "Presence and resilience practice", "/lifestyle-academy?pillar=presence", 20, "writing"),
+      T("life-self", "lesson", "Xây hệ thống tự học", "Build a self-study system", "/lifestyle-academy?pillar=selfstudy", 20, "reading"),
     ],
   },
 };

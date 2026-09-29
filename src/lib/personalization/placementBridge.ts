@@ -21,6 +21,7 @@ export const BANK_SUBJECTS: Record<string, SubjectId[]> = {
   japanese: ["japanese"],
   swedish: ["swedish"],
   programming: ["programming"],
+  lifestyle: ["lifestyle"],
   toeic: ["toeic"],
   sat: ["sat"],
   pte: ["pte"],
