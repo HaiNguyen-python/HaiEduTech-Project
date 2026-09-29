@@ -21,6 +21,7 @@ import GameLeaderboard from "@/components/games/GameLeaderboard";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import { recordVocabReviewTracked } from "@/lib/vocabReview";
 import SmartReviewColumn from "@/components/SmartReviewColumn";
+import { useEnterToNext } from "@/hooks/useEnterToNext";
 import WeeklyVocabAchievers from "@/components/WeeklyVocabAchievers";
 import HskExamplePractice from "@/components/HskExamplePractice";
 import HskMnemonic from "@/components/HskMnemonic";
@@ -163,6 +164,7 @@ interface QuizQuestion {
 }
 
 const HskExercise = ({ masteredWords, allWords, t }: { masteredWords: HskWord[]; allWords: HskWord[]; t: (vi: string, en: string) => string }) => {
+  useEnterToNext();
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
@@ -397,7 +399,7 @@ const HskExercise = ({ masteredWords, allWords, t }: { masteredWords: HskWord[];
           </Badge>
           {/* Next lives inside the word card so learners can tap it without scrolling. */}
           {selected !== null && (
-            <Button size="sm" className="shrink-0" onClick={handleNext}>
+            <Button data-enter-next size="sm" className="shrink-0" onClick={handleNext}>
               {current + 1 >= questions.length ? t("Xem kết quả", "See Results") : t("Câu tiếp", "Next")}
               <ChevronRight className="w-4 h-4 ml-1" />
             </Button>
