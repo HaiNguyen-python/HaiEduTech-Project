@@ -472,9 +472,13 @@ const Navbar = () => {
 
   // Dashboard and Admin entries are intentionally omitted from the main menu —
   // they are accessible from the user dropdown after login to keep the navbar clean.
-  const navLinks = user && isPureAssistant
+  // "vn" (Vietnamese) is temporarily hidden from the menu — direct URLs still work.
+  // Re-enable by removing "vn" from HIDDEN_NAV_KEYS below.
+  const HIDDEN_NAV_KEYS: string[] = ["vn"];
+  const navLinks = (user && isPureAssistant
     ? [...baseLinks, { to: "/assistant", label: t("CTV", "Assistant"), icon: Shield, key: "assistant" }]
-    : baseLinks;
+    : baseLinks
+  ).filter((l) => !HIDDEN_NAV_KEYS.includes((l as { key?: string }).key ?? ""));
 
 
   // Hover bridge + intent debounce: opening is instant, closing is delayed
