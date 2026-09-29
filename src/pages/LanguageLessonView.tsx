@@ -699,7 +699,7 @@ const LanguageLessonView = () => {
                             activityId: lesson.id,
                             score,
                             maxScore: total,
-                            domain: mod.language === "chinese" ? "chinese" : mod.language === "vietnamese" ? "vietnamese" : "english",
+                            domain: mod.language === "chinese" ? "chinese" : "english",
                           });
                         }}
                       />

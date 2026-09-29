@@ -9,7 +9,9 @@ import {
   RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar,
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar,
 } from "recharts";
-import { Activity, Clock, Gauge, Trophy } from "lucide-react";
+import { useRef } from "react";
+import { Activity, Clock, Download, Gauge, Loader2, Trophy } from "lucide-react";
+import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
@@ -18,7 +20,7 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 
-type Subject = "chinese" | "programming";
+type Subject = "chinese" | "programming" | "vietnamese";
 interface Row { activity_type: string; score: number | null; max_score: number | null; time_spent_seconds: number | null; created_at: string }
 interface Section { key: string; vi: string; en: string; match: RegExp }
 
@@ -31,6 +33,13 @@ const SECTIONS: Record<Subject, Section[]> = {
     { key: "reading", vi: "Đọc & Nghe", en: "Reading & Listening", match: /read|listen/ },
     { key: "conversation", vi: "Giao tiếp", en: "Conversation", match: /conv|curriculum|lesson|culture/ },
     { key: "games", vi: "Trò chơi", en: "Games", match: /arcade|game|song/ },
+  ],
+  vietnamese: [
+    { key: "vocab", vi: "Từ vựng", en: "Vocabulary", match: /vocab|word|flashcard/ },
+    { key: "dictation", vi: "Chính tả", en: "Dictation", match: /dictation|alphabet|spell/ },
+    { key: "speaking", vi: "Nói & Phát âm", en: "Speaking & Pronunciation", match: /speak|pronunc|tone/ },
+    { key: "reading", vi: "Đọc & Văn hóa", en: "Reading & Culture", match: /read|poem|poetry|folk|story|history|region/ },
+    { key: "lesson", vi: "Bài học & Quiz", en: "Lessons & Quizzes", match: /lesson|quiz|foreign|test|placement/ },
   ],
   programming: [
     { key: "python", vi: "Python", en: "Python", match: /python|pyodide/ },
@@ -61,12 +70,15 @@ const SubjectPerformance = ({ subject }: { subject: Subject }) => {
       if (!session) { setSignedIn(false); setRows([]); return; }
       const { data } = await supabase
         .from("student_activity_log")
-        .select("activity_type, score, max_score, time_spent_seconds, created_at")
+        .select("activity_type, score, max_score, time_spent_seconds, created_at, domain")
         .eq("user_id", session.user.id)
-        .eq("domain", subject)
+        .in("domain", subject === "vietnamese" ? ["vietnamese", "english"] : [subject])
         .order("created_at", { ascending: true })
         .limit(2000);
-      setRows((data as Row[]) ?? []);
+      let list = (data as Row[]) ?? [];
+      // Older Vietnamese results were stored under "english"; keep only Vietnamese ones.
+      if (subject === "vietnamese") list = list.filter((r) => (r as Row & { domain?: string }).domain === "vietnamese" || /vietnam/i.test(r.activity_type));
+      setRows(list);
     })();
   }, [subject]);
 
@@ -104,8 +116,36 @@ const SubjectPerformance = ({ subject }: { subject: Subject }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rows, t, subject]);
 
-  const title = subject === "chinese" ? t("Kết quả học Tiếng Trung", "Your Chinese Performance") : t("Kết quả học Công nghệ", "Your Technology Performance");
-  const home = subject === "chinese" ? "/chinese" : "/programming";
+  const title = subject === "chinese" ? t("Kết quả học Tiếng Trung", "Your Chinese Performance")
+    : subject === "vietnamese" ? t("Kết quả học Tiếng Việt", "Your Vietnamese Performance")
+    : t("Kết quả học Công nghệ", "Your Technology Performance");
+  const home = subject === "chinese" ? "/chinese" : subject === "vietnamese" ? "/learn-vietnamese" : "/programming";
+  const reportRef = useRef<HTMLDivElement>(null);
+  const [exporting, setExporting] = useState(false);
+  const downloadPdf = async () => {
+    if (!reportRef.current) return;
+    setExporting(true);
+    try {
+      const [{ default: html2canvas }, { jsPDF }] = await Promise.all([import("html2canvas"), import("jspdf")]);
+      const bg = getComputedStyle(document.body).backgroundColor || "#ffffff";
+      const canvas = await html2canvas(reportRef.current, { scale: 2, backgroundColor: bg, useCORS: true });
+      const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+      const pw = pdf.internal.pageSize.getWidth(), ph = pdf.internal.pageSize.getHeight(), m = 10;
+      const w = pw - m * 2, pagePx = Math.floor(((ph - m * 2) * canvas.width) / w);
+      for (let y = 0, i = 0; y < canvas.height; y += pagePx, i++) {
+        const slice = document.createElement("canvas");
+        slice.width = canvas.width; slice.height = Math.min(pagePx, canvas.height - y);
+        const ctx = slice.getContext("2d")!;
+        ctx.fillStyle = bg; ctx.fillRect(0, 0, slice.width, slice.height);
+        ctx.drawImage(canvas, 0, y, canvas.width, slice.height, 0, 0, canvas.width, slice.height);
+        if (i > 0) pdf.addPage();
+        pdf.addImage(slice.toDataURL("image/jpeg", 0.92), "JPEG", m, m, w, (slice.height * w) / canvas.width);
+      }
+      pdf.save(`HaiEduTech_${subject}_performance_${new Date().toISOString().slice(0, 10)}.pdf`);
+    } catch {
+      toast.error(t("Không tạo được PDF, thử lại sau.", "Could not create the PDF, please try again."));
+    } finally { setExporting(false); }
+  };
   const axis = { fontSize: 12, fill: "hsl(var(--muted-foreground))" };
   const tooltipStyle = { background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 8 };
 
@@ -114,7 +154,16 @@ const SubjectPerformance = ({ subject }: { subject: Subject }) => {
       <SEO title={`${title} | HaiEduTech`} description={t("Biểu đồ kết quả học tập tích lũy theo từng phần.", "Charts of your cumulative learning results by section.")} />
       <Navbar />
       <main className="container mx-auto px-4 pt-28 pb-16 max-w-6xl">
-        <h1 className="text-3xl md:text-4xl font-bold text-foreground">{title}</h1>
+        <div ref={reportRef} className="bg-background">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <h1 className="text-3xl md:text-4xl font-bold text-foreground">{title}</h1>
+          {rows && rows.length > 0 && (
+            <Button onClick={downloadPdf} disabled={exporting} variant="outline" data-html2canvas-ignore>
+              {exporting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}
+              {t("Tải PDF", "Download PDF")}
+            </Button>
+          )}
+        </div>
         <p className="text-muted-foreground mt-2">{t("Toàn bộ kết quả bạn đã làm, tổng hợp theo từng phần.", "Every result you have produced, grouped by section.")}</p>
 
         {rows === null ? (
@@ -199,6 +248,7 @@ const SubjectPerformance = ({ subject }: { subject: Subject }) => {
             </div>
           </>
         )}
+        </div>
       </main>
       <Footer />
     </div>
