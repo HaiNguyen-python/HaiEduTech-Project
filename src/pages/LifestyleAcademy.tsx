@@ -626,6 +626,20 @@ const LifestyleAcademy = () => {
           
           <div className="relative z-10 container mx-auto px-4 py-10 md:py-14">
             <PlacementCta subject="lifestyle" className="mb-10" />
+            <div className="mb-10 flex flex-col gap-4 border-y border-border py-6 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <h3 className="text-lg font-bold text-foreground">{t("Public Speaking Studio", "Public Speaking Studio")}</h3>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  {t("Luyện với camera, teleprompter và báo cáo về tốc độ, độ rõ ràng, ánh mắt.", "Practise with camera, teleprompter and a report on pace, clarity and eye contact.")}
+                </p>
+              </div>
+              <Button asChild>
+                <Link to="/presentation-studio">
+                  <Mic2 className="mr-2 h-4 w-4" />
+                  {t("Mở phòng luyện nói", "Open the studio")}
+                </Link>
+              </Button>
+            </div>
             <div className="mb-8 max-w-2xl">
               <Badge variant="outline" className="mb-3 border-teal-400/50 bg-teal-50/70 text-teal-700 dark:border-teal-400/40 dark:bg-teal-500/10 dark:text-teal-300">
                 <Lightbulb className="mr-1.5 h-3.5 w-3.5" />

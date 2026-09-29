@@ -50,6 +50,7 @@ const SECTIONS: Record<Subject, Section[]> = {
     { key: "startup", vi: "Startup", en: "Startup", match: /startup/ },
   ],
   interpersonal: [
+    { key: "placement", vi: "Bài đánh giá đầu vào", en: "Placement Assessment", match: /placement/ },
     { key: "finance", vi: "Tài chính", en: "Finance", match: /finance|fin-/ },
     { key: "etiquette", vi: "Giao tiếp & Ứng xử", en: "Communication & Etiquette", match: /etiquette|etq-/ },
     { key: "presence", vi: "Khí chất & Bản lĩnh", en: "Presence & Resilience", match: /presence|prs-/ },
@@ -92,6 +93,35 @@ const SubjectPerformance = ({ subject }: { subject: Subject }) => {
       let list = (data as Row[]) ?? [];
       // Older Vietnamese results were stored under "english"; keep only Vietnamese ones.
       if (subject === "vietnamese") list = list.filter((r) => (r as Row & { domain?: string }).domain === "vietnamese" || /vietnam/i.test(r.activity_type));
+      if (subject === "interpersonal") {
+        const [{ data: lessonRows }, { data: placementRows }] = await Promise.all([
+          supabase.from("lifestyle_lesson_progress").select("lesson_id, pillar, score, max_score, updated_at").eq("user_id", session.user.id),
+          supabase.from("placement_test_results").select("total_score, created_at").eq("user_id", session.user.id).eq("subject", "lifestyle"),
+        ]);
+        const directLessons: Row[] = (lessonRows ?? []).map((r) => ({
+          activity_type: "lifestyle_quiz",
+          score: r.score,
+          max_score: r.max_score,
+          time_spent_seconds: null,
+          created_at: r.updated_at,
+          metadata: { pillar: r.pillar },
+        }));
+        const directPlacements: Row[] = (placementRows ?? []).map((r) => ({
+          activity_type: "placement_test",
+          score: Number(r.total_score),
+          max_score: 100,
+          time_spent_seconds: null,
+          created_at: r.created_at,
+          metadata: { pillar: "placement" },
+        }));
+        // Dedicated tables are authoritative for quizzes and placements; keep
+        // activity_log for Public Speaking and future Interpersonal activities.
+        list = [
+          ...list.filter((r) => r.activity_type !== "lifestyle_quiz" && r.activity_type !== "placement_test"),
+          ...directLessons,
+          ...directPlacements,
+        ].sort((a, b) => a.created_at.localeCompare(b.created_at));
+      }
       setRows(list);
     })();
   }, [subject]);

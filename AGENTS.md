@@ -1,3 +1,4 @@
+- Interpersonal Skills uses `lifestyle` for placement/personalization and `interpersonal` for activity-log reporting; dedicated lesson/placement tables remain authoritative to prevent duplicate chart entries.
 - Keep curated IELTS vocabulary photos in an explicit one-word mapping, separate from shared emoji resolution.
 - Home page student results come only from the `testimonials` table (public reads published rows, staff manage all); never hardcode or auto-generate testimonial content - the section self-hides when the table is empty.
 - Keep public tuition in shared `CourseTuitionSection` so prices and the 3x one-to-one rule stay consistent.
