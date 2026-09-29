@@ -142,12 +142,12 @@ const NotificationBell = () => {
           <Bell className={`w-4 h-4 ${unread > 0 ? "text-rose-500" : ""}`} />
         </motion.span>
         {unread > 0 && (
-          <>
-            <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-[16px] px-1 rounded-full bg-rose-500 text-white text-[10px] font-bold leading-[16px] text-center shadow-sm ring-2 ring-background z-10">
+          <span className="pointer-events-none absolute top-0.5 right-0.5 translate-x-1/3 -translate-y-1/3 flex">
+            <span className="absolute inset-0 rounded-full bg-rose-500 opacity-40 animate-ping" />
+            <span className="relative min-w-[15px] h-[15px] px-[3px] rounded-full bg-rose-500 text-white text-[9px] font-bold leading-[15px] text-center ring-2 ring-background tabular-nums">
               {unread > 9 ? "9+" : unread}
             </span>
-            <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-[16px] rounded-full bg-rose-500 animate-ping opacity-60" />
-          </>
+          </span>
         )}
       </button>
 
