@@ -31,6 +31,8 @@ import { safeStorage } from "@/lib/safeStorage";
 import { maskAnswerForms, normForCompare } from "@/lib/vocab/questionQuality";
 import { recordVocabReviewTracked } from "@/lib/vocabReview";
 import { useSpeechRecognizer } from "@/hooks/useSpeechRecognizer";
+import { useEnterToNext } from "@/hooks/useEnterToNext";
+import { chineseDigitsToHanzi } from "@/lib/chineseNumerals";
 
 const STAGE_SIZE = 8;
 /** How many stages are grouped into one "Set" card on the map. */
@@ -179,6 +181,7 @@ const WordQuest = ({
   const stopVoice = stopSpeak || stopEnglishTts;
   const PROGRESS_KEY = storageKey;
   /** Finnish inflects heavily, so answer masking needs gradation stems. */
+  const isChinese = speechLang.toLowerCase().startsWith("zh");
   const gradation = speechLang.toLowerCase().startsWith("fi");
   const resolveWordEmoji = useCallback(
     (item: QuestItem) => subject === "hsk"
@@ -237,7 +240,7 @@ const WordQuest = ({
   const onFinal = useCallback((transcript: string) => {
     const target = wordRef.current;
     if (!target) return;
-    const said = norm(transcript);
+    const said = norm(isChinese ? chineseDigitsToHanzi(transcript) : transcript);
     const want = norm(target.speakText || target.word);
     let score = 0;
     if (said.includes(want) || want.includes(said)) score = 100;
@@ -248,8 +251,9 @@ const WordQuest = ({
       score = Math.round((hit / Math.max(1, chars.length)) * 100);
     }
     setSpokenScore(score);
-  }, []);
+  }, [isChinese]);
   const recognizer = useSpeechRecognizer({ speechLang, maxSeconds: 12, onFinal });
+  useEnterToNext();
   const micSupported = recognizer.supported;
 
   const resetStepState = useCallback(() => {
@@ -751,7 +755,7 @@ const WordQuest = ({
                 <Button variant="outline" onClick={() => speak(sw.speakText, true)} className="gap-2">
                   <Volume2 className="h-4 w-4" /> {t("Nghe chậm", "Slow")}
                 </Button>
-                <Button onClick={startDrill} className="gap-2">
+                <Button data-enter-next onClick={startDrill} className="gap-2">
                   {t("Tiếp tục", "Next")} <ChevronRight className="h-4 w-4" />
                 </Button>
               </div>
@@ -790,7 +794,7 @@ const WordQuest = ({
             <RotateCcw className="h-4 w-4" /> {t("Xem đáp án", "Show answer")}
           </Button>
         )}
-        <Button size="sm" onClick={() => advance()} className="gap-2">
+        <Button data-enter-next size="sm" onClick={() => advance()} className="gap-2">
           {t("Tiếp tục", "Continue")} <ChevronRight className="h-4 w-4" />
         </Button>
       </div>
@@ -971,7 +975,7 @@ const WordQuest = ({
                     <Button variant="outline" onClick={() => { setTyped(answer); setRevealed(true); }} className="gap-2">
                       <RotateCcw className="h-4 w-4" /> {t("Xem đáp án", "Show answer")}
                     </Button>
-                    <Button variant="secondary" onClick={() => advance()} className="gap-2">
+                    <Button data-enter-next variant="secondary" onClick={() => advance()} className="gap-2">
                       {t("Tiếp tục", "Continue")} <ChevronRight className="h-4 w-4" />
                     </Button>
                   </>
@@ -1021,7 +1025,7 @@ const WordQuest = ({
                   <RotateCcw className="h-4 w-4" /> {t("Xoá", "Clear")}
                 </Button>
                 {wrongCount > 0 && picked !== "ok" && (
-                  <Button variant="secondary" onClick={() => advance()} className="gap-2">
+                  <Button data-enter-next variant="secondary" onClick={() => advance()} className="gap-2">
                     {t("Tiếp tục", "Continue")} <ChevronRight className="h-4 w-4" />
                   </Button>
                 )}
@@ -1059,7 +1063,7 @@ const WordQuest = ({
                     {recognizer.isRecording ? t("Dừng ghi", "Stop") : t("Bấm để nói", "Tap to speak")}
                   </Button>
                   {recognizer.transcript && (
-                    <p className="text-sm text-muted-foreground">{t("Bạn đã nói:", "You said:")} "{recognizer.transcript}"</p>
+                    <p className="text-sm text-muted-foreground">{t("Bạn đã nói:", "You said:")} "{isChinese ? chineseDigitsToHanzi(recognizer.transcript) : recognizer.transcript}"</p>
                   )}
                   {spokenScore !== null && (
                     <p className={`text-lg font-bold ${spokenScore >= 70 ? "text-emerald-500" : "text-amber-500"}`}>
@@ -1083,6 +1087,7 @@ const WordQuest = ({
               )}
               <Button
                 variant={spokenScore !== null && spokenScore >= 70 ? "default" : "secondary"}
+                data-enter-next
                 onClick={() => { if (spokenScore !== null && spokenScore >= 70) awardStar(); completeTask(); }}
                 className="mt-1 gap-2"
               >

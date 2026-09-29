@@ -279,6 +279,26 @@ const looksVietnamese = (s: string) => {
 };
 
 // ---- Main cleaner ----
+// Auto-generated fill-in templates that produce nonsense for most words
+// (e.g. 今天天气很公共。 "Today's weather is very public."). An example built
+// from one of these frames is only kept when the word fits the frame.
+const WEATHER_OK = new Set(["好", "冷", "热", "晴", "阴", "暖和", "凉快", "不错", "干燥", "潮湿", "闷热", "舒服", "糟糕", "好极了"]);
+function isNonsenseTemplate(ch: string, example: string, en: string): boolean {
+  const e = (example || "").trim();
+  if (!e) return false;
+  const isVerb = /^to\s/i.test(en.trim());
+  if (e === `今天天气很${ch}。`) return !WEATHER_OK.has(ch);
+  if (e.startsWith("请你说说")) return true;
+  if (e === `我们一起${ch}吧。`) return !isVerb;
+  if (e === `这个${ch}很好。`) return isVerb || ch.length === 1;
+  if (e === `我有一${ch}书。`) return ch !== "本";
+  if (e === `${ch}是我的朋友。`) return !/\b(he|she|they|person|people|classmate|colleague|neighbo|brother|sister|teacher|student|man|woman|child)\b/i.test(en);
+  if (e === `${ch}下雨，我们不出去。`) return !/\b(if|because|since|when|in case)\b/i.test(en);
+  if (e === `${ch}你的帮助，谢谢。`) return !/\b(thank|grateful|appreciat)/i.test(en);
+  if (e === `他${ch}回来了。`) return isVerb;
+  return false;
+}
+
 export function cleanHskWord(w: HskWord): HskWord {
   // 1. Strip polysemy digit suffixes from character (本1 → 本)
   const character = w.character.replace(/\d+$/, "");
@@ -302,10 +322,14 @@ export function cleanHskWord(w: HskWord): HskWord {
   // 3. Pinyin cleanup: 'shú/shóu' → 'shú'
   const pinyin = (w.pinyin || "").split("/")[0].trim();
 
+  const dropExample = isNonsenseTemplate(character, w.example, enClean || w.definition?.en || "");
+
   return {
     ...w,
     character,
     pinyin,
+    example: dropExample ? "" : w.example,
+    examplePinyin: dropExample ? "" : w.examplePinyin,
     definition: {
       vi: viClean || w.definition?.vi || "",
       en: enClean || w.definition?.en || "",

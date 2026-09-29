@@ -21,6 +21,7 @@ import GameLeaderboard from "@/components/games/GameLeaderboard";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
 import { recordVocabReviewTracked } from "@/lib/vocabReview";
 import SmartReviewColumn from "@/components/SmartReviewColumn";
+import { useEnterToNext } from "@/hooks/useEnterToNext";
 import WeeklyVocabAchievers from "@/components/WeeklyVocabAchievers";
 import HskExamplePractice from "@/components/HskExamplePractice";
 import HskMnemonic from "@/components/HskMnemonic";
@@ -137,11 +138,13 @@ const HskFlashcard = ({ word }: { word: HskWord }) => {
         <div className="absolute inset-0 rounded-xl border border-border bg-card p-5 flex flex-col justify-center gap-2" style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}>
           <p className="text-sm font-semibold text-foreground">{word.definition.en}</p>
           <p className="text-sm text-primary font-medium">{word.definition.vi}</p>
+          {word.example && (
           <div className="mt-2 p-3 rounded-lg bg-secondary/50">
             <p className="text-base font-bold text-foreground">{word.example}</p>
             <p className="text-xs text-muted-foreground mt-1">{word.examplePinyin}</p>
             <HskExampleTranslation example={word.example} />
           </div>
+          )}
           <Badge variant="outline" className="w-fit mt-1 text-xs">{word.category}</Badge>
         </div>
       </motion.div>
@@ -163,6 +166,7 @@ interface QuizQuestion {
 }
 
 const HskExercise = ({ masteredWords, allWords, t }: { masteredWords: HskWord[]; allWords: HskWord[]; t: (vi: string, en: string) => string }) => {
+  useEnterToNext();
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
@@ -187,7 +191,11 @@ const HskExercise = ({ masteredWords, allWords, t }: { masteredWords: HskWord[];
 
     const qs: QuizQuestion[] = picked.map((w, i) => {
       // Rotate through modes so each quiz covers all skills
-      const mode = modes[i % modes.length];
+      let mode = modes[i % modes.length];
+      // Words without a sensible example sentence cannot be tested in context.
+      if ((mode === "fill" || mode === "example") && !(w.example && w.example.includes(w.character))) {
+        mode = mode === "fill" ? "hanzi" : "meaning";
+      }
       let correctVal = "";
       let pool: string[] = [];
 
@@ -397,7 +405,7 @@ const HskExercise = ({ masteredWords, allWords, t }: { masteredWords: HskWord[];
           </Badge>
           {/* Next lives inside the word card so learners can tap it without scrolling. */}
           {selected !== null && (
-            <Button size="sm" className="shrink-0" onClick={handleNext}>
+            <Button data-enter-next size="sm" className="shrink-0" onClick={handleNext}>
               {current + 1 >= questions.length ? t("Xem kết quả", "See Results") : t("Câu tiếp", "Next")}
               <ChevronRight className="w-4 h-4 ml-1" />
             </Button>
@@ -640,7 +648,7 @@ const HskVocabulary = () => {
     [hskVocabData, mastered]
   );
   const allWordsForQuiz = useMemo(
-    () => hskVocabData.map(w => ({ word: w.character, definition: w.definition.vi })),
+    () => hskVocabData.map(w => ({ word: w.character, definition: w.definition.en || w.definition.vi })),
     [hskVocabData]
   );
   const lookupWord = useCallback((w: string) => {
@@ -860,6 +868,7 @@ const HskVocabulary = () => {
                                     </button>
                                   </div>
                                 </div>
+                                 {w.example && (<>
                                  <div className="mt-2 p-3 rounded-lg bg-secondary/50">
                                    <div className="flex items-start justify-between gap-2">
                                      <p className="text-lg font-bold text-foreground leading-snug">{w.example}</p>
@@ -871,6 +880,7 @@ const HskVocabulary = () => {
                                   <HskExampleTranslation example={w.example} />
                                 </div>
                                 <HskExamplePractice example={w.example} examplePinyin={w.examplePinyin} />
+                                 </>)}
                                 <HskMnemonic character={w.character} pinyin={w.pinyin} meaning={w.definition.vi} />
                               </div>
                             </div>
@@ -902,6 +912,7 @@ const HskVocabulary = () => {
               lang="zh-CN"
               lookupWord={lookupWord}
               allWordsForQuiz={allWordsForQuiz}
+              quizLanguage="en"
             />
             <WeeklyVocabAchievers subject="hsk" threshold={20} />
           </div>
@@ -913,6 +924,7 @@ const HskVocabulary = () => {
               lang="zh-CN"
               lookupWord={lookupWord}
               allWordsForQuiz={allWordsForQuiz}
+              quizLanguage="en"
             />
             <WeeklyVocabAchievers subject="hsk" threshold={20} />
           </div>

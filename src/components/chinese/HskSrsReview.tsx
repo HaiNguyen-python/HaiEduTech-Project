@@ -180,11 +180,11 @@ export default function HskSrsReview({ allWords, maxNewPerSession = 8, sessionSi
                     <p className="text-base text-foreground font-semibold mt-1">{current.definition.vi}</p>
                     <p className="text-sm text-muted-foreground">{current.definition.en}</p>
                   </div>
-                  <div className="rounded-lg bg-secondary/40 p-3">
+                  {current.example && <div className="rounded-lg bg-secondary/40 p-3">
                     <p className="text-base font-bold">{current.example}</p>
                     <p className="text-xs text-muted-foreground mt-0.5">{current.examplePinyin}</p>
                     <HskExampleTranslation example={current.example} />
-                  </div>
+                  </div>}
 
                   {/* Rating buttons */}
                   <div className="grid grid-cols-4 gap-2 pt-2">

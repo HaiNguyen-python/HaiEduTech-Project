@@ -43,6 +43,8 @@ interface SmartReviewColumnProps {
   lang?: string; // BCP-47 for SpeechSynthesis (e.g. "en-US", "zh-CN")
   lookupWord: (word: string) => ReviewWordDetails | null;
   allWordsForQuiz?: QuizCandidate[];
+  /** Language of the quick-challenge answers and labels. Defaults to Vietnamese. */
+  quizLanguage?: "en" | "vi";
   className?: string;
 }
 
@@ -184,7 +186,9 @@ const MicroQuiz = ({
   lookupWord,
   lang,
   onCorrect,
+  quizLanguage = "vi",
 }: {
+  quizLanguage?: "en" | "vi";
   queueWords: string[];
   allWords: QuizCandidate[];
   lookupWord: (w: string) => ReviewWordDetails | null;
@@ -207,15 +211,19 @@ const MicroQuiz = ({
       .map(word => {
         const correct = lookupWord(word);
         if (!correct) return null;
+        const answer = quizLanguage === "en" ? (correct.definitionEn || correct.definitionVi) : correct.definitionVi;
+        if (!answer) return null;
+        const seen = new Set([answer.toLowerCase()]);
         const distractors = allWords
-          .filter(c => c.word !== word && c.definition && c.definition !== correct.definitionVi)
+          .filter(c => c.word !== word && c.definition)
           .sort(() => Math.random() - 0.5)
+          .filter(c => { const k = c.definition.toLowerCase(); if (seen.has(k)) return false; seen.add(k); return true; })
           .slice(0, 3)
           .map(c => c.definition);
-        const options = [correct.definitionVi, ...distractors].sort(() => Math.random() - 0.5);
+        const options = [answer, ...distractors].sort(() => Math.random() - 0.5);
         return {
           word,
-          correctIndex: options.indexOf(correct.definitionVi),
+          correctIndex: options.indexOf(answer),
           options,
         };
       })
@@ -223,7 +231,7 @@ const MicroQuiz = ({
     setQuestions(built);
     setRound(0);
     setPicked(null);
-  }, [queueWords, allWords, lookupWord]);
+  }, [queueWords, allWords, lookupWord, quizLanguage]);
 
   // Initial build & rebuild only when the queue identity meaningfully changes
   // AND we are not mid-quiz. This prevents per-keystroke / per-answer rebuilds.
@@ -237,9 +245,9 @@ const MicroQuiz = ({
   if (!q) {
     return (
       <div className="rounded-xl border border-emerald-200 dark:border-emerald-900/50 bg-emerald-50 dark:bg-emerald-950/30 p-3 text-center">
-        <p className="text-sm font-semibold text-emerald-700 dark:text-emerald-300">🎉 Hoàn thành {questions.length} câu!</p>
+        <p className="text-sm font-semibold text-emerald-700 dark:text-emerald-300">🎉 {quizLanguage === "en" ? `Completed ${questions.length} questions!` : `Hoàn thành ${questions.length} câu!`}</p>
         <Button size="sm" variant="ghost" className="mt-1 h-7 text-xs" onClick={buildQuestions}>
-          <RefreshCcw className="w-3 h-3 mr-1" /> Thử lại với 10 câu mới
+          <RefreshCcw className="w-3 h-3 mr-1" /> {quizLanguage === "en" ? "Try 10 new questions" : "Thử lại với 10 câu mới"}
         </Button>
       </div>
     );
@@ -263,9 +271,9 @@ const MicroQuiz = ({
     <div className="relative rounded-xl border border-primary/20 bg-card p-3 shadow-sm overflow-hidden">
       <div className="flex items-center justify-between mb-2">
         <span className="text-[11px] font-bold uppercase tracking-wide text-primary flex items-center gap-1">
-          <Sparkles className="w-3 h-3" /> Thử thách nhanh
+          <Sparkles className="w-3 h-3" /> {quizLanguage === "en" ? "Quick challenge" : "Thử thách nhanh"}
         </span>
-        <span className="text-[10px] text-muted-foreground">Câu {round + 1}/{questions.length}</span>
+        <span className="text-[10px] text-muted-foreground">{quizLanguage === "en" ? "Question" : "Câu"} {round + 1}/{questions.length}</span>
       </div>
       <div className="flex items-center gap-2 mb-2">
         <div className="text-base font-bold text-foreground">{q.word}</div>
@@ -311,7 +319,8 @@ const ReviewBody = ({
   lang,
   lookupWord,
   allWordsForQuiz,
-}: Required<Omit<SmartReviewColumnProps, "className" | "allWordsForQuiz">> & { allWordsForQuiz: QuizCandidate[] }) => {
+  quizLanguage = "vi",
+}: Required<Omit<SmartReviewColumnProps, "className" | "allWordsForQuiz" | "quizLanguage">> & { allWordsForQuiz: QuizCandidate[]; quizLanguage?: "en" | "vi" }) => {
   const { queue, loading, markReviewed } = useReviewQueue(subject);
 
   return (
@@ -368,6 +377,7 @@ const ReviewBody = ({
             <MicroQuiz
               queueWords={queue.map(q => q.word)}
               allWords={allWordsForQuiz}
+              quizLanguage={quizLanguage}
               lookupWord={lookupWord}
               lang={lang}
               onCorrect={(word) => markReviewed(word)}
@@ -384,6 +394,7 @@ const SmartReviewColumn = ({
   lang = "en-US",
   lookupWord,
   allWordsForQuiz = [],
+  quizLanguage,
   className,
 }: SmartReviewColumnProps) => {
   // Inline placement: render directly inside the page layout (e.g. right
@@ -395,6 +406,7 @@ const SmartReviewColumn = ({
         lang={lang}
         lookupWord={lookupWord}
         allWordsForQuiz={allWordsForQuiz}
+        quizLanguage={quizLanguage}
       />
     </div>
   );

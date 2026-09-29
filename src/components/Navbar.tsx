@@ -310,6 +310,7 @@ const Navbar = () => {
   const chineseSubs: SubItem[] = [
     { to: "/chinese", label: t("Khóa học & Lộ trình", "Courses & Roadmap"), icon: Route },
     { to: "/placement-test?subject=chinese", label: t("Placement Test & Personalization", "Placement Test & Personalization"), icon: ClipboardCheck },
+    { to: "/chinese/performance", label: t("Your Performance", "Your Performance"), icon: Activity },
     { to: "#cn-hsk-group", label: t("Lộ trình HSK", "HSK Program"), icon: GraduationCap, groupLabel: "cn-hsk", children: [
       { to: "/chinese/hsk-guide", label: t("HSK Exam Guide", "HSK Exam Guide"), icon: Map },
       { to: "/chinese/hsk-grammar", label: t("HSK Grammar", "HSK Grammar"), icon: Ruler },
@@ -360,6 +361,7 @@ const Navbar = () => {
   const programmingSubs: SubItem[] = [
     { to: "/programming", label: t("Khóa học & Lộ trình", "Courses & Roadmap"), icon: Route },
     { to: "/placement-test?subject=programming", label: t("Placement Test & Personalization", "Placement Test & Personalization"), icon: ClipboardCheck },
+    { to: "/programming/performance", label: t("Your Performance", "Your Performance"), icon: Activity },
     { to: "#prog-foundation-group", label: t("Lộ trình Cơ bản", "Foundation Track"), icon: Blocks, groupLabel: "prog-foundation", children: [
       { to: "/programming?pillar=python-pathway", label: t("Introduction to Programming", "Introduction to Programming"), icon: Code2 },
       { to: "/python-challenges", label: t("150 Thử thách Python", "150 Python Challenges"), icon: Trophy },
