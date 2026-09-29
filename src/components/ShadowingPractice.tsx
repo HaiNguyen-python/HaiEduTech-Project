@@ -195,6 +195,9 @@ const ShadowingPractice: React.FC<Props> = () => {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const startedAtRef = useRef<number>(0);
   const [visualLevel, setVisualLevel] = useState(0);
+  const [showIpa, setShowIpa] = useState(true);
+  const ipaWords = current ? Array.from(new Set(tokenize(current.sentence))) : [];
+  const ipaMap = useEnglishIpa(ipaWords, showIpa);
 
   // Pre-load voices (Chrome quirk)
   useEffect(() => {
@@ -494,6 +497,13 @@ const ShadowingPractice: React.FC<Props> = () => {
           return <span key={i}>{inner}</span>;
         })}
       </p>
+      <div className="flex flex-wrap gap-x-4 gap-y-1 mt-4 text-xs text-muted-foreground">
+        <span className="flex items-center gap-1"><ArrowUp className="w-3.5 h-3.5 text-emerald-500" />{t("Lên giọng", "Rising")}</span>
+        <span className="flex items-center gap-1"><ArrowDown className="w-3.5 h-3.5 text-blue-500" />{t("Xuống giọng", "Falling")}</span>
+        <span><strong className="text-primary">{t("Đậm", "Bold")}</strong> = {t("từ nhấn trọng âm", "stressed word")}</span>
+        <span>ˈ = {t("âm tiết nhấn chính", "main stress syllable")}</span>
+      </div>
+      </div>
     );
   };
 
