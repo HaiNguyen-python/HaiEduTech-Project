@@ -490,27 +490,36 @@ const ShadowingPractice: React.FC<Props> = () => {
           return <span key={i}>{inner}</span>;
         })}
       </p>
-      {showIpa && (
-        <div className="mt-3 pt-3 border-t border-border/60">
-          <p className="text-xs md:text-sm leading-loose text-muted-foreground tracking-wide flex flex-wrap gap-x-2 gap-y-1 items-baseline">
-            {tokens.map((tok, i) => {
-              if (/^\s+$/.test(tok)) return null;
-              const key = norm(tok);
-              const ipa = ipaMap[key];
-              if (!ipa) return null;
-              const stressed = stressSet.has(key);
-              return (
-                <span
-                  key={i}
-                  className={stressed ? "font-semibold text-primary" : undefined}
-                >
-                  /{ipa}/
-                </span>
-              );
-            })}
-          </p>
-        </div>
-      )}
+      {showIpa && (() => {
+        const punctOf = (tok: string) => (tok.match(/[.,!?;:]$/) || [""])[0];
+        return (
+          <div className="mt-3 pt-3 border-t border-border/60">
+            <p className="text-sm md:text-base leading-relaxed text-muted-foreground tracking-wide">
+              /
+              {tokens.map((tok, i) => {
+                if (/^\s+$/.test(tok)) return " ";
+                const key = norm(tok);
+                const ipa = ipaMap[key];
+                const punct = punctOf(tok);
+                if (!ipa) {
+                  return punct ? <span key={i}>{punct}</span> : null;
+                }
+                const stressed = stressSet.has(key);
+                const bare = ipa.replace(/^\/+|\/+$/g, "");
+                return (
+                  <span
+                    key={i}
+                    className={stressed ? "font-semibold text-primary" : undefined}
+                  >
+                    {bare}{punct}
+                  </span>
+                );
+              })}
+              /
+            </p>
+          </div>
+        );
+      })()}
       <div className="flex flex-wrap gap-x-4 gap-y-1 mt-4 text-xs text-muted-foreground">
         <span className="flex items-center gap-1"><ArrowUp className="w-3.5 h-3.5 text-emerald-500" />{t("Lên giọng", "Rising")}</span>
         <span className="flex items-center gap-1"><ArrowDown className="w-3.5 h-3.5 text-blue-500" />{t("Xuống giọng", "Falling")}</span>
