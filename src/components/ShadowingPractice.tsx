@@ -227,7 +227,6 @@ const ShadowingPractice: React.FC<Props> = () => {
     setInterim("");
     setDuration(0);
     setScore(null);
-    setShowVi(false);
     setListenCount(0);
     stopRecording();
     window.speechSynthesis?.cancel();
