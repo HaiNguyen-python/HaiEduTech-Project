@@ -10,12 +10,15 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import {
   BLOCK_LABEL, type ArticleBody, type ContentDraft, type LessonBody, type ResourceBody,
 } from "@/lib/contentStudio";
+import { InteractivePractice, InteractiveQuiz, SpeakButton } from "./InteractiveLessonParts";
 
 interface Props {
   draft: ContentDraft;
+  /** Learner mode: interactive practice/quiz, hidden answers. */
+  interactive?: boolean;
 }
 
-export default function ContentPreview({ draft }: Props) {
+export default function ContentPreview({ draft, interactive = false }: Props) {
   const { t, lang } = useLanguage();
   const title = (lang === "en" && draft.title_en) || draft.title;
 
@@ -70,7 +73,8 @@ export default function ContentPreview({ draft }: Props) {
                 <ul className="space-y-1.5">
                   {block.vocabulary.filter((v) => v.term).map((v, i) => (
                     <li key={i}>
-                      <strong>{v.term}</strong> - {v.meaning}
+                      <strong>{v.term}</strong>
+                      <SpeakButton text={v.term} subject={draft.subject} /> - {v.meaning}
                       {v.example && <em className="block text-sm text-muted-foreground">{v.example}</em>}
                     </li>
                   ))}
@@ -80,7 +84,7 @@ export default function ContentPreview({ draft }: Props) {
                 <div className="space-y-2">
                   {block.dialogue.filter((d) => d.line).map((d, i) => (
                     <div key={i}>
-                      <p><strong>{d.speaker}:</strong> {d.line}</p>
+                      <p><strong>{d.speaker}:</strong> {d.line} <SpeakButton text={d.line} subject={draft.subject} /></p>
                       {d.translation && (
                         <p className="text-sm text-muted-foreground">{d.translation}</p>
                       )}
@@ -88,7 +92,21 @@ export default function ContentPreview({ draft }: Props) {
                   ))}
                 </div>
               )}
-              {block.quiz && block.quiz.length > 0 && (
+              {block.practice && block.practice.length > 0 && (
+                interactive ? (
+                  <InteractivePractice items={block.practice.filter((p) => p.prompt)} />
+                ) : (
+                  <ol className="space-y-1 pl-4">
+                    {block.practice.filter((p) => p.prompt).map((p, i) => (
+                      <li key={i}>{i + 1}. {p.prompt} <span className="font-semibold text-primary">({p.answer})</span></li>
+                    ))}
+                  </ol>
+                )
+              )}
+              {interactive && block.quiz && block.quiz.length > 0 && (
+                <InteractiveQuiz questions={block.quiz.filter((q) => q.question)} lessonId={draft.id} subject={draft.subject} />
+              )}
+              {!interactive && block.quiz && block.quiz.length > 0 && (
                 <ol className="space-y-3">
                   {block.quiz.filter((q) => q.question).map((q, i) => (
                     <li key={i} className="space-y-1">
