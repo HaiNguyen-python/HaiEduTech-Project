@@ -33,6 +33,38 @@ const escapeInStrings = (text: string) => {
   return out;
 };
 
+// Fix mismatched/extra/missing closing brackets (models often miscount "}]}}").
+const balanceBrackets = (text: string) => {
+  const stack: string[] = [];
+  let out = "", inStr = false, esc = false;
+  for (const ch of text) {
+    if (inStr) {
+      out += ch;
+      if (esc) esc = false;
+      else if (ch === "\\") esc = true;
+      else if (ch === '"') inStr = false;
+      continue;
+    }
+    if (ch === '"') { inStr = true; out += ch; continue; }
+    if (ch === "{" || ch === "[") { stack.push(ch === "{" ? "}" : "]"); out += ch; continue; }
+    if (ch === "}" || ch === "]") {
+      if (stack[stack.length - 1] === ch) { stack.pop(); out += ch; continue; }
+      const deeper = stack.lastIndexOf(ch);
+      if (deeper >= 0) {
+        while (stack.length > deeper + 1) out += stack.pop();
+        stack.pop();
+        out += ch;
+      }
+      // else: stray closer, drop it
+      continue;
+    }
+    out += ch;
+  }
+  if (inStr) out += '"';
+  while (stack.length) out += stack.pop();
+  return out;
+};
+
 const repairJson = (raw: string): any => {
   let text = raw.trim();
   text = text.replace(/<think>[\s\S]*?<\/think>/gi, "");
@@ -41,8 +73,12 @@ const repairJson = (raw: string): any => {
   const end = text.lastIndexOf("}");
   if (start >= 0 && end > start) text = text.slice(start, end + 1);
   text = text.replace(/[\u201C\u201D]/g, '\\"');
-  text = escapeInStrings(text).replace(/,\s*([}\]])/g, "$1");
-  return JSON.parse(text);
+  text = escapeInStrings(text);
+  try {
+    return JSON.parse(text.replace(/,\s*([}\]])/g, "$1"));
+  } catch {
+    return JSON.parse(balanceBrackets(text).replace(/,\s*([}\]])/g, "$1"));
+  }
 };
 
 Deno.serve(async (req) => {
