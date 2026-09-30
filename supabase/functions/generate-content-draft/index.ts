@@ -13,13 +13,35 @@ const json = (body: unknown, status = 200) =>
     headers: { ...corsHeaders, "Content-Type": "application/json" },
   });
 
+// Escape raw control characters that models put inside JSON strings.
+const escapeInStrings = (text: string) => {
+  let out = "", inStr = false, esc = false;
+  for (const ch of text) {
+    if (inStr) {
+      if (esc) { out += ch; esc = false; continue; }
+      if (ch === "\\") { out += ch; esc = true; continue; }
+      if (ch === '"') { inStr = false; out += ch; continue; }
+      if (ch === "\n") { out += "\\n"; continue; }
+      if (ch === "\r") continue;
+      if (ch === "\t") { out += "\\t"; continue; }
+      out += ch;
+    } else {
+      if (ch === '"') inStr = true;
+      out += ch;
+    }
+  }
+  return out;
+};
+
 const repairJson = (raw: string): any => {
   let text = raw.trim();
-  text = text.replace(/^```(?:json)?/i, "").replace(/```$/, "").trim();
+  text = text.replace(/<think>[\s\S]*?<\/think>/gi, "");
+  text = text.replace(/^```(?:json)?/i, "").replace(/```\s*$/, "").trim();
   const start = text.indexOf("{");
   const end = text.lastIndexOf("}");
   if (start >= 0 && end > start) text = text.slice(start, end + 1);
-  text = text.replace(/,\s*([}\]])/g, "$1");
+  text = text.replace(/[\u201C\u201D]/g, '\\"');
+  text = escapeInStrings(text).replace(/,\s*([}\]])/g, "$1");
   return JSON.parse(text);
 };
 
@@ -71,37 +93,36 @@ Content must be specific, practical and accurate. Do not use em-dash characters;
 Return ONLY minified JSON with exactly this shape, no markdown fences, no commentary:
 ${shape}`;
 
-    const res = await fetch("https://api.perplexity.ai/chat/completions", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${PERPLEXITY_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model: "sonar-pro",
-        messages: [
-          { role: "system", content: "You are an expert bilingual curriculum writer. You always answer with valid JSON only." },
-          { role: "user", content: prompt },
-        ],
-        temperature: 0.4,
-        max_tokens: 9000,
-      }),
-    });
-
-    if (!res.ok) {
-      const detail = await res.text();
-      console.error("perplexity error", res.status, detail.slice(0, 400));
-      return json({ error: "ai_failed", status: res.status }, 502);
+    let draft: any = null;
+    for (let attempt = 0; attempt < 2 && !draft; attempt++) {
+      const res = await fetch("https://api.perplexity.ai/chat/completions", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${PERPLEXITY_KEY}`, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "sonar-pro",
+          messages: [
+            { role: "system", content: "You are an expert bilingual curriculum writer. Answer with one valid JSON object only. Never put raw line breaks inside strings; use \\n. Never use double quotes inside string values; use single quotes." },
+            { role: "user", content: attempt === 0 ? prompt : prompt + "\nKeep every text field concise so the whole JSON stays complete and valid." },
+          ],
+          temperature: 0.3,
+          max_tokens: 9000,
+        }),
+      });
+      if (!res.ok) {
+        const detail = await res.text();
+        console.error("perplexity error", res.status, detail.slice(0, 400));
+        if (res.status === 429 || res.status >= 500) continue;
+        return json({ error: "ai_failed", status: res.status }, 502);
+      }
+      const payload = await res.json();
+      const raw = payload?.choices?.[0]?.message?.content ?? "";
+      try {
+        draft = repairJson(raw);
+      } catch (e) {
+        console.error("invalid json attempt", attempt, String(e), raw.slice(-300));
+      }
     }
-
-    const payload = await res.json();
-    const raw = payload?.choices?.[0]?.message?.content ?? "";
-    let draft: any;
-    try {
-      draft = repairJson(raw);
-    } catch (_e) {
-      return json({ error: "invalid_ai_json" }, 502);
-    }
+    if (!draft) return json({ error: "invalid_ai_json" }, 502);
 
     // Replace em-dashes everywhere (project rule).
     const clean = (v: any): any =>
