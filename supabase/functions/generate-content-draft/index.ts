@@ -48,15 +48,17 @@ Deno.serve(async (req) => {
     const subject = String(body?.subject ?? "English").slice(0, 60);
     const level = String(body?.level ?? "All levels").slice(0, 40);
     if (!topic) return json({ error: "missing_topic" }, 400);
+    const quizCount = Number(body?.quizCount) === 10 ? 10 : 5;
+    const includePractice = body?.includePractice !== false;
 
     const shape =
       kind === "article"
         ? `{"title":"Vietnamese title","title_en":"English title","summary":"2-3 sentence Vietnamese summary","summary_en":"English summary","tags":["tag1","tag2","tag3"],"body":{"html":"<h2>...</h2><p>...</p> full Vietnamese article, 700-1000 words, semantic HTML only (h2,h3,p,ul,li,ol,strong,em,blockquote)","html_en":"same article in English"}}`
-        : `{"title":"Vietnamese lesson title","title_en":"English lesson title","summary":"Vietnamese summary","summary_en":"English summary","tags":["tag1","tag2"],"body":{"blocks":[{"id":"b1","type":"objective","heading":"Mục tiêu","heading_en":"Objectives","text":"Vietnamese text","text_en":"English text"},{"id":"b2","type":"vocabulary","heading":"Từ vựng","heading_en":"Vocabulary","vocabulary":[{"term":"","meaning":"","example":""}]},{"id":"b3","type":"dialogue","heading":"Hội thoại","heading_en":"Dialogue","dialogue":[{"speaker":"A","line":"","translation":""}]},{"id":"b4","type":"explanation","heading":"Giải thích","heading_en":"Explanation","text":"","text_en":""},{"id":"b5","type":"practice","heading":"Bài tập","heading_en":"Practice","text":"","text_en":""},{"id":"b6","type":"quiz","heading":"Quiz","heading_en":"Quiz","quiz":[{"question":"","options":["","","",""],"correctIndex":0,"explanation":""}]}]}}`;
+        : `{"title":"Vietnamese lesson title","title_en":"English lesson title","summary":"Vietnamese summary","summary_en":"English summary","tags":["tag1","tag2"],"body":{"blocks":[{"id":"b1","type":"objective","heading":"Mục tiêu","heading_en":"Objectives","text":"Vietnamese text","text_en":"English text"},{"id":"b2","type":"vocabulary","heading":"Từ vựng","heading_en":"Vocabulary","vocabulary":[{"term":"","meaning":"","example":""}]},{"id":"b3","type":"dialogue","heading":"Hội thoại","heading_en":"Dialogue","dialogue":[{"speaker":"A","line":"","translation":""}]},{"id":"b4","type":"explanation","heading":"Lý thuyết","heading_en":"Theory","text":"Vietnamese theory","text_en":"English theory"},{"id":"b5","type":"practice","heading":"Bài tập","heading_en":"Practice","text":"short Vietnamese instructions","text_en":"English instructions","practice":[{"prompt":"sentence with ___ blank","answer":"exact answer","accepted":["alternative"],"hint":"Vietnamese hint"}]},{"id":"b6","type":"quiz","heading":"Quiz","heading_en":"Quiz","quiz":[{"question":"","options":["","","",""],"correctIndex":0,"explanation":"Vietnamese + English explanation of why correct and why others are wrong"}]}]}}`;
 
     const rules =
       kind === "lesson"
-        ? "The lesson must include exactly these six blocks in order: objective, vocabulary (at least 10 entries), dialogue (at least 8 lines), explanation, practice, quiz (at least 5 questions, each with exactly 4 options). Every quiz correctIndex must be 0-3 and point to the correct option."
+        ? `The lesson must include these blocks in order: objective (3-4 measurable goals), vocabulary (10-12 entries; term, meaning in Vietnamese with IPA or pinyin in brackets when relevant, a realistic example sentence), dialogue (at least 8 lines with Vietnamese translation), explanation (deep theory: rules, formulas, common mistakes with corrections, and a section starting with "Mẹo vàng của thầy Hải:"), ${includePractice ? 'practice (6-8 fill-in-the-blank or rewrite items; each prompt contains ___ and has one exact short answer plus accepted alternatives),' : 'practice (short text only, practice array empty),'} quiz (exactly ${quizCount} questions, each with exactly 4 plausible options, varied correctIndex values 0-3, and a bilingual explanation). Use plain text with line breaks in text fields, no HTML.`
         : "Write a well-structured article with an introduction, 3-5 sections with h2 headings, concrete examples, and a short conclusion. Use only semantic HTML tags, never inline styles or scripts.";
 
     const prompt = `Create a bilingual (Vietnamese + English) teaching ${kind} for HaiEduTech.
@@ -82,7 +84,7 @@ ${shape}`;
           { role: "user", content: prompt },
         ],
         temperature: 0.4,
-        max_tokens: 6000,
+        max_tokens: 9000,
       }),
     });
 
@@ -100,6 +102,14 @@ ${shape}`;
     } catch (_e) {
       return json({ error: "invalid_ai_json" }, 502);
     }
+
+    // Replace em-dashes everywhere (project rule).
+    const clean = (v: any): any =>
+      typeof v === "string" ? v.replace(/\u2014/g, "-")
+      : Array.isArray(v) ? v.map(clean)
+      : v && typeof v === "object" ? Object.fromEntries(Object.entries(v).map(([k, x]) => [k, clean(x)]))
+      : v;
+    draft = clean(draft);
 
     // Structural validation.
     if (!draft?.title || !draft?.body) return json({ error: "invalid_ai_shape" }, 502);
@@ -124,6 +134,16 @@ ${shape}`;
                 options: [0, 1, 2, 3].map((oi) => String(q.options[oi] ?? "")),
                 correctIndex: Math.min(3, Math.max(0, Number(q.correctIndex) || 0)),
                 explanation: q.explanation ? String(q.explanation) : "",
+              }))
+          : undefined,
+        practice: Array.isArray(b?.practice)
+          ? b.practice
+              .filter((p: any) => p?.prompt && p?.answer)
+              .map((p: any) => ({
+                prompt: String(p.prompt),
+                answer: String(p.answer),
+                accepted: Array.isArray(p.accepted) ? p.accepted.map(String).slice(0, 5) : [],
+                hint: p.hint ? String(p.hint) : "",
               }))
           : undefined,
       }));
