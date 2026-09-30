@@ -127,6 +127,46 @@ export default function LessonBuilder({ draft, onChange }: Props) {
               </div>
             )}
 
+            {block.type === "practice" && (
+              <div className="space-y-2">
+                <Label>{t("Bài tập tương tác (học sinh gõ đáp án)", "Interactive items (learner types the answer)")}</Label>
+                {(block.practice ?? []).map((p, pi) => (
+                  <div key={pi} className="grid gap-2 md:grid-cols-[2fr_1fr_1fr_auto]">
+                    <Input placeholder={t("Đề (dùng ___ cho chỗ trống)", "Prompt (use ___ for the blank)")} value={p.prompt}
+                      onChange={(e) => {
+                        const next = [...(block.practice ?? [])];
+                        next[pi] = { ...p, prompt: e.target.value };
+                        patchBlock(block.id, { practice: next });
+                      }} />
+                    <Input placeholder={t("Đáp án", "Answer")} value={p.answer}
+                      onChange={(e) => {
+                        const next = [...(block.practice ?? [])];
+                        next[pi] = { ...p, answer: e.target.value };
+                        patchBlock(block.id, { practice: next });
+                      }} />
+                    <Input placeholder={t("Gợi ý", "Hint")} value={p.hint ?? ""}
+                      onChange={(e) => {
+                        const next = [...(block.practice ?? [])];
+                        next[pi] = { ...p, hint: e.target.value };
+                        patchBlock(block.id, { practice: next });
+                      }} />
+                    <Button type="button" size="icon" variant="ghost" aria-label={t("Xoá bài tập", "Remove item")}
+                      onClick={() => patchBlock(block.id, {
+                        practice: (block.practice ?? []).filter((_, i) => i !== pi),
+                      })}>
+                      <Trash2 className="h-4 w-4 text-destructive" />
+                    </Button>
+                  </div>
+                ))}
+                <Button type="button" size="sm" variant="outline"
+                  onClick={() => patchBlock(block.id, {
+                    practice: [...(block.practice ?? []), { prompt: "", answer: "", hint: "" }],
+                  })}>
+                  <Plus className="mr-1 h-3.5 w-3.5" />{t("Thêm bài tập", "Add item")}
+                </Button>
+              </div>
+            )}
+
             {block.type === "vocabulary" && (
               <div className="space-y-2">
                 {(block.vocabulary ?? []).map((v, vi) => (
@@ -137,7 +177,7 @@ export default function LessonBuilder({ draft, onChange }: Props) {
                         next[vi] = { ...v, term: e.target.value };
                         patchBlock(block.id, { vocabulary: next });
                       }} />
-                    <Input placeholder={t("Nghĩa", "Meaning")} value={v.meaning}
+                    <Input placeholder={t("Nghĩa (IPA trong ngoặc nếu có)", "Meaning")} value={v.meaning}
                       onChange={(e) => {
                         const next = [...(block.vocabulary ?? [])];
                         next[vi] = { ...v, meaning: e.target.value };
