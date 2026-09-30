@@ -96,7 +96,7 @@ export default function InsightPost() {
           </div>
         ) : (
           <div className="space-y-6">
-            <ContentPreview draft={item} />
+            <ContentPreview draft={item} interactive />
             {item.kind === "resource" && (item.body as ResourceBody)?.path && (
               <Button onClick={download}>
                 <FileDown className="mr-2 h-4 w-4" />

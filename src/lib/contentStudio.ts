@@ -35,6 +35,16 @@ export interface VocabEntry {
   term: string;
   meaning: string;
   example?: string;
+  ipa?: string;
+}
+
+/** Interactive practice item: learner types the answer, auto-checked. */
+export interface PracticeItem {
+  prompt: string;
+  answer: string;
+  /** Extra accepted answers (case-insensitive). */
+  accepted?: string[];
+  hint?: string;
 }
 
 export interface DialogueLine {
@@ -54,6 +64,7 @@ export interface LessonBlock {
   vocabulary?: VocabEntry[];
   dialogue?: DialogueLine[];
   quiz?: QuizQuestion[];
+  practice?: PracticeItem[];
 }
 
 export interface ArticleBody {
