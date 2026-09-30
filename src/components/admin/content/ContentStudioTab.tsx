@@ -39,6 +39,22 @@ const KIND_ICON: Record<ContentKind, typeof FileText> = {
   resource: FileDown,
 };
 
+const AI_STEPS = [
+  { vi: "Đang soạn lý thuyết...", en: "Writing the theory..." },
+  { vi: "Đang chọn từ vựng và hội thoại...", en: "Choosing vocabulary and dialogue..." },
+  { vi: "Đang tạo bài tập...", en: "Creating practice items..." },
+  { vi: "Đang biên soạn câu hỏi quiz...", en: "Writing quiz questions..." },
+  { vi: "Đang hoàn thiện bài giảng...", en: "Finishing the lesson..." },
+];
+
+const AI_SUGGESTIONS: Record<string, string[]> = {
+  IELTS: ["IELTS Speaking Part 2: describe a place", "Writing Task 2 introduction", "Linking words for Task 1"],
+  English: ["Second conditional for beginners", "Present perfect vs past simple", "Small talk at work"],
+  Chinese: ["Measure words 个 本 张", "把 sentence structure", "Ordering food in Chinese"],
+  Programming: ["Python loops for beginners", "SQL JOIN basics", "Functions and parameters in Python"],
+  default: ["Second conditional for beginners", "Python loops for beginners", "Ordering food in Chinese"],
+};
+
 export default function ContentStudioTab() {
   const { t, lang } = useLanguage();
   const [rows, setRows] = useState<ContentItem[]>([]);
@@ -52,6 +68,10 @@ export default function ContentStudioTab() {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [aiTopic, setAiTopic] = useState("");
   const [aiBusy, setAiBusy] = useState(false);
+  const [aiQuizCount, setAiQuizCount] = useState<5 | 10>(5);
+  const [aiPractice, setAiPractice] = useState(true);
+  const [aiFullLesson, setAiFullLesson] = useState(true);
+  const [aiStep, setAiStep] = useState(0);
 
   const kindName = (kind: ContentKind) => (lang === "vi" ? KIND_LABEL[kind].vi : KIND_LABEL[kind].en);
 
@@ -206,10 +226,15 @@ export default function ContentStudioTab() {
       return;
     }
     setAiBusy(true);
+    setAiStep(0);
+    const timer = window.setInterval(() => setAiStep((n) => Math.min(n + 1, AI_STEPS.length - 1)), 4500);
+    const kind = draft.kind === "article" && aiFullLesson ? "lesson" : draft.kind;
     try {
       const { data, error } = await supabase.functions.invoke("generate-content-draft", {
         body: {
-          kind: draft.kind,
+          kind,
+          quizCount: aiQuizCount,
+          includePractice: aiPractice,
           topic: aiTopic.trim(),
           subject: draft.subject || "English",
           level: draft.level || "All levels",
@@ -219,6 +244,7 @@ export default function ContentStudioTab() {
       if (!data?.draft) throw new Error(data?.error || "empty draft");
       const d = data.draft;
       patch({
+        kind,
         title: draft.title || d.title || "",
         title_en: draft.title_en || d.title_en || "",
         summary: d.summary ?? draft.summary,
@@ -230,6 +256,7 @@ export default function ContentStudioTab() {
     } catch (e: any) {
       toast.error(e?.message || t("AI soạn nháp thất bại", "AI draft failed"));
     } finally {
+      window.clearInterval(timer);
       setAiBusy(false);
     }
   };
@@ -335,16 +362,52 @@ export default function ContentStudioTab() {
                 {t("Soạn nháp bằng AI", "AI draft")}
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-2">
-              <Textarea rows={2} value={aiTopic} onChange={(e) => setAiTopic(e.target.value)}
+            <CardContent className="space-y-3">
+              <Textarea rows={3} value={aiTopic} onChange={(e) => setAiTopic(e.target.value)}
                 placeholder={t(
-                  "Ví dụ: Cách viết mở bài IELTS Writing Task 2",
-                  "Example: How to write an IELTS Writing Task 2 introduction",
+                  "Nhập chủ đề bài học, ví dụ: Câu điều kiện loại 2 cho người mất gốc",
+                  "Enter the lesson topic, e.g. Second conditional for beginners",
                 )} />
-              <Button type="button" size="sm" variant="outline" disabled={aiBusy} onClick={generateDraft}>
+              <div className="flex flex-wrap gap-1.5">
+                {(AI_SUGGESTIONS[draft.subject ?? ""] ?? AI_SUGGESTIONS.default).map((s) => (
+                  <button key={s} type="button" onClick={() => setAiTopic(s)}
+                    className="rounded-full border border-border px-2.5 py-1 text-xs text-muted-foreground hover:border-primary hover:text-foreground">
+                    {s}
+                  </button>
+                ))}
+              </div>
+              <div className="flex flex-wrap items-center gap-4 text-sm">
+                {draft.kind === "article" && (
+                  <label className="flex items-center gap-2">
+                    <input type="checkbox" checked={aiFullLesson} onChange={(e) => setAiFullLesson(e.target.checked)} />
+                    {t("Tạo trọn bài giảng (lý thuyết + bài tập + quiz)", "Full lesson (theory + practice + quiz)")}
+                  </label>
+                )}
+                {(draft.kind === "lesson" || aiFullLesson) && (
+                  <>
+                    <div className="flex items-center gap-1">
+                      <span className="text-muted-foreground">{t("Số câu quiz:", "Quiz questions:")}</span>
+                      {([5, 10] as const).map((n) => (
+                        <Button key={n} type="button" size="sm" variant={aiQuizCount === n ? "default" : "outline"}
+                          className="h-7 px-2.5" onClick={() => setAiQuizCount(n)}>{n}</Button>
+                      ))}
+                    </div>
+                    <label className="flex items-center gap-2">
+                      <input type="checkbox" checked={aiPractice} onChange={(e) => setAiPractice(e.target.checked)} />
+                      {t("Kèm bài tập điền khuyết", "Include fill-in-the-blank practice")}
+                    </label>
+                  </>
+                )}
+              </div>
+              <Button type="button" size="sm" disabled={aiBusy} onClick={generateDraft}>
                 {aiBusy ? <Loader2 className="mr-1 h-4 w-4 animate-spin" /> : <Sparkles className="mr-1 h-4 w-4" />}
-                {t("Tạo bản nháp", "Generate draft")}
+                {t("Tạo bài bằng AI", "Generate with AI")}
               </Button>
+              {aiBusy && (
+                <p className="text-sm text-primary">
+                  {t(AI_STEPS[aiStep].vi, AI_STEPS[aiStep].en)}
+                </p>
+              )}
               <p className="text-xs text-muted-foreground">
                 {t(
                   "AI chỉ tạo bản nháp. Hãy đọc lại và chỉnh sửa trước khi đăng.",
