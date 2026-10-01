@@ -35,9 +35,10 @@ import GrammarPractice from "@/components/GrammarPractice";
 import IdeaPractice from "@/components/IdeaPractice";
 import CohesionLab from "@/components/CohesionLab";
 import TypingPractice from "@/components/ielts/TypingPractice";
-import { Keyboard } from "lucide-react";
+import { Keyboard, Repeat } from "lucide-react";
+import ParaphrasePractice from "@/components/ielts/ParaphrasePractice";
 import WritingSkillChart, { WRITING_ATTEMPT_EVENT } from "@/components/WritingSkillChart";
-import { Sparkles, PenLine, GraduationCap, Lightbulb, Link2, Languages, ClipboardCheck } from "lucide-react";
+import { Sparkles, PenLine, GraduationCap, Lightbulb, Link2, Languages } from "lucide-react";
 import FreeWritingGrader from "@/components/ielts/FreeWritingGrader";
 import WritingResultPanel from "@/components/ielts/WritingResultPanel";
 import { openWritingPdf, buildGradedEssayPdf } from "@/lib/writingPdfExport";
@@ -533,15 +534,11 @@ const IeltsWritingPractice = () => {
         </motion.div>
 
         {/* Mode Tabs: Essay Writing vs Phrase Practice */}
-        <Tabs defaultValue="essay" className="w-full">
+        <Tabs value={activeTab} onValueChange={(v) => { if (v === "free-grade") { setActiveTab("essay"); setEssayMode("own"); } else setActiveTab(v); }} className="w-full">
           <TabsList className="grid w-full max-w-6xl grid-cols-3 md:grid-cols-8 mt-6 mb-6 h-auto">
             <TabsTrigger value="essay" className="gap-1.5 py-2">
               <PenLine className="w-4 h-4" />
               <span className="text-xs md:text-sm">{t("Viết bài luận", "Essay Writing")}</span>
-            </TabsTrigger>
-            <TabsTrigger value="free-grade" className="gap-1.5 py-2">
-              <ClipboardCheck className="w-4 h-4" />
-              <span className="text-xs md:text-sm">{t("Chấm bài tự do", "Smart Grading")}</span>
             </TabsTrigger>
             <TabsTrigger value="idea" className="gap-1.5 py-2">
               <Lightbulb className="w-4 h-4" />
@@ -563,17 +560,15 @@ const IeltsWritingPractice = () => {
               <Link2 className="w-4 h-4" />
               <span className="text-xs md:text-sm">{t("Cohesion Lab", "Cohesion Lab")}</span>
             </TabsTrigger>
+            <TabsTrigger value="paraphrase" className="gap-1.5 py-2">
+              <Repeat className="w-4 h-4" />
+              <span className="text-xs md:text-sm">{t("Luyện paraphrase", "Paraphrase Practice")}</span>
+            </TabsTrigger>
             <TabsTrigger value="typing" className="gap-1.5 py-2">
               <Keyboard className="w-4 h-4" />
               <span className="text-xs md:text-sm">{t("Luyện gõ", "Typing Practice")}</span>
             </TabsTrigger>
           </TabsList>
-
-          <TabsContent value="free-grade" className="space-y-4">
-            <div>
-              <FreeWritingGrader />
-            </div>
-          </TabsContent>
 
           <TabsContent value="idea" className="space-y-4">
             <p className="text-xs text-muted-foreground mb-2">
@@ -687,8 +682,33 @@ const IeltsWritingPractice = () => {
             <TypingPractice taskType={taskType} />
           </TabsContent>
 
+          <TabsContent value="paraphrase" className="space-y-4">
+            <div className="flex items-center gap-3 flex-wrap mb-4">
+              <div className="flex gap-1 bg-muted rounded-lg p-1 w-fit">
+                {([1, 2] as const).map((n) => (
+                  <button key={n} onClick={() => setTaskType(n)}
+                    className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${taskType === n ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}>
+                    Task {n}
+                  </button>
+                ))}
+              </div>
+              <p className="text-xs text-muted-foreground">
+                {t("Nâng cấp câu đơn giản lên B2, C1, C2 bằng từ đồng nghĩa, đổi từ loại, bị động, danh từ hóa, đảo ngữ.", "Upgrade simple sentences to B2, C1 or C2 using synonyms, word-form changes, passives, nominalisation and inversion.")}
+              </p>
+            </div>
+            <ParaphrasePractice taskType={taskType} />
+          </TabsContent>
 
           <TabsContent value="essay">
+            <div className="flex gap-1 bg-muted rounded-lg p-1 w-fit mb-4">
+              {(["builtin", "own"] as const).map((m) => (
+                <button key={m} onClick={() => setEssayMode(m)}
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${essayMode === m ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}>
+                  {m === "builtin" ? t("Đề có sẵn", "Built-in prompt") : t("Tự nhập đề", "Your own prompt")}
+                </button>
+              ))}
+            </div>
+            {essayMode === "own" ? <FreeWritingGrader /> : (<>
         {/* Controls */}
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
           className="flex flex-wrap items-center gap-3 mb-6 p-4 bg-muted/30 rounded-xl border">
@@ -924,6 +944,7 @@ const IeltsWritingPractice = () => {
           </div>
         )}
 
+            </>)}
           </TabsContent>
         </Tabs>
 
