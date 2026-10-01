@@ -554,13 +554,13 @@ const IeltsWritingPractice = () => {
               <GraduationCap className="w-4 h-4" />
               <span className="text-xs md:text-sm">{t("Luyện ngữ pháp", "Grammar Practice")}</span>
             </TabsTrigger>
+            <TabsTrigger value="cohesion" className="gap-1.5 py-2">
+              <Link2 className="w-4 h-4" />
+              <span className="text-xs md:text-sm">{t("Luyện liên kết", "Cohesion Practice")}</span>
+            </TabsTrigger>
             <TabsTrigger value="translate" className="gap-1.5 py-2">
               <Languages className="w-4 h-4" />
               <span className="text-xs md:text-sm">{t("Luyện dịch câu", "Translation Practice")}</span>
-            </TabsTrigger>
-            <TabsTrigger value="cohesion" className="gap-1.5 py-2">
-              <Link2 className="w-4 h-4" />
-              <span className="text-xs md:text-sm">{t("Cohesion Lab", "Cohesion Lab")}</span>
             </TabsTrigger>
             <TabsTrigger value="paraphrase" className="gap-1.5 py-2">
               <Repeat className="w-4 h-4" />

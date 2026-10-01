@@ -1,3 +1,4 @@
+import { pickRandomIndex, markPracticed } from "@/lib/randomPicker";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Keyboard, RotateCcw, Shuffle, ArrowRight, Timer, Trophy } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -53,7 +54,10 @@ export default function TypingPractice({ taskType }: { taskType: 1 | 2 }) {
     setTimeout(() => inputRef.current?.focus({ preventScroll: true }), 0);
   }, []);
 
-  useEffect(() => { reset(0); setSprint(null); }, [taskType, category, level, mode, reset]);
+  const rk = `typing-t${taskType}`;
+  const pickNext = (curId?: string) => pickRandomIndex(rk, pool.map((s) => s.id), curId);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { reset(pickNext()); setSprint(null); }, [taskType, category, level, mode, reset]);
 
   useEffect(() => {
     if (!start || result) return;
@@ -108,7 +112,7 @@ export default function TypingPractice({ taskType }: { taskType: 1 | 2 }) {
       const ms = Date.now() - t0;
       const r = calc(current.text, v, ms, keystrokes + 1, errors);
       setSprint((s) => ({ done: (s?.done || 0) + 1, chars: (s?.chars || 0) + v.length, results: [...(s?.results || []), r] }));
-      setIdx((i) => i + 1); setTyped(""); setKeystrokes(0); setErrors(0);
+      markPracticed(rk, current.id); setIdx(pickNext(current.id)); setTyped(""); setKeystrokes(0); setErrors(0);
     }
   };
 
@@ -116,7 +120,7 @@ export default function TypingPractice({ taskType }: { taskType: 1 | 2 }) {
     if (e.key !== "Enter") return;
     e.preventDefault();
     if (!current) return;
-    if (result) { setSprint(null); reset(idx + 1); return; }
+    if (result) { setSprint(null); markPracticed(rk, current.id); reset(pickNext(current.id)); return; }
     if (mode === "sprint" || !typed.trim() || !start) return;
     const r = calc(current.text, typed, Date.now() - start, keystrokes, errors);
     setResult(r); saveResult(r, current.id);

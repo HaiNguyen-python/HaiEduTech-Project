@@ -1,3 +1,4 @@
+import { pickRandomIndex, markPracticed } from "@/lib/randomPicker";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Loader2, Shuffle, RotateCcw, ArrowRight, Eye, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -34,10 +35,10 @@ export default function ParaphrasePractice({ taskType }: { taskType: 1 | 2 }) {
   const items = useMemo(() => PARAPHRASE_BANK.filter((i) => i.task === taskType && (topic === "all" || i.topic === topic)), [taskType, topic]);
   const item = items[idx % Math.max(1, items.length)];
   useEffect(() => { setTopic("all"); }, [taskType]);
-  useEffect(() => { reset(); setIdx(0); }, [taskType, topic]);
+  useEffect(() => { reset(); setIdx(pickRandomIndex(`para-t${taskType}`, items.map((i) => i.id))); }, [taskType, topic]);
 
   function reset() { setAttempt(""); setResult(null); setShowModels(false); setTimeout(() => ref.current?.focus({ preventScroll: true }), 0); }
-  const next = () => { setIdx((i) => (i + 1) % items.length); reset(); };
+  const next = () => { if (item) markPracticed(`para-t${taskType}`, item.id); setIdx(pickRandomIndex(`para-t${taskType}`, items.map((i) => i.id), item?.id)); reset(); };
   const random = () => { setIdx((cur) => { if (items.length < 2) return cur; let n = cur; while (n === cur % items.length) n = Math.floor(Math.random() * items.length); return n; }); reset(); };
 
   async function check() {
