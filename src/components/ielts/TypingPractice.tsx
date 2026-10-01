@@ -1,6 +1,6 @@
 import { pickRandomIndex, markPracticed } from "@/lib/randomPicker";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Keyboard, RotateCcw, Shuffle, ArrowRight, Timer, Trophy } from "lucide-react";
+import { Keyboard, RotateCcw, ArrowRight, Timer, Trophy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -218,8 +218,7 @@ export default function TypingPractice({ taskType }: { taskType: 1 | 2 }) {
             )}
             <div className="flex flex-wrap gap-2">
               <Button variant="outline" size="sm" onClick={() => { setSprint(null); reset(); }}><RotateCcw className="w-4 h-4 mr-1" />{t("Làm lại", "Retry")}</Button>
-              <Button variant="outline" size="sm" onClick={() => { setSprint(null); reset(Math.floor(Math.random() * pool.length)); }}><Shuffle className="w-4 h-4 mr-1" />{t("Ngẫu nhiên", "Random")}</Button>
-              <Button size="sm" onClick={() => { setSprint(null); reset(idx + 1); }}>{t("Câu tiếp", "Next")}<ArrowRight className="w-4 h-4 ml-1" /></Button>
+              <Button size="sm" onClick={() => { if (current) markPracticed(rk, current.id); setSprint(null); reset(pickNext(current?.id)); }}>{t("Câu tiếp", "Next")}<ArrowRight className="w-4 h-4 ml-1" /></Button>
             </div>
           </CardContent>
         </Card>

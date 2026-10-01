@@ -7,7 +7,7 @@ import { pickRandomIndex, markPracticed } from "@/lib/randomPicker";
 import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Languages, Send, Loader2, Lightbulb, RotateCcw, Shuffle, ArrowRight,
+  Languages, Send, Loader2, Lightbulb, RotateCcw, ArrowRight,
   CheckCircle2, Eye, BookmarkPlus, BookmarkCheck, Sparkles, Volume2, Download,
 } from "lucide-react";
 import { openWritingPdf } from "@/lib/writingPdfExport";
@@ -432,9 +432,6 @@ const TranslationPractice = ({ taskType }: Props) => {
             </Button>
             <Button variant="outline" onClick={goRandom} className="gap-1.5">
               {t("Câu tiếp theo", "Next")} <ArrowRight className="w-4 h-4" />
-            </Button>
-            <Button variant="ghost" onClick={goRandom} className="gap-1.5">
-              <Shuffle className="w-4 h-4" /> {t("Ngẫu nhiên", "Random")}
             </Button>
             <Button variant="ghost" onClick={reset} className="gap-1.5">
               <RotateCcw className="w-4 h-4" /> {t("Làm lại", "Retry")}

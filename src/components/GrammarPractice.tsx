@@ -12,7 +12,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Send, Loader2, CheckCircle2, XCircle, Lightbulb,
   ArrowUp, RotateCcw, Sparkles, Eye, BookmarkPlus, BookmarkCheck, Download,
-  Shuffle, ArrowRight,
+  ArrowRight,
 } from "lucide-react";
 import { openWritingPdf } from "@/lib/writingPdfExport";
 import { Button } from "@/components/ui/button";
@@ -402,10 +402,6 @@ const GrammarPractice = ({ taskType }: Props) => {
                   >
                     <RotateCcw className="w-4 h-4 mr-2" />
                     {t("Viết lại", "Reset")}
-                  </Button>
-                  <Button variant="outline" onClick={goToRandom} disabled={grading}>
-                    <Shuffle className="w-4 h-4 mr-2" />
-                    {t("Ngẫu nhiên", "Random")}
                   </Button>
                   <Button variant="secondary" onClick={goNext} disabled={grading}>
                     {t("Cấu trúc khác", "Next")}

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Shuffle, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
@@ -65,7 +65,6 @@ export default function ZhTypingTask({ items, poolKey }: { items: ZhSentence[]; 
           placeholder={t("Gõ pinyin bằng bộ gõ tiếng Trung để ra chữ Hán... (Enter để chấm)", "Type with a Chinese pinyin IME... (Enter to check)")} />
         <div className="flex flex-wrap items-center gap-2">
           <Button onClick={() => (done ? next() : finish())} disabled={!got.length}>{done ? t("Tiếp", "Next") : t("Chấm", "Check")}<ArrowRight className="w-4 h-4 ml-1" /></Button>
-          <Button variant="outline" onClick={next}><Shuffle className="w-4 h-4 mr-1" />{t("Câu khác", "Random")}</Button>
           {done && <span className="ml-auto text-sm"><strong>{done.acc}%</strong> {t("chính xác", "accuracy")} · <strong>{done.cpm}</strong> {t("chữ/phút", "chars/min")}</span>}
         </div>
       </CardContent>

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Loader2, Shuffle, RotateCcw, ArrowRight, Eye, CheckCircle2, Volume2 } from "lucide-react";
+import { Loader2, RotateCcw, ArrowRight, CheckCircle2, Volume2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
@@ -28,12 +28,11 @@ export default function ZhSentenceTask({ items, mode, poolKey }: { items: ZhTask
   const [attempt, setAttempt] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<ZhGradeResult | null>(null);
-  const [showModel, setShowModel] = useState(false);
   const ref = useRef<HTMLTextAreaElement>(null);
   const ids = items.map((i) => i.id);
   const item = items[idx % Math.max(1, items.length)];
 
-  const reset = () => { setAttempt(""); setResult(null); setShowModel(false); setTimeout(() => ref.current?.focus({ preventScroll: true }), 0); };
+  const reset = () => { setAttempt(""); setResult(null); setTimeout(() => ref.current?.focus({ preventScroll: true }), 0); };
   useEffect(() => { setIdx(pickRandomIndex(poolKey, ids)); reset(); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [poolKey, items.length]);
 
   const next = () => { if (item) markPracticed(poolKey, item.id); setIdx(pickRandomIndex(poolKey, ids, item?.id)); reset(); };
@@ -70,24 +69,26 @@ export default function ZhSentenceTask({ items, mode, poolKey }: { items: ZhTask
           {item.pinyin && <p className="text-muted-foreground">{item.pinyin}</p>}
           <p className="text-sm text-muted-foreground mt-1">{item.meaning}</p>
         </div>
+        {item.model && (
+          <div className="rounded-md border-l-4 border-primary bg-muted/40 p-3 text-sm space-y-1">
+            <div className="flex items-center justify-between gap-2">
+              <p className="text-xs font-semibold uppercase text-muted-foreground">{t("Ví dụ cách dùng", "Usage example")}</p>
+              <Button size="icon" variant="ghost" onClick={() => speak(item.model ?? "")} aria-label={t("Nghe câu ví dụ", "Listen to example")}><Volume2 className="w-4 h-4" /></Button>
+            </div>
+            <p className="text-base font-medium text-foreground">{item.model}</p>
+            {item.modelPinyin && <p className="text-muted-foreground">{item.modelPinyin}</p>}
+            {item.modelVi && <p className="text-muted-foreground">{item.modelVi}</p>}
+          </div>
+        )}
         <Textarea ref={ref} value={attempt} onChange={(e) => setAttempt(e.target.value)} onKeyDown={onKey} rows={3} lang="zh-CN"
           placeholder={t("Viết câu tiếng Trung của bạn... (Enter để chấm)", "Write your Chinese sentence... (Enter to check)")} />
         <div className="flex flex-wrap gap-2">
           <Button onClick={check} disabled={loading || attempt.trim().length < 2}>
             {loading ? <Loader2 className="w-4 h-4 animate-spin mr-1" /> : <CheckCircle2 className="w-4 h-4 mr-1" />}{t("Chấm", "Check")}
           </Button>
-          {item.model && <Button variant="outline" onClick={() => setShowModel((s) => !s)}><Eye className="w-4 h-4 mr-1" />{t("Câu mẫu", "Model")}</Button>}
           <Button variant="outline" onClick={reset}><RotateCcw className="w-4 h-4 mr-1" />{t("Làm lại", "Retry")}</Button>
-          <Button variant="outline" onClick={next}><Shuffle className="w-4 h-4 mr-1" />{t("Câu khác", "Random")}</Button>
           <Button variant="outline" onClick={next}>{t("Tiếp", "Next")}<ArrowRight className="w-4 h-4 ml-1" /></Button>
         </div>
-        {showModel && item.model && (
-          <div className="rounded-md bg-muted/40 p-3 text-sm">
-            <p className="text-base font-medium">{item.model}</p>
-            {item.modelPinyin && <p className="text-muted-foreground">{item.modelPinyin}</p>}
-            {item.modelVi && <p className="text-muted-foreground">{item.modelVi}</p>}
-          </div>
-        )}
         {result && <ZhGradePanel result={result} />}
       </CardContent>
     </Card>
