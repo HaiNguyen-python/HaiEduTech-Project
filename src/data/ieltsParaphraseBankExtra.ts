@@ -64,8 +64,8 @@ export const RAW_EXTRA: Record<string, Row[]> = {
   "2:environment": [
     ["We throw away too much food.", "Chúng ta vứt quá nhiều thức ăn.", "Too much food is wasted.", "Food waste has reached alarming levels.", "The sheer scale of food waste is deeply concerning.", "passive,nominalisation"],
     ["Plastic bags are bad for the sea.", "Túi nhựa có hại cho biển.", "Plastic bags harm the ocean.", "Plastic bags pose a serious threat to marine life.", "Plastic waste wreaks havoc on marine ecosystems.", "collocation,idiom"],
-    ["People should use buses, not cars.", "Người ta nên đi buýt thay ô tô.", "People should use public transport instead of cars.", "Commuters should be encouraged to switch to public transport.", "A modal shift towards public transport is essential.", "passive,collocation"],
-    ["Many animals are dying out.", "Nhiều loài động vật đang tuyệt chủng.", "Many species are becoming extinct.", "Numerous species face the threat of extinction.", "Biodiversity is being eroded at an unprecedented rate.", "synonym,nominalisation"],
+    ["People should take the bus to work, not drive.", "Người ta nên đi buýt thay ô tô.", "People should use public transport instead of cars.", "Commuters should be encouraged to switch to public transport.", "A modal shift towards public transport is essential.", "passive,collocation"],
+    ["Many kinds of animals are disappearing.", "Nhiều loài động vật đang tuyệt chủng.", "Many species are becoming extinct.", "Numerous species face the threat of extinction.", "Biodiversity is being eroded at an unprecedented rate.", "synonym,nominalisation"],
     ["The weather is getting hotter.", "Thời tiết ngày càng nóng.", "Global temperatures are rising.", "Global warming is accelerating.", "The planet is warming at an alarming pace.", "synonym,collocation"],
     ["Rich countries should help poor countries with pollution.", "Nước giàu nên giúp nước nghèo xử lý ô nhiễm.", "Developed countries should help developing countries reduce pollution.", "Wealthier nations bear a responsibility to support poorer ones in tackling pollution.", "The onus is on affluent nations to assist developing economies in curbing emissions.", "synonym,idiom"],
   ],
@@ -78,7 +78,7 @@ export const RAW_EXTRA: Record<string, Row[]> = {
     ["Our personal information is not safe online.", "Thông tin cá nhân không an toàn trên mạng.", "Personal data is not secure online.", "Online privacy is increasingly under threat.", "Data breaches have eroded public trust in online privacy.", "nominalisation,collocation"],
   ],
   "2:work": [
-    ["Many people work from home now.", "Nhiều người giờ làm việc tại nhà.", "Many people now work remotely.", "Remote working has become increasingly common.", "Remote working has become firmly entrenched.", "synonym,idiom"],
+    ["Lots of workers stay at home to do their jobs now.", "Nhiều người giờ làm việc tại nhà.", "Many people now work remotely.", "Remote working has become increasingly common.", "Remote working has become firmly entrenched.", "synonym,idiom"],
     ["Some jobs pay too little.", "Một số việc trả lương quá thấp.", "Some jobs are poorly paid.", "Certain occupations offer inadequate wages.", "Many essential workers remain chronically underpaid.", "passive,collocation"],
     ["People change jobs more often today.", "Ngày nay người ta đổi việc thường xuyên hơn.", "People change jobs more frequently today.", "Job mobility has increased considerably.", "The notion of a job for life has largely disappeared.", "nominalisation,idiom"],
     ["Working too long is bad for health.", "Làm việc quá lâu hại sức khỏe.", "Working long hours damages health.", "Excessive working hours take a toll on health.", "Chronic overwork exacts a heavy toll on wellbeing.", "collocation,idiom"],
@@ -90,7 +90,7 @@ export const RAW_EXTRA: Record<string, Row[]> = {
     ["People do not sleep enough.", "Người ta ngủ không đủ.", "Many people do not get enough sleep.", "Sleep deprivation is widespread.", "Chronic sleep deprivation has reached epidemic proportions.", "nominalisation,idiom"],
     ["Doctors cost a lot of money.", "Đi khám tốn nhiều tiền.", "Medical treatment is expensive.", "Healthcare costs are prohibitively high.", "Spiralling medical costs place care beyond the reach of many.", "synonym,collocation"],
     ["Smoking should be stopped in public places.", "Nên cấm hút thuốc nơi công cộng.", "Smoking should be banned in public places.", "Smoking ought to be prohibited in public spaces.", "A blanket ban on smoking in public would safeguard non-smokers.", "synonym,participle"],
-    ["Stress makes people ill.", "Căng thẳng khiến người ta ốm.", "Stress can cause illness.", "Prolonged stress can trigger a range of illnesses.", "Chronic stress is implicated in a host of physical ailments.", "collocation,passive"],
+    ["Worry and pressure can make people sick.", "Căng thẳng khiến người ta ốm.", "Stress can cause illness.", "Prolonged stress can trigger a range of illnesses.", "Chronic stress is implicated in a host of physical ailments.", "collocation,passive"],
     ["The government should tell people to eat well.", "Chính phủ nên khuyên dân ăn uống lành mạnh.", "The government should promote healthy eating.", "Governments should run campaigns to promote balanced diets.", "State-led initiatives could foster healthier dietary habits.", "synonym,collocation"],
   ],
   "2:society": [

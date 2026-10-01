@@ -38,7 +38,7 @@ export default function ParaphrasePractice({ taskType }: { taskType: 1 | 2 }) {
 
   function reset() { setAttempt(""); setResult(null); setShowModels(false); setTimeout(() => ref.current?.focus({ preventScroll: true }), 0); }
   const next = () => { setIdx((i) => (i + 1) % items.length); reset(); };
-  const random = () => { setIdx(Math.floor(Math.random() * items.length)); reset(); };
+  const random = () => { setIdx((cur) => { if (items.length < 2) return cur; let n = cur; while (n === cur % items.length) n = Math.floor(Math.random() * items.length); return n; }); reset(); };
 
   async function check() {
     if (!item || attempt.trim().length < 3 || loading) return;
