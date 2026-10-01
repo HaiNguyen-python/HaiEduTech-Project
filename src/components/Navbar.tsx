@@ -14,7 +14,7 @@ import {
   Menu, X, Brain, BookOpen, Languages, Code2, GraduationCap,
   Globe, UserPlus, Heart, LogIn, ChevronDown, ChevronRight, Cpu, LogOut, Library, Shield,
   FileText, PenTool, Map, MessageSquare, Award, School, Swords, User, LayoutDashboard, Newspaper,
-  FolderLock, Compass, Briefcase, Trophy, Sparkles, Bot, Database, Workflow, Cloud, Network, Gamepad2, MessagesSquare, Target, Settings2, Flame, Music, Quote, Mic2, Crown, BookType, Blocks, Rocket, Users, Plane, ClipboardCheck, FlaskConical, Route, Ruler, Volume2, Headphones, Landmark, Puzzle, Wallet, Handshake, Activity, PartyPopper, LifeBuoy
+  FolderLock, Compass, Briefcase, Trophy, Sparkles, Bot, Database, Workflow, Cloud, Network, Gamepad2, MessagesSquare, Target, Settings2, Flame, Music, Quote, Mic2, Crown, BookType, Blocks, Rocket, Users, Plane, ClipboardCheck, FlaskConical, Route, Ruler, Volume2, Headphones, Landmark, Puzzle, Wallet, Handshake, Activity, PartyPopper, LifeBuoy, PenLine
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -340,6 +340,7 @@ const Navbar = () => {
       { to: "/chinese/arcade", label: t("Chinese Arcade Hub", "Chinese Arcade Hub"), icon: Gamepad2 },
       { to: "/songs/chinese", label: t("Học qua bài hát", "Learn through Songs"), icon: Music },
       { to: "/speaking-coach/chinese", label: t("Speaking Coach", "Speaking Coach"), icon: Mic2 },
+      { to: "/chinese/writing-practice", label: t("Luyện viết", "Writing Practice"), icon: PenLine },
       { to: "/specialized-language?lang=chinese", label: t("Tiếng Trung Chuyên ngành", "Specialized Chinese"), icon: Brain },
     ] },
   ];
