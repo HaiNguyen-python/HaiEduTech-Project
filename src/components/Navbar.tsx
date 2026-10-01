@@ -263,8 +263,8 @@ const Navbar = () => {
 
   // National Exam nested sub-items
   const nationalExamChildren: SubItem[] = [
-    { to: "/national-exam/essential-review", label: t("Ngữ pháp & Từ vựng cốt lõi", "Essential Grammar & Vocabulary"), icon: BookOpen },
-    { to: "/national-exam", label: t("Phòng luyện thi TN THPT", "Exam Practice Room"), icon: FileText },
+    { to: "/national-exam/essential-review", label: t("Ngữ pháp & Từ vựng cốt lõi", "Highschool Grammar & Vocabulary"), icon: BookOpen },
+    { to: "/national-exam", label: t("Phòng luyện thi TN THPT", "Highschool Exam Practice"), icon: FileText },
   ];
 
   const englishSubs: SubItem[] = [
