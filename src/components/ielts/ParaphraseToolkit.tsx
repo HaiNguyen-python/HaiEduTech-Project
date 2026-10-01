@@ -3,7 +3,7 @@ import { Volume2, CheckCircle2, ChevronDown, Sparkles } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { PARA_TOOLKIT, toolUsed, type ToolKind } from "@/data/ieltsParaphraseToolkit";
-import { playEnglishTts } from "@/lib/mrHaiTts";
+import { playEnglishTts } from "@/lib/englishTts";
 
 const GROUPS: { kind: ToolKind; en: string; vi: string }[] = [
   { kind: "collocation", en: "Collocations", vi: "Collocations" },

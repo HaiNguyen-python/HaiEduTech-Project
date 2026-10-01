@@ -10,6 +10,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { consumeAiGrade } from "@/lib/aiQuota";
 import { handleAiError } from "@/lib/aiResponseHandler";
 import { recordPracticeSignal } from "@/lib/writingPracticeSignals";
+import ParaphraseToolkit from "./ParaphraseToolkit";
 import { PARAPHRASE_BANK, PARA_TOPICS, type ParaLevel } from "@/data/ieltsParaphraseBank";
 
 interface Result {
@@ -92,6 +93,8 @@ export default function ParaphrasePractice({ taskType }: { taskType: 1 | 2 }) {
               {item.techniques.map((x) => <Badge key={x} variant="secondary">{x}</Badge>)}
             </div>
           </div>
+          <ParaphraseToolkit toolKey={`${item.task}:${item.topic}`} attempt={attempt}
+            onInsert={(x) => { setAttempt((v) => (v && !v.endsWith(" ") ? v + " " : v) + x); ref.current?.focus({ preventScroll: true }); }} />
           <Textarea ref={ref} value={attempt} onChange={(e) => setAttempt(e.target.value)} onKeyDown={onKey} rows={3}
             placeholder={t(`Viết lại câu ở cấp ${level}... (Enter để chấm)`, `Rewrite at ${level} level... (Enter to check)`)} />
           <div className="flex flex-wrap gap-2">
