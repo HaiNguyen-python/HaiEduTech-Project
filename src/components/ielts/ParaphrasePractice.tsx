@@ -9,7 +9,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { consumeAiGrade } from "@/lib/aiQuota";
 import { handleAiError } from "@/lib/aiResponseHandler";
-import { logStudentActivity } from "@/hooks/useActivityLogger";
+import { recordPracticeSignal } from "@/lib/writingPracticeSignals";
 import { PARAPHRASE_BANK, PARA_TOPICS, type ParaLevel } from "@/data/ieltsParaphraseBank";
 
 interface Result {
@@ -52,7 +52,7 @@ export default function ParaphrasePractice({ taskType }: { taskType: 1 | 2 }) {
       const k = `t${taskType}`;
       const p = { ...prog, [k]: { done: (prog[k]?.done || 0) + 1, total: (prog[k]?.total || 0) + data.overall } };
       setProg(p); localStorage.setItem(STORE, JSON.stringify(p));
-      logStudentActivity({ activityType: "ielts_paraphrase", activityId: item.id, score: data.overall, maxScore: 10, metadata: { level, task: taskType } });
+      recordPracticeSignal({ crit: "LR", score10: data.overall, taskType: taskType === 1 ? 1 : 2, activityId: item.id });
     } catch (e) {
       handleAiError(e, { context: t("chấm paraphrase", "paraphrase grading") });
     } finally { setLoading(false); }
