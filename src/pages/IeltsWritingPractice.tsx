@@ -68,6 +68,8 @@ const IeltsWritingPractice = () => {
 
   // Prompt state
   const [taskType, setTaskType] = useState<1 | 2>(2);
+  const [activeTab, setActiveTab] = useState("essay");
+  const [essayMode, setEssayMode] = useState<"builtin" | "own">("builtin");
   const [subType, setSubType] = useState<string>("");
   const [currentPrompt, setCurrentPrompt] = useState<WritingPrompt | null>(null);
   const [promptLoading, setPromptLoading] = useState(false);
