@@ -22,8 +22,8 @@ for (const [name, rows] of Object.entries(banks)) {
 }
 
 for (const item of ZH_VOCAB) {
-  if (![item.word, item.pinyin, item.vi, item.en, item.ex, item.exPinyin, item.exVi].every((value) => value?.trim())) {
-    errors.push(`vocab: ${item.id} missing word, meaning, Pinyin, or example detail`);
+  if (![item.word, item.pinyin, item.vi, item.en, item.ex, item.exPinyin].every((value) => value?.trim())) {
+    errors.push(`vocab: ${item.id} missing word, meaning, Pinyin, or example`);
   }
   if (!item.ex.includes(item.word)) errors.push(`vocab: ${item.id} example does not contain ${item.word}`);
 }

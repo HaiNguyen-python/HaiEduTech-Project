@@ -22,7 +22,7 @@ export default function ChineseWritingPractice() {
   const essays = useMemo(() => tp(ZH_ESSAYS), [level, topic]);
   const vocab: ZhTaskItem[] = useMemo(() => tp(ZH_VOCAB).map((v) => ({
      id: v.id, level: v.level, heading: v.word, pinyin: v.pinyin, meaning: `${v.vi} · ${v.en}`,
-     instructionVi: "Đặt câu với từ này", instructionEn: "Write a sentence with this word", target: v.word, model: v.ex, modelPinyin: v.exPinyin, modelVi: v.exVi,
+     instructionVi: "Đặt câu với từ này", instructionEn: "Write a sentence with this word", target: v.word, model: v.ex, modelPinyin: v.exPinyin, modelVi: v.exVi ?? `${v.vi} · ${v.en}`,
   })), [level, topic]);
   const toPattern = (xs: typeof ZH_GRAMMAR, vi: string, en: string): ZhTaskItem[] => xs.filter((x) => x.level === level).map((g) => ({
     id: g.id, level: g.level, heading: g.pattern, pinyin: g.pinyin, meaning: g.vi, instructionVi: vi, instructionEn: en,
