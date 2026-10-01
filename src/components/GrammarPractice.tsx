@@ -10,8 +10,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  BookOpen, Send, Loader2, CheckCircle2, XCircle, Lightbulb,
-  ArrowUp, RotateCcw, Sparkles, GraduationCap, Eye, BookmarkPlus, BookmarkCheck, Download,
+  Send, Loader2, CheckCircle2, XCircle, Lightbulb,
+  ArrowUp, RotateCcw, Sparkles, Eye, BookmarkPlus, BookmarkCheck, Download,
+  Shuffle, ArrowRight,
 } from "lucide-react";
 import { openWritingPdf } from "@/lib/writingPdfExport";
 import { Button } from "@/components/ui/button";
@@ -22,6 +23,7 @@ import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { recordPracticeSignal } from "@/lib/writingPracticeSignals";
+import { pickRandomIndex, markPracticed } from "@/lib/randomPicker";
 import {
   IELTS_GRAMMAR,
   GRAMMAR_CATEGORIES,
@@ -63,7 +65,7 @@ const escapeHtml = (s: string) =>
 const GrammarPractice = ({ taskType }: Props) => {
   const { t } = useLanguage();
   const [activeCategory, setActiveCategory] = useState<string>("all");
-  const [selected, setSelected] = useState<IELTSGrammarItem | null>(null);
+  const [idx, setIdx] = useState(0);
   const [sentence, setSentence] = useState("");
   const [grading, setGrading] = useState(false);
   const [result, setResult] = useState<GradeResult | null>(null);
@@ -86,21 +88,46 @@ const GrammarPractice = ({ taskType }: Props) => {
     return pool.filter((g) => g.category === activeCategory);
   }, [activeCategory, pool]);
 
-  // Reset selection + category when the learner switches task, so Task 1 never
-  // shows a Task 2 structure card (and vice versa).
+  // Random presentation: the system serves the structure, students cannot cherry-pick easy ones.
+  const poolKey = `grammar-t${taskType}:${activeCategory}`;
+  const itemIds = useMemo(() => filtered.map((g) => g.id), [filtered]);
+  const selected = filtered[idx % Math.max(1, filtered.length)] ?? null;
+
+  const resetAttempt = () => {
+    setSentence("");
+    setResult(null);
+    setSaved(false);
+  };
+
   useEffect(() => {
     setActiveCategory("all");
-    setSelected(null);
-    setSentence("");
-    setResult(null);
-    setSaved(false);
+    setIdx(0);
+    resetAttempt();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [taskType]);
 
-  const handleSelect = (g: IELTSGrammarItem) => {
-    setSelected(g);
-    setSentence("");
-    setResult(null);
-    setSaved(false);
+  useEffect(() => {
+    setIdx(pickRandomIndex(poolKey, itemIds));
+    resetAttempt();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [taskType, activeCategory]);
+
+  const goToRandom = () => {
+    setIdx(pickRandomIndex(poolKey, itemIds, selected?.id));
+    resetAttempt();
+  };
+
+  const goNext = () => {
+    if (selected) markPracticed(poolKey, selected.id);
+    goToRandom();
+  };
+
+  const onSentenceKey = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      if (result) goNext();
+      else handleSubmit();
+    }
   };
 
   const appendToNotebook = async (block: string): Promise<boolean> => {
@@ -262,79 +289,44 @@ const GrammarPractice = ({ taskType }: Props) => {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-      {/* LEFT: Structure list */}
-      <div className="lg:col-span-2 space-y-4">
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-base flex items-center gap-2">
-              <GraduationCap className="w-4 h-4 text-primary" />
-              {t("Ngân hàng cấu trúc nâng cao", "Advanced Structure Bank")}
-              <Badge variant="secondary" className="ml-auto">
-                {filtered.length} {t("cấu trúc", "items")}
-              </Badge>
-            </CardTitle>
-            <div className="flex gap-1.5 pt-2 overflow-x-auto pb-1 -mx-1 px-1">
-              {categories.map((c) => (
-                <button
-                  key={c.value}
-                  onClick={() => setActiveCategory(c.value)}
-                  className={`shrink-0 text-xs px-2.5 py-1 rounded-full border transition-colors whitespace-nowrap ${
-                    activeCategory === c.value
-                      ? "bg-primary text-primary-foreground border-primary"
-                      : "bg-muted/50 border-border hover:bg-muted"
-                  }`}
-                >
-                  {c.label}
-                </button>
-              ))}
-            </div>
-          </CardHeader>
-          <CardContent className="max-h-[600px] overflow-y-auto space-y-2">
-            {filtered.map((g) => {
-              const active = selected?.id === g.id;
-              return (
-                <button
-                  key={g.id}
-                  onClick={() => handleSelect(g)}
-                  className={`w-full text-left p-3 rounded-lg border transition-all ${
-                    active
-                      ? "border-primary bg-primary/5 shadow-sm"
-                      : "border-border hover:border-primary/50 hover:bg-muted/40"
-                  }`}
-                >
-                  <div className="flex items-start justify-between gap-2 mb-1">
-                    <span className="font-semibold text-foreground text-[14px] leading-snug">
-                      {g.structure}
-                    </span>
-                    <Badge variant="outline" className={`shrink-0 text-[10px] capitalize ${categoryColor(g.category)}`}>
-                      {g.category}
-                    </Badge>
-                  </div>
-                  <p className="text-xs text-muted-foreground italic">{g.meaning}</p>
-                </button>
-              );
-            })}
-          </CardContent>
-        </Card>
+    <div className="space-y-4 max-w-4xl mx-auto">
+      {/* Category filter chips */}
+      <div className="flex gap-1.5 overflow-x-auto pb-1 -mx-1 px-1 scrollbar-thin">
+        <button
+          onClick={() => setActiveCategory("all")}
+          className={`shrink-0 text-xs px-2.5 py-1 rounded-full border transition-colors whitespace-nowrap ${
+            activeCategory === "all"
+              ? "bg-primary text-primary-foreground border-primary"
+              : "bg-muted/50 border-border hover:bg-muted"
+          }`}
+        >
+          {t("Tất cả", "All")}
+        </button>
+        {categories.map((c) => (
+          <button
+            key={c.value}
+            onClick={() => setActiveCategory(c.value)}
+            className={`shrink-0 text-xs px-2.5 py-1 rounded-full border transition-colors whitespace-nowrap ${
+              activeCategory === c.value
+                ? "bg-primary text-primary-foreground border-primary"
+                : "bg-muted/50 border-border hover:bg-muted"
+            }`}
+          >
+            {c.label}
+          </button>
+        ))}
       </div>
 
-      {/* RIGHT: Practice area */}
-      <div className="lg:col-span-3 space-y-4">
-        {!selected ? (
-          <Card className="border-dashed">
-            <CardContent className="py-16 text-center text-muted-foreground">
-              <GraduationCap className="w-12 h-12 mx-auto mb-3 text-primary/50" />
-              <p className="text-base">
-                {t(
-                  "Chọn 1 cấu trúc bên trái để bắt đầu luyện viết câu Band 7+",
-                  "Select a structure on the left to start practising Band 7+ sentences"
-                )}
-              </p>
-            </CardContent>
-          </Card>
-        ) : (
-          <>
+      {!selected ? null : (
+        <>
+          <div className="flex flex-wrap items-center gap-3 text-sm">
+            <span className="text-muted-foreground">
+              {t("Hệ thống đưa ra cấu trúc ngẫu nhiên - luyện đa dạng, không chọn cấu trúc quen thuộc", "The system serves a random structure - practise broadly, no cherry-picking")}
+            </span>
+            <span className="ml-auto text-muted-foreground">
+              {(idx % filtered.length) + 1}/{filtered.length}
+            </span>
+          </div>
             {/* Selected structure card */}
             <Card className="border-primary/30 bg-gradient-to-br from-primary/5 to-transparent">
               <CardContent className="pt-6 space-y-3">
@@ -381,9 +373,10 @@ const GrammarPractice = ({ taskType }: Props) => {
                 <Textarea
                   value={sentence}
                   onChange={(e) => setSentence(e.target.value)}
+                  onKeyDown={onSentenceKey}
                   placeholder={t(
-                    "Gõ câu của bạn ở đây... (tránh xem ví dụ trước nhé)",
-                    "Type your sentence here... (try without peeking at the example)"
+                    "Gõ câu của bạn ở đây... (tránh xem ví dụ trước nhé; Enter để nộp chấm)",
+                    "Type your sentence here... (try without peeking at the example; Enter to submit)"
                   )}
                   className="min-h-[120px] text-base"
                   disabled={grading}
@@ -409,6 +402,14 @@ const GrammarPractice = ({ taskType }: Props) => {
                   >
                     <RotateCcw className="w-4 h-4 mr-2" />
                     {t("Viết lại", "Reset")}
+                  </Button>
+                  <Button variant="outline" onClick={goToRandom} disabled={grading}>
+                    <Shuffle className="w-4 h-4 mr-2" />
+                    {t("Ngẫu nhiên", "Random")}
+                  </Button>
+                  <Button variant="secondary" onClick={goNext} disabled={grading}>
+                    {t("Cấu trúc khác", "Next")}
+                    <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                 </div>
               </CardContent>
@@ -511,9 +512,8 @@ const GrammarPractice = ({ taskType }: Props) => {
                 </motion.div>
               )}
             </AnimatePresence>
-          </>
-        )}
-      </div>
+        </>
+      )}
     </div>
   );
 };

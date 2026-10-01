@@ -2,11 +2,12 @@
  * LinkerBank - Practise IELTS linking devices by writing sentences.
  * Reuses grade-phrase-sentence edge function (passes the linker as "phrase").
  */
-import { useState, useMemo } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Link2, Send, Loader2, CheckCircle2, XCircle, Lightbulb, ArrowUp,
   RotateCcw, AlertTriangle, BookmarkPlus, BookmarkCheck, Sparkles, Download,
+  Shuffle, ArrowRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -17,6 +18,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { recordPracticeSignal } from "@/lib/writingPracticeSignals";
 import { openWritingPdf } from "@/lib/writingPdfExport";
+import { pickRandomIndex, markPracticed } from "@/lib/randomPicker";
 import { LINKERS, LINKER_CATEGORIES, LinkerItem } from "@/data/ieltsCohesionBank";
 import { appendCohesionNotebook, escapeCohesionHtml } from "./cohesionNotebook";
 
@@ -66,7 +68,7 @@ const scoreColor = (s: number) =>
 const LinkerBank = ({ taskType }: Props) => {
   const { t } = useLanguage();
   const [activeCategory, setActiveCategory] = useState<string>("all");
-  const [selected, setSelected] = useState<LinkerItem | null>(null);
+  const [idx, setIdx] = useState(0);
   const [sentence, setSentence] = useState("");
   const [grading, setGrading] = useState(false);
   const [result, setResult] = useState<GradeResult | null>(null);
@@ -79,11 +81,39 @@ const LinkerBank = ({ taskType }: Props) => {
     return list.filter((l) => l.category === activeCategory);
   }, [taskType, activeCategory]);
 
-  const handleSelect = (l: LinkerItem) => {
-    setSelected(l);
+  // Random presentation: the system serves the linker, students cannot cherry-pick easy ones.
+  const poolKey = `linker-t${taskType}:${activeCategory}`;
+  const itemIds = useMemo(() => filtered.map((l) => l.id), [filtered]);
+  const selected = filtered[idx % Math.max(1, filtered.length)] ?? null;
+
+  const resetAttempt = () => {
     setSentence("");
     setResult(null);
     setSaved(false);
+  };
+
+  useEffect(() => {
+    setIdx(pickRandomIndex(poolKey, itemIds));
+    resetAttempt();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [taskType, activeCategory]);
+
+  const goToRandom = () => {
+    setIdx(pickRandomIndex(poolKey, itemIds, selected?.id));
+    resetAttempt();
+  };
+
+  const goNext = () => {
+    if (selected) markPracticed(poolKey, selected.id);
+    goToRandom();
+  };
+
+  const onSentenceKey = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      if (result) goNext();
+      else handleSubmit();
+    }
   };
 
   const handleSubmit = async () => {
@@ -169,76 +199,34 @@ const LinkerBank = ({ taskType }: Props) => {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-      {/* LEFT: Linker list */}
-      <div className="lg:col-span-2 space-y-4">
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-base flex items-center gap-2">
-              <Link2 className="w-4 h-4 text-primary" />
-              {t("Ngân hàng liên từ", "Linker Bank")}
-              <Badge variant="secondary" className="ml-auto">
-                {filtered.length} {t("liên từ", "linkers")}
-              </Badge>
-            </CardTitle>
-            <div className="flex gap-1.5 pt-2 overflow-x-auto pb-1 -mx-1 px-1 scrollbar-thin">
-              {LINKER_CATEGORIES.map((c) => (
-                <button
-                  key={c.value}
-                  onClick={() => setActiveCategory(c.value)}
-                  className={`shrink-0 text-xs px-2.5 py-1 rounded-full border transition-colors whitespace-nowrap ${
-                    activeCategory === c.value
-                      ? "bg-primary text-primary-foreground border-primary"
-                      : "bg-muted/50 border-border hover:bg-muted"
-                  }`}
-                >
-                  {t(c.label, c.labelEn)}
-                </button>
-              ))}
-            </div>
-          </CardHeader>
-          <CardContent className="max-h-[600px] overflow-y-auto space-y-2">
-            {filtered.map((l) => {
-              const active = selected?.id === l.id;
-              return (
-                <button
-                  key={l.id}
-                  onClick={() => handleSelect(l)}
-                  className={`w-full text-left p-3 rounded-lg border transition-all ${
-                    active
-                      ? "border-primary bg-primary/5 shadow-sm"
-                      : "border-border hover:border-primary/50 hover:bg-muted/40"
-                  }`}
-                >
-                  <div className="flex items-start justify-between gap-2 mb-1">
-                    <span className="font-semibold text-foreground text-[14px] leading-snug">
-                      {l.linker}
-                    </span>
-                    <Badge variant="outline" className={`shrink-0 text-[10px] capitalize ${categoryColor(l.category)}`}>
-                      {l.category.replace("-", " / ")}
-                    </Badge>
-                  </div>
-                  <p className="text-xs text-muted-foreground italic">{l.meaning}</p>
-                </button>
-              );
-            })}
-          </CardContent>
-        </Card>
+    <div className="space-y-4 max-w-4xl mx-auto">
+      {/* Category filter chips */}
+      <div className="flex gap-1.5 overflow-x-auto pb-1 -mx-1 px-1 scrollbar-thin">
+        {LINKER_CATEGORIES.map((c) => (
+          <button
+            key={c.value}
+            onClick={() => setActiveCategory(c.value)}
+            className={`shrink-0 text-xs px-2.5 py-1 rounded-full border transition-colors whitespace-nowrap ${
+              activeCategory === c.value
+                ? "bg-primary text-primary-foreground border-primary"
+                : "bg-muted/50 border-border hover:bg-muted"
+            }`}
+          >
+            {t(c.label, c.labelEn)}
+          </button>
+        ))}
       </div>
 
-      {/* RIGHT: Practice area */}
-      <div className="lg:col-span-3 space-y-4">
-        {!selected ? (
-          <Card className="border-dashed">
-            <CardContent className="py-16 text-center text-muted-foreground">
-              <Link2 className="w-12 h-12 mx-auto mb-3 text-primary/50" />
-              <p className="text-base">
-                {t("Chọn 1 liên từ bên trái để bắt đầu luyện", "Select a linker on the left to start practising")}
-              </p>
-            </CardContent>
-          </Card>
-        ) : (
-          <>
+      {!selected ? null : (
+        <>
+          <div className="flex flex-wrap items-center gap-3 text-sm">
+            <span className="text-muted-foreground">
+              {t("Hệ thống đưa ra liên từ ngẫu nhiên - luyện đa dạng, không chọn liên từ quen thuộc", "The system serves a random linker - practise broadly, no cherry-picking")}
+            </span>
+            <span className="ml-auto text-muted-foreground">
+              {(idx % filtered.length) + 1}/{filtered.length}
+            </span>
+          </div>
             <Card className="border-primary/30 bg-gradient-to-br from-primary/5 to-transparent">
               <CardContent className="pt-6 space-y-3">
                 <div className="flex items-center gap-2 flex-wrap">
@@ -281,7 +269,8 @@ const LinkerBank = ({ taskType }: Props) => {
                 <Textarea
                   value={sentence}
                   onChange={(e) => setSentence(e.target.value)}
-                  placeholder={t("Gõ câu của bạn ở đây...", "Type your sentence here...")}
+                  onKeyDown={onSentenceKey}
+                  placeholder={t("Gõ câu của bạn ở đây... (Enter để nộp chấm)", "Type your sentence here... (Enter to submit)")}
                   className="min-h-[120px] text-base"
                   disabled={grading}
                 />
@@ -296,6 +285,14 @@ const LinkerBank = ({ taskType }: Props) => {
                   <Button variant="outline" onClick={() => { setSentence(""); setResult(null); setSaved(false); }} disabled={grading}>
                     <RotateCcw className="w-4 h-4 mr-2" />
                     {t("Viết lại", "Reset")}
+                  </Button>
+                  <Button variant="outline" onClick={goToRandom} disabled={grading}>
+                    <Shuffle className="w-4 h-4 mr-2" />
+                    {t("Ngẫu nhiên", "Random")}
+                  </Button>
+                  <Button variant="secondary" onClick={goNext} disabled={grading}>
+                    {t("Liên từ khác", "Next")}
+                    <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                 </div>
               </CardContent>
@@ -394,9 +391,8 @@ const LinkerBank = ({ taskType }: Props) => {
                 </motion.div>
               )}
             </AnimatePresence>
-          </>
-        )}
-      </div>
+        </>
+      )}
     </div>
   );
 };

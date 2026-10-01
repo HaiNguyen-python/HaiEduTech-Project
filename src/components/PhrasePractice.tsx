@@ -1,6 +1,6 @@
-import { useState, useMemo } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles, Send, Loader2, CheckCircle2, XCircle, Lightbulb, ArrowUp, RotateCcw, BookOpen, PenLine, Eye, BookmarkPlus, BookmarkCheck, Download } from "lucide-react";
+import { Sparkles, Send, Loader2, CheckCircle2, XCircle, Lightbulb, ArrowUp, RotateCcw, PenLine, Eye, BookmarkPlus, BookmarkCheck, Download, Shuffle, ArrowRight } from "lucide-react";
 import { openWritingPdf } from "@/lib/writingPdfExport";
 import { renderKeyPhrases } from "@/lib/keyPhraseText";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { recordPracticeSignal } from "@/lib/writingPracticeSignals";
+import { pickRandomIndex, markPracticed } from "@/lib/randomPicker";
 import {
   IELTS_PHRASES,
   TASK1_CATEGORIES,
@@ -46,7 +47,7 @@ const renderBold = (text: string) => {
 const PhrasePractice = ({ taskType }: Props) => {
   const { t } = useLanguage();
   const [activeCategory, setActiveCategory] = useState<string>("all");
-  const [selectedPhrase, setSelectedPhrase] = useState<IELTSPhrase | null>(null);
+  const [idx, setIdx] = useState(0);
   const [userSentence, setUserSentence] = useState("");
   const [grading, setGrading] = useState(false);
   const [result, setResult] = useState<GradeResult | null>(null);
@@ -71,8 +72,12 @@ const PhrasePractice = ({ taskType }: Props) => {
     return list.filter((p) => p.category === activeCategory);
   }, [taskType, activeCategory]);
 
-  const handleSelectPhrase = (phrase: IELTSPhrase) => {
-    setSelectedPhrase(phrase);
+  // Random presentation: the system serves the phrase, students cannot cherry-pick easy ones.
+  const poolKey = `phrases-t${taskType}:${activeCategory}`;
+  const phraseIds = useMemo(() => filteredPhrases.map((p) => p.id), [filteredPhrases]);
+  const selectedPhrase = filteredPhrases[idx % Math.max(1, filteredPhrases.length)] ?? null;
+
+  const resetAttempt = () => {
     setUserSentence("");
     setResult(null);
     setRewriteText("");
@@ -80,6 +85,30 @@ const PhrasePractice = ({ taskType }: Props) => {
     setShowAnswer(false);
     setSavedGrade(false);
     setSavedRewrite(false);
+  };
+
+  useEffect(() => {
+    setIdx(pickRandomIndex(poolKey, phraseIds));
+    resetAttempt();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [taskType, activeCategory]);
+
+  const goToRandom = () => {
+    setIdx(pickRandomIndex(poolKey, phraseIds, selectedPhrase?.id));
+    resetAttempt();
+  };
+
+  const goNext = () => {
+    if (selectedPhrase) markPracticed(poolKey, selectedPhrase.id);
+    goToRandom();
+  };
+
+  const onSentenceKey = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      if (result) goNext();
+      else handleSubmit();
+    }
   };
 
   const escapeHtmlStr = (s: string) =>
@@ -376,86 +405,44 @@ const PhrasePractice = ({ taskType }: Props) => {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-      {/* LEFT: Phrase list */}
-      <div className="lg:col-span-2 space-y-4">
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-base flex items-center gap-2">
-              <BookOpen className="w-4 h-4 text-primary" />
-              {t("Ngân hàng cụm từ", "Phrase Bank")}
-              <Badge variant="secondary" className="ml-auto">
-                {filteredPhrases.length} {t("cụm", "phrases")}
-              </Badge>
-            </CardTitle>
-            <div className="flex gap-1.5 pt-2 overflow-x-auto pb-1 -mx-1 px-1 scrollbar-thin">
-              <button
-                onClick={() => setActiveCategory("all")}
-                className={`shrink-0 text-xs px-2.5 py-1 rounded-full border transition-colors whitespace-nowrap ${
-                  activeCategory === "all"
-                    ? "bg-primary text-primary-foreground border-primary"
-                    : "bg-muted/50 border-border hover:bg-muted"
-                }`}
-              >
-                {t("Tất cả", "All")}
-              </button>
-              {categories.map((c) => (
-                <button
-                  key={c.value}
-                  onClick={() => setActiveCategory(c.value)}
-                  className={`shrink-0 text-xs px-2.5 py-1 rounded-full border transition-colors whitespace-nowrap ${
-                    activeCategory === c.value
-                      ? "bg-primary text-primary-foreground border-primary"
-                      : "bg-muted/50 border-border hover:bg-muted"
-                  }`}
-                >
-                  {t(c.label, c.labelEn)}
-                </button>
-              ))}
-            </div>
-          </CardHeader>
-          <CardContent className="max-h-[600px] overflow-y-auto space-y-2">
-            {filteredPhrases.map((p) => {
-              const active = selectedPhrase?.id === p.id;
-              return (
-                <button
-                  key={p.id}
-                  onClick={() => handleSelectPhrase(p)}
-                  className={`w-full text-left p-3 rounded-lg border transition-all ${
-                    active
-                      ? "border-primary bg-primary/5 shadow-sm"
-                      : "border-border hover:border-primary/50 hover:bg-muted/40"
-                  }`}
-                >
-                  <div className="flex items-start justify-between gap-2 mb-1">
-                    <span className="font-semibold text-foreground text-[15px] leading-tight">
-                      {p.phrase}
-                    </span>
-                    <Badge variant="outline" className={`shrink-0 text-[10px] ${levelColor(p.level)}`}>
-                      {p.level}
-                    </Badge>
-                  </div>
-                  <p className="text-xs text-muted-foreground italic">{p.meaning}</p>
-                </button>
-              );
-            })}
-          </CardContent>
-        </Card>
+    <div className="space-y-4 max-w-4xl mx-auto">
+      {/* Category filter chips */}
+      <div className="flex gap-1.5 overflow-x-auto pb-1 -mx-1 px-1 scrollbar-thin">
+        <button
+          onClick={() => setActiveCategory("all")}
+          className={`shrink-0 text-xs px-2.5 py-1 rounded-full border transition-colors whitespace-nowrap ${
+            activeCategory === "all"
+              ? "bg-primary text-primary-foreground border-primary"
+              : "bg-muted/50 border-border hover:bg-muted"
+          }`}
+        >
+          {t("Tất cả", "All")}
+        </button>
+        {categories.map((c) => (
+          <button
+            key={c.value}
+            onClick={() => setActiveCategory(c.value)}
+            className={`shrink-0 text-xs px-2.5 py-1 rounded-full border transition-colors whitespace-nowrap ${
+              activeCategory === c.value
+                ? "bg-primary text-primary-foreground border-primary"
+                : "bg-muted/50 border-border hover:bg-muted"
+            }`}
+          >
+            {t(c.label, c.labelEn)}
+          </button>
+        ))}
       </div>
 
-      {/* RIGHT: Practice area */}
-      <div className="lg:col-span-3 space-y-4">
-        {!selectedPhrase ? (
-          <Card className="border-dashed">
-            <CardContent className="py-16 text-center text-muted-foreground">
-              <Sparkles className="w-12 h-12 mx-auto mb-3 text-primary/50" />
-              <p className="text-base">
-                {t("Chọn 1 cụm từ bên trái để bắt đầu luyện tập", "Select a phrase on the left to start practising")}
-              </p>
-            </CardContent>
-          </Card>
-        ) : (
-          <>
+      {!selectedPhrase ? null : (
+        <>
+          <div className="flex flex-wrap items-center gap-3 text-sm">
+            <span className="text-muted-foreground">
+              {t("Hệ thống đưa ra cụm từ ngẫu nhiên - luyện đa dạng, không chọn cụm quen thuộc", "The system serves a random phrase - practise broadly, no cherry-picking")}
+            </span>
+            <span className="ml-auto text-muted-foreground">
+              {(idx % filteredPhrases.length) + 1}/{filteredPhrases.length}
+            </span>
+          </div>
             {/* Selected phrase card */}
             <Card className="border-primary/30 bg-gradient-to-br from-primary/5 to-transparent">
               <CardContent className="pt-6 space-y-3">
@@ -492,7 +479,8 @@ const PhrasePractice = ({ taskType }: Props) => {
                 <Textarea
                   value={userSentence}
                   onChange={(e) => setUserSentence(e.target.value)}
-                  placeholder={t("Ví dụ: The number of...", "e.g. The number of...")}
+                  onKeyDown={onSentenceKey}
+                  placeholder={t("Ví dụ: The number of... (Enter để nộp chấm)", "e.g. The number of... (Enter to submit)")}
                   className="min-h-[120px] text-base"
                   disabled={grading}
                 />
@@ -513,6 +501,14 @@ const PhrasePractice = ({ taskType }: Props) => {
                   <Button variant="outline" onClick={handleReset} disabled={grading}>
                     <RotateCcw className="w-4 h-4 mr-2" />
                     {t("Viết lại", "Reset")}
+                  </Button>
+                  <Button variant="outline" onClick={goToRandom} disabled={grading}>
+                    <Shuffle className="w-4 h-4 mr-2" />
+                    {t("Ngẫu nhiên", "Random")}
+                  </Button>
+                  <Button variant="secondary" onClick={goNext} disabled={grading}>
+                    {t("Câu khác", "Next")}
+                    <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                 </div>
               </CardContent>
@@ -708,9 +704,8 @@ const PhrasePractice = ({ taskType }: Props) => {
                 </motion.div>
               )}
             </AnimatePresence>
-          </>
-        )}
-      </div>
+        </>
+      )}
     </div>
   );
 };
