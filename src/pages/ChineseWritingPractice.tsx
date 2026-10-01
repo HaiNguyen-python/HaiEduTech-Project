@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import { useLanguage } from "@/contexts/LanguageContext";
 import {
-  ZH_LEVELS, ZH_TOPICS, ZH_ESSAYS, ZH_VOCAB, ZH_GRAMMAR, ZH_CONNECTORS, ZH_TRANSLATION, ZH_PARAPHRASE, ZH_TYPING,
+  ZH_LEVELS, ZH_TOPICS, ZH_ESSAYS, ZH_VOCAB, ZH_GRAMMAR, ZH_CONNECTORS, ZH_TRANSLATION, ZH_PARAPHRASE, ZH_PARAPHRASE_GUIDES, ZH_TYPING,
   type ZhLevel,
 } from "@/data/chineseWritingBank";
 import ZhSentenceTask, { type ZhTaskItem } from "@/components/chineseWriting/ZhSentenceTask";
@@ -38,6 +38,7 @@ export default function ChineseWritingPractice() {
   const paraphrase: ZhTaskItem[] = useMemo(() => ZH_PARAPHRASE.filter((s) => s.level === paraLevel && (topic === "all" || s.topic === topic)).map((s) => ({
     id: s.id, level: s.level, heading: s.zh, pinyin: s.pinyin, meaning: s.vi,
     instructionVi: `Viết lại câu ở mức HSK ${s.level}`, instructionEn: `Rewrite at HSK ${s.level} level`, target: s.zh, reference: s.up, model: s.up,
+    modelPinyin: ZH_PARAPHRASE_GUIDES[s.id]?.pinyin, modelVi: ZH_PARAPHRASE_GUIDES[s.id]?.vi,
   })), [paraLevel, topic]);
   const typing = useMemo(() => ZH_TYPING.filter((s) => s.level === level), [level]);
 
