@@ -17,6 +17,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { REORDER_PARAGRAPHS, ReorderParagraph } from "@/data/ieltsCohesionBank";
 import { appendCohesionNotebook, escapeCohesionHtml } from "./cohesionNotebook";
 import { recordPracticeSignal } from "@/lib/writingPracticeSignals";
+import { pickRandomIndex, markPracticed } from "@/lib/randomPicker";
 
 interface Props {
   taskType: 1 | 2;
@@ -96,6 +97,12 @@ const ParagraphReorder = ({ taskType }: Props) => {
 
   const current: ReorderParagraph | undefined = pool[idx];
 
+  // Random order: serve paragraphs randomly, never sequentially, and skip ones already practised.
+  useEffect(() => {
+    setIdx(pickRandomIndex(`reorder-t${taskType}`, pool.map((p) => p.id)));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [taskType, pool]);
+
   const reshuffle = () => {
     if (!current) return;
     setOrder(shuffleIndices(current.sentences.length));
@@ -162,12 +169,10 @@ const ParagraphReorder = ({ taskType }: Props) => {
   };
 
   const goNext = () => {
-    const nextIdx = (idx + 1) % pool.length;
-    const nextItem = pool[nextIdx];
-    if (nextItem) setOrder(shuffleIndices(nextItem.sentences.length));
-    setChecked(false);
-    setSaved(false);
-    setIdx(nextIdx);
+    if (current) markPracticed(`reorder-t${taskType}`, current.id);
+    const nextIdx = pickRandomIndex(`reorder-t${taskType}`, pool.map((p) => p.id), current?.id);
+    if (nextIdx === idx % Math.max(1, pool.length)) reshuffle();
+    else setIdx(nextIdx);
   };
 
   const handleCheck = () => {

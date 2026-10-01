@@ -2,7 +2,7 @@
  * SentenceLinking - Join two separate sentences into one cohesive sentence.
  * Reuses grade-phrase-sentence (passes "join the pair using cohesive device" as target).
  */
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Send, Loader2, CheckCircle2, RotateCcw, Sparkles, ArrowUp,
@@ -17,6 +17,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { recordPracticeSignal } from "@/lib/writingPracticeSignals";
 import { openWritingPdf } from "@/lib/writingPdfExport";
+import { pickRandomIndex, markPracticed } from "@/lib/randomPicker";
 import { LINKING_PAIRS, LinkingPair } from "@/data/ieltsCohesionBank";
 import { appendCohesionNotebook, escapeCohesionHtml } from "./cohesionNotebook";
 
@@ -63,6 +64,12 @@ const SentenceLinking = ({ taskType }: Props) => {
 
   const current: LinkingPair | undefined = pool[idx];
 
+  // Random order: serve pairs randomly, never sequentially, and skip ones already practised.
+  useEffect(() => {
+    setIdx(pickRandomIndex(`sl-t${taskType}`, pool.map((p) => p.id)));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [taskType, pool]);
+
   if (!current) {
     return (
       <Card>
@@ -74,11 +81,20 @@ const SentenceLinking = ({ taskType }: Props) => {
   }
 
   const goNext = () => {
-    setIdx((idx + 1) % pool.length);
+    markPracticed(`sl-t${taskType}`, current.id);
+    setIdx(pickRandomIndex(`sl-t${taskType}`, pool.map((p) => p.id), current.id));
     setCombined("");
     setShowModel(false);
     setResult(null);
     setSaved(false);
+  };
+
+  const onCombinedKey = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      if (result) goNext();
+      else handleSubmit();
+    }
   };
 
   const handleSubmit = async () => {
@@ -206,7 +222,8 @@ const SentenceLinking = ({ taskType }: Props) => {
           <Textarea
             value={combined}
             onChange={(e) => setCombined(e.target.value)}
-            placeholder={t("Viết câu kết hợp của bạn ở đây...", "Write your combined sentence here...")}
+            onKeyDown={onCombinedKey}
+            placeholder={t("Viết câu kết hợp của bạn ở đây... (Enter để nộp chấm)", "Write your combined sentence here... (Enter to submit)")}
             className="min-h-[100px] text-base"
             disabled={grading}
           />
