@@ -1,13 +1,12 @@
 /**
  * @file ieltsParaphraseToolkit.ts
- * @description Per-topic collocations, high-level phrases and structures (B2-C2)
- *   students can apply while paraphrasing. Keyed `task:topic`. No em-dashes.
+ * @description Per-topic collocations and structures (B2-C2) students can apply
+ *   while paraphrasing. Keyed `task:topic`. No em-dashes.
  */
-export type ToolKind = "collocation" | "phrase" | "structure";
+export type ToolKind = "collocation" | "structure";
 export interface ToolItem { kind: ToolKind; en: string; vi: string; ex: string; level: "B2" | "C1" | "C2"; match?: string }
 
 const c = (en: string, vi: string, ex: string, level: ToolItem["level"] = "B2"): ToolItem => ({ kind: "collocation", en, vi, ex, level });
-const p = (en: string, vi: string, ex: string, level: ToolItem["level"] = "C1"): ToolItem => ({ kind: "phrase", en, vi, ex, level });
 const s = (en: string, vi: string, ex: string, match: string, level: ToolItem["level"] = "C1"): ToolItem => ({ kind: "structure", en, vi, ex, level, match });
 
 export const PARA_TOOLKIT: Record<string, ToolItem[]> = {
