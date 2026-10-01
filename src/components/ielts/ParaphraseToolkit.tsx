@@ -47,7 +47,7 @@ export default function ParaphraseToolkit({ toolKey, attempt, onInsert }: { tool
       </button>
       {open && (
         <>
-          <p className="text-xs text-muted-foreground">{t("Bấm collocation để chèn; bấm cấu trúc để xem ví dụ. Mục dùng đúng chuyển xanh.", "Click a collocation to insert it; click a structure to see its example. Items you use turn green.")}</p>
+          <p className="text-xs text-muted-foreground">{t("Bấm để xem nghĩa và ví dụ; dùng nút chèn nếu muốn đưa vào bài viết lại. Mục dùng đúng chuyển xanh.", "Click to see its meaning and example; use the insert button to add it to your rewrite. Items you use turn green.")}</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {COLUMNS.map((col) => (
               <div key={col.kind} className="rounded-md border bg-background p-2 space-y-1.5">
