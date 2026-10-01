@@ -26,6 +26,7 @@ interface Section { key: string; vi: string; en: string; match: RegExp }
 
 const SECTIONS: Record<Subject, Section[]> = {
   chinese: [
+    { key: "writing", vi: "Luyện viết", en: "Writing Practice", match: /chinese_writing|writing/ },
     { key: "vocab", vi: "Từ vựng HSK", en: "HSK Vocabulary", match: /vocab|word|hsk_srs|flashcard/ },
     { key: "test", vi: "Đề thi HSK", en: "HSK Tests", match: /test|exam|mock|hsk(?!k)/ },
     { key: "speaking", vi: "Nói & HSKK", en: "Speaking & HSKK", match: /speak|hskk|pronunc|tone|pinyin|drill/ },
