@@ -23,7 +23,7 @@ export default function ParaphraseToolkit({ toolKey, attempt, onInsert }: { tool
     const id = `${kind}:${i.en}`;
     return (
       <button key={id} type="button"
-        onClick={() => { setFocus(focus === id ? null : id); if (kind === "collocation") onInsert(i.en); }}
+        onClick={() => setFocus(focus === id ? null : id)}
         className={`w-full text-left text-sm rounded-full border px-3 py-1.5 truncate transition-colors ${ok ? "bg-primary text-primary-foreground border-primary" : "bg-background text-foreground hover:bg-accent hover:text-accent-foreground"}`}>
         {ok && <CheckCircle2 className="inline w-3.5 h-3.5 mr-1 -mt-0.5" />}{i.en}
         <span className="ml-1.5 text-[10px] opacity-70">{i.level}</span>
