@@ -280,8 +280,14 @@ const Navbar = () => {
 
     // IELTS - promoted to top-level so all 10 IELTS items are reachable in one hover
     { to: "#ielts-group", label: t("Cambridge IELTS", "Cambridge IELTS"), icon: Target, groupLabel: "ielts", children: ieltsChildren },
-    // English Essentials and Advanced English
-    { to: "/english/essentials", label: t("Tinh hoa Anh ngữ", "Foundational English"), icon: BookOpen },
+    // English Essentials - flyout with the four pillars
+    { to: "#en-essentials-group", label: t("Tinh hoa Anh ngữ", "Foundational English"), icon: BookOpen, groupLabel: "en-essentials", children: [
+      { to: "/english/essentials", label: t("Tổng quan", "Overview"), icon: BookOpen },
+      { to: "/english/grammar", label: t("Ngữ pháp", "Grammar"), icon: BookOpen },
+      { to: "/english/pronunciation", label: t("Phát âm & Ngữ điệu", "Pronunciation & Intonation"), icon: Mic2 },
+      { to: "/english/conversational/curriculum", label: t("Giao tiếp", "Conversational"), icon: MessageSquare },
+      { to: "/english/idioms", label: t("Thành ngữ & Danh ngôn", "Idioms & Quotes"), icon: Quote },
+    ] },
     { to: "#en-advanced-group", label: t("Tiếng Anh Nâng cao", "Advanced English"), icon: GraduationCap, groupLabel: "en-advanced", children: [
       { to: "/english/business", label: t("Tiếng Anh Thương mại", "Business English"), icon: Briefcase },
       { to: "/english/academic", label: t("Tiếng Anh Học thuật", "Academic English"), icon: School },
