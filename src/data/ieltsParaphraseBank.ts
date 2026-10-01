@@ -2,6 +2,7 @@
  * @file ieltsParaphraseBank.ts
  * @description Low-level (A2-B1) sentences with B2/C1/C2 model paraphrases for IELTS Writing.
  */
+import { RAW_EXTRA } from "./ieltsParaphraseBankExtra";
 export type ParaLevel = "B2" | "C1" | "C2";
 export interface ParaphraseItem {
   id: string;
@@ -178,6 +179,8 @@ const RAW: Record<string, Row[]> = {
     ["Ads for children should be stopped.", "Quảng cáo cho trẻ nên bị cấm.", "Advertising aimed at children should be banned.", "Advertising targeting children ought to be prohibited.", "A ban on child-directed advertising is long overdue.", "synonym,nominalisation"],
   ],
 };
+
+for (const [k, rows] of Object.entries(RAW_EXTRA)) RAW[k] = [...(RAW[k] ?? []), ...rows];
 
 export const PARAPHRASE_BANK: ParaphraseItem[] = Object.entries(RAW).flatMap(([k, rows]) => {
   const [task, topic] = k.split(":");
