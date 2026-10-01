@@ -20,7 +20,7 @@ export const ZH_TOPICS = [
 export type ZhTopic = (typeof ZH_TOPICS)[number]["key"];
 
 export interface ZhEssay { id: string; level: ZhLevel; topic: ZhTopic; zh: string; vi: string; min: number; max: number; hints: string[] }
-export interface ZhVocab { id: string; level: ZhLevel; topic: ZhTopic; word: string; pinyin: string; vi: string; en: string; ex: string }
+export interface ZhVocab { id: string; level: ZhLevel; topic: ZhTopic; word: string; pinyin: string; vi: string; en: string; ex: string; exPinyin?: string; exVi?: string }
 export interface ZhPattern { id: string; level: ZhLevel; pattern: string; pinyin: string; vi: string; ex: string; exPinyin: string; exVi: string }
 export interface ZhSentence { id: string; level: ZhLevel; topic: ZhTopic; zh: string; pinyin: string; vi: string; up?: string }
 
@@ -265,3 +265,17 @@ export const ZH_TYPING: ZhSentence[] = [
   ...ZH_GRAMMAR.map((g) => ({ id: `ty-${g.id}`, level: g.level, topic: "school" as ZhTopic, zh: g.ex, pinyin: g.exPinyin, vi: g.exVi })),
   ...ZH_CONNECTORS.map((g) => ({ id: `ty-${g.id}`, level: g.level, topic: "society" as ZhTopic, zh: g.ex, pinyin: g.exPinyin, vi: g.exVi })),
 ];
+
+import { CHINESE_WRITING_EXPANSION } from "./chineseWritingExpansion";
+
+ZH_ESSAYS.push(...CHINESE_WRITING_EXPANSION.essays);
+ZH_VOCAB.push(...CHINESE_WRITING_EXPANSION.vocab);
+ZH_GRAMMAR.push(...CHINESE_WRITING_EXPANSION.patterns);
+ZH_CONNECTORS.push(...CHINESE_WRITING_EXPANSION.connectors);
+ZH_TRANSLATION.push(...CHINESE_WRITING_EXPANSION.translations);
+ZH_PARAPHRASE.push(...CHINESE_WRITING_EXPANSION.paraphrases);
+ZH_TYPING.push(
+  ...CHINESE_WRITING_EXPANSION.translations.map((sentence) => ({ ...sentence, id: `ty-${sentence.id}` })),
+  ...CHINESE_WRITING_EXPANSION.patterns.map((pattern) => ({ id: `ty-${pattern.id}`, level: pattern.level, topic: "school" as ZhTopic, zh: pattern.ex, pinyin: pattern.exPinyin, vi: pattern.exVi })),
+  ...CHINESE_WRITING_EXPANSION.connectors.map((pattern) => ({ id: `ty-${pattern.id}`, level: pattern.level, topic: "society" as ZhTopic, zh: pattern.ex, pinyin: pattern.exPinyin, vi: pattern.exVi })),
+);

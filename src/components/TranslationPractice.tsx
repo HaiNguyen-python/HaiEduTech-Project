@@ -159,12 +159,6 @@ const TranslationPractice = ({ taskType }: Props) => {
     reset();
   };
 
-  const goTo = (next: number) => {
-    if (!items.length) return;
-    setIndex(((next % items.length) + items.length) % items.length);
-    reset();
-  };
-
   const handleSubmit = async () => {
     if (!item) return;
     const trimmed = answer.trim();
@@ -583,9 +577,6 @@ const TranslationPractice = ({ taskType }: Props) => {
                   <Button variant="outline" size="sm" onClick={handleSaveNotebook} disabled={saved} className="gap-1.5">
                     {saved ? <BookmarkCheck className="w-4 h-4" /> : <BookmarkPlus className="w-4 h-4" />}
                     {saved ? t("Đã lưu", "Saved") : t("Lưu vào sổ tay", "Save to notebook")}
-                  </Button>
-                  <Button size="sm" onClick={goRandom} className="gap-1.5">
-                    {t("Câu tiếp theo", "Next sentence")} <ArrowRight className="w-4 h-4" />
                   </Button>
                 </div>
               </CardContent>
