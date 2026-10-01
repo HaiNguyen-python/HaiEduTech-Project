@@ -1,6 +1,6 @@
 import { pickRandomIndex, markPracticed } from "@/lib/randomPicker";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Loader2, Shuffle, RotateCcw, ArrowRight, Eye, CheckCircle2 } from "lucide-react";
+import { Loader2, RotateCcw, ArrowRight, Eye, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
@@ -40,7 +40,6 @@ export default function ParaphrasePractice({ taskType }: { taskType: 1 | 2 }) {
 
   function reset() { setAttempt(""); setResult(null); setShowModels(false); setTimeout(() => ref.current?.focus({ preventScroll: true }), 0); }
   const next = () => { if (item) markPracticed(`para-t${taskType}`, item.id); setIdx(pickRandomIndex(`para-t${taskType}`, items.map((i) => i.id), item?.id)); reset(); };
-  const random = () => { setIdx((cur) => { if (items.length < 2) return cur; let n = cur; while (n === cur % items.length) n = Math.floor(Math.random() * items.length); return n; }); reset(); };
 
   async function check() {
     if (!item || attempt.trim().length < 3 || loading) return;
@@ -103,7 +102,6 @@ export default function ParaphrasePractice({ taskType }: { taskType: 1 | 2 }) {
             </Button>
             <Button variant="outline" onClick={() => setShowModels((s) => !s)}><Eye className="w-4 h-4 mr-1" />{t("Câu mẫu", "Model answers")}</Button>
             <Button variant="outline" onClick={reset}><RotateCcw className="w-4 h-4 mr-1" />{t("Làm lại", "Retry")}</Button>
-            <Button variant="outline" onClick={random}><Shuffle className="w-4 h-4 mr-1" />{t("Ngẫu nhiên", "Random")}</Button>
             <Button variant="outline" onClick={next}>{t("Tiếp", "Next")}<ArrowRight className="w-4 h-4 ml-1" /></Button>
           </div>
 

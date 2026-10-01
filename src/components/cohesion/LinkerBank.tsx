@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Link2, Send, Loader2, CheckCircle2, XCircle, Lightbulb, ArrowUp,
   RotateCcw, AlertTriangle, BookmarkPlus, BookmarkCheck, Sparkles, Download,
-  Shuffle, ArrowRight,
+  ArrowRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -285,10 +285,6 @@ const LinkerBank = ({ taskType }: Props) => {
                   <Button variant="outline" onClick={() => { setSentence(""); setResult(null); setSaved(false); }} disabled={grading}>
                     <RotateCcw className="w-4 h-4 mr-2" />
                     {t("Viết lại", "Reset")}
-                  </Button>
-                  <Button variant="outline" onClick={goToRandom} disabled={grading}>
-                    <Shuffle className="w-4 h-4 mr-2" />
-                    {t("Ngẫu nhiên", "Random")}
                   </Button>
                   <Button variant="secondary" onClick={goNext} disabled={grading}>
                     {t("Liên từ khác", "Next")}

@@ -740,7 +740,7 @@ const IeltsWritingPractice = () => {
 
           {/* Generate buttons */}
           <Button variant="outline" size="sm" onClick={handleStaticPrompt}>
-            <RefreshCw className="w-4 h-4 mr-1" /> {t("Đề ngẫu nhiên", "Random Topic")}
+            {t("Đề tiếp theo", "Next Topic")} <RefreshCw className="w-4 h-4 ml-1" />
           </Button>
           {/* Generate New Topic - only visible for teachers/admins to save API costs */}
           {isTeacher && (

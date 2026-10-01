@@ -6,7 +6,7 @@ import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Send, Loader2, CheckCircle2, RotateCcw, Sparkles, ArrowUp,
-  BookmarkPlus, BookmarkCheck, Eye, Shuffle, Lightbulb, Download,
+  BookmarkPlus, BookmarkCheck, Eye, ArrowRight, Lightbulb, Download,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -254,8 +254,7 @@ const SentenceLinking = ({ taskType }: Props) => {
               {t("Viết lại", "Reset")}
             </Button>
             <Button variant="secondary" onClick={goNext}>
-              <Shuffle className="w-4 h-4 mr-2" />
-              {t("Cặp câu khác", "Next Pair")}
+              {t("Cặp câu tiếp theo", "Next Pair")}<ArrowRight className="w-4 h-4 ml-2" />
             </Button>
           </div>
         </CardContent>

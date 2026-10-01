@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Loader2, CheckCircle2, Shuffle } from "lucide-react";
+import { Loader2, CheckCircle2, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
@@ -61,7 +61,7 @@ export default function ZhEssayTask({ essays, level }: { essays: ZhEssay[]; leve
           <Button onClick={grade} disabled={loading || chars < 10 || !prompt}>
             {loading ? <Loader2 className="w-4 h-4 animate-spin mr-1" /> : <CheckCircle2 className="w-4 h-4 mr-1" />}{t("Chấm bài", "Grade")}
           </Button>
-          {!own && <Button variant="outline" onClick={next}><Shuffle className="w-4 h-4 mr-1" />{t("Đề khác", "Another topic")}</Button>}
+          {!own && <Button variant="outline" onClick={next}>{t("Đề tiếp theo", "Next topic")}<ArrowRight className="w-4 h-4 ml-1" /></Button>}
           <span className="ml-auto text-sm text-muted-foreground">{chars} {t("chữ Hán", "Hanzi")}</span>
         </div>
         {result && <ZhGradePanel result={result} nextHint={false} />}

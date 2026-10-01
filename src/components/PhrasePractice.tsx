@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles, Send, Loader2, CheckCircle2, XCircle, Lightbulb, ArrowUp, RotateCcw, PenLine, Eye, BookmarkPlus, BookmarkCheck, Download, Shuffle, ArrowRight } from "lucide-react";
+import { Sparkles, Send, Loader2, CheckCircle2, XCircle, Lightbulb, ArrowUp, RotateCcw, PenLine, Eye, BookmarkPlus, BookmarkCheck, Download, ArrowRight } from "lucide-react";
 import { openWritingPdf } from "@/lib/writingPdfExport";
 import { renderKeyPhrases } from "@/lib/keyPhraseText";
 import { Button } from "@/components/ui/button";
@@ -501,10 +501,6 @@ const PhrasePractice = ({ taskType }: Props) => {
                   <Button variant="outline" onClick={handleReset} disabled={grading}>
                     <RotateCcw className="w-4 h-4 mr-2" />
                     {t("Viết lại", "Reset")}
-                  </Button>
-                  <Button variant="outline" onClick={goToRandom} disabled={grading}>
-                    <Shuffle className="w-4 h-4 mr-2" />
-                    {t("Ngẫu nhiên", "Random")}
                   </Button>
                   <Button variant="secondary" onClick={goNext} disabled={grading}>
                     {t("Câu khác", "Next")}
