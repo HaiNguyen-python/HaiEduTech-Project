@@ -64,6 +64,11 @@ export default function ParaphraseToolkit({ toolKey, attempt, onInsert }: { tool
                 {focused.ex}
                 <button type="button" aria-label="Listen" onClick={() => playEnglishTts(focused.ex)} className="text-primary"><Volume2 className="w-4 h-4" /></button>
               </p>
+              {focused.kind === "collocation" && (
+                <Button size="sm" variant="outline" className="h-7 text-xs" onClick={() => onInsert(focused.en)}>
+                  <Plus className="w-3 h-3 mr-1" />{t("Chèn vào bài", "Insert")}
+                </Button>
+              )}
             </div>
           )}
         </>
