@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Volume2, CheckCircle2, ChevronDown, Sparkles } from "lucide-react";
+import { Volume2, CheckCircle2, ChevronDown, Sparkles, Plus } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { PARA_TOOLKIT, toolUsed, type ToolItem, type ToolKind } from "@/data/ieltsParaphraseToolkit";
 import { playEnglishTts } from "@/lib/englishTts";
