@@ -706,7 +706,7 @@ const IeltsWritingPractice = () => {
               {(["builtin", "own"] as const).map((m) => (
                 <button key={m} onClick={() => setEssayMode(m)}
                   className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${essayMode === m ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}>
-                  {m === "builtin" ? t("Đề có sẵn", "Built-in prompt") : t("Tự nhập đề", "Your own prompt")}
+                  {m === "builtin" ? t("Đề có sẵn", "Built-in topics") : t("Tự nhập đề", "Your own topics")}
                 </button>
               ))}
             </div>
