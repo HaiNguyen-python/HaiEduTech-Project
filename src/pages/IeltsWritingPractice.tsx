@@ -544,31 +544,31 @@ const IeltsWritingPractice = () => {
             </TabsTrigger>
             <TabsTrigger value="idea" className="gap-1.5 py-2">
               <Lightbulb className="w-4 h-4" />
-              <span className="text-xs md:text-sm">{t("Luyện ý tưởng", "Idea Practice")}</span>
+              <span className="text-xs md:text-sm">{t("Ý tưởng", "Ideas")}</span>
             </TabsTrigger>
             <TabsTrigger value="phrase" className="gap-1.5 py-2">
               <Sparkles className="w-4 h-4" />
-              <span className="text-xs md:text-sm">{t("Luyện cụm từ", "Phrase Practice")}</span>
+              <span className="text-xs md:text-sm">{t("Cụm từ", "Phrases")}</span>
             </TabsTrigger>
             <TabsTrigger value="grammar" className="gap-1.5 py-2">
               <GraduationCap className="w-4 h-4" />
-              <span className="text-xs md:text-sm">{t("Luyện ngữ pháp", "Grammar Practice")}</span>
+              <span className="text-xs md:text-sm">{t("Ngữ pháp", "Grammar")}</span>
             </TabsTrigger>
             <TabsTrigger value="cohesion" className="gap-1.5 py-2">
               <Link2 className="w-4 h-4" />
-              <span className="text-xs md:text-sm">{t("Luyện liên kết", "Cohesion Practice")}</span>
+              <span className="text-xs md:text-sm">{t("Liên kết", "Cohesion")}</span>
             </TabsTrigger>
             <TabsTrigger value="translate" className="gap-1.5 py-2">
               <Languages className="w-4 h-4" />
-              <span className="text-xs md:text-sm">{t("Luyện dịch câu", "Translation Practice")}</span>
+              <span className="text-xs md:text-sm">{t("Dịch câu", "Translation")}</span>
             </TabsTrigger>
             <TabsTrigger value="paraphrase" className="gap-1.5 py-2">
               <Repeat className="w-4 h-4" />
-              <span className="text-xs md:text-sm">{t("Luyện paraphrase", "Paraphrase Practice")}</span>
+              <span className="text-xs md:text-sm">{t("Paraphrase", "Paraphrase")}</span>
             </TabsTrigger>
             <TabsTrigger value="typing" className="gap-1.5 py-2">
               <Keyboard className="w-4 h-4" />
-              <span className="text-xs md:text-sm">{t("Luyện gõ", "Typing Practice")}</span>
+              <span className="text-xs md:text-sm">{t("Gõ chữ", "Typing")}</span>
             </TabsTrigger>
           </TabsList>
 
