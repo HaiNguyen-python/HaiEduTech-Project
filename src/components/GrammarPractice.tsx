@@ -327,7 +327,6 @@ const GrammarPractice = ({ taskType }: Props) => {
               {(idx % filtered.length) + 1}/{filtered.length}
             </span>
           </div>
-          <>
             {/* Selected structure card */}
             <Card className="border-primary/30 bg-gradient-to-br from-primary/5 to-transparent">
               <CardContent className="pt-6 space-y-3">

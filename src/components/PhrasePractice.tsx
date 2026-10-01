@@ -443,7 +443,6 @@ const PhrasePractice = ({ taskType }: Props) => {
               {(idx % filteredPhrases.length) + 1}/{filteredPhrases.length}
             </span>
           </div>
-          <>
             {/* Selected phrase card */}
             <Card className="border-primary/30 bg-gradient-to-br from-primary/5 to-transparent">
               <CardContent className="pt-6 space-y-3">

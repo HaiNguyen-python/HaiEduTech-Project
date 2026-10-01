@@ -237,7 +237,6 @@ const LinkerBank = ({ taskType }: Props) => {
               {(idx % filtered.length) + 1}/{filtered.length}
             </span>
           </div>
-          <>
             <Card className="border-primary/30 bg-gradient-to-br from-primary/5 to-transparent">
               <CardContent className="pt-6 space-y-3">
                 <div className="flex items-center gap-2 flex-wrap">
