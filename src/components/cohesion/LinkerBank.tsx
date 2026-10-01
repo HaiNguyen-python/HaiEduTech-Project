@@ -202,16 +202,6 @@ const LinkerBank = ({ taskType }: Props) => {
     <div className="space-y-4 max-w-4xl mx-auto">
       {/* Category filter chips */}
       <div className="flex gap-1.5 overflow-x-auto pb-1 -mx-1 px-1 scrollbar-thin">
-        <button
-          onClick={() => setActiveCategory("all")}
-          className={`shrink-0 text-xs px-2.5 py-1 rounded-full border transition-colors whitespace-nowrap ${
-            activeCategory === "all"
-              ? "bg-primary text-primary-foreground border-primary"
-              : "bg-muted/50 border-border hover:bg-muted"
-          }`}
-        >
-          {t("Tất cả", "All")}
-        </button>
         {LINKER_CATEGORIES.map((c) => (
           <button
             key={c.value}
