@@ -38,7 +38,7 @@ interface AggRow {
 const COACH: Record<CritKey, { tabVi: string; tabEn: string; tab: string; tipVi: string; tipEn: string }> = {
   TR: { tab: "idea",     tabVi: "Idea Practice",    tabEn: "Idea Practice",
         tipVi: "Trả lời đủ ý, đúng đề, có luận điểm rõ ràng.", tipEn: "Fully address the prompt with clear position & ideas." },
-  CC: { tab: "cohesion", tabVi: "Cohesion Lab",     tabEn: "Cohesion Lab",
+  CC: { tab: "cohesion", tabVi: "Luyện liên kết", tabEn: "Cohesion Practice",
         tipVi: "Dùng linkers đa dạng, sắp xếp câu logic, dùng đại từ tham chiếu.", tipEn: "Use varied linkers, logical order, reference words." },
   LR: { tab: "phrase",   tabVi: "Phrase Practice",  tabEn: "Phrase Practice",
         tipVi: "Nâng cấp từ vựng: collocation, paraphrase, tránh lặp từ.", tipEn: "Upgrade vocabulary: collocations, paraphrasing, avoid repetition." },
