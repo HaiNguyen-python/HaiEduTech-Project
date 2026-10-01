@@ -282,7 +282,6 @@ const Navbar = () => {
     { to: "#ielts-group", label: t("Cambridge IELTS", "Cambridge IELTS"), icon: Target, groupLabel: "ielts", children: ieltsChildren },
     // English Essentials - flyout with the four pillars
     { to: "#en-essentials-group", label: t("Tinh hoa Anh ngữ", "Foundational English"), icon: BookOpen, groupLabel: "en-essentials", children: [
-      { to: "/english/essentials", label: t("Tổng quan", "Overview"), icon: BookOpen },
       { to: "/english/grammar", label: t("Ngữ pháp", "Grammar"), icon: BookOpen },
       { to: "/english/pronunciation", label: t("Phát âm & Ngữ điệu", "Pronunciation & Intonation"), icon: Mic2 },
       { to: "/english/conversational/curriculum", label: t("Giao tiếp", "Conversational"), icon: MessageSquare },
