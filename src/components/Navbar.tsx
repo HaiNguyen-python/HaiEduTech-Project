@@ -333,15 +333,15 @@ const Navbar = () => {
       { to: "/chinese/writing-practice", label: t("Luyện viết", "Writing Practice"), icon: PenLine },
       { to: "/speaking-coach/chinese", label: t("Luyện nói", "Speaking Practice"), icon: Mic2 },
     ] },
-    { to: "#cn-foundation-group", label: t("Communication Program", "Communication Program"), icon: MessageSquare, groupLabel: "cn-foundation", children: [
+    { to: "#cn-foundation-group", label: t("Advanced Chinese", "Advanced Chinese"), icon: MessageSquare, groupLabel: "cn-foundation", children: [
       { to: "/chinese/conversational/curriculum", label: t("Chương trình Tương tác", "Interactive Curriculum"), icon: MessagesSquare },
       { to: "/chinese/culture", label: t("Văn hóa Giao tiếp", "Communication Culture"), icon: Landmark },
+      { to: "/specialized-language?lang=chinese", label: t("Tiếng Trung Chuyên ngành", "Specialized Chinese"), icon: Brain },
     ] },
     { to: "#cn-div2", label: "", divider: true },
     { to: "#cn-practice-group", label: t("Luyện tập & Giải trí", "Practice & Fun"), icon: Target, groupLabel: "cn-practice", children: [
       { to: "/chinese/arcade", label: t("Chinese Arcade Hub", "Chinese Arcade Hub"), icon: Gamepad2 },
       { to: "/songs/chinese", label: t("Học qua bài hát", "Learn through Songs"), icon: Music },
-      { to: "/specialized-language?lang=chinese", label: t("Tiếng Trung Chuyên ngành", "Specialized Chinese"), icon: Brain },
     ] },
   ];
   const vietnameseSubs: SubItem[] = [
