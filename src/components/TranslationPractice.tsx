@@ -1,3 +1,4 @@
+import { pickRandomIndex, markPracticed } from "@/lib/randomPicker";
 /**
  * Translation Practice - learners translate standard IELTS Writing sentences
  * from Vietnamese into English, then get local + AI feedback with a model answer.
@@ -129,7 +130,7 @@ const TranslationPractice = ({ taskType }: Props) => {
   };
 
   useEffect(() => {
-    setIndex(0);
+    setIndex(pickRandomIndex(`translate-t${taskType}`, items.map((i) => i.id)));
     reset();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [taskType, category]);
@@ -149,6 +150,13 @@ const TranslationPractice = ({ taskType }: Props) => {
     } catch {
       /* ignore */
     }
+  };
+
+  const goRandom = () => {
+    if (!items.length) return;
+    if (item) markPracticed(`translate-t${taskType}`, item.id);
+    setIndex(pickRandomIndex(`translate-t${taskType}`, items.map((i) => i.id), item?.id));
+    reset();
   };
 
   const goTo = (next: number) => {
@@ -409,7 +417,9 @@ const TranslationPractice = ({ taskType }: Props) => {
             value={answer}
             onChange={(e) => setAnswer(e.target.value)}
             onKeyDown={(e) => {
-              if ((e.metaKey || e.ctrlKey) && e.key === "Enter") handleSubmit();
+              if (e.key !== "Enter" || e.shiftKey) return;
+              if (e.metaKey || e.ctrlKey) { e.preventDefault(); handleSubmit(); return; }
+              if (revealed && !grading) { e.preventDefault(); goRandom(); }
             }}
             placeholder={t("Viết bản dịch tiếng Anh của bạn...", "Write your English translation...")}
             className="min-h-[110px] text-base"
@@ -420,10 +430,10 @@ const TranslationPractice = ({ taskType }: Props) => {
               {grading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
               {t("Chấm bản dịch", "Check translation")}
             </Button>
-            <Button variant="outline" onClick={() => goTo(index + 1)} className="gap-1.5">
+            <Button variant="outline" onClick={goRandom} className="gap-1.5">
               {t("Câu tiếp theo", "Next")} <ArrowRight className="w-4 h-4" />
             </Button>
-            <Button variant="ghost" onClick={() => goTo(Math.floor(Math.random() * items.length))} className="gap-1.5">
+            <Button variant="ghost" onClick={goRandom} className="gap-1.5">
               <Shuffle className="w-4 h-4" /> {t("Ngẫu nhiên", "Random")}
             </Button>
             <Button variant="ghost" onClick={reset} className="gap-1.5">
@@ -577,7 +587,7 @@ const TranslationPractice = ({ taskType }: Props) => {
                     {saved ? <BookmarkCheck className="w-4 h-4" /> : <BookmarkPlus className="w-4 h-4" />}
                     {saved ? t("Đã lưu", "Saved") : t("Lưu vào sổ tay", "Save to notebook")}
                   </Button>
-                  <Button size="sm" onClick={() => goTo(index + 1)} className="gap-1.5">
+                  <Button size="sm" onClick={goRandom} className="gap-1.5">
                     {t("Câu tiếp theo", "Next sentence")} <ArrowRight className="w-4 h-4" />
                   </Button>
                 </div>
