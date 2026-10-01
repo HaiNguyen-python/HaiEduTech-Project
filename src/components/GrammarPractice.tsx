@@ -22,6 +22,7 @@ import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { recordPracticeSignal } from "@/lib/writingPracticeSignals";
+import { pickRandomIndex, markPracticed } from "@/lib/randomPicker";
 import {
   IELTS_GRAMMAR,
   GRAMMAR_CATEGORIES,
@@ -63,7 +64,7 @@ const escapeHtml = (s: string) =>
 const GrammarPractice = ({ taskType }: Props) => {
   const { t } = useLanguage();
   const [activeCategory, setActiveCategory] = useState<string>("all");
-  const [selected, setSelected] = useState<IELTSGrammarItem | null>(null);
+  const [idx, setIdx] = useState(0);
   const [sentence, setSentence] = useState("");
   const [grading, setGrading] = useState(false);
   const [result, setResult] = useState<GradeResult | null>(null);
@@ -86,21 +87,46 @@ const GrammarPractice = ({ taskType }: Props) => {
     return pool.filter((g) => g.category === activeCategory);
   }, [activeCategory, pool]);
 
-  // Reset selection + category when the learner switches task, so Task 1 never
-  // shows a Task 2 structure card (and vice versa).
+  // Random presentation: the system serves the structure, students cannot cherry-pick easy ones.
+  const poolKey = `grammar-t${taskType}:${activeCategory}`;
+  const itemIds = useMemo(() => filtered.map((g) => g.id), [filtered]);
+  const selected = filtered[idx % Math.max(1, filtered.length)] ?? null;
+
+  const resetAttempt = () => {
+    setSentence("");
+    setResult(null);
+    setSaved(false);
+  };
+
   useEffect(() => {
     setActiveCategory("all");
-    setSelected(null);
-    setSentence("");
-    setResult(null);
-    setSaved(false);
+    setIdx(0);
+    resetAttempt();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [taskType]);
 
-  const handleSelect = (g: IELTSGrammarItem) => {
-    setSelected(g);
-    setSentence("");
-    setResult(null);
-    setSaved(false);
+  useEffect(() => {
+    setIdx(pickRandomIndex(poolKey, itemIds));
+    resetAttempt();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [taskType, activeCategory]);
+
+  const goToRandom = () => {
+    setIdx(pickRandomIndex(poolKey, itemIds, selected?.id));
+    resetAttempt();
+  };
+
+  const goNext = () => {
+    if (selected) markPracticed(poolKey, selected.id);
+    goToRandom();
+  };
+
+  const onSentenceKey = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      if (result) goNext();
+      else handleSubmit();
+    }
   };
 
   const appendToNotebook = async (block: string): Promise<boolean> => {
@@ -511,9 +537,8 @@ const GrammarPractice = ({ taskType }: Props) => {
                 </motion.div>
               )}
             </AnimatePresence>
-          </>
-        )}
-      </div>
+        </>
+      )}
     </div>
   );
 };
