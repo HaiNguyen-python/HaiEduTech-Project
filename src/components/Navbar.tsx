@@ -324,7 +324,7 @@ const Navbar = () => {
       { to: "/chinese/hsk/test", label: t("HSK Test", "HSK Test"), icon: FileText },
       { to: "/chinese/hskk", label: t("HSKK Speaking", "HSKK Speaking"), icon: Mic2 },
     ] },
-    { to: "#cn-foundation-skills-group", label: t("Kỹ năng nền tảng", "Foundation Skills"), icon: BookType, groupLabel: "cn-foundation-skills", children: [
+    { to: "#cn-foundation-skills-group", label: t("Chinese Essentials", "Chinese Essentials"), icon: BookType, groupLabel: "cn-foundation-skills", children: [
       { to: "/chinese/pronunciation", label: t("Phát âm Pinyin", "Pinyin Pronunciation"), icon: Volume2 },
       { to: "/chinese/strokes", label: t("Hướng dẫn nét bút", "Stroke Order Guide"), icon: PenTool },
       { to: "/chinese/tone-drill", label: t("Tone Drill", "Tone Drill"), icon: Target },
@@ -888,7 +888,7 @@ const Navbar = () => {
                                                 : sub.groupLabel === "prog-career" ? t("Sự nghiệp & Dự án", "Career & Projects")
                                                 : sub.groupLabel === "cn-hsk" ? t("Lộ trình HSK", "HSK Program")
                                                 : sub.groupLabel === "cn-conv" ? t("Giao tiếp & Tương tác", "Conversational")
-                                                : sub.groupLabel === "cn-foundation-skills" ? t("Kỹ năng nền tảng", "Foundation Skills")
+                                                : sub.groupLabel === "cn-foundation-skills" ? t("Chinese Essentials", "Chinese Essentials")
                                                 : sub.groupLabel === "cn-practice" ? t("Luyện tập & Giải trí", "Practice & Fun")
                                                 : sub.groupLabel === "ielts-skills" ? t("IELTS Skills Practice", "IELTS Skills Practice")
                                                 : sub.label}
