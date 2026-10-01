@@ -46,35 +46,22 @@ Score each criterion 0-10, overall = average rounded to 1 decimal.
 Return ONLY JSON: {"overall":n,"scores":{"task":n,"vocab":n,"grammar":n,"coherence":n,"hanzi":n},"improvements":["what is good, in Vietnamese"],"issues":["specific error quoted in Chinese + fix, explained in Vietnamese"],"corrected":"learner's text corrected in Chinese, keeping their idea","correctedPinyin":"pinyin with tone marks for corrected","upgraded":"a more advanced natural version in Chinese","tipVi":"one short tip in Vietnamese"}
 Never use em-dashes.`;
 
-  const r = await fetch("https://ai.gateway.lovable.dev/v1/responses", {
-    method: "POST",
-    headers: { "Lovable-API-Key": key, Authorization: `Bearer ${key}`, "Content-Type": "application/json", "X-Lovable-AIG-SDK": "fetch" },
-    body: JSON.stringify({ model: "openai/gpt-6-astra", input: prompt, stream: true, store: false, reasoning: { effort: "low" } }),
-  });
-  if (r.status === 429) return json({ error: "Rate limit, please try again shortly." }, 429);
-  if (r.status === 402) return json({ error: "AI credits exhausted." }, 402);
-  if (r.status === 403) return json({ error: "AI access denied." }, 403);
-  if (!r.ok || !r.body) return json({ error: "AI grading failed" }, 502);
-
-  const reader = r.body.getReader();
-  const dec = new TextDecoder();
-  let buf = "", text = "";
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) break;
-    buf += dec.decode(value, { stream: true });
-    const lines = buf.split("\n");
-    buf = lines.pop() ?? "";
-    for (const line of lines) {
-      if (!line.startsWith("data:")) continue;
-      const d = line.slice(5).trim();
-      if (!d || d === "[DONE]") continue;
-      try {
-        const ev = JSON.parse(d);
-        if (ev.type === "response.output_text.delta") text += ev.delta ?? "";
-      } catch { /* ignore */ }
-    }
-  }
+  const call = async () => {
+    const r = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ model: "google/gemini-2.5-flash", messages: [{ role: "user", content: prompt }], response_format: { type: "json_object" } }),
+    });
+    if (!r.ok) return { status: r.status, text: "" };
+    const d = await r.json().catch(() => null);
+    return { status: 200, text: String(d?.choices?.[0]?.message?.content ?? "") };
+  };
+  let res = await call();
+  if (res.status === 429) return json({ error: "Rate limit, please try again shortly." }, 429);
+  if (res.status === 402) return json({ error: "AI credits exhausted." }, 402);
+  if (res.status !== 200) return json({ error: "AI grading failed" }, 502);
+  let text = res.text;
+  if (!parse(text)) { res = await call(); text = res.text; }
   const out = parse(text);
   if (!out || typeof out.overall !== "number") return json({ error: "invalid_ai_json" }, 502);
   return json(out);
