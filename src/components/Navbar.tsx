@@ -328,19 +328,19 @@ const Navbar = () => {
       { to: "/chinese/pronunciation", label: t("Phát âm Pinyin", "Pinyin Pronunciation"), icon: Volume2 },
       { to: "/chinese/strokes", label: t("Hướng dẫn nét bút", "Stroke Order Guide"), icon: PenTool },
       { to: "/chinese/tone-drill", label: t("Tone Drill", "Tone Drill"), icon: Target },
+      { to: "/chinese/reading", label: t("Luyện đọc", "Reading Practice"), icon: BookOpen },
+      { to: "/chinese/listening", label: t("Luyện nghe", "Listening Practice"), icon: Headphones },
+      { to: "/chinese/writing-practice", label: t("Luyện viết", "Writing Practice"), icon: PenLine },
+      { to: "/speaking-coach/chinese", label: t("Luyện nói", "Speaking Practice"), icon: Mic2 },
     ] },
     { to: "#cn-foundation-group", label: t("Communication Program", "Communication Program"), icon: MessageSquare, groupLabel: "cn-foundation", children: [
       { to: "/chinese/conversational/curriculum", label: t("Chương trình Tương tác", "Interactive Curriculum"), icon: MessagesSquare },
       { to: "/chinese/culture", label: t("Văn hóa Giao tiếp", "Communication Culture"), icon: Landmark },
-      { to: "/chinese/reading", label: t("Luyện đọc", "Reading Practice"), icon: BookOpen },
-      { to: "/chinese/listening", label: t("Luyện nghe", "Listening Practice"), icon: Headphones },
     ] },
     { to: "#cn-div2", label: "", divider: true },
     { to: "#cn-practice-group", label: t("Luyện tập & Giải trí", "Practice & Fun"), icon: Target, groupLabel: "cn-practice", children: [
       { to: "/chinese/arcade", label: t("Chinese Arcade Hub", "Chinese Arcade Hub"), icon: Gamepad2 },
       { to: "/songs/chinese", label: t("Học qua bài hát", "Learn through Songs"), icon: Music },
-      { to: "/speaking-coach/chinese", label: t("Speaking Coach", "Speaking Coach"), icon: Mic2 },
-      { to: "/chinese/writing-practice", label: t("Luyện viết", "Writing Practice"), icon: PenLine },
       { to: "/specialized-language?lang=chinese", label: t("Tiếng Trung Chuyên ngành", "Specialized Chinese"), icon: Brain },
     ] },
   ];
