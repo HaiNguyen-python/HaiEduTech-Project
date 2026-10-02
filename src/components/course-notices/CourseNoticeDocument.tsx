@@ -1,6 +1,5 @@
 import { forwardRef } from "react";
 import type { CourseNoticeData } from "@/lib/courseNotice";
-import logoAsset from "@/assets/haiedutech-course-notice-logo.png.asset.json";
 
 const money = (n: number, currency: "EUR" | "VND") => currency === "EUR"
   ? `${new Intl.NumberFormat("en-IE", { maximumFractionDigits: 0 }).format(n)} EUR`
@@ -16,7 +15,7 @@ const CourseNoticeDocument = forwardRef<HTMLDivElement, Props>(({ code, data }, 
     <header className="course-notice-letterhead px-8 pb-5 pt-6 sm:px-11">
       <div className="flex items-start justify-between gap-6">
         <div className="flex min-w-0 items-center gap-4">
-          <img src={logoAsset.url} alt="HaiEduTech" className="h-[76px] w-[76px] shrink-0 object-contain" />
+          <img src="/haiedutech-logo.jpg" alt="HaiEduTech" className="h-[76px] w-[76px] shrink-0 object-contain" />
           <div className="min-w-0">
             <p className="course-notice-brand text-2xl font-black uppercase sm:text-3xl">HaiEduTech</p>
             <p className="mt-1 text-[10px] font-bold uppercase text-muted-foreground sm:text-xs">Trung tâm Ngoại ngữ & Tin học</p>
