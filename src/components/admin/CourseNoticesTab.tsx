@@ -150,8 +150,18 @@ export default function CourseNoticesTab() {
   };
   const setExtraFeeAmount = (raw: string) => {
     const v = Math.max(0, Number(raw) || 0);
-    setData((prev) => (prev.currency ?? "vnd") === "eur" ? { ...prev, extraFeeEur: v } : { ...prev, extraFeeVnd: v });
+    setData((prev) => (prev.currency ?? "vnd") === "eur"
+      ? { ...prev, extraFeeEur: v, extraFeeVnd: Math.round(v * EUR_TO_VND) }
+      : { ...prev, extraFeeVnd: v, extraFeeEur: Math.round(v / EUR_TO_VND * 100) / 100 });
   };
+  const setCurrency = (currency: "vnd" | "eur") => setData((prev) => {
+    const current = prev.currency ?? "vnd";
+    if (current === currency) return prev;
+    const fee = current === "eur" ? (prev.extraFeeEur ?? Math.round((prev.extraFeeVnd ?? 0) / EUR_TO_VND * 100) / 100) : (prev.extraFeeVnd ?? 0);
+    return { ...prev, currency,
+      extraFeeEur: currency === "eur" ? fee : Math.round(fee * EUR_TO_VND),
+      extraFeeVnd: currency === "eur" ? Math.round(fee * EUR_TO_VND) : fee };
+  });
   const chooseStudent = (id: string) => {
     if (id === "manual") { setStudentId(null); return; }
     const student = students.find((item) => item.id === id);
