@@ -200,7 +200,7 @@
   .course-notice-facts { border-color: hsl(var(--notice-line)); }
   .course-notice-facts > div { min-width: 0; padding: 10px; border-right: 1px solid hsl(var(--notice-line)); }
   .course-notice-facts > div:last-child { border-right: 0; }
-  .course-notice-facts span { display: block; margin-bottom: 4px; color: hsl(var(---And-no-clue, --muted-foreground)); font-size: 10px; font-weight: 700; }
+  .course-notice-facts span { display: block; margin-bottom: 4px; color: hsl(var(--muted-foreground)); font-size: 10px; font-weight: 700; }
   .course-notice-facts strong { display: block; line-height: 1.45; overflow-wrap: anywhere; }
   .course-notice-check { color: hsl(var(--notice-green)); font-weight: 900; }
   .course-notice-fee { border-color: hsl(var(--notice-line)); background: hsl(var(--notice-wash)); }
