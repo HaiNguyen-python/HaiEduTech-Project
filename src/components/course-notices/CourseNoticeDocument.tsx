@@ -57,8 +57,7 @@ const CourseNoticeDocument = forwardRef<HTMLDivElement, Props>(({ code, data, ed
 
     <div className="px-8 pb-7 sm:px-11">
       <div className="course-notice-title-block border-y py-5 text-center">
-        <p className="text-[11px] font-black uppercase">Official announcement</p>
-        <h1 className="mt-2 text-2xl font-black uppercase sm:text-[28px]">Programme & Course Announcement</h1>
+        <h1 className="text-2xl font-black uppercase sm:text-[28px]">Programme & Course Announcement</h1>
       </div>
 
       <section className="py-5">
