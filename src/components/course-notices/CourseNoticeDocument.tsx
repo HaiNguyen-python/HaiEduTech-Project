@@ -96,7 +96,7 @@ const CourseNoticeDocument = forwardRef<HTMLDivElement, Props>(({ code, data, ed
           <div><h3 className="text-2xl font-extrabold" {...editableProps(isVi ? "courseNameVi" : "courseNameEn")}>{(isVi ? data.courseNameVi : data.courseNameEn) || copy.course}</h3></div>
           <p className="course-notice-format px-3 py-1 text-sm font-bold">{data.classType === "private" ? copy.private : copy.group}</p>
         </div>
-        <div className="course-notice-facts mt-4 grid grid-cols-2 border text-sm sm:grid-cols-4">
+        <div className="course-notice-facts mt-4 grid grid-cols-2 border text-sm sm:grid-cols-[1.6fr_1.2fr_1fr_1fr]">
           <div><span>{copy.schedule}</span><strong><span {...editableProps("schedule")}>{data.schedule || copy.scheduleFallback}</span>{data.timezone ? ` (${data.timezone})` : ""}</strong></div>
           <div><span>{copy.duration}</span><strong>{data.weeks} {copy.weeks} · {data.sessions} {copy.sessions} · {data.hours} {copy.hours}</strong></div>
           <div><span>{copy.start}</span><strong>{date(data.startDate)}</strong></div>
