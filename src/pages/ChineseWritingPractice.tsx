@@ -59,7 +59,7 @@ export default function ChineseWritingPractice() {
       <main className="container mx-auto px-4 pt-28 pb-16 max-w-5xl space-y-5">
         <header>
           <h1 className="text-3xl md:text-4xl font-bold text-foreground">{t("Luyện viết tiếng Trung", "Chinese Writing Practice")}</h1>
-          <p className="text-muted-foreground mt-1">{t("Luyện viết câu, cấu trúc và từ vựng theo chủ đề, chấm bằng AI.", "Practise sentences, structures and vocabulary by topic, graded by AI.")}</p>
+          <p className="text-muted-foreground mt-1">{t("Luyện viết câu, cấu trúc và từ vựng theo chủ đề, chấm bằng AI.", "Practise sentences, structures and vocabulary by topic, graded by HaiEduTech smart system")}</p>
         </header>
         <div className="flex flex-wrap items-center gap-2">
           <span className="text-sm text-muted-foreground">{t("Cấp độ:", "Level:")}</span>
