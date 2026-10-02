@@ -122,7 +122,28 @@ export default function CourseNoticesTab() {
     } catch (e) { toast({ title: t("Gửi email chưa thành công", "Email was not sent"), description: e instanceof Error ? e.message : undefined, variant: "destructive" }); }
     finally { setSending(false); }
   };
-  const printPdf = () => { document.title = `${code}_${normalized.recipientName.replace(/\s+/g, "_")}`; window.print(); };
+  const printPdf = () => {
+    const source = printRef.current;
+    if (!source) return;
+
+    const previousTitle = document.title;
+    const host = document.createElement("div");
+    host.id = "course-notice-print-host";
+    const printable = source.cloneNode(true) as HTMLElement;
+    printable.removeAttribute("id");
+    host.appendChild(printable);
+    document.body.appendChild(host);
+    document.body.classList.add("course-notice-printing");
+    document.title = `${code}_${normalized.recipientName.replace(/\s+/g, "_")}`;
+
+    const cleanup = () => {
+      document.body.classList.remove("course-notice-printing");
+      host.remove();
+      document.title = previousTitle;
+    };
+    window.addEventListener("afterprint", cleanup, { once: true });
+    window.print();
+  };
   const openRecord = (record: CourseNoticeRecord) => { setRecordId(record.id); setCode(record.notice_code); setStudentId(record.student_id); setData(record.snapshot); setModulesText(record.snapshot.modules.join("\n")); setBenefitsText(record.snapshot.benefits.join("\n")); window.scrollTo({ top: 0, behavior: "smooth" }); };
   const duplicate = async (record: CourseNoticeRecord) => { try { const copy = await duplicateCourseNotice(record); await reload(); openRecord(copy); toast({ title: t("Đã nhân bản giấy báo", "Course notice duplicated") }); } catch { toast({ title: t("Không thể nhân bản", "Could not duplicate"), variant: "destructive" }); } };
 
@@ -132,7 +153,7 @@ export default function CourseNoticesTab() {
   });
 
   return <div className="space-y-6">
-    <style>{`@media print { body * { visibility: hidden !important; } #course-notice-print, #course-notice-print * { visibility: visible !important; } #course-notice-print { position: absolute; inset: 0; width: 210mm; max-width: 210mm; min-height: 297mm; color: #0f172a !important; background: white !important; } @page { size: A4; margin: 0; } }`}</style>
+    <style>{`#course-notice-print-host { display: none; } @media print { body.course-notice-printing > *:not(#course-notice-print-host) { display: none !important; } body.course-notice-printing { margin: 0 !important; overflow: visible !important; background: white !important; } body.course-notice-printing #course-notice-print-host { display: block !important; width: 210mm; min-height: 297mm; color: #0f172a !important; background: white !important; } body.course-notice-printing #course-notice-print-host > article { width: 210mm !important; max-width: 210mm !important; min-height: 297mm; margin: 0 !important; box-shadow: none !important; } @page { size: A4; margin: 0; } }`}</style>
     <div className="flex flex-wrap items-end justify-between gap-4">
       <div><h2 className="text-2xl font-black">{t("Giấy báo chương trình & khóa học", "Programme & course notices")}</h2><p className="mt-1 text-sm text-muted-foreground">{t("Soạn, lưu, tải PDF và gửi giấy báo cá nhân hóa cho từng học viên.", "Create, save, download and email a personalised notice to each learner.")}</p></div>
       <Button variant="outline" onClick={reset}><FilePlus2 className="h-4 w-4" />{t("Tạo giấy báo mới", "New notice")}</Button>
