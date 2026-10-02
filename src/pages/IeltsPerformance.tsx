@@ -5,6 +5,7 @@
  *   predicts the achievable band, estimates test readiness and ranks what to fix.
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
+import IllustratedPageHeader from "@/components/common/IllustratedPageHeader";
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
