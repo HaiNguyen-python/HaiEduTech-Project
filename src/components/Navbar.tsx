@@ -263,8 +263,8 @@ const Navbar = () => {
 
   // National Exam nested sub-items
   const nationalExamChildren: SubItem[] = [
-    { to: "/national-exam/essential-review", label: t("Ngữ pháp & Từ vựng cốt lõi", "Highschool Grammar & Vocabulary"), icon: BookOpen },
-    { to: "/national-exam", label: t("Phòng luyện thi TN THPT", "Highschool Exam Practice"), icon: FileText },
+    { to: "/national-exam/essential-review", label: t("Ngữ pháp & Từ vựng cốt lõi", "Highschool English"), icon: BookOpen },
+    { to: "/national-exam", label: t("Phòng luyện thi TN THPT", "National Exam"), icon: FileText },
   ];
 
   const englishSubs: SubItem[] = [
@@ -283,7 +283,7 @@ const Navbar = () => {
     // English Essentials - flyout with the four pillars
     { to: "#en-essentials-group", label: t("Tinh hoa Anh ngữ", "English Essentials"), icon: BookOpen, groupLabel: "en-essentials", children: [
       { to: "/english/grammar", label: t("Ngữ pháp", "Grammar"), icon: BookOpen },
-      { to: "/english/pronunciation", label: t("Phát âm & Ngữ điệu", "Pronunciation & Intonation"), icon: Mic2 },
+      { to: "/english/pronunciation", label: t("Phát âm & Ngữ điệu", "Pronunciation"), icon: Mic2 },
       { to: "/english/conversational/curriculum", label: t("Giao tiếp", "Communication"), icon: MessageSquare },
       { to: "/english/idioms", label: t("Thành ngữ & Danh ngôn", "Idioms & Quotes"), icon: Quote },
     ] },
