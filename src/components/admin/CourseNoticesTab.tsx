@@ -50,17 +50,17 @@ const fmtDate = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padS
 const initialData = (): CourseNoticeData => ({
   recipientName: "", recipientEmail: "", recipientPhone: "", courseKey: catalog[0]?.key ?? "custom",
   courseNameVi: catalog[0]?.nameVi ?? "", courseNameEn: catalog[0]?.nameEn ?? "", classType: "group", level: "",
-  objective: "Phát triển nền tảng vững chắc và ứng dụng tự tin trong học tập, công việc và giao tiếp thực tế.",
-  startDate: addDays(7), endDate: addDays(91), schedule: "Thứ 3 - Thứ 5, 19:00 - 20:30", timezone: "Giờ Việt Nam / Vietnam time",
+  objective: "Build a solid foundation and apply it confidently in study, work and real-life communication.",
+  startDate: addDays(7), endDate: addDays(91), schedule: "Tuesday - Thursday, 19:00 - 20:30", timezone: "Vietnam time",
   weeks: 12, sessions: 24, hours: 36,
-  modules: ["Đánh giá đầu vào và xây dựng lộ trình cá nhân", "Củng cố kiến thức nền tảng theo cấp độ", "Thực hành ứng dụng và phản hồi chuyên sâu", "Ôn tập, đánh giá tiến bộ và định hướng tiếp theo"],
-  benefits: ["Toàn bộ tài liệu trong chương trình học", "Phản hồi cá nhân sau từng giai đoạn", "Theo dõi tiến độ trên hệ thống HaiEduTech"], note: "",
+  modules: ["Placement assessment and personalised learning plan", "Strengthening core knowledge by level", "Applied practice with in-depth feedback", "Review, progress assessment and next-step guidance"],
+  benefits: ["All course materials included", "Personal feedback after each stage", "Progress tracking on the HaiEduTech platform"], note: "",
   baseEur: catalog[0]?.groupPrice ?? 210, baseVnd: (catalog[0]?.groupPrice ?? 210) * EUR_TO_VND,
   discountType: "percent", discountValue: 0, discountReason: "", finalEur: catalog[0]?.groupPrice ?? 210, finalVnd: (catalog[0]?.groupPrice ?? 210) * EUR_TO_VND,
   paymentReference: "", extraFeeLabel: "", extraFeeVnd: 0,
   paymentDeadline: addDays(5), paymentMethod: "both",
-  instructorName: "Ths.Ks. Nguyễn Trần Thanh Hải", instructorCredentials: "Thạc sĩ Ngôn ngữ & Văn hóa Anh (Phần Lan)",
-  instructorExpertise: "Kỹ sư dữ liệu & trí tuệ nhân tạo (Phần Lan) · 15 năm kinh nghiệm giảng dạy",
+  instructorName: "Nguyen Tran Thanh Hai, M.A., M.Eng.", instructorCredentials: "Master's in English Language & Culture (Finland)",
+  instructorExpertise: "Data & AI Engineer (Finland) · 15 years of teaching experience",
   instructorPhone: "0962.823.800", instructorEmail: "contact@haiedutech.com", instructorWebsite: "haiedutech.com", issuedAt: today(),
 });
 
