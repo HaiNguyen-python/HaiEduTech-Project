@@ -41,7 +41,7 @@ serve(async (req) => {
     const result = await sendAndLog("course-notice", notice.recipient_email, { idempotencyKey: `course-notice-${notice.id}-${notice.send_count + 1}`, templateData: {
       language, recipientName: notice.recipient_name, noticeCode: notice.notice_code, courseName: isVi ? d.courseNameVi : d.courseNameEn,
       classType: d.classType === "private" ? (isVi ? "Kèm 1-1" : "One-to-one") : (isVi ? "Lớp nhóm" : "Group class"),
-      duration: `${d.weeks} ${isVi ? "tuần" : "weeks"} · ${d.sessions} ${isVi ? "buổi" : "sessions"} · ${d.hours} ${isVi ? "giờ" : "hours"}`, dates: `${date(d.startDate)} - ${date(d.endDate)}`, schedule: `${d.schedule}${d.timezone ? ` (${d.timezone})` : ""}`, objective: d.objective,
+      duration: `${d.weeks} ${isVi ? "tuần" : "weeks"}`, dates: `${date(d.startDate)} - ${date(d.endDate)}`, schedule: d.schedule,
       baseTuition: money(cur === "eur" ? d.baseEur : d.baseVnd),
       discount: d.discountType === "percent" ? `${d.discountValue}% ${d.discountReason || ""}` : `${money(d.discountValue)} ${d.discountReason || ""}`,
       finalTuition: money(cur === "eur" ? d.finalEur : d.finalVnd),

@@ -27,11 +27,9 @@ const CourseNoticeDocument = forwardRef<HTMLDivElement, Props>(({ code, data, ed
   const isVi = data.language === "vi";
   const copy = isVi ? {
     center: "Trung tâm Ngoại ngữ & Tin học",
-    reference: "Mã giấy báo", issued: "Ngày phát hành", title: "Giấy Báo Chương Trình & Khóa Học",
-    dear: "Kính gửi", learner: "Tên học viên",
-    intro: "Trung tâm Ngoại ngữ & Tin học HaiEduTech trân trọng gửi đến quý PHHS thông tin chương trình học được thiết kế theo mục tiêu cá nhân.",
+    title: "Thông Tin Khóa Học", learner: "Tên học viên",
     programme: "Chương trình học", course: "Tên khóa học", private: "Kèm 1-1", group: "Lớp nhóm",
-    schedule: "Lịch học", scheduleFallback: "Thỏa thuận với học viên", duration: "Thời lượng", start: "Bắt đầu", end: "Kết thúc", outcome: "Mục tiêu",
+    schedule: "Lịch học", scheduleFallback: "Thỏa thuận với học viên", duration: "Thời lượng", start: "Bắt đầu", end: "Kết thúc",
     weeks: "tuần", sessions: "buổi", hours: "giờ", tuition: "Học phí", standard: "Học phí tiêu chuẩn", discount: "Ưu đãi",
     final: "Học phí chính thức", otherFee: "Khoản phí khác", total: "Tổng thanh toán", paymentNote: "Quý PHHS vui lòng đóng HP đầu khóa học",
     vietnam: "Việt Nam · VND", finland: "Phần Lan · EUR", bank: "Ngân hàng", accountNumber: "Số tài khoản", accountHolder: "Chủ tài khoản",
@@ -39,11 +37,9 @@ const CourseNoticeDocument = forwardRef<HTMLDivElement, Props>(({ code, data, ed
     slogan: "Học thông minh • Dẫn đầu kỷ nguyên số",
   } : {
     center: "Language & Information Technology Center",
-    reference: "Reference", issued: "Issued", title: "Programme & Course Announcement",
-    dear: "Dear", learner: "Student name",
-    intro: "HaiEduTech Language & Information Technology Center is pleased to share the details of a study programme designed around the learner's personal goals.",
+    title: "Course Information", learner: "Student name",
     programme: "Study programme", course: "Course name", private: "One-to-one", group: "Group class",
-    schedule: "Schedule", scheduleFallback: "To be agreed with the learner", duration: "Duration", start: "Start", end: "End", outcome: "Outcome",
+    schedule: "Schedule", scheduleFallback: "To be agreed with the learner", duration: "Duration", start: "Start", end: "End",
     weeks: "weeks", sessions: "sessions", hours: "hours", tuition: "Tuition", standard: "Standard tuition", discount: "Discount",
     final: "Final tuition", otherFee: "Other fee", total: "Total due", paymentNote: "Tuition is payable at the start of the course.",
     vietnam: "Vietnam · VND", finland: "Finland · EUR", bank: "Bank", accountNumber: "Account number", accountHolder: "Account holder",
@@ -61,19 +57,13 @@ const CourseNoticeDocument = forwardRef<HTMLDivElement, Props>(({ code, data, ed
     <div className="course-notice-top-rule" />
 
     <header className="course-notice-letterhead px-8 pb-5 pt-6 sm:px-11">
-      <div className="flex items-start justify-between gap-6">
+      <div className="flex items-center gap-4">
         <div className="flex min-w-0 items-center gap-4">
           <img src="/haiedutech-logo.jpg" alt="HaiEduTech" className="h-[76px] w-[76px] shrink-0 object-contain" />
           <div className="min-w-0">
             <p className="course-notice-brand leading-none">HaiEduTech</p>
             <p className="mt-1 text-[11px] font-bold uppercase text-muted-foreground sm:text-sm">{copy.center}</p>
           </div>
-        </div>
-        <div className="course-notice-meta shrink-0 border-l pl-4 text-right text-[11px] leading-5 sm:pl-6">
-          <p className="font-bold uppercase text-muted-foreground">{copy.reference}</p>
-          <p className="font-mono font-bold text-foreground">{code}</p>
-          <p className="mt-1 font-bold uppercase text-muted-foreground">{copy.issued}</p>
-          <p className="font-semibold text-foreground">{date(data.issuedAt)}</p>
         </div>
       </div>
     </header>
@@ -84,10 +74,8 @@ const CourseNoticeDocument = forwardRef<HTMLDivElement, Props>(({ code, data, ed
       </div>
 
       <section className="py-5">
-        <p className="course-notice-kicker text-xs font-black uppercase">{copy.dear}</p>
-        <h2 className="mt-1 text-2xl font-extrabold" {...editableProps("recipientName")}>{data.recipientName || copy.learner}</h2>
+        <h2 className="text-2xl font-extrabold" {...editableProps("recipientName")}>{data.recipientName || copy.learner}</h2>
         <p className="mt-1 text-xs text-muted-foreground"><span {...editableProps("recipientEmail")}>{data.recipientEmail}</span>{data.recipientEmail && data.recipientPhone ? " · " : ""}<span {...editableProps("recipientPhone")}>{data.recipientPhone}</span></p>
-        <p className="mt-3 text-base leading-7">{copy.intro}</p>
       </section>
 
       <section className="course-notice-section break-inside-avoid border-t pt-4">
@@ -97,12 +85,11 @@ const CourseNoticeDocument = forwardRef<HTMLDivElement, Props>(({ code, data, ed
           <p className="course-notice-format px-3 py-1 text-sm font-bold">{data.classType === "private" ? copy.private : copy.group}</p>
         </div>
         <div className="course-notice-facts mt-4 grid grid-cols-2 border text-sm sm:grid-cols-[1.6fr_1.2fr_1fr_1fr]">
-          <div><span>{copy.schedule}</span><strong><span {...editableProps("schedule")}>{data.schedule || copy.scheduleFallback}</span>{data.timezone ? ` (${data.timezone})` : ""}</strong></div>
-          <div><span>{copy.duration}</span><strong>{data.weeks} {copy.weeks} · {data.sessions} {copy.sessions} · {data.hours} {copy.hours}</strong></div>
+          <div><span>{copy.schedule}</span><strong className="course-notice-schedule" {...editableProps("schedule")}>{data.schedule || copy.scheduleFallback}</strong></div>
+          <div><span>{copy.duration}</span><strong>{data.weeks} {copy.weeks}</strong></div>
           <div><span>{copy.start}</span><strong>{date(data.startDate)}</strong></div>
           <div><span>{copy.end}</span><strong>{date(data.endDate)}</strong></div>
         </div>
-        {data.objective && <p className="mt-4 text-base leading-7"><strong>{copy.outcome}:</strong> <span {...editableProps("objective")}>{data.objective}</span></p>}
       </section>
 
       <section className="course-notice-fee mt-5 break-inside-avoid border p-4">

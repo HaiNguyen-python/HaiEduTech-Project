@@ -51,7 +51,7 @@ const initialData = (): CourseNoticeData => ({
   recipientName: "", recipientEmail: "", recipientPhone: "", courseKey: catalog[0]?.key ?? "custom",
   courseNameVi: catalog[0]?.nameVi ?? "", courseNameEn: catalog[0]?.nameEn ?? "", classType: "group", level: "",
   objective: "Build a solid foundation and apply it confidently in study, work and real-life communication.",
-  startDate: addDays(7), endDate: addDays(91), schedule: "Tuesday - Thursday, 19:00 - 20:30", timezone: "Vietnam time",
+  startDate: addDays(7), endDate: addDays(91), schedule: "Tuesday - Thursday, 19:00 - 20:30", timezone: "",
   weeks: 12, sessions: 24, hours: 36,
   modules: ["Placement assessment and personalised learning plan", "Strengthening core knowledge by level", "Applied practice with in-depth feedback", "Review, progress assessment and next-step guidance"],
   benefits: ["All course materials included", "Personal feedback after each stage", "Progress tracking on the HaiEduTech platform"], note: "",
@@ -167,7 +167,7 @@ export default function CourseNoticesTab() {
       : "Build a solid foundation and apply it confidently in study, work and real-life communication.",
       schedule,
       endDate: computeEndDate(prev.startDate, Number(prev.weeks) || 0, schedule) ?? prev.endDate,
-      timezone: language === "vi" ? "Giờ Việt Nam" : "Vietnam time",
+      timezone: "",
       instructorCredentials: language === "vi" ? "Thạc sĩ Ngôn ngữ & Văn hóa Anh (Phần Lan)" : "Master's in English Language & Culture (Finland)",
       instructorExpertise: language === "vi" ? "Kỹ sư Dữ liệu & Trí tuệ nhân tạo (Phần Lan)\n15 năm kinh nghiệm giảng dạy" : "Data & AI Engineer (Finland)\n15 years of teaching experience",
     };
@@ -276,9 +276,8 @@ export default function CourseNoticesTab() {
           <div className="grid gap-3 sm:grid-cols-2"><div className="space-y-2"><Label>Tên tiếng Việt</Label><Input value={data.courseNameVi} onChange={(e) => update("courseNameVi", e.target.value)} /></div><div className="space-y-2"><Label>English name</Label><Input value={data.courseNameEn} onChange={(e) => update("courseNameEn", e.target.value)} /></div></div>
           <div className="grid gap-3 sm:grid-cols-2"><div className="space-y-2"><Label>Ngôn ngữ phiếu / Notice language</Label><Select value={data.language ?? "en"} onValueChange={(v) => setNoticeLanguage(v as "en" | "vi")}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="en">English</SelectItem><SelectItem value="vi">Tiếng Việt</SelectItem></SelectContent></Select></div><div className="space-y-2"><Label>Hình thức / Format</Label><Select value={data.classType} onValueChange={(v) => selectClassType(v as "group" | "private")}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="group">Lớp nhóm / Group</SelectItem><SelectItem value="private">Kèm 1-1 / One-to-one</SelectItem></SelectContent></Select></div></div>
           <div className="space-y-2"><Label>Lịch học / Schedule</Label><Input value={data.schedule} onChange={(e) => update("schedule", e.target.value)} /></div>
-          <div className="space-y-2"><Label>Mục tiêu đầu ra / Outcome</Label><Textarea rows={3} value={data.objective} onChange={(e) => update("objective", e.target.value)} /></div>
           <div className="grid gap-3 sm:grid-cols-2"><div className="space-y-2"><Label>Ngày bắt đầu</Label><Input type="date" value={data.startDate} onChange={(e) => update("startDate", e.target.value)} /></div><div className="space-y-2"><Label>Ngày kết thúc</Label><Input type="date" value={data.endDate} onChange={(e) => update("endDate", e.target.value)} /></div></div>
-          <div className="grid grid-cols-3 gap-3">{(["weeks", "sessions", "hours"] as const).map((key) => <div className="space-y-2" key={key}><Label>{key === "weeks" ? "Tuần" : key === "sessions" ? "Buổi" : "Giờ"}</Label><Input type="number" min="0" value={data[key]} onChange={(e) => update(key, Number(e.target.value))} /></div>)}</div>
+          <div className="space-y-2"><Label>Tuần / Weeks</Label><Input type="number" min="0" value={data.weeks} onChange={(e) => update("weeks", Number(e.target.value))} /></div>
         </div></div>
         <div className="border-t pt-5"><p className="mb-3 text-sm font-black uppercase text-primary">{t("Học phí", "Tuition")}</p>
           <div className="grid gap-3 sm:grid-cols-2"><div className="space-y-2"><Label>Đơn vị tiền / Currency</Label><Select value={noticeCurrency} onValueChange={(v) => setCurrency(v as CourseNoticeData["currency"])}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="vnd">Việt Nam đồng / VND</SelectItem><SelectItem value="eur">Euro / EUR</SelectItem></SelectContent></Select></div><div className="space-y-2"><Label>{`Học phí / Tuition (${noticeCurrency.toUpperCase()})`}</Label><Input type="number" min="0" value={noticeCurrency === "eur" ? data.baseEur : data.baseVnd} onChange={(e) => setBaseAmount(e.target.value)} /></div></div>
