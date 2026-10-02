@@ -133,14 +133,16 @@ export default function CourseNoticesTab() {
     setStudentId(id); if (student?.full_name) update("recipientName", student.full_name);
   };
   const reset = () => { const fresh = initialData(); setData(fresh); setModulesText(fresh.modules.join("\n")); setBenefitsText(fresh.benefits.join("\n")); setCode(buildNoticeCode()); setRecordId(undefined); setStudentId(null); };
-  const validate = () => {
-    if (!normalized.recipientName.trim() || !/^\S+@\S+\.\S+$/.test(normalized.recipientEmail)) { toast({ title: t("Hãy nhập tên và email học viên hợp lệ", "Enter a valid learner name and email"), variant: "destructive" }); return false; }
-    if (!normalized.courseNameVi.trim() || !normalized.startDate || !normalized.endDate) { toast({ title: t("Hãy hoàn tất thông tin khóa học", "Complete the course details"), variant: "destructive" }); return false; }
+  const validate = (forSend: boolean) => {
+    const email = normalized.recipientEmail.trim();
+    if (forSend && (!normalized.recipientName.trim() || !/^\S+@\S+\.\S+$/.test(email))) { toast({ title: t("Cần tên và email hợp lệ để gửi email", "A valid name and email are needed to send"), variant: "destructive" }); return false; }
+    if (!forSend && email && !/^\S+@\S+\.\S+$/.test(email)) { toast({ title: t("Email chưa đúng định dạng (có thể để trống)", "Email format is invalid (you may leave it empty)"), variant: "destructive" }); return false; }
+    if (forSend && (!normalized.courseNameVi.trim() || !normalized.startDate || !normalized.endDate)) { toast({ title: t("Hãy hoàn tất thông tin khóa học", "Complete the course details"), variant: "destructive" }); return false; }
     if ((normalized.extraFeeVnd ?? 0) > 0 && !normalized.extraFeeLabel?.trim()) { toast({ title: t("Hãy nhập tên khoản phí khác", "Name the additional fee"), variant: "destructive" }); return false; }
     return true;
   };
-  const persist = async () => {
-    if (!validate()) return null;
+  const persist = async (forSend = false) => {
+    if (!validate(forSend)) return null;
     setSaving(true);
     try {
       const saved = await saveCourseNotice({ id: recordId, code, studentId, data: normalized });
