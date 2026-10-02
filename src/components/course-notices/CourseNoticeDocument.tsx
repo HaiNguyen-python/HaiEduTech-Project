@@ -30,6 +30,12 @@ const CourseNoticeDocument = forwardRef<HTMLDivElement, Props>(({ code, data, ed
     onChange?.(key, next);
   };
 
+  const cur: "EUR" | "VND" = data.currency === "eur" ? "EUR" : "VND";
+  const amount = (n: number) => money(n, cur);
+  const toEur = (n: number) => Math.round(n / EUR_TO_VND * 100) / 100;
+  const extraAmount = cur === "EUR" ? (data.extraFeeEur ?? toEur(data.extraFeeVnd ?? 0)) : (data.extraFeeVnd ?? 0);
+  const finalAmount = cur === "EUR" ? data.finalEur : data.finalVnd;
+
   return (
   <article ref={ref} id="course-notice-print" className="course-notice mx-auto w-full max-w-[794px] overflow-hidden bg-card text-foreground shadow-xl print:max-w-none print:shadow-none">
     <div className="course-notice-top-rule" />
