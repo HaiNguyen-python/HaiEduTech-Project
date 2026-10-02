@@ -20,6 +20,32 @@ const today = () => new Date().toISOString().slice(0, 10);
 const addDays = (days: number) => { const d = new Date(); d.setDate(d.getDate() + days); return d.toISOString().slice(0, 10); };
 const catalog = Object.entries(tuitionBySubject).flatMap(([subject, courses]) => courses.map((course) => ({ ...course, subject })));
 const splitLines = (value: string) => value.split("\n").map((v) => v.trim()).filter(Boolean);
+/** Parse "Thứ 3 - Thứ 5" / "T2, T4, T6" / "Chủ nhật" into JS weekdays (0=Sun). */
+const parseWeekdays = (schedule: string): number[] => {
+  const s = schedule.toLowerCase();
+  const days = new Set<number>();
+  for (const m of s.matchAll(/(?:thứ|thu|t)\s*([2-7])/g)) days.add(Number(m[1]) - 1);
+  if (/chủ\s*nhật|cn\b|sunday/.test(s)) days.add(0);
+  const en: Record<string, number> = { mon: 1, tue: 2, wed: 3, thu: 4, fri: 5, sat: 6 };
+  for (const [k, v] of Object.entries(en)) if (new RegExp(`\\b${k}`).test(s)) days.add(v);
+  return [...days].sort();
+};
+/** End date = date of the last scheduled session after `weeks` weeks from start. */
+const computeEndDate = (startDate: string, weeks: number, schedule: string): string | null => {
+  if (!startDate || !weeks) return null;
+  const start = new Date(`${startDate}T00:00:00`);
+  if (isNaN(start.getTime())) return null;
+  const days = parseWeekdays(schedule);
+  if (!days.length) { const d = new Date(start); d.setDate(d.getDate() + weeks * 7 - 1); return fmtDate(d); }
+  const total = weeks * days.length;
+  const d = new Date(start); let count = 0; let last = d;
+  for (let i = 0; i < 400 && count < total; i++) {
+    if (days.includes(d.getDay())) { count++; last = new Date(d); }
+    d.setDate(d.getDate() + 1);
+  }
+  return fmtDate(last);
+};
+const fmtDate = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 
 const initialData = (): CourseNoticeData => ({
   recipientName: "", recipientEmail: "", recipientPhone: "", courseKey: catalog[0]?.key ?? "custom",
@@ -76,7 +102,14 @@ export default function CourseNoticesTab() {
     fetchAllProfiles().then((rows) => setStudents(dedupeStudentProfiles(rows).students)).catch(() => undefined);
   }, [reload]);
 
-  const update = <K extends keyof CourseNoticeData>(key: K, value: CourseNoticeData[K]) => setData((prev) => ({ ...prev, [key]: value }));
+  const update = <K extends keyof CourseNoticeData>(key: K, value: CourseNoticeData[K]) => setData((prev) => {
+    const next = { ...prev, [key]: value };
+    if (key === "startDate" || key === "weeks" || key === "schedule") {
+      const end = computeEndDate(next.startDate, Number(next.weeks) || 0, next.schedule);
+      if (end) next.endDate = end;
+    }
+    return next;
+  });
   const updateDocument = <K extends keyof CourseNoticeData>(key: K, value: CourseNoticeData[K]) => {
     if (key === "modules") setModulesText((value as string[]).join("\n"));
     if (key === "benefits") setBenefitsText((value as string[]).join("\n"));
@@ -137,6 +170,10 @@ export default function CourseNoticesTab() {
     const printable = source.cloneNode(true) as HTMLElement;
     printable.removeAttribute("id");
     host.appendChild(printable);
+    // Fit the whole notice onto one A4 page: 269mm layout width, 293mm usable height.
+    const ratio = source.offsetHeight / Math.max(1, source.offsetWidth);
+    const zoom = Math.min(0.78, (293 / (269 * ratio)) * 0.96);
+    printable.style.setProperty("zoom", String(Math.max(0.4, zoom)), "important");
     document.body.appendChild(host);
     document.body.classList.add("course-notice-printing");
     document.title = `${code}_${normalized.recipientName.replace(/\s+/g, "_")}`;
