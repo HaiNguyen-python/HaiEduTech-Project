@@ -148,9 +148,10 @@ export default function CourseNoticesTab() {
       ? { ...prev, baseEur: v, baseVnd: Math.round(v * EUR_TO_VND) }
       : { ...prev, baseVnd: v, baseEur: Math.round(v / EUR_TO_VND * 100) / 100 });
   };
+  const [feeCurrency, setFeeCurrency] = useState<"vnd" | "eur" | null>(null);
   const setExtraFeeAmount = (raw: string) => {
     const v = Math.max(0, Number(raw) || 0);
-    setData((prev) => (prev.currency ?? "vnd") === "eur"
+    setData((prev) => (feeCurrency ?? prev.currency ?? "vnd") === "eur"
       ? { ...prev, extraFeeEur: v, extraFeeVnd: Math.round(v * EUR_TO_VND) }
       : { ...prev, extraFeeVnd: v, extraFeeEur: Math.round(v / EUR_TO_VND * 100) / 100 });
   };
