@@ -57,6 +57,7 @@ const initialData = (): CourseNoticeData => ({
   benefits: ["Toàn bộ tài liệu trong chương trình học", "Phản hồi cá nhân sau từng giai đoạn", "Theo dõi tiến độ trên hệ thống HaiEduTech"], note: "",
   baseEur: catalog[0]?.groupPrice ?? 210, baseVnd: (catalog[0]?.groupPrice ?? 210) * EUR_TO_VND,
   discountType: "percent", discountValue: 0, discountReason: "", finalEur: catalog[0]?.groupPrice ?? 210, finalVnd: (catalog[0]?.groupPrice ?? 210) * EUR_TO_VND,
+  paymentReference: "", extraFeeLabel: "", extraFeeVnd: 0,
   paymentDeadline: addDays(5), paymentMethod: "both",
   instructorName: "Ths.Ks. Nguyễn Trần Thanh Hải", instructorCredentials: "Thạc sĩ Ngôn ngữ & Văn hóa Anh (Phần Lan)",
   instructorExpertise: "Kỹ sư dữ liệu & trí tuệ nhân tạo (Phần Lan) · 15 năm kinh nghiệm giảng dạy",
@@ -87,7 +88,7 @@ export default function CourseNoticesTab() {
     const baseVnd = Math.round(baseEur * EUR_TO_VND);
     const discountVnd = data.discountType === "percent" ? baseVnd * Math.min(100, Math.max(0, data.discountValue || 0)) / 100 : Math.min(baseVnd, Math.max(0, data.discountValue || 0));
     const finalVnd = Math.round(baseVnd - discountVnd);
-    return { ...data, baseEur, baseVnd, finalVnd, finalEur: Math.round(finalVnd / EUR_TO_VND), modules: splitLines(modulesText), benefits: splitLines(benefitsText) };
+    return { ...data, baseEur, baseVnd, finalVnd, finalEur: Math.round(finalVnd / EUR_TO_VND), extraFeeVnd: Math.max(0, Math.round(Number(data.extraFeeVnd) || 0)), modules: splitLines(modulesText), benefits: splitLines(benefitsText) };
   }, [data, modulesText, benefitsText]);
 
   const reload = useCallback(async () => {
@@ -135,6 +136,7 @@ export default function CourseNoticesTab() {
   const validate = () => {
     if (!normalized.recipientName.trim() || !/^\S+@\S+\.\S+$/.test(normalized.recipientEmail)) { toast({ title: t("Hãy nhập tên và email học viên hợp lệ", "Enter a valid learner name and email"), variant: "destructive" }); return false; }
     if (!normalized.courseNameVi.trim() || !normalized.startDate || !normalized.endDate) { toast({ title: t("Hãy hoàn tất thông tin khóa học", "Complete the course details"), variant: "destructive" }); return false; }
+    if ((normalized.extraFeeVnd ?? 0) > 0 && !normalized.extraFeeLabel?.trim()) { toast({ title: t("Hãy nhập tên khoản phí khác", "Name the additional fee"), variant: "destructive" }); return false; }
     return true;
   };
   const persist = async () => {
@@ -170,11 +172,19 @@ export default function CourseNoticesTab() {
     const printable = source.cloneNode(true) as HTMLElement;
     printable.removeAttribute("id");
     host.appendChild(printable);
-    // Fit the whole notice onto one A4 page: 269mm layout width, 293mm usable height.
-    const ratio = source.offsetHeight / Math.max(1, source.offsetWidth);
-    const zoom = Math.min(0.78, (293 / (269 * ratio)) * 0.96);
-    printable.style.setProperty("zoom", String(Math.max(0.4, zoom)), "important");
     document.body.appendChild(host);
+    // Measure at the actual A4 width; only shrink a notice if its contents exceed one page.
+    const pageWidth = host.getBoundingClientRect().width;
+    const pageHeight = pageWidth * 297 / 210;
+    let scale = 1;
+    for (let i = 0; i < 3; i++) {
+      printable.style.width = `${210 / scale}mm`;
+      printable.style.maxWidth = "none";
+      printable.style.zoom = String(scale);
+      const height = printable.getBoundingClientRect().height;
+      if (height <= pageHeight - 8) break;
+      scale = Math.max(0.55, Math.min(scale, scale * (pageHeight - 8) / height));
+    }
     document.body.classList.add("course-notice-printing");
     document.title = `${code}_${normalized.recipientName.replace(/\s+/g, "_")}`;
 
@@ -195,7 +205,7 @@ export default function CourseNoticesTab() {
   });
 
   return <div className="space-y-6">
-    <style>{`#course-notice-print-host { display: none; } @media print { body.course-notice-printing > *:not(#course-notice-print-host) { display: none !important; } body.course-notice-printing { margin: 0 !important; overflow: visible !important; background: white !important; } body.course-notice-printing #course-notice-print-host { display: block !important; width: 210mm; color: #0f172a !important; background: white !important; } body.course-notice-printing #course-notice-print-host > article { width: 269mm !important; max-width: 269mm !important; min-height: 0 !important; margin: 0 !important; zoom: 0.78; box-shadow: none !important; } body.course-notice-printing #course-notice-print-host footer { display: block !important; } @page { size: A4; margin: 0; } }`}</style>
+    <style>{`#course-notice-print-host { position: absolute; left: -10000px; top: 0; visibility: hidden; width: 210mm; } @media print { body.course-notice-printing > *:not(#course-notice-print-host) { display: none !important; } body.course-notice-printing { margin: 0 !important; overflow: visible !important; background: white !important; } body.course-notice-printing #course-notice-print-host { position: static; visibility: visible; width: 210mm; background: white !important; } body.course-notice-printing #course-notice-print-host > article { margin: 0 !important; min-height: 0 !important; box-shadow: none !important; } @page { size: A4; margin: 0; } }`}</style>
     <div className="flex flex-wrap items-end justify-between gap-4">
       <div><h2 className="text-2xl font-black">{t("Giấy báo chương trình & khóa học", "Programme & course notices")}</h2><p className="mt-1 text-sm text-muted-foreground">{t("Soạn, lưu, tải PDF và gửi giấy báo cá nhân hóa cho từng học viên.", "Create, save, download and email a personalised notice to each learner.")}</p></div>
       <Button variant="outline" onClick={reset}><FilePlus2 className="h-4 w-4" />{t("Tạo giấy báo mới", "New notice")}</Button>
@@ -219,9 +229,12 @@ export default function CourseNoticesTab() {
         </div></div>
         <div className="border-t pt-5"><p className="mb-3 text-sm font-black uppercase text-primary">{t("Học phí", "Tuition")}</p><div className="grid gap-3 sm:grid-cols-2"><div className="space-y-2"><Label>Học phí EUR</Label><Input type="number" min="0" value={data.baseEur} onChange={(e) => update("baseEur", Number(e.target.value))} /></div><div className="space-y-2"><Label>Giảm học phí</Label><Input type="number" min="0" value={data.discountValue} onChange={(e) => update("discountValue", Number(e.target.value))} /></div></div>
           <div className="mt-3 grid gap-3 sm:grid-cols-2"><Select value={data.discountType} onValueChange={(v) => update("discountType", v as "percent" | "amount")}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="percent">Phần trăm / Percent</SelectItem><SelectItem value="amount">Số tiền VND / Amount</SelectItem></SelectContent></Select><Input placeholder="Lý do ưu đãi / Reason" value={data.discountReason} onChange={(e) => update("discountReason", e.target.value)} /></div>
+          <div className="mt-3 grid gap-3 sm:grid-cols-2"><div className="space-y-2"><Label htmlFor="extra-fee-label">Khoản phí khác / Other fee</Label><Input id="extra-fee-label" placeholder="Ví dụ: Phí phần mềm" value={data.extraFeeLabel ?? ""} onChange={(e) => update("extraFeeLabel", e.target.value)} /></div><div className="space-y-2"><Label htmlFor="extra-fee-vnd">Số tiền / Amount (VND)</Label><Input id="extra-fee-vnd" type="number" min="0" step="1000" value={data.extraFeeVnd ?? 0} onChange={(e) => update("extraFeeVnd", Number(e.target.value))} /></div></div>
           <div className="mt-3 space-y-2"><Label>Chuyển khoản</Label><Select value={data.paymentMethod} onValueChange={(v) => update("paymentMethod", v as CourseNoticeData["paymentMethod"])}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="both">Việt Nam & Finland</SelectItem><SelectItem value="vietnam">Vietcombank · VND</SelectItem><SelectItem value="finland">Nordea · EUR</SelectItem></SelectContent></Select></div>
+          <div className="mt-3 space-y-2"><Label htmlFor="notice-payment-reference">Nội dung chuyển khoản / Payment reference</Label><Input id="notice-payment-reference" value={data.paymentReference ?? ""} onChange={(e) => update("paymentReference", e.target.value)} placeholder="Nhập nội dung riêng cho giấy báo" /></div>
           <p className="mt-3 rounded-md border border-primary/20 bg-primary/5 px-3 py-2 text-sm font-semibold text-foreground">Học phí được đóng đầu khóa học.</p>
           <p className="mt-3 border-l-4 border-primary pl-3 text-sm"><strong>{t("Học phí chính thức", "Final tuition")}:</strong> {new Intl.NumberFormat("vi-VN").format(normalized.finalVnd)}đ · {normalized.finalEur} EUR</p>
+          {(normalized.extraFeeVnd ?? 0) > 0 && <p className="mt-2 border-l-4 border-primary pl-3 text-sm"><strong>{t("Tổng thanh toán", "Total due")}:</strong> {new Intl.NumberFormat("vi-VN").format(normalized.finalVnd + (normalized.extraFeeVnd ?? 0))}đ · {Math.round((normalized.finalVnd + (normalized.extraFeeVnd ?? 0)) / EUR_TO_VND)} EUR</p>}
         </div>
         <div className="border-t pt-5"><p className="mb-3 text-sm font-black uppercase text-primary">{t("Giảng viên", "Instructor")}</p><div className="space-y-3"><Input value={data.instructorName} onChange={(e) => update("instructorName", e.target.value)} /><Input value={data.instructorCredentials} onChange={(e) => update("instructorCredentials", e.target.value)} /><Textarea rows={2} value={data.instructorExpertise} onChange={(e) => update("instructorExpertise", e.target.value)} /></div></div>
         <div className="space-y-2"><Label>Ghi chú / Note</Label><Textarea rows={3} value={data.note} onChange={(e) => update("note", e.target.value)} /></div>

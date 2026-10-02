@@ -29,8 +29,6 @@ const CourseNoticeDocument = forwardRef<HTMLDivElement, Props>(({ code, data, ed
     onChange?.(key, next);
   };
 
-  const referenceName = data.recipientName.trim() || "Tên học viên";
-
   return (
   <article ref={ref} id="course-notice-print" className="course-notice mx-auto w-full max-w-[794px] overflow-hidden bg-card text-foreground shadow-xl print:max-w-none print:shadow-none">
     <div className="course-notice-top-rule" />
@@ -104,13 +102,14 @@ const CourseNoticeDocument = forwardRef<HTMLDivElement, Props>(({ code, data, ed
             <tr className="border-b"><td className="py-2 font-semibold">Học phí niêm yết / Standard tuition</td><td className="py-2 text-right">{money(data.baseVnd, "VND")}</td><td className="py-2 text-right">{money(data.baseEur, "EUR")}</td></tr>
             <tr className="border-b"><td className="py-2 font-semibold">Ưu đãi / Discount {data.discountReason ? `(${data.discountReason})` : ""}</td><td className="py-2 text-right" colSpan={2}>{data.discountType === "percent" ? `${data.discountValue}%` : money(data.discountValue, "VND")}</td></tr>
             <tr><td className="py-2.5 text-sm font-extrabold">Học phí chính thức / Final tuition</td><td className="course-notice-total py-2.5 text-right text-sm font-extrabold">{money(data.finalVnd, "VND")}</td><td className="course-notice-total py-2.5 text-right text-sm font-extrabold">{money(data.finalEur, "EUR")}</td></tr>
+            {(data.extraFeeVnd ?? 0) > 0 && <><tr className="border-t"><td className="py-2 font-semibold">{data.extraFeeLabel?.trim() || "Phí khác / Other fee"}</td><td className="py-2 text-right">{money(data.extraFeeVnd ?? 0, "VND")}</td><td className="py-2 text-right">{money(Math.round((data.extraFeeVnd ?? 0) / 31000), "EUR")}</td></tr><tr className="border-t"><td className="py-2.5 text-sm font-extrabold">Tổng thanh toán / Total due</td><td className="course-notice-total py-2.5 text-right text-sm font-extrabold">{money(data.finalVnd + (data.extraFeeVnd ?? 0), "VND")}</td><td className="course-notice-total py-2.5 text-right text-sm font-extrabold">{money(Math.round((data.finalVnd + (data.extraFeeVnd ?? 0)) / 31000), "EUR")}</td></tr></>}
           </tbody>
         </table>
         <p className="course-notice-payment-note mt-2 border-l-4 px-3 py-2 text-xs font-bold">Học phí được đóng đầu khóa học.</p>
         <div className="course-notice-payment-grid mt-3 grid gap-2 text-xs sm:grid-cols-2">
           {(data.paymentMethod === "vietnam" || data.paymentMethod === "both") && <div className="course-notice-bank"><strong>Việt Nam · VND</strong><dl><div><dt>Ngân hàng</dt><dd>Vietcombank</dd></div><div><dt>Số tài khoản</dt><dd>1025536199</dd></div><div><dt>Chủ tài khoản</dt><dd>NGUYEN TRAN THANH HAI</dd></div></dl></div>}
           {(data.paymentMethod === "finland" || data.paymentMethod === "both") && <div className="course-notice-bank"><strong>Finland · EUR</strong><dl><div><dt>Ngân hàng</dt><dd>Nordea</dd></div><div><dt>IBAN</dt><dd>FI09 1040 3500 5258 23</dd></div><div><dt>Account holder</dt><dd>Nguyen Tran Thanh Hai</dd></div></dl></div>}
-          <div className="course-notice-reference sm:col-span-2"><span>Nội dung / Reference</span><strong {...editableProps("recipientName")}>{referenceName}</strong></div>
+          <div className="course-notice-reference sm:col-span-2"><span>Nội dung / Reference</span><strong {...editableProps("paymentReference")}>{data.paymentReference || "Nhập nội dung chuyển khoản"}</strong></div>
         </div>
       </section>
 
