@@ -178,7 +178,10 @@ const SpeakWithMrHaiMode = ({ language }: Props) => {
     setVoiceState("paused");
   };
 
-  const resumeSession = () => setVoiceState("idle");
+  const resumeSession = () => {
+    setVoiceState("idle");
+    if (handsFreeRef.current && messagesRef.current.at(-1)?.role === "assistant") void startListening();
+  };
 
   const endSession = async () => {
     rec.reset();
