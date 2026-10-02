@@ -172,7 +172,7 @@ export default function CourseNoticesTab() {
     host.appendChild(printable);
     // Fit the whole notice onto one A4 page: 269mm layout width, 293mm usable height.
     const ratio = source.offsetHeight / Math.max(1, source.offsetWidth);
-    const zoom = Math.min(0.78, 293 / (269 * ratio));
+    const zoom = Math.min(0.78, (293 / (269 * ratio)) * 0.96);
     printable.style.setProperty("zoom", String(Math.max(0.4, zoom)), "important");
     document.body.appendChild(host);
     document.body.classList.add("course-notice-printing");
