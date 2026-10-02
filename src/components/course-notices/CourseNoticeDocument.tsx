@@ -3,7 +3,7 @@ import { EUR_TO_VND, type CourseNoticeData } from "@/lib/courseNotice";
 
 const money = (n: number, currency: "EUR" | "VND") => currency === "EUR"
   ? `${new Intl.NumberFormat("en-IE", { maximumFractionDigits: 0 }).format(n)} EUR`
-  : `${new Intl.NumberFormat("vi-VN", { maximumFractionDigits: 0 }).format(n)}đ`;
+  : `${new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(n)} VND`;
 const date = (value: string) => value ? new Date(`${value}T00:00:00`).toLocaleDateString("en-GB") : "-";
 
 interface Props {
