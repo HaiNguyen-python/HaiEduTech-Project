@@ -11,7 +11,7 @@ interface Props {
   className?: string;
 }
 
-/** Rounded illustrated banner behind a page title; overlay keeps text readable in light and dark mode. */
+/** Rounded illustrated banner behind a page title; strong overlay keeps every title readable. */
 export default function IllustratedPageHeader({ variant, children, className }: Props) {
   return (
     <div className={cn("relative overflow-hidden rounded-3xl border border-border/60 shadow-sm", className)}>
@@ -23,8 +23,8 @@ export default function IllustratedPageHeader({ variant, children, className }: 
         height={640}
         className="absolute inset-0 h-full w-full object-cover"
       />
-      <div className="absolute inset-0 bg-background/40 dark:bg-background/75" aria-hidden="true" />
-      <div className="relative px-5 py-10 sm:px-10 md:py-14">{children}</div>
+      <div className="absolute inset-0 bg-background/80 backdrop-blur-[1px] dark:bg-background/85" aria-hidden="true" />
+      <div className="relative px-5 py-10 text-foreground sm:px-10 md:py-14">{children}</div>
     </div>
   );
 }
