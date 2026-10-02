@@ -159,8 +159,8 @@ export default function CourseNoticesTab() {
     if (current === currency) return prev;
     const fee = current === "eur" ? (prev.extraFeeEur ?? Math.round((prev.extraFeeVnd ?? 0) / EUR_TO_VND * 100) / 100) : (prev.extraFeeVnd ?? 0);
     return { ...prev, currency,
-      extraFeeEur: currency === "eur" ? fee : Math.round(fee * EUR_TO_VND),
-      extraFeeVnd: currency === "eur" ? Math.round(fee * EUR_TO_VND) : fee };
+      extraFeeEur: current === "eur" ? fee : Math.round(fee / EUR_TO_VND * 100) / 100,
+      extraFeeVnd: current === "eur" ? Math.round(fee * EUR_TO_VND) : fee };
   });
   const chooseStudent = (id: string) => {
     if (id === "manual") { setStudentId(null); return; }
