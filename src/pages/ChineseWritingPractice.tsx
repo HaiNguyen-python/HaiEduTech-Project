@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import { useLanguage } from "@/contexts/LanguageContext";
+import IllustratedPageHeader from "@/components/common/IllustratedPageHeader";
 import {
   ZH_LEVELS, ZH_TOPICS, ZH_ESSAYS, ZH_VOCAB, ZH_GRAMMAR, ZH_CONNECTORS, ZH_TRANSLATION, ZH_PARAPHRASE, ZH_PARAPHRASE_GUIDES, ZH_TYPING,
   type ZhLevel,

@@ -140,10 +140,11 @@ const IeltsPerformance = () => {
       <Navbar />
 
       <main className="container mx-auto px-4 sm:px-6 pt-24 pb-16 max-w-6xl">
+        <IllustratedPageHeader variant="ielts" className="mb-8">
         <motion.header
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-8"
+          className="text-center"
         >
           <Badge className="mb-3 bg-primary/10 text-primary border-primary/30">
             <Gauge className="w-3.5 h-3.5 mr-1" /> Cambridge IELTS
@@ -151,13 +152,14 @@ const IeltsPerformance = () => {
           <h1 className="text-3xl md:text-4xl font-display font-bold mb-3">
             {t("Năng lực IELTS của bạn", "Your IELTS Performance")}
           </h1>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-base">
+          <p className="text-foreground/75 max-w-2xl mx-auto text-base">
             {t(
               "Toàn bộ kết quả luyện tập của bạn ở 4 kỹ năng, từ vựng và ngữ pháp được tổng hợp thành một bức tranh năng lực, kèm dự đoán band điểm và lộ trình cải thiện.",
               "Every practice result across the 4 skills, vocabulary and grammar in one competency picture, with a predicted band score and an improvement roadmap.",
             )}
           </p>
         </motion.header>
+        </IllustratedPageHeader>
 
         {/* Overall verdict */}
         <Card className="mb-6 border-primary/25 bg-gradient-to-br from-primary/[0.06] to-emerald-500/[0.06]">

@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
+import IllustratedPageHeader from "@/components/common/IllustratedPageHeader";
 import writingIllustration from "@/assets/ielts-writing-illustration.png";
 import speakingIllustration from "@/assets/ielts-speaking-illustration.png";
 import readingIllustration from "@/assets/ielts-reading-illustration.png";
@@ -90,11 +91,12 @@ const IeltsSkillsPractice = () => {
       />
       <Navbar />
       <main className="container mx-auto px-4 py-10 sm:px-6 md:py-14 lg:py-16">
+        <IllustratedPageHeader variant="ielts" className="mb-10 md:mb-12">
         <motion.header
           initial={{ opacity: 0, y: -12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45 }}
-          className="mx-auto mb-10 max-w-3xl text-center md:mb-12"
+          className="mx-auto max-w-3xl text-center"
         >
           <div className="mb-5 flex items-center justify-center gap-3 sm:gap-4">
             <span className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-ielts-emerald text-primary-foreground shadow-lg shadow-ielts-emerald/20 sm:size-14" aria-hidden="true">
@@ -104,13 +106,14 @@ const IeltsSkillsPractice = () => {
               IELTS Skills Practice
             </h1>
           </div>
-          <p className="mx-auto max-w-2xl text-base font-medium leading-7 text-muted-foreground md:text-lg">
+          <p className="mx-auto max-w-2xl text-base font-medium leading-7 text-foreground/75 md:text-lg">
             {t(
               "Trung tâm luyện cả 4 kỹ năng IELTS theo chuẩn Cambridge với chấm điểm tự động.",
               "One hub to practise all 4 IELTS skills, with Cambridge-standard materials and AI scoring.",
             )}
           </p>
         </motion.header>
+        </IllustratedPageHeader>
 
         <motion.section
           initial={{ opacity: 0, y: 16 }}
