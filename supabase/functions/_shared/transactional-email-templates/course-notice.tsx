@@ -6,7 +6,7 @@ interface Props {
   recipientName?: string; noticeCode?: string; courseNameVi?: string; courseNameEn?: string;
   classType?: string; level?: string; duration?: string; dates?: string; schedule?: string;
   objective?: string; modules?: string[]; benefits?: string[]; baseTuition?: string;
-  discount?: string; finalTuition?: string; paymentDeadline?: string; paymentDetails?: string;
+  discount?: string; finalTuition?: string; extraFee?: string; totalDue?: string; paymentReference?: string; paymentDetails?: string;
   instructorName?: string; instructorCredentials?: string; instructorExpertise?: string;
   instructorContact?: string; note?: string;
 }
@@ -24,7 +24,7 @@ const CourseNoticeEmail = (p: Props) => (
         </Section>
         <Heading as="h3" style={sectionTitle}>Lộ trình / Curriculum</Heading>{(p.modules || []).map((m, i) => <Text key={i} style={list}>{i + 1}. {m}</Text>)}
         <Heading as="h3" style={sectionTitle}>Quyền lợi / Included</Heading>{(p.benefits || []).map((m, i) => <Text key={i} style={list}>✓ {m}</Text>)}
-        <Section style={feePanel}><Text style={row}><strong>Học phí / Tuition:</strong> {p.baseTuition}</Text><Text style={row}><strong>Ưu đãi / Discount:</strong> {p.discount}</Text><Text style={total}><strong>Học phí chính thức / Final:</strong> {p.finalTuition}</Text><Text style={paymentNote}>Học phí được đóng đầu khóa học.</Text><Text style={row}>{p.paymentDetails}</Text></Section>
+        <Section style={feePanel}><Text style={row}><strong>Học phí / Tuition:</strong> {p.baseTuition}</Text><Text style={row}><strong>Ưu đãi / Discount:</strong> {p.discount}</Text><Text style={total}><strong>Học phí chính thức / Final:</strong> {p.finalTuition}</Text>{p.extraFee && <Text style={row}><strong>Khoản phí khác / Other fee:</strong> {p.extraFee}</Text>}{p.totalDue && <Text style={total}><strong>Tổng thanh toán / Total due:</strong> {p.totalDue}</Text>}<Text style={paymentNote}>Học phí được đóng đầu khóa học.</Text><Text style={row}>{p.paymentDetails}</Text>{p.paymentReference && <Text style={row}><strong>Nội dung chuyển khoản / Reference:</strong> {p.paymentReference}</Text>}</Section>
         <Heading as="h3" style={sectionTitle}>Giảng viên / Instructor</Heading><Text style={row}><strong>{p.instructorName}</strong></Text><Text style={row}>{p.instructorCredentials}</Text><Text style={row}>{p.instructorExpertise}</Text><Text style={row}>{p.instructorContact}</Text>
         {p.note && <Text style={note}><strong>Ghi chú / Note:</strong> {p.note}</Text>}
         <Hr style={hr}/><Text style={footer}>HaiEduTech · Học thông minh • Dẫn đầu kỷ nguyên số<br/>haiedutech.com · contact@haiedutech.com · 0962.823.800</Text>

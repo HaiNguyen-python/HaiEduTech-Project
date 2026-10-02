@@ -1,5 +1,5 @@
 import { forwardRef, type FocusEvent } from "react";
-import type { CourseNoticeData } from "@/lib/courseNotice";
+import { EUR_TO_VND, type CourseNoticeData } from "@/lib/courseNotice";
 
 const money = (n: number, currency: "EUR" | "VND") => currency === "EUR"
   ? `${new Intl.NumberFormat("en-IE", { maximumFractionDigits: 0 }).format(n)} EUR`
@@ -102,7 +102,7 @@ const CourseNoticeDocument = forwardRef<HTMLDivElement, Props>(({ code, data, ed
             <tr className="border-b"><td className="py-2 font-semibold">Học phí niêm yết / Standard tuition</td><td className="py-2 text-right">{money(data.baseVnd, "VND")}</td><td className="py-2 text-right">{money(data.baseEur, "EUR")}</td></tr>
             <tr className="border-b"><td className="py-2 font-semibold">Ưu đãi / Discount {data.discountReason ? `(${data.discountReason})` : ""}</td><td className="py-2 text-right" colSpan={2}>{data.discountType === "percent" ? `${data.discountValue}%` : money(data.discountValue, "VND")}</td></tr>
             <tr><td className="py-2.5 text-sm font-extrabold">Học phí chính thức / Final tuition</td><td className="course-notice-total py-2.5 text-right text-sm font-extrabold">{money(data.finalVnd, "VND")}</td><td className="course-notice-total py-2.5 text-right text-sm font-extrabold">{money(data.finalEur, "EUR")}</td></tr>
-            {(data.extraFeeVnd ?? 0) > 0 && <><tr className="border-t"><td className="py-2 font-semibold">{data.extraFeeLabel?.trim() || "Phí khác / Other fee"}</td><td className="py-2 text-right">{money(data.extraFeeVnd ?? 0, "VND")}</td><td className="py-2 text-right">{money(Math.round((data.extraFeeVnd ?? 0) / 31000), "EUR")}</td></tr><tr className="border-t"><td className="py-2.5 text-sm font-extrabold">Tổng thanh toán / Total due</td><td className="course-notice-total py-2.5 text-right text-sm font-extrabold">{money(data.finalVnd + (data.extraFeeVnd ?? 0), "VND")}</td><td className="course-notice-total py-2.5 text-right text-sm font-extrabold">{money(Math.round((data.finalVnd + (data.extraFeeVnd ?? 0)) / 31000), "EUR")}</td></tr></>}
+            {(data.extraFeeVnd ?? 0) > 0 && <><tr className="border-t"><td className="py-2 font-semibold" {...editableProps("extraFeeLabel")}>{data.extraFeeLabel?.trim() || "Phí khác / Other fee"}</td><td className="py-2 text-right">{money(data.extraFeeVnd ?? 0, "VND")}</td><td className="py-2 text-right">{money(Math.round((data.extraFeeVnd ?? 0) / EUR_TO_VND), "EUR")}</td></tr><tr className="border-t"><td className="py-2.5 text-sm font-extrabold">Tổng thanh toán / Total due</td><td className="course-notice-total py-2.5 text-right text-sm font-extrabold">{money(data.finalVnd + (data.extraFeeVnd ?? 0), "VND")}</td><td className="course-notice-total py-2.5 text-right text-sm font-extrabold">{money(Math.round((data.finalVnd + (data.extraFeeVnd ?? 0)) / EUR_TO_VND), "EUR")}</td></tr></>}
           </tbody>
         </table>
         <p className="course-notice-payment-note mt-2 border-l-4 px-3 py-2 text-xs font-bold">Học phí được đóng đầu khóa học.</p>

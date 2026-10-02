@@ -35,8 +35,10 @@ serve(async (req) => {
       recipientName: notice.recipient_name, noticeCode: notice.notice_code, courseNameVi: d.courseNameVi, courseNameEn: d.courseNameEn,
       classType: d.classType === "private" ? "Kèm 1-1 / One-to-one" : "Lớp nhóm / Group class", level: d.level || "Theo đánh giá đầu vào",
       duration: `${d.weeks} tuần · ${d.sessions} buổi · ${d.hours} giờ`, dates: `${date(d.startDate)} - ${date(d.endDate)}`, schedule: `${d.schedule} (${d.timezone})`, objective: d.objective,
-      modules: d.modules, benefits: d.benefits, baseTuition: `${d.baseEur} EUR · ${num(d.baseVnd)}đ`, discount: d.discountType === "percent" ? `${d.discountValue}% ${d.discountReason || ""}` : `${num(d.discountValue)}đ ${d.discountReason || ""}`,
-      finalTuition: `${d.finalEur} EUR · ${num(d.finalVnd)}đ`, paymentDeadline: date(d.paymentDeadline), paymentDetails: payment,
+      modules: d.modules, benefits: d.benefits, baseTuition: `${num(d.baseVnd)}đ · ${d.baseEur} EUR`, discount: d.discountType === "percent" ? `${d.discountValue}% ${d.discountReason || ""}` : `${num(d.discountValue)}đ ${d.discountReason || ""}`,
+      finalTuition: `${num(d.finalVnd)}đ · ${d.finalEur} EUR`, extraFee: Number(d.extraFeeVnd) > 0 ? `${d.extraFeeLabel || "Phí khác / Other fee"}: ${num(d.extraFeeVnd)}đ · ${num(Math.round(d.extraFeeVnd / 31000))} EUR` : undefined,
+      totalDue: Number(d.extraFeeVnd) > 0 ? `${num(d.finalVnd + d.extraFeeVnd)}đ · ${num(Math.round((d.finalVnd + d.extraFeeVnd) / 31000))} EUR` : undefined,
+      paymentReference: d.paymentReference || undefined, paymentDetails: payment,
       instructorName: d.instructorName, instructorCredentials: d.instructorCredentials, instructorExpertise: d.instructorExpertise,
       instructorContact: `${d.instructorPhone} · ${d.instructorWebsite} · ${d.instructorEmail}`, note: d.note,
     }});
