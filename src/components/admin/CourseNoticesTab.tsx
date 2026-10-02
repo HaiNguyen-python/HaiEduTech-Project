@@ -157,17 +157,21 @@ export default function CourseNoticesTab() {
       extraFeeEur: current === "eur" ? fee : Math.round(fee / EUR_TO_VND * 100) / 100,
       extraFeeVnd: current === "eur" ? Math.round(fee * EUR_TO_VND) : fee };
   });
-  const setNoticeLanguage = (language: "en" | "vi") => setData((prev) => ({
-    ...prev,
-    language,
-    objective: language === "vi"
+  const setNoticeLanguage = (language: "en" | "vi") => setData((prev) => {
+    const schedule = language === "vi" ? "Thứ 3 - Thứ 5, 19:00 - 20:30" : "Tuesday - Thursday, 19:00 - 20:30";
+    return {
+      ...prev,
+      language,
+      objective: language === "vi"
       ? "Xây dựng nền tảng vững chắc và vận dụng tự tin trong học tập, công việc và giao tiếp thực tế."
       : "Build a solid foundation and apply it confidently in study, work and real-life communication.",
-    schedule: language === "vi" ? "Thứ 3 - Thứ 5, 19:00 - 20:30" : "Tuesday - Thursday, 19:00 - 20:30",
-    timezone: language === "vi" ? "Giờ Việt Nam" : "Vietnam time",
-    instructorCredentials: language === "vi" ? "Thạc sĩ Ngôn ngữ & Văn hóa Anh (Phần Lan)" : "Master's in English Language & Culture (Finland)",
-    instructorExpertise: language === "vi" ? "Kỹ sư Dữ liệu & Trí tuệ nhân tạo (Phần Lan)\n15 năm kinh nghiệm giảng dạy" : "Data & AI Engineer (Finland)\n15 years of teaching experience",
-  }));
+      schedule,
+      endDate: computeEndDate(prev.startDate, Number(prev.weeks) || 0, schedule) ?? prev.endDate,
+      timezone: language === "vi" ? "Giờ Việt Nam" : "Vietnam time",
+      instructorCredentials: language === "vi" ? "Thạc sĩ Ngôn ngữ & Văn hóa Anh (Phần Lan)" : "Master's in English Language & Culture (Finland)",
+      instructorExpertise: language === "vi" ? "Kỹ sư Dữ liệu & Trí tuệ nhân tạo (Phần Lan)\n15 năm kinh nghiệm giảng dạy" : "Data & AI Engineer (Finland)\n15 years of teaching experience",
+    };
+  });
   const chooseStudent = (id: string) => {
     if (id === "manual") { setStudentId(null); return; }
     const student = students.find((item) => item.id === id);
@@ -195,7 +199,7 @@ export default function CourseNoticesTab() {
   };
   const send = async () => {
     setConfirmSend(false);
-    const saved = await persist(); if (!saved) return;
+    const saved = await persist(true); if (!saved) return;
     setSending(true);
     try {
       const { data: result, error } = await supabase.functions.invoke("send-course-notice", { body: { noticeId: saved.id } });
