@@ -39,7 +39,10 @@ const CourseNoticeDocument = forwardRef<HTMLDivElement, Props>(({ code, data, ed
         <div className="flex min-w-0 items-center gap-4">
           <img src="/haiedutech-logo.jpg" alt="HaiEduTech" className="h-[76px] w-[76px] shrink-0 object-contain" />
           <div className="min-w-0">
-            <p className="course-notice-brand text-2xl font-black uppercase sm:text-3xl">HaiEduTech</p>
+            <p className="course-notice-brand flex items-baseline gap-0.5 leading-none">
+              <span className="course-notice-brand-script">Hai</span>
+              <span className="course-notice-brand-word">EduTech</span>
+            </p>
             <p className="mt-1 text-[10px] font-bold uppercase text-muted-foreground sm:text-xs">Language & Information Technology Center</p>
           </div>
         </div>
@@ -54,8 +57,7 @@ const CourseNoticeDocument = forwardRef<HTMLDivElement, Props>(({ code, data, ed
 
     <div className="px-8 pb-7 sm:px-11">
       <div className="course-notice-title-block border-y py-5 text-center">
-        <p className="text-[11px] font-black uppercase">Official announcement</p>
-        <h1 className="mt-2 text-2xl font-black uppercase sm:text-[28px]">Programme & Course Announcement</h1>
+        <h1 className="text-2xl font-black uppercase sm:text-[28px]">Programme & Course Announcement</h1>
       </div>
 
       <section className="py-5">
