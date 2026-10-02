@@ -925,6 +925,66 @@ export type Database = {
         }
         Relationships: []
       }
+      course_notices: {
+        Row: {
+          created_at: string
+          created_by: string
+          id: string
+          last_send_error: string | null
+          last_send_status: string | null
+          notice_code: string
+          recipient_email: string
+          recipient_name: string
+          recipient_phone: string | null
+          send_count: number
+          sent_at: string | null
+          sent_by: string | null
+          snapshot: Json
+          status: string
+          student_id: string | null
+          updated_at: string
+          updated_by: string
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          id?: string
+          last_send_error?: string | null
+          last_send_status?: string | null
+          notice_code: string
+          recipient_email: string
+          recipient_name: string
+          recipient_phone?: string | null
+          send_count?: number
+          sent_at?: string | null
+          sent_by?: string | null
+          snapshot?: Json
+          status?: string
+          student_id?: string | null
+          updated_at?: string
+          updated_by: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          id?: string
+          last_send_error?: string | null
+          last_send_status?: string | null
+          notice_code?: string
+          recipient_email?: string
+          recipient_name?: string
+          recipient_phone?: string | null
+          send_count?: number
+          sent_at?: string | null
+          sent_by?: string | null
+          snapshot?: Json
+          status?: string
+          student_id?: string | null
+          updated_at?: string
+          updated_by?: string
+        }
+        Relationships: []
+      }
       course_payments: {
         Row: {
           amount_eur: number
