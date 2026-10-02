@@ -4,6 +4,7 @@ import type { Json } from "@/integrations/supabase/types";
 export const EUR_TO_VND = 31_000;
 
 export type CourseNoticeData = {
+  language?: "en" | "vi";
   recipientName: string;
   recipientEmail: string;
   recipientPhone: string;

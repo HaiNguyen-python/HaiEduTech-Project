@@ -48,6 +48,7 @@ const computeEndDate = (startDate: string, weeks: number, schedule: string): str
 const fmtDate = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 
 const initialData = (): CourseNoticeData => ({
+  language: "en",
   recipientName: "", recipientEmail: "", recipientPhone: "", courseKey: catalog[0]?.key ?? "custom",
   courseNameVi: catalog[0]?.nameVi ?? "", courseNameEn: catalog[0]?.nameEn ?? "", classType: "group", level: "",
   objective: "Build a solid foundation and apply it confidently in study, work and real-life communication.",
@@ -81,8 +82,6 @@ export default function CourseNoticesTab() {
   const [saving, setSaving] = useState(false);
   const [sending, setSending] = useState(false);
   const [confirmSend, setConfirmSend] = useState(false);
-  const [modulesText, setModulesText] = useState(initialData().modules.join("\n"));
-  const [benefitsText, setBenefitsText] = useState(initialData().benefits.join("\n"));
 
   const normalized = useMemo<CourseNoticeData>(() => {
     const currency = data.currency ?? "vnd";
@@ -99,8 +98,8 @@ export default function CourseNoticesTab() {
       : currency === "vnd" ? Math.max(0, data.discountValue || 0) : Math.round(Math.max(0, data.discountValue || 0) * EUR_TO_VND);
     const finalEur = Math.max(0, Math.round((baseEur - discountEur) * 100) / 100);
     const finalVnd = Math.max(0, Math.round(baseVnd - discountVnd));
-    return { ...data, currency, baseEur, baseVnd, finalEur, finalVnd, extraFeeVnd: Math.max(0, Math.round(Number(data.extraFeeVnd) || 0)), extraFeeEur: Math.max(0, Math.round((Number(data.extraFeeEur) || 0) * 100) / 100), modules: splitLines(modulesText), benefits: splitLines(benefitsText) };
-  }, [data, modulesText, benefitsText]);
+    return { ...data, language: data.language ?? "en", currency, baseEur, baseVnd, finalEur, finalVnd, extraFeeVnd: Math.max(0, Math.round(Number(data.extraFeeVnd) || 0)), extraFeeEur: Math.max(0, Math.round((Number(data.extraFeeEur) || 0) * 100) / 100) };
+  }, [data]);
 
   const reload = useCallback(async () => {
     setLoading(true);
@@ -122,11 +121,7 @@ export default function CourseNoticesTab() {
     }
     return next;
   });
-  const updateDocument = <K extends keyof CourseNoticeData>(key: K, value: CourseNoticeData[K]) => {
-    if (key === "modules") setModulesText((value as string[]).join("\n"));
-    if (key === "benefits") setBenefitsText((value as string[]).join("\n"));
-    update(key, value);
-  };
+  const updateDocument = <K extends keyof CourseNoticeData>(key: K, value: CourseNoticeData[K]) => update(key, value);
   const selectCourse = (key: string) => {
     if (key === "custom") { update("courseKey", key); return; }
     const found = catalog.find((course) => course.key === key);
@@ -168,7 +163,7 @@ export default function CourseNoticesTab() {
     const student = students.find((item) => item.id === id);
     setStudentId(id); if (student?.full_name) update("recipientName", student.full_name);
   };
-  const reset = () => { const fresh = initialData(); setData(fresh); setModulesText(fresh.modules.join("\n")); setBenefitsText(fresh.benefits.join("\n")); setCode(buildNoticeCode()); setRecordId(undefined); setStudentId(null); };
+  const reset = () => { const fresh = initialData(); setData(fresh); setCode(buildNoticeCode()); setRecordId(undefined); setStudentId(null); };
   const validate = (forSend: boolean) => {
     const email = normalized.recipientEmail.trim();
     if (forSend && (!normalized.recipientName.trim() || !/^\S+@\S+\.\S+$/.test(email))) { toast({ title: t("Cần tên và email hợp lệ để gửi email", "A valid name and email are needed to send"), variant: "destructive" }); return false; }
@@ -234,7 +229,7 @@ export default function CourseNoticesTab() {
     window.addEventListener("afterprint", cleanup, { once: true });
     window.print();
   };
-  const openRecord = (record: CourseNoticeRecord) => { setRecordId(record.id); setCode(record.notice_code); setStudentId(record.student_id); setData(record.snapshot); setModulesText(record.snapshot.modules.join("\n")); setBenefitsText(record.snapshot.benefits.join("\n")); window.scrollTo({ top: 0, behavior: "smooth" }); };
+  const openRecord = (record: CourseNoticeRecord) => { setRecordId(record.id); setCode(record.notice_code); setStudentId(record.student_id); setData({ ...record.snapshot, language: record.snapshot.language ?? "en" }); window.scrollTo({ top: 0, behavior: "smooth" }); };
   const duplicate = async (record: CourseNoticeRecord) => { try { const copy = await duplicateCourseNotice(record); await reload(); openRecord(copy); toast({ title: t("Đã nhân bản giấy báo", "Course notice duplicated") }); } catch { toast({ title: t("Không thể nhân bản", "Could not duplicate"), variant: "destructive" }); } };
 
   const filtered = records.filter((r) => {
@@ -265,13 +260,11 @@ export default function CourseNoticesTab() {
         <div className="border-t pt-5"><p className="mb-3 text-sm font-black uppercase text-primary">{t("Chương trình", "Programme")}</p><div className="space-y-3">
           <Select value={data.courseKey} onValueChange={selectCourse}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{catalog.map((c) => <SelectItem key={c.key} value={c.key}>{c.nameVi} · {c.groupPrice} EUR</SelectItem>)}<SelectItem value="custom">{t("Khóa học tùy chỉnh", "Custom course")}</SelectItem></SelectContent></Select>
           <div className="grid gap-3 sm:grid-cols-2"><div className="space-y-2"><Label>Tên tiếng Việt</Label><Input value={data.courseNameVi} onChange={(e) => update("courseNameVi", e.target.value)} /></div><div className="space-y-2"><Label>English name</Label><Input value={data.courseNameEn} onChange={(e) => update("courseNameEn", e.target.value)} /></div></div>
-          <div className="grid gap-3 sm:grid-cols-2"><div className="space-y-2"><Label>Hình thức / Format</Label><Select value={data.classType} onValueChange={(v) => selectClassType(v as "group" | "private")}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="group">Lớp nhóm / Group</SelectItem><SelectItem value="private">Kèm 1-1 / One-to-one</SelectItem></SelectContent></Select></div><div className="space-y-2"><Label>Trình độ / Level</Label><Input value={data.level} onChange={(e) => update("level", e.target.value)} placeholder="A1-A2, HSK 2..." /></div></div>
+          <div className="grid gap-3 sm:grid-cols-2"><div className="space-y-2"><Label>Ngôn ngữ phiếu / Notice language</Label><Select value={data.language ?? "en"} onValueChange={(v) => update("language", v as "en" | "vi")}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="en">English</SelectItem><SelectItem value="vi">Tiếng Việt</SelectItem></SelectContent></Select></div><div className="space-y-2"><Label>Hình thức / Format</Label><Select value={data.classType} onValueChange={(v) => selectClassType(v as "group" | "private")}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="group">Lớp nhóm / Group</SelectItem><SelectItem value="private">Kèm 1-1 / One-to-one</SelectItem></SelectContent></Select></div></div>
+          <div className="space-y-2"><Label>Lịch học / Schedule</Label><Input value={data.schedule} onChange={(e) => update("schedule", e.target.value)} /></div>
           <div className="space-y-2"><Label>Mục tiêu đầu ra / Outcome</Label><Textarea rows={3} value={data.objective} onChange={(e) => update("objective", e.target.value)} /></div>
           <div className="grid gap-3 sm:grid-cols-2"><div className="space-y-2"><Label>Ngày bắt đầu</Label><Input type="date" value={data.startDate} onChange={(e) => update("startDate", e.target.value)} /></div><div className="space-y-2"><Label>Ngày kết thúc</Label><Input type="date" value={data.endDate} onChange={(e) => update("endDate", e.target.value)} /></div></div>
-          <div className="space-y-2"><Label>Lịch học / Schedule</Label><Input value={data.schedule} onChange={(e) => update("schedule", e.target.value)} /></div>
           <div className="grid grid-cols-3 gap-3">{(["weeks", "sessions", "hours"] as const).map((key) => <div className="space-y-2" key={key}><Label>{key === "weeks" ? "Tuần" : key === "sessions" ? "Buổi" : "Giờ"}</Label><Input type="number" min="0" value={data[key]} onChange={(e) => update(key, Number(e.target.value))} /></div>)}</div>
-          <div className="space-y-2"><Label>{t("Lộ trình - mỗi dòng một mô-đun", "Curriculum - one module per line")}</Label><Textarea rows={5} value={modulesText} onChange={(e) => setModulesText(e.target.value)} /></div>
-          <div className="space-y-2"><Label>{t("Quyền lợi - mỗi dòng một mục", "Benefits - one item per line")}</Label><Textarea rows={4} value={benefitsText} onChange={(e) => setBenefitsText(e.target.value)} /></div>
         </div></div>
         <div className="border-t pt-5"><p className="mb-3 text-sm font-black uppercase text-primary">{t("Học phí", "Tuition")}</p>
           <div className="grid gap-3 sm:grid-cols-2"><div className="space-y-2"><Label>Đơn vị tiền / Currency</Label><Select value={noticeCurrency} onValueChange={(v) => setCurrency(v as CourseNoticeData["currency"])}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="vnd">Việt Nam đồng / VND</SelectItem><SelectItem value="eur">Euro / EUR</SelectItem></SelectContent></Select></div><div className="space-y-2"><Label>{`Học phí / Tuition (${noticeCurrency.toUpperCase()})`}</Label><Input type="number" min="0" value={noticeCurrency === "eur" ? data.baseEur : data.baseVnd} onChange={(e) => setBaseAmount(e.target.value)} /></div></div>
@@ -281,7 +274,7 @@ export default function CourseNoticesTab() {
           <div className="mt-3 grid gap-3 sm:grid-cols-[1fr_auto_1fr] items-end"><div className="space-y-2"><Label htmlFor="extra-fee-label">Khoản phí khác / Other fee</Label><Input id="extra-fee-label" placeholder="Ví dụ: Phí phần mềm" value={data.extraFeeLabel ?? ""} onChange={(e) => update("extraFeeLabel", e.target.value)} /></div><div className="space-y-2"><Label>Đơn vị / Currency</Label><Select value={fc} onValueChange={(v) => setFeeCurrency(v as "vnd" | "eur")}><SelectTrigger className="w-28"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="vnd">VND</SelectItem><SelectItem value="eur">EUR</SelectItem></SelectContent></Select></div><div className="space-y-2"><Label htmlFor="extra-fee-vnd">{`Số tiền / Amount (${fc.toUpperCase()})`}</Label><Input id="extra-fee-vnd" type="number" min="0" step={fc === "eur" ? "1" : "1000"} value={fc === "eur" ? (data.extraFeeEur ?? 0) : (data.extraFeeVnd ?? 0)} onChange={(e) => setExtraFeeAmount(e.target.value)} /></div></div>
           ); })()}
           {feeCurrency && feeCurrency !== noticeCurrency && extraFeeAmount > 0 && <p className="mt-1 text-xs text-muted-foreground">{`≈ ${fmtNoticeMoney(extraFeeAmount)} trên giấy báo (1 EUR = 31.000 VND)`}</p>}
-          <div className="mt-3 space-y-2"><Label>Chuyển khoản</Label><Select value={data.paymentMethod} onValueChange={(v) => update("paymentMethod", v as CourseNoticeData["paymentMethod"])}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="both">Việt Nam & Finland</SelectItem><SelectItem value="vietnam">Vietcombank · VND</SelectItem><SelectItem value="finland">Nordea · EUR</SelectItem></SelectContent></Select></div>
+          <p className="mt-3 text-xs text-muted-foreground">{noticeCurrency === "vnd" ? "VND: Vietcombank + VietQR" : "EUR: Nordea + IBAN"}</p>
           <div className="mt-3 space-y-2"><Label htmlFor="notice-payment-reference">Nội dung chuyển khoản / Payment reference</Label><Input id="notice-payment-reference" value={data.paymentReference ?? ""} onChange={(e) => update("paymentReference", e.target.value)} placeholder="Nhập nội dung riêng cho giấy báo" /></div>
           <p className="mt-3 rounded-md border border-primary/20 bg-primary/5 px-3 py-2 text-sm font-semibold text-foreground">Quý PHHS vui lòng đóng HP đầu khóa học</p>
           <p className="mt-3 border-l-4 border-primary pl-3 text-sm"><strong>{t("Học phí chính thức", "Final tuition")}:</strong> {fmtNoticeMoney(noticeCurrency === "eur" ? normalized.finalEur : normalized.finalVnd)}</p>

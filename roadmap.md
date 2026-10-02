@@ -1,5 +1,12 @@
 # Business English & Academic English
 
+# Course Notice Simplification
+
+- [x] Remove Curriculum and Included from the notice and editor.
+- [x] Add single-language English/Vietnamese notices and replace Level with Schedule.
+- [x] Match the displayed bank account to the selected tuition currency.
+- [ ] Verify both languages, both currencies, draft reopening and one-page PDF output.
+
 - [x] Audit all core and Communication Lab content structures.
 - [x] Clarify overview totals for core lessons and labs.
 - [x] Prevent incomplete vocabulary review submissions.
