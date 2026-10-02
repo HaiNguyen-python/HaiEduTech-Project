@@ -20,7 +20,6 @@ const CourseNoticeDocument = forwardRef<HTMLDivElement, Props>(({ code, data, ed
     contentEditable: true,
     suppressContentEditableWarning: true,
     onBlur: (event: FocusEvent<HTMLElement>) => onChange?.(key, textFrom(event) as CourseNoticeData[K]),
-    className: "course-notice-editable",
     title: "Nhấn để chỉnh sửa trực tiếp",
   } : {};
 

@@ -77,6 +77,11 @@ export default function CourseNoticesTab() {
   }, [reload]);
 
   const update = <K extends keyof CourseNoticeData>(key: K, value: CourseNoticeData[K]) => setData((prev) => ({ ...prev, [key]: value }));
+  const updateDocument = <K extends keyof CourseNoticeData>(key: K, value: CourseNoticeData[K]) => {
+    if (key === "modules") setModulesText((value as string[]).join("\n"));
+    if (key === "benefits") setBenefitsText((value as string[]).join("\n"));
+    update(key, value);
+  };
   const selectCourse = (key: string) => {
     if (key === "custom") { update("courseKey", key); return; }
     const found = catalog.find((course) => course.key === key);
@@ -186,7 +191,7 @@ export default function CourseNoticesTab() {
         <div className="flex flex-wrap gap-2"><Button onClick={() => void persist()} disabled={saving}><Save className="h-4 w-4" />{saving ? t("Đang lưu", "Saving") : t("Lưu bản nháp", "Save draft")}</Button><Button variant="outline" onClick={printPdf}><Download className="h-4 w-4" />PDF</Button><Button variant="secondary" onClick={() => setConfirmSend(true)} disabled={sending}><Mail className="h-4 w-4" />{t("Gửi email", "Send email")}</Button></div>
       </CardContent></Card>
 
-      <div className="sticky top-4 min-w-0 overflow-auto rounded-md border bg-muted/30 p-3"><p className="mb-2 text-center text-xs font-semibold text-muted-foreground">{t("Nhấn trực tiếp vào phần chữ có viền chấm để chỉnh sửa", "Click dotted text directly to edit")}</p><CourseNoticeDocument ref={printRef} code={code} data={normalized} editable onChange={update} /></div>
+      <div className="sticky top-4 min-w-0 overflow-auto rounded-md border bg-muted/30 p-3"><p className="mb-2 text-center text-xs font-semibold text-muted-foreground">{t("Nhấn trực tiếp vào phần chữ có viền chấm để chỉnh sửa", "Click dotted text directly to edit")}</p><CourseNoticeDocument ref={printRef} code={code} data={normalized} editable onChange={updateDocument} /></div>
     </div>
 
     <Card><CardHeader><CardTitle>{t("Lịch sử giấy báo", "Notice history")}</CardTitle><CardDescription>{t("Xem lại, tải lại, nhân bản hoặc gửi lại từng giấy báo.", "Review, download, duplicate or resend each notice.")}</CardDescription></CardHeader><CardContent className="space-y-4"><div className="flex flex-wrap gap-3"><div className="relative min-w-[240px] flex-1"><Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" /><Input className="pl-9" value={query} onChange={(e) => setQuery(e.target.value)} placeholder={t("Tên, email, khóa học hoặc mã...", "Name, email, course or code...")} /></div><Select value={statusFilter} onValueChange={setStatusFilter}><SelectTrigger className="w-40"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="all">{t("Tất cả", "All")}</SelectItem><SelectItem value="draft">{t("Bản nháp", "Draft")}</SelectItem><SelectItem value="sent">{t("Đã gửi", "Sent")}</SelectItem></SelectContent></Select><Button variant="outline" size="icon" onClick={() => void reload()} aria-label={t("Tải lại", "Refresh")}><RefreshCw className="h-4 w-4" /></Button></div>
