@@ -55,6 +55,7 @@ const initialData = (): CourseNoticeData => ({
   weeks: 12, sessions: 24, hours: 36,
   modules: ["Placement assessment and personalised learning plan", "Strengthening core knowledge by level", "Applied practice with in-depth feedback", "Review, progress assessment and next-step guidance"],
   benefits: ["All course materials included", "Personal feedback after each stage", "Progress tracking on the HaiEduTech platform"], note: "",
+  currency: "vnd",
   baseEur: catalog[0]?.groupPrice ?? 210, baseVnd: (catalog[0]?.groupPrice ?? 210) * EUR_TO_VND,
   discountType: "percent", discountValue: 0, discountReason: "", finalEur: catalog[0]?.groupPrice ?? 210, finalVnd: (catalog[0]?.groupPrice ?? 210) * EUR_TO_VND,
   paymentReference: "", extraFeeLabel: "", extraFeeVnd: 0,
@@ -84,11 +85,21 @@ export default function CourseNoticesTab() {
   const [benefitsText, setBenefitsText] = useState(initialData().benefits.join("\n"));
 
   const normalized = useMemo<CourseNoticeData>(() => {
-    const baseEur = Math.max(0, Number(data.baseEur) || 0);
-    const baseVnd = Math.round(baseEur * EUR_TO_VND);
-    const discountVnd = data.discountType === "percent" ? baseVnd * Math.min(100, Math.max(0, data.discountValue || 0)) / 100 : Math.min(baseVnd, Math.max(0, data.discountValue || 0));
-    const finalVnd = Math.round(baseVnd - discountVnd);
-    return { ...data, baseEur, baseVnd, finalVnd, finalEur: Math.round(finalVnd / EUR_TO_VND), extraFeeVnd: Math.max(0, Math.round(Number(data.extraFeeVnd) || 0)), modules: splitLines(modulesText), benefits: splitLines(benefitsText) };
+    const currency = data.currency ?? "vnd";
+    const enteredEur = Math.max(0, Number(data.baseEur) || 0);
+    const enteredVnd = Math.max(0, Number(data.baseVnd) || 0);
+    const baseEur = currency === "eur" ? enteredEur : Math.round(enteredVnd / EUR_TO_VND * 100) / 100;
+    const baseVnd = currency === "eur" ? Math.round(enteredEur * EUR_TO_VND) : enteredVnd;
+    const pct = Math.min(100, Math.max(0, data.discountValue || 0));
+    const discountEur = data.discountType === "percent"
+      ? baseEur * pct / 100
+      : currency === "eur" ? Math.max(0, data.discountValue || 0) : Math.round(Math.max(0, data.discountValue || 0) / EUR_TO_VND * 100) / 100;
+    const discountVnd = data.discountType === "percent"
+      ? baseVnd * pct / 100
+      : currency === "vnd" ? Math.max(0, data.discountValue || 0) : Math.round(Math.max(0, data.discountValue || 0) * EUR_TO_VND);
+    const finalEur = Math.max(0, Math.round((baseEur - discountEur) * 100) / 100);
+    const finalVnd = Math.max(0, Math.round(baseVnd - discountVnd));
+    return { ...data, currency, baseEur, baseVnd, finalEur, finalVnd, extraFeeVnd: Math.max(0, Math.round(Number(data.extraFeeVnd) || 0)), extraFeeEur: Math.max(0, Math.round((Number(data.extraFeeEur) || 0) * 100) / 100), modules: splitLines(modulesText), benefits: splitLines(benefitsText) };
   }, [data, modulesText, benefitsText]);
 
   const reload = useCallback(async () => {
@@ -121,11 +132,25 @@ export default function CourseNoticesTab() {
     const found = catalog.find((course) => course.key === key);
     if (!found) return;
     const price = found.groupPrice * (data.classType === "private" ? 3 : 1);
-    setData((prev) => ({ ...prev, courseKey: key, courseNameVi: found.nameVi, courseNameEn: found.nameEn, baseEur: price }));
+    setData((prev) => ({ ...prev, courseKey: key, courseNameVi: found.nameVi, courseNameEn: found.nameEn, baseEur: price, baseVnd: Math.round(price * EUR_TO_VND) }));
   };
   const selectClassType = (classType: "group" | "private") => {
     const found = catalog.find((course) => course.key === data.courseKey);
-    setData((prev) => ({ ...prev, classType, baseEur: found ? found.groupPrice * (classType === "private" ? 3 : 1) : prev.baseEur }));
+    setData((prev) => {
+      if (!found) return { ...prev, classType };
+      const price = found.groupPrice * (classType === "private" ? 3 : 1);
+      return { ...prev, classType, baseEur: price, baseVnd: Math.round(price * EUR_TO_VND) };
+    });
+  };
+  const setBaseAmount = (raw: string) => {
+    const v = Math.max(0, Number(raw) || 0);
+    setData((prev) => (prev.currency ?? "vnd") === "eur"
+      ? { ...prev, baseEur: v, baseVnd: Math.round(v * EUR_TO_VND) }
+      : { ...prev, baseVnd: v, baseEur: Math.round(v / EUR_TO_VND * 100) / 100 });
+  };
+  const setExtraFeeAmount = (raw: string) => {
+    const v = Math.max(0, Number(raw) || 0);
+    setData((prev) => (prev.currency ?? "vnd") === "eur" ? { ...prev, extraFeeEur: v } : { ...prev, extraFeeVnd: v });
   };
   const chooseStudent = (id: string) => {
     if (id === "manual") { setStudentId(null); return; }
