@@ -213,9 +213,9 @@
   .course-notice-bank { border: 1px solid hsl(var(--notice-line)); background: hsl(var(--notice-paper)); padding: 10px 12px; }
   .course-notice-bank > strong { display: block; margin-bottom: 7px; color: hsl(var(--notice-deep)); font-size: 11px; text-transform: uppercase; }
   .course-notice-bank dl { display: grid; gap: 4px; }
-  .course-notice-bank dl > div { display: grid; grid-template-columns: 86px minmax(0, 1fr); gap: 8px; }
+  .course-notice-bank dl > div { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px; }
   .course-notice-bank dt { color: hsl(var(--muted-foreground)); }
-  .course-notice-bank dd { min-width: 0; font-weight: 700; overflow-wrap: anywhere; }
+  .course-notice-bank dd { min-width: 0; font-weight: 700; overflow-wrap: break-word; }
   .course-notice-reference { display: flex; align-items: center; justify-content: space-between; gap: 12px; border: 1px solid hsl(var(--notice-line)); background: hsl(var(--notice-paper)); padding: 9px 12px; }
   .course-notice-reference span { color: hsl(var(--muted-foreground)); font-weight: 700; }
   .course-notice-reference strong { color: hsl(var(--notice-deep)); overflow-wrap: anywhere; text-align: right; }
