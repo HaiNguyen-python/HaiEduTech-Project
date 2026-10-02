@@ -1,3 +1,4 @@
+import { chineseDigitsToHanzi } from "@/lib/chineseNumerals";
 // AI Speaking Coach - pronunciation practice with Web Speech API and real-time color-coded feedback
 import { useState, useRef, useCallback, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -16,7 +17,7 @@ import { playSpeakingTts, stopSpeakingTts } from "@/lib/speakingModeShared";
 import { transcribeSwedishSentence, swedishSoundTipsFor } from "@/lib/swedishSentenceIpa";
 import { swedishSentenceEn } from "@/data/swedishSpeakingEnglishIndex";
 import SpeakingThemeIllustration from "@/components/speaking/SpeakingThemeIllustration";
-import { addWeakWords } from "@/lib/speakingWeakWords";
+import { addWeakWords, missedWordsFromResults } from "@/lib/speakingWeakWords";
 
 import { supabase } from "@/integrations/supabase/client";
 import GameLeaderboard from "@/components/games/GameLeaderboard";
@@ -198,6 +199,7 @@ const normalize = (text: string): string[] => {
   cleaned = cleaned
     .replace(/[.,!?;:"()（）。，！？、""''…·\[\]{}]/g, " ")
     .replace(/[\-–-]/g, " ");
+  if (CJK_RANGE.test(cleaned)) cleaned = chineseDigitsToHanzi(cleaned);
   // Detect CJK; if present, split per Han char (ignoring spaces, latin, digits separately).
   if (CJK_RANGE.test(cleaned)) {
     const out: string[] = [];
@@ -716,9 +718,10 @@ const AISpeakingCoach = ({ language, onScoreUpdate, onPerfectScore }: AISpeaking
       setResults(wordResults);
       setAccuracy(acc);
       setTotalPracticed((p) => p + 1);
-      const missedWords = wordResults
-        .filter((result) => result.status === "wrong" || result.status === "missing")
-        .map((result) => ({ word: result.expected }));
+      const missedWords = missedWordsFromResults(
+        wordResults.map((result) => ({ word: result.expected, status: result.status })),
+        language,
+      );
       if (missedWords.length) addWeakWords(language, missedWords, "sentence");
 
       // Update theme scores
