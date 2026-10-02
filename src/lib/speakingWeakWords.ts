@@ -52,7 +52,12 @@ export function missedWordsFromResults(
 ): { word: string }[] {
   const isMissed = (status: string) => status === "wrong" || status === "missing";
   if (language !== "chinese" && language !== "japanese") {
-    return results.filter((r) => isMissed(r.status)).map((r) => ({ word: r.word }));
+    // Tiny function words are usually recognition noise, not pronunciation problems.
+    const skip = new Set(["a", "an", "the", "to", "of", "and", "is", "it", "in", "on", "at", "i", "or"]);
+    return results
+      .filter((r) => isMissed(r.status) && !skip.has(normalizeWord(r.word)))
+      .map((r) => ({ word: r.word }))
+      .slice(0, 6);
   }
   const out: { word: string }[] = [];
   let run = "";
