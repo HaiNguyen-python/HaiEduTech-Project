@@ -113,6 +113,13 @@
       "when": 1790499013549,
       "tag": "0015_record_live_course_payments",
       "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1790928719697,
+      "tag": "0016_create_course_notices",
+      "breakpoints": true
     }
   ]
 }
