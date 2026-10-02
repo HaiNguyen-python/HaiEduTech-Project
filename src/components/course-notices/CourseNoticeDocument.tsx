@@ -14,6 +14,7 @@ interface Props {
 }
 
 const textFrom = (event: FocusEvent<HTMLElement>) => event.currentTarget.innerText.trim();
+const hasExtraFee = (data: CourseNoticeData) => (data.extraFeeVnd ?? 0) > 0;
 
 const CourseNoticeDocument = forwardRef<HTMLDivElement, Props>(({ code, data, editable = false, onChange }, ref) => {
   const editableProps = <K extends keyof CourseNoticeData>(key: K) => editable ? {
@@ -99,13 +100,16 @@ const CourseNoticeDocument = forwardRef<HTMLDivElement, Props>(({ code, data, ed
           <tbody>
             <tr className="border-b"><td className="py-2 font-semibold">Standard tuition</td><td className="py-2 text-right">{money(data.baseVnd, "VND")}</td><td className="py-2 text-right">{money(data.baseEur, "EUR")}</td></tr>
             <tr className="border-b"><td className="py-2 font-semibold">Discount {data.discountReason ? `(${data.discountReason})` : ""}</td><td className="py-2 text-right" colSpan={2}>{data.discountType === "percent" ? `${data.discountValue}%` : money(data.discountValue, "VND")}</td></tr>
-            <tr><td className="py-2.5 text-sm font-extrabold">Final tuition</td><td className="course-notice-total py-2.5 text-right text-sm font-extrabold">{money(data.finalVnd, "VND")}</td><td className="course-notice-total py-2.5 text-right text-sm font-extrabold">{money(data.finalEur, "EUR")}</td></tr>
-            {(data.extraFeeVnd ?? 0) > 0 && <><tr className="border-t"><td className="py-2 font-semibold" {...editableProps("extraFeeLabel")}>{data.extraFeeLabel?.trim() || "Other fee"}</td><td className="py-2 text-right">{money(data.extraFeeVnd ?? 0, "VND")}</td><td className="py-2 text-right">{money(Math.round((data.extraFeeVnd ?? 0) / EUR_TO_VND), "EUR")}</td></tr><tr className="border-t"><td className="py-2.5 text-sm font-extrabold">Total due</td><td className="course-notice-total py-2.5 text-right text-sm font-extrabold">{money(data.finalVnd + (data.extraFeeVnd ?? 0), "VND")}</td><td className="course-notice-total py-2.5 text-right text-sm font-extrabold">{money(Math.round((data.finalVnd + (data.extraFeeVnd ?? 0)) / EUR_TO_VND), "EUR")}</td></tr></>}
+            {hasExtraFee(data)
+              ? <tr className="border-b"><td className="py-2 font-semibold">Final tuition</td><td className="py-2 text-right font-semibold">{money(data.finalVnd, "VND")}</td><td className="py-2 text-right font-semibold">{money(data.finalEur, "EUR")}</td></tr>
+              : <tr><td className="py-2.5 text-sm font-extrabold">Final tuition</td><td className="course-notice-total py-2.5 text-right text-sm font-extrabold">{money(data.finalVnd, "VND")}</td><td className="course-notice-total py-2.5 text-right text-sm font-extrabold">{money(data.finalEur, "EUR")}</td></tr>}
+            {hasExtraFee(data) && <tr className="border-t"><td className="py-2 font-semibold" {...editableProps("extraFeeLabel")}>{data.extraFeeLabel?.trim() || "Other fee"}</td><td className="py-2 text-right">{money(data.extraFeeVnd ?? 0, "VND")}</td><td className="py-2 text-right">{money(Math.round((data.extraFeeVnd ?? 0) / EUR_TO_VND), "EUR")}</td></tr>}
+            {hasExtraFee(data) && <tr className="border-t"><td className="py-2.5 text-sm font-extrabold">Total due</td><td className="course-notice-total py-2.5 text-right text-sm font-extrabold">{money(data.finalVnd + (data.extraFeeVnd ?? 0), "VND")}</td><td className="course-notice-total py-2.5 text-right text-sm font-extrabold">{money(Math.round((data.finalVnd + (data.extraFeeVnd ?? 0)) / EUR_TO_VND), "EUR")}</td></tr>}
           </tbody>
         </table>
         <p className="course-notice-payment-note mt-2 border-l-4 px-3 py-2 text-xs font-bold">Tuition is payable at the start of the course.</p>
         <div className="course-notice-payment-grid mt-3 grid gap-2 text-xs sm:grid-cols-2">
-          {(data.paymentMethod === "vietnam" || data.paymentMethod === "both") && <div className="course-notice-bank"><strong>Vietnam · VND</strong><dl><div><dt>Bank</dt><dd>Vietcombank</dd></div><div><dt>Account number</dt><dd>1025536199</dd></div><div><dt>Account holder</dt><dd>NGUYEN TRAN THANH HAI</dd></div></dl></div>}
+          {(data.paymentMethod === "vietnam" || data.paymentMethod === "both") && <div className="course-notice-bank"><strong>Vietnam · VND</strong><div className="flex items-center gap-3"><dl className="min-w-0 flex-1"><div><dt>Bank</dt><dd>Vietcombank</dd></div><div><dt>Account number</dt><dd>1025536199</dd></div><div><dt>Account holder</dt><dd>NGUYEN TRAN THANH HAI</dd></div></dl><img src="/vietcombank-qr.png" alt="Vietcombank VietQR" className="course-notice-qr h-[68px] w-[68px] shrink-0 self-center" /></div></div>}
           {(data.paymentMethod === "finland" || data.paymentMethod === "both") && <div className="course-notice-bank"><strong>Finland · EUR</strong><dl><div><dt>Bank</dt><dd>Nordea</dd></div><div><dt>IBAN</dt><dd>FI09 1040 3500 5258 23</dd></div><div><dt>Account holder</dt><dd>Nguyen Tran Thanh Hai</dd></div></dl></div>}
           <div className="course-notice-reference sm:col-span-2"><span>Payment reference</span><strong {...editableProps("paymentReference")}>{data.paymentReference || "Enter payment reference"}</strong></div>
         </div>
@@ -114,7 +118,7 @@ const CourseNoticeDocument = forwardRef<HTMLDivElement, Props>(({ code, data, ed
       <section className="course-notice-section mt-5 break-inside-avoid border-t pt-4">
         <div className="course-notice-section-heading"><span>05</span><p>Instructor</p></div>
         <div className="mt-3 grid gap-3 text-xs sm:grid-cols-[1.15fr_1fr]">
-          <div><h3 className="text-base font-extrabold" {...editableProps("instructorName")}>{data.instructorName}</h3><p className="mt-1" {...editableProps("instructorCredentials")}>{data.instructorCredentials}</p><p {...editableProps("instructorExpertise")}>{data.instructorExpertise}</p></div>
+          <div><h3 className="text-base font-extrabold" {...editableProps("instructorName")}>{data.instructorName}</h3><p className="mt-1" {...editableProps("instructorCredentials")}>{data.instructorCredentials}</p><p className="whitespace-pre-wrap" {...editableProps("instructorExpertise")}>{data.instructorExpertise}</p></div>
           <div className="sm:border-l sm:pl-5"><p><strong>Phone:</strong> <span {...editableProps("instructorPhone")}>{data.instructorPhone}</span></p><p><strong>Website:</strong> <span {...editableProps("instructorWebsite")}>{data.instructorWebsite}</span></p><p><strong>Email:</strong> <span {...editableProps("instructorEmail")}>{data.instructorEmail}</span></p></div>
         </div>
       </section>

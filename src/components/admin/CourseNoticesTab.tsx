@@ -60,7 +60,7 @@ const initialData = (): CourseNoticeData => ({
   paymentReference: "", extraFeeLabel: "", extraFeeVnd: 0,
   paymentDeadline: addDays(5), paymentMethod: "both",
   instructorName: "Nguyen Tran Thanh Hai, M.A., M.Eng.", instructorCredentials: "Master's in English Language & Culture (Finland)",
-  instructorExpertise: "Data & AI Engineer (Finland) · 15 years of teaching experience",
+  instructorExpertise: "Data & AI Engineer (Finland)\n15 years of teaching experience",
   instructorPhone: "0962.823.800", instructorEmail: "contact@haiedutech.com", instructorWebsite: "haiedutech.com", issuedAt: today(),
 });
 
