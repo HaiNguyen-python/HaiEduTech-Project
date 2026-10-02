@@ -12,7 +12,7 @@ import { speakingCoachLanguages } from "@/data/speakingCoachData";
 import SpeakingThemeIllustration from "@/components/speaking/SpeakingThemeIllustration";
 import { useSpeechRecognizer } from "@/hooks/useSpeechRecognizer";
 import { scorePace, type PaceResult } from "@/lib/speakingShadowScore";
-import { addWeakWords } from "@/lib/speakingWeakWords";
+import { addWeakWords, missedWordsFromResults } from "@/lib/speakingWeakWords";
 import {
   compareSentence,
   micErrorMessage,
@@ -60,7 +60,7 @@ const ShadowingMode = ({ language, onPerfectScore }: Props) => {
       setPace(paceResult);
       setDone((d) => d + 1);
       setAvg((prev) => Math.round((prev * done + cmp.accuracy) / (done + 1)));
-      const missed = cmp.results.filter((r) => r.status === "wrong").map((r) => ({ word: r.word }));
+      const missed = missedWordsFromResults(cmp.results, language);
       if (missed.length) addWeakWords(language, missed, "shadow");
       if (cmp.accuracy >= 90 && paceResult.verdict === "good") onPerfectScore?.();
     },

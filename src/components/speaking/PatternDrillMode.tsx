@@ -11,7 +11,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { speakingCoachLanguages } from "@/data/speakingCoachData";
 import { DRILL_LEVELS, fillSentence, getPatterns, splitDrillFrame, type DrillLevel } from "@/data/patternDrills";
 import { useSpeechRecognizer } from "@/hooks/useSpeechRecognizer";
-import { addWeakWords } from "@/lib/speakingWeakWords";
+import { addWeakWords, missedWordsFromResults } from "@/lib/speakingWeakWords";
 import { safeStorage } from "@/lib/safeStorage";
 import {
   compareSentence, micErrorMessage, playSpeakingTts, stopSpeakingTts,
@@ -67,7 +67,7 @@ const PatternDrillMode = ({ language, onPerfectScore }: Props) => {
     const cmp = compareSentence(target, heard, language);
     setResults(cmp.results);
     setAccuracy(cmp.accuracy);
-    const missed = cmp.results.filter((r) => r.status === "wrong").map((r) => ({ word: r.word }));
+    const missed = missedWordsFromResults(cmp.results, language);
     if (missed.length) addWeakWords(language, missed, "sentence");
     if (cmp.accuracy >= 95) onPerfectScore?.();
   }, [language, onPerfectScore, target]);

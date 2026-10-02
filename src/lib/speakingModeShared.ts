@@ -154,8 +154,9 @@ function matchOne(heard: string, a: string, b: string, language: SpeakingLang): 
     const pa = toPinyinKey(na);
     const pb = toPinyinKey(nb);
     if (ph && pa && pb && pa !== pb) {
-      const hasA = ph.split(" ").join("|").includes(pa.split(" ").join("|"));
-      const hasB = ph.split(" ").join("|").includes(pb.split(" ").join("|"));
+      const wrap = (p: string) => `|${p.split(" ").join("|")}|`;
+      const hasA = wrap(ph).includes(wrap(pa));
+      const hasB = wrap(ph).includes(wrap(pb));
       if (hasA && !hasB) return "a";
       if (hasB && !hasA) return "b";
       // Same syllable, different tone only counts when the tone itself differs.

@@ -77,10 +77,12 @@ const SoundDrillMode = ({ language, onPerfectScore }: Props) => {
   const otherWord = item ? (item.target === "a" ? item.pair.b : item.pair.a) : "";
 
   const handleFinal = useCallback(
-    (heard: string) => {
+    (heard: string, _elapsed: number, alternatives: string[]) => {
       if (!item) return;
-      setHeardWord(heard);
-      const match = matchCandidate(heard, item.pair.a, item.pair.b, language);
+      const match = matchCandidate(alternatives.length ? alternatives : [heard], item.pair.a, item.pair.b, language);
+      // Show the recogniser guess that matched, so the learner sees why.
+      const shown = alternatives.find((alt) => matchCandidate(alt, item.pair.a, item.pair.b, language) === match && match !== "none") ?? heard;
+      setHeardWord(shown);
       if (match === "none") {
         setVerdict("unclear");
         setAttempted(true);
@@ -97,7 +99,7 @@ const SoundDrillMode = ({ language, onPerfectScore }: Props) => {
     [item, language]
   );
 
-  const rec = useSpeechRecognizer({ speechLang: config.speechLang, maxSeconds: 12, onFinal: handleFinal });
+  const rec = useSpeechRecognizer({ speechLang: config.speechLang, maxSeconds: 10, silenceMs: 1100, alternatives: 5, onFinal: handleFinal });
 
   useEffect(() => {
     setItems(buildDrill(speakingMinimalPairs[language] ?? []));
