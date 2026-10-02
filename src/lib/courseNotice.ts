@@ -30,6 +30,9 @@ export type CourseNoticeData = {
   discountReason: string;
   finalEur: number;
   finalVnd: number;
+  paymentReference?: string;
+  extraFeeLabel?: string;
+  extraFeeVnd?: number;
   paymentDeadline: string;
   paymentMethod: "vietnam" | "finland" | "both";
   instructorName: string;
