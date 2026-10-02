@@ -32,8 +32,6 @@ const CourseNoticeDocument = forwardRef<HTMLDivElement, Props>(({ code, data, ed
   const referenceName = data.recipientName.trim() || "Tên học viên";
 
   return (
-
-const CourseNoticeDocument = forwardRef<HTMLDivElement, Props>(({ code, data }, ref) => (
   <article ref={ref} id="course-notice-print" className="course-notice mx-auto w-full max-w-[794px] overflow-hidden bg-card text-foreground shadow-xl print:max-w-none print:shadow-none">
     <div className="course-notice-top-rule" />
 
