@@ -46,6 +46,7 @@ import SpeakingCameraPanel from "@/components/speaking/SpeakingCameraPanel";
 import SpeakingTemplateLab from "@/components/ielts/SpeakingTemplateLab";
 import StructureVocabPractice from "@/components/speaking/StructureVocabPractice";
 import { useUsefulLanguageAudio, PhraseAudio, PlayAllBar } from "@/components/speaking/UsefulLanguageAudio";
+import IllustratedPageHeader from "@/components/common/IllustratedPageHeader";
 
 import { useSpeakingSrs } from "@/hooks/useSpeakingSrs";
 
@@ -869,21 +870,23 @@ ${suggestionsHtml}
       <Navbar />
       <main className="container mx-auto px-4 py-8 max-w-7xl">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-8"
-        >
-          <h1 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-3">
-            {t("Luyện nói IELTS Speaking", "IELTS Speaking Practice")}
-          </h1>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            {t(
-              "Luyện tập với ngân hàng câu hỏi, từ vựng gợi ý và phản hồi tức thì từ hệ thống chấm điểm",
-              "Practice with our question bank, vocabulary suggestions, and instant feedback"
-            )}
-          </p>
-        </motion.div>
+        <IllustratedPageHeader variant="ielts" className="mb-8">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center"
+          >
+            <h1 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-3">
+              {t("Luyện nói IELTS Speaking", "IELTS Speaking Practice")}
+            </h1>
+            <p className="text-foreground/80 max-w-2xl mx-auto">
+              {t(
+                "Luyện tập với ngân hàng câu hỏi, từ vựng gợi ý và phản hồi tức thì từ hệ thống chấm điểm",
+                "Practice with our question bank, vocabulary suggestions, and instant feedback"
+              )}
+            </p>
+          </motion.div>
+        </IllustratedPageHeader>
 
         {mode !== "part" && (
           <div className="mb-4 flex items-center gap-3 flex-wrap">
