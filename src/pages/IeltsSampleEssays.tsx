@@ -1,4 +1,5 @@
 // IELTS Sample Essays Hub - Filterable list of Band 7.0+ essays
+import IllustratedPageHeader from "@/components/common/IllustratedPageHeader";
 import { useState, useMemo, useEffect, useCallback } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Link, useSearchParams } from "react-router-dom";
@@ -101,6 +102,7 @@ const IeltsSampleEssays = () => {
       <Navbar />
       <main className="container mx-auto px-4 py-10 max-w-6xl">
         {/* Header */}
+        <IllustratedPageHeader variant="ielts" className="mb-6">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-8">
           <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-3 flex items-center justify-center gap-3">
             <BookOpen className="w-8 h-8 text-primary" />
@@ -118,6 +120,7 @@ const IeltsSampleEssays = () => {
                 )}
           </p>
         </motion.div>
+        </IllustratedPageHeader>
 
         {/* Band tabs */}
         <div className="flex justify-center mb-6">

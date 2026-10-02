@@ -1,4 +1,5 @@
 // IELTS Listening Practice page - full 40-question tests + drills by question type.
+import IllustratedPageHeader from "@/components/common/IllustratedPageHeader";
 import { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -71,6 +72,7 @@ const IeltsListeningPractice = () => {
           >
             <ArrowLeft className="w-4 h-4" /> {t("Quay lại bài giảng Listening", "Back to Listening lessons")}
           </Link>
+          <IllustratedPageHeader variant="ielts" className="mb-6">
           <div className="flex items-start gap-4 flex-wrap">
             <div className="shrink-0 w-14 h-14 rounded-2xl bg-emerald-500/15 flex items-center justify-center">
               <Headphones className="w-7 h-7 text-emerald-600 dark:text-emerald-400" />
@@ -97,6 +99,7 @@ const IeltsListeningPractice = () => {
               </div>
             </div>
           </div>
+          </IllustratedPageHeader>
         </section>
 
         <section className="container mx-auto px-4 sm:px-6">
