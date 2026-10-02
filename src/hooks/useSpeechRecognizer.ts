@@ -6,7 +6,9 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 export interface UseSpeechRecognizerOptions {
   speechLang: string;
   maxSeconds?: number;
-  onFinal?: (transcript: string, elapsedMs: number) => void;
+  onFinal?: (transcript: string, elapsedMs: number, alternatives: string[]) => void;
+  /** Ask the recogniser for several guesses (useful for single-word drills). */
+  alternatives?: number;
   /**
    * When true the turn ends only on an explicit stop() (or the maxSeconds
    * ceiling): the recognizer keeps restarting through natural pauses so long
@@ -33,7 +35,7 @@ export const isAppleWebkitBrowser = (): boolean => {
   return isIOS || isSafari;
 };
 
-export function useSpeechRecognizer({ speechLang, maxSeconds = 90, onFinal, manualStopOnly = false, silenceMs }: UseSpeechRecognizerOptions) {
+export function useSpeechRecognizer({ speechLang, maxSeconds = 90, onFinal, manualStopOnly = false, silenceMs, alternatives = 1 }: UseSpeechRecognizerOptions) {
   const [isRecording, setIsRecording] = useState(false);
   const [transcript, setTranscript] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -42,6 +44,7 @@ export function useSpeechRecognizer({ speechLang, maxSeconds = 90, onFinal, manu
   const recognitionRef = useRef<any>(null);
   const accumulatedRef = useRef("");
   const interimRef = useRef("");
+  const altsRef = useRef<string[]>([]);
   const manualOnlyRef = useRef(manualStopOnly);
   manualOnlyRef.current = manualStopOnly;
   const manualStopRef = useRef(false);
@@ -102,7 +105,9 @@ export function useSpeechRecognizer({ speechLang, maxSeconds = 90, onFinal, manu
     interimRef.current = "";
     const elapsed = Date.now() - startedAtRef.current;
     setIsRecording(false);
-    if (text && finalRef.current) finalRef.current(text, elapsed);
+    const alts = Array.from(new Set([text, ...altsRef.current].map((a) => a.trim()).filter(Boolean)));
+    altsRef.current = [];
+    if (text && finalRef.current) finalRef.current(text, elapsed, alts);
   }, []);
 
   const stop = useCallback(() => {
@@ -145,6 +150,7 @@ export function useSpeechRecognizer({ speechLang, maxSeconds = 90, onFinal, manu
     setSeconds(0);
     accumulatedRef.current = "";
     interimRef.current = "";
+    altsRef.current = [];
     manualStopRef.current = false;
     startedAtRef.current = Date.now();
     lastSpeechAtRef.current = 0;
@@ -154,14 +160,23 @@ export function useSpeechRecognizer({ speechLang, maxSeconds = 90, onFinal, manu
     rec.lang = speechLang;
     rec.interimResults = true;
     rec.continuous = !isAppleWebkitBrowser();
-    rec.maxAlternatives = 1;
+    rec.maxAlternatives = Math.max(1, alternatives);
 
     rec.onresult = (event: any) => {
       let interim = "";
       for (let i = event.resultIndex; i < event.results.length; i++) {
         const chunk = event.results[i][0]?.transcript ?? "";
-        if (event.results[i].isFinal) accumulatedRef.current = `${accumulatedRef.current} ${chunk}`.trim();
-        else interim += chunk;
+        if (event.results[i].isFinal) {
+          accumulatedRef.current = `${accumulatedRef.current} ${chunk}`.trim();
+          for (let k = 1; k < event.results[i].length; k++) {
+            const alt = event.results[i][k]?.transcript;
+            if (alt) altsRef.current.push(alt);
+          }
+        } else {
+          interim += chunk;
+          const alt = event.results[i][1]?.transcript;
+          if (alt) altsRef.current.push(alt);
+        }
       }
       interimRef.current = interim.trim();
       lastSpeechAtRef.current = Date.now();
@@ -200,7 +215,7 @@ export function useSpeechRecognizer({ speechLang, maxSeconds = 90, onFinal, manu
       teardown();
       return false;
     }
-  }, [finish, maxSeconds, speechLang, supported, teardown]);
+  }, [alternatives, finish, maxSeconds, speechLang, supported, teardown]);
 
   const reset = useCallback(() => {
     manualStopRef.current = true;
