@@ -172,8 +172,8 @@
     --notice-ink: 215 32% 17%;
     --notice-paper: 0 0% 100%;
     font-family: "Manrope", sans-serif;
-    font-size: 14px;
-    line-height: 1.55;
+    font-size: 15px;
+    line-height: 1.6;
     letter-spacing: 0;
     color: hsl(var(--notice-ink));
     background: hsl(var(--notice-paper));
@@ -197,13 +197,13 @@
   .course-notice-section-heading,
   .course-notice-total { color: hsl(var(--notice-deep)); }
   .course-notice-section { border-color: hsl(var(--notice-line)); }
-  .course-notice-section-heading { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 800; text-transform: uppercase; }
-  .course-notice-section-heading span { display: inline-flex; height: 22px; min-width: 22px; align-items: center; justify-content: center; background: hsl(var(--notice-deep)); color: hsl(var(--notice-paper)); font-size: 9px; }
+  .course-notice-section-heading { display: flex; align-items: center; gap: 9px; font-size: 13px; font-weight: 800; text-transform: uppercase; }
+  .course-notice-section-heading span { display: inline-flex; height: 25px; min-width: 25px; align-items: center; justify-content: center; background: hsl(var(--notice-deep)); color: hsl(var(--notice-paper)); font-size: 10px; }
   .course-notice-format { color: hsl(var(--notice-deep)); background: hsl(var(--notice-wash)); border: 1px solid hsl(var(--notice-line)); }
   .course-notice-facts { border-color: hsl(var(--notice-line)); }
   .course-notice-facts > div { min-width: 0; padding: 10px; border-right: 1px solid hsl(var(--notice-line)); }
   .course-notice-facts > div:last-child { border-right: 0; }
-  .course-notice-facts span { display: block; margin-bottom: 4px; color: hsl(var(--muted-foreground)); font-size: 10px; font-weight: 700; }
+  .course-notice-facts span { display: block; margin-bottom: 4px; color: hsl(var(--muted-foreground)); font-size: 11px; font-weight: 700; }
   .course-notice-facts strong { display: block; line-height: 1.45; overflow-wrap: anywhere; }
   .course-notice-check { color: hsl(var(--notice-green)); font-weight: 900; }
   .course-notice-fee { border-color: hsl(var(--notice-line)); background: hsl(var(--notice-wash)); }

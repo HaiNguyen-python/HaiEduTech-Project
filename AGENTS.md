@@ -12,4 +12,4 @@
 - Public subject UI exposes Home, About, English, Chinese, Vietnamese, Technology, Interpersonal Skills and Your Corner. Finnish is hidden from navigation but its pages stay open to all signed-in users via direct URLs (same as other languages). Hide JA/SV from navigation (teacher-gated routes), Specialized Language and Super Dictionary; keep direct course URLs.
 - Pattern Drilling is English/Chinese only: 15 frames per Starter-C1 level and five substitutions per frame.
 - Writing-practice tasks use unseen random selection with a single Next action; Chinese vocabulary and pattern tasks always show a complete Hanzi, Pinyin, and meaning example.
-- Course notices use the shared public tuition catalog as defaults, store an immutable bilingual snapshot per recipient, and send only through the staff-authorized single-notice email function.
+- Course notices use shared tuition defaults, store one selected-language snapshot per recipient, and send only through the staff-authorized single-notice email function.
