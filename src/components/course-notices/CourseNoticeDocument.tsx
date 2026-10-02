@@ -39,7 +39,10 @@ const CourseNoticeDocument = forwardRef<HTMLDivElement, Props>(({ code, data, ed
         <div className="flex min-w-0 items-center gap-4">
           <img src="/haiedutech-logo.jpg" alt="HaiEduTech" className="h-[76px] w-[76px] shrink-0 object-contain" />
           <div className="min-w-0">
-            <p className="course-notice-brand text-2xl font-black uppercase sm:text-3xl">HaiEduTech</p>
+            <p className="course-notice-brand flex items-baseline gap-0.5 leading-none">
+              <span className="course-notice-brand-script">Hai</span>
+              <span className="course-notice-brand-word">EduTech</span>
+            </p>
             <p className="mt-1 text-[10px] font-bold uppercase text-muted-foreground sm:text-xs">Language & Information Technology Center</p>
           </div>
         </div>
