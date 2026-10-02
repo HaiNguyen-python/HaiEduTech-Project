@@ -13,6 +13,7 @@ interface VoiceResponse { audioBase64?: string; mimeType?: string }
 
 let activeAudio: HTMLAudioElement | null = null;
 let playToken = 0;
+const audioCache = new Map<string, VoiceResponse>();
 let inFlight: { key: string; promise: Promise<boolean> } | null = null;
 
 const stopActiveAudio = () => {
@@ -75,6 +76,7 @@ const playBase64 = (base64: string, mimeType: string, rate: number, token: numbe
     activeAudio = audio;
     audio.preload = "auto";
     audio.playbackRate = rate;
+    try { (audio as HTMLAudioElement & { preservesPitch?: boolean }).preservesPitch = true; } catch { /* noop */ }
     audio.onended = () => { if (activeAudio === audio) activeAudio = null; resolve(); };
     audio.onerror = () => { if (activeAudio === audio) activeAudio = null; reject(new Error("audio_error")); };
     waitForAudioForeground()
@@ -94,6 +96,7 @@ export const playMrHaiVoice = async (
   const normalized = text.trim();
   if (!normalized || typeof window === "undefined") return false;
   const key = `${language}\u0000${rate}\u0000${normalized}`;
+  const cached = audioCache.get(`${language}\u0000${normalized}`);
   if (inFlight?.key === key) return inFlight.promise;
 
   playToken += 1;
@@ -103,14 +106,18 @@ export const playMrHaiVoice = async (
 
   const promise = (async () => {
     try {
-      const payload = await invokeTtsFunction<VoiceResponse | null>("mr-hai-voice", {
+      const payload = cached ?? await invokeTtsFunction<VoiceResponse | null>("mr-hai-voice", {
         text: normalized.slice(0, 1200),
         language,
         speed: Math.min(1.5, Math.max(0.5, rate)),
       });
       if (!payload?.audioBase64) throw new Error("no_audio");
+      if (!cached) {
+        audioCache.set(`${language}\u0000${normalized}`, payload);
+        if (audioCache.size > 30) audioCache.delete(audioCache.keys().next().value as string);
+      }
       if (token !== playToken) return false;
-      await playBase64(payload.audioBase64, payload.mimeType || "audio/mpeg", 1, token);
+      await playBase64(payload.audioBase64, payload.mimeType || "audio/mpeg", payload.mimeType === "audio/wav" ? Math.min(1.2, Math.max(0.6, rate)) : 1, token);
       return true;
     } catch {
       if (token !== playToken) return false;

@@ -40,23 +40,39 @@ const SpeakWithMrHaiMode = ({ language }: Props) => {
   const languageConfig = speakingCoachLanguages[language];
   const [topicId, setTopicId] = useState(topics[0]?.id ?? "daily");
   const [messages, setMessages] = useState<MrHaiMessage[]>([]);
-  const [voiceState, setVoiceState] = useState<MrHaiVoiceState>("idle");
+  const [voiceState, setVoiceStateRaw] = useState<MrHaiVoiceState>("idle");
+  const setVoiceState = useCallback((next: MrHaiVoiceState | ((current: MrHaiVoiceState) => MrHaiVoiceState)) => {
+    setVoiceStateRaw((current) => {
+      const value = typeof next === "function" ? next(current) : next;
+      voiceStateRef.current = value;
+      return value;
+    });
+  }, []);
   const [error, setError] = useState<string | null>(null);
   const [summary, setSummary] = useState<MrHaiSessionSummary | null>(null);
   const startedAtRef = useRef(Date.now());
   const messagesRef = useRef(messages);
   const resetRecognitionRef = useRef<() => void>(() => {});
+  const startListeningRef = useRef<() => Promise<void>>(async () => {});
+  const [handsFree, setHandsFree] = useState<boolean>(() => safeStorage.get<boolean>("mr-hai-hands-free", true) ?? true);
+  const handsFreeRef = useRef(handsFree);
+  handsFreeRef.current = handsFree;
+  const voiceStateRef = useRef<MrHaiVoiceState>("idle");
   messagesRef.current = messages;
 
   const topic = topics.find((item) => item.id === topicId) ?? topics[0];
   const isAiBusy = voiceState === "thinking" || voiceState === "speaking";
   const hasStarted = messages.length > 0;
 
-  const speakReply = useCallback(async (reply: string, rate = 0.95) => {
+  const speakReply = useCallback(async (reply: string, rate = 1, autoListen = false) => {
     setVoiceState("speaking");
     await playMrHaiVoice(language, speakingText(reply), rate);
-    setVoiceState((current) => current === "paused" || current === "ended" ? current : "idle");
-  }, [language]);
+    const current = voiceStateRef.current;
+    if (current === "paused" || current === "ended") return;
+    setVoiceState("idle");
+    // Hands-free: the learner's turn opens the moment Mr. Hai stops talking.
+    if (autoListen && handsFreeRef.current) void startListeningRef.current();
+  }, [language, setVoiceState]);
 
   const requestMrHai = useCallback(async (nextMessages: MrHaiMessage[], mode: "turn" | "summary" = "turn") => {
     if (!topic) return null;
@@ -94,7 +110,7 @@ const SpeakWithMrHaiMode = ({ language }: Props) => {
         encouragement: response.encouragement,
       };
       setMessages((current) => [...current, coachMessage]);
-      await speakReply(response.reply);
+      await speakReply(response.reply, 1, true);
     } catch {
       setVoiceState("error");
       setError(t("Mr. Hai chưa thể trả lời. Câu nói của bạn vẫn được giữ lại để thử lại.", "Mr. Hai could not respond. Your turn is kept so you can retry."));
@@ -105,6 +121,7 @@ const SpeakWithMrHaiMode = ({ language }: Props) => {
     speechLang: languageConfig.speechLang,
     maxSeconds: 120,
     manualStopOnly: true,
+    silenceMs: handsFree ? 1800 : undefined,
     onFinal: (transcript) => void addLearnerTurn(transcript),
   });
   const resetRecognition = rec.reset;
@@ -119,6 +136,13 @@ const SpeakWithMrHaiMode = ({ language }: Props) => {
     setVoiceState("listening");
     const started = await rec.start();
     if (!started) setVoiceState("error");
+  };
+  startListeningRef.current = startListening;
+
+  const toggleHandsFree = () => {
+    const next = !handsFree;
+    setHandsFree(next);
+    safeStorage.set("mr-hai-hands-free", next);
   };
 
   useEffect(() => () => stopMrHaiVoice(language), [language]);
@@ -141,7 +165,7 @@ const SpeakWithMrHaiMode = ({ language }: Props) => {
       if (!response) return;
       const opening: MrHaiMessage = { id: crypto.randomUUID(), role: "assistant", content: response.reply };
       setMessages([opening]);
-      await speakReply(response.reply);
+      await speakReply(response.reply, 1, true);
     } catch {
       setVoiceState("error");
       setError(t("Chưa thể bắt đầu phiên nói. Hãy thử lại sau ít phút.", "The speaking session could not start. Please try again shortly."));
@@ -154,7 +178,10 @@ const SpeakWithMrHaiMode = ({ language }: Props) => {
     setVoiceState("paused");
   };
 
-  const resumeSession = () => setVoiceState("idle");
+  const resumeSession = () => {
+    setVoiceState("idle");
+    if (handsFreeRef.current && messagesRef.current.at(-1)?.role === "assistant") void startListening();
+  };
 
   const endSession = async () => {
     rec.reset();
@@ -209,7 +236,7 @@ const SpeakWithMrHaiMode = ({ language }: Props) => {
       if (!response) return;
       const coachMessage: MrHaiMessage = { id: crypto.randomUUID(), role: "assistant", content: response.reply, correction: response.correction, encouragement: response.encouragement };
       setMessages([...withoutLastAssistant, coachMessage]);
-      await speakReply(response.reply);
+      await speakReply(response.reply, 1, true);
     } catch {
       setVoiceState("error");
       setError(t("Chưa thể thử lại lúc này.", "Unable to retry right now."));
@@ -267,7 +294,7 @@ const SpeakWithMrHaiMode = ({ language }: Props) => {
               <Button className="mt-4 w-full" onClick={() => void startSession()} disabled={isInteractionBusy}><Play className="h-4 w-4" />{t("Bắt đầu hội thoại", "Start conversation")}</Button>
             ) : (
               <div className="mt-4 grid w-full grid-cols-2 gap-2">
-                {voiceState === "paused" ? <Button onClick={resumeSession}><Play className="h-4 w-4" />{t("Tiếp tục", "Resume")}</Button> : <Button variant="outline" onClick={pauseSession} disabled={isInteractionBusy || voiceState === "ended"}><Pause className="h-4 w-4" />{t("Tạm dừng", "Pause")}</Button>}
+                {voiceState === "paused" ? <Button onClick={resumeSession}><Play className="h-4 w-4" />{t("Tiếp tục", "Resume")}</Button> : <Button variant="outline" onClick={pauseSession} disabled={voiceState === "thinking" || voiceState === "ended"}><Pause className="h-4 w-4" />{t("Tạm dừng", "Pause")}</Button>}
                 <Button variant="outline" onClick={() => void endSession()} disabled={isInteractionBusy || voiceState === "ended"}><Square className="h-4 w-4" />{t("Kết thúc", "Finish")}</Button>
               </div>
             )}
@@ -278,6 +305,10 @@ const SpeakWithMrHaiMode = ({ language }: Props) => {
             <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
               <Badge variant="outline">{t("Lượt đã nói", "Turns spoken")}: {learnerTurns}</Badge>
               <Badge variant="outline">{t("Từ đã nói", "Words spoken")}: {learnerWords}</Badge>
+              <Button type="button" size="sm" variant={handsFree ? "default" : "outline"} className="h-7 rounded-full px-3 text-xs" onClick={toggleHandsFree} aria-pressed={handsFree}>
+                <Headphones className="h-3.5 w-3.5" />{handsFree ? t("Rảnh tay: Bật", "Hands-free: On") : t("Rảnh tay: Tắt", "Hands-free: Off")}
+              </Button>
+              {rec.isRecording && handsFree && <span className="font-semibold text-primary">{t("Đến lượt bạn - cứ nói, ngừng khoảng 2 giây là tự gửi", "Your turn - just speak, pause ~2s to send")}</span>}
               {isMyTurn && <span className="font-semibold text-primary">{t("Đến lượt bạn nói", "Your turn to speak")}</span>}
             </div>
 
@@ -313,7 +344,7 @@ const SpeakWithMrHaiMode = ({ language }: Props) => {
               <div className="min-h-[46px] rounded-md bg-muted/50 p-2 text-sm">
                 {rec.transcript
                   ? <p className="whitespace-pre-wrap break-words">{rec.transcript}</p>
-                  : <p className="text-muted-foreground">{hasStarted ? t("Nhấn Nói và trả lời Mr. Hai. Cứ nói hết câu, hệ thống chỉ gửi khi bạn nhấn Dừng.", "Press Speak and answer Mr. Hai. Take your time - your turn is sent only when you press Stop.") : t("Bắt đầu hội thoại để luyện nói.", "Start the conversation to begin speaking.")}</p>}
+                  : <p className="text-muted-foreground">{hasStarted ? (handsFree ? t("Chế độ rảnh tay: mic tự bật sau khi Mr. Hai nói xong, ngừng nói khoảng 2 giây là tự gửi.", "Hands-free: the mic opens when Mr. Hai finishes, and your turn is sent after a ~2s pause.") : t("Nhấn Nói và trả lời Mr. Hai. Cứ nói hết câu, hệ thống chỉ gửi khi bạn nhấn Dừng.", "Press Speak and answer Mr. Hai. Take your time - your turn is sent only when you press Stop.")) : t("Bắt đầu hội thoại để luyện nói.", "Start the conversation to begin speaking.")}</p>}
               </div>
               <div className="mt-3 flex flex-wrap items-center gap-2">
                 {rec.isRecording ? (
