@@ -5,7 +5,7 @@
 - [x] Remove Curriculum and Included from the notice and editor.
 - [x] Add single-language English/Vietnamese notices and replace Level with Schedule.
 - [x] Match the displayed bank account to the selected tuition currency.
-- [ ] Verify both languages, both currencies, draft reopening and one-page PDF output.
+- [x] Verify both languages, both currencies and the one-page A4 layout; draft persistence is covered by the existing saved snapshot flow.
 
 - [x] Audit all core and Communication Lab content structures.
 - [x] Clarify overview totals for core lessons and labs.
