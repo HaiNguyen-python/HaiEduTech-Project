@@ -184,7 +184,9 @@
   .course-notice-bottom-rule { height: 8px; background: hsl(var(--notice-deep)); }
   .course-notice-bottom-rule { height: 4px; }
   .course-notice-letterhead { background: hsl(var(--notice-paper)); }
-  .course-notice-brand { color: hsl(var(--notice-deep)); }
+  .course-notice-brand { color: hsl(var(--notice-deep)); font-size: 28px; }
+  .course-notice-brand-script { font-family: "Dancing Script", cursive; font-size: 1.18em; font-weight: 700; letter-spacing: 0; line-height: 1; }
+  .course-notice-brand-word { font-family: "Manrope", sans-serif; font-size: 0.95em; font-weight: 800; letter-spacing: -0.01em; }
   .course-notice-meta { border-color: hsl(var(--notice-line)); }
   .course-notice-title-block {
     border-color: hsl(var(--notice-line));
