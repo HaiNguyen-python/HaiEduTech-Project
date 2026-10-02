@@ -8,8 +8,8 @@ import { Progress } from "@/components/ui/progress";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { speakingCoachLanguages } from "@/data/speakingCoachData";
 import { useSpeechRecognizer } from "@/hooks/useSpeechRecognizer";
-import { CLEAN_STREAK, dueWeakWords, loadWeakWords, normalizeWord, reviewWeakWord, type WeakWord } from "@/lib/speakingWeakWords";
-import { compareSentence, micErrorMessage, playSpeakingTts, stopSpeakingTts, type SpeakingLang } from "@/lib/speakingModeShared";
+import { SPEAKING_PROGRESS_EVENT, CLEAN_STREAK, dueWeakWords, loadWeakWords, normalizeWord, reviewWeakWord, type WeakWord } from "@/lib/speakingWeakWords";
+import { bestTargetAccuracy, compareSentence, micErrorMessage, playSpeakingTts, stopSpeakingTts, type SpeakingLang } from "@/lib/speakingModeShared";
 import { sortWeakWords, sourceLabel, type WeakWordFilter } from "@/lib/weakWordCoach";
 
 interface Props { language: SpeakingLang; onChange?: () => void; }
@@ -34,23 +34,31 @@ const WeakWordReviewPanel = ({ language, onChange }: Props) => {
   const [audioBusy, setAudioBusy] = useState(false);
   const card = queue[index];
 
-  const handleFinal = useCallback((transcript: string) => {
+  const handleFinal = useCallback((transcript: string, _elapsed: number, alternatives: string[]) => {
     if (!card) return;
     setHeard(transcript);
-    const ok = compareSentence(card.word, transcript, language).accuracy >= 75;
+    const ok = bestTargetAccuracy(card.word, alternatives.length ? alternatives : [transcript], language) >= 75;
     setVerdict(ok ? "correct" : "wrong");
     const updated = reviewWeakWord(language, card.word, ok);
     setDisplayClean(updated[normalizeWord(card.word)]?.clean ?? (ok ? CLEAN_STREAK : 0));
     if (ok && card.clean + 1 >= CLEAN_STREAK) setCleared((count) => count + 1);
     onChange?.();
   }, [card, language, onChange]);
-  const rec = useSpeechRecognizer({ speechLang: config.speechLang, maxSeconds: 12, onFinal: handleFinal });
+  const rec = useSpeechRecognizer({ speechLang: config.speechLang, maxSeconds: 12, silenceMs: 1300, alternatives: 5, onFinal: handleFinal });
 
   useEffect(() => { setAllDue(dueWeakWords(loadWeakWords(language))); setIndex(0); setVerdict(null); setHeard(""); setDisplayClean(null); setCleared(0); setReviewed(0); setListened(false); }, [language]);
   // The recognizer object is intentionally excluded: it changes after each render.
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { setIndex(0); setVerdict(null); setHeard(""); setDisplayClean(null); rec.reset(); }, [filter]);
   useEffect(() => () => stopSpeakingTts(language), [language]);
+  // Pick up words added by other activities while this panel stays open.
+  const idleRef = useRef(true);
+  idleRef.current = index === 0 && !verdict && !rec.isRecording;
+  useEffect(() => {
+    const onProgress = () => { if (idleRef.current) setAllDue(dueWeakWords(loadWeakWords(language))); };
+    window.addEventListener(SPEAKING_PROGRESS_EVENT, onProgress);
+    return () => window.removeEventListener(SPEAKING_PROGRESS_EVENT, onProgress);
+  }, [language]);
 
   const playWord = async (rate: number) => {
     if (!card || audioBusyRef.current) return;

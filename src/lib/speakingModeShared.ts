@@ -1,3 +1,5 @@
+import { pinyin } from "pinyin-pro";
+import { chineseDigitsToHanzi } from "@/lib/chineseNumerals";
 // Shared helpers for the Speaking Coach practice modes: per-language TTS and a
 // lightweight word comparison used by Shadowing and Weak-word review.
 import { playEnglishTts, stopEnglishTts } from "@/lib/englishTts";
@@ -67,7 +69,7 @@ export function stopSpeakingTts(language: SpeakingLang) {
 const strip = (s: string) => s.toLowerCase().replace(/[.,!?;:"'()¿¡…、。！？，]/g, "").trim();
 
 export const normalizeForCompare = (text: string, language: SpeakingLang): string => {
-  const cleaned = strip(text);
+  const cleaned = strip(language === "chinese" ? chineseDigitsToHanzi(text) : text);
   if (language === "chinese" || language === "japanese") return cleaned.replace(/\s+/g, "");
   return cleaned.replace(/\s+/g, " ");
 };
@@ -136,21 +138,80 @@ export function compareSentence(
   return { results, accuracy };
 }
 
-/** Decide which of two candidate words the recogniser heard. */
-export function matchCandidate(heard: string, a: string, b: string, language: SpeakingLang): "a" | "b" | "none" {
+/** Tone-numbered Pinyin for Chinese text, so homophones count as the same sound. */
+export const toPinyinKey = (text: string): string =>
+  pinyin(chineseDigitsToHanzi(text).replace(/[^\p{Script=Han}]/gu, ""), { toneType: "num", type: "array" }).join(" ");
+
+function matchOne(heard: string, a: string, b: string, language: SpeakingLang): "a" | "b" | "none" {
   const h = normalizeForCompare(heard, language);
   const na = normalizeForCompare(a, language);
   const nb = normalizeForCompare(b, language);
   if (!h) return "none";
   if (h.includes(na) && !h.includes(nb)) return "a";
   if (h.includes(nb) && !h.includes(na)) return "b";
-  const da = editDistance(h, na);
-  const db = editDistance(h, nb);
+  if (language === "chinese") {
+    const ph = toPinyinKey(h);
+    const pa = toPinyinKey(na);
+    const pb = toPinyinKey(nb);
+    if (ph && pa && pb && pa !== pb) {
+      const wrap = (p: string) => `|${p.split(" ").join("|")}|`;
+      const hasA = wrap(ph).includes(wrap(pa));
+      const hasB = wrap(ph).includes(wrap(pb));
+      if (hasA && !hasB) return "a";
+      if (hasB && !hasA) return "b";
+      // Same syllable, different tone only counts when the tone itself differs.
+      const base = (p: string) => p.replace(/\d/g, "");
+      if (base(pa) !== base(pb)) {
+        const words = ph.split(" ");
+        if (words.some((w) => base(w) === base(pa)) && !words.some((w) => base(w) === base(pb))) return "a";
+        if (words.some((w) => base(w) === base(pb)) && !words.some((w) => base(w) === base(pa))) return "b";
+      }
+    }
+    return "none";
+  }
+  const words = h.split(" ");
+  const nearest = (target: string) => Math.min(editDistance(h, target), ...words.map((w) => editDistance(w, target)));
+  const da = nearest(na);
+  const db = nearest(nb);
   if (da === db) return "none";
   const best = da < db ? "a" : "b";
   const bestDist = Math.min(da, db);
   const bestWord = best === "a" ? na : nb;
   return bestDist <= Math.max(1, Math.ceil(bestWord.length / 2)) ? best : "none";
+}
+
+/**
+ * Decide which of two candidate words the recogniser heard. Accepts the main
+ * transcript or a list of recogniser alternatives (first entry = best guess).
+ */
+export function matchCandidate(heard: string | string[], a: string, b: string, language: SpeakingLang): "a" | "b" | "none" {
+  const list = (Array.isArray(heard) ? heard : [heard]).filter(Boolean);
+  if (!list.length) return "none";
+  const first = matchOne(list[0], a, b, language);
+  if (first !== "none") return first;
+  const votes = list.slice(1).map((h) => matchOne(h, a, b, language)).filter((v) => v !== "none");
+  if (votes.length && votes.every((v) => v === votes[0])) return votes[0];
+  return "none";
+}
+
+/** Best accuracy for a single target across recogniser alternatives (Pinyin-aware for Chinese). */
+export function bestTargetAccuracy(target: string, heard: string[], language: SpeakingLang): number {
+  let best = 0;
+  for (const h of heard) {
+    best = Math.max(best, compareSentence(target, h, language).accuracy);
+    if (language === "chinese") {
+      const pt = toPinyinKey(target);
+      const ph = toPinyinKey(h);
+      if (pt && ph) {
+        if (`|${ph.split(" ").join("|")}|`.includes(`|${pt.split(" ").join("|")}|`)) best = Math.max(best, 100);
+        else {
+          const base = (p: string) => p.replace(/\d/g, "");
+          if (base(` ${ph} `).includes(base(` ${pt} `))) best = Math.max(best, 70);
+        }
+      }
+    }
+  }
+  return best;
 }
 
 export const micErrorMessage = (

@@ -41,6 +41,34 @@ export const saveWeakWords = (language: string, store: WeakWordStore) => {
   }
 };
 
+/**
+ * Turn per-unit comparison results into weak-word entries. Chinese/Japanese
+ * compare per character, so consecutive missed characters are grouped into
+ * one word instead of flooding the queue with single characters.
+ */
+export function missedWordsFromResults(
+  results: { word: string; status: string }[],
+  language: string,
+): { word: string }[] {
+  const isMissed = (status: string) => status === "wrong" || status === "missing";
+  if (language !== "chinese" && language !== "japanese") {
+    // Tiny function words are usually recognition noise, not pronunciation problems.
+    const skip = new Set(["a", "an", "the", "to", "of", "and", "is", "it", "in", "on", "at", "i", "or"]);
+    return results
+      .filter((r) => isMissed(r.status) && !skip.has(normalizeWord(r.word)))
+      .map((r) => ({ word: r.word }))
+      .slice(0, 6);
+  }
+  const out: { word: string }[] = [];
+  let run = "";
+  for (const r of results) {
+    if (isMissed(r.status) && /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]/u.test(r.word)) run += r.word;
+    else { if (run) out.push({ word: run }); run = ""; }
+  }
+  if (run) out.push({ word: run });
+  return out.slice(0, 6);
+}
+
 /** Record misses coming out of any practice mode. */
 export function addWeakWords(
   language: string,
@@ -51,7 +79,8 @@ export function addWeakWords(
   const today = todayISO();
   for (const entry of words) {
     const norm = normalizeWord(entry.word);
-    if (!norm || norm.length < 2) continue;
+    const cjk = /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]/u.test(norm);
+    if (!norm || (!cjk && norm.length < 2)) continue;
     const prev = store[norm];
     store[norm] = {
       word: entry.word.trim(),
