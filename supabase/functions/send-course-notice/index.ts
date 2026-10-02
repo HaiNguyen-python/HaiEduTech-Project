@@ -30,14 +30,21 @@ serve(async (req) => {
     const d = notice.snapshot as Record<string, any>;
     const date = (v: string) => v ? new Date(`${v}T00:00:00`).toLocaleDateString("vi-VN") : "-";
     const num = (n: number) => new Intl.NumberFormat("vi-VN", { maximumFractionDigits: 0 }).format(n || 0);
+    const numEur = (n: number) => new Intl.NumberFormat("en-IE", { maximumFractionDigits: 2 }).format(n || 0);
+    const cur = d.currency === "eur" ? "eur" : "vnd";
+    const money = (n: number) => cur === "eur" ? `${numEur(n)} EUR` : `${num(n)}đ`;
+    const toEur = (n: number) => Math.round((n || 0) / 31000 * 100) / 100;
+    const extraAmount = cur === "eur" ? (Number(d.extraFeeEur) > 0 ? Number(d.extraFeeEur) : toEur(d.extraFeeVnd)) : Math.round(d.extraFeeVnd || 0);
     const payment = [d.paymentMethod !== "finland" ? "Vietcombank · 1025536199 · NGUYEN TRAN THANH HAI" : "", d.paymentMethod !== "vietnam" ? "Nordea · FI09 1040 3500 5258 23 · Nguyen Tran Thanh Hai" : ""].filter(Boolean).join(" | ");
     const result = await sendAndLog("course-notice", notice.recipient_email, { idempotencyKey: `course-notice-${notice.id}-${notice.send_count + 1}`, templateData: {
       recipientName: notice.recipient_name, noticeCode: notice.notice_code, courseNameVi: d.courseNameVi, courseNameEn: d.courseNameEn,
       classType: d.classType === "private" ? "Kèm 1-1 / One-to-one" : "Lớp nhóm / Group class", level: d.level || "Theo đánh giá đầu vào",
       duration: `${d.weeks} tuần · ${d.sessions} buổi · ${d.hours} giờ`, dates: `${date(d.startDate)} - ${date(d.endDate)}`, schedule: `${d.schedule} (${d.timezone})`, objective: d.objective,
-      modules: d.modules, benefits: d.benefits, baseTuition: `${num(d.baseVnd)}đ · ${d.baseEur} EUR`, discount: d.discountType === "percent" ? `${d.discountValue}% ${d.discountReason || ""}` : `${num(d.discountValue)}đ ${d.discountReason || ""}`,
-      finalTuition: `${num(d.finalVnd)}đ · ${d.finalEur} EUR`, extraFee: Number(d.extraFeeVnd) > 0 ? `${d.extraFeeLabel || "Phí khác / Other fee"}: ${num(d.extraFeeVnd)}đ · ${num(Math.round(d.extraFeeVnd / 31000))} EUR` : undefined,
-      totalDue: Number(d.extraFeeVnd) > 0 ? `${num(d.finalVnd + d.extraFeeVnd)}đ · ${num(Math.round((d.finalVnd + d.extraFeeVnd) / 31000))} EUR` : undefined,
+      modules: d.modules, benefits: d.benefits, baseTuition: money(cur === "eur" ? d.baseEur : d.baseVnd),
+      discount: d.discountType === "percent" ? `${d.discountValue}% ${d.discountReason || ""}` : `${money(d.discountValue)} ${d.discountReason || ""}`,
+      finalTuition: money(cur === "eur" ? d.finalEur : d.finalVnd),
+      extraFee: extraAmount > 0 ? `${d.extraFeeLabel || "Phí khác / Other fee"}: ${money(extraAmount)}` : undefined,
+      totalDue: extraAmount > 0 ? money((cur === "eur" ? d.finalEur : d.finalVnd) + extraAmount) : undefined,
       paymentReference: d.paymentReference || undefined, paymentDetails: payment,
       instructorName: d.instructorName, instructorCredentials: d.instructorCredentials, instructorExpertise: d.instructorExpertise,
       instructorContact: `${d.instructorPhone} · ${d.instructorWebsite} · ${d.instructorEmail}`, note: d.note,

@@ -2,7 +2,7 @@ import { forwardRef, type FocusEvent } from "react";
 import { EUR_TO_VND, type CourseNoticeData } from "@/lib/courseNotice";
 
 const money = (n: number, currency: "EUR" | "VND") => currency === "EUR"
-  ? `${new Intl.NumberFormat("en-IE", { maximumFractionDigits: 0 }).format(n)} EUR`
+  ? `${new Intl.NumberFormat("en-IE", { maximumFractionDigits: 2 }).format(n)} EUR`
   : `${new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(n)} VND`;
 const date = (value: string) => value ? new Date(`${value}T00:00:00`).toLocaleDateString("en-GB") : "-";
 
@@ -14,7 +14,7 @@ interface Props {
 }
 
 const textFrom = (event: FocusEvent<HTMLElement>) => event.currentTarget.innerText.trim();
-const hasExtraFee = (data: CourseNoticeData) => (data.extraFeeVnd ?? 0) > 0;
+const hasExtraFee = (data: CourseNoticeData) => (data.extraFeeVnd ?? 0) > 0 || (data.extraFeeEur ?? 0) > 0;
 
 const CourseNoticeDocument = forwardRef<HTMLDivElement, Props>(({ code, data, editable = false, onChange }, ref) => {
   const editableProps = <K extends keyof CourseNoticeData>(key: K) => editable ? {
@@ -29,6 +29,12 @@ const CourseNoticeDocument = forwardRef<HTMLDivElement, Props>(({ code, data, ed
     next[index] = value;
     onChange?.(key, next);
   };
+
+  const cur: "EUR" | "VND" = data.currency === "eur" ? "EUR" : "VND";
+  const amount = (n: number) => money(n, cur);
+  const toEur = (n: number) => Math.round(n / EUR_TO_VND * 100) / 100;
+  const extraAmount = cur === "EUR" ? (data.extraFeeEur ?? toEur(data.extraFeeVnd ?? 0)) : (data.extraFeeVnd ?? 0);
+  const finalAmount = cur === "EUR" ? data.finalEur : data.finalVnd;
 
   return (
   <article ref={ref} id="course-notice-print" className="course-notice mx-auto w-full max-w-[794px] overflow-hidden bg-card text-foreground shadow-xl print:max-w-none print:shadow-none">
@@ -97,13 +103,13 @@ const CourseNoticeDocument = forwardRef<HTMLDivElement, Props>(({ code, data, ed
         <div className="course-notice-section-heading"><span>04</span><p>Tuition</p></div>
         <table className="mt-3 w-full table-fixed text-xs">
           <tbody>
-            <tr className="border-b"><td className="py-2 font-semibold">Standard tuition</td><td className="py-2 text-right">{money(data.baseVnd, "VND")}</td><td className="py-2 text-right">{money(data.baseEur, "EUR")}</td></tr>
-            <tr className="border-b"><td className="py-2 font-semibold">Discount {data.discountReason ? `(${data.discountReason})` : ""}</td><td className="py-2 text-right" colSpan={2}>{data.discountType === "percent" ? `${data.discountValue}%` : money(data.discountValue, "VND")}</td></tr>
+            <tr className="border-b"><td className="py-2 font-semibold">Standard tuition</td><td className="py-2 text-right">{amount(cur === "EUR" ? data.baseEur : data.baseVnd)}</td></tr>
+            <tr className="border-b"><td className="py-2 font-semibold">Discount {data.discountReason ? `(${data.discountReason})` : ""}</td><td className="py-2 text-right">{data.discountType === "percent" ? `${data.discountValue}%` : amount(data.discountValue)}</td></tr>
             {hasExtraFee(data)
-              ? <tr className="border-b"><td className="py-2 font-semibold">Final tuition</td><td className="py-2 text-right font-semibold">{money(data.finalVnd, "VND")}</td><td className="py-2 text-right font-semibold">{money(data.finalEur, "EUR")}</td></tr>
-              : <tr><td className="py-2.5 text-sm font-extrabold">Final tuition</td><td className="course-notice-total py-2.5 text-right text-sm font-extrabold">{money(data.finalVnd, "VND")}</td><td className="course-notice-total py-2.5 text-right text-sm font-extrabold">{money(data.finalEur, "EUR")}</td></tr>}
-            {hasExtraFee(data) && <tr className="border-t"><td className="py-2 font-semibold" {...editableProps("extraFeeLabel")}>{data.extraFeeLabel?.trim() || "Other fee"}</td><td className="py-2 text-right">{money(data.extraFeeVnd ?? 0, "VND")}</td><td className="py-2 text-right">{money(Math.round((data.extraFeeVnd ?? 0) / EUR_TO_VND), "EUR")}</td></tr>}
-            {hasExtraFee(data) && <tr className="border-t"><td className="py-2.5 text-sm font-extrabold">Total due</td><td className="course-notice-total py-2.5 text-right text-sm font-extrabold">{money(data.finalVnd + (data.extraFeeVnd ?? 0), "VND")}</td><td className="course-notice-total py-2.5 text-right text-sm font-extrabold">{money(Math.round((data.finalVnd + (data.extraFeeVnd ?? 0)) / EUR_TO_VND), "EUR")}</td></tr>}
+              ? <tr className="border-b"><td className="py-2 font-semibold">Final tuition</td><td className="py-2 text-right font-semibold">{amount(finalAmount)}</td></tr>
+              : <tr><td className="py-2.5 text-sm font-extrabold">Final tuition</td><td className="course-notice-total py-2.5 text-right text-sm font-extrabold">{amount(finalAmount)}</td></tr>}
+            {hasExtraFee(data) && <tr className="border-t"><td className="py-2 font-semibold" {...editableProps("extraFeeLabel")}>{data.extraFeeLabel?.trim() || "Other fee"}</td><td className="py-2 text-right">{amount(extraAmount)}</td></tr>}
+            {hasExtraFee(data) && <tr className="border-t"><td className="py-2.5 text-sm font-extrabold">Total due</td><td className="course-notice-total py-2.5 text-right text-sm font-extrabold">{amount(finalAmount + extraAmount)}</td></tr>}
           </tbody>
         </table>
         <p className="course-notice-payment-note mt-2 border-l-4 px-3 py-2 text-xs font-bold">Tuition is payable at the start of the course.</p>

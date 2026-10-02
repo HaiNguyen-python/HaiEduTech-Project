@@ -11,6 +11,7 @@ export type CourseNoticeData = {
   courseNameVi: string;
   courseNameEn: string;
   classType: "group" | "private";
+  currency: "vnd" | "eur";
   level: string;
   objective: string;
   startDate: string;
@@ -33,6 +34,7 @@ export type CourseNoticeData = {
   paymentReference?: string;
   extraFeeLabel?: string;
   extraFeeVnd?: number;
+  extraFeeEur?: number;
   paymentDeadline: string;
   paymentMethod: "vietnam" | "finland" | "both";
   instructorName: string;

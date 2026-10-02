@@ -55,6 +55,7 @@ const initialData = (): CourseNoticeData => ({
   weeks: 12, sessions: 24, hours: 36,
   modules: ["Placement assessment and personalised learning plan", "Strengthening core knowledge by level", "Applied practice with in-depth feedback", "Review, progress assessment and next-step guidance"],
   benefits: ["All course materials included", "Personal feedback after each stage", "Progress tracking on the HaiEduTech platform"], note: "",
+  currency: "vnd",
   baseEur: catalog[0]?.groupPrice ?? 210, baseVnd: (catalog[0]?.groupPrice ?? 210) * EUR_TO_VND,
   discountType: "percent", discountValue: 0, discountReason: "", finalEur: catalog[0]?.groupPrice ?? 210, finalVnd: (catalog[0]?.groupPrice ?? 210) * EUR_TO_VND,
   paymentReference: "", extraFeeLabel: "", extraFeeVnd: 0,
@@ -84,11 +85,21 @@ export default function CourseNoticesTab() {
   const [benefitsText, setBenefitsText] = useState(initialData().benefits.join("\n"));
 
   const normalized = useMemo<CourseNoticeData>(() => {
-    const baseEur = Math.max(0, Number(data.baseEur) || 0);
-    const baseVnd = Math.round(baseEur * EUR_TO_VND);
-    const discountVnd = data.discountType === "percent" ? baseVnd * Math.min(100, Math.max(0, data.discountValue || 0)) / 100 : Math.min(baseVnd, Math.max(0, data.discountValue || 0));
-    const finalVnd = Math.round(baseVnd - discountVnd);
-    return { ...data, baseEur, baseVnd, finalVnd, finalEur: Math.round(finalVnd / EUR_TO_VND), extraFeeVnd: Math.max(0, Math.round(Number(data.extraFeeVnd) || 0)), modules: splitLines(modulesText), benefits: splitLines(benefitsText) };
+    const currency = data.currency ?? "vnd";
+    const enteredEur = Math.max(0, Number(data.baseEur) || 0);
+    const enteredVnd = Math.max(0, Number(data.baseVnd) || 0);
+    const baseEur = currency === "eur" ? enteredEur : Math.round(enteredVnd / EUR_TO_VND * 100) / 100;
+    const baseVnd = currency === "eur" ? Math.round(enteredEur * EUR_TO_VND) : enteredVnd;
+    const pct = Math.min(100, Math.max(0, data.discountValue || 0));
+    const discountEur = data.discountType === "percent"
+      ? baseEur * pct / 100
+      : currency === "eur" ? Math.max(0, data.discountValue || 0) : Math.round(Math.max(0, data.discountValue || 0) / EUR_TO_VND * 100) / 100;
+    const discountVnd = data.discountType === "percent"
+      ? baseVnd * pct / 100
+      : currency === "vnd" ? Math.max(0, data.discountValue || 0) : Math.round(Math.max(0, data.discountValue || 0) * EUR_TO_VND);
+    const finalEur = Math.max(0, Math.round((baseEur - discountEur) * 100) / 100);
+    const finalVnd = Math.max(0, Math.round(baseVnd - discountVnd));
+    return { ...data, currency, baseEur, baseVnd, finalEur, finalVnd, extraFeeVnd: Math.max(0, Math.round(Number(data.extraFeeVnd) || 0)), extraFeeEur: Math.max(0, Math.round((Number(data.extraFeeEur) || 0) * 100) / 100), modules: splitLines(modulesText), benefits: splitLines(benefitsText) };
   }, [data, modulesText, benefitsText]);
 
   const reload = useCallback(async () => {
@@ -121,11 +132,25 @@ export default function CourseNoticesTab() {
     const found = catalog.find((course) => course.key === key);
     if (!found) return;
     const price = found.groupPrice * (data.classType === "private" ? 3 : 1);
-    setData((prev) => ({ ...prev, courseKey: key, courseNameVi: found.nameVi, courseNameEn: found.nameEn, baseEur: price }));
+    setData((prev) => ({ ...prev, courseKey: key, courseNameVi: found.nameVi, courseNameEn: found.nameEn, baseEur: price, baseVnd: Math.round(price * EUR_TO_VND) }));
   };
   const selectClassType = (classType: "group" | "private") => {
     const found = catalog.find((course) => course.key === data.courseKey);
-    setData((prev) => ({ ...prev, classType, baseEur: found ? found.groupPrice * (classType === "private" ? 3 : 1) : prev.baseEur }));
+    setData((prev) => {
+      if (!found) return { ...prev, classType };
+      const price = found.groupPrice * (classType === "private" ? 3 : 1);
+      return { ...prev, classType, baseEur: price, baseVnd: Math.round(price * EUR_TO_VND) };
+    });
+  };
+  const setBaseAmount = (raw: string) => {
+    const v = Math.max(0, Number(raw) || 0);
+    setData((prev) => (prev.currency ?? "vnd") === "eur"
+      ? { ...prev, baseEur: v, baseVnd: Math.round(v * EUR_TO_VND) }
+      : { ...prev, baseVnd: v, baseEur: Math.round(v / EUR_TO_VND * 100) / 100 });
+  };
+  const setExtraFeeAmount = (raw: string) => {
+    const v = Math.max(0, Number(raw) || 0);
+    setData((prev) => (prev.currency ?? "vnd") === "eur" ? { ...prev, extraFeeEur: v } : { ...prev, extraFeeVnd: v });
   };
   const chooseStudent = (id: string) => {
     if (id === "manual") { setStudentId(null); return; }
@@ -206,6 +231,14 @@ export default function CourseNoticesTab() {
     return (statusFilter === "all" || r.status === statusFilter) && (!q || `${r.notice_code} ${r.recipient_name} ${r.recipient_email} ${r.snapshot.courseNameVi} ${r.snapshot.courseNameEn}`.toLowerCase().includes(q));
   });
 
+  const noticeCurrency = normalized.currency ?? "vnd";
+  const fmtNoticeMoney = (n: number) => noticeCurrency === "eur"
+    ? `${new Intl.NumberFormat("en-IE", { maximumFractionDigits: 2 }).format(n)} EUR`
+    : `${new Intl.NumberFormat("vi-VN").format(n)}đ`;
+  const extraFeeAmount = noticeCurrency === "eur"
+    ? (normalized.extraFeeEur ?? Math.round((normalized.extraFeeVnd ?? 0) / EUR_TO_VND * 100) / 100)
+    : (normalized.extraFeeVnd ?? 0);
+
   return <div className="space-y-6">
     <style>{`#course-notice-print-host { position: absolute; left: -10000px; top: 0; visibility: hidden; width: 210mm; } #course-notice-print-host .course-notice { font-size: 12px; line-height: 1.35; } #course-notice-print-host .course-notice-letterhead { padding-top: 12px; padding-bottom: 10px; } #course-notice-print-host .course-notice-letterhead img { width: 56px; height: 56px; } #course-notice-print-host .course-notice > div:nth-last-child(2) { padding-bottom: 12px; } #course-notice-print-host .course-notice-title-block { padding-top: 10px; padding-bottom: 10px; } #course-notice-print-host .course-notice-title-block h1 { font-size: 22px; } #course-notice-print-host .course-notice section.py-5 { padding-top: 10px; padding-bottom: 10px; } #course-notice-print-host .course-notice-section { padding-top: 10px; margin-top: 10px; } #course-notice-print-host .course-notice-facts { margin-top: 8px; } #course-notice-print-host .course-notice-facts > div { padding: 6px; } #course-notice-print-host .course-notice-fee { padding: 10px; margin-top: 10px; } #course-notice-print-host .course-notice-fee td { padding-top: 4px; padding-bottom: 4px; } #course-notice-print-host .course-notice-payment-grid { margin-top: 6px; } #course-notice-print-host .course-notice-bank { padding: 6px 8px; } #course-notice-print-host .course-notice-bank > strong { margin-bottom: 3px; } #course-notice-print-host .course-notice-bank dl { gap: 1px; } #course-notice-print-host .course-notice-footer { margin-top: 10px; padding-top: 8px; } @media print { body.course-notice-printing > *:not(#course-notice-print-host) { display: none !important; } body.course-notice-printing { margin: 0 !important; overflow: visible !important; background: white !important; } body.course-notice-printing #course-notice-print-host { position: static; visibility: visible; width: 210mm; background: white !important; } body.course-notice-printing #course-notice-print-host > article { margin: 0 !important; min-height: 0 !important; box-shadow: none !important; } body.course-notice-printing #course-notice-print-host footer { display: block !important; } @page { size: A4; margin: 0; } }`}</style>
     <div className="flex flex-wrap items-end justify-between gap-4">
@@ -229,14 +262,16 @@ export default function CourseNoticesTab() {
           <div className="space-y-2"><Label>{t("Lộ trình - mỗi dòng một mô-đun", "Curriculum - one module per line")}</Label><Textarea rows={5} value={modulesText} onChange={(e) => setModulesText(e.target.value)} /></div>
           <div className="space-y-2"><Label>{t("Quyền lợi - mỗi dòng một mục", "Benefits - one item per line")}</Label><Textarea rows={4} value={benefitsText} onChange={(e) => setBenefitsText(e.target.value)} /></div>
         </div></div>
-        <div className="border-t pt-5"><p className="mb-3 text-sm font-black uppercase text-primary">{t("Học phí", "Tuition")}</p><div className="grid gap-3 sm:grid-cols-2"><div className="space-y-2"><Label>Học phí EUR</Label><Input type="number" min="0" value={data.baseEur} onChange={(e) => update("baseEur", Number(e.target.value))} /></div><div className="space-y-2"><Label>Giảm học phí</Label><Input type="number" min="0" value={data.discountValue} onChange={(e) => update("discountValue", Number(e.target.value))} /></div></div>
-          <div className="mt-3 grid gap-3 sm:grid-cols-2"><Select value={data.discountType} onValueChange={(v) => update("discountType", v as "percent" | "amount")}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="percent">Phần trăm / Percent</SelectItem><SelectItem value="amount">Số tiền VND / Amount</SelectItem></SelectContent></Select><Input placeholder="Lý do ưu đãi / Reason" value={data.discountReason} onChange={(e) => update("discountReason", e.target.value)} /></div>
-          <div className="mt-3 grid gap-3 sm:grid-cols-2"><div className="space-y-2"><Label htmlFor="extra-fee-label">Khoản phí khác / Other fee</Label><Input id="extra-fee-label" placeholder="Ví dụ: Phí phần mềm" value={data.extraFeeLabel ?? ""} onChange={(e) => update("extraFeeLabel", e.target.value)} /></div><div className="space-y-2"><Label htmlFor="extra-fee-vnd">Số tiền / Amount (VND)</Label><Input id="extra-fee-vnd" type="number" min="0" step="1000" value={data.extraFeeVnd ?? 0} onChange={(e) => update("extraFeeVnd", Number(e.target.value))} /></div></div>
+        <div className="border-t pt-5"><p className="mb-3 text-sm font-black uppercase text-primary">{t("Học phí", "Tuition")}</p>
+          <div className="grid gap-3 sm:grid-cols-2"><div className="space-y-2"><Label>Đơn vị tiền / Currency</Label><Select value={noticeCurrency} onValueChange={(v) => update("currency", v as CourseNoticeData["currency"])}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="vnd">Việt Nam đồng / VND</SelectItem><SelectItem value="eur">Euro / EUR</SelectItem></SelectContent></Select></div><div className="space-y-2"><Label>{`Học phí / Tuition (${noticeCurrency.toUpperCase()})`}</Label><Input type="number" min="0" value={noticeCurrency === "eur" ? data.baseEur : data.baseVnd} onChange={(e) => setBaseAmount(e.target.value)} /></div></div>
+          <div className="mt-3 grid gap-3 sm:grid-cols-2"><div className="space-y-2"><Label>Giảm học phí</Label><Input type="number" min="0" value={data.discountValue} onChange={(e) => update("discountValue", Number(e.target.value))} /></div><div className="space-y-2"><Select value={data.discountType} onValueChange={(v) => update("discountType", v as "percent" | "amount")}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="percent">Phần trăm / Percent</SelectItem><SelectItem value="amount">Số tiền / Amount</SelectItem></SelectContent></Select></div></div>
+          <div className="mt-3"><Input placeholder="Lý do ưu đãi / Reason" value={data.discountReason} onChange={(e) => update("discountReason", e.target.value)} /></div>
+          <div className="mt-3 grid gap-3 sm:grid-cols-2"><div className="space-y-2"><Label htmlFor="extra-fee-label">Khoản phí khác / Other fee</Label><Input id="extra-fee-label" placeholder="Ví dụ: Phí phần mềm" value={data.extraFeeLabel ?? ""} onChange={(e) => update("extraFeeLabel", e.target.value)} /></div><div className="space-y-2"><Label htmlFor="extra-fee-vnd">{`Số tiền / Amount (${noticeCurrency.toUpperCase()})`}</Label><Input id="extra-fee-vnd" type="number" min="0" step={noticeCurrency === "eur" ? "1" : "1000"} value={noticeCurrency === "eur" ? (data.extraFeeEur ?? 0) : (data.extraFeeVnd ?? 0)} onChange={(e) => setExtraFeeAmount(e.target.value)} /></div></div>
           <div className="mt-3 space-y-2"><Label>Chuyển khoản</Label><Select value={data.paymentMethod} onValueChange={(v) => update("paymentMethod", v as CourseNoticeData["paymentMethod"])}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="both">Việt Nam & Finland</SelectItem><SelectItem value="vietnam">Vietcombank · VND</SelectItem><SelectItem value="finland">Nordea · EUR</SelectItem></SelectContent></Select></div>
           <div className="mt-3 space-y-2"><Label htmlFor="notice-payment-reference">Nội dung chuyển khoản / Payment reference</Label><Input id="notice-payment-reference" value={data.paymentReference ?? ""} onChange={(e) => update("paymentReference", e.target.value)} placeholder="Nhập nội dung riêng cho giấy báo" /></div>
           <p className="mt-3 rounded-md border border-primary/20 bg-primary/5 px-3 py-2 text-sm font-semibold text-foreground">Quý PHHS vui lòng đóng HP đầu khóa học</p>
-          <p className="mt-3 border-l-4 border-primary pl-3 text-sm"><strong>{t("Học phí chính thức", "Final tuition")}:</strong> {new Intl.NumberFormat("vi-VN").format(normalized.finalVnd)}đ · {normalized.finalEur} EUR</p>
-          {(normalized.extraFeeVnd ?? 0) > 0 && <p className="mt-2 border-l-4 border-primary pl-3 text-sm"><strong>{t("Tổng thanh toán", "Total due")}:</strong> {new Intl.NumberFormat("vi-VN").format(normalized.finalVnd + (normalized.extraFeeVnd ?? 0))}đ · {Math.round((normalized.finalVnd + (normalized.extraFeeVnd ?? 0)) / EUR_TO_VND)} EUR</p>}
+          <p className="mt-3 border-l-4 border-primary pl-3 text-sm"><strong>{t("Học phí chính thức", "Final tuition")}:</strong> {fmtNoticeMoney(noticeCurrency === "eur" ? normalized.finalEur : normalized.finalVnd)}</p>
+          {extraFeeAmount > 0 && <p className="mt-2 border-l-4 border-primary pl-3 text-sm"><strong>{t("Tổng thanh toán", "Total due")}:</strong> {fmtNoticeMoney((noticeCurrency === "eur" ? normalized.finalEur : normalized.finalVnd) + extraFeeAmount)}</p>}
         </div>
         <div className="border-t pt-5"><p className="mb-3 text-sm font-black uppercase text-primary">{t("Giảng viên", "Instructor")}</p><div className="space-y-3"><Input value={data.instructorName} onChange={(e) => update("instructorName", e.target.value)} /><Input value={data.instructorCredentials} onChange={(e) => update("instructorCredentials", e.target.value)} /><Textarea rows={2} value={data.instructorExpertise} onChange={(e) => update("instructorExpertise", e.target.value)} /></div></div>
         <div className="space-y-2"><Label>Ghi chú / Note</Label><Textarea rows={3} value={data.note} onChange={(e) => update("note", e.target.value)} /></div>
