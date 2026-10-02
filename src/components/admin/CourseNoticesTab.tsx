@@ -150,8 +150,18 @@ export default function CourseNoticesTab() {
   };
   const setExtraFeeAmount = (raw: string) => {
     const v = Math.max(0, Number(raw) || 0);
-    setData((prev) => (prev.currency ?? "vnd") === "eur" ? { ...prev, extraFeeEur: v } : { ...prev, extraFeeVnd: v });
+    setData((prev) => (prev.currency ?? "vnd") === "eur"
+      ? { ...prev, extraFeeEur: v, extraFeeVnd: Math.round(v * EUR_TO_VND) }
+      : { ...prev, extraFeeVnd: v, extraFeeEur: Math.round(v / EUR_TO_VND * 100) / 100 });
   };
+  const setCurrency = (currency: "vnd" | "eur") => setData((prev) => {
+    const current = prev.currency ?? "vnd";
+    if (current === currency) return prev;
+    const fee = current === "eur" ? (prev.extraFeeEur ?? Math.round((prev.extraFeeVnd ?? 0) / EUR_TO_VND * 100) / 100) : (prev.extraFeeVnd ?? 0);
+    return { ...prev, currency,
+      extraFeeEur: current === "eur" ? fee : Math.round(fee / EUR_TO_VND * 100) / 100,
+      extraFeeVnd: current === "eur" ? Math.round(fee * EUR_TO_VND) : fee };
+  });
   const chooseStudent = (id: string) => {
     if (id === "manual") { setStudentId(null); return; }
     const student = students.find((item) => item.id === id);
@@ -263,7 +273,7 @@ export default function CourseNoticesTab() {
           <div className="space-y-2"><Label>{t("Quyền lợi - mỗi dòng một mục", "Benefits - one item per line")}</Label><Textarea rows={4} value={benefitsText} onChange={(e) => setBenefitsText(e.target.value)} /></div>
         </div></div>
         <div className="border-t pt-5"><p className="mb-3 text-sm font-black uppercase text-primary">{t("Học phí", "Tuition")}</p>
-          <div className="grid gap-3 sm:grid-cols-2"><div className="space-y-2"><Label>Đơn vị tiền / Currency</Label><Select value={noticeCurrency} onValueChange={(v) => update("currency", v as CourseNoticeData["currency"])}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="vnd">Việt Nam đồng / VND</SelectItem><SelectItem value="eur">Euro / EUR</SelectItem></SelectContent></Select></div><div className="space-y-2"><Label>{`Học phí / Tuition (${noticeCurrency.toUpperCase()})`}</Label><Input type="number" min="0" value={noticeCurrency === "eur" ? data.baseEur : data.baseVnd} onChange={(e) => setBaseAmount(e.target.value)} /></div></div>
+          <div className="grid gap-3 sm:grid-cols-2"><div className="space-y-2"><Label>Đơn vị tiền / Currency</Label><Select value={noticeCurrency} onValueChange={(v) => setCurrency(v as CourseNoticeData["currency"])}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="vnd">Việt Nam đồng / VND</SelectItem><SelectItem value="eur">Euro / EUR</SelectItem></SelectContent></Select></div><div className="space-y-2"><Label>{`Học phí / Tuition (${noticeCurrency.toUpperCase()})`}</Label><Input type="number" min="0" value={noticeCurrency === "eur" ? data.baseEur : data.baseVnd} onChange={(e) => setBaseAmount(e.target.value)} /></div></div>
           <div className="mt-3 grid gap-3 sm:grid-cols-2"><div className="space-y-2"><Label>Giảm học phí</Label><Input type="number" min="0" value={data.discountValue} onChange={(e) => update("discountValue", Number(e.target.value))} /></div><div className="space-y-2"><Select value={data.discountType} onValueChange={(v) => update("discountType", v as "percent" | "amount")}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="percent">Phần trăm / Percent</SelectItem><SelectItem value="amount">Số tiền / Amount</SelectItem></SelectContent></Select></div></div>
           <div className="mt-3"><Input placeholder="Lý do ưu đãi / Reason" value={data.discountReason} onChange={(e) => update("discountReason", e.target.value)} /></div>
           <div className="mt-3 grid gap-3 sm:grid-cols-2"><div className="space-y-2"><Label htmlFor="extra-fee-label">Khoản phí khác / Other fee</Label><Input id="extra-fee-label" placeholder="Ví dụ: Phí phần mềm" value={data.extraFeeLabel ?? ""} onChange={(e) => update("extraFeeLabel", e.target.value)} /></div><div className="space-y-2"><Label htmlFor="extra-fee-vnd">{`Số tiền / Amount (${noticeCurrency.toUpperCase()})`}</Label><Input id="extra-fee-vnd" type="number" min="0" step={noticeCurrency === "eur" ? "1" : "1000"} value={noticeCurrency === "eur" ? (data.extraFeeEur ?? 0) : (data.extraFeeVnd ?? 0)} onChange={(e) => setExtraFeeAmount(e.target.value)} /></div></div>
