@@ -13,6 +13,7 @@ interface VoiceResponse { audioBase64?: string; mimeType?: string }
 
 let activeAudio: HTMLAudioElement | null = null;
 let playToken = 0;
+const audioCache = new Map<string, VoiceResponse>();
 let inFlight: { key: string; promise: Promise<boolean> } | null = null;
 
 const stopActiveAudio = () => {
@@ -105,12 +106,16 @@ export const playMrHaiVoice = async (
 
   const promise = (async () => {
     try {
-      const payload = await invokeTtsFunction<VoiceResponse | null>("mr-hai-voice", {
+      const payload = cached ?? await invokeTtsFunction<VoiceResponse | null>("mr-hai-voice", {
         text: normalized.slice(0, 1200),
         language,
         speed: Math.min(1.5, Math.max(0.5, rate)),
       });
       if (!payload?.audioBase64) throw new Error("no_audio");
+      if (!cached) {
+        audioCache.set(`${language}\u0000${normalized}`, payload);
+        if (audioCache.size > 30) audioCache.delete(audioCache.keys().next().value as string);
+      }
       if (token !== playToken) return false;
       await playBase64(payload.audioBase64, payload.mimeType || "audio/mpeg", payload.mimeType === "audio/wav" ? Math.min(1.2, Math.max(0.6, rate)) : 1, token);
       return true;
