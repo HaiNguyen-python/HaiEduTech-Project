@@ -13,7 +13,17 @@ export interface UseSpeechRecognizerOptions {
    * sentences are captured whole. Used by "Speak with Mr. Hai".
    */
   manualStopOnly?: boolean;
+  /**
+   * When set, the turn ends automatically after this many ms without new
+   * recognised speech (only once the learner has said something). Gives a
+   * natural, hands-free turn-taking rhythm.
+   */
+  silenceMs?: number;
 }
+
+// Microphone permission only needs one pre-flight per page; repeating
+// getUserMedia before every turn adds latency and can clash with recognition.
+let micPreflightDone = false;
 
 export const isAppleWebkitBrowser = (): boolean => {
   if (typeof navigator === "undefined") return false;
@@ -23,7 +33,7 @@ export const isAppleWebkitBrowser = (): boolean => {
   return isIOS || isSafari;
 };
 
-export function useSpeechRecognizer({ speechLang, maxSeconds = 90, onFinal, manualStopOnly = false }: UseSpeechRecognizerOptions) {
+export function useSpeechRecognizer({ speechLang, maxSeconds = 90, onFinal, manualStopOnly = false, silenceMs }: UseSpeechRecognizerOptions) {
   const [isRecording, setIsRecording] = useState(false);
   const [transcript, setTranscript] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -36,6 +46,7 @@ export function useSpeechRecognizer({ speechLang, maxSeconds = 90, onFinal, manu
   manualOnlyRef.current = manualStopOnly;
   const manualStopRef = useRef(false);
   const startedAtRef = useRef(0);
+  const lastSpeechAtRef = useRef(0);
   const finalRef = useRef(onFinal);
   const mountedRef = useRef(true);
   finalRef.current = onFinal;
@@ -75,10 +86,14 @@ export function useSpeechRecognizer({ speechLang, maxSeconds = 90, onFinal, manu
     const id = window.setInterval(() => {
       const elapsed = Math.floor((Date.now() - startedAtRef.current) / 1000);
       setSeconds(elapsed);
-      if (elapsed >= maxSeconds) stopRef.current();
-    }, 250);
+      if (elapsed >= maxSeconds) { stopRef.current(); return; }
+      const heard = `${accumulatedRef.current} ${interimRef.current}`.trim().length > 0;
+      if (silenceMs && heard && lastSpeechAtRef.current && Date.now() - lastSpeechAtRef.current >= silenceMs) {
+        stopRef.current();
+      }
+    }, 200);
     return () => window.clearInterval(id);
-  }, [isRecording, maxSeconds]);
+  }, [isRecording, maxSeconds, silenceMs]);
 
 
   const finish = useCallback(() => {
@@ -91,10 +106,12 @@ export function useSpeechRecognizer({ speechLang, maxSeconds = 90, onFinal, manu
   }, []);
 
   const stop = useCallback(() => {
+    if (manualStopRef.current && !recognitionRef.current) return;
     manualStopRef.current = true;
     const rec = recognitionRef.current;
+    recognitionRef.current = null;
     if (rec) {
-      try { rec.stop(); } catch { /* noop */ }
+      try { rec.onend = null; rec.onresult = null; rec.stop(); } catch { /* noop */ }
     }
     finish();
   }, [finish]);
@@ -110,10 +127,11 @@ export function useSpeechRecognizer({ speechLang, maxSeconds = 90, onFinal, manu
       setError("insecure");
       return false;
     }
-    if (navigator.mediaDevices?.getUserMedia) {
+    if (!micPreflightDone && navigator.mediaDevices?.getUserMedia) {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
         stream.getTracks().forEach((track) => track.stop());
+        micPreflightDone = true;
       } catch (err: any) {
         const name = err?.name || "";
         setError(name === "NotFoundError" || name === "DevicesNotFoundError" ? "nodevice" : "denied");
@@ -129,6 +147,7 @@ export function useSpeechRecognizer({ speechLang, maxSeconds = 90, onFinal, manu
     interimRef.current = "";
     manualStopRef.current = false;
     startedAtRef.current = Date.now();
+    lastSpeechAtRef.current = 0;
 
     const Ctor: any = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
     const rec = new Ctor();
@@ -145,6 +164,7 @@ export function useSpeechRecognizer({ speechLang, maxSeconds = 90, onFinal, manu
         else interim += chunk;
       }
       interimRef.current = interim.trim();
+      lastSpeechAtRef.current = Date.now();
       if (mountedRef.current) setTranscript(`${accumulatedRef.current} ${interim}`.replace(/\s+/g, " ").trim());
     };
 
