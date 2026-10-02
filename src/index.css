@@ -172,6 +172,8 @@
     --notice-ink: 215 32% 17%;
     --notice-paper: 0 0% 100%;
     font-family: "Manrope", sans-serif;
+    font-size: 14px;
+    line-height: 1.55;
     letter-spacing: 0;
     color: hsl(var(--notice-ink));
     background: hsl(var(--notice-paper));
@@ -189,7 +191,8 @@
     color: hsl(var(--notice-deep));
     background: hsl(var(--notice-wash));
   }
-  .course-notice-title-block h1 { font-family: "Playfair Display", serif; }
+  .course-notice :is(h1, h2, h3, h4, p, span, strong, td, th, dt, dd) { letter-spacing: 0; }
+  .course-notice-title-block h1 { font-family: "Manrope", sans-serif; line-height: 1.18; }
   .course-notice-kicker,
   .course-notice-section-heading,
   .course-notice-total { color: hsl(var(--notice-deep)); }
@@ -206,6 +209,19 @@
   .course-notice-fee { border-color: hsl(var(--notice-line)); background: hsl(var(--notice-wash)); }
   .course-notice-fee tr { border-color: hsl(var(--notice-line)); }
   .course-notice-payment-note { border-color: hsl(var(--notice-green)); background: hsl(var(--notice-paper)); }
+  .course-notice-payment-grid { align-items: stretch; }
+  .course-notice-bank { border: 1px solid hsl(var(--notice-line)); background: hsl(var(--notice-paper)); padding: 10px 12px; }
+  .course-notice-bank > strong { display: block; margin-bottom: 7px; color: hsl(var(--notice-deep)); font-size: 11px; text-transform: uppercase; }
+  .course-notice-bank dl { display: grid; gap: 4px; }
+  .course-notice-bank dl > div { display: grid; grid-template-columns: 86px minmax(0, 1fr); gap: 8px; }
+  .course-notice-bank dt { color: hsl(var(--muted-foreground)); }
+  .course-notice-bank dd { min-width: 0; font-weight: 700; overflow-wrap: anywhere; }
+  .course-notice-reference { display: flex; align-items: center; justify-content: space-between; gap: 12px; border: 1px solid hsl(var(--notice-line)); background: hsl(var(--notice-paper)); padding: 9px 12px; }
+  .course-notice-reference span { color: hsl(var(--muted-foreground)); font-weight: 700; }
+  .course-notice-reference strong { color: hsl(var(--notice-deep)); overflow-wrap: anywhere; text-align: right; }
+  .course-notice [contenteditable="true"] { border-bottom: 1px dashed hsl(var(--notice-green)); outline: none; cursor: text; }
+  .course-notice [contenteditable="true"]:focus { border-bottom-style: solid; background: hsl(var(--notice-wash)); box-shadow: 0 0 0 2px hsl(var(--notice-green) / 0.16); }
+  #course-notice-print-host [contenteditable="true"] { border-bottom: 0; background: transparent; box-shadow: none; }
   .course-notice-note { border-color: hsl(var(--notice-green)); background: hsl(var(--notice-wash)); }
   .course-notice-footer { border-color: hsl(var(--notice-line)); }
 
