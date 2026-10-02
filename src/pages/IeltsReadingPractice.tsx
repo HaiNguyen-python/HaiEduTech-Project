@@ -8,6 +8,7 @@
  *   The Quick Exercises area is intentionally a re-entry point: choosing an
  *   exam opens an overlay; the user's selection state is preserved underneath.
  */
+import IllustratedPageHeader from "@/components/common/IllustratedPageHeader";
 import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -1240,6 +1241,7 @@ const IeltsReadingPractice: React.FC = () => {
           <Link to="/ielts-lectures" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-primary mb-4">
             <ArrowLeft className="w-4 h-4" /> {t("Quay lại bài giảng", "Back to lectures")}
           </Link>
+          <IllustratedPageHeader variant="ielts" className="mb-6">
           <div className="flex items-start gap-4 flex-wrap">
             <div className="shrink-0 w-14 h-14 rounded-2xl bg-blue-500/15 flex items-center justify-center">
               <BookOpen className="w-7 h-7 text-blue-600 dark:text-blue-400" />
@@ -1259,6 +1261,7 @@ const IeltsReadingPractice: React.FC = () => {
               </p>
             </div>
           </div>
+          </IllustratedPageHeader>
         </section>
 
         <section className="container mx-auto px-4 sm:px-6">

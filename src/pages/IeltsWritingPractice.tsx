@@ -1,3 +1,4 @@
+import IllustratedPageHeader from "@/components/common/IllustratedPageHeader";
 import { AiQuotaBadge } from "@/components/premium/ConversionBits";
 import { consumeAiGrade } from "@/lib/aiQuota";
 import Navbar from "@/components/Navbar";
@@ -525,6 +526,7 @@ const IeltsWritingPractice = () => {
       <Navbar />
       <main className="flex-1 pt-24 pb-12 px-4 max-w-7xl mx-auto w-full">
         {/* Header */}
+        <IllustratedPageHeader variant="ielts" className="mb-6">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
           <h1 className="text-2xl md:text-3xl font-bold text-foreground flex items-center gap-2">
             <BookOpen className="w-7 h-7 text-primary" />
@@ -534,6 +536,7 @@ const IeltsWritingPractice = () => {
             {t("Luyện viết Task 1 & Task 2 với hệ thống chấm điểm theo tiêu chí IELTS chính thức", "Practice Task 1 & Task 2 with scoring system based on official IELTS criteria")}
           </p>
         </motion.div>
+        </IllustratedPageHeader>
 
         {/* Mode Tabs: Essay Writing vs Phrase Practice */}
         <Tabs value={activeTab} onValueChange={(v) => { if (v === "free-grade") { setActiveTab("essay"); setEssayMode("own"); } else setActiveTab(v); }} className="w-full">
