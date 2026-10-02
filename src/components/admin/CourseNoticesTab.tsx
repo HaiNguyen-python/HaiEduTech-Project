@@ -19,7 +19,6 @@ import { buildNoticeCode, duplicateCourseNotice, listCourseNotices, saveCourseNo
 const today = () => new Date().toISOString().slice(0, 10);
 const addDays = (days: number) => { const d = new Date(); d.setDate(d.getDate() + days); return d.toISOString().slice(0, 10); };
 const catalog = Object.entries(tuitionBySubject).flatMap(([subject, courses]) => courses.map((course) => ({ ...course, subject })));
-const splitLines = (value: string) => value.split("\n").map((v) => v.trim()).filter(Boolean);
 /** Parse "Thứ 3 - Thứ 5" / "T2, T4, T6" / "Chủ nhật" into JS weekdays (0=Sun). */
 const parseWeekdays = (schedule: string): number[] => {
   const s = schedule.toLowerCase();
@@ -158,6 +157,17 @@ export default function CourseNoticesTab() {
       extraFeeEur: current === "eur" ? fee : Math.round(fee / EUR_TO_VND * 100) / 100,
       extraFeeVnd: current === "eur" ? Math.round(fee * EUR_TO_VND) : fee };
   });
+  const setNoticeLanguage = (language: "en" | "vi") => setData((prev) => ({
+    ...prev,
+    language,
+    objective: language === "vi"
+      ? "Xây dựng nền tảng vững chắc và vận dụng tự tin trong học tập, công việc và giao tiếp thực tế."
+      : "Build a solid foundation and apply it confidently in study, work and real-life communication.",
+    schedule: language === "vi" ? "Thứ 3 - Thứ 5, 19:00 - 20:30" : "Tuesday - Thursday, 19:00 - 20:30",
+    timezone: language === "vi" ? "Giờ Việt Nam" : "Vietnam time",
+    instructorCredentials: language === "vi" ? "Thạc sĩ Ngôn ngữ & Văn hóa Anh (Phần Lan)" : "Master's in English Language & Culture (Finland)",
+    instructorExpertise: language === "vi" ? "Kỹ sư Dữ liệu & Trí tuệ nhân tạo (Phần Lan)\n15 năm kinh nghiệm giảng dạy" : "Data & AI Engineer (Finland)\n15 years of teaching experience",
+  }));
   const chooseStudent = (id: string) => {
     if (id === "manual") { setStudentId(null); return; }
     const student = students.find((item) => item.id === id);
@@ -260,7 +270,7 @@ export default function CourseNoticesTab() {
         <div className="border-t pt-5"><p className="mb-3 text-sm font-black uppercase text-primary">{t("Chương trình", "Programme")}</p><div className="space-y-3">
           <Select value={data.courseKey} onValueChange={selectCourse}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{catalog.map((c) => <SelectItem key={c.key} value={c.key}>{c.nameVi} · {c.groupPrice} EUR</SelectItem>)}<SelectItem value="custom">{t("Khóa học tùy chỉnh", "Custom course")}</SelectItem></SelectContent></Select>
           <div className="grid gap-3 sm:grid-cols-2"><div className="space-y-2"><Label>Tên tiếng Việt</Label><Input value={data.courseNameVi} onChange={(e) => update("courseNameVi", e.target.value)} /></div><div className="space-y-2"><Label>English name</Label><Input value={data.courseNameEn} onChange={(e) => update("courseNameEn", e.target.value)} /></div></div>
-          <div className="grid gap-3 sm:grid-cols-2"><div className="space-y-2"><Label>Ngôn ngữ phiếu / Notice language</Label><Select value={data.language ?? "en"} onValueChange={(v) => update("language", v as "en" | "vi")}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="en">English</SelectItem><SelectItem value="vi">Tiếng Việt</SelectItem></SelectContent></Select></div><div className="space-y-2"><Label>Hình thức / Format</Label><Select value={data.classType} onValueChange={(v) => selectClassType(v as "group" | "private")}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="group">Lớp nhóm / Group</SelectItem><SelectItem value="private">Kèm 1-1 / One-to-one</SelectItem></SelectContent></Select></div></div>
+          <div className="grid gap-3 sm:grid-cols-2"><div className="space-y-2"><Label>Ngôn ngữ phiếu / Notice language</Label><Select value={data.language ?? "en"} onValueChange={(v) => setNoticeLanguage(v as "en" | "vi")}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="en">English</SelectItem><SelectItem value="vi">Tiếng Việt</SelectItem></SelectContent></Select></div><div className="space-y-2"><Label>Hình thức / Format</Label><Select value={data.classType} onValueChange={(v) => selectClassType(v as "group" | "private")}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="group">Lớp nhóm / Group</SelectItem><SelectItem value="private">Kèm 1-1 / One-to-one</SelectItem></SelectContent></Select></div></div>
           <div className="space-y-2"><Label>Lịch học / Schedule</Label><Input value={data.schedule} onChange={(e) => update("schedule", e.target.value)} /></div>
           <div className="space-y-2"><Label>Mục tiêu đầu ra / Outcome</Label><Textarea rows={3} value={data.objective} onChange={(e) => update("objective", e.target.value)} /></div>
           <div className="grid gap-3 sm:grid-cols-2"><div className="space-y-2"><Label>Ngày bắt đầu</Label><Input type="date" value={data.startDate} onChange={(e) => update("startDate", e.target.value)} /></div><div className="space-y-2"><Label>Ngày kết thúc</Label><Input type="date" value={data.endDate} onChange={(e) => update("endDate", e.target.value)} /></div></div>
