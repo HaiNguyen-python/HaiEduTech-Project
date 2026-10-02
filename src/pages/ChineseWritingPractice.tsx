@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import { useLanguage } from "@/contexts/LanguageContext";
+import IllustratedPageHeader from "@/components/common/IllustratedPageHeader";
 import {
   ZH_LEVELS, ZH_TOPICS, ZH_ESSAYS, ZH_VOCAB, ZH_GRAMMAR, ZH_CONNECTORS, ZH_TRANSLATION, ZH_PARAPHRASE, ZH_PARAPHRASE_GUIDES, ZH_TYPING,
   type ZhLevel,
@@ -57,10 +58,12 @@ export default function ChineseWritingPractice() {
     <div className="min-h-screen bg-background">
       <Navbar />
       <main className="container mx-auto px-4 pt-28 pb-16 max-w-5xl space-y-5">
-        <header>
+        <IllustratedPageHeader variant="chinese">
+        <header className="text-center">
           <h1 className="text-3xl md:text-4xl font-bold text-foreground">{t("Luyện viết tiếng Trung", "Chinese Writing Practice")}</h1>
-          <p className="text-muted-foreground mt-1">{t("Luyện viết câu, cấu trúc và từ vựng theo chủ đề, chấm bằng AI.", "Practise sentences, structures and vocabulary by topic, graded by HaiEduTech smart system")}</p>
+          <p className="text-foreground/75 mt-2">{t("Luyện viết câu, cấu trúc và từ vựng theo chủ đề, chấm bằng AI.", "Practise sentences, structures and vocabulary by topic, graded by HaiEduTech smart system")}</p>
         </header>
+        </IllustratedPageHeader>
         <div className="flex flex-wrap items-center gap-2">
           <span className="text-sm text-muted-foreground">{t("Cấp độ:", "Level:")}</span>
           {ZH_LEVELS.map((l) => <Button key={l} size="sm" variant={level === l ? "default" : "outline"} onClick={() => setLevel(l)}>HSK {l}</Button>)}
