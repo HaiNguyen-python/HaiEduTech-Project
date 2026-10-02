@@ -2,6 +2,9 @@
 
 # Course Notice Simplification
 
+- [x] Remove Outcome, introductory copy, header reference/issued metadata and Dear from the notice.
+- [x] Rename the notice to Course Information and reduce duration to weeks only.
+- [x] Keep schedule bold and remove the automatic Vietnam time suffix.
 - [x] Remove Curriculum and Included from the notice and editor.
 - [x] Add single-language English/Vietnamese notices and replace Level with Schedule.
 - [x] Match the displayed bank account to the selected tuition currency.
