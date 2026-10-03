@@ -92,7 +92,7 @@ export default function ParaphrasePractice({ taskType }: { taskType: 1 | 2 }) {
               {item.techniques.map((x) => <Badge key={x} variant="secondary">{x}</Badge>)}
             </div>
           </div>
-          <ParaphraseToolkit toolKey={`${item.task}:${item.topic}`} attempt={attempt}
+          <ParaphraseToolkit key={item.id} toolKey={`${item.task}:${item.topic}`} source={item.source} attempt={attempt}
             onInsert={(x) => { setAttempt((v) => (v && !v.endsWith(" ") ? v + " " : v) + x); ref.current?.focus({ preventScroll: true }); }} />
           <Textarea ref={ref} value={attempt} onChange={(e) => setAttempt(e.target.value)} onKeyDown={onKey} rows={3}
             placeholder={t(`Viết lại câu ở cấp ${level}... (Enter để chấm)`, `Rewrite at ${level} level... (Enter to check)`)} />
