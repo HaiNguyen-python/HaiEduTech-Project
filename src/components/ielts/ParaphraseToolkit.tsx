@@ -3,7 +3,7 @@ import { Volume2, CheckCircle2, ChevronDown, Sparkles, Plus } from "lucide-react
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { PARA_TOOLKIT, toolUsed, type ToolItem, type ToolKind } from "@/data/ieltsParaphraseToolkit";
+import { pickToolkit, matchedCue, toolUsed, type ToolItem, type ToolKind } from "@/data/ieltsParaphraseToolkit";
 import { playEnglishTts } from "@/lib/englishTts";
 
 const COLUMNS: { kind: ToolKind; en: string; vi: string }[] = [
@@ -11,11 +11,11 @@ const COLUMNS: { kind: ToolKind; en: string; vi: string }[] = [
   { kind: "structure", en: "Structures", vi: "Cấu trúc" },
 ];
 
-export default function ParaphraseToolkit({ toolKey, attempt, onInsert }: { toolKey: string; attempt: string; onInsert: (text: string) => void }) {
+export default function ParaphraseToolkit({ toolKey, source, attempt, onInsert }: { toolKey: string; source: string; attempt: string; onInsert: (text: string) => void }) {
   const { t } = useLanguage();
   const [open, setOpen] = useState(true);
   const [focus, setFocus] = useState<string | null>(null);
-  const items = PARA_TOOLKIT[toolKey] ?? [];
+  const items = pickToolkit(toolKey, source);
   if (!items.length) return null;
   const used = items.filter((i) => toolUsed(i, attempt)).length;
 
@@ -61,12 +61,13 @@ export default function ParaphraseToolkit({ toolKey, attempt, onInsert }: { tool
             <div className="rounded-md border bg-background p-2.5 text-sm space-y-1">
               <p className="text-foreground"><span className="font-semibold">{focused.en}</span> <Badge variant="outline" className="ml-1">{focused.level}</Badge></p>
               <p className="text-muted-foreground">{focused.vi}</p>
+              {matchedCue(focused, source) && <p className="text-xs text-primary">{t("Thay cho", "Replaces")}: "{matchedCue(focused, source)}"</p>}
               <p className="italic text-foreground/90 inline-flex items-center gap-2">
                 {focused.ex}
                 <button type="button" aria-label="Listen" onClick={() => playEnglishTts(focused.ex)} className="text-primary"><Volume2 className="w-4 h-4" /></button>
               </p>
               {focused.kind === "collocation" && (
-                <Button size="sm" variant="outline" className="h-7 text-xs" onClick={() => onInsert(focused.en)}>
+                <Button size="sm" variant="outline" className="h-7 text-xs" onClick={() => onInsert(focused.en.split("/")[0].trim())}>
                   <Plus className="w-3 h-3 mr-1" />{t("Chèn vào bài", "Insert")}
                 </Button>
               )}
