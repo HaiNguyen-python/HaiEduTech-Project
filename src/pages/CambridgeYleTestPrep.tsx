@@ -34,7 +34,7 @@ const CambridgeYleTestPrep = () => {
         {/* Hero */}
         <section className="relative overflow-hidden">
           <img src={cambridgeHeaderBg} alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover" />
-          <div className="absolute inset-0 bg-background/85 backdrop-blur-[1px]" />
+          <div className="absolute inset-0 bg-white/85 backdrop-blur-[1px]" />
           <div className="relative container mx-auto px-4 py-8 md:py-12">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-3xl">
               <div className="flex items-center gap-3 mb-4">
@@ -45,7 +45,7 @@ const CambridgeYleTestPrep = () => {
                   🎯 Cambridge YLE
                 </span>
               </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-4 leading-tight text-foreground">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-4 leading-tight text-slate-900">
                 {t("Cambridge YLE Test Prep 🏆", "Cambridge YLE Test Prep 🏆")}
               </h1>
               <p className="text-slate-700 font-medium" style={{ fontSize: "18px", lineHeight: "1.6" }}>

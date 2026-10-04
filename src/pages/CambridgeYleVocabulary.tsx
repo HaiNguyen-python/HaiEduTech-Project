@@ -250,7 +250,7 @@ const CambridgeYleVocabulary = () => {
               <Sparkles className="w-7 h-7 text-white" />
             </div>
             <div>
-              <h1 className="text-3xl md:text-4xl font-display font-bold leading-tight text-foreground">
+              <h1 className="text-3xl md:text-4xl font-display font-bold leading-tight text-slate-900 dark:text-foreground">
                 {t("Từ vựng Cambridge YLE 🎈", "Cambridge YLE Vocabulary 🎈")}
               </h1>
               <p className="text-slate-700 font-medium text-base">

@@ -130,7 +130,7 @@ const CambridgeLectures = () => {
         {/* Hero Section - Bright & Cheerful for Kids */}
         <section className="relative overflow-hidden">
           <img src={cambridgeHeaderBg} alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover" />
-          <div className="absolute inset-0 bg-background/85 backdrop-blur-[1px]" />
+          <div className="absolute inset-0 bg-white/85 backdrop-blur-[1px]" />
           {/* Cheerful soft glow orbs */}
           <div className="absolute top-4 right-20 w-56 h-56 rounded-full bg-[#FF6B9D]/30 blur-[100px] animate-pulse" />
           <div className="absolute bottom-4 left-20 w-44 h-44 rounded-full bg-[#FFD93D]/30 blur-[80px] animate-pulse" style={{ animationDelay: "1s" }} />
@@ -146,7 +146,7 @@ const CambridgeLectures = () => {
                   🌈 Cambridge Journey 🎈
                 </Badge>
               </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-5 leading-tight text-foreground">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-5 leading-tight text-slate-900">
                 {t("Cambridge: Starters đến PET 🎓", "Cambridge: Starters to PET 🎓")}
               </h1>
               <p className="text-slate-700 mb-5 font-medium" style={{ fontSize: "18px", lineHeight: "1.6" }}>
