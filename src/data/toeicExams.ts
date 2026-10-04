@@ -617,10 +617,20 @@ const SW_01: ToeicSWExam = {
 import { TOEIC_LR_EXTRA, TOEIC_SW_EXTRA } from "./toeicExamsExtra";
 import { TOEIC_LR_EXTRA2, TOEIC_SW_EXTRA2 } from "./toeicExamsExtra2";
 import { TOEIC_LR_EXTRA3 } from "./toeicExamsExtra3";
+
+const swBase = (n: number, topic: string): ToeicSWExam => ({
+  id: `sw-${String(n).padStart(2, "0")}`,
+  title: `TOEIC Speaking & Writing Practice Test ${String(n).padStart(2, "0")} - ${topic}`,
+  series: "", durationSec: 4800, speakingTasks: [], writingTasks: [],
+});
+const TOEIC_SW_EXTRA3: ToeicSWExam[] = [
+  swBase(4, "Logistics & Manufacturing"), swBase(5, "Healthcare"), swBase(6, "Education & Training"),
+  swBase(7, "Media & Arts"), swBase(8, "Travel & Aviation"), swBase(9, "Finance & Banking"), swBase(10, "Technology & Green Business"),
+];
 import { createFullToeicLRExam, createFullToeicSWExam } from "./toeicFullExamBuilder";
 
 const TOEIC_LR_BASE_EXAMS: ToeicLRExam[] = [LR_01, LR_02, ...TOEIC_LR_EXTRA, ...TOEIC_LR_EXTRA2, ...TOEIC_LR_EXTRA3];
-const TOEIC_SW_BASE_EXAMS: ToeicSWExam[] = [SW_01, ...TOEIC_SW_EXTRA, ...TOEIC_SW_EXTRA2];
+const TOEIC_SW_BASE_EXAMS: ToeicSWExam[] = [SW_01, ...TOEIC_SW_EXTRA, ...TOEIC_SW_EXTRA2, ...TOEIC_SW_EXTRA3];
 
 export const TOEIC_LR_EXAMS: ToeicLRExam[] = TOEIC_LR_BASE_EXAMS.map(createFullToeicLRExam);
 export const TOEIC_SW_EXAMS: ToeicSWExam[] = TOEIC_SW_BASE_EXAMS.map(createFullToeicSWExam);

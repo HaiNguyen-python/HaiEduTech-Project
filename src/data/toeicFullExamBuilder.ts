@@ -1,3 +1,4 @@
+import { SW_CONTENT_SETS } from "./toeicSWContentSets";
 import type { ToeicLRExam, ToeicLRQuestion, ToeicPart, ToeicSWExam, ToeicSWTask } from "./toeicExams";
 import part1WomanReviewingDocument from "@/assets/toeic/part1-woman-reviewing-document.jpg";
 import part1ColleaguesChartScreen from "@/assets/toeic/part1-colleagues-chart-screen.jpg";
@@ -945,93 +946,52 @@ export function createFullToeicSWExam(base: ToeicSWExam, index: number): ToeicSW
   ];
   const pickPhoto = (arr: string[], offset: number) => arr[(seed + offset) % arr.length];
 
+  const set = SW_CONTENT_SETS[index % SW_CONTENT_SETS.length];
+  void pickPhoto; void theme;
   const speakingTasks: ToeicSWTask[] = [
-    speakingTask({
-      id: `${base.id}-s1`, type: "read-aloud", part: 1,
-      prompt: `Read aloud the following text:\n\n"Welcome to ${theme.company}. Visitors attending today's ${theme.event} should collect a badge at the reception desk before entering the main hall. The opening session will begin promptly at nine o'clock, so please be seated by eight forty-five."`,
-      prepSeconds: 45, responseSeconds: 45,
-    }),
-    speakingTask({
-      id: `${base.id}-s2`, type: "read-aloud", part: 2,
-      prompt: `Read aloud the following announcement:\n\n"Attention staff. The ${theme.department} will provide a short orientation on the new ${theme.product} at two o'clock this afternoon in conference room B. Please bring your laptop and arrive ten minutes early to set up."`,
-      prepSeconds: 45, responseSeconds: 45,
-    }),
-    speakingTask({
-      id: `${base.id}-s3`, type: "describe-picture", part: 3,
-      prompt: "Describe the picture in as much detail as you can. Talk about the people, the place, and what is happening.",
-      prepSeconds: 45, responseSeconds: 45, imageUrl: pickPhoto(SPEAKING_PHOTOS, 1),
-    }),
-    speakingTask({
-      id: `${base.id}-s4`, type: "describe-picture", part: 4,
-      prompt: "Describe the picture in as much detail as you can. Include who you see, where they are, what they are doing, and any objects you notice.",
-      prepSeconds: 45, responseSeconds: 45, imageUrl: pickPhoto(SPEAKING_PHOTOS, 4),
-    }),
-    ...[
-      "How often do you attend professional training, and what is the most recent course you took?",
-      "What type of training do you find most useful for your daily work, and why?",
-      "Describe one specific skill you would like to improve this year and explain how you plan to develop it.",
-    ].map((prompt, i) => speakingTask({
-      id: `${base.id}-s${5 + i}`, type: "respond-questions", part: 5 + i,
-      context: `Imagine that an English-speaking colleague is asking you about professional development at ${theme.company}.`,
-      prompt: `Question ${i + 1} of 3: ${prompt}`,
-      prepSeconds: 3, responseSeconds: i < 2 ? 15 : 30,
+    ...set.readAloud.map((text, i) => speakingTask({
+      id: `${base.id}-s${i + 1}`, type: "read-aloud", part: i + 1,
+      prompt: `Read the text below aloud.\n\n"${text}"`,
+      prepSeconds: 45, responseSeconds: 45, sampleAnswer: text,
     })),
-    ...[
-      "According to the schedule, when does the morning session begin and who delivers the opening remarks?",
-      "Which speaker will lead the workshop on customer communication, and at what time?",
-      "A participant can only attend after lunch. Which two sessions should you recommend, and why?",
-    ].map((prompt, i) => speakingTask({
+    ...set.describePhotos.map((photo, i) => speakingTask({
+      id: `${base.id}-s${i + 3}`, type: "describe-picture", part: i + 3,
+      prompt: "Describe the picture in as much detail as you can: the place, the people, what they are doing, and the objects you notice.",
+      prepSeconds: 45, responseSeconds: 30, imageUrl: photo, sampleAnswer: set.describeSamples[i],
+    })),
+    ...set.personalQs.map((q, i) => speakingTask({
+      id: `${base.id}-s${5 + i}`, type: "respond-questions", part: 5 + i,
+      context: set.personalContext,
+      prompt: `Question ${i + 1} of 3: ${q}`,
+      prepSeconds: 3, responseSeconds: i < 2 ? 15 : 30, sampleAnswer: set.personalSamples[i],
+    })),
+    ...set.scheduleQs.map((q, i) => speakingTask({
       id: `${base.id}-s${8 + i}`, type: "respond-questions", part: 8 + i,
-      context: `${theme.company} - Annual ${theme.event} Schedule\n\n09:00  Opening remarks - Ms. Daniels (CEO)\n10:00  Customer Communication Workshop - Ms. Allen\n11:30  Coffee Break\n13:30  Digital Tools for ${theme.department} - Mr. Park\n15:00  Networking Session - Main Hall\n16:30  Closing keynote - Dr. Tran`,
-      prompt: `Question ${i + 1} of 3: ${prompt}`,
-      prepSeconds: 45, responseSeconds: i < 2 ? 15 : 30,
+      context: set.schedule,
+      prompt: `Question ${i + 1} of 3: ${q}`,
+      prepSeconds: i === 0 ? 45 : 3, responseSeconds: i < 2 ? 15 : 30, sampleAnswer: set.scheduleSamples[i],
     })),
     speakingTask({
       id: `${base.id}-s11`, type: "express-opinion", part: 11,
-      prompt: `Some companies, including ${theme.company}, allow employees to choose flexible working hours. Do you think this is a good policy? State your opinion clearly and give specific reasons and examples to support it.`,
-      prepSeconds: 45, responseSeconds: 60,
+      prompt: set.opinion, prepSeconds: 45, responseSeconds: 60, sampleAnswer: set.opinionSample,
     }),
   ];
 
-  const writingTasks: ToeicSWTask[] = [1, 2, 3, 4, 5].map((n) => writingTask({
-    id: `${base.id}-w${n}`, type: "write-sentence-picture", part: n,
-    prompt: [
-      "Write ONE sentence about the picture using the two words below. You may change the form of the words and use them in any order.\n\nKeywords: meeting / discuss",
-      "Write ONE sentence about the picture using the two words below. You may change the form of the words and use them in any order.\n\nKeywords: employee / organize",
-      "Write ONE sentence about the picture using the two words below. You may change the form of the words and use them in any order.\n\nKeywords: customer / receive",
-      "Write ONE sentence about the picture using the two words below. You may change the form of the words and use them in any order.\n\nKeywords: technician / repair",
-      "Write ONE sentence about the picture using the two words below. You may change the form of the words and use them in any order.\n\nKeywords: presentation / explain",
-    ][n - 1],
-    prepSeconds: 0, responseSeconds: 480, imageUrl: WRITING_PHOTOS[n - 1],
-    sampleAnswer: [
-      "The employees are having a meeting to discuss the project schedule.",
-      "An employee is organizing documents before the conference begins.",
-      "A customer is receiving assistance at the service counter.",
-      "A technician is repairing equipment in the office.",
-      "The presenter is explaining the quarterly results during a presentation.",
-    ][n - 1],
+  const writingTasks: ToeicSWTask[] = set.pictures.map((pic, i) => writingTask({
+    id: `${base.id}-w${i + 1}`, type: "write-sentence-picture", part: i + 1,
+    prompt: `Write ONE sentence about the picture using the two words below. You may change the form of the words and use them in any order.\n\nKeywords: ${pic.keys}`,
+    prepSeconds: 0, responseSeconds: 480, imageUrl: pic.photo, sampleAnswer: pic.sample,
   }));
-
-  writingTasks.push(
-    writingTask({
-      id: `${base.id}-w6`, type: "respond-email", part: 6,
-      prompt: `You received this email:\n\nFrom: Morgan Lee\nSubject: Question about ${theme.event}\n\nI registered for the event but need information about parking and the starting time. Could you also tell me whether lunch will be provided?\n\nWrite a reply that answers the questions and offers one additional helpful detail.`,
-      prepSeconds: 0, responseSeconds: 600,
-      sampleAnswer: "Dear Morgan, thank you for registering. Parking is available next to the main hall, and the event starts at 9 A.M. Lunch will be provided for all registered participants. Please bring your confirmation email to check in more quickly.",
-    }),
-    writingTask({
-      id: `${base.id}-w7`, type: "respond-email", part: 7,
-      prompt: `You received this email:\n\nFrom: Customer Support Manager\nSubject: Delayed delivery\n\nA customer reports that an important order has not arrived. Write a response that apologizes, explains two actions you will take, and asks for one piece of information.`,
-      prepSeconds: 0, responseSeconds: 600,
-      sampleAnswer: "Dear Customer, we apologize for the delay with your order. We will check the tracking status immediately and contact the shipping company for an updated delivery time. Could you please send us your order number so we can investigate faster?",
-    }),
-    writingTask({
-      id: `${base.id}-w8`, type: "write-essay", part: 8,
-      prompt: "Do you agree or disagree with the following statement? Companies should invest more money in employee training than in advertising. Use specific reasons and examples to support your opinion. Write at least 300 words.",
-      prepSeconds: 0, responseSeconds: 1800,
-      sampleAnswer: "A strong essay should state a clear opinion, give two or three business-related reasons, and include concrete examples about training quality, customer service, productivity, or brand reputation.",
-    }),
-  );
+  set.emails.forEach((em, i) => writingTasks.push(writingTask({
+    id: `${base.id}-w${6 + i}`, type: "respond-email", part: 6 + i,
+    prompt: `Read the email below and write a reply.\n\nFrom: ${em.from}\nSubject: ${em.subject}\n\n${em.body}\n\nTask: ${em.task}`,
+    prepSeconds: 0, responseSeconds: 600, sampleAnswer: em.sample,
+  })));
+  writingTasks.push(writingTask({
+    id: `${base.id}-w8`, type: "write-essay", part: 8,
+    prompt: `${set.essay} Write at least 300 words.`,
+    prepSeconds: 0, responseSeconds: 1800, sampleAnswer: set.essaySample,
+  }));
 
   return {
     ...base,

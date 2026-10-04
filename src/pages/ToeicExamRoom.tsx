@@ -45,6 +45,12 @@ import {
   type ToeicSWTask,
 } from "@/data/toeicExams";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
+import { useSpeechRecognizer } from "@/hooks/useSpeechRecognizer";
+import { supabase } from "@/integrations/supabase/client";
+import { handleAiError } from "@/lib/aiResponseHandler";
+
+interface SWGrade { score: number; max: number; feedback: string; tip: string; improved: string }
+const toScaled = (got: number, max: number) => (max > 0 ? Math.round((got / max) * 20) * 10 : 0);
 
 
 const HISTORY_KEY = "toeic-score-history";
@@ -730,6 +736,28 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
   const latestRecordingUrlsRef = useRef<Record<string, string>>({});
   const chunksRef = useRef<Blob[]>([]);
 
+  // Speech transcripts feed the automatic grader.
+  const [transcripts, setTranscripts] = useState<Record<string, string>>(() => {
+    try { return JSON.parse(localStorage.getItem(`toeic-sw-transcripts-${exam.id}`) || "{}"); }
+    catch { return {}; }
+  });
+  const transcriptTaskRef = useRef<string>("");
+  const recognizer = useSpeechRecognizer({
+    speechLang: "en-US",
+    maxSeconds: 120,
+    manualStopOnly: true,
+    onFinal: (text) => {
+      const id = transcriptTaskRef.current;
+      if (id) setTranscripts((m) => ({ ...m, [id]: text }));
+    },
+  });
+  useEffect(() => {
+    try { localStorage.setItem(`toeic-sw-transcripts-${exam.id}`, JSON.stringify(transcripts)); } catch { /* ignore */ }
+  }, [exam.id, transcripts]);
+  const [grading, setGrading] = useState(false);
+  const [grades, setGrades] = useState<Record<string, SWGrade>>({});
+  const [summary, setSummary] = useState<{ speaking: number; writing: number; gradedS: number; gradedW: number } | null>(null);
+
   // Per-task timer
   const [phase, setPhase] = useState<"prep" | "response">(current?.prepSeconds ? "prep" : "response");
   const [timeLeft, setTimeLeft] = useState(current?.prepSeconds || current?.responseSeconds || 0);
@@ -753,9 +781,10 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
   useEffect(() => {
     if (phase === "response" && timeLeft === 0 && recording && mediaRecorderRef.current?.state === "recording") {
       mediaRecorderRef.current.stop();
+      recognizer.stop();
       setRecording(false);
     }
-  }, [phase, timeLeft, recording]);
+  }, [phase, timeLeft, recording, recognizer]);
 
   useEffect(() => {
     try { localStorage.setItem(`toeic-sw-draft-${exam.id}`, JSON.stringify(writings)); }
@@ -799,6 +828,8 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
       mediaRecorderRef.current = mr;
       mr.start();
       setRecording(true);
+      transcriptTaskRef.current = taskId;
+      void recognizer.start();
     } catch (err) {
       alert(t("Cần cấp quyền micro.", "Microphone permission required."));
     }
@@ -808,6 +839,7 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
       setSavingRecording(true);
       mediaRecorderRef.current.stop();
     }
+    recognizer.stop();
     setRecording(false);
   }
 
@@ -816,41 +848,50 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
     next();
   }
 
-  function handleFinish() {
-    if (recording || savingRecording) return;
-    // Completion estimate only; recordings and drafts are not graded here.
-    const sCount = exam.speakingTasks.filter((t) => recordings[t.id]).length;
-    const wCount = exam.writingTasks.filter((t) => (writings[t.id]?.length ?? 0) > 50).length;
-    const sScore = Math.round((sCount / exam.speakingTasks.length) * 200);
-    const wScore = Math.round((wCount / exam.writingTasks.length) * 200);
-    saveHistoryEntry({
-      examId: exam.id,
-      examTitle: exam.title,
-      scoreSpeaking: sScore,
-      scoreWriting: wScore,
-    });
-    // RL pipeline: completion-rate score across SW tasks (combined out of 400).
-    const totalTasks = exam.speakingTasks.length + exam.writingTasks.length;
-    const completed = sCount + wCount;
-    logStudentActivity({
-      activityType: "toeic_sw_exam",
-      activityId: exam.id,
-      score: completed,
-      maxScore: Math.max(totalTasks, 1),
-      metadata: {
-        examId: exam.id,
-        speaking_completed: sCount,
-        speaking_total: exam.speakingTasks.length,
-        writing_completed: wCount,
-        writing_total: exam.writingTasks.length,
-        scaled_sw: sScore + wScore,
-        percent: Math.round((completed / Math.max(totalTasks, 1)) * 100),
-      },
-    });
-    alert(t(
-      `Đã lưu mức độ hoàn thành (không phải điểm chấm): Speaking ${sScore}/200 · Writing ${wScore}/200`,
-      `Completion estimate saved (not a graded score): Speaking ${sScore}/200 · Writing ${wScore}/200`
-    ));
+  async function handleFinish() {
+    if (recording || savingRecording || grading) return;
+    const payload = [
+      ...exam.speakingTasks.map((tk) => ({ tk, section: "speaking" as const, response: transcripts[tk.id] ?? "" })),
+      ...exam.writingTasks.map((tk) => ({ tk, section: "writing" as const, response: writings[tk.id] ?? "" })),
+    ].filter((x) => x.response.trim().length > 0);
+    if (!payload.length) {
+      alert(t("Bạn chưa có câu trả lời nào để chấm.", "You have no responses to grade yet."));
+      return;
+    }
+    setGrading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("grade-toeic-sw", {
+        body: { tasks: payload.map(({ tk, section, response }) => ({ id: tk.id, section, type: tk.type, prompt: tk.prompt, context: tk.imageUrl && tk.sampleAnswer ? `${tk.context ? tk.context + "\n" : ""}Picture description (for the rater): ${tk.sampleAnswer}` : tk.context, response })) },
+      });
+      if (error || data?.error) throw error ?? new Error(data.error);
+      const res = (data?.results ?? {}) as Record<string, SWGrade>;
+      setGrades(res);
+      // Unanswered tasks count as 0, like the real test.
+      const sum = (tasks: ToeicSWTask[]) => tasks.reduce((acc, tk) => {
+        const g = res[tk.id];
+        const max = g?.max ?? ({ "express-opinion": 5, "write-essay": 5, "respond-email": 4 } as Record<string, number>)[tk.type] ?? 3;
+        return { got: acc.got + (g?.score ?? 0), max: acc.max + max, n: acc.n + (g ? 1 : 0) };
+      }, { got: 0, max: 0, n: 0 });
+      const s = sum(exam.speakingTasks);
+      const w = sum(exam.writingTasks);
+      const sScore = toScaled(s.got, s.max);
+      const wScore = toScaled(w.got, w.max);
+      setSummary({ speaking: sScore, writing: wScore, gradedS: s.n, gradedW: w.n });
+      saveHistoryEntry({ examId: exam.id, examTitle: exam.title, scoreSpeaking: sScore, scoreWriting: wScore });
+      logStudentActivity({
+        activityType: "toeic_sw_exam",
+        activityId: exam.id,
+        score: sScore + wScore,
+        maxScore: 400,
+        metadata: { examId: exam.id, speaking_scaled: sScore, writing_scaled: wScore, speaking_graded: s.n, writing_graded: w.n, ai_graded: true, percent: Math.round(((sScore + wScore) / 400) * 100) },
+      });
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } catch (err) {
+      const h = handleAiError(err, { context: "TOEIC grading" });
+      if (!h.handled) alert(t("Chấm bài chưa thành công, vui lòng thử lại.", "Grading failed, please try again."));
+    } finally {
+      setGrading(false);
+    }
   }
 
   if (!current) return null;
@@ -871,11 +912,23 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
             <span className="text-xs font-semibold text-muted-foreground">{t(phase === "prep" ? "Chuẩn bị" : "Trả lời", phase === "prep" ? "Prepare" : "Respond")}</span>
             <span className="font-mono text-lg">{fmtTime(timeLeft)}</span>
           </div>
-          <Button size="sm" onClick={handleFinish} disabled={recording || savingRecording}>
-            {t("Hoàn tất", "Finish")}
+          <Button size="sm" onClick={handleFinish} disabled={recording || savingRecording || grading}>
+            {grading ? t("Đang chấm...", "Grading...") : t("Nộp & chấm điểm", "Submit & grade")}
           </Button>
         </div>
       </div>
+
+      {summary && (
+        <Card className="mb-4 p-5 bg-primary/5 border-primary/20">
+          <h2 className="text-lg font-bold text-foreground">{t("Kết quả chấm tự động", "Automatic grading result")}</h2>
+          <div className="grid sm:grid-cols-3 gap-3 mt-3">
+            <div className="p-3 rounded-lg bg-card border border-border"><p className="text-xs text-muted-foreground">Speaking (0-200)</p><p className="text-3xl font-bold text-primary">{summary.speaking}</p><p className="text-xs text-muted-foreground">{summary.gradedS}/{exam.speakingTasks.length} {t("câu đã chấm", "tasks graded")}</p></div>
+            <div className="p-3 rounded-lg bg-card border border-border"><p className="text-xs text-muted-foreground">Writing (0-200)</p><p className="text-3xl font-bold text-primary">{summary.writing}</p><p className="text-xs text-muted-foreground">{summary.gradedW}/{exam.writingTasks.length} {t("câu đã chấm", "tasks graded")}</p></div>
+            <div className="p-3 rounded-lg bg-card border border-border"><p className="text-xs text-muted-foreground">{t("Tổng (0-400)", "Total (0-400)")}</p><p className="text-3xl font-bold text-primary">{summary.speaking + summary.writing}</p><p className="text-xs text-muted-foreground">{t("Điểm ước tính theo thang ETS", "ETS-style estimate")}</p></div>
+          </div>
+          <p className="text-xs text-muted-foreground mt-3">{t("Câu chưa làm được tính 0 điểm. Mở từng câu để xem nhận xét và bài sửa mẫu.", "Unanswered tasks score 0. Open each task to see feedback and an improved version.")}</p>
+        </Card>
+      )}
 
       <div className="flex gap-2 mb-4">
         <Button
@@ -947,13 +1000,16 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
                 </div>
               )}
 
-              <div className="mt-3 p-3 rounded-lg bg-primary/5 border border-primary/20">
-                <div className="flex items-center gap-2 text-sm font-semibold text-primary mb-1">
-                  <Sparkles className="w-4 h-4" /> {t("Luyện phát âm thêm", "More pronunciation practice")}
+              {(recording ? recognizer.transcript : transcripts[current.id]) ? (
+                <div className="p-3 rounded-lg bg-muted/50 border border-border">
+                  <p className="text-xs font-semibold text-primary mb-1">{t("Hệ thống nghe được:", "What the system heard:")}</p>
+                  <p className="text-sm text-foreground">{recording ? recognizer.transcript : transcripts[current.id]}</p>
                 </div>
-                <p className="text-xs text-muted-foreground">{t("Luyện nói riêng trong Speaking Coach. Bản ghi âm bài thi này không được chuyển sang trang luyện nói và chưa được chấm bằng AI.", "Practise separately in Speaking Coach. This exam recording is not transferred or graded by AI.")}</p>
-                <Button asChild size="sm" className="mt-2"><Link to="/speaking-coach/english">{t("Mở Speaking Coach", "Open Speaking Coach")}</Link></Button>
-              </div>
+              ) : !recognizer.supported ? (
+                <p className="text-xs text-destructive">{t("Trình duyệt này không hỗ trợ nhận dạng giọng nói, phần Speaking sẽ không được chấm. Hãy dùng Chrome hoặc Edge.", "This browser does not support speech recognition, so Speaking cannot be graded. Please use Chrome or Edge.")}</p>
+              ) : (
+                <p className="text-xs text-muted-foreground">{t("Bấm Ghi âm và nói rõ ràng; lời nói sẽ được chuyển thành chữ để chấm điểm khi bạn nộp bài.", "Press Record and speak clearly; your speech is transcribed and graded when you submit.")}</p>
+              )}
 
               {current.sampleAnswer && (
                 <details className="text-xs text-foreground">
@@ -980,6 +1036,17 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
                   <p className="mt-1 whitespace-pre-wrap">{current.sampleAnswer}</p>
                 </details>
               )}
+            </div>
+          )}
+
+          {grades[current.id] && (
+            <div className="mt-4 p-4 rounded-lg border border-primary/30 bg-primary/5 space-y-2">
+              <div className="flex items-center gap-2 text-sm font-semibold text-primary">
+                <Sparkles className="w-4 h-4" /> {t("Điểm câu này", "Task score")}: {grades[current.id].score}/{grades[current.id].max}
+              </div>
+              <p className="text-sm text-foreground">{grades[current.id].feedback}</p>
+              {grades[current.id].tip && <p className="text-sm text-foreground"><span className="font-semibold">{t("Mẹo", "Tip")}:</span> {grades[current.id].tip}</p>}
+              {grades[current.id].improved && <div className="text-sm text-foreground"><span className="font-semibold">{t("Bản cải thiện", "Improved version")}:</span><p className="whitespace-pre-wrap mt-1">{grades[current.id].improved}</p></div>}
             </div>
           )}
 
@@ -1020,7 +1087,7 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
             </div>
             <div className="space-y-1">
               {tasks.map((tk: ToeicSWTask, i) => {
-                const done = tab === "speaking" ? !!recordings[tk.id] : (writings[tk.id]?.length ?? 0) > 50;
+                const done = tab === "speaking" ? !!(recordings[tk.id] || transcripts[tk.id]) : (writings[tk.id]?.length ?? 0) > 50;
                 const active = i === activeIdx;
                 return (
                   <button
