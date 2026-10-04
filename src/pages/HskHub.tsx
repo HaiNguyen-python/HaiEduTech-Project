@@ -33,16 +33,12 @@ const HskHub = () => {
       <Navbar />
       <main className="container mx-auto px-4 py-12 max-w-6xl">
         {/* Hero */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-12"
-        >
+        <IllustratedPageHeader variant="chinese" className="text-center mb-12">
           <Badge variant="secondary" className="mb-4 text-sm">
             <GraduationCap className="w-4 h-4 mr-2 inline" />
             {t("Cẩm nang luyện thi HSK", "HSK Exam Guide")}
           </Badge>
-          <h1 className="text-4xl md:text-5xl font-display font-bold mb-4 bg-gradient-to-r from-red-500 to-amber-500 bg-clip-text text-transparent">
+          <h1 className="text-4xl md:text-5xl font-display font-bold mb-4 text-foreground">
             {t("HSK Hub - Chinh phục mọi cấp độ", "HSK Hub - Master Every Level")}
           </h1>
           <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -51,7 +47,7 @@ const HskHub = () => {
               "Pick your target level. Each guide ships with detailed exam structure, expert strategies, and links to the vocabulary bank."
             )}
           </p>
-        </motion.div>
+        </IllustratedPageHeader>
 
         {/* HSK 3.0 Updates Callout */}
         <motion.div
