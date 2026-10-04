@@ -4272,6 +4272,27 @@ export type Database = {
         }
         Relationships: []
       }
+      word_quest_progress: {
+        Row: {
+          progress: Json
+          storage_key: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          progress?: Json
+          storage_key: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          progress?: Json
+          storage_key?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       writing_attempts: {
         Row: {
           created_at: string

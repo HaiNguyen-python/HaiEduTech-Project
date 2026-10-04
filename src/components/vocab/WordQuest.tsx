@@ -28,6 +28,7 @@ import { resolveVocabEmoji } from "@/lib/vocabEmojiMap";
 import { resolveHskVocabEmoji } from "@/lib/hskVocabEmojiMap";
 import VocabIllustration from "@/components/VocabIllustration";
 import { safeStorage } from "@/lib/safeStorage";
+import { supabase } from "@/integrations/supabase/client";
 import { maskAnswerForms, normForCompare } from "@/lib/vocab/questionQuality";
 import { recordVocabReviewTracked } from "@/lib/vocabReview";
 import { useSpeechRecognizer } from "@/hooks/useSpeechRecognizer";
@@ -55,7 +56,19 @@ interface Progress {
   resume?: { stage: number; word: number; task?: number } | null;
   /** stage index -> the learner already walked through all its word cards. */
   studied?: Record<number, boolean>;
+  /** Keys of words fully completed. Filter/order independent source of truth. */
+  doneKeys?: string[];
 }
+
+/** Merge two progress snapshots without ever losing completed work. */
+const mergeProgress = (a: Progress, b: Progress): Progress => {
+  const stages: Record<number, number> = { ...(a.stages || {}) };
+  for (const [k, v] of Object.entries(b.stages || {})) stages[+k] = Math.max(stages[+k] || 0, v as number);
+  const medals = { ...(b.medals || {}), ...(a.medals || {}) };
+  const studied = { ...(b.studied || {}), ...(a.studied || {}) };
+  const doneKeys = [...new Set([...(a.doneKeys || []), ...(b.doneKeys || [])])];
+  return { stages, medals, studied, doneKeys, resume: a.resume ?? b.resume ?? null };
+};
 
 const medalOf = (mistakes: number) => (mistakes === 0 ? "🥇" : mistakes <= 3 ? "🥈" : "🥉");
 
@@ -228,10 +241,57 @@ const WordQuest = ({
   const word = stage && task ? stage[task.wordIdx] : null;
   const kind = task?.kind ?? "meet";
 
+  const cloudTimer = useRef<number | null>(null);
   const save = useCallback((next: Progress) => {
     setProgress(next);
     safeStorage.set(PROGRESS_KEY, next);
+    if (cloudTimer.current) window.clearTimeout(cloudTimer.current);
+    cloudTimer.current = window.setTimeout(async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      const uid = session?.user?.id;
+      if (!uid) return;
+      await supabase.from("word_quest_progress").upsert(
+        { user_id: uid, storage_key: PROGRESS_KEY, progress: next as never, updated_at: new Date().toISOString() },
+        { onConflict: "user_id,storage_key" },
+      );
+    }, 800);
   }, [PROGRESS_KEY]);
+
+  // Restore / merge the account's cloud copy so progress survives new devices,
+  // domains, cleared browsers and account upgrades.
+  const progressRef = useRef(progress);
+  progressRef.current = progress;
+  useEffect(() => {
+    let cancelled = false;
+    const sync = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      const uid = session?.user?.id;
+      if (!uid) return;
+      const { data } = await supabase.from("word_quest_progress")
+        .select("progress").eq("user_id", uid).eq("storage_key", PROGRESS_KEY).maybeSingle();
+      if (cancelled) return;
+      const remote = (data?.progress || { stages: {} }) as unknown as Progress;
+      save(mergeProgress(progressRef.current, remote));
+    };
+    sync();
+    const { data: sub } = supabase.auth.onAuthStateChange((event) => {
+      if (event === "SIGNED_IN") sync();
+    });
+    return () => { cancelled = true; sub.subscription.unsubscribe(); };
+  }, [PROGRESS_KEY, save]);
+
+  /** Completed words in a stage: max of word-key record and legacy index count. */
+  const doneSet = useMemo(() => new Set(progress.doneKeys || []), [progress.doneKeys]);
+  const stageDoneCount = useCallback((i: number) => {
+    const s = stages[i];
+    if (!s) return 0;
+    let byKey = 0;
+    for (const w of s) { if (doneSet.has(w.key)) byKey++; else break; }
+    return Math.min(s.length, Math.max(byKey, progress.stages[i] || 0));
+  }, [stages, doneSet, progress.stages]);
+  const keysOf = (s: QuestItem[], n: number) => s.slice(0, n).map(w => w.key);
+  const withKeys = (base: Progress, add: string[]) =>
+    ({ ...base, doneKeys: [...new Set([...(base.doneKeys || []), ...add])] });
 
   // ── Speech recognition for the "say it back" step ──
   const [spokenScore, setSpokenScore] = useState<number | null>(null);
@@ -402,7 +462,7 @@ const WordQuest = ({
     if (advanceTimer.current) { window.clearTimeout(advanceTimer.current); advanceTimer.current = null; }
     setStageIdx(i);
     setSetIdx(Math.floor(i / SET_SIZE));
-    const completed = Math.min(progress.stages[i] || 0, s.length);
+    const completed = stageDoneCount(i);
     const isReplay = completed >= s.length;
     const resumeWord = progress.resume?.stage === i ? progress.resume.word : completed;
     const nextWord = isReplay ? 0 : Math.min(Math.max(0, resumeWord), s.length - 1);
@@ -423,7 +483,7 @@ const WordQuest = ({
 
   const finishStage = (s: QuestItem[], idx: number, mistakes: number) => {
     save({
-      ...progress,
+      ...withKeys(progress, keysOf(s, s.length)),
       stages: { ...progress.stages, [idx]: s.length },
       medals: { ...(progress.medals || {}), [idx]: mistakes },
       resume: null,
@@ -444,7 +504,7 @@ const WordQuest = ({
     if (cursor + 1 < queue.length) {
       setCursor(cursor + 1);
       save({
-        ...progress,
+        ...withKeys(progress, doneNow.map(n => stage[n]?.key).filter(Boolean) as string[]),
         stages: { ...progress.stages, [stageIdx]: Math.max(progress.stages[stageIdx] || 0, doneNow.length) },
         resume: { stage: stageIdx, word: queue[cursor + 1].wordIdx, task: cursor + 1 },
       });
@@ -463,7 +523,7 @@ const WordQuest = ({
     setQueue(nextQueue);
     setCursor(0);
     save({
-      ...progress,
+      ...withKeys(progress, doneNow.map(n => stage[n]?.key).filter(Boolean) as string[]),
       stages: { ...progress.stages, [stageIdx]: Math.max(progress.stages[stageIdx] || 0, doneNow.length) },
       resume: { stage: stageIdx, word: nextWord, task: 0 },
     });
@@ -554,7 +614,7 @@ const WordQuest = ({
       );
     }
 
-    const stageComplete = (i: number) => (progress.stages[i] || 0) >= (stages[i]?.length || 0);
+    const stageComplete = (i: number) => stageDoneCount(i) >= (stages[i]?.length || 0);
     const stageUnlocked = (i: number) => i === 0 || stageComplete(i - 1);
 
     const header = (
@@ -587,7 +647,7 @@ const WordQuest = ({
               const first = si * SET_SIZE;
               const list = stages.slice(first, first + SET_SIZE);
               const totalWords = list.reduce((n, s) => n + s.length, 0);
-              const doneWordsCount = list.reduce((n, s, j) => n + Math.min(progress.stages[first + j] || 0, s.length), 0);
+              const doneWordsCount = list.reduce((n, s, j) => n + stageDoneCount(first + j), 0);
               const pct = Math.round((doneWordsCount / Math.max(1, totalWords)) * 100);
               const medals = list.filter((_, j) => stageComplete(first + j)).length;
               const unlocked = si === 0 || stageComplete(first - 1);
@@ -642,7 +702,7 @@ const WordQuest = ({
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-5">
           {list.map((s, j) => {
             const i = first + j;
-            const done = Math.min(progress.stages[i] || 0, s.length);
+            const done = stageDoneCount(i);
             const complete = stageComplete(i);
             const unlocked = stageUnlocked(i);
             return (
