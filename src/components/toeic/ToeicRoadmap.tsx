@@ -276,6 +276,7 @@ const ToeicRoadmap = ({ completedSet }: ToeicRoadmapProps) => {
                   })}
                 </div>
               )}
+              </div>
               </CollapsibleContent>
               </Collapsible>
             </motion.div>
