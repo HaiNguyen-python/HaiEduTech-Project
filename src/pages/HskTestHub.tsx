@@ -13,6 +13,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { HSK_TESTS_BY_LEVEL, totalQuestions } from "@/data/hskTests";
 import { ArrowRight, ClipboardCheck, Clock, GraduationCap, Headphones, BookOpen, PenLine } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import IllustratedPageHeader from "@/components/common/IllustratedPageHeader";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
 const LEVEL_COLORS: Record<number, string> = {
@@ -42,9 +43,9 @@ const HskTestHub = () => {
       />
       <Navbar />
       <main className="container mx-auto px-4 py-10 max-w-6xl">
-        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-8">
+        <IllustratedPageHeader variant="chinese" className="text-center mb-8">
           <Badge variant="secondary" className="mb-3"><ClipboardCheck className="w-4 h-4 mr-1 inline" /> {t("Phòng thi HSK", "HSK Test Room")}</Badge>
-          <h1 className="text-4xl md:text-5xl font-display font-bold mb-3 bg-gradient-to-r from-red-500 to-amber-500 bg-clip-text text-transparent">
+          <h1 className="text-4xl md:text-5xl font-display font-bold mb-3 text-foreground">
             {t("HSK Test - Đề thi thử HSK 1-9", "HSK Test - Mock Exams HSK 1-9")}
           </h1>
           <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -53,7 +54,7 @@ const HskTestHub = () => {
               "Hanban-style mock exams (HSK 3.0 - 9 levels): pick a level below to view its tests. Each level offers multiple mocks (Mock 01, 02, 03…)."
             )}
           </p>
-        </motion.div>
+        </IllustratedPageHeader>
 
         <Tabs value={active} onValueChange={setActive} className="w-full">
           {/* Level tabs - scrollable on mobile */}

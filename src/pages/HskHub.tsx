@@ -15,6 +15,7 @@ import { HSK_LEVEL_GUIDES, HSK_3_UPDATES } from "@/data/hskExamGuide";
 import { ArrowRight, BookOpen, Sparkles, Trophy, GraduationCap } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import IllustratedPageHeader from "@/components/common/IllustratedPageHeader";
 
 const HskHub = () => {
   const { t, lang } = useLanguage();

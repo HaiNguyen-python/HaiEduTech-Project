@@ -32,6 +32,7 @@ import VocabBrainPanel from "@/components/vocab/VocabBrainPanel";
 import { recordVocabReviewTracked } from "@/lib/vocabReview";
 import { pickSmartDistractors, isQuestionFair, maskWord, ipaSyllables, gradeWrittenDefinition } from "@/lib/vocab/questionQuality";
 import { safeStorage } from "@/lib/safeStorage";
+import IllustratedPageHeader from "@/components/common/IllustratedPageHeader";
 
 const WORDS_PER_PAGE = 10;
 /** Where an unfinished practice round is cached (survives a page reload). */
@@ -1816,7 +1817,7 @@ const IeltsVocabulary = () => {
           <div className="flex gap-6">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex-1 min-w-0">
             {/* Header */}
-            <div className="mb-8">
+            <IllustratedPageHeader variant="ielts" className="mb-8">
               <h1 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-2">
                 IELTS Vocabulary <span className="text-gradient">{t("Ngân hàng từ vựng", "Word Bank")}</span>
               </h1>
@@ -1836,7 +1837,7 @@ const IeltsVocabulary = () => {
                 )}
 
               </div>
-            </div>
+            </IllustratedPageHeader>
 
             {/* Mountain Climber progress visualization */}
             <MountainClimber mastered={mastered.size} total={ieltsVocabData.length} flyingStars={flyingStars} onStarLanded={handleStarLanded} containerRef={pageContainerRef} />
