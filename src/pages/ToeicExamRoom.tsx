@@ -483,7 +483,7 @@ const LRExamRunner = ({ exam, mode }: LRRunnerProps) => {
                   alt="TOEIC Part 1 workplace photograph"
                   width={832}
                   height={544}
-                  className="mb-4 w-full max-h-96 object-contain rounded-lg border border-border bg-muted/50/60"
+                  className="mb-4 w-full max-h-96 object-contain rounded-lg border border-border bg-muted/50"
                   loading="lazy"
                 />
               )}
@@ -721,7 +721,6 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
   const [writings, setWritings] = useState<Record<string, string>>({});
   const [recording, setRecording] = useState(false);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-  const activeRecordingTaskRef = useRef<string | null>(null);
   const recordingUrlsRef = useRef<Set<string>>(new Set());
   const latestRecordingUrlsRef = useRef<Record<string, string>>({});
   const chunksRef = useRef<Blob[]>([]);
@@ -764,7 +763,6 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const mr = new MediaRecorder(stream);
       const taskId = current.id;
-      activeRecordingTaskRef.current = taskId;
       chunksRef.current = [];
       mr.ondataavailable = (e) => chunksRef.current.push(e.data);
       mr.onstop = () => {
@@ -775,7 +773,6 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
         latestRecordingUrlsRef.current[taskId] = url;
         recordingUrlsRef.current.add(url);
         setRecordings((r) => ({ ...r, [taskId]: url }));
-        activeRecordingTaskRef.current = null;
         stream.getTracks().forEach((t) => t.stop());
       };
       mr.onerror = () => {

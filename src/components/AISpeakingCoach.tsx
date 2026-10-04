@@ -200,15 +200,9 @@ const normalize = (text: string): string[] => {
     .replace(/[.,!?;:"()（）。，！？、""''…·\[\]{}]/g, " ")
     .replace(/[\-–-]/g, " ");
   if (CJK_RANGE.test(cleaned)) cleaned = chineseDigitsToHanzi(cleaned);
-  // Detect CJK; if present, split per Han char (ignoring spaces, latin, digits separately).
+  // Detect CJK; split Han characters and keep embedded Latin words/digits.
   if (CJK_RANGE.test(cleaned)) {
-    const out: string[] = [];
-    for (const ch of cleaned) {
-      if (CJK_RANGE.test(ch)) out.push(ch);
-      // Skip non-CJK noise (whitespace/punct/latin) — Chinese speech recognition
-      // sometimes inserts spaces or transliterations we don't want to grade.
-    }
-    return out;
+    return cleaned.match(/[\u3400-\u9fff\uf900-\ufaff]|[a-z]+|[0-9]+/g) ?? [];
   }
   return cleaned.split(/\s+/).filter(Boolean);
 };
