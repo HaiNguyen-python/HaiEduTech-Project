@@ -3,10 +3,15 @@
  * @description Lộ trình TOEIC 4 chặng từ Foundation 450+ → Advanced 900+.
  * Hiển thị các bài học theo thứ tự dễ → khó với số thứ tự, tiến độ, và CTA "Bắt đầu từ đây".
  */
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { CheckCircle2, Lock, PlayCircle, Sparkles, Trophy, Target, Rocket, Crown } from "lucide-react";
+import { CheckCircle2, Lock, PlayCircle, Sparkles, Trophy, Target, Rocket, Crown, ChevronDown } from "lucide-react";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import { allToeicLectures, type ToeicLecture } from "@/data/toeicLecturesData";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -101,6 +106,16 @@ const ToeicRoadmap = ({ completedSet }: ToeicRoadmapProps) => {
     return null;
   }, [stagesWithLessons, completedSet]);
 
+  // Stage that contains the "start here" lesson — opened by default.
+  const startHereStageId = useMemo(() => {
+    if (!startHereLesson) return "stage-1";
+    const stage = stagesWithLessons.find((s) => s.lessons.some((l) => l.id === startHereLesson.id));
+    return stage?.id ?? "stage-1";
+  }, [stagesWithLessons, startHereLesson]);
+
+  const [userOpenStage, setUserOpenStage] = useState<string | null>(null);
+  const openStageId = userOpenStage ?? startHereStageId;
+
   return (
     <section className="container mx-auto px-4 py-8" aria-labelledby="toeic-roadmap-heading">
       {/* Heading + Start Here CTA */}
@@ -154,33 +169,51 @@ const ToeicRoadmap = ({ completedSet }: ToeicRoadmapProps) => {
               transition={{ duration: 0.5, delay: stageIdx * 0.05 }}
               className={`relative rounded-2xl border-2 bg-gradient-to-br ${stage.gradient} p-5 md:p-6 ${stage.ring} shadow-lg shadow-slate-200/50 hover:shadow-xl transition-shadow`}
             >
-              {/* Stage header */}
-              <div className="flex items-start gap-4 mb-5">
-                <div className={`w-12 h-12 rounded-xl ${stage.iconColor} flex items-center justify-center shrink-0`}>
-                  <StageIcon className="w-6 h-6" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h3 className="text-lg md:text-xl font-bold text-slate-900 mb-1">
-                    {t(stage.titleVi, stage.title)}
-                  </h3>
-                  <p className="text-sm text-slate-600 mb-2">
-                    {t(stage.subtitleVi, stage.subtitle)}
-                  </p>
-                  {!isEmpty && (
-                    <div className="flex items-center gap-3">
-                      <div className="flex-1 max-w-xs h-2 rounded-full bg-white/70 overflow-hidden border border-slate-200">
-                        <div
-                          className="h-full bg-gradient-to-r from-emerald-400 to-teal-500 transition-all"
-                          style={{ width: `${progress}%` }}
-                        />
+              <Collapsible
+                open={openStageId === stage.id}
+                onOpenChange={(open) => setUserOpenStage(open ? stage.id : null)}
+              >
+              {/* Stage header - clickable to expand/collapse */}
+              <CollapsibleTrigger asChild>
+                <button
+                  type="button"
+                  aria-expanded={openStageId === stage.id}
+                  className="w-full flex items-start gap-4 mb-1 text-left rounded-xl -mx-1 px-1 py-1 hover:bg-white/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  <div className={`w-12 h-12 rounded-xl ${stage.iconColor} flex items-center justify-center shrink-0`}>
+                    <StageIcon className="w-6 h-6" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-lg md:text-xl font-bold text-slate-900 mb-1">
+                      {t(stage.titleVi, stage.title)}
+                    </h3>
+                    <p className="text-sm text-slate-600 mb-2">
+                      {t(stage.subtitleVi, stage.subtitle)}
+                    </p>
+                    {!isEmpty && (
+                      <div className="flex items-center gap-3">
+                        <div className="flex-1 max-w-xs h-2 rounded-full bg-white/70 overflow-hidden border border-slate-200">
+                          <div
+                            className="h-full bg-gradient-to-r from-emerald-400 to-teal-500 transition-all"
+                            style={{ width: `${progress}%` }}
+                          />
+                        </div>
+                        <span className="text-xs text-slate-600 font-semibold tabular-nums">
+                          {stage.completedCount}/{total} {t("bài", "lessons")}
+                        </span>
                       </div>
-                      <span className="text-xs text-slate-600 font-semibold tabular-nums">
-                        {stage.completedCount}/{total} {t("bài", "lessons")}
-                      </span>
-                    </div>
-                  )}
-                </div>
-              </div>
+                    )}
+                  </div>
+                  <ChevronDown
+                    className={`w-5 h-5 text-slate-500 shrink-0 mt-1.5 transition-transform duration-200 ${
+                      openStageId === stage.id ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+              </CollapsibleTrigger>
+
+              <CollapsibleContent>
+              <div className="pt-4">
 
               {/* Lesson list - numbered */}
               {isEmpty ? (
@@ -243,6 +276,9 @@ const ToeicRoadmap = ({ completedSet }: ToeicRoadmapProps) => {
                   })}
                 </div>
               )}
+              </div>
+              </CollapsibleContent>
+              </Collapsible>
             </motion.div>
           );
         })}
