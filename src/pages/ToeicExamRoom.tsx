@@ -721,30 +721,67 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
   const [writings, setWritings] = useState<Record<string, string>>({});
   const [recording, setRecording] = useState(false);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const activeRecordingTaskRef = useRef<string | null>(null);
+  const recordingUrlsRef = useRef<Set<string>>(new Set());
   const chunksRef = useRef<Blob[]>([]);
 
   // Per-task timer
-  const [timeLeft, setTimeLeft] = useState(current?.responseSeconds ?? 0);
+  const [phase, setPhase] = useState<"prep" | "response">(current?.prepSeconds ? "prep" : "response");
+  const [timeLeft, setTimeLeft] = useState(current?.prepSeconds || current?.responseSeconds || 0);
   useEffect(() => {
-    setTimeLeft(current?.responseSeconds ?? 0);
+    setPhase(current?.prepSeconds ? "prep" : "response");
+    setTimeLeft(current?.prepSeconds || current?.responseSeconds || 0);
   }, [current]);
   useEffect(() => {
-    if (!current) return;
-    const id = setInterval(() => setTimeLeft((s) => Math.max(0, s - 1)), 1000);
+    if (!current || (phase === "response" && timeLeft === 0)) return;
+    const id = setTimeout(() => {
+      if (timeLeft <= 1 && phase === "prep") {
+        setPhase("response");
+        setTimeLeft(current.responseSeconds);
+      } else {
+        setTimeLeft((s) => Math.max(0, s - 1));
+      }
+    }, 1000);
     return () => clearInterval(id);
-  }, [current]);
+  }, [current, phase, timeLeft]);
+
+  useEffect(() => {
+    if (phase === "response" && timeLeft === 0 && recording && mediaRecorderRef.current?.state === "recording") {
+      mediaRecorderRef.current.stop();
+      setRecording(false);
+    }
+  }, [phase, timeLeft, recording]);
+
+  useEffect(() => () => {
+    if (mediaRecorderRef.current?.state === "recording") mediaRecorderRef.current.stop();
+    recordingUrlsRef.current.forEach((url) => URL.revokeObjectURL(url));
+    recordingUrlsRef.current.clear();
+  }, []);
 
   async function startRecording() {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const mr = new MediaRecorder(stream);
+      const taskId = current.id;
+      activeRecordingTaskRef.current = taskId;
       chunksRef.current = [];
       mr.ondataavailable = (e) => chunksRef.current.push(e.data);
       mr.onstop = () => {
         const blob = new Blob(chunksRef.current, { type: "audio/webm" });
         const url = URL.createObjectURL(blob);
-        setRecordings((r) => ({ ...r, [current.id]: url }));
+        if (recordingUrlsRef.current.size > 0) {
+          const previous = recordingUrlsRef.current;
+          const oldUrl = previous && recordings[taskId];
+          if (oldUrl) { URL.revokeObjectURL(oldUrl); previous.delete(oldUrl); }
+        }
+        recordingUrlsRef.current.add(url);
+        setRecordings((r) => ({ ...r, [taskId]: url }));
+        activeRecordingTaskRef.current = null;
         stream.getTracks().forEach((t) => t.stop());
+      };
+      mr.onerror = () => {
+        stream.getTracks().forEach((t) => t.stop());
+        setRecording(false);
       };
       mediaRecorderRef.current = mr;
       mr.start();
@@ -754,8 +791,13 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
     }
   }
   function stopRecording() {
-    mediaRecorderRef.current?.stop();
+    if (mediaRecorderRef.current?.state === "recording") mediaRecorderRef.current.stop();
     setRecording(false);
+  }
+
+  function navigateTask(next: () => void) {
+    if (recording) stopRecording();
+    next();
   }
 
   function handleFinish() {
