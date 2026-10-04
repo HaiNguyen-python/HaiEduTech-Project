@@ -718,9 +718,14 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
 
   // Per-task storage
   const [recordings, setRecordings] = useState<Record<string, string>>({});
-  const [writings, setWritings] = useState<Record<string, string>>({});
+  const [writings, setWritings] = useState<Record<string, string>>(() => {
+    try { return JSON.parse(localStorage.getItem(`toeic-sw-draft-${exam.id}`) || "{}"); }
+    catch { return {}; }
+  });
   const [recording, setRecording] = useState(false);
+  const [savingRecording, setSavingRecording] = useState(false);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const mountedRef = useRef(true);
   const recordingUrlsRef = useRef<Set<string>>(new Set());
   const latestRecordingUrlsRef = useRef<Record<string, string>>({});
   const chunksRef = useRef<Blob[]>([]);
@@ -752,7 +757,13 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
     }
   }, [phase, timeLeft, recording]);
 
+  useEffect(() => {
+    try { localStorage.setItem(`toeic-sw-draft-${exam.id}`, JSON.stringify(writings)); }
+    catch { /* browser storage may be unavailable */ }
+  }, [exam.id, writings]);
+
   useEffect(() => () => {
+    mountedRef.current = false;
     if (mediaRecorderRef.current?.state === "recording") mediaRecorderRef.current.stop();
     recordingUrlsRef.current.forEach((url) => URL.revokeObjectURL(url));
     recordingUrlsRef.current.clear();
@@ -766,6 +777,7 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
       chunksRef.current = [];
       mr.ondataavailable = (e) => chunksRef.current.push(e.data);
       mr.onstop = () => {
+        if (!mountedRef.current) { stream.getTracks().forEach((t) => t.stop()); return; }
         const blob = new Blob(chunksRef.current, { type: "audio/webm" });
         const url = URL.createObjectURL(blob);
         const oldUrl = latestRecordingUrlsRef.current[taskId];
@@ -773,11 +785,13 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
         latestRecordingUrlsRef.current[taskId] = url;
         recordingUrlsRef.current.add(url);
         setRecordings((r) => ({ ...r, [taskId]: url }));
+        setSavingRecording(false);
         stream.getTracks().forEach((t) => t.stop());
       };
       mr.onerror = () => {
         stream.getTracks().forEach((t) => t.stop());
         setRecording(false);
+        setSavingRecording(false);
       };
       mediaRecorderRef.current = mr;
       mr.start();
@@ -787,7 +801,10 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
     }
   }
   function stopRecording() {
-    if (mediaRecorderRef.current?.state === "recording") mediaRecorderRef.current.stop();
+    if (mediaRecorderRef.current?.state === "recording") {
+      setSavingRecording(true);
+      mediaRecorderRef.current.stop();
+    }
     setRecording(false);
   }
 
@@ -797,7 +814,7 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
   }
 
   function handleFinish() {
-    if (recording) stopRecording();
+    if (recording || savingRecording) return;
     // Mock scoring: 0..200 per skill based on completion ratio
     const sCount = exam.speakingTasks.filter((t) => recordings[t.id]).length;
     const wCount = exam.writingTasks.filter((t) => (writings[t.id]?.length ?? 0) > 50).length;
@@ -851,7 +868,7 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
             <span className="text-xs font-semibold text-muted-foreground">{t(phase === "prep" ? "Chuẩn bị" : "Trả lời", phase === "prep" ? "Prepare" : "Respond")}</span>
             <span className="font-mono text-lg">{fmtTime(timeLeft)}</span>
           </div>
-          <Button size="sm"  onClick={handleFinish}>
+          <Button size="sm" onClick={handleFinish} disabled={recording || savingRecording}>
             {t("Hoàn tất", "Finish")}
           </Button>
         </div>
