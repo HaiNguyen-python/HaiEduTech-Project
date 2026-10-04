@@ -120,6 +120,13 @@
       "when": 1790928719697,
       "tag": "0016_create_course_notices",
       "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1791090289667,
+      "tag": "0017_cache_streak_leaderboard",
+      "breakpoints": true
     }
   ]
 }

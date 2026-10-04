@@ -3236,6 +3236,42 @@ export type Database = {
         }
         Relationships: []
       }
+      streak_leaderboard_cache: {
+        Row: {
+          display_name: string
+          refreshed_at: string
+          streak_days: number
+          user_id: string
+        }
+        Insert: {
+          display_name: string
+          refreshed_at?: string
+          streak_days: number
+          user_id: string
+        }
+        Update: {
+          display_name?: string
+          refreshed_at?: string
+          streak_days?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      streak_leaderboard_meta: {
+        Row: {
+          id: number
+          refreshed_at: string
+        }
+        Insert: {
+          id?: number
+          refreshed_at?: string
+        }
+        Update: {
+          id?: number
+          refreshed_at?: string
+        }
+        Relationships: []
+      }
       student_activity_log: {
         Row: {
           activity_id: string | null
