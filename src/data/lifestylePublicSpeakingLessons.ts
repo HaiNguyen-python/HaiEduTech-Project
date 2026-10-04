@@ -4,8 +4,9 @@
  * Presentation Studio for measured rehearsal.
  */
 import type { LifestyleLesson } from "./lifestyleAcademyLessons";
+import { PUBLIC_SPEAKING_DEPTH } from "./lifestylePublicSpeakingDepth";
 
-export const LIFESTYLE_PUBLIC_SPEAKING_LESSONS: LifestyleLesson[] = [
+const BASE_LESSONS: LifestyleLesson[] = [
   {
     id: "speech-01", pillar: "publicspeaking", level: "foundation", minutes: 9, medium: "practice",
     titleVi: "Cấu trúc bài nói 3 phần", titleEn: "The Three-Part Speech Structure",
@@ -159,3 +160,8 @@ export const LIFESTYLE_PUBLIC_SPEAKING_LESSONS: LifestyleLesson[] = [
     illustrationEmojis: ["❓", "⏸️", "🧩", "✅"],
   },
 ];
+
+export const LIFESTYLE_PUBLIC_SPEAKING_LESSONS: LifestyleLesson[] = BASE_LESSONS.map((l) => {
+  const d = PUBLIC_SPEAKING_DEPTH[l.id];
+  return d ? { ...l, minutes: l.minutes + 6, whyItMattersVi: l.whyItMattersVi ?? d.whyVi, whyItMattersEn: l.whyItMattersEn ?? d.whyEn, deepDiveVi: l.deepDiveVi ?? d.vi, deepDiveEn: l.deepDiveEn ?? d.en } : l;
+});
