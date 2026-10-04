@@ -31,6 +31,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { TOEIC_LR_EXAMS, TOEIC_SW_EXAMS } from "@/data/toeicExams";
+import IllustratedPageHeader from "@/components/common/IllustratedPageHeader";
 
 interface ScoreEntry {
   date: string; // YYYY-MM-DD
@@ -76,11 +77,7 @@ const ToeicExams = () => {
       <Navbar />
 
       <main className="container mx-auto px-4 py-10 lg:py-14 max-w-6xl">
-        <motion.header
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-10"
-        >
+        <IllustratedPageHeader variant="toeic" className="text-center mb-10">
           <Badge className="bg-primary/10 text-primary border-primary/20 mb-3">
             <GraduationCap className="w-3.5 h-3.5 mr-1" />
             {t("Phòng thi TOEIC", "TOEIC Exam Center")}
@@ -94,7 +91,7 @@ const ToeicExams = () => {
               "Listening, Reading, Speaking & Writing - official ETS format with timer, audio speed control, voice recorder and 990-scale score conversion."
             )}
           </p>
-        </motion.header>
+        </IllustratedPageHeader>
 
         {/* Section A - Listening & Reading */}
         <section className="mb-12">
