@@ -3,10 +3,15 @@
  * @description Lộ trình TOEIC 4 chặng từ Foundation 450+ → Advanced 900+.
  * Hiển thị các bài học theo thứ tự dễ → khó với số thứ tự, tiến độ, và CTA "Bắt đầu từ đây".
  */
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { CheckCircle2, Lock, PlayCircle, Sparkles, Trophy, Target, Rocket, Crown } from "lucide-react";
+import { CheckCircle2, Lock, PlayCircle, Sparkles, Trophy, Target, Rocket, Crown, ChevronDown } from "lucide-react";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import { allToeicLectures, type ToeicLecture } from "@/data/toeicLecturesData";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -100,6 +105,16 @@ const ToeicRoadmap = ({ completedSet }: ToeicRoadmapProps) => {
     }
     return null;
   }, [stagesWithLessons, completedSet]);
+
+  // Stage that contains the "start here" lesson — opened by default.
+  const startHereStageId = useMemo(() => {
+    if (!startHereLesson) return "stage-1";
+    const stage = stagesWithLessons.find((s) => s.lessons.some((l) => l.id === startHereLesson.id));
+    return stage?.id ?? "stage-1";
+  }, [stagesWithLessons, startHereLesson]);
+
+  const [userOpenStage, setUserOpenStage] = useState<string | null>(null);
+  const openStageId = userOpenStage ?? startHereStageId;
 
   return (
     <section className="container mx-auto px-4 py-8" aria-labelledby="toeic-roadmap-heading">
