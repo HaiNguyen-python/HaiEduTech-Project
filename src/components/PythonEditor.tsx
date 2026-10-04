@@ -24,6 +24,13 @@ declare global {
 
 const STORAGE_KEY = (id: string) => `haiedu_challenge_${id}`;
 
+/** Drop the runner harness (result = solve() / if result is not None: print) from the shown answer. */
+const stripHarness = (s: string) => {
+  const lines = s.replace(/\r\n/g, "\n").split("\n");
+  const cut = lines.indexOf("result = solve()");
+  return (cut >= 0 ? lines.slice(0, cut) : lines).join("\n").replace(/\n+$/, "");
+};
+
 /** Compare outputs line by line, ignoring trailing spaces and CRLF noise. */
 const normalize = (s: string) =>
   s
@@ -303,7 +310,6 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
             </button>
           </div>
         )}
-      </div>
 
       {/* Hints */}
       {showHints && (
@@ -330,7 +336,7 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
             </button>
           </div>
           <pre className="p-4 bg-[#1e1e1e] text-green-400 text-sm font-mono whitespace-pre-wrap break-words overflow-x-auto">
-            {challenge.solution}
+            {stripHarness(challenge.solution)}
           </pre>
         </div>
       )}
