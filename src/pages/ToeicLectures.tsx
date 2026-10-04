@@ -19,6 +19,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useToeicLectureProgress } from "@/hooks/useToeicLectureProgress";
 import { allToeicLectures, type ToeicLecture } from "@/data/toeicLecturesData";
 import ToeicRoadmap from "@/components/toeic/ToeicRoadmap";
+import toeicHeaderBg from "@/assets/headers/toeic-header-bg.jpg";
 
 // Category filter configuration
 const CATEGORY_FILTERS = [
@@ -126,7 +127,8 @@ const ToeicLectures = () => {
         </div>
         {/* Hero Section - Bright Corporate Glass */}
         <section className="relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-sky-100/80 via-white/60 to-blue-100/80 rounded-3xl mx-4 border-2 border-white/80 shadow-xl shadow-sky-200/50" />
+          <img src={toeicHeaderBg} alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover" />
+          <div className="absolute inset-0 bg-background/80 backdrop-blur-[1px] dark:bg-background/85" />
           {/* Shimmer overlay */}
           <motion.div
             initial={{ x: "-100%" }}
@@ -144,10 +146,10 @@ const ToeicLectures = () => {
                   TOEIC Masterclass
                 </Badge>
               </div>
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-4 leading-tight bg-gradient-to-r from-slate-900 via-sky-800 to-blue-700 bg-clip-text text-transparent">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-4 leading-tight text-foreground">
                 {t("TOEIC Lectures for Skills", "TOEIC Lectures for Skills")}
               </h1>
-              <p className="text-lg text-slate-600 mb-6 leading-relaxed" style={{ fontSize: "20px", lineHeight: "1.8" }}>
+              <p className="text-lg text-foreground mb-6 leading-relaxed" style={{ fontSize: "20px", lineHeight: "1.8" }}>
                 {t(
                   "Chiến lược làm bài Part 1-7, mẹo tốc độ và từ vựng kinh doanh - tất cả trong một nơi.",
                   "Part 1-7 strategies, speed hacks, and business vocabulary - all in one place."

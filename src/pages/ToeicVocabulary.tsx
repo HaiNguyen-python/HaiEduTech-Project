@@ -31,6 +31,7 @@ import DailyWordMission from "@/components/vocab/DailyWordMission";
 import { countDue, loadSrs } from "@/lib/vocab/srsEngine";
 import { toeicToQuest } from "@/lib/vocab/vocabAdapter";
 import { Sparkles, Target } from "lucide-react";
+import IllustratedPageHeader from "@/components/common/IllustratedPageHeader";
 
 const WORDS_PER_PAGE = 24;
 
@@ -725,17 +726,17 @@ const ToeicVocabulary = () => {
             <ArrowLeft className="w-4 h-4" />
             {t("Chương trình Tiếng Anh", "English Program")}
           </Link>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <h1 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-3">
-              📊 TOEIC Essential <span className="text-blue-600 dark:text-blue-400">Vocabulary</span>
+          <IllustratedPageHeader variant="toeic">
+            <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-3">
+              📊 TOEIC Essential <span className="text-primary">Vocabulary</span>
             </h1>
-            <p className="text-slate-700 dark:text-slate-400 text-lg max-w-3xl">
+            <p className="text-foreground text-lg max-w-3xl">
               {t(
                 "500+ từ vựng thiết yếu cho kỳ thi TOEIC, được phân loại theo 10 chủ đề doanh nghiệp. Bao gồm phiên âm IPA, từ đồng nghĩa, cụm từ đi kèm và ví dụ thực tế.",
                 "500+ essential business vocabulary for the TOEIC exam, organized by 10 professional categories. Includes IPA pronunciation, synonyms, collocations, and real-world examples."
               )}
             </p>
-          </motion.div>
+          </IllustratedPageHeader>
         </div>
 
         {/* TOEIC Career Climber – business-themed motivation */}
