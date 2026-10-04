@@ -17,6 +17,7 @@ import Footer from "@/components/Footer";
 import FloatingKidsDecor from "@/components/FloatingKidsDecor";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { motion } from "framer-motion";
+import cambridgeHeaderBg from "@/assets/course-cambridge.jpg";
 
 const CambridgeYleTestPrep = () => {
   const { t } = useLanguage();
@@ -32,7 +33,8 @@ const CambridgeYleTestPrep = () => {
       <main className="pt-20 pb-10 relative z-10">
         {/* Hero */}
         <section className="relative overflow-hidden">
-          <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, #FFE9F0 0%, #FFFAE6 35%, #E9F5FF 70%, #EDFFEA 100%)" }} />
+          <img src={cambridgeHeaderBg} alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover" />
+          <div className="absolute inset-0 bg-background/85 backdrop-blur-[1px]" />
           <div className="relative container mx-auto px-4 py-8 md:py-12">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-3xl">
               <div className="flex items-center gap-3 mb-4">
@@ -43,15 +45,7 @@ const CambridgeYleTestPrep = () => {
                   🎯 Cambridge YLE
                 </span>
               </div>
-              <h1
-                className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-4 leading-tight"
-                style={{
-                  background: "linear-gradient(135deg, #FF6B9D 0%, #FF9F1C 35%, #6BCB77 70%, #4D96FF 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
-              >
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-4 leading-tight text-foreground">
                 {t("Cambridge YLE Test Prep 🏆", "Cambridge YLE Test Prep 🏆")}
               </h1>
               <p className="text-slate-700 font-medium" style={{ fontSize: "18px", lineHeight: "1.6" }}>
