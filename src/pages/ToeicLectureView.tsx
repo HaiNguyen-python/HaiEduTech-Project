@@ -17,6 +17,7 @@ import { allToeicLectures } from "@/data/toeicLecturesData";
 import { toeicLessonGuides } from "@/data/toeicLessonGuides";
 import ToeicLectureDiagram from "@/components/toeic/ToeicLectureDiagram";
 import ToeicPracticeIllustration from "@/components/toeic/ToeicPracticeIllustration";
+import toeicHeaderBg from "@/assets/headers/toeic-header-bg.jpg";
 
 const LEVEL_LABELS: Record<string, { label: string; labelVi: string }> = {
   foundation: { label: "Foundation", labelVi: "Nền tảng" },
@@ -113,6 +114,7 @@ const ToeicLectureView = () => {
       <main className="pt-24 pb-16">
         {/* Header */}
         <section className="relative overflow-hidden">
+          <img src={toeicHeaderBg} alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-br from-blue-950/80 via-slate-900/60 to-indigo-950/80" />
           <div className="relative container mx-auto px-4 py-10">
             {/* Breadcrumb */}
