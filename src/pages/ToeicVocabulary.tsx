@@ -26,6 +26,11 @@ import WeeklyVocabAchievers from "@/components/WeeklyVocabAchievers";
 import ToeicMountainClimber from "@/components/ToeicMountainClimber";
 import { useMasteredMotivation } from "@/hooks/useMasteredMotivation";
 import { SimpleVocabDeck } from "@/components/vocab/StandardVocabDeck";
+import WordQuest from "@/components/vocab/WordQuest";
+import DailyWordMission from "@/components/vocab/DailyWordMission";
+import { countDue, loadSrs } from "@/lib/vocab/srsEngine";
+import { toeicToQuest } from "@/lib/vocab/vocabAdapter";
+import { Sparkles, Target } from "lucide-react";
 
 const WORDS_PER_PAGE = 24;
 
@@ -587,13 +592,23 @@ const VocabExercise = ({ words, t }: { words: ToeicWord[]; t: (vi: string, en: s
 // ── Main Page Component ──
 const ToeicVocabulary = () => {
   const { t } = useLanguage();
-  const [mode, setMode] = useState<"list" | "flashcard" | "exercise">("list");
+  const [mode, setMode] = useState<"list" | "flashcard" | "exercise" | "quest" | "mission">("list");
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
   const [activeLevel, setActiveLevel] = useState("All");
   const [sortBy, setSortBy] = useState<SortKey>("default");
   const [page, setPage] = useState(1);
   const { mastered, toggle: toggleMastered } = useMasteredVocab("toeic");
+  const [dueToday, setDueToday] = useState(() => countDue(loadSrs("toeic")));
+  useEffect(() => {
+    const refresh = () => setDueToday(countDue(loadSrs("toeic")));
+    const interval = window.setInterval(refresh, 5000);
+    return () => window.clearInterval(interval);
+  }, []);
+  const questWords = useMemo(() => toeicVocabData.map(toeicToQuest), []);
+  const markLearned = useCallback((word: string) => {
+    if (!mastered.has(word)) toggleMastered(word);
+  }, [mastered, toggleMastered]);
 
   // Flying stars animation: when user marks a word mastered, a star flies from the
   // star button toward the chibi climber, "feeding" it points.
@@ -733,13 +748,20 @@ const ToeicVocabulary = () => {
 
         {/* Mode Tabs */}
         <div className="flex flex-wrap items-center gap-3 mb-6">
-          <Tabs value={mode} onValueChange={(v) => setMode(v as any)}>
-            <TabsList className="bg-white dark:bg-[#1E293B]/80 border border-sky-200 dark:border-slate-700/50 shadow-sm">
+          <Tabs value={mode} onValueChange={(v) => setMode(v as typeof mode)}>
+            <TabsList className="flex h-auto flex-wrap bg-card border border-border shadow-sm">
               <TabsTrigger value="list" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white text-slate-600 dark:text-slate-400 gap-2 text-base">
                 <List className="w-4 h-4" /> {t("Từ vựng", "Vocabulary")}
               </TabsTrigger>
               <TabsTrigger value="flashcard" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white text-slate-600 dark:text-slate-400 gap-2 text-base">
                 <Layers className="w-4 h-4" /> Flashcard
+              </TabsTrigger>
+              <TabsTrigger value="quest" className="gap-2 text-base data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                <Sparkles className="w-4 h-4" /> Word Quest
+              </TabsTrigger>
+              <TabsTrigger value="mission" className="gap-2 text-base data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                <Target className="w-4 h-4" /> {t("Nhiệm vụ", "Daily Mission")}
+                {dueToday > 0 && <span className="rounded-full bg-accent px-1.5 text-xs text-accent-foreground">{dueToday}</span>}
               </TabsTrigger>
               <TabsTrigger value="exercise" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white text-slate-600 dark:text-slate-400 gap-2 text-base">
                 <BookOpen className="w-4 h-4" /> {t("Luyện tập", "Practice")}
@@ -752,7 +774,7 @@ const ToeicVocabulary = () => {
         </div>
 
         {/* Filters */}
-        {mode !== "exercise" && (
+        {(mode === "list" || mode === "flashcard" || mode === "quest" || mode === "mission") && (
           <div className="space-y-3 mb-8">
             {/* Search */}
             <div className="relative max-w-md">
@@ -1003,6 +1025,29 @@ const ToeicVocabulary = () => {
             </motion.div>
           )}
         </AnimatePresence>
+        {/* Keep both learning sessions mounted while switching between tabs. */}
+        <div className={mode === "quest" ? "" : "hidden"}>
+          <WordQuest
+            words={filtered.map(toeicToQuest)}
+            allWords={questWords}
+            t={t}
+            subject="toeic"
+            storageKey="toeic_word_quest_v1"
+            speechLang="en-US"
+            knownKeys={mastered}
+            onWordLearned={markLearned}
+          />
+        </div>
+        <div className={mode === "mission" ? "" : "hidden"}>
+          <DailyWordMission
+            bank={filtered.map(toeicToQuest)}
+            allWords={questWords}
+            t={t}
+            subject="toeic"
+            speechLang="en-US"
+            onWordMastered={markLearned}
+          />
+        </div>
         </div>
         <div className="hidden lg:block w-72 flex-shrink-0 self-start space-y-4">
           <VocabMasteryLeaderboard subject="toeic" currentCount={mastered.size} />

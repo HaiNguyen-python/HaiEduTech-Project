@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import chibiBoy from "@/assets/chibi-boy-study.png";
 import chibiGirl from "@/assets/chibi-girl-study.png";
+import IllustratedPageHeader from "@/components/common/IllustratedPageHeader";
 
 const ToeicHub = () => {
   const { t } = useLanguage();
@@ -82,24 +83,20 @@ const ToeicHub = () => {
       <Navbar />
 
       <main className="container mx-auto px-4 py-10 lg:py-16">
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-10 lg:mb-14"
-        >
+        <IllustratedPageHeader variant="toeic" className="mb-10 lg:mb-14 text-center">
           <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 ring-1 ring-slate-200 mb-4">
             {t("Trung tâm TOEIC", "TOEIC Center")}
           </span>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground">
             TOEIC
           </h1>
-          <p className="mt-4 text-base md:text-lg text-slate-600 max-w-2xl mx-auto">
+          <p className="mt-4 text-base md:text-lg text-foreground max-w-2xl mx-auto">
             {t(
               "Tất cả bài giảng và từ vựng TOEIC gói gọn trong một trang truy cập nhanh.",
               "All TOEIC lectures and vocabulary in one quick-access hub."
             )}
           </p>
-        </motion.div>
+        </IllustratedPageHeader>
 
         <div className="max-w-6xl mx-auto mb-8">
           <Link

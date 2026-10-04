@@ -14,6 +14,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { allToeicLectures } from "@/data/toeicLecturesData";
+import { toeicLessonGuides } from "@/data/toeicLessonGuides";
 import ToeicLectureDiagram from "@/components/toeic/ToeicLectureDiagram";
 import ToeicPracticeIllustration from "@/components/toeic/ToeicPracticeIllustration";
 
@@ -101,6 +102,10 @@ const ToeicLectureView = () => {
   };
 
   const levelInfo = LEVEL_LABELS[lecture.level];
+  const lessonGuides = [...new Set(lecture.parts)].flatMap(part => {
+    const guide = toeicLessonGuides[part];
+    return guide ? [{ part, guide }] : [];
+  });
 
   return (
     <div className="min-h-screen bg-background">
@@ -200,6 +205,20 @@ const ToeicLectureView = () => {
               {/* === SVG diagram minh họa (nếu có) === */}
               <ToeicLectureDiagram lectureId={lecture.id} />
 
+              {lessonGuides.map(({ part, guide }) => (
+                <section key={part} className="border-l-4 border-primary bg-secondary/60 px-5 py-5 sm:px-7">
+                  <h3 className="mb-4 text-lg font-bold text-foreground">{part} · {t("Cách áp dụng trong bài thi", "How to apply it on test day")}</h3>
+                  <ol className="space-y-4 text-base leading-relaxed text-foreground">
+                    {guide.en.map((paragraph, index) => (
+                      <li key={index} className="flex gap-3">
+                        <span className="font-bold text-primary">{index + 1}.</span>
+                        <span>{t(guide.vi[index], paragraph)}</span>
+                      </li>
+                    ))}
+                  </ol>
+                </section>
+              ))}
+
               {lecture.coreTechnique.map((step, i) => (
                 <motion.div key={i} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}
                   className="rounded-xl border border-blue-500/30 bg-white dark:bg-white/5 p-5 shadow-sm">
@@ -223,6 +242,23 @@ const ToeicLectureView = () => {
                   </div>
                 </motion.div>
               ))}
+
+              {lecture.practiceSet[0] && (
+                <section className="border-l-4 border-accent bg-secondary/60 px-5 py-5 sm:px-7">
+                  <h3 className="mb-3 text-lg font-bold text-foreground">{t("Ví dụ giải chi tiết", "Worked example")}</h3>
+                  <p className="mb-2 text-sm text-muted-foreground">{t(lecture.practiceSet[0].contextVi, lecture.practiceSet[0].context)}</p>
+                  <p className="mb-3 font-semibold text-foreground">{lecture.practiceSet[0].question}</p>
+                  <p className="mb-3 text-foreground">{t("Đáp án mẫu", "Model answer")}: <strong>{lecture.practiceSet[0].options[lecture.practiceSet[0].answer]}</strong></p>
+                  <p className="text-foreground leading-relaxed">{t(lecture.practiceSet[0].explanationVi, lecture.practiceSet[0].explanation)}</p>
+                </section>
+              )}
+
+              <section className="border-t border-border pt-5">
+                <h3 className="mb-3 text-lg font-bold text-foreground">{t("Tự kiểm tra trước khi luyện tập", "Check your understanding before practice")}</h3>
+                <ul className="list-disc space-y-2 pl-6 text-base leading-relaxed text-foreground">
+                  {lecture.cheatSheetPoints.map((point, index) => <li key={index}>{point}</li>)}
+                </ul>
+              </section>
 
               {/* Pro Speed Tip */}
               <div className="rounded-xl border border-amber-500/40 bg-gradient-to-r from-amber-100 to-orange-100 dark:from-amber-500/10 dark:to-orange-500/10 p-5 mt-6">

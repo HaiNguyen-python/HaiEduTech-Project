@@ -34,6 +34,19 @@ export const englishToQuest = (w: IeltsWord): QuestItem => ({
   typeAnswer: w.word,
 });
 
+/** TOEIC business vocabulary uses `wordClass` rather than `partOfSpeech`. */
+export const toeicToQuest = (w: {
+  word: string; ipa: string; level: string; definition: { vi: string; en: string };
+  example: string; category: string; wordClass: string;
+  synonyms: string[]; collocations: string[];
+}): QuestItem => ({
+  ...w,
+  key: w.word,
+  speakText: w.word,
+  typeAnswer: w.word,
+  partOfSpeech: w.wordClass,
+});
+
 /** Vietnamese vocabulary bank (word + meaning + meaningEn). */
 export const vietnameseToQuest = (w: {
   word: string; meaning: string; meaningEn: string; example?: string;
