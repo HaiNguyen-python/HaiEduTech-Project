@@ -53,6 +53,7 @@ const HISTORY_KEY = "toeic-score-history";
 const ToeicExams = () => {
   const { t } = useLanguage();
   const [history, setHistory] = useState<ScoreEntry[]>([]);
+  const [openSection, setOpenSection] = useState<"lr" | "sw">("lr");
 
   useEffect(() => {
     try {
