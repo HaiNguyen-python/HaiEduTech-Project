@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import IllustratedPageHeader from "@/components/common/IllustratedPageHeader";
 import {
   ArrowLeft,
   Network,
@@ -371,7 +372,7 @@ const DsaCurriculum = () => {
           </Link>
 
           {/* Hero */}
-          <section className="text-center mb-12">
+          <IllustratedPageHeader variant="technology" className="text-center mb-12">
             <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-emerald-500 flex items-center justify-center mx-auto mb-4 shadow-lg">
               <Network className="w-8 h-8 text-white" />
             </div>
@@ -403,7 +404,7 @@ const DsaCurriculum = () => {
                 💪 {"Practice Bank"}
               </a>
             </div>
-          </section>
+          </IllustratedPageHeader>
 
           {/* Curriculum sections */}
           <section id="curriculum" className="space-y-10 mb-16 scroll-mt-24">
