@@ -49,6 +49,17 @@ import { logStudentActivity } from "@/hooks/useActivityLogger";
 
 const HISTORY_KEY = "toeic-score-history";
 
+const SW_TASK_TITLES: Record<ToeicSWTask["type"], { vi: string; en: string }> = {
+  "read-aloud": { vi: "Đọc thành tiếng", en: "Read a Text Aloud" },
+  "describe-picture": { vi: "Mô tả tranh", en: "Describe a Picture" },
+  "respond-questions": { vi: "Trả lời câu hỏi", en: "Respond to Questions" },
+  "propose-solution": { vi: "Đề xuất giải pháp", en: "Propose a Solution" },
+  "express-opinion": { vi: "Trình bày quan điểm", en: "Express an Opinion" },
+  "write-sentence-picture": { vi: "Viết câu theo tranh", en: "Write a Sentence Based on a Picture" },
+  "respond-email": { vi: "Trả lời email", en: "Respond to an Email" },
+  "write-essay": { vi: "Viết bài luận", en: "Write an Opinion Essay" },
+};
+
 function fmtTime(sec: number): string {
   const m = Math.floor(sec / 60);
   const s = sec % 60;
@@ -106,7 +117,7 @@ const ToeicExamRoom = () => {
 
   if (!lrExam && !swExam) {
     return (
-      <div className="min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center">
+      <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
         <div className="text-center">
           <p className="text-lg mb-4">{t("Không tìm thấy đề thi.", "Exam not found.")}</p>
           <Button asChild><Link to="/toeic-exams">{t("Quay lại danh sách", "Back to Library")}</Link></Button>
@@ -116,7 +127,7 @@ const ToeicExamRoom = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 text-slate-100">
+    <div className="min-h-screen bg-background text-foreground">
       <SEO title={`${(lrExam || swExam)!.title} - HaiEduTech`} description="TOEIC interactive exam room" />
       <Navbar />
       <main className="container mx-auto px-4 py-6 lg:py-10 max-w-7xl">
@@ -351,7 +362,7 @@ const LRExamRunner = ({ exam, mode }: LRRunnerProps) => {
       if ("speechSynthesis" in window) window.speechSynthesis.cancel();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [current?.id, submitted, paused, speed]);
+  }, [current?.passageGroupId || current?.id, submitted, paused, speed]);
 
   // Group by part for navigator
   const partGroups = useMemo(() => {
@@ -371,20 +382,20 @@ const LRExamRunner = ({ exam, mode }: LRRunnerProps) => {
     <div>
       <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
         <div>
-          <Link to="/toeic-exams" className="text-xs text-cyan-300 hover:underline inline-flex items-center gap-1">
+          <Link to="/toeic-exams" className="text-xs text-primary hover:underline inline-flex items-center gap-1">
             <ArrowLeft className="w-3 h-3" /> {t("Danh sách đề", "Back to library")}
           </Link>
           <h1 className="text-xl md:text-2xl font-bold mt-1">{exam.title}</h1>
         </div>
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700">
-            <Clock className="w-4 h-4 text-cyan-300" />
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-card border border-border">
+            <Clock className="w-4 h-4 text-primary" />
             <span className="font-mono text-lg">{fmtTime(timeLeft)}</span>
           </div>
-          <Button size="sm" variant="outline" onClick={() => setPaused((p) => !p)} className="border-slate-600">
+          <Button size="sm" variant="outline" onClick={() => setPaused((p) => !p)} className="border-border">
             {paused ? <Play className="w-4 h-4" /> : <Pause className="w-4 h-4" />}
           </Button>
-          <Button size="sm" className="bg-emerald-600 hover:bg-emerald-500" onClick={handleSubmit}>
+          <Button size="sm"  onClick={handleSubmit}>
             {t("Nộp bài", "Submit")}
           </Button>
         </div>
@@ -398,7 +409,7 @@ const LRExamRunner = ({ exam, mode }: LRRunnerProps) => {
               key={p}
               size="sm"
               variant={selectedPart === p ? "default" : "outline"}
-              className={selectedPart === p ? "bg-cyan-600 hover:bg-cyan-500" : "border-slate-600 text-slate-200"}
+              className={selectedPart === p ? "" : "border-border text-foreground"}
               onClick={() => setSelectedPart(p as ToeicPart)}
             >
               Part {p}
@@ -411,22 +422,22 @@ const LRExamRunner = ({ exam, mode }: LRRunnerProps) => {
         {/* Question pane */}
         <div>
           {current ? (
-            <Card className="bg-slate-900/60 border-slate-700 p-5">
+            <Card className="bg-card border-border p-5">
               <div className="flex items-center justify-between mb-3">
-                <Badge className="bg-blue-500/20 text-blue-200 border-blue-400/30">
+                <Badge className="bg-primary/10 text-primary border-primary/20">
                   {PART_LABELS[current.part]}
                 </Badge>
-                <span className="text-xs text-slate-400">
+                <span className="text-xs text-muted-foreground">
                   Q {activeIdx + 1} / {questions.length}
                 </span>
               </div>
 
               {/* Listening audio mock player */}
               {current.part <= 4 && (
-                <div className="mb-4 p-3 rounded-lg bg-slate-950/60 border border-slate-700">
+                <div className="mb-4 p-3 rounded-lg bg-muted/50 border border-border">
                   <div className="flex items-center gap-3 flex-wrap">
-                    <Volume2 className="w-4 h-4 text-cyan-300" />
-                    <span className="text-xs text-slate-300">
+                    <Volume2 className="w-4 h-4 text-primary" />
+                    <span className="text-xs text-foreground">
                       {current.part === 1
                         ? t("Audio TOEIC - Nhìn ảnh & nghe 4 câu mô tả (A-D)", "TOEIC Audio - Look at the photo & listen to 4 statements (A-D)")
                         : current.part === 2
@@ -439,19 +450,19 @@ const LRExamRunner = ({ exam, mode }: LRRunnerProps) => {
                           key={s}
                           onClick={() => setSpeed(s)}
                           className={`px-2 py-1 rounded text-xs font-mono ${
-                            speed === s ? "bg-cyan-600 text-white" : "bg-slate-800 text-slate-300"
+                            speed === s ? "bg-primary text-primary-foreground" : "bg-muted text-foreground"
                           }`}
                         >
                           {s}x
                         </button>
                       ))}
                     </div>
-                    <label className="ml-auto flex items-center gap-1 text-xs text-slate-300">
+                    <label className="ml-auto flex items-center gap-1 text-xs text-foreground">
                       <input
                         type="checkbox"
                         checked={autoNext}
                         onChange={(e) => setAutoNext(e.target.checked)}
-                        className="accent-cyan-500"
+                        className="accent-primary"
                       />
                       Auto-next
                     </label>
@@ -459,7 +470,7 @@ const LRExamRunner = ({ exam, mode }: LRRunnerProps) => {
                   {current.audioSrc ? (
                     <audio controls autoPlay src={current.audioSrc} className="mt-2 w-full" />
                   ) : (
-                    <Button size="sm" className="mt-2 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-semibold shadow-md" onClick={() => playGeneratedAudio(current)}>
+                    <Button size="sm" className="mt-2 font-semibold shadow-md" onClick={() => playGeneratedAudio(current)}>
                       <Play className="w-4 h-4 mr-1" /> {t("Phát lại audio", "Replay audio")}
                     </Button>
                   )}
@@ -472,7 +483,7 @@ const LRExamRunner = ({ exam, mode }: LRRunnerProps) => {
                   alt="TOEIC Part 1 workplace photograph"
                   width={832}
                   height={544}
-                  className="mb-4 w-full max-h-96 object-contain rounded-lg border border-slate-700 bg-slate-950/60"
+                  className="mb-4 w-full max-h-96 object-contain rounded-lg border border-border bg-muted/50"
                   loading="lazy"
                 />
               )}
@@ -481,22 +492,22 @@ const LRExamRunner = ({ exam, mode }: LRRunnerProps) => {
               {(current.part === 6 || current.part === 7) && (() => {
                 const passage = resolvePassage(current, exam.questions);
                 return passage ? (
-                  <div className="mb-4 p-3 rounded-lg bg-slate-950/60 border border-slate-700 whitespace-pre-wrap text-sm leading-relaxed text-slate-200 max-h-72 overflow-auto">
+                  <div className="mb-4 p-3 rounded-lg bg-muted/50 border border-border whitespace-pre-wrap text-sm leading-relaxed text-foreground max-h-72 overflow-auto">
                     {passage}
                   </div>
                 ) : null;
               })()}
 
               {current.part === 1 ? (
-                <p className="text-xs italic text-slate-400 mb-3">
+                <p className="text-xs italic text-muted-foreground mb-3">
                   {t("Hướng dẫn: Nhìn ảnh và chọn câu mô tả đúng nhất (chỉ nghe audio, không có chữ).", "Directions: Look at the photo and choose the statement that best describes it (audio only, no text).")}
                 </p>
               ) : current.part === 2 ? (
-                <p className="text-xs italic text-slate-400 mb-3">
+                <p className="text-xs italic text-muted-foreground mb-3">
                   {t("Hướng dẫn: Nghe câu hỏi và 3 đáp án rồi chọn A, B hoặc C.", "Directions: Listen to the question and three responses, then choose A, B, or C.")}
                 </p>
               ) : (
-                <p className="text-base font-medium mb-4 text-slate-100 leading-relaxed">{current.prompt}</p>
+                <p className="text-base font-medium mb-4 text-foreground leading-relaxed">{current.prompt}</p>
               )}
 
               <div className="space-y-2">
@@ -508,11 +519,11 @@ const LRExamRunner = ({ exam, mode }: LRRunnerProps) => {
                       onClick={() => selectAnswer(current.id, i)}
                       className={`w-full text-left px-4 py-3 rounded-lg border transition ${
                         selected
-                          ? "bg-cyan-500/20 border-cyan-400 text-white"
-                          : "bg-slate-950/40 border-slate-700 hover:border-slate-500 text-slate-200"
+                          ? "bg-primary/15 border-primary text-foreground"
+                          : "bg-background border-border hover:border-primary/50 text-foreground"
                       }`}
                     >
-                      <span className="font-mono text-xs text-cyan-300 mr-2">{String.fromCharCode(65 + i)}.</span>
+                      <span className="font-mono text-xs text-primary mr-2">{String.fromCharCode(65 + i)}.</span>
                       {current.part !== 1 && current.part !== 2 && opt}
                     </button>
                   );
@@ -523,7 +534,7 @@ const LRExamRunner = ({ exam, mode }: LRRunnerProps) => {
                 <Button
                   size="sm"
                   variant="outline"
-                  className="border-cyan-400/60 bg-slate-800/80 text-white font-semibold hover:bg-cyan-500/20 hover:text-white disabled:opacity-60"
+                  className="border-primary/50 bg-background text-primary font-semibold hover:bg-primary/10 hover:text-primary disabled:opacity-60"
                   disabled={activeIdx === 0}
                   onClick={() => setActiveIdx((i) => Math.max(0, i - 1))}
                 >
@@ -531,7 +542,7 @@ const LRExamRunner = ({ exam, mode }: LRRunnerProps) => {
                 </Button>
                 <Button
                   size="sm"
-                  className="bg-cyan-600 hover:bg-cyan-500"
+                  
                   disabled={activeIdx >= questions.length - 1}
                   onClick={() => setActiveIdx((i) => Math.min(questions.length - 1, i + 1))}
                 >
@@ -540,7 +551,7 @@ const LRExamRunner = ({ exam, mode }: LRRunnerProps) => {
               </div>
             </Card>
           ) : (
-            <Card className="bg-slate-900/60 border-slate-700 p-5 text-slate-400">
+            <Card className="bg-card border-border p-5 text-muted-foreground">
               {t("Không có câu hỏi cho phần này.", "No questions for this part.")}
             </Card>
           )}
@@ -548,15 +559,15 @@ const LRExamRunner = ({ exam, mode }: LRRunnerProps) => {
 
         {/* Navigator sidebar */}
         <aside className="space-y-3 lg:sticky lg:top-20 self-start">
-          <Card className="bg-slate-900/60 border-slate-700 p-4">
+          <Card className="bg-card border-border p-4">
             <div className="flex items-center gap-2 mb-3">
-              <ListChecks className="w-4 h-4 text-cyan-300" />
+              <ListChecks className="w-4 h-4 text-primary" />
               <h3 className="text-sm font-semibold">{t("Điều hướng câu hỏi", "Question Navigator")}</h3>
             </div>
             <div className="space-y-3 max-h-[60vh] overflow-auto pr-1">
               {partGroups.map(([part, qs]) => (
                 <div key={part}>
-                  <div className="text-[11px] font-semibold text-slate-400 mb-1">Part {part}</div>
+                  <div className="text-[11px] font-semibold text-muted-foreground mb-1">Part {part}</div>
                   <div className="grid grid-cols-6 gap-1">
                     {qs.map((q) => {
                       const globalIdx = questions.findIndex((x) => x.id === q.id);
@@ -568,10 +579,10 @@ const LRExamRunner = ({ exam, mode }: LRRunnerProps) => {
                           onClick={() => setActiveIdx(globalIdx)}
                           className={`aspect-square rounded text-[11px] font-mono ${
                             active
-                              ? "bg-cyan-500 text-white"
+                              ? "bg-primary text-primary-foreground"
                               : answered
-                                ? "bg-cyan-500/30 text-cyan-100"
-                                : "bg-slate-800 text-slate-400 hover:bg-slate-700"
+                                ? "bg-primary/20 text-foreground"
+                                : "bg-muted text-muted-foreground hover:bg-accent"
                           }`}
                         >
                           {globalIdx + 1}
@@ -608,27 +619,27 @@ const LRReview = ({ exam, questions, answers }: LRReviewProps) => {
 
   return (
     <div>
-      <Link to="/toeic-exams" className="text-xs text-cyan-300 hover:underline inline-flex items-center gap-1">
+      <Link to="/toeic-exams" className="text-xs text-primary hover:underline inline-flex items-center gap-1">
         <ArrowLeft className="w-3 h-3" /> {t("Danh sách đề", "Back to library")}
       </Link>
 
-      <Card className="mt-3 mb-6 bg-gradient-to-r from-cyan-600/20 to-blue-600/20 border-cyan-500/40 p-6">
-        <h1 className="text-2xl font-bold text-white">{exam.title} - {t("Kết quả", "Results")}</h1>
+      <Card className="mt-3 mb-6 bg-primary/5 border-primary/20 p-6">
+        <h1 className="text-2xl font-bold text-foreground">{exam.title} - {t("Kết quả", "Results")}</h1>
         <div className="grid sm:grid-cols-3 gap-4 mt-4">
-          <div className="p-4 rounded-lg bg-slate-900/60 border border-slate-700">
-            <p className="text-xs text-slate-400">Listening (5–495)</p>
-            <p className="text-3xl font-bold text-cyan-300">{lScore}</p>
-            <p className="text-xs text-slate-400 mt-1">{lc}/{listeningQs.length} {t("đúng", "correct")}</p>
+          <div className="p-4 rounded-lg bg-card border border-border">
+            <p className="text-xs text-muted-foreground">Listening (5–495)</p>
+            <p className="text-3xl font-bold text-primary">{lScore}</p>
+            <p className="text-xs text-muted-foreground mt-1">{lc}/{listeningQs.length} {t("đúng", "correct")}</p>
           </div>
-          <div className="p-4 rounded-lg bg-slate-900/60 border border-slate-700">
-            <p className="text-xs text-slate-400">Reading (5–495)</p>
-            <p className="text-3xl font-bold text-teal-300">{rScore}</p>
-            <p className="text-xs text-slate-400 mt-1">{rc}/{readingQs.length} {t("đúng", "correct")}</p>
+          <div className="p-4 rounded-lg bg-card border border-border">
+            <p className="text-xs text-muted-foreground">Reading (5–495)</p>
+            <p className="text-3xl font-bold text-primary">{rScore}</p>
+            <p className="text-xs text-muted-foreground mt-1">{rc}/{readingQs.length} {t("đúng", "correct")}</p>
           </div>
-          <div className="p-4 rounded-lg bg-slate-900/60 border border-slate-700">
-            <p className="text-xs text-slate-400">{t("Tổng (10–990)", "Total (10–990)")}</p>
-            <p className="text-3xl font-bold text-emerald-300">{lScore + rScore}</p>
-            <p className="text-xs text-slate-400 mt-1">{t("Quy đổi ETS chuẩn", "ETS-style scaling")}</p>
+          <div className="p-4 rounded-lg bg-card border border-border">
+            <p className="text-xs text-muted-foreground">{t("Tổng (10–990)", "Total (10–990)")}</p>
+            <p className="text-3xl font-bold text-primary">{lScore + rScore}</p>
+            <p className="text-xs text-muted-foreground mt-1">{t("Quy đổi ETS chuẩn", "ETS-style scaling")}</p>
           </div>
         </div>
       </Card>
@@ -639,34 +650,34 @@ const LRReview = ({ exam, questions, answers }: LRReviewProps) => {
           const userAns = answers[q.id];
           const correct = userAns === q.answer;
           return (
-            <Card key={q.id} className="bg-slate-900/60 border-slate-700 p-4">
+            <Card key={q.id} className="bg-card border-border p-4">
               <div className="flex items-start justify-between gap-3 mb-2">
                 <div className="flex items-center gap-2 text-xs">
-                  <span className="font-mono text-slate-400">#{i + 1}</span>
-                  <Badge className="bg-blue-500/20 text-blue-200 border-blue-400/30">{PART_LABELS[q.part]}</Badge>
+                  <span className="font-mono text-muted-foreground">#{i + 1}</span>
+                  <Badge className="bg-primary/10 text-primary border-primary/20">{PART_LABELS[q.part]}</Badge>
                 </div>
                 {correct ? (
-                  <span className="flex items-center gap-1 text-emerald-400 text-xs"><CheckCircle2 className="w-4 h-4" /> {t("Đúng", "Correct")}</span>
+                  <span className="flex items-center gap-1 text-primary text-xs"><CheckCircle2 className="w-4 h-4" /> {t("Đúng", "Correct")}</span>
                 ) : (
-                  <span className="flex items-center gap-1 text-rose-400 text-xs"><XCircle className="w-4 h-4" /> {t("Sai", "Incorrect")}</span>
+                  <span className="flex items-center gap-1 text-destructive text-xs"><XCircle className="w-4 h-4" /> {t("Sai", "Incorrect")}</span>
                 )}
               </div>
               {(q.part === 6 || q.part === 7) && (() => {
                 const passage = resolvePassage(q, exam.questions);
                 return passage ? (
-                  <div className="mb-2 p-2 rounded bg-slate-950/50 border border-slate-700 whitespace-pre-wrap text-xs leading-relaxed text-slate-300 max-h-48 overflow-auto">
+                  <div className="mb-2 p-2 rounded bg-muted/50 border border-border whitespace-pre-wrap text-xs leading-relaxed text-foreground max-h-48 overflow-auto">
                     {passage}
                   </div>
                 ) : null;
               })()}
-              <p className="text-sm font-medium mb-2 text-slate-100 leading-relaxed">{q.prompt}</p>
+              <p className="text-sm font-medium mb-2 text-foreground leading-relaxed">{q.prompt}</p>
               <div className="text-xs space-y-1 mb-2">
                 {q.options.map((opt, idx) => (
                   <div
                     key={idx}
                     className={`px-2 py-1 rounded ${
-                      idx === q.answer ? "bg-emerald-500/20 text-emerald-200" :
-                      idx === userAns ? "bg-rose-500/20 text-rose-200" : "text-slate-400"
+                      idx === q.answer ? "bg-accent text-accent-foreground" :
+                      idx === userAns ? "bg-destructive/10 text-destructive" : "text-muted-foreground"
                     }`}
                   >
                     {String.fromCharCode(65 + idx)}. {opt}
@@ -674,13 +685,13 @@ const LRReview = ({ exam, questions, answers }: LRReviewProps) => {
                 ))}
               </div>
               {q.transcript && (
-                <details className="text-xs text-slate-300 mb-1">
-                  <summary className="cursor-pointer text-cyan-300">{t("Transcript", "Transcript")}</summary>
+                <details className="text-xs text-foreground mb-1">
+                  <summary className="cursor-pointer text-primary">{t("Transcript", "Transcript")}</summary>
                   <p className="mt-1 whitespace-pre-wrap">{q.transcript}</p>
                 </details>
               )}
               {q.explanation && (
-                <p className="text-xs text-amber-200 mt-1">
+                <p className="text-xs text-foreground mt-1">
                   <Sparkles className="inline w-3 h-3 mr-1" />{q.explanation}
                 </p>
               )}
@@ -707,33 +718,83 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
 
   // Per-task storage
   const [recordings, setRecordings] = useState<Record<string, string>>({});
-  const [writings, setWritings] = useState<Record<string, string>>({});
+  const [writings, setWritings] = useState<Record<string, string>>(() => {
+    try { return JSON.parse(localStorage.getItem(`toeic-sw-draft-${exam.id}`) || "{}"); }
+    catch { return {}; }
+  });
   const [recording, setRecording] = useState(false);
+  const [savingRecording, setSavingRecording] = useState(false);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const mountedRef = useRef(true);
+  const recordingUrlsRef = useRef<Set<string>>(new Set());
+  const latestRecordingUrlsRef = useRef<Record<string, string>>({});
   const chunksRef = useRef<Blob[]>([]);
 
   // Per-task timer
-  const [timeLeft, setTimeLeft] = useState(current?.responseSeconds ?? 0);
+  const [phase, setPhase] = useState<"prep" | "response">(current?.prepSeconds ? "prep" : "response");
+  const [timeLeft, setTimeLeft] = useState(current?.prepSeconds || current?.responseSeconds || 0);
   useEffect(() => {
-    setTimeLeft(current?.responseSeconds ?? 0);
+    setPhase(current?.prepSeconds ? "prep" : "response");
+    setTimeLeft(current?.prepSeconds || current?.responseSeconds || 0);
   }, [current]);
   useEffect(() => {
-    if (!current) return;
-    const id = setInterval(() => setTimeLeft((s) => Math.max(0, s - 1)), 1000);
+    if (!current || (phase === "response" && timeLeft === 0)) return;
+    const id = setTimeout(() => {
+      if (timeLeft <= 1 && phase === "prep") {
+        setPhase("response");
+        setTimeLeft(current.responseSeconds);
+      } else {
+        setTimeLeft((s) => Math.max(0, s - 1));
+      }
+    }, 1000);
     return () => clearInterval(id);
-  }, [current]);
+  }, [current, phase, timeLeft]);
+
+  useEffect(() => {
+    if (phase === "response" && timeLeft === 0 && recording && mediaRecorderRef.current?.state === "recording") {
+      mediaRecorderRef.current.stop();
+      setRecording(false);
+    }
+  }, [phase, timeLeft, recording]);
+
+  useEffect(() => {
+    try { localStorage.setItem(`toeic-sw-draft-${exam.id}`, JSON.stringify(writings)); }
+    catch { /* browser storage may be unavailable */ }
+  }, [exam.id, writings]);
+
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+      if (mediaRecorderRef.current?.state === "recording") mediaRecorderRef.current.stop();
+      recordingUrlsRef.current.forEach((url) => URL.revokeObjectURL(url));
+      recordingUrlsRef.current.clear();
+    };
+  }, []);
 
   async function startRecording() {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const mr = new MediaRecorder(stream);
+      const taskId = current.id;
       chunksRef.current = [];
       mr.ondataavailable = (e) => chunksRef.current.push(e.data);
       mr.onstop = () => {
+        if (!mountedRef.current) { stream.getTracks().forEach((t) => t.stop()); return; }
         const blob = new Blob(chunksRef.current, { type: "audio/webm" });
         const url = URL.createObjectURL(blob);
-        setRecordings((r) => ({ ...r, [current.id]: url }));
+        const oldUrl = latestRecordingUrlsRef.current[taskId];
+        if (oldUrl) { URL.revokeObjectURL(oldUrl); recordingUrlsRef.current.delete(oldUrl); }
+        latestRecordingUrlsRef.current[taskId] = url;
+        recordingUrlsRef.current.add(url);
+        setRecordings((r) => ({ ...r, [taskId]: url }));
+        setSavingRecording(false);
         stream.getTracks().forEach((t) => t.stop());
+      };
+      mr.onerror = () => {
+        stream.getTracks().forEach((t) => t.stop());
+        setRecording(false);
+        setSavingRecording(false);
       };
       mediaRecorderRef.current = mr;
       mr.start();
@@ -743,12 +804,21 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
     }
   }
   function stopRecording() {
-    mediaRecorderRef.current?.stop();
+    if (mediaRecorderRef.current?.state === "recording") {
+      setSavingRecording(true);
+      mediaRecorderRef.current.stop();
+    }
     setRecording(false);
   }
 
+  function navigateTask(next: () => void) {
+    if (recording) stopRecording();
+    next();
+  }
+
   function handleFinish() {
-    // Mock scoring: 0..200 per skill based on completion ratio
+    if (recording || savingRecording) return;
+    // Completion estimate only; recordings and drafts are not graded here.
     const sCount = exam.speakingTasks.filter((t) => recordings[t.id]).length;
     const wCount = exam.writingTasks.filter((t) => (writings[t.id]?.length ?? 0) > 50).length;
     const sScore = Math.round((sCount / exam.speakingTasks.length) * 200);
@@ -778,8 +848,8 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
       },
     });
     alert(t(
-      `Đã lưu kết quả: Speaking ${sScore}/200 · Writing ${wScore}/200`,
-      `Saved: Speaking ${sScore}/200 · Writing ${wScore}/200`
+      `Đã lưu mức độ hoàn thành (không phải điểm chấm): Speaking ${sScore}/200 · Writing ${wScore}/200`,
+      `Completion estimate saved (not a graded score): Speaking ${sScore}/200 · Writing ${wScore}/200`
     ));
   }
 
@@ -790,17 +860,18 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
     <div>
       <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
         <div>
-          <Link to="/toeic-exams" className="text-xs text-cyan-300 hover:underline inline-flex items-center gap-1">
+          <Link to="/toeic-exams" className="text-xs text-primary hover:underline inline-flex items-center gap-1">
             <ArrowLeft className="w-3 h-3" /> {t("Danh sách đề", "Back to library")}
           </Link>
           <h1 className="text-xl md:text-2xl font-bold mt-1">{exam.title}</h1>
         </div>
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700">
-            <Clock className="w-4 h-4 text-teal-300" />
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-card border border-border" aria-label={t(phase === "prep" ? "Thời gian chuẩn bị" : "Thời gian trả lời", phase === "prep" ? "Preparation time" : "Response time")}>
+            <Clock className="w-4 h-4 text-primary" />
+            <span className="text-xs font-semibold text-muted-foreground">{t(phase === "prep" ? "Chuẩn bị" : "Trả lời", phase === "prep" ? "Prepare" : "Respond")}</span>
             <span className="font-mono text-lg">{fmtTime(timeLeft)}</span>
           </div>
-          <Button size="sm" className="bg-emerald-600 hover:bg-emerald-500" onClick={handleFinish}>
+          <Button size="sm" onClick={handleFinish} disabled={recording || savingRecording}>
             {t("Hoàn tất", "Finish")}
           </Button>
         </div>
@@ -810,48 +881,49 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
         <Button
           size="sm"
           variant={tab === "speaking" ? "default" : "outline"}
-          className={tab === "speaking" ? "bg-teal-600 hover:bg-teal-500" : "border-slate-600 text-slate-200"}
-          onClick={() => { setTab("speaking"); setActiveIdx(0); }}
+          className={tab === "speaking" ? "" : "border-border text-foreground"}
+          onClick={() => navigateTask(() => { setTab("speaking"); setActiveIdx(0); })}
         >
           <Mic className="w-4 h-4 mr-1" /> Speaking ({exam.speakingTasks.length})
         </Button>
         <Button
           size="sm"
           variant={tab === "writing" ? "default" : "outline"}
-          className={tab === "writing" ? "bg-emerald-600 hover:bg-emerald-500" : "border-slate-600 text-slate-200"}
-          onClick={() => { setTab("writing"); setActiveIdx(0); }}
+          className={tab === "writing" ? "" : "border-border text-foreground"}
+          onClick={() => navigateTask(() => { setTab("writing"); setActiveIdx(0); })}
         >
           <PenLine className="w-4 h-4 mr-1" /> Writing ({exam.writingTasks.length})
         </Button>
       </div>
 
       <div className="grid lg:grid-cols-[1fr_220px] gap-6">
-        <Card className="bg-slate-900/60 border-slate-700 p-5">
+        <Card className="bg-card border-border p-5">
           <div className="flex items-center justify-between mb-3">
-            <Badge className="bg-teal-500/20 text-teal-200 border-teal-400/30">
-              {tab === "speaking" ? "Speaking" : "Writing"} · Part {current.part} · {current.type}
-            </Badge>
-            <span className="text-xs text-slate-400">
+            <div>
+              <Badge className="bg-primary/10 text-primary border-primary/20">{tab === "speaking" ? "Speaking" : "Writing"} · {t("Câu", "Task")} {activeIdx + 1}</Badge>
+              <h2 className="mt-2 text-lg font-semibold text-foreground">{t(SW_TASK_TITLES[current.type].vi, SW_TASK_TITLES[current.type].en)}</h2>
+            </div>
+            <span className="text-xs text-muted-foreground">
               Task {activeIdx + 1} / {tasks.length}
             </span>
           </div>
 
           {current.imageUrl && (
-            <img src={current.imageUrl} alt="task" className="w-full max-h-80 object-contain rounded-lg mb-3 border border-slate-700 bg-slate-950" />
+            <img src={current.imageUrl} alt="task" className="w-full max-h-80 object-contain rounded-lg mb-3 border border-border bg-muted/50" />
           )}
 
           {current.context && (
-            <div className="mb-3 p-3 rounded-lg bg-slate-800/70 border border-slate-600 text-sm text-slate-100 whitespace-pre-wrap leading-relaxed">
-              <div className="text-[11px] font-semibold uppercase tracking-wide text-cyan-300 mb-1">
+            <div className="mb-3 p-3 rounded-lg bg-muted/50 border border-border text-sm text-foreground whitespace-pre-wrap leading-relaxed">
+              <div className="text-[11px] font-semibold uppercase tracking-wide text-primary mb-1">
                 {t("Tài liệu tham khảo", "Reference material")}
               </div>
               {current.context}
             </div>
           )}
 
-          <p className="text-base font-medium text-white whitespace-pre-wrap mb-4 leading-relaxed">{current.prompt}</p>
+          <p className="text-base font-medium text-foreground whitespace-pre-wrap mb-4 leading-relaxed">{current.prompt}</p>
 
-          <div className="text-xs text-slate-400 mb-3">
+          <div className="text-xs text-muted-foreground mb-3">
             {t("Chuẩn bị:", "Prep:")} {current.prepSeconds}s · {t("Trả lời:", "Response:")} {current.responseSeconds}s
           </div>
 
@@ -859,41 +931,33 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
             <div className="space-y-3">
               <div className="flex gap-2">
                 {!recording ? (
-                  <Button size="sm" className="bg-rose-600 hover:bg-rose-500" onClick={startRecording}>
+                  <Button size="sm" className="bg-destructive text-destructive-foreground hover:bg-destructive/90" onClick={startRecording} disabled={phase === "prep" || timeLeft === 0}>
                     <Mic className="w-4 h-4 mr-1" /> {t("Ghi âm", "Record")}
                   </Button>
                 ) : (
-                  <Button size="sm" className="bg-slate-700 hover:bg-slate-600" onClick={stopRecording}>
+                  <Button size="sm"  onClick={stopRecording}>
                     <Square className="w-4 h-4 mr-1" /> {t("Dừng", "Stop")}
                   </Button>
                 )}
               </div>
               {recordings[current.id] && (
                 <div>
-                  <p className="text-xs text-slate-400 mb-1">{t("Nghe lại:", "Playback:")}</p>
+                  <p className="text-xs text-muted-foreground mb-1">{t("Nghe lại:", "Playback:")}</p>
                   <audio controls src={recordings[current.id]} className="w-full" />
                 </div>
               )}
 
-              {/* AI feedback placeholder */}
-              <div className="mt-3 p-3 rounded-lg bg-gradient-to-br from-cyan-500/10 to-teal-500/10 border border-teal-400/30">
-                <div className="flex items-center gap-2 text-sm font-semibold text-teal-200 mb-1">
-                  <Sparkles className="w-4 h-4" /> {t("Phản hồi AI (Beta)", "AI Feedback (Beta)")}
+              <div className="mt-3 p-3 rounded-lg bg-primary/5 border border-primary/20">
+                <div className="flex items-center gap-2 text-sm font-semibold text-primary mb-1">
+                  <Sparkles className="w-4 h-4" /> {t("Luyện phát âm thêm", "More pronunciation practice")}
                 </div>
-                <p className="text-xs text-slate-300">
-                  {t(
-                    "Sau khi ghi âm, bạn có thể gửi đoạn ghi âm tới AI Speaking Coach để nhận điểm phát âm, độ trôi chảy và gợi ý cải thiện cho TOEIC Speaking Part 3.",
-                    "After recording, send your audio to the AI Speaking Coach to get pronunciation, fluency and improvement suggestions tailored for TOEIC Speaking Part 3."
-                  )}
-                </p>
-                <Button asChild size="sm" className="mt-2 bg-teal-500 hover:bg-teal-400 text-slate-900 font-semibold border-0">
-                  <Link to="/speaking-coach">{t("Mở AI Speaking Coach", "Open AI Speaking Coach")}</Link>
-                </Button>
+                <p className="text-xs text-muted-foreground">{t("Luyện nói riêng trong Speaking Coach. Bản ghi âm bài thi này không được chuyển sang trang luyện nói và chưa được chấm bằng AI.", "Practise separately in Speaking Coach. This exam recording is not transferred or graded by AI.")}</p>
+                <Button asChild size="sm" className="mt-2"><Link to="/speaking-coach/english">{t("Mở Speaking Coach", "Open Speaking Coach")}</Link></Button>
               </div>
 
               {current.sampleAnswer && (
-                <details className="text-xs text-slate-300">
-                  <summary className="cursor-pointer text-cyan-300">{t("Câu trả lời mẫu", "Sample Answer")}</summary>
+                <details className="text-xs text-foreground">
+                  <summary className="cursor-pointer text-primary">{t("Câu trả lời mẫu", "Sample Answer")}</summary>
                   <p className="mt-1">{current.sampleAnswer}</p>
                 </details>
               )}
@@ -904,15 +968,15 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
                 value={writings[current.id] ?? ""}
                 onChange={(e) => setWritings((w) => ({ ...w, [current.id]: e.target.value }))}
                 placeholder={t("Viết câu trả lời tại đây...", "Type your response here...")}
-                className="min-h-[280px] bg-slate-950/60 border-slate-700 text-slate-100 font-sans text-base leading-relaxed"
+                className="min-h-[280px] bg-muted/50 border-border text-foreground font-sans text-base leading-relaxed"
               />
-              <div className="flex justify-between text-xs text-slate-400">
+              <div className="flex justify-between text-xs text-muted-foreground">
                 <span>{wordCount} {t("từ", "words")}</span>
                 <span>{t("Lưu tự động trong trình duyệt", "Auto-saved locally")}</span>
               </div>
               {current.sampleAnswer && (
-                <details className="text-xs text-slate-300">
-                  <summary className="cursor-pointer text-cyan-300">{t("Đáp án mẫu", "Sample Answer")}</summary>
+                <details className="text-xs text-foreground">
+                  <summary className="cursor-pointer text-primary">{t("Đáp án mẫu", "Sample Answer")}</summary>
                   <p className="mt-1 whitespace-pre-wrap">{current.sampleAnswer}</p>
                 </details>
               )}
@@ -922,7 +986,7 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
           {current.scoringCriteria && (
             <div className="mt-4 flex flex-wrap gap-1.5">
               {current.scoringCriteria.map((c) => (
-                <Badge key={c} variant="outline" className="border-slate-600 text-slate-300 text-[10px]">{c}</Badge>
+                <Badge key={c} variant="outline" className="border-border text-foreground text-[10px]">{c}</Badge>
               ))}
             </div>
           )}
@@ -931,17 +995,17 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
             <Button
               size="sm"
               variant="outline"
-              className="border-cyan-400/60 bg-slate-800/80 text-white font-semibold hover:bg-cyan-500/20 hover:text-white disabled:opacity-60"
+              className="border-primary/50 bg-background text-primary font-semibold hover:bg-primary/10 hover:text-primary disabled:opacity-60"
               disabled={activeIdx === 0}
-              onClick={() => setActiveIdx((i) => Math.max(0, i - 1))}
+              onClick={() => navigateTask(() => setActiveIdx((i) => Math.max(0, i - 1)))}
             >
               <ArrowLeft className="w-4 h-4 mr-1" /> {t("Trước", "Prev")}
             </Button>
             <Button
               size="sm"
-              className="bg-teal-600 hover:bg-teal-500"
+              
               disabled={activeIdx >= tasks.length - 1}
-              onClick={() => setActiveIdx((i) => Math.min(tasks.length - 1, i + 1))}
+              onClick={() => navigateTask(() => setActiveIdx((i) => Math.min(tasks.length - 1, i + 1)))}
             >
               {t("Tiếp", "Next")} <ArrowRight className="w-4 h-4 ml-1" />
             </Button>
@@ -949,9 +1013,9 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
         </Card>
 
         <aside className="lg:sticky lg:top-20 self-start">
-          <Card className="bg-slate-900/60 border-slate-700 p-4">
+          <Card className="bg-card border-border p-4">
             <div className="flex items-center gap-2 mb-3">
-              <ListChecks className="w-4 h-4 text-teal-300" />
+              <ListChecks className="w-4 h-4 text-primary" />
               <h3 className="text-sm font-semibold">{t("Danh sách task", "Task List")}</h3>
             </div>
             <div className="space-y-1">
@@ -961,12 +1025,12 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
                 return (
                   <button
                     key={tk.id}
-                    onClick={() => setActiveIdx(i)}
+                    onClick={() => navigateTask(() => setActiveIdx(i))}
                     className={`w-full text-left px-3 py-2 rounded text-xs ${
-                      active ? "bg-teal-500/30 text-white" : done ? "bg-emerald-500/20 text-emerald-200" : "bg-slate-800 text-slate-300 hover:bg-slate-700"
+                      active ? "bg-primary/15 text-foreground" : done ? "bg-accent text-accent-foreground" : "bg-muted text-foreground hover:bg-secondary"
                     }`}
                   >
-                    {i + 1}. {tk.type}
+                    {i + 1}. {t(SW_TASK_TITLES[tk.type].vi, SW_TASK_TITLES[tk.type].en)}
                   </button>
                 );
               })}

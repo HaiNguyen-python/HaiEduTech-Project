@@ -15,3 +15,4 @@
 - Course notices use shared tuition defaults, store one selected-language snapshot per recipient, and send only through the staff-authorized single-notice email function.
 - TOEIC vocabulary uses the shared Word Quest and Daily Mission engines with its own storage namespace and existing TOEIC mastery subject, so learning progress never collides with IELTS.
 - TOEIC lecture guidance is organized by tested Part alongside lesson-specific techniques, so strategy depth stays consistent without duplicating lecture question data.
+- TOEIC Speaking/Writing drafts persist per exam in local storage while audio recordings remain session-only; completion estimates are never presented as AI grades, because no exam-specific audio grading service exists.
