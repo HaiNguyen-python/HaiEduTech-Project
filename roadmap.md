@@ -1,5 +1,12 @@
 # Business English & Academic English
 
+# TOEIC Learning Upgrade
+
+- [ ] Give the TOEIC Center title an illustrated, readable background.
+- [ ] Expand TOEIC lecture teaching with substantial worked strategies and application guidance.
+- [ ] Add IELTS-style Word Quest and Daily Mission to TOEIC vocabulary with separate progress and mastery.
+- [ ] Verify TOEIC hub, lesson and vocabulary flows on desktop and mobile.
+
 # Course Notice Simplification
 
 - [x] Remove Outcome, introductory copy, header reference/issued metadata and Dear from the notice.

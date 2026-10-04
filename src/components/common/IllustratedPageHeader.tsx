@@ -1,9 +1,10 @@
 import type { ReactNode } from "react";
 import ieltsBg from "@/assets/headers/ielts-header-bg.jpg";
 import chineseBg from "@/assets/headers/chinese-header-bg.jpg";
+import toeicBg from "@/assets/headers/toeic-header-bg.jpg";
 import { cn } from "@/lib/utils";
 
-const BACKGROUNDS = { ielts: ieltsBg, chinese: chineseBg } as const;
+const BACKGROUNDS = { ielts: ieltsBg, chinese: chineseBg, toeic: toeicBg } as const;
 
 interface Props {
   variant: keyof typeof BACKGROUNDS;
