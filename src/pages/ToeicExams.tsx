@@ -166,25 +166,43 @@ const ToeicExams = () => {
                 </Card>
               </motion.div>
             ))}
-          </div>
+              </div>
+            </CollapsibleContent>
+          </Collapsible>
         </section>
 
         {/* Section B - Speaking & Writing */}
-        <section className="mb-12">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
-              <Mic className="w-5 h-5 text-primary-foreground" />
-            </div>
-            <div>
-              <h2 className="text-xl font-bold">
-                {t("Section B · Speaking & Writing", "Section B · Speaking & Writing")}
-              </h2>
-              <p className="text-xs text-muted-foreground">
-                {t("Speaking 11 task · 20 phút | Writing 8 task · 60 phút", "Speaking 11 tasks · 20 min | Writing 8 tasks · 60 min")}
-              </p>
-            </div>
-          </div>
-          <div className="grid md:grid-cols-2 gap-4">
+        <section className="mb-8">
+          <Collapsible
+            open={openSection === "sw"}
+            onOpenChange={(open) => open && setOpenSection("sw")}
+          >
+            <CollapsibleTrigger asChild>
+              <button
+                type="button"
+                aria-expanded={openSection === "sw"}
+                className="w-full flex items-center gap-3 mb-3 text-left rounded-xl px-2 py-2 -mx-2 hover:bg-muted/60 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              >
+                <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center shrink-0">
+                  <Mic className="w-5 h-5 text-primary-foreground" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h2 className="text-xl font-bold">
+                    {t("Section B · Speaking & Writing", "Section B · Speaking & Writing")}
+                  </h2>
+                  <p className="text-xs text-muted-foreground">
+                    {t("Speaking 11 task · 20 phút | Writing 8 task · 60 phút", "Speaking 11 tasks · 20 min | Writing 8 tasks · 60 min")}
+                  </p>
+                </div>
+                <ChevronDown
+                  className={`w-5 h-5 text-muted-foreground shrink-0 transition-transform duration-200 ${
+                    openSection === "sw" ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+            </CollapsibleTrigger>
+            <CollapsibleContent>
+              <div className="grid md:grid-cols-2 gap-4 pt-2">
             {TOEIC_SW_EXAMS.map((exam) => (
               <Card key={exam.id} className="bg-card border-border p-5 hover:border-primary/50 transition">
                 <div className="flex items-start justify-between mb-3">
