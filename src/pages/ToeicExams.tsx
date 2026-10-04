@@ -226,7 +226,9 @@ const ToeicExams = () => {
                 </Button>
               </Card>
             ))}
-          </div>
+              </div>
+            </CollapsibleContent>
+          </Collapsible>
         </section>
 
         {/* Score history */}
