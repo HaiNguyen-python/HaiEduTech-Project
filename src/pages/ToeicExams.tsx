@@ -101,21 +101,37 @@ const ToeicExams = () => {
         </IllustratedPageHeader>
 
         {/* Section A - Listening & Reading */}
-        <section className="mb-12">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
-              <Headphones className="w-5 h-5 text-primary-foreground" />
-            </div>
-            <div>
-              <h2 className="text-xl font-bold">
-                {t("Section A · Listening & Reading", "Section A · Listening & Reading")}
-              </h2>
-              <p className="text-xs text-muted-foreground">
-                {t("Part 1–7 · 200 câu · 120 phút (chuẩn ETS)", "Part 1–7 · 200 questions · 120 minutes (ETS standard)")}
-              </p>
-            </div>
-          </div>
-          <div className="grid md:grid-cols-2 gap-4">
+        <section className="mb-8">
+          <Collapsible
+            open={openSection === "lr"}
+            onOpenChange={(open) => open && setOpenSection("lr")}
+          >
+            <CollapsibleTrigger asChild>
+              <button
+                type="button"
+                aria-expanded={openSection === "lr"}
+                className="w-full flex items-center gap-3 mb-3 text-left rounded-xl px-2 py-2 -mx-2 hover:bg-muted/60 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              >
+                <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center shrink-0">
+                  <Headphones className="w-5 h-5 text-primary-foreground" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h2 className="text-xl font-bold">
+                    {t("Section A · Listening & Reading", "Section A · Listening & Reading")}
+                  </h2>
+                  <p className="text-xs text-muted-foreground">
+                    {t("Part 1–7 · 200 câu · 120 phút (chuẩn ETS)", "Part 1–7 · 200 questions · 120 minutes (ETS standard)")}
+                  </p>
+                </div>
+                <ChevronDown
+                  className={`w-5 h-5 text-muted-foreground shrink-0 transition-transform duration-200 ${
+                    openSection === "lr" ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+            </CollapsibleTrigger>
+            <CollapsibleContent>
+              <div className="grid md:grid-cols-2 gap-4 pt-2">
             {TOEIC_LR_EXAMS.map((exam, i) => (
               <motion.div
                 key={exam.id}
