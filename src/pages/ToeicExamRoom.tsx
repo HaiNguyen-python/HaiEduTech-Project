@@ -762,11 +762,14 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
     catch { /* browser storage may be unavailable */ }
   }, [exam.id, writings]);
 
-  useEffect(() => () => {
-    mountedRef.current = false;
-    if (mediaRecorderRef.current?.state === "recording") mediaRecorderRef.current.stop();
-    recordingUrlsRef.current.forEach((url) => URL.revokeObjectURL(url));
-    recordingUrlsRef.current.clear();
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+      if (mediaRecorderRef.current?.state === "recording") mediaRecorderRef.current.stop();
+      recordingUrlsRef.current.forEach((url) => URL.revokeObjectURL(url));
+      recordingUrlsRef.current.clear();
+    };
   }, []);
 
   async function startRecording() {
@@ -815,7 +818,7 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
 
   function handleFinish() {
     if (recording || savingRecording) return;
-    // Mock scoring: 0..200 per skill based on completion ratio
+    // Completion estimate only; recordings and drafts are not graded here.
     const sCount = exam.speakingTasks.filter((t) => recordings[t.id]).length;
     const wCount = exam.writingTasks.filter((t) => (writings[t.id]?.length ?? 0) > 50).length;
     const sScore = Math.round((sCount / exam.speakingTasks.length) * 200);
@@ -845,8 +848,8 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
       },
     });
     alert(t(
-      `Đã lưu kết quả: Speaking ${sScore}/200 · Writing ${wScore}/200`,
-      `Saved: Speaking ${sScore}/200 · Writing ${wScore}/200`
+      `Đã lưu mức độ hoàn thành (không phải điểm chấm): Speaking ${sScore}/200 · Writing ${wScore}/200`,
+      `Completion estimate saved (not a graded score): Speaking ${sScore}/200 · Writing ${wScore}/200`
     ));
   }
 
