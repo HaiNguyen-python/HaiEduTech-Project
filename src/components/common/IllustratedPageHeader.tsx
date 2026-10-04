@@ -6,9 +6,11 @@ import vietnameseBg from "@/assets/vietnamese-language-bg.webp";
 import finnishBg from "@/assets/finnish-nordic-bg.jpg";
 import cambridgeBg from "@/assets/course-cambridge.jpg";
 import satBg from "@/assets/sat-hero.jpg";
+import technologyBg from "@/assets/programming-career-header.jpg";
+import interpersonalBg from "@/assets/lifestyle/interpersonal-hero-bg.jpg";
 import { cn } from "@/lib/utils";
 
-const BACKGROUNDS = { ielts: ieltsBg, chinese: chineseBg, toeic: toeicBg, vietnamese: vietnameseBg, finnish: finnishBg, cambridge: cambridgeBg, sat: satBg } as const;
+const BACKGROUNDS = { ielts: ieltsBg, chinese: chineseBg, toeic: toeicBg, vietnamese: vietnameseBg, finnish: finnishBg, cambridge: cambridgeBg, sat: satBg, technology: technologyBg, interpersonal: interpersonalBg } as const;
 
 interface Props {
   variant: keyof typeof BACKGROUNDS;
