@@ -98,6 +98,7 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
     setHasError(false);
     setShowHints(false);
     setMismatch(null);
+    setAnswerState("hidden");
   }, [challenge.id]);
 
   // Auto-save
@@ -273,6 +274,37 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
         )}
       </div>
 
+        {/* Show Answer - two-step reveal so learners don't spoil it by accident */}
+        {answerState !== "shown" && (
+          <button
+            onClick={() => setAnswerState(answerState === "hidden" ? "confirm" : "shown")}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-secondary text-secondary-foreground text-sm hover:bg-secondary/80 active:scale-[0.97] transition-all"
+          >
+            <BookOpen className="w-4 h-4" />
+            {t("Xem đáp án", "Show Answer")}
+          </button>
+        )}
+        {answerState === "confirm" && (
+          <div className="flex flex-wrap items-center gap-2 px-4 py-2.5 rounded-lg bg-yellow-500/10 border border-yellow-500/30 text-sm text-secondary-foreground">
+            <span className="font-semibold text-yellow-600">
+              {t("Bạn chắc chắn muốn xem đáp án? Hãy tự thử trước nhé!", "Are you sure? Try it yourself first!")}
+            </span>
+            <button
+              onClick={() => setAnswerState("shown")}
+              className="px-3 py-1 rounded-md bg-yellow-500/20 text-yellow-600 font-semibold hover:bg-yellow-500/30 transition-colors"
+            >
+              {t("Xem ngay", "Yes, show it")}
+            </button>
+            <button
+              onClick={() => setAnswerState("hidden")}
+              className="px-3 py-1 rounded-md bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors"
+            >
+              {t("Để sau", "Not yet")}
+            </button>
+          </div>
+        )}
+      </div>
+
       {/* Hints */}
       {showHints && (
         <div className="rounded-lg bg-yellow-500/10 border border-yellow-500/30 p-4 space-y-1">
@@ -280,6 +312,26 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
           {challenge.hints.map((h, i) => (
             <p key={i} className="text-sm text-secondary-foreground">• {h}</p>
           ))}
+        </div>
+      )}
+
+      {/* Model Answer */}
+      {answerState === "shown" && (
+        <div className="rounded-xl overflow-hidden border border-border">
+          <div className="flex items-center justify-between px-4 py-2 bg-[hsl(var(--card))] border-b border-border">
+            <p className="text-sm font-semibold text-foreground">
+              📘 {t("Đáp án mẫu", "Model Answer")}
+            </p>
+            <button
+              onClick={() => setAnswerState("hidden")}
+              className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+            >
+              {t("Ẩn đáp án", "Hide answer")}
+            </button>
+          </div>
+          <pre className="p-4 bg-[#1e1e1e] text-green-400 text-sm font-mono whitespace-pre-wrap break-words overflow-x-auto">
+            {challenge.solution}
+          </pre>
         </div>
       )}
 
