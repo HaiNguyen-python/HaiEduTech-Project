@@ -108,4 +108,16 @@ export const toeicLessonGuides: Record<string, { en: string[]; vi: string[] }> =
       "Trước khi nộp, đối chiếu lại đề với câu trả lời. Kiểm tra tên, ngày, thì động từ và xem lời đề nghị hoặc yêu cầu ở cuối có thực sự thực hiện được không.",
     ],
   },
+  "All Parts": {
+    en: [
+      "Choose the section you will improve first: listening accuracy in Parts 1–4 or reading speed and evidence in Parts 5–7. Set a time limit that matches the section instead of using the same pace for every question.",
+      "After each set, group mistakes by cause: missed audio detail, word-form confusion, weak context reading or a rushed inference. Revisit the related part strategy before attempting another set.",
+      "Finish with a timed retry using new questions. Compare not just your score but the time spent and the evidence you used for each answer; accuracy that depends on unlimited time is not yet test-ready.",
+    ],
+    vi: [
+      "Chọn phần cần cải thiện trước: nghe chính xác ở Parts 1–4 hay tốc độ đọc và tìm căn cứ ở Parts 5–7. Đặt giới hạn thời gian theo từng phần thay vì làm mọi câu với cùng nhịp độ.",
+      "Sau mỗi bộ câu hỏi, nhóm lỗi theo nguyên nhân: bỏ lỡ chi tiết nghe, nhầm dạng từ, đọc thiếu ngữ cảnh hay suy luận quá vội. Ôn lại chiến lược đúng phần trước khi làm bộ tiếp theo.",
+      "Kết thúc bằng một lượt làm lại có bấm giờ với câu hỏi mới. So sánh không chỉ điểm mà cả thời gian và căn cứ từng đáp án; độ chính xác chỉ đạt khi không giới hạn thời gian chưa đủ cho kỳ thi.",
+    ],
+  },
 };

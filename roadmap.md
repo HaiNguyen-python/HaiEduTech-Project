@@ -2,10 +2,10 @@
 
 # TOEIC Learning Upgrade
 
-- [ ] Give the TOEIC Center title an illustrated, readable background.
-- [ ] Expand TOEIC lecture teaching with substantial worked strategies and application guidance.
-- [ ] Add IELTS-style Word Quest and Daily Mission to TOEIC vocabulary with separate progress and mastery.
-- [ ] Verify TOEIC hub, lesson and vocabulary flows on desktop and mobile.
+- [x] Give the TOEIC Center title an illustrated, readable background.
+- [x] Expand TOEIC lecture teaching with substantial worked strategies and application guidance.
+- [x] Add IELTS-style Word Quest and Daily Mission to TOEIC vocabulary with separate progress and mastery.
+- [x] Verify TOEIC hub, lesson and vocabulary flows on desktop and mobile.
 
 # Course Notice Simplification
 
