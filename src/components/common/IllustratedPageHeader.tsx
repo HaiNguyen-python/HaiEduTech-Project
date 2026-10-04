@@ -2,9 +2,15 @@ import type { ReactNode } from "react";
 import ieltsBg from "@/assets/headers/ielts-header-bg.jpg";
 import chineseBg from "@/assets/headers/chinese-header-bg.jpg";
 import toeicBg from "@/assets/headers/toeic-header-bg.jpg";
+import vietnameseBg from "@/assets/vietnamese-language-bg.webp";
+import finnishBg from "@/assets/finnish-nordic-bg.jpg";
+import cambridgeBg from "@/assets/course-cambridge.jpg";
+import satBg from "@/assets/sat-hero.jpg";
+import technologyBg from "@/assets/programming-career-header.jpg";
+import interpersonalBg from "@/assets/lifestyle/interpersonal-hero-bg.jpg";
 import { cn } from "@/lib/utils";
 
-const BACKGROUNDS = { ielts: ieltsBg, chinese: chineseBg, toeic: toeicBg } as const;
+const BACKGROUNDS = { ielts: ieltsBg, chinese: chineseBg, toeic: toeicBg, vietnamese: vietnameseBg, finnish: finnishBg, cambridge: cambridgeBg, sat: satBg, technology: technologyBg, interpersonal: interpersonalBg } as const;
 
 interface Props {
   variant: keyof typeof BACKGROUNDS;

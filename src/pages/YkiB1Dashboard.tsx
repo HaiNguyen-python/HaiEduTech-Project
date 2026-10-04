@@ -6,6 +6,7 @@
 import { consumeAiGrade } from "@/lib/aiQuota";
 import { useEffect, useRef, useState } from "react";
 import FloatingNordicParticles from "@/components/FloatingNordicParticles";
+import finnishHeaderBg from "@/assets/finnish-nordic-bg.jpg";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -140,6 +141,8 @@ const YkiB1Dashboard = () => {
         </Link>
 
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="relative mb-8 overflow-hidden rounded-3xl border border-[#003580]/15 bg-gradient-to-br from-sky-50 via-white to-blue-50 dark:from-[#031a3a] dark:via-background dark:to-[#06224a] p-6 md:p-10">
+          <img src={finnishHeaderBg} alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover" />
+          <div className="absolute inset-0 bg-background/85 backdrop-blur-[1px] dark:bg-background/90" />
           {/* Finnish themed decorative illustrations */}
           <div aria-hidden className="pointer-events-none absolute inset-0 select-none">
             {[
@@ -168,7 +171,7 @@ const YkiB1Dashboard = () => {
 
           <div className="relative z-10">
             <Badge className="bg-[#003580] text-white mb-3">B1 · Keskitaso</Badge>
-            <h1 className="text-4xl md:text-5xl font-bold mb-3 bg-gradient-to-r from-[#003580] to-sky-500 bg-clip-text text-transparent">
+            <h1 className="text-4xl md:text-5xl font-bold mb-3 text-foreground">
               {t("Bảng điều khiển luyện thi YKI B1", "YKI B1 Dashboard")}
             </h1>
             <p className="text-base md:text-lg text-muted-foreground max-w-3xl">

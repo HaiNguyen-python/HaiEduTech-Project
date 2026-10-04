@@ -21,6 +21,7 @@ import CodeBlock from "@/components/CodeBlock";
 import SEO from "@/components/SEO";
 import { emphasizeInterviewTerms, splitNumberedText } from "@/lib/interviewQuestionUtils";
 import { softwareInterviewMetadata, type SoftwareInterviewDifficulty } from "@/data/softwareInterviewMetadata";
+import technologyHeaderBg from "@/assets/programming-career-header.jpg";
 
 type Difficulty = SoftwareInterviewDifficulty;
 
@@ -905,7 +906,9 @@ const SoftwareEngInterview = () => {
         >
           <aside className="interview-sidebar hidden lg:block">{filters}</aside>
           <div className="min-w-0 flex-1">
-            <header className="interview-header">
+            <header className="interview-header relative isolate overflow-hidden">
+              <img src={technologyHeaderBg} alt="" aria-hidden="true" className="absolute inset-0 -z-10 h-full w-full object-cover" />
+              <div className="absolute inset-0 -z-10 bg-background/85 backdrop-blur-[1px]" />
               <div className="mb-5 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
                 <div>
                   <div className="mb-2 inline-flex items-center gap-2 text-sm font-bold text-primary"><Briefcase className="h-4 w-4" />{t("Luyện phỏng vấn nghề nghiệp", "Career interview practice")}</div>

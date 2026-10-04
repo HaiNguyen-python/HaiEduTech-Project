@@ -8,6 +8,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FloatingIeltsParticles from "@/components/FloatingIeltsParticles";
 import SEO from "@/components/SEO";
+import ieltsHeaderBg from "@/assets/headers/ielts-header-bg.jpg";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -221,8 +222,10 @@ const IeltsLectures = () => {
           </Link>
         </div>
         {/* Hero Section */}
-        <section className="relative overflow-hidden bg-gradient-to-br from-primary/8 via-background to-accent/8 pt-8 pb-10">
-          <div className="container mx-auto px-4 sm:px-6">
+        <section className="relative overflow-hidden pt-8 pb-10">
+          <img src={ieltsHeaderBg} alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover" />
+          <div className="absolute inset-0 bg-background/80 backdrop-blur-[1px] dark:bg-background/85" />
+          <div className="relative container mx-auto px-4 sm:px-6">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -231,7 +234,7 @@ const IeltsLectures = () => {
               <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-3">
                 📚 {t("Bài giảng IELTS", "IELTS Lectures for Skills")}
               </h1>
-              <p className="text-base sm:text-lg text-muted-foreground mb-6 leading-relaxed">
+              <p className="text-base sm:text-lg text-foreground mb-6 leading-relaxed">
                 {t(
                   "Hệ thống bài giảng chuyên sâu với chiến lược từng bước, ví dụ thực tế và mẹo vàng từ Thầy Hải.",
                   "Comprehensive lecture system with step-by-step strategies, real examples, and Teacher Hai's golden secrets."

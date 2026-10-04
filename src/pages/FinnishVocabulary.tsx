@@ -26,6 +26,7 @@ import { Sparkles, Target } from "lucide-react";
 import { recordVocabReviewTracked } from "@/lib/vocabReview";
 import { lazy, Suspense } from "react";
 import { SimpleVocabDeck } from "@/components/vocab/StandardVocabDeck";
+import IllustratedPageHeader from "@/components/common/IllustratedPageHeader";
 
 const VocabBrainPanel = lazy(() => import("@/components/vocab/VocabBrainPanel"));
 const FINNISH_MILESTONES = [
@@ -744,7 +745,7 @@ const FinnishVocabulary = () => {
           <div className="flex gap-6">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex-1 min-w-0">
             {/* Header */}
-            <div className="mb-8">
+            <IllustratedPageHeader variant="finnish" className="mb-8">
               <h1 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-2">
                 Finnish Vocabulary <span className="text-gradient">{t("Ngân hàng từ vựng tiếng Phần Lan", "Finnish Word Bank")}</span>
               </h1>
@@ -758,7 +759,7 @@ const FinnishVocabulary = () => {
                 <span className="text-muted-foreground">{t("Đã thuộc", "Mastered")}: <strong className="text-primary">{mastered.size}</strong></span>
                 <span className="text-muted-foreground">{t("Cần ôn", "Need Review")}: <strong className="text-orange-400">{ieltsVocabData.length - mastered.size}</strong></span>
               </div>
-            </div>
+            </IllustratedPageHeader>
 
             {/* Finnish Skier progress visualization (Nordic theme) */}
             <div className="mb-8">

@@ -15,6 +15,7 @@ import { Progress } from "@/components/ui/progress";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FloatingKidsDecor from "@/components/FloatingKidsDecor";
+import cambridgeHeaderBg from "@/assets/course-cambridge.jpg";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { allCambridgeLectures, LEVEL_CONFIG, type CambridgeLecture, type CambridgeLevel, type CambridgeSkill } from "@/data/cambridgeLecturesData";
 import { cambridgeMockExams, CAMBRIDGE_LEVEL_LABELS } from "@/data/cambridgeMockExamData";
@@ -128,7 +129,8 @@ const CambridgeLectures = () => {
         </div>
         {/* Hero Section - Bright & Cheerful for Kids */}
         <section className="relative overflow-hidden">
-          <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, #FFE5EC 0%, #FFF8DC 30%, #E0F4FF 70%, #E8FFE0 100%)" }} />
+          <img src={cambridgeHeaderBg} alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover" />
+          <div className="absolute inset-0 bg-white/85 backdrop-blur-[1px]" />
           {/* Cheerful soft glow orbs */}
           <div className="absolute top-4 right-20 w-56 h-56 rounded-full bg-[#FF6B9D]/30 blur-[100px] animate-pulse" />
           <div className="absolute bottom-4 left-20 w-44 h-44 rounded-full bg-[#FFD93D]/30 blur-[80px] animate-pulse" style={{ animationDelay: "1s" }} />
@@ -144,7 +146,7 @@ const CambridgeLectures = () => {
                   🌈 Cambridge Journey 🎈
                 </Badge>
               </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-5 leading-tight" style={{ background: "linear-gradient(135deg, #FF6B9D 0%, #FF9F1C 35%, #6BCB77 70%, #4D96FF 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-5 leading-tight text-slate-900">
                 {t("Cambridge: Starters đến PET 🎓", "Cambridge: Starters to PET 🎓")}
               </h1>
               <p className="text-slate-700 mb-5 font-medium" style={{ fontSize: "18px", lineHeight: "1.6" }}>

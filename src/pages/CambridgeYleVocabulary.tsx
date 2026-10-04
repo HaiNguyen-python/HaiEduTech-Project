@@ -12,6 +12,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import VocabBrainPanel from "@/components/vocab/VocabBrainPanel";
 import FloatingKidsDecor from "@/components/FloatingKidsDecor";
+import IllustratedPageHeader from "@/components/common/IllustratedPageHeader";
 import VocabMasteryLeaderboard from "@/components/VocabMasteryLeaderboard";
 import WeeklyVocabAchievers from "@/components/WeeklyVocabAchievers";
 import { Button } from "@/components/ui/button";
@@ -243,12 +244,13 @@ const CambridgeYleVocabulary = () => {
           <Link to="/cambridge-lectures" className="inline-flex items-center gap-2 text-sm text-slate-600 hover:text-slate-900 mb-2">
             <ArrowLeft className="w-4 h-4" /> {t("Quay lại Cambridge Lectures", "Back to Cambridge Lectures")}
           </Link>
-          <div className="flex flex-wrap items-center gap-3 mb-3">
+          <IllustratedPageHeader variant="cambridge" className="mb-3">
+          <div className="flex flex-wrap items-center gap-3">
             <div className="p-2.5 rounded-2xl border-2 border-white shadow-lg" style={{ background: "linear-gradient(135deg,#FF6B9D,#FFD93D,#6BCB77,#4D96FF,#C780FA)" }}>
               <Sparkles className="w-7 h-7 text-white" />
             </div>
             <div>
-              <h1 className="text-3xl md:text-4xl font-display font-bold leading-tight" style={{ background: "linear-gradient(135deg, #FF6B9D 0%, #FF9F1C 35%, #6BCB77 70%, #4D96FF 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+              <h1 className="text-3xl md:text-4xl font-display font-bold leading-tight text-slate-900 dark:text-foreground">
                 {t("Từ vựng Cambridge YLE 🎈", "Cambridge YLE Vocabulary 🎈")}
               </h1>
               <p className="text-slate-700 font-medium text-base">
@@ -257,6 +259,7 @@ const CambridgeYleVocabulary = () => {
               </p>
             </div>
           </div>
+          </IllustratedPageHeader>
         </section>
 
         {/* View toggle: Vocabulary / Practice / Arcade */}

@@ -19,6 +19,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
+import IllustratedPageHeader from "@/components/common/IllustratedPageHeader";
 
 type Subject = "chinese" | "programming" | "vietnamese" | "interpersonal";
 interface Row { activity_type: string; score: number | null; max_score: number | null; time_spent_seconds: number | null; created_at: string; metadata?: { pillar?: string } | null }
@@ -201,6 +202,7 @@ const SubjectPerformance = ({ subject }: { subject: Subject }) => {
       <Navbar />
       <main className="container mx-auto px-4 pt-28 pb-16 max-w-6xl">
         <div ref={reportRef} className="bg-background">
+        <IllustratedPageHeader variant={subject === "programming" ? "technology" : subject}>
         <div className="flex flex-wrap items-start justify-between gap-3">
           <h1 className="text-3xl md:text-4xl font-bold text-foreground">{title}</h1>
           {rows && rows.length > 0 && (
@@ -210,7 +212,8 @@ const SubjectPerformance = ({ subject }: { subject: Subject }) => {
             </Button>
           )}
         </div>
-        <p className="text-muted-foreground mt-2">{t("Toàn bộ kết quả bạn đã làm, tổng hợp theo từng phần.", "Every result you have produced, grouped by section.")}</p>
+        <p className="text-foreground mt-2">{t("Toàn bộ kết quả bạn đã làm, tổng hợp theo từng phần.", "Every result you have produced, grouped by section.")}</p>
+        </IllustratedPageHeader>
 
         {rows === null ? (
           <p className="mt-10 text-muted-foreground">{t("Đang tải...", "Loading...")}</p>
