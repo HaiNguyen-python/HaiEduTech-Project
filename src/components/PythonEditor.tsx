@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { python } from "@codemirror/lang-python";
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
-import { Play, Loader2, Sparkles, RotateCcw, Eye, EyeOff } from "lucide-react";
+import { Play, Loader2, Sparkles, RotateCcw, Eye, EyeOff, BookOpen } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import type { PythonChallenge } from "@/data/pythonChallenges";
@@ -63,6 +63,8 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
   const [loadingPyodide, setLoadingPyodide] = useState(true);
   const [passed, setPassed] = useState(false);
   const [showHints, setShowHints] = useState(false);
+  // "hidden" -> "confirm" (double-check) -> "shown"; never auto-revealed.
+  const [answerState, setAnswerState] = useState<"hidden" | "confirm" | "shown">("hidden");
   const [aiHelp, setAiHelp] = useState("");
   const [aiLoading, setAiLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
