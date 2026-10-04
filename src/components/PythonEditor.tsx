@@ -303,7 +303,6 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
             </button>
           </div>
         )}
-      </div>
 
       {/* Hints */}
       {showHints && (
