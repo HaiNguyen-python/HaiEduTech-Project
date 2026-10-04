@@ -13,6 +13,7 @@ import {
   TrendingUp,
   ArrowRight,
   GraduationCap,
+  ChevronDown,
 } from "lucide-react";
 import {
   LineChart,
@@ -29,6 +30,11 @@ import SEO from "@/components/SEO";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { TOEIC_LR_EXAMS, TOEIC_SW_EXAMS } from "@/data/toeicExams";
 import IllustratedPageHeader from "@/components/common/IllustratedPageHeader";
