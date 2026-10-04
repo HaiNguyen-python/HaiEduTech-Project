@@ -10,6 +10,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Link } from "react-router-dom";
+import IllustratedPageHeader from "@/components/common/IllustratedPageHeader";
 
 const SatRoadmap = () => {
   const { t } = useLanguage();
@@ -78,18 +79,18 @@ const SatRoadmap = () => {
       <Navbar />
       <main className="flex-1 pt-28 lg:pt-32 pb-16">
         <div className="container mx-auto px-4 sm:px-6 max-w-5xl">
-          <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
+          <IllustratedPageHeader variant="sat" className="text-center mb-12">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/10 text-amber-700 dark:text-amber-400 text-xs font-semibold mb-4">
               <Compass className="w-3.5 h-3.5" />
               {t("Lộ trình SAT chuyên nghiệp", "Professional SAT Roadmap")}
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold mb-3 bg-gradient-to-r from-amber-500 to-orange-600 bg-clip-text text-transparent">
+            <h1 className="text-3xl md:text-4xl font-bold mb-3 text-foreground">
               {t("SAT Success Path", "SAT Success Path")}
             </h1>
             <p className="text-base text-muted-foreground max-w-2xl mx-auto">
               {t("3 giai đoạn rõ ràng từ 0 đến 1500+. Mỗi giai đoạn có cột mốc và tài nguyên cụ thể.", "3 clear phases from 0 to 1500+. Every phase has milestones and curated resources.")}
             </p>
-          </motion.div>
+          </IllustratedPageHeader>
 
           {/* Vertical timeline */}
           <div className="relative">

@@ -69,6 +69,7 @@ import DailyWordMission from "@/components/vocab/DailyWordMission";
 import { countDue, loadSrs } from "@/lib/vocab/srsEngine";
 import { hskToQuest } from "@/lib/vocab/vocabAdapter";
 import { Sparkles, Target } from "lucide-react";
+import IllustratedPageHeader from "@/components/common/IllustratedPageHeader";
 
 /** Mandarin voice shared by Word Quest and Daily Mission. */
 const speakZh = (text: string, slow = false) => {
@@ -687,7 +688,7 @@ const HskVocabulary = () => {
             />
 
             {/* Header */}
-            <div className="mb-8">
+            <IllustratedPageHeader variant="chinese" className="mb-8">
               <h1 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-2">
                 HSK Vocabulary <span className="text-gradient">{t("Ngân hàng từ vựng", "Word Bank")}</span>
               </h1>
@@ -718,7 +719,7 @@ const HskVocabulary = () => {
                   </span>
                 )}
               </div>
-            </div>
+            </IllustratedPageHeader>
 
             {/* Filters */}
             <div className="flex flex-wrap items-center gap-3 mb-6">
