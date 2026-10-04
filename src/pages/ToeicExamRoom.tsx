@@ -723,6 +723,7 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const activeRecordingTaskRef = useRef<string | null>(null);
   const recordingUrlsRef = useRef<Set<string>>(new Set());
+  const latestRecordingUrlsRef = useRef<Record<string, string>>({});
   const chunksRef = useRef<Blob[]>([]);
 
   // Per-task timer
@@ -769,11 +770,9 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
       mr.onstop = () => {
         const blob = new Blob(chunksRef.current, { type: "audio/webm" });
         const url = URL.createObjectURL(blob);
-        if (recordingUrlsRef.current.size > 0) {
-          const previous = recordingUrlsRef.current;
-          const oldUrl = previous && recordings[taskId];
-          if (oldUrl) { URL.revokeObjectURL(oldUrl); previous.delete(oldUrl); }
-        }
+        const oldUrl = latestRecordingUrlsRef.current[taskId];
+        if (oldUrl) { URL.revokeObjectURL(oldUrl); recordingUrlsRef.current.delete(oldUrl); }
+        latestRecordingUrlsRef.current[taskId] = url;
         recordingUrlsRef.current.add(url);
         setRecordings((r) => ({ ...r, [taskId]: url }));
         activeRecordingTaskRef.current = null;
@@ -801,6 +800,7 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
   }
 
   function handleFinish() {
+    if (recording) stopRecording();
     // Mock scoring: 0..200 per skill based on completion ratio
     const sCount = exam.speakingTasks.filter((t) => recordings[t.id]).length;
     const wCount = exam.writingTasks.filter((t) => (writings[t.id]?.length ?? 0) > 50).length;
@@ -849,8 +849,9 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
           <h1 className="text-xl md:text-2xl font-bold mt-1">{exam.title}</h1>
         </div>
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-card border border-border">
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-card border border-border" aria-label={t(phase === "prep" ? "Thời gian chuẩn bị" : "Thời gian trả lời", phase === "prep" ? "Preparation time" : "Response time")}>
             <Clock className="w-4 h-4 text-primary" />
+            <span className="text-xs font-semibold text-muted-foreground">{t(phase === "prep" ? "Chuẩn bị" : "Trả lời", phase === "prep" ? "Prepare" : "Respond")}</span>
             <span className="font-mono text-lg">{fmtTime(timeLeft)}</span>
           </div>
           <Button size="sm"  onClick={handleFinish}>
@@ -864,7 +865,7 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
           size="sm"
           variant={tab === "speaking" ? "default" : "outline"}
           className={tab === "speaking" ? "" : "border-border text-foreground"}
-          onClick={() => { setTab("speaking"); setActiveIdx(0); }}
+          onClick={() => navigateTask(() => { setTab("speaking"); setActiveIdx(0); })}
         >
           <Mic className="w-4 h-4 mr-1" /> Speaking ({exam.speakingTasks.length})
         </Button>
@@ -872,7 +873,7 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
           size="sm"
           variant={tab === "writing" ? "default" : "outline"}
           className={tab === "writing" ? "" : "border-border text-foreground"}
-          onClick={() => { setTab("writing"); setActiveIdx(0); }}
+          onClick={() => navigateTask(() => { setTab("writing"); setActiveIdx(0); })}
         >
           <PenLine className="w-4 h-4 mr-1" /> Writing ({exam.writingTasks.length})
         </Button>
@@ -881,9 +882,10 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
       <div className="grid lg:grid-cols-[1fr_220px] gap-6">
         <Card className="bg-card border-border p-5">
           <div className="flex items-center justify-between mb-3">
-            <Badge className="bg-primary/10 text-primary border-primary/20">
-              {tab === "speaking" ? "Speaking" : "Writing"} · Part {current.part} · {current.type}
-            </Badge>
+            <div>
+              <Badge className="bg-primary/10 text-primary border-primary/20">{tab === "speaking" ? "Speaking" : "Writing"} · {t("Câu", "Task")} {activeIdx + 1}</Badge>
+              <h2 className="mt-2 text-lg font-semibold text-foreground">{t(SW_TASK_TITLES[current.type].vi, SW_TASK_TITLES[current.type].en)}</h2>
+            </div>
             <span className="text-xs text-muted-foreground">
               Task {activeIdx + 1} / {tasks.length}
             </span>
@@ -912,7 +914,7 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
             <div className="space-y-3">
               <div className="flex gap-2">
                 {!recording ? (
-                  <Button size="sm" className="bg-destructive hover:bg-destructive/90" onClick={startRecording}>
+                  <Button size="sm" className="bg-destructive text-destructive-foreground hover:bg-destructive/90" onClick={startRecording} disabled={phase === "prep" || timeLeft === 0}>
                     <Mic className="w-4 h-4 mr-1" /> {t("Ghi âm", "Record")}
                   </Button>
                 ) : (
@@ -928,20 +930,12 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
                 </div>
               )}
 
-              {/* AI feedback placeholder */}
               <div className="mt-3 p-3 rounded-lg bg-primary/5 border border-primary/20">
                 <div className="flex items-center gap-2 text-sm font-semibold text-primary mb-1">
-                  <Sparkles className="w-4 h-4" /> {t("Phản hồi AI (Beta)", "AI Feedback (Beta)")}
+                  <Sparkles className="w-4 h-4" /> {t("Luyện phát âm thêm", "More pronunciation practice")}
                 </div>
-                <p className="text-xs text-foreground">
-                  {t(
-                    "Sau khi ghi âm, bạn có thể gửi đoạn ghi âm tới AI Speaking Coach để nhận điểm phát âm, độ trôi chảy và gợi ý cải thiện cho TOEIC Speaking Part 3.",
-                    "After recording, send your audio to the AI Speaking Coach to get pronunciation, fluency and improvement suggestions tailored for TOEIC Speaking Part 3."
-                  )}
-                </p>
-                <Button asChild size="sm" className="mt-2 font-semibold">
-                  <Link to="/speaking-coach">{t("Mở AI Speaking Coach", "Open AI Speaking Coach")}</Link>
-                </Button>
+                <p className="text-xs text-muted-foreground">{t("Luyện nói riêng trong Speaking Coach. Bản ghi âm bài thi này không được chuyển sang trang luyện nói và chưa được chấm bằng AI.", "Practise separately in Speaking Coach. This exam recording is not transferred or graded by AI.")}</p>
+                <Button asChild size="sm" className="mt-2"><Link to="/speaking-coach/english">{t("Mở Speaking Coach", "Open Speaking Coach")}</Link></Button>
               </div>
 
               {current.sampleAnswer && (
@@ -986,7 +980,7 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
               variant="outline"
               className="border-primary/50 bg-background text-primary font-semibold hover:bg-primary/10 hover:text-primary disabled:opacity-60"
               disabled={activeIdx === 0}
-              onClick={() => setActiveIdx((i) => Math.max(0, i - 1))}
+              onClick={() => navigateTask(() => setActiveIdx((i) => Math.max(0, i - 1)))}
             >
               <ArrowLeft className="w-4 h-4 mr-1" /> {t("Trước", "Prev")}
             </Button>
@@ -994,7 +988,7 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
               size="sm"
               
               disabled={activeIdx >= tasks.length - 1}
-              onClick={() => setActiveIdx((i) => Math.min(tasks.length - 1, i + 1))}
+              onClick={() => navigateTask(() => setActiveIdx((i) => Math.min(tasks.length - 1, i + 1)))}
             >
               {t("Tiếp", "Next")} <ArrowRight className="w-4 h-4 ml-1" />
             </Button>
@@ -1014,12 +1008,12 @@ const SWExamRunner = ({ exam }: SWRunnerProps) => {
                 return (
                   <button
                     key={tk.id}
-                    onClick={() => setActiveIdx(i)}
+                    onClick={() => navigateTask(() => setActiveIdx(i))}
                     className={`w-full text-left px-3 py-2 rounded text-xs ${
                       active ? "bg-primary/15 text-foreground" : done ? "bg-accent text-accent-foreground" : "bg-muted text-foreground hover:bg-secondary"
                     }`}
                   >
-                    {i + 1}. {tk.type}
+                    {i + 1}. {t(SW_TASK_TITLES[tk.type].vi, SW_TASK_TITLES[tk.type].en)}
                   </button>
                 );
               })}
