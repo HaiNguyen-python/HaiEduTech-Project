@@ -243,6 +243,16 @@ const ToeicLectureView = () => {
                 </motion.div>
               ))}
 
+              {lecture.practiceSet[0] && (
+                <section className="border-l-4 border-accent bg-secondary/60 px-5 py-5 sm:px-7">
+                  <h3 className="mb-3 text-lg font-bold text-foreground">{t("Ví dụ giải chi tiết", "Worked example")}</h3>
+                  <p className="mb-2 text-sm text-muted-foreground">{t(lecture.practiceSet[0].contextVi, lecture.practiceSet[0].context)}</p>
+                  <p className="mb-3 font-semibold text-foreground">{lecture.practiceSet[0].question}</p>
+                  <p className="mb-3 text-foreground">{t("Đáp án mẫu", "Model answer")}: <strong>{lecture.practiceSet[0].options[lecture.practiceSet[0].answer]}</strong></p>
+                  <p className="text-foreground leading-relaxed">{t(lecture.practiceSet[0].explanationVi, lecture.practiceSet[0].explanation)}</p>
+                </section>
+              )}
+
               <section className="border-t border-border pt-5">
                 <h3 className="mb-3 text-lg font-bold text-foreground">{t("Tự kiểm tra trước khi luyện tập", "Check your understanding before practice")}</h3>
                 <ul className="list-disc space-y-2 pl-6 text-base leading-relaxed text-foreground">

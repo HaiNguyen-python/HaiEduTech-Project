@@ -84,4 +84,28 @@ export const toeicLessonGuides: Record<string, { en: string[]; vi: string[] }> =
       "Chứng minh mỗi đáp án bằng một cụm từ cụ thể hoặc hai dữ kiện liên kết. Với câu suy luận, phân biệt kết luận có căn cứ với điều nghe hợp lý nhưng văn bản chưa hề nói.",
     ],
   },
+  "Speaking Q11": {
+    en: [
+      "Use the preparation time to choose one clear position and two reasons. A direct answer is easier for the listener to follow than a long introduction that delays your opinion.",
+      "Develop each reason with a concrete workplace or everyday example. Link the example back to your position rather than listing unrelated benefits.",
+      "Speak at a steady pace and leave a few seconds for a conclusion. Prioritise intelligibility and complete ideas over memorised phrases you cannot adapt to the prompt.",
+    ],
+    vi: [
+      "Trong thời gian chuẩn bị, chọn một quan điểm rõ ràng và hai lý do. Trả lời thẳng câu hỏi dễ theo dõi hơn phần mở đầu dài làm chậm ý kiến chính.",
+      "Triển khai mỗi lý do bằng ví dụ cụ thể trong công việc hoặc đời sống. Liên hệ ví dụ trở lại quan điểm, đừng chỉ liệt kê lợi ích không liên quan.",
+      "Nói với tốc độ đều và dành vài giây kết luận. Ưu tiên phát âm dễ hiểu và ý trọn vẹn hơn các câu mẫu học thuộc không thể điều chỉnh theo đề.",
+    ],
+  },
+  "Writing Q8": {
+    en: [
+      "Identify the recipient, purpose and every requested point in the email prompt. Draft a short outline so no required detail is omitted.",
+      "Open with the reason for writing, give each requested point its own clear sentence or paragraph, and finish with an appropriate next step. Match your tone to a professional workplace exchange.",
+      "Before submitting, reread the prompt against your response. Check names, dates, verb tense and whether your closing request or offer is actually actionable.",
+    ],
+    vi: [
+      "Xác định người nhận, mục đích và từng ý đề email yêu cầu. Phác thảo ngắn để không bỏ sót thông tin bắt buộc.",
+      "Mở đầu bằng lý do viết, trình bày từng ý được hỏi thành câu hoặc đoạn rõ ràng và kết thúc bằng bước tiếp theo phù hợp. Giữ giọng văn chuyên nghiệp.",
+      "Trước khi nộp, đối chiếu lại đề với câu trả lời. Kiểm tra tên, ngày, thì động từ và xem lời đề nghị hoặc yêu cầu ở cuối có thực sự thực hiện được không.",
+    ],
+  },
 };
