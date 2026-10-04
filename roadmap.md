@@ -2,6 +2,10 @@
 
 # TOEIC Learning Upgrade
 
+- [ ] Lighten TOEIC exam library and test rooms, keeping controls legible.
+- [ ] Remove the outdated exam-series badge and display clear Speaking/Writing task titles.
+- [ ] Audit and repair Speaking/Writing recording, timing, saved work, and coaching link; verify flows.
+
 - [x] Give the TOEIC Center title an illustrated, readable background.
 - [x] Expand TOEIC lecture teaching with substantial worked strategies and application guidance.
 - [x] Add IELTS-style Word Quest and Daily Mission to TOEIC vocabulary with separate progress and mastery.
