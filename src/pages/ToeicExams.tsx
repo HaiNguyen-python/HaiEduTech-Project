@@ -100,7 +100,7 @@ const ToeicExams = () => {
         <section className="mb-12">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
-              <Headphones className="w-5 h-5" />
+              <Headphones className="w-5 h-5 text-primary-foreground" />
             </div>
             <div>
               <h2 className="text-xl font-bold">
@@ -132,7 +132,7 @@ const ToeicExams = () => {
                     <span className="flex items-center gap-1"><FileText className="w-3 h-3" /> Part 1–7</span>
                   </div>
                   <div className="flex gap-2">
-                    <Button asChild size="sm" className="">
+                    <Button asChild size="sm">
                       <Link to={`/toeic-exam/${exam.id}?mode=full`}>
                         {t("Thi đầy đủ", "Full Test")} <ArrowRight className="w-3.5 h-3.5 ml-1" />
                       </Link>
@@ -153,7 +153,7 @@ const ToeicExams = () => {
         <section className="mb-12">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
-              <Mic className="w-5 h-5" />
+              <Mic className="w-5 h-5 text-primary-foreground" />
             </div>
             <div>
               <h2 className="text-xl font-bold">
@@ -181,7 +181,7 @@ const ToeicExams = () => {
                   <span className="flex items-center gap-1"><PenLine className="w-3 h-3" /> {exam.writingTasks.length} writing tasks</span>
                   <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> 80 min</span>
                 </div>
-                <Button asChild size="sm" className="">
+                <Button asChild size="sm">
                   <Link to={`/toeic-exam/${exam.id}?mode=sw`}>
                     {t("Bắt đầu thi", "Start Test")} <ArrowRight className="w-3.5 h-3.5 ml-1" />
                   </Link>

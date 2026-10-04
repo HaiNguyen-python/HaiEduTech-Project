@@ -49,6 +49,17 @@ import { logStudentActivity } from "@/hooks/useActivityLogger";
 
 const HISTORY_KEY = "toeic-score-history";
 
+const SW_TASK_TITLES: Record<ToeicSWTask["type"], { vi: string; en: string }> = {
+  "read-aloud": { vi: "Đọc thành tiếng", en: "Read a Text Aloud" },
+  "describe-picture": { vi: "Mô tả tranh", en: "Describe a Picture" },
+  "respond-questions": { vi: "Trả lời câu hỏi", en: "Respond to Questions" },
+  "propose-solution": { vi: "Đề xuất giải pháp", en: "Propose a Solution" },
+  "express-opinion": { vi: "Trình bày quan điểm", en: "Express an Opinion" },
+  "write-sentence-picture": { vi: "Viết câu theo tranh", en: "Write a Sentence Based on a Picture" },
+  "respond-email": { vi: "Trả lời email", en: "Respond to an Email" },
+  "write-essay": { vi: "Viết bài luận", en: "Write an Opinion Essay" },
+};
+
 function fmtTime(sec: number): string {
   const m = Math.floor(sec / 60);
   const s = sec % 60;
@@ -351,7 +362,7 @@ const LRExamRunner = ({ exam, mode }: LRRunnerProps) => {
       if ("speechSynthesis" in window) window.speechSynthesis.cancel();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [current?.id, submitted, paused, speed]);
+  }, [current?.passageGroupId || current?.id, submitted, paused, speed]);
 
   // Group by part for navigator
   const partGroups = useMemo(() => {
