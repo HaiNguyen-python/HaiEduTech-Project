@@ -127,6 +127,13 @@
       "when": 1791090289667,
       "tag": "0017_cache_streak_leaderboard",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1791090744663,
+      "tag": "0018_word_quest_progress",
+      "breakpoints": true
     }
   ]
 }
