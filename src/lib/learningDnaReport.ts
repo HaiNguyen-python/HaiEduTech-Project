@@ -357,8 +357,6 @@ const esc = (s: string) =>
 
 const NO_DATA = "Chưa có dữ liệu / No data";
 
-const shortName = (s: string) => (s.length > 30 ? s.slice(0, 29) + "…" : s);
-
 function pageOpen(): string {
   return `<section style="width:${PAGE_W}px;height:${PAGE_H}px;box-sizing:border-box;padding:0;background:#ffffff;color:${INK};font-family:'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;position:relative;overflow:hidden;">`;
 }
@@ -372,7 +370,7 @@ function header(data: ReportData, subtitleVi: string, subtitleEn: string): strin
         <div style="font-size:15px;margin-top:6px;opacity:.95;">${esc(subtitleVi)} · ${esc(subtitleEn)}</div>
       </div>
       <div style="min-width:0;text-align:right;font-size:11.5px;line-height:1.55;opacity:.95;overflow-wrap:anywhere;">
-        <div style="font-size:15px;font-weight:700;line-height:1.3;">${esc(shortName(data.studentName))}</div>
+        <div style="font-size:15px;font-weight:700;line-height:1.3;overflow-wrap:anywhere;">${esc(data.studentName)}</div>
         <div>${esc(data.periodLabelVi)} / ${esc(data.periodLabelEn)}</div>
         <div>Xuất ngày / Issued: ${data.generatedAt.toLocaleDateString("vi-VN")}</div>
       </div>
@@ -388,11 +386,11 @@ function footer(pageNo: number, total: number): string {
 }
 
 function statCard(labelVi: string, labelEn: string, value: string, color: string, valueSize = 24): string {
-  const fittedSize = value.length > 18 ? Math.min(valueSize, 15) : value.length > 11 ? Math.min(valueSize, 18) : valueSize;
-  return `<div style="min-width:0;height:92px;box-sizing:border-box;border:1px solid ${BORDER};border-radius:10px;padding:11px 14px;background:#F8FAFC;overflow:hidden;">
-    <div style="font-size:10.5px;color:${MUTED};text-transform:uppercase;letter-spacing:.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(labelEn)}</div>
-    <div style="font-size:11.5px;color:${MUTED};margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(labelVi)}</div>
-    <div style="font-size:${fittedSize}px;font-weight:700;color:${color};margin-top:6px;line-height:1.12;overflow-wrap:anywhere;">${esc(value)}</div>
+  const fittedSize = value.length > 22 ? Math.min(valueSize, 14) : value.length > 16 ? Math.min(valueSize, 16) : value.length > 11 ? Math.min(valueSize, 18) : valueSize;
+  return `<div style="min-width:0;height:100px;box-sizing:border-box;border:1px solid ${BORDER};border-radius:10px;padding:10px 14px 9px;background:#F8FAFC;display:flex;flex-direction:column;justify-content:flex-start;">
+    <div style="min-height:14px;font-size:10.5px;line-height:14px;color:${MUTED};text-transform:uppercase;letter-spacing:.5px;overflow-wrap:anywhere;">${esc(labelEn)}</div>
+    <div style="min-height:16px;font-size:11.5px;line-height:16px;color:${MUTED};margin-top:1px;overflow-wrap:anywhere;">${esc(labelVi)}</div>
+    <div style="font-size:${fittedSize}px;font-weight:700;color:${color};margin-top:auto;line-height:1.18;overflow-wrap:anywhere;word-break:normal;">${esc(value)}</div>
   </div>`;
 }
 
@@ -422,13 +420,24 @@ function radarSvg(points: Array<{ label: string; value: number }>): string {
   }
   let spokes = "";
   let labels = "";
+  const wrapLabel = (label: string): string[] => {
+    const words = label.split(/\s+/).filter(Boolean);
+    const lines: string[] = [];
+    for (const word of words) {
+      const current = lines[lines.length - 1];
+      if (!current || current.length + word.length + 1 > 17) lines.push(word);
+      else lines[lines.length - 1] = `${current} ${word}`;
+    }
+    return lines;
+  };
   points.forEach((p, i) => {
     const [x, y] = at(i, r);
     spokes += `<line x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="${BORDER}" stroke-width="1"/>`;
     const [lx, ly] = at(i, r + 18);
     const anchor = lx > cx + 6 ? "start" : lx < cx - 6 ? "end" : "middle";
-    const text = p.label.length > 13 ? p.label.slice(0, 12) + "…" : p.label;
-    labels += `<text x="${lx.toFixed(1)}" y="${(ly + 4).toFixed(1)}" font-size="9.5" fill="${MUTED}" text-anchor="${anchor}">${esc(text)} ${p.value}</text>`;
+    const lines = wrapLabel(`${p.label} ${p.value}`);
+    const firstY = ly + 4 - ((lines.length - 1) * 5);
+    labels += `<text x="${lx.toFixed(1)}" y="${firstY.toFixed(1)}" font-size="8.5" fill="${MUTED}" text-anchor="${anchor}">${lines.map((line, lineIndex) => `<tspan x="${lx.toFixed(1)}" dy="${lineIndex === 0 ? 0 : 10}">${esc(line)}</tspan>`).join("")}</text>`;
   });
   const shape = points
     .map((p, i) => at(i, (Math.max(0, Math.min(10, p.value)) / 10) * r).map((v) => v.toFixed(1)).join(","))
@@ -565,12 +574,12 @@ export function buildReportPages(data: ReportData): string[] {
   const page1 = `${pageOpen()}
     ${header(data, "Tổng quan tiến độ", "Progress overview")}
     <div style="padding:24px 40px 0;">
-      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:14px;">
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:12px;">
         ${statCard("Tổng hoạt động", "Activities", String(data.totalActivities), BRAND_BLUE)}
         ${statCard("Điểm trung bình", "Average score", data.avgScore10 != null ? `${data.avgScore10}/10` : "-", BRAND_EMERALD)}
         ${statCard("Thời gian học", "Study time", fmtDuration(data.studySeconds), "#8B5CF6")}
       </div>
-      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:22px;">
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:18px;">
         ${statCard("Ngày có học", "Active days", String(data.activeDays), "#0EA5E9")}
         ${statCard("Chuỗi ngày dài nhất", "Best streak", `${data.bestStreak}`, "#F59E0B")}
         ${statCard("Xu hướng", "Trend", trendText[data.trend], data.trend === "declining" ? "#EF4444" : INK, 17)}
@@ -588,7 +597,7 @@ export function buildReportPages(data: ReportData): string[] {
         </div>
       </div>
 
-      <div style="margin-top:20px;">
+      <div style="margin-top:14px;">
         ${sectionTitle("Điểm trung bình theo tuần", "Weekly average score")}
         ${timelineSvg(data.timeline)}
       </div>
