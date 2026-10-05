@@ -2,9 +2,9 @@
 
 # Python Challenge Motivation
 
-- [ ] Add a bright programming illustration and refresh the challenge overview.
-- [ ] Reuse the student leaderboard and show personal completion by programming skill.
-- [ ] Verify data, filters and desktop/mobile layouts.
+- [x] Add a bright programming illustration and refresh the challenge overview.
+- [x] Reuse the student leaderboard and show personal completion by programming skill.
+- [x] Verify data, filters and desktop/mobile layouts.
 
 # Python Challenges aligned with the book (Python by Example)
 

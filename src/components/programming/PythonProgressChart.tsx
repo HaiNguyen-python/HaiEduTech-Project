@@ -33,7 +33,7 @@ export default function PythonProgressChart({ ids, history, loading, error }: Pr
               <PolarGrid stroke="hsl(var(--border))" />
               <PolarAngleAxis dataKey="shortName" tick={{ fill: "hsl(var(--foreground))", fontSize: 11 }} />
               <PolarRadiusAxis domain={[0, 100]} tick={false} axisLine={false} />
-              <Radar dataKey="value" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.2} strokeWidth={2} />
+              <Radar dataKey="value" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.2} strokeWidth={2} isAnimationActive={false} />
             </RadarChart>
           </ResponsiveContainer>
         </div>
@@ -52,7 +52,7 @@ export default function PythonProgressChart({ ids, history, loading, error }: Pr
               <XAxis dataKey="label" tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 10 }} interval={1} />
               <YAxis allowDecimals={false} domain={[0, "auto"]} tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }} />
               <Tooltip content={({ active, payload }) => active && payload?.length ? <div className="rounded-md border border-border bg-popover p-2 text-xs text-popover-foreground">{payload[0].payload.label}: {payload[0].value} {t("bài", "challenges")}</div> : null} />
-              <Line type="monotone" dataKey="completed" name={t("Đã hoàn thành", "Completed")} stroke="hsl(var(--primary))" strokeWidth={3} dot={{ r: 3 }} />
+              <Line type="linear" dataKey="completed" name={t("Đã hoàn thành", "Completed")} stroke="hsl(var(--primary))" strokeWidth={3} dot={{ r: 3 }} isAnimationActive={false} />
             </LineChart>
           </ResponsiveContainer>
         </div>
