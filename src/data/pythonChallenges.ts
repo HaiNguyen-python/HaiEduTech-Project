@@ -937,7 +937,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use `round()` to format the output to two decimal places."
     ],
     "starterCode": "import math\n\nradius = 5\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "import math\n\nradius = 5\n\ndef solve():\n    area = math.pi * (radius ** 2)\n    print(f\"The area is {area:.2f}\")\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "import math\n\nradius = 5\n\narea = math.pi * (radius ** 2)\nprint(f\"The area is {area:.2f}\")",
     "testCases": [
       {
         "input": "radius = 5",
@@ -968,7 +968,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use `round()` or an f-string to format the output to three decimal places."
     ],
     "starterCode": "import math\n\nradius = 5\ndepth = 5\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "import math\n\nradius = 5\ndepth = 5\n\ndef solve():\n    circle_area = math.pi * (radius ** 2)\n    volume = circle_area * depth\n    print(f\"The volume is {volume:.3f}\")\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "import math\n\nradius = 5\ndepth = 5\n\ncircle_area = math.pi * (radius ** 2)\nvolume = circle_area * depth\nprint(f\"The volume is {volume:.3f}\")",
     "testCases": [
       {
         "input": "radius = 5, depth = 5",
@@ -998,7 +998,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use the `%` operator for the modulo (remainder)."
     ],
     "starterCode": "num1 = 10\nnum2 = 3\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "num1 = 10\nnum2 = 3\n\ndef solve():\n    result = num1 // num2\n    remainder = num1 % num2\n    print(f\"{num1} divided by {num2} is {result} with {remainder} remaining.\")\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "num1 = 10\nnum2 = 3\n\nresult = num1 // num2\nremainder = num1 % num2\nprint(f\"{num1} divided by {num2} is {result} with {remainder} remaining.\")",
     "testCases": [
       {
         "input": "num1 = 10, num2 = 3",
@@ -1059,7 +1059,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Append the name to a list in each iteration."
     ],
     "starterCode": "name = 'Alice'\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "name = 'Alice'\n\ndef solve():\n    result = []\n    for _ in range(3):\n        result.append(name)\n    print(result)\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "name = 'Alice'\n\nresult = []\nfor _ in range(3):\n    result.append(name)\nprint(result)",
     "testCases": [
       {
         "input": "name = 'Alice'",
@@ -1088,7 +1088,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Append the name to a list in each iteration."
     ],
     "starterCode": "name = 'Alice'\nnum_times = 5\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "name = 'Alice'\nnum_times = 5\n\ndef solve():\n    result = []\n    for _ in range(num_times):\n        result.append(name)\n    print(result)\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "name = 'Alice'\nnum_times = 5\n\nresult = []\nfor _ in range(num_times):\n    result.append(name)\nprint(result)",
     "testCases": [
       {
         "input": "name = 'Alice', num_times = 5",
@@ -1117,7 +1117,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Append each character to the result list."
     ],
     "starterCode": "name = 'Alice'\nnum_times = 2\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "name = 'Alice'\nnum_times = 2\n\ndef solve():\n    result = []\n    for _ in range(num_times):\n        for char in name:\n            result.append(char)\n    print(result)\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "name = 'Alice'\nnum_times = 2\n\nresult = []\nfor _ in range(num_times):\n    for char in name:\n        result.append(char)\nprint(result)",
     "testCases": [
       {
         "input": "name = 'Alice', num_times = 2",
@@ -1147,7 +1147,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use an f-string to format each line of the times table."
     ],
     "starterCode": "number = 5\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "number = 5\n\ndef solve():\n    table = []\n    for i in range(1, 13):\n        table.append(f\"{number} x {i} = {number * i}\")\n    print(table)\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "number = 5\n\ntable = []\nfor i in range(1, 13):\n    table.append(f\"{number} x {i} = {number * i}\")\nprint(table)",
     "testCases": [
       {
         "input": "number = 5",
@@ -1177,7 +1177,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Remember that the `stop` value in `range` is exclusive, so adjust it accordingly."
     ],
     "starterCode": "target_number = 45\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "target_number = 45\n\ndef solve():\n    result = []\n    for i in range(50, target_number - 1, -1):\n        result.append(i)\n    print(result)\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "target_number = 45\n\nresult = []\nfor i in range(50, target_number - 1, -1):\n    result.append(i)\nprint(result)",
     "testCases": [
       {
         "input": "target_number = 45",
@@ -1206,7 +1206,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use a `for` loop to repeat the name or the 'Too high' string."
     ],
     "starterCode": "number = 4\nname = 'John'\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "number = 4\nname = 'John'\n\ndef solve():\n    result = []\n    if number < 10:\n        for _ in range(number):\n            result.append(name)\n    else:\n        for _ in range(3):\n            result.append('Too high')\n    print(result)\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "number = 4\nname = 'John'\n\nresult = []\nif number < 10:\n    for _ in range(number):\n        result.append(name)\nelse:\n    for _ in range(3):\n        result.append('Too high')\nprint(result)",
     "testCases": [
       {
         "input": "number = 4, name = 'John'",
@@ -1236,7 +1236,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use a loop to iterate through the list and sum the numbers."
     ],
     "starterCode": "numbers_list = [1, 2, 3, 4, 5]\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "numbers_list = [1, 2, 3, 4, 5]\n\ndef solve():\n    total = 0\n    for num in numbers_list:\n        total += num\n    print(f\"The total is {total}\")\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "numbers_list = [1, 2, 3, 4, 5]\n\ntotal = 0\nfor num in numbers_list:\n    total += num\nprint(f\"The total is {total}\")",
     "testCases": [
       {
         "input": "numbers_list = [1, 2, 3, 4, 5]",
@@ -1265,7 +1265,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use `range(start, stop)` for counting up and `range(start, stop, step)` for counting down."
     ],
     "starterCode": "choice = 'up'\nnum = 5\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "choice = 'up'\nnum = 5\n\ndef solve():\n    result = []\n    if choice == 'up':\n        for i in range(1, num + 1):\n            result.append(i)\n    elif choice == 'down':\n        for i in range(num, 0, -1):\n            result.append(i)\n    print(result)\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "choice = 'up'\nnum = 5\n\nresult = []\nif choice == 'up':\n    for i in range(1, num + 1):\n        result.append(i)\nelif choice == 'down':\n    for i in range(num, 0, -1):\n        result.append(i)\nprint(result)",
     "testCases": [
       {
         "input": "choice = 'up', num = 5",
@@ -1296,7 +1296,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use a list comprehension or a loop to format the invitation messages."
     ],
     "starterCode": "friend_list = ['Alice', 'Bob', 'Charlie', 'David', 'Eve', 'Frank', 'Grace', 'Heidi', 'Ivan', 'Judy', 'Kevin', 'Liam']\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "friend_list = ['Alice', 'Bob', 'Charlie', 'David', 'Eve', 'Frank', 'Grace', 'Heidi', 'Ivan', 'Judy', 'Kevin', 'Liam']\n\ndef solve():\n    invited_friends = []\n    if len(friend_list) > 10:\n        for friend in friend_list[:10]:\n            invited_friends.append(f\"You have invited {friend}\")\n    else:\n        for friend in friend_list:\n            invited_friends.append(f\"You have invited {friend}\")\n    print(invited_friends)\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "friend_list = ['Alice', 'Bob', 'Charlie', 'David', 'Eve', 'Frank', 'Grace', 'Heidi', 'Ivan', 'Judy', 'Kevin', 'Liam']\n\ninvited_friends = []\nif len(friend_list) > 10:\n    for friend in friend_list[:10]:\n        invited_friends.append(f\"You have invited {friend}\")\nelse:\n    for friend in friend_list:\n        invited_friends.append(f\"You have invited {friend}\")\nprint(invited_friends)",
     "testCases": [
       {
         "input": "friend_list = ['Alice', 'Bob', 'Charlie', 'David', 'Eve', 'Frank', 'Grace', 'Heidi', 'Ivan', 'Judy', 'Kevin', 'Liam']",
@@ -1326,7 +1326,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use the modulo operator (`%`) to check if a number is even (a number is even if `number % 2 == 0`)."
     ],
     "starterCode": "start_num = 10\nend_num = 16\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "start_num = 10\nend_num = 16\n\ndef solve():\n    even_numbers = []\n    for i in range(start_num, end_num + 1):\n        if i % 2 == 0:\n            even_numbers.append(i)\n    print(even_numbers)\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "start_num = 10\nend_num = 16\n\neven_numbers = []\nfor i in range(start_num, end_num + 1):\n    if i % 2 == 0:\n        even_numbers.append(i)\nprint(even_numbers)",
     "testCases": [
       {
         "input": "start_num = 10, end_num = 16",
@@ -1386,7 +1386,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Initialize `total = 0` before the loop."
     ],
     "starterCode": "numbers_list = [10, 20, 30, 40, 50, 60]\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "numbers_list = [10, 20, 30, 40, 50, 60]\n\ndef solve():\n    total = 0\n    for num in numbers_list:\n        total += num\n        if total > 100:\n            break\n    print(f\"The total is {total}\")\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "numbers_list = [10, 20, 30, 40, 50, 60]\n\ntotal = 0\nfor num in numbers_list:\n    total += num\n    if total > 100:\n        break\nprint(f\"The total is {total}\")",
     "testCases": [
       {
         "input": "numbers_list = [10, 20, 30, 40, 50, 60]",
@@ -1452,7 +1452,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use `break` to stop processing guesses once the correct one is found."
     ],
     "starterCode": "guesses = [25, 75, 50, 40]\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "guesses = [25, 75, 50, 40]\n\ndef solve():\n    target_number = 50\n    result_messages = []\n    for guess in guesses:\n        if guess < target_number:\n            result_messages.append('Too low')\n        elif guess > target_number:\n            result_messages.append('Too high')\n        else:\n            result_messages.append('Correct!')\n            break # Stop if correct guess is made\n    print(result_messages)\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "guesses = [25, 75, 50, 40]\n\ntarget_number = 50\nresult_messages = []\nfor guess in guesses:\n    if guess < target_number:\n        result_messages.append('Too low')\n    elif guess > target_number:\n        result_messages.append('Too high')\n    else:\n        result_messages.append('Correct!')\n        break # Stop if correct guess is made\nprint(result_messages)",
     "testCases": [
       {
         "input": "guesses = [25, 75, 50, 40]",
@@ -1485,7 +1485,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "After the loop, check if the correct guess was found to append the 'ran out of attempts' message."
     ],
     "starterCode": "target_number = 42\nguesses = [20, 60, 42, 30]\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "target_number = 42\nguesses = [20, 60, 42, 30]\n\ndef solve():\n    result_messages = []\n    max_attempts = 5\n    correct_found = False\n\n    for i, guess in enumerate(guesses[:max_attempts]):\n        attempt_num = i + 1\n        if guess < target_number:\n            result_messages.append(f'Attempt {attempt_num}: Too low')\n        elif guess > target_number:\n            result_messages.append(f'Attempt {attempt_num}: Too high')\n        else:\n            result_messages.append(f'Attempt {attempt_num}: Correct!')\n            correct_found = True\n            break\n\n    if not correct_found and len(guesses) >= max_attempts:\n        result_messages.append('You ran out of attempts.')\n\n    print(result_messages)\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "target_number = 42\nguesses = [20, 60, 42, 30]\n\nresult_messages = []\nmax_attempts = 5\ncorrect_found = False\n\nfor i, guess in enumerate(guesses[:max_attempts]):\n    attempt_num = i + 1\n    if guess < target_number:\n        result_messages.append(f'Attempt {attempt_num}: Too low')\n    elif guess > target_number:\n        result_messages.append(f'Attempt {attempt_num}: Too high')\n    else:\n        result_messages.append(f'Attempt {attempt_num}: Correct!')\n        correct_found = True\n        break\n\nif not correct_found and len(guesses) >= max_attempts:\n    result_messages.append('You ran out of attempts.')\n\nprint(result_messages)",
     "testCases": [
       {
         "input": "target_number = 42, guesses = [20, 60, 42, 30]",
@@ -1517,7 +1517,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Ensure the 'stop' string is case-sensitive as specified."
     ],
     "starterCode": "name_list = ['Alice', 'Bob', 'Charlie', 'stop', 'David']\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "name_list = ['Alice', 'Bob', 'Charlie', 'stop', 'David']\n\ndef solve():\n    count = 0\n    for name in name_list:\n        if name == 'stop':\n            break\n        count += 1\n    print(f\"You have entered {count} names.\")\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "name_list = ['Alice', 'Bob', 'Charlie', 'stop', 'David']\n\ncount = 0\nfor name in name_list:\n    if name == 'stop':\n        break\n    count += 1\nprint(f\"You have entered {count} names.\")",
     "testCases": [
       {
         "input": "name_list = ['Alice', 'Bob', 'Charlie', 'stop', 'David']",
@@ -1550,7 +1550,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use f-strings for precise formatting to two decimal places (`:.2f`)."
     ],
     "starterCode": "initial_balance = 500.00\ntransactions = [('deposit', 100.00), ('withdraw', 200.00)]\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "initial_balance = 500.00\ntransactions = [('deposit', 100.00), ('withdraw', 200.00)]\n\ndef solve():\n    balance = initial_balance\n    results = []\n\n    for op_type, amount in transactions:\n        if op_type == 'deposit':\n            balance += amount\n            results.append(f'Deposit: {amount:.2f}, New Balance: {balance:.2f}')\n        elif op_type == 'withdraw':\n            if balance >= amount:\n                balance -= amount\n                results.append(f'Withdraw: {amount:.2f}, New Balance: {balance:.2f}')\n            else:\n                results.append(f'Withdraw: {amount:.2f}, Insufficient funds. Current Balance: {balance:.2f}')\n\n    results.append(f'Final Balance: {balance:.2f}')\n    print(results)\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "initial_balance = 500.00\ntransactions = [('deposit', 100.00), ('withdraw', 200.00)]\n\nbalance = initial_balance\nresults = []\n\nfor op_type, amount in transactions:\n    if op_type == 'deposit':\n        balance += amount\n        results.append(f'Deposit: {amount:.2f}, New Balance: {balance:.2f}')\n    elif op_type == 'withdraw':\n        if balance >= amount:\n            balance -= amount\n            results.append(f'Withdraw: {amount:.2f}, New Balance: {balance:.2f}')\n        else:\n            results.append(f'Withdraw: {amount:.2f}, Insufficient funds. Current Balance: {balance:.2f}')\n\nresults.append(f'Final Balance: {balance:.2f}')\nprint(results)",
     "testCases": [
       {
         "input": "initial_balance = 500.00, transactions = [('deposit', 100.00), ('withdraw', 200.00)]",
@@ -1582,7 +1582,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use `random.randint(a, b)` for inclusive range generation."
     ],
     "starterCode": "import random\nrandom.seed(42)\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "import random\nrandom.seed(42)\n\ndef solve():\n    print(random.randint(1, 100))\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "import random\nrandom.seed(42)\n\nprint(random.randint(1, 100))",
     "testCases": [
       {
         "input": "No explicit input, function call only.",
@@ -1834,7 +1834,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Append each created string to a list."
     ],
     "starterCode": "side = 4\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "side = 4\n\ndef solve():\n    pattern = []\n    for _ in range(side):\n        pattern.append('*' * side)\n    print(pattern)\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "side = 4\n\npattern = []\nfor _ in range(side):\n    pattern.append('*' * side)\nprint(pattern)",
     "testCases": [
       {
         "input": "side = 4",
@@ -2769,7 +2769,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "You will need nested loops to iterate through the array for comparisons and swaps."
     ],
     "starterCode": "arr = [5, 2, 4, 1, 3]\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "arr = [5, 2, 4, 1, 3]\n\ndef solve():\n    n = len(arr)\n    for i in range(n):\n        for j in range(0, n - i - 1):\n            if arr[j] > arr[j+1]:\n                arr[j], arr[j+1] = arr[j+1], arr[j] # Swap elements\n    print(arr)\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "arr = [5, 2, 4, 1, 3]\n\nn = len(arr)\nfor i in range(n):\n    for j in range(0, n - i - 1):\n        if arr[j] > arr[j+1]:\n            arr[j], arr[j+1] = arr[j+1], arr[j] # Swap elements\nprint(arr)",
     "testCases": [
       {
         "input": "arr = [5, 2, 4, 1, 3]",
@@ -2864,7 +2864,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Iterate through the original list. For each element, check if it's already in your auxiliary structure. If not, add it to your new list and to the auxiliary structure."
     ],
     "starterCode": "arr = [1, 2, 2, 3, 4, 4, 5]\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "arr = [1, 2, 2, 3, 4, 4, 5]\n\ndef solve():\n    seen = set()\n    result = []\n    for item in arr:\n        if item not in seen:\n            seen.add(item)\n            result.append(item)\n    print(result)\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "arr = [1, 2, 2, 3, 4, 4, 5]\n\nseen = set()\nresult = []\nfor item in arr:\n    if item not in seen:\n        seen.add(item)\n        result.append(item)\nprint(result)",
     "testCases": [
       {
         "input": "arr = [1, 2, 2, 3, 4, 4, 5]",
@@ -2897,7 +2897,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "After one list is exhausted, append all remaining elements from the other list to the result."
     ],
     "starterCode": "arr1 = [1, 3, 5]\narr2 = [2, 4, 6]\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "arr1 = [1, 3, 5]\narr2 = [2, 4, 6]\n\ndef solve():\n    merged = []\n    i, j = 0, 0\n    while i < len(arr1) and j < len(arr2):\n        if arr1[i] < arr2[j]:\n            merged.append(arr1[i])\n            i += 1\n        else:\n            merged.append(arr2[j])\n            j += 1\n    while i < len(arr1):\n        merged.append(arr1[i])\n        i += 1\n    while j < len(arr2):\n        merged.append(arr2[j])\n        j += 1\n    print(merged)\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "arr1 = [1, 3, 5]\narr2 = [2, 4, 6]\n\nmerged = []\ni, j = 0, 0\nwhile i < len(arr1) and j < len(arr2):\n    if arr1[i] < arr2[j]:\n        merged.append(arr1[i])\n        i += 1\n    else:\n        merged.append(arr2[j])\n        j += 1\nwhile i < len(arr1):\n    merged.append(arr1[i])\n    i += 1\nwhile j < len(arr2):\n    merged.append(arr2[j])\n    j += 1\nprint(merged)",
     "testCases": [
       {
         "input": "arr1 = [1, 3, 5], arr2 = [2, 4, 6]",
@@ -2931,7 +2931,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "To format the output, iterate through the created grid. For each inner list (row), convert the numbers to strings, join them with a space, and then join the rows with newline characters."
     ],
     "starterCode": "def solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "def solve():\n    grid = []\n    number = 1\n    for _ in range(3):\n        row = []\n        for _ in range(3):\n            row.append(number)\n            number += 1\n        grid.append(row)\n\n    formatted_grid = []\n    for row in grid:\n        formatted_grid.append(' '.join(map(str, row)))\n    print('\\n'.join(formatted_grid))\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "grid = []\nnumber = 1\nfor _ in range(3):\n    row = []\n    for _ in range(3):\n        row.append(number)\n        number += 1\n    grid.append(row)\n\nformatted_grid = []\nfor row in grid:\n    formatted_grid.append(' '.join(map(str, row)))\nprint('\\n'.join(formatted_grid))",
     "testCases": [
       {
         "input": "No input needed, the grid is fixed.",
@@ -2963,7 +2963,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Join the formatted strings for each student with a newline character to get the final output."
     ],
     "starterCode": "student_data = [['Alice', 18, 'A'], ['Bob', 19, 'B'], ['Charlie', 17, 'A']]\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "student_data = [['Alice', 18, 'A'], ['Bob', 19, 'B'], ['Charlie', 17, 'A']]\n\ndef solve():\n    formatted_records = []\n    for student in student_data:\n        name, age, grade = student[0], student[1], student[2]\n        formatted_records.append(f\"Name: {name}, Age: {age}, Grade: {grade}\")\n    print('\\n'.join(formatted_records))\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "student_data = [['Alice', 18, 'A'], ['Bob', 19, 'B'], ['Charlie', 17, 'A']]\n\nformatted_records = []\nfor student in student_data:\n    name, age, grade = student[0], student[1], student[2]\n    formatted_records.append(f\"Name: {name}, Age: {age}, Grade: {grade}\")\nprint('\\n'.join(formatted_records))",
     "testCases": [
       {
         "input": "student_data = [['Alice', 18, 'A'], ['Bob', 19, 'B'], ['Charlie', 17, 'A']]",
@@ -2996,7 +2996,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Remember that matrices in this context are lists of lists."
     ],
     "starterCode": "matrix1 = [[1, 2], [3, 4]]\nmatrix2 = [[3, 4], [5, 6]]\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "matrix1 = [[1, 2], [3, 4]]\nmatrix2 = [[3, 4], [5, 6]]\n\ndef solve():\n    rows = len(matrix1)\n    cols = len(matrix1[0])\n\n    result_matrix = []\n    for i in range(rows):\n        current_row = []\n        for j in range(cols):\n            current_row.append(matrix1[i][j] + matrix2[i][j])\n        result_matrix.append(current_row)\n    print(result_matrix)\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "matrix1 = [[1, 2], [3, 4]]\nmatrix2 = [[3, 4], [5, 6]]\n\nrows = len(matrix1)\ncols = len(matrix1[0])\n\nresult_matrix = []\nfor i in range(rows):\n    current_row = []\n    for j in range(cols):\n        current_row.append(matrix1[i][j] + matrix2[i][j])\n    result_matrix.append(current_row)\nprint(result_matrix)",
     "testCases": [
       {
         "input": "matrix1 = [[1, 2], [3, 4]], matrix2 = [[3, 4], [5, 6]]",
@@ -3063,7 +3063,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Be careful with the additional spaces around 'X', 'O', or ' ' to make it look clean: ' X | O | X '."
     ],
     "starterCode": "board = [['X', 'O', 'X'], ['O', 'X', 'O'], ['X', 'O', 'X']]\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "board = [['X', 'O', 'X'], ['O', 'X', 'O'], ['X', 'O', 'X']]\n\ndef solve():\n    display_rows = []\n    for i, row in enumerate(board):\n        display_rows.append(' ' + ' | '.join(row) + ' ')\n        if i < len(board) - 1:\n            display_rows.append('-----------')\n    print('\\n'.join(display_rows))\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "board = [['X', 'O', 'X'], ['O', 'X', 'O'], ['X', 'O', 'X']]\n\ndisplay_rows = []\nfor i, row in enumerate(board):\n    display_rows.append(' ' + ' | '.join(row) + ' ')\n    if i < len(board) - 1:\n        display_rows.append('-----------')\nprint('\\n'.join(display_rows))",
     "testCases": [
       {
         "input": "board = [['X', 'O', 'X'], ['O', 'X', 'O'], ['X', 'O', 'X']]",
@@ -3095,7 +3095,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Collect all formatted contact strings in a list and then join them with newline characters."
     ],
     "starterCode": "phonebook = {'Alice': {'phone': '111-222-3333', 'email': 'alice@example.com'}, 'Bob': {'phone': '444-555-6666', 'email': 'bob@example.com'}}\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "phonebook = {'Alice': {'phone': '111-222-3333', 'email': 'alice@example.com'}, 'Bob': {'phone': '444-555-6666', 'email': 'bob@example.com'}}\n\ndef solve():\n    formatted_contacts = []\n    for name, details in phonebook.items():\n        phone = details.get('phone', 'N/A')\n        email = details.get('email', 'N/A')\n        formatted_contacts.append(f\"Name: {name}, Phone: {phone}, Email: {email}\")\n    print('\\n'.join(formatted_contacts))\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "phonebook = {'Alice': {'phone': '111-222-3333', 'email': 'alice@example.com'}, 'Bob': {'phone': '444-555-6666', 'email': 'bob@example.com'}}\n\nformatted_contacts = []\nfor name, details in phonebook.items():\n    phone = details.get('phone', 'N/A')\n    email = details.get('email', 'N/A')\n    formatted_contacts.append(f\"Name: {name}, Phone: {phone}, Email: {email}\")\nprint('\\n'.join(formatted_contacts))",
     "testCases": [
       {
         "input": "phonebook = {'Alice': {'phone': '111-222-3333', 'email': 'alice@example.com'}, 'Bob': {'phone': '444-555-6666', 'email': 'bob@example.com'}}",
@@ -3164,7 +3164,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Join the student strings with `\\n\\n` to separate them by an empty line."
     ],
     "starterCode": "grades_data = {'Alice': {'Math': 90, 'Science': 85}, 'Bob': {'Math': 70, 'History': 65}}\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "grades_data = {'Alice': {'Math': 90, 'Science': 85}, 'Bob': {'Math': 70, 'History': 65}}\n\ndef solve():\n    all_student_reports = []\n    for student_name, subjects_grades in grades_data.items():\n        student_report = [f\"Student: {student_name}\"]\n        total_grades = 0\n        num_subjects = 0\n\n        for subject, grade in subjects_grades.items():\n            student_report.append(f\"  {subject}: {grade}\")\n            total_grades += grade\n            num_subjects += 1\n\n        if num_subjects > 0:\n            average = total_grades / num_subjects\n            student_report.append(f\"  Average: {average:.2f}\")\n        else:\n            student_report.append(\"  Average: N/A\")\n\n        all_student_reports.append('\\n'.join(student_report))\n\n    print('\\n\\n'.join(all_student_reports))\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "grades_data = {'Alice': {'Math': 90, 'Science': 85}, 'Bob': {'Math': 70, 'History': 65}}\n\nall_student_reports = []\nfor student_name, subjects_grades in grades_data.items():\n    student_report = [f\"Student: {student_name}\"]\n    total_grades = 0\n    num_subjects = 0\n\n    for subject, grade in subjects_grades.items():\n        student_report.append(f\"  {subject}: {grade}\")\n        total_grades += grade\n        num_subjects += 1\n\n    if num_subjects > 0:\n        average = total_grades / num_subjects\n        student_report.append(f\"  Average: {average:.2f}\")\n    else:\n        student_report.append(\"  Average: N/A\")\n\n    all_student_reports.append('\\n'.join(student_report))\n\nprint('\\n\\n'.join(all_student_reports))",
     "testCases": [
       {
         "input": "grades_data = {'Alice': {'Math': 90, 'Science': 85}, 'Bob': {'Math': 70, 'History': 65}}",
@@ -3197,7 +3197,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Collect each row string, then join them with newline characters."
     ],
     "starterCode": "max_num = 4\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "max_num = 4\n\ndef solve():\n    table_rows = []\n    # Determine max width for alignment\n    max_val = max_num * max_num\n    width = len(str(max_val))\n\n    for i in range(1, max_num + 1):\n        row_values = []\n        for j in range(1, max_num + 1):\n            product = i * j\n            row_values.append(f\"{product:>{width}}\") # Right-align with determined width\n        table_rows.append(' '.join(row_values))\n    print('\\n'.join(table_rows))\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "max_num = 4\n\ntable_rows = []\n# Determine max width for alignment\nmax_val = max_num * max_num\nwidth = len(str(max_val))\n\nfor i in range(1, max_num + 1):\n    row_values = []\n    for j in range(1, max_num + 1):\n        product = i * j\n        row_values.append(f\"{product:>{width}}\") # Right-align with determined width\n    table_rows.append(' '.join(row_values))\nprint('\\n'.join(table_rows))",
     "testCases": [
       {
         "input": "max_num = 4",
@@ -3230,7 +3230,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Check if the `stripped_line` is not empty. If it's not, increment a counter."
     ],
     "starterCode": "multiline_string = \"Line 1\\nLine 2\\n\\nLine 4 \"\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "multiline_string = \"Line 1\\nLine 2\\n\\nLine 4 \"\n\ndef solve():\n    lines = multiline_string.splitlines()\n    non_empty_count = 0\n    for line in lines:\n        if line.strip(): # Checks if the line is not empty after stripping whitespace\n            non_empty_count += 1\n    print(non_empty_count)\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "multiline_string = \"Line 1\\nLine 2\\n\\nLine 4 \"\n\nlines = multiline_string.splitlines()\nnon_empty_count = 0\nfor line in lines:\n    if line.strip(): # Checks if the line is not empty after stripping whitespace\n        non_empty_count += 1\nprint(non_empty_count)",
     "testCases": [
       {
         "input": "multiline_string = \"Line 1\\nLine 2\\n\\nLine 4 \"",
@@ -3263,7 +3263,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use the `in` operator to check if the keyword is present in the line string."
     ],
     "starterCode": "text_content = \"This is a test.\\nAnother line here.\\nTest again!\"\nkeyword = \"test\"\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "text_content = \"This is a test.\\nAnother line here.\\nTest again!\"\nkeyword = \"test\"\n\ndef solve():\n    lines = text_content.splitlines()\n    found_line_numbers = []\n    lower_keyword = keyword.lower()\n\n    for i, line in enumerate(lines):\n        if lower_keyword in line.lower():\n            found_line_numbers.append(i + 1)\n    print(found_line_numbers)\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "text_content = \"This is a test.\\nAnother line here.\\nTest again!\"\nkeyword = \"test\"\n\nlines = text_content.splitlines()\nfound_line_numbers = []\nlower_keyword = keyword.lower()\n\nfor i, line in enumerate(lines):\n    if lower_keyword in line.lower():\n        found_line_numbers.append(i + 1)\nprint(found_line_numbers)",
     "testCases": [
       {
         "input": "text_content = \"This is a test.\\nAnother line here.\\nTest again!\", keyword = \"test\"",
@@ -3364,7 +3364,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Remember to convert price to float and stock to integer."
     ],
     "starterCode": "data_string = \"Laptop,1200.50,10\\nMouse,25.00,50\\nKeyboard,75,invalid_stock\\nMonitor,300.00,20\"\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "data_string = \"Laptop,1200.50,10\\nMouse,25.00,50\\nKeyboard,75,invalid_stock\\nMonitor,300.00,20\"\n\ndef solve():\n    parsed_records = []\n    lines = data_string.splitlines()\n    for line in lines:\n        line = line.strip()\n        if not line:\n            continue\n\n        parts = line.split(',')\n        if len(parts) == 3:\n            try:\n                product = parts[0].strip()\n                price = float(parts[1].strip())\n                stock = int(parts[2].strip())\n                parsed_records.append({'product': product, 'price': price, 'stock': stock})\n            except ValueError:\n                # Skip lines with invalid price or stock formats\n                continue\n        # else: skip lines with incorrect number of parts\n    print(parsed_records)\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "data_string = \"Laptop,1200.50,10\\nMouse,25.00,50\\nKeyboard,75,invalid_stock\\nMonitor,300.00,20\"\n\nparsed_records = []\nlines = data_string.splitlines()\nfor line in lines:\n    line = line.strip()\n    if not line:\n        continue\n\n    parts = line.split(',')\n    if len(parts) == 3:\n        try:\n            product = parts[0].strip()\n            price = float(parts[1].strip())\n            stock = int(parts[2].strip())\n            parsed_records.append({'product': product, 'price': price, 'stock': stock})\n        except ValueError:\n            # Skip lines with invalid price or stock formats\n            continue\n    # else: skip lines with incorrect number of parts\nprint(parsed_records)",
     "testCases": [
       {
         "input": "data_string = \"Laptop,1200.50,10\\nMouse,25.00,50\\nKeyboard,75,invalid_stock\\nMonitor,300.00,20\"",
@@ -3858,7 +3858,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Remember to handle the division by zero case explicitly."
     ],
     "starterCode": "num1 = 2\nnum2 = 3\nop = '+'\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "num1 = 2\nnum2 = 3\nop = '+'\n\ndef solve():\n    if op == '+':\n        print(num1 + num2)\n    elif op == '-':\n        print(num1 - num2)\n    elif op == '*':\n        print(num1 * num2)\n    elif op == '/':\n        if num2 == 0:\n            print('Error: Division by zero.')\n        else:\n            print(num1 / num2)\n    else:\n        print('Error: Invalid operator.')\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "num1 = 2\nnum2 = 3\nop = '+'\n\nif op == '+':\n    print(num1 + num2)\nelif op == '-':\n    print(num1 - num2)\nelif op == '*':\n    print(num1 * num2)\nelif op == '/':\n    if num2 == 0:\n        print('Error: Division by zero.')\n    else:\n        print(num1 / num2)\nelse:\n    print('Error: Invalid operator.')",
     "testCases": [
       {
         "input": "2, 3, '+'",
@@ -3919,7 +3919,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Keep a counter for the score."
     ],
     "starterCode": "answers_list = ['A', 'B', 'X', 'D', 'A']\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "answers_list = ['A', 'B', 'X', 'D', 'A']\n\ndef solve():\n    correct_answers = ['A', 'B', 'C', 'D', 'A']\n    score = 0\n    for i in range(min(len(answers_list), len(correct_answers))):\n        if answers_list[i] == correct_answers[i]:\n            score += 1\n    print(score)\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "answers_list = ['A', 'B', 'X', 'D', 'A']\n\ncorrect_answers = ['A', 'B', 'C', 'D', 'A']\nscore = 0\nfor i in range(min(len(answers_list), len(correct_answers))):\n    if answers_list[i] == correct_answers[i]:\n        score += 1\nprint(score)",
     "testCases": [
       {
         "input": "['A', 'B', 'X', 'D', 'A']",
@@ -3951,7 +3951,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Print the list directly for 'list' action."
     ],
     "starterCode": "action = 'add'\nstudents = ['Alice', 'Bob']\nname = 'Charlie'\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "action = 'add'\nstudents = ['Alice', 'Bob']\nname = 'Charlie'\n\ndef solve():\n    if action == 'add':\n        if name and name not in students:\n            students.append(name)\n            print(students)\n        elif name:\n            print(f\"Student {name} already exists.\")\n        else:\n            print(\"Please provide a name to add.\")\n    elif action == 'remove':\n        if name and name in students:\n            students.remove(name)\n            print(students)\n        elif name:\n            print(f\"Student {name} not found.\")\n        else:\n            print(\"Please provide a name to remove.\")\n    elif action == 'list':\n        print(students)\n    else:\n        print('Error: Invalid action.')\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "action = 'add'\nstudents = ['Alice', 'Bob']\nname = 'Charlie'\n\nif action == 'add':\n    if name and name not in students:\n        students.append(name)\n        print(students)\n    elif name:\n        print(f\"Student {name} already exists.\")\n    else:\n        print(\"Please provide a name to add.\")\nelif action == 'remove':\n    if name and name in students:\n        students.remove(name)\n        print(students)\n    elif name:\n        print(f\"Student {name} not found.\")\n    else:\n        print(\"Please provide a name to remove.\")\nelif action == 'list':\n    print(students)\nelse:\n    print('Error: Invalid action.')",
     "testCases": [
       {
         "input": "'add', ['Alice', 'Bob'], 'Charlie'",
@@ -3981,7 +3981,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Print the dictionary directly for 'list' action."
     ],
     "starterCode": "action = 'add'\ninventory = {'apple': 10}\nitem = 'apple'\nqty = 5\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "action = 'add'\ninventory = {'apple': 10}\nitem = 'apple'\nqty = 5\n\ndef solve():\n    if action == 'add':\n        if item and isinstance(qty, int) and qty > 0:\n            inventory[item] = inventory.get(item, 0) + qty\n            print(inventory)\n        else:\n            print('Error: Invalid item or quantity for add.')\n    elif action == 'remove':\n        if item and isinstance(qty, int) and qty > 0:\n            if item in inventory:\n                if inventory[item] >= qty:\n                    inventory[item] -= qty\n                    if inventory[item] <= 0:\n                        del inventory[item]\n                    print(inventory)\n                else:\n                    print(f'Error: Not enough {item} in stock.')\n            else:\n                print(f'Error: {item} not found in inventory.')\n        else:\n            print('Error: Invalid item or quantity for remove.')\n    elif action == 'list':\n        print(inventory)\n    else:\n        print('Error: Invalid action.')\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "action = 'add'\ninventory = {'apple': 10}\nitem = 'apple'\nqty = 5\n\nif action == 'add':\n    if item and isinstance(qty, int) and qty > 0:\n        inventory[item] = inventory.get(item, 0) + qty\n        print(inventory)\n    else:\n        print('Error: Invalid item or quantity for add.')\nelif action == 'remove':\n    if item and isinstance(qty, int) and qty > 0:\n        if item in inventory:\n            if inventory[item] >= qty:\n                inventory[item] -= qty\n                if inventory[item] <= 0:\n                    del inventory[item]\n                print(inventory)\n            else:\n                print(f'Error: Not enough {item} in stock.')\n        else:\n            print(f'Error: {item} not found in inventory.')\n    else:\n        print('Error: Invalid item or quantity for remove.')\nelif action == 'list':\n    print(inventory)\nelse:\n    print('Error: Invalid action.')",
     "testCases": [
       {
         "input": "'add', {'apple': 10}, 'apple', 5",
@@ -4011,7 +4011,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use `contacts.get(name)` to safely view contact."
     ],
     "starterCode": "action = 'add'\ncontacts = {'Alice': '123-456-7890'}\nname = 'Bob'\nphone = '444-555-6666'\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "action = 'add'\ncontacts = {'Alice': '123-456-7890'}\nname = 'Bob'\nphone = '444-555-6666'\n\ndef solve():\n    if action == 'add':\n        if name and phone is not None:\n            contacts[name] = phone\n            print(contacts)\n        else:\n            print('Error: Name and phone are required for add.')\n    elif action == 'remove':\n        if name:\n            if name in contacts:\n                del contacts[name]\n                print(contacts)\n            else:\n                print(f'Contact {name} not found.')\n        else:\n            print('Error: Name is required for remove.')\n    elif action == 'view':\n        if name:\n            if name in contacts:\n                print(f'{name}: {contacts[name]}')\n            else:\n                print('Contact not found.')\n        else:\n            print('Error: Name is required for view.')\n    elif action == 'list_all':\n        if contacts:\n            sorted_contacts = dict(sorted(contacts.items()))\n            for k, v in sorted_contacts.items():\n                print(f'{k}: {v}')\n        else:\n            print('No contacts available.')\n    else:\n        print('Error: Invalid action.')\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "action = 'add'\ncontacts = {'Alice': '123-456-7890'}\nname = 'Bob'\nphone = '444-555-6666'\n\nif action == 'add':\n    if name and phone is not None:\n        contacts[name] = phone\n        print(contacts)\n    else:\n        print('Error: Name and phone are required for add.')\nelif action == 'remove':\n    if name:\n        if name in contacts:\n            del contacts[name]\n            print(contacts)\n        else:\n            print(f'Contact {name} not found.')\n    else:\n        print('Error: Name is required for remove.')\nelif action == 'view':\n    if name:\n        if name in contacts:\n            print(f'{name}: {contacts[name]}')\n        else:\n            print('Contact not found.')\n    else:\n        print('Error: Name is required for view.')\nelif action == 'list_all':\n    if contacts:\n        sorted_contacts = dict(sorted(contacts.items()))\n        for k, v in sorted_contacts.items():\n            print(f'{k}: {v}')\n    else:\n        print('No contacts available.')\nelse:\n    print('Error: Invalid action.')",
     "testCases": [
       {
         "input": "'add', {'Alice': '123-456-7890'}, 'Bob', '444-555-6666'",
@@ -4071,7 +4071,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Print the list directly for 'list'."
     ],
     "starterCode": "action = 'add'\ntodos = ['Buy groceries']\ntask = 'Pay bills'\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "action = 'add'\ntodos = ['Buy groceries']\ntask = 'Pay bills'\n\ndef solve():\n    if action == 'add':\n        if task:\n            todos.append(task)\n            print(todos)\n        else:\n            print('Error: Task cannot be empty.')\n    elif action == 'complete':\n        if task:\n            if task in todos:\n                todos.remove(task)\n                print(todos)\n            else:\n                print(f\"Task '{task}' not found.\")\n        else:\n            print('Error: Task cannot be empty.')\n    elif action == 'list':\n        if todos:\n            for t in todos:\n                print(t)\n        else:\n            print('No tasks in the todo list.')\n    else:\n        print('Error: Invalid action.')\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "action = 'add'\ntodos = ['Buy groceries']\ntask = 'Pay bills'\n\nif action == 'add':\n    if task:\n        todos.append(task)\n        print(todos)\n    else:\n        print('Error: Task cannot be empty.')\nelif action == 'complete':\n    if task:\n        if task in todos:\n            todos.remove(task)\n            print(todos)\n        else:\n            print(f\"Task '{task}' not found.\")\n    else:\n        print('Error: Task cannot be empty.')\nelif action == 'list':\n    if todos:\n        for t in todos:\n            print(t)\n    else:\n        print('No tasks in the todo list.')\nelse:\n    print('Error: Invalid action.')",
     "testCases": [
       {
         "input": "'add', ['Buy groceries'], 'Pay bills'",
@@ -4198,7 +4198,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Constants: `ord('a')`, `ord('A')`."
     ],
     "starterCode": "text = 'Hello World!'\nshift = 3\nmode = 'encrypt'\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "text = 'Hello World!'\nshift = 3\nmode = 'encrypt'\n\ndef solve():\n    result = []\n    for char in text:\n        if 'a' <= char <= 'z':\n            base = ord('a')\n            char_code = ord(char)\n            if mode == 'encrypt':\n                shifted_code = (char_code - base + shift) % 26 + base\n            elif mode == 'decrypt':\n                shifted_code = (char_code - base - shift) % 26 + base\n            result.append(chr(shifted_code))\n        elif 'A' <= char <= 'Z':\n            base = ord('A')\n            char_code = ord(char)\n            if mode == 'encrypt':\n                shifted_code = (char_code - base + shift) % 26 + base\n            elif mode == 'decrypt':\n                shifted_code = (char_code - base - shift) % 26 + base\n            result.append(chr(shifted_code))\n        else:\n            result.append(char)\n\n    print(\"\".join(result))\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "text = 'Hello World!'\nshift = 3\nmode = 'encrypt'\n\nresult = []\nfor char in text:\n    if 'a' <= char <= 'z':\n        base = ord('a')\n        char_code = ord(char)\n        if mode == 'encrypt':\n            shifted_code = (char_code - base + shift) % 26 + base\n        elif mode == 'decrypt':\n            shifted_code = (char_code - base - shift) % 26 + base\n        result.append(chr(shifted_code))\n    elif 'A' <= char <= 'Z':\n        base = ord('A')\n        char_code = ord(char)\n        if mode == 'encrypt':\n            shifted_code = (char_code - base + shift) % 26 + base\n        elif mode == 'decrypt':\n            shifted_code = (char_code - base - shift) % 26 + base\n        result.append(chr(shifted_code))\n    else:\n        result.append(char)\n\nprint(\"\".join(result))",
     "testCases": [
       {
         "input": "'Hello World!', 3, 'encrypt'",
@@ -4324,7 +4324,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Be careful with modifying a list while iterating over it (e.g., for 'delete'). Using a new list or iterating in reverse can help, or safely removing by index."
     ],
     "starterCode": "action = 'create'\nrecords = [{'id': 2, 'name': 'Bob'}]\nrecord = {'id': 1, 'name': 'Alice', 'age': 20}\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "action = 'create'\nrecords = [{'id': 2, 'name': 'Bob'}]\nrecord = {'id': 1, 'name': 'Alice', 'age': 20}\n\ndef solve():\n    # The records list is modified in place.\n\n    if action == 'create':\n        records.append(record)\n        print(f\"Record created. Current records: {records}\")\n    elif action == 'read':\n        found_record = None\n        for r_item in records:\n            if r_item.get('id') == record.get('id'):\n                found_record = r_item\n                break\n        if found_record:\n            print(f\"Record found: {found_record}\")\n        else:\n            print(\"Record not found.\")\n    elif action == 'update':\n        found_index = -1\n        for i, r_item in enumerate(records):\n            if r_item.get('id') == record.get('id'):\n                found_index = i\n                break\n\n        if found_index != -1:\n            records[found_index].update(record)\n            print(f\"Record updated. Current records: {records}\")\n        else:\n            print(\"Record not found.\")\n    elif action == 'delete':\n        found_index = -1\n        for i, r_item in enumerate(records):\n            if r_item.get('id') == record.get('id'):\n                found_index = i\n                break\n\n        if found_index != -1:\n            del records[found_index]\n            print(f\"Record deleted. Current records: {records}\")\n        else:\n            print(\"Record not found.\")\n    else:\n        print(\"Invalid action.\")\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "action = 'create'\nrecords = [{'id': 2, 'name': 'Bob'}]\nrecord = {'id': 1, 'name': 'Alice', 'age': 20}\n\n# The records list is modified in place.\n\nif action == 'create':\n    records.append(record)\n    print(f\"Record created. Current records: {records}\")\nelif action == 'read':\n    found_record = None\n    for r_item in records:\n        if r_item.get('id') == record.get('id'):\n            found_record = r_item\n            break\n    if found_record:\n        print(f\"Record found: {found_record}\")\n    else:\n        print(\"Record not found.\")\nelif action == 'update':\n    found_index = -1\n    for i, r_item in enumerate(records):\n        if r_item.get('id') == record.get('id'):\n            found_index = i\n            break\n\n    if found_index != -1:\n        records[found_index].update(record)\n        print(f\"Record updated. Current records: {records}\")\n    else:\n        print(\"Record not found.\")\nelif action == 'delete':\n    found_index = -1\n    for i, r_item in enumerate(records):\n        if r_item.get('id') == record.get('id'):\n            found_index = i\n            break\n\n    if found_index != -1:\n        del records[found_index]\n        print(f\"Record deleted. Current records: {records}\")\n    else:\n        print(\"Record not found.\")\nelse:\n    print(\"Invalid action.\")",
     "testCases": [
       {
         "input": "'create', [{'id': 2, 'name': 'Bob'}], {'id': 1, 'name': 'Alice', 'age': 20}",
@@ -4354,7 +4354,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Access dictionary values using `record.get(field)` or `record[field]` (if you're sure the field always exists)."
     ],
     "starterCode": "records = [{'id': 1, 'name': 'Alice', 'age': 30}, {'id': 2, 'name': 'Bob', 'age': 25}]\nfield = 'name'\nvalue = 'Alice'\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "records = [{'id': 1, 'name': 'Alice', 'age': 30}, {'id': 2, 'name': 'Bob', 'age': 25}]\nfield = 'name'\nvalue = 'Alice'\n\ndef solve():\n    filtered_records = []\n    for record in records:\n        if field in record and record[field] == value:\n            filtered_records.append(record)\n    print(filtered_records)\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "records = [{'id': 1, 'name': 'Alice', 'age': 30}, {'id': 2, 'name': 'Bob', 'age': 25}]\nfield = 'name'\nvalue = 'Alice'\n\nfiltered_records = []\nfor record in records:\n    if field in record and record[field] == value:\n        filtered_records.append(record)\nprint(filtered_records)",
     "testCases": [
       {
         "input": "[{'id': 1, 'name': 'Alice', 'age': 30}, {'id': 2, 'name': 'Bob', 'age': 25}], 'name', 'Alice'",
@@ -4449,7 +4449,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "If a match is found, combine the information."
     ],
     "starterCode": "students = [{'student_id': 1, 'name': 'Alice'}, {'student_id': 2, 'name': 'Bob'}]\ngrades = [{'student_id': 1, 'score': 90}, {'student_id': 2, 'score': 85}]\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "students = [{'student_id': 1, 'name': 'Alice'}, {'student_id': 2, 'name': 'Bob'}]\ngrades = [{'student_id': 1, 'score': 90}, {'student_id': 2, 'score': 85}]\n\ndef solve():\n    student_map = {student['student_id']: student for student in students}\n\n    joined_records = []\n    for grade_record in grades:\n        student_id = grade_record['student_id']\n        if student_id in student_map:\n            student_record = student_map[student_id]\n            joined_record = {\n                'student_id': student_id,\n                'name': student_record['name'],\n                'score': grade_record['score']\n            }\n            joined_records.append(joined_record)\n\n    print(joined_records)\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "students = [{'student_id': 1, 'name': 'Alice'}, {'student_id': 2, 'name': 'Bob'}]\ngrades = [{'student_id': 1, 'score': 90}, {'student_id': 2, 'score': 85}]\n\nstudent_map = {student['student_id']: student for student in students}\n\njoined_records = []\nfor grade_record in grades:\n    student_id = grade_record['student_id']\n    if student_id in student_map:\n        student_record = student_map[student_id]\n        joined_record = {\n            'student_id': student_id,\n            'name': student_record['name'],\n            'score': grade_record['score']\n        }\n        joined_records.append(joined_record)\n\nprint(joined_records)",
     "testCases": [
       {
         "input": "[{'student_id': 1, 'name': 'Alice'}, {'student_id': 2, 'name': 'Bob'}], [{'student_id': 1, 'score': 90}, {'student_id': 2, 'score': 85}]",
@@ -4482,7 +4482,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use f-strings for formatted output to two decimal places: `f\"Balance: {balance:.2f}\"`."
     ],
     "starterCode": "transactions = [{'type': 'deposit', 'amount': 100}, {'type': 'withdrawal', 'amount': 30}]\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "transactions = [{'type': 'deposit', 'amount': 100}, {'type': 'withdrawal', 'amount': 30}]\n\ndef solve():\n    balance = 0.0\n    for transaction in transactions:\n        transaction_type = transaction['type']\n        amount = float(transaction['amount']) # Ensure amount is float for calculations\n\n        if transaction_type == 'deposit':\n            balance += amount\n        elif transaction_type == 'withdrawal':\n            balance -= amount\n        # For robustness, consider an else for invalid transaction types, though problem implies valid inputs.\n\n        print(f\"Balance: {balance:.2f}\")\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "transactions = [{'type': 'deposit', 'amount': 100}, {'type': 'withdrawal', 'amount': 30}]\n\nbalance = 0.0\nfor transaction in transactions:\n    transaction_type = transaction['type']\n    amount = float(transaction['amount']) # Ensure amount is float for calculations\n\n    if transaction_type == 'deposit':\n        balance += amount\n    elif transaction_type == 'withdrawal':\n        balance -= amount\n    # For robustness, consider an else for invalid transaction types, though problem implies valid inputs.\n\n    print(f\"Balance: {balance:.2f}\")",
     "testCases": [
       {
         "input": "[{'type': 'deposit', 'amount': 100}, {'type': 'withdrawal', 'amount': 30}]",
@@ -4548,7 +4548,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "For decryption, either negate the `shift` or add 26 to the shift value before taking modulo."
     ],
     "starterCode": "text = 'Hello World!'\nshift = 3\nmode = 'encrypt'\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "text = 'Hello World!'\nshift = 3\nmode = 'encrypt'\n\ndef solve():\n    result = []\n    effective_shift = shift\n    if mode == 'decrypt':\n        effective_shift = -shift # For decryption, reverse the shift\n\n    for char in text:\n        if 'a' <= char <= 'z':\n            start_ascii = ord('a')\n            # Apply shift and wrap around 26 letters (0-25). \n            # Adding 26 before modulo handles negative results correctly in Python.\n            shifted_char = chr( ( (ord(char) - start_ascii + effective_shift + 26) % 26 ) + start_ascii )\n            result.append(shifted_char)\n        elif 'A' <= char <= 'Z':\n            start_ascii = ord('A')\n            # Same logic for uppercase\n            shifted_char = chr( ( (ord(char) - start_ascii + effective_shift + 26) % 26 ) + start_ascii )\n            result.append(shifted_char)\n        else:\n            result.append(char) # Non-alphabetic characters remain unchanged\n\n    print(\"\".join(result))\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "text = 'Hello World!'\nshift = 3\nmode = 'encrypt'\n\nresult = []\neffective_shift = shift\nif mode == 'decrypt':\n    effective_shift = -shift # For decryption, reverse the shift\n\nfor char in text:\n    if 'a' <= char <= 'z':\n        start_ascii = ord('a')\n        # Apply shift and wrap around 26 letters (0-25). \n        # Adding 26 before modulo handles negative results correctly in Python.\n        shifted_char = chr( ( (ord(char) - start_ascii + effective_shift + 26) % 26 ) + start_ascii )\n        result.append(shifted_char)\n    elif 'A' <= char <= 'Z':\n        start_ascii = ord('A')\n        # Same logic for uppercase\n        shifted_char = chr( ( (ord(char) - start_ascii + effective_shift + 26) % 26 ) + start_ascii )\n        result.append(shifted_char)\n    else:\n        result.append(char) # Non-alphabetic characters remain unchanged\n\nprint(\"\".join(result))",
     "testCases": [
       {
         "input": "'Hello World!', 3, 'encrypt'",
@@ -4645,7 +4645,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Convert the parts of the question string to integers before multiplication."
     ],
     "starterCode": "questions = ['2x3', '5x4', '10x1']\nanswers = [6, 20, 10]\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "questions = ['2x3', '5x4', '10x1']\nanswers = [6, 20, 10]\n\ndef solve():\n    correct_count = 0\n    total_count = len(questions)\n\n    for i in range(total_count):\n        question_str = questions[i]\n        user_answer = answers[i]\n\n        # Parse the question string 'AxB' -> A and B\n        parts = question_str.split('x')\n        num1 = int(parts[0])\n        num2 = int(parts[1])\n\n        correct_result = num1 * num2\n\n        if user_answer == correct_result:\n            correct_count += 1\n\n    print(f\"Correct: {correct_count}\")\n    print(f\"Total: {total_count}\")\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "questions = ['2x3', '5x4', '10x1']\nanswers = [6, 20, 10]\n\ncorrect_count = 0\ntotal_count = len(questions)\n\nfor i in range(total_count):\n    question_str = questions[i]\n    user_answer = answers[i]\n\n    # Parse the question string 'AxB' -> A and B\n    parts = question_str.split('x')\n    num1 = int(parts[0])\n    num2 = int(parts[1])\n\n    correct_result = num1 * num2\n\n    if user_answer == correct_result:\n        correct_count += 1\n\nprint(f\"Correct: {correct_count}\")\nprint(f\"Total: {total_count}\")",
     "testCases": [
       {
         "input": "['2x3', '5x4', '10x1'], [6, 20, 10]",
