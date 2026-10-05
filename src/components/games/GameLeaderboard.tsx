@@ -1,7 +1,7 @@
 // Real-time game leaderboard component
 // Displays top scores for a specific game type with animated entries
 
-import { useState, useEffect } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Trophy, Crown, Medal } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -16,6 +16,20 @@ interface LeaderboardEntry {
   display_name?: string;
 }
 
+interface LeaderboardRpcRow extends LeaderboardEntry {
+  game_type: string;
+}
+
+interface PublicProfileRow {
+  id: string;
+  full_name: string | null;
+}
+
+interface LeaderboardRpcClient {
+  rpc(name: "get_game_leaderboard", args: { _game_type: string }): PromiseLike<{ data: LeaderboardRpcRow[] | null }>;
+  rpc(name: "get_public_profiles", args: { _ids: string[] }): PromiseLike<{ data: PublicProfileRow[] | null }>;
+}
+
 interface GameLeaderboardProps {
   gameType: string;
   currentScore?: number;
@@ -26,19 +40,20 @@ const GameLeaderboard = ({ gameType, currentScore }: GameLeaderboardProps) => {
   const [entries, setEntries] = useState<LeaderboardEntry[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchLeaderboard = async () => {
+  const fetchLeaderboard = useCallback(async () => {
     try {
+      const rpcClient = supabase as unknown as LeaderboardRpcClient;
       // Fetch a wider window so dedup-by-user still yields up to 10 distinct players
-      const { data } = await (supabase as any)
+      const { data } = await rpcClient
         .rpc("get_game_leaderboard", { _game_type: gameType });
 
       if (data) {
         // Fetch display names for unique user IDs
-        const userIds = [...new Set(data.map((d: any) => d.user_id))];
-        const { data: profiles } = await (supabase as any)
+        const userIds = [...new Set(data.map((entry) => entry.user_id))];
+        const { data: profiles } = await rpcClient
           .rpc("get_public_profiles", { _ids: userIds });
 
-        const nameMap = new Map((profiles || []).map((p: any) => [p.id, p.full_name]));
+        const nameMap = new Map((profiles || []).map((profile) => [profile.id, profile.full_name]));
 
         // Keep only best score per user
         const bestScores = new Map<string, LeaderboardEntry>();
@@ -69,7 +84,7 @@ const GameLeaderboard = ({ gameType, currentScore }: GameLeaderboardProps) => {
       console.error("Failed to fetch leaderboard:", e);
     }
     setLoading(false);
-  };
+  }, [gameType]);
 
   useEffect(() => {
     fetchLeaderboard();
@@ -85,7 +100,7 @@ const GameLeaderboard = ({ gameType, currentScore }: GameLeaderboardProps) => {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [gameType]);
+  }, [fetchLeaderboard, gameType]);
 
   const rankIcons = [
     <Crown key="1" className="w-4 h-4 text-amber-400" />,
