@@ -349,6 +349,29 @@ function varyText(text: string, examIndex: number): string {
     .replace(/\btwo hours\b/g, VARY_DURATIONS[i]);
 }
 
+function pickOne<T>(items: T[], seed: number): T {
+  return items[Math.abs(seed) % items.length];
+}
+
+/** Three distinct distractors from the same pool column, never equal to the key. */
+function pickDistractors(pool: string[], correct: string, seed: number): string[] {
+  const uniq = [...new Set(pool)].filter((x) => x.toLowerCase() !== correct.toLowerCase());
+  const out: string[] = [];
+  let i = Math.abs(seed * 7 + 3);
+  for (let guard = 0; out.length < 3 && guard < uniq.length * 3; guard++) {
+    const c = uniq[i % uniq.length];
+    if (!out.includes(c)) out.push(c);
+    i += 1;
+  }
+  return out;
+}
+
+/** Choose `n` question types, rotating so neighbouring recordings ask different things. */
+function rotatePick<T>(items: T[], n: number, offset: number): T[] {
+  const start = offset % items.length;
+  return Array.from({ length: n }, (_, k) => items[(start + k) % items.length]);
+}
+
 function makeQuestion(args: Omit<ToeicLRQuestion, "options" | "answer"> & { options: string[]; answerSeed?: number }): ToeicLRQuestion {
   const { items, answer } = reorder(args.options, args.answerSeed ?? 0);
   return {
@@ -529,43 +552,35 @@ function generatePart3(theme: Theme, examId: string, seed: number, examIndex: nu
   ];
 
   const situations = pickPool(pool, 13, examIndex);
+  const v = (s: string) => varyText(s, examIndex);
+  const col = (k: number) => pool.map((row) => row[k]);
+  const others = (k: number, correct: string, salt: number) => pickDistractors(col(k), correct, salt);
+  const depts = ["the finance team", "the front desk", "the legal department", "the maintenance crew", "the regional office"];
 
   return situations.flatMap(([topic, location, action, detail], groupIdx) => {
-    const v = (s: string) => varyText(s, examIndex);
     const transcript = `M: I need your help with ${v(topic)}. ${v(detail)}.\nW: I see. We should ${v(action)} before the end of the day.\nM: Good idea. I'll also notify ${theme.department} so everyone knows the plan.`;
     const groupId = `${examId}-p3-conv-${groupIdx + 1}`;
-    return [
-      makeQuestion({
-        id: `${examId}-p3-${groupIdx * 3 + 1}`,
-        part: 3,
-        prompt: "What are the speakers mainly discussing?",
-        options: optionSet(topic, [theme.event, "a staff award ceremony", "a new office policy"]),
-        answerSeed: seed + groupIdx,
-        transcript,
-        audioText: transcript,
-        passageGroupId: groupId,
-      }),
-      makeQuestion({
-        id: `${examId}-p3-${groupIdx * 3 + 2}`,
-        part: 3,
-        prompt: "Where are the speakers most likely?",
-        options: optionSet(location, ["at a bank", "at a city park", "at a theater"]),
-        answerSeed: seed + groupIdx + 1,
-        transcript,
-        audioText: transcript,
-        passageGroupId: groupId,
-      }),
-      makeQuestion({
-        id: `${examId}-p3-${groupIdx * 3 + 3}`,
-        part: 3,
-        prompt: "What will the speakers probably do next?",
-        options: optionSet(action, ["cancel the order", "hire a new receptionist", "close the office early"]),
-        answerSeed: seed + groupIdx + 2,
-        transcript,
-        audioText: transcript,
-        passageGroupId: groupId,
-      }),
+    const s = seed + groupIdx * 7 + examIndex;
+    const types: { prompt: string; options: string[] }[] = [
+      { prompt: pickOne(["What are the speakers mainly discussing?", "What is the conversation mainly about?", "What topic are the speakers talking about?"], s), options: optionSet(topic, others(0, topic, s)) },
+      { prompt: pickOne(["Where are the speakers most likely?", "Where does the conversation most likely take place?", "Where do the speakers probably work?"], s + 1), options: optionSet(location, others(1, location, s + 1)) },
+      { prompt: pickOne(["What problem does the man mention?", "What does the man say about the situation?", "Why does the man ask for help?"], s + 2), options: optionSet(detail, others(3, detail, s + 2)) },
+      { prompt: pickOne(["What does the woman suggest?", "What will the speakers probably do next?", "What does the woman say they should do?"], s + 3), options: optionSet(action, others(2, action, s + 3)) },
+      { prompt: pickOne(["Who will the man notify?", "Who does the man say he will inform?"], s + 4), options: optionSet(theme.department, pickDistractors(depts, theme.department, s + 4)) },
     ];
+    const chosen = rotatePick(types, 3, groupIdx + examIndex);
+    return chosen.map((q, k) =>
+      makeQuestion({
+        id: `${examId}-p3-${groupIdx * 3 + k + 1}`,
+        part: 3,
+        prompt: q.prompt,
+        options: q.options.map((o) => v(o)),
+        answerSeed: seed + groupIdx + k,
+        transcript,
+        audioText: transcript,
+        passageGroupId: groupId,
+      })
+    );
   });
 }
 
@@ -592,42 +607,41 @@ function generatePart4(theme: Theme, examId: string, seed: number, examIndex: nu
   ];
 
   const talks = pickPool(pool, 10, examIndex);
+  const col = (k: number) => pool.map((row) => row[k] as string);
+  const cat = (d: string) => (/\b(A\.M\.|P\.M\.|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|morning|evening|tomorrow|today|earlier)\b/i.test(d) ? "time" : /\b(Room|gate|tent|desk|lobby|near|platform)\b/i.test(d) ? "place" : "other");
+  const kinds = col(0);
 
   return talks.flatMap(([kind, transcript, purpose, detail, action], groupIdx) => {
     const transcriptV = varyText(transcript as string, examIndex);
     const groupId = `${examId}-p4-talk-${groupIdx + 1}`;
-    return [
-      makeQuestion({
-        id: `${examId}-p4-${groupIdx * 3 + 1}`,
-        part: 4,
-        prompt: "What is the main purpose of the talk?",
-        options: optionSet(purpose, ["to introduce a new employee", "to request a payment", "to cancel a contract"]),
-        answerSeed: seed + groupIdx,
-        transcript: transcriptV,
-        audioText: transcriptV,
-        passageGroupId: groupId,
-      }),
-      makeQuestion({
-        id: `${examId}-p4-${groupIdx * 3 + 2}`,
-        part: 4,
-        prompt: "What specific detail is mentioned?",
-        options: optionSet(detail, ["a free lunch coupon", "a new uniform requirement", "a parking violation"]),
-        answerSeed: seed + groupIdx + 1,
-        transcript: transcriptV,
-        audioText: transcriptV,
-        passageGroupId: groupId,
-      }),
-      makeQuestion({
-        id: `${examId}-p4-${groupIdx * 3 + 3}`,
-        part: 4,
-        prompt: "What are listeners advised to do?",
-        options: optionSet(action, ["submit a tax form", "replace their ID cards", "reserve a hotel room"]),
-        answerSeed: seed + groupIdx + 2,
-        transcript: transcriptV,
-        audioText: transcriptV,
-        passageGroupId: groupId,
-      }),
+    const s = seed + groupIdx * 5 + examIndex;
+    const c = cat(detail);
+    const sameCat = col(3).filter((d) => cat(d) === c);
+    const detailPrompt =
+      c === "time"
+        ? pickOne(["When will this take place?", "What time is mentioned in the talk?", "When does the speaker say this will happen?"], s)
+        : c === "place"
+          ? pickOne(["What location does the speaker mention?", "Where does the speaker say something is located?"], s)
+          : pickOne(["What detail does the speaker mention?", "According to the speaker, what is the reason or condition?", "What information is given in the talk?"], s);
+    const types: { prompt: string; options: string[] }[] = [
+      { prompt: pickOne([`What is the main purpose of the ${kind}?`, `What is the ${kind} mainly about?`, "Why is the speaker giving this talk?"], s + 1), options: optionSet(purpose, pickDistractors(col(2), purpose, s + 1)) },
+      { prompt: detailPrompt, options: optionSet(detail, pickDistractors(sameCat.length >= 4 ? sameCat : col(3), detail, s + 2)) },
+      { prompt: pickOne(["What are listeners advised to do?", "What does the speaker ask listeners to do?", "What should listeners do next?"], s + 3), options: optionSet(action, pickDistractors(col(4), action, s + 3)) },
+      { prompt: pickOne(["What type of talk is this?", "What kind of message is this most likely?"], s + 4), options: optionSet(kind, pickDistractors(kinds, kind, s + 4)) },
     ];
+    const chosen = rotatePick(types, 3, groupIdx + examIndex);
+    return chosen.map((q, k) =>
+      makeQuestion({
+        id: `${examId}-p4-${groupIdx * 3 + k + 1}`,
+        part: 4,
+        prompt: q.prompt,
+        options: q.options,
+        answerSeed: seed + groupIdx + k,
+        transcript: transcriptV,
+        audioText: transcriptV,
+        passageGroupId: groupId,
+      })
+    );
   });
 }
 
