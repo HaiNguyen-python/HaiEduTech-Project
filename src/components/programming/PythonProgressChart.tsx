@@ -11,12 +11,13 @@ export default function PythonProgressChart({ ids, history, loading, error }: Pr
   const { t } = useLanguage();
   const [view, setView] = useState<"skills" | "growth">("skills");
   const skills = useMemo(() => programmingSkills(ids).map(s => ({ ...s, name: t(s.vi, s.en) })), [ids, t]);
+  const chartSkills = skills.map((s, i) => ({ ...s, shortName: [t("Nền tảng", "Basics"), t("Logic", "Logic"), t("Cấu trúc", "Data"), t("Tệp/SQL", "Files/SQL"), t("Dự án", "Projects"), t("Đồ họa", "Graphics")][i] }));
   const trend = useMemo(() => weeklyPythonProgress(history).map(p => ({ ...p, label: new Date(p.date).toLocaleDateString("en-GB", { day: "2-digit", month: "2-digit" }) })), [history]);
   return (
     <section className="rounded-lg border border-border bg-card p-4" aria-label={t("Năng lực lập trình của bạn", "Your programming skills")}>
       <div className="mb-1 flex items-center gap-2">
-        <RadarIcon className="h-5 w-5 text-primary" />
-        <h2 className="font-bold text-foreground">{t("Năng lực lập trình", "Your programming skills")}</h2>
+        <RadarIcon className="h-5 w-5 shrink-0 text-primary" />
+        <h2 className="text-base font-bold text-foreground">{t("Năng lực lập trình", "Your programming skills")}</h2>
       </div>
       <p className="text-xs leading-relaxed text-muted-foreground">{t("Tiến độ hoàn thành theo nhóm kỹ năng", "Completion progress by skill area")}</p>
       <div className="mt-4 flex gap-1 border-b border-border pb-2" role="group" aria-label={t("Chọn biểu đồ", "Chart view")}>
@@ -28,9 +29,9 @@ export default function PythonProgressChart({ ids, history, loading, error }: Pr
       {view === "skills" ? <>
         <div className="h-64 w-full" aria-hidden="true">
           <ResponsiveContainer width="100%" height="100%">
-            <RadarChart data={skills} outerRadius="60%">
+            <RadarChart data={chartSkills} outerRadius="60%">
               <PolarGrid stroke="hsl(var(--border))" />
-              <PolarAngleAxis dataKey="name" tick={{ fill: "hsl(var(--foreground))", fontSize: 10 }} />
+              <PolarAngleAxis dataKey="shortName" tick={{ fill: "hsl(var(--foreground))", fontSize: 11 }} />
               <PolarRadiusAxis domain={[0, 100]} tick={false} axisLine={false} />
               <Radar dataKey="value" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.2} strokeWidth={2} />
             </RadarChart>

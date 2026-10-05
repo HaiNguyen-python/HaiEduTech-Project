@@ -14,6 +14,7 @@ import headerImage from "@/assets/python-challenges-header.jpg";
 
 const SECTIONS = ["all", ...new Set(pythonChallenges.map(c => c.section))];
 const PAGE_SIZE = 30;
+const TILE_CLASSES = { easy: "python-challenge-tile--easy", medium: "python-challenge-tile--medium", hard: "python-challenge-tile--hard" };
 
 const PythonChallengeList = () => {
   const { t } = useLanguage();
@@ -64,7 +65,7 @@ const PythonChallengeList = () => {
             <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
               {paged.map(c => {
                 const done = ids.has(c.id);
-                return <Link key={c.id} to={`/python-challenges/${c.id}`} className={`python-challenge-tile python-challenge-tile--${c.difficulty} group flex min-h-36 flex-col rounded-lg border p-4 transition-transform hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${done ? "ring-1 ring-primary/40" : ""}`}>
+                return <Link key={c.id} to={`/python-challenges/${c.id}`} className={`python-challenge-tile ${TILE_CLASSES[c.difficulty]} group flex min-h-36 flex-col rounded-lg border p-4 transition-transform hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${done ? "ring-1 ring-primary/40" : ""}`}>
                   <div className="mb-3 flex items-center justify-between"><span className="font-mono text-xs text-muted-foreground">{String(c.number).padStart(3, "0")}</span>{done ? <CheckCircle className="h-4 w-4 text-primary" aria-label={t("Đã hoàn thành", "Completed")} /> : <Code2 className="h-4 w-4 text-muted-foreground/60" />}</div>
                   <h3 className="mb-3 text-sm font-semibold leading-snug text-foreground">{t(c.titleVi, c.title)}</h3>
                   <div className="mt-auto flex items-center justify-between"><span className="python-challenge-difficulty font-mono text-[10px] font-bold uppercase">{t(c.difficulty === "easy" ? "Cơ bản" : c.difficulty === "medium" ? "Trung cấp" : "Nâng cao", c.difficulty)}</span><ArrowRight className="h-3.5 w-3.5 text-muted-foreground transition-transform group-hover:translate-x-1" /></div>
