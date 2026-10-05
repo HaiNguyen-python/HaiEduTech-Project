@@ -4760,6 +4760,15 @@ export type Database = {
         }[]
       }
       get_public_student_count: { Args: never; Returns: number }
+      get_python_challenge_leaderboard: {
+        Args: { _limit?: number }
+        Returns: {
+          completed_count: number
+          display_name: string
+          is_current_user: boolean
+          user_id: string
+        }[]
+      }
       get_streak_leaderboard: {
         Args: never
         Returns: {

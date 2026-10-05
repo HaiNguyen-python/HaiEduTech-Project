@@ -6,6 +6,7 @@ import { useParams, Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PythonEditor from "@/components/PythonEditor";
+import PythonChallengeLeaderboard from "@/components/programming/PythonChallengeLeaderboard";
 import { motion } from "framer-motion";
 import { ArrowLeft, ChevronRight, ChevronLeft, Trophy, Code2, Flame } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -126,22 +127,27 @@ const PythonChallengePage = () => {
   const prev = getPrevChallenge(id);
 
   const [completedCount, setCompletedCount] = useState(0);
+  const [leaderboardRefreshKey, setLeaderboardRefreshKey] = useState(0);
 
   useEffect(() => {
     const count = pythonChallenges.filter(c => localStorage.getItem(`haiedu_challenge_${c.id}_passed`) === "1").length;
     setCompletedCount(count);
   }, [id]);
 
-  const handlePass = () => {
+  const handlePass = async () => {
+    const alreadyCompleted = localStorage.getItem(`haiedu_challenge_${id}_passed`) === "1";
     localStorage.setItem(`haiedu_challenge_${id}_passed`, "1");
-    setCompletedCount(prev => prev + 1);
-    logStudentActivity({
+    if (alreadyCompleted) return;
+
+    setCompletedCount(previous => Math.min(previous + 1, pythonChallenges.length));
+    await logStudentActivity({
       activityType: "python_challenge",
       activityId: id,
       score: 10,
       maxScore: 10,
       domain: "programming",
     });
+    setLeaderboardRefreshKey(previous => previous + 1);
   };
 
   if (!challenge) {
@@ -165,7 +171,7 @@ const PythonChallengePage = () => {
       <Navbar />
       <div className="pt-6 pb-16">
         <div className="container mx-auto px-4 sm:px-6">
-          <div className="max-w-5xl mx-auto">
+          <div className="max-w-[1500px] mx-auto">
             {/* Breadcrumb */}
             <div className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
               <Link to="/programming" className="hover:text-foreground flex items-center gap-1">
@@ -179,9 +185,9 @@ const PythonChallengePage = () => {
               <span className="text-foreground font-medium">#{challenge.number}</span>
             </div>
 
-            <div className="flex flex-col lg:flex-row gap-6">
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-[16rem_minmax(0,1fr)] xl:grid-cols-[16rem_minmax(0,1fr)_18rem]">
               {/* Sidebar */}
-              <div className="lg:w-64 shrink-0">
+              <div>
                 <div className="glass-card rounded-xl p-4 sticky top-28 space-y-4">
                   {/* Progress */}
                   <div>
@@ -286,6 +292,12 @@ const PythonChallengePage = () => {
                     ) : <div />}
                   </div>
                 </motion.div>
+              </div>
+
+              <div className="lg:col-start-2 xl:col-start-3 xl:row-start-1">
+                <div className="xl:sticky xl:top-28">
+                  <PythonChallengeLeaderboard refreshKey={leaderboardRefreshKey} />
+                </div>
               </div>
             </div>
           </div>

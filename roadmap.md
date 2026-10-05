@@ -6,6 +6,12 @@
 - [x] Audit all 150 answers against their expected output and challenge level.
 - [x] Verify representative answers in the challenge page.
 
+# Python Challenge Leaderboard
+
+- [x] Add a secure Top 10 leaderboard based on unique completed challenges.
+- [x] Show the leaderboard beside the coding workspace and refresh it after a new pass.
+- [x] Verify desktop/mobile layout and authenticated data rendering.
+
 # TOEIC Learning Upgrade
 
 - [x] Lighten TOEIC exam library and test rooms, keeping controls legible.
