@@ -37,7 +37,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Remember to print the result."
     ],
     "starterCode": "def solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "def solve():\n    name = \"Alice\"\n\n    print(f\"Hello {name}\")\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "name = \"Alice\"\nprint(\"Hello\", name)",
     "testCases": [
       {
         "input": "Alice",
@@ -66,7 +66,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use an f-string for clear formatting."
     ],
     "starterCode": "def solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "def solve():\n    first_name = \"Alice\"\n    surname = \"Smith\"\n\n    print(f\"Hello {first_name} {surname}\")\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "first_name = \"Alice\"\nsurname = \"Smith\"\nprint(\"Hello\", first_name, surname)",
     "testCases": [
       {
         "input": "Alice,Smith",
@@ -95,7 +95,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "The newline character '\\n' can be used to create new lines."
     ],
     "starterCode": "def solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "def solve():\n    print(\"What do you call a bear with no teeth?\\nA gummy bear!\")\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "print(\"What do you call a bear with no teeth?\\nA gummy bear!\")",
     "testCases": [
       {
         "input": "None",
@@ -124,7 +124,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Format the output string using an f-string."
     ],
     "starterCode": "num1 = 5\nnum2 = 10\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "num1 = 5\nnum2 = 10\n\ndef solve():\n    total = num1 + num2\n    print(f\"The total is {total}\")\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "num1 = 5\nnum2 = 10\nanswer = num1 + num2\nprint(\"The total is\", answer)",
     "testCases": [
       {
         "input": "5,10",
@@ -153,7 +153,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Parentheses can be used to ensure correct order `(num1 + num2) * num3`."
     ],
     "starterCode": "num1 = 5\nnum2 = 5\nnum3 = 6\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "num1 = 5\nnum2 = 5\nnum3 = 6\n\ndef solve():\n    result = (num1 + num2) * num3\n    print(f\"The answer is {result}\")\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "num1 = 5\nnum2 = 5\nnum3 = 6\nanswer = (num1 + num2) * num3\nprint(\"The answer is\", answer)",
     "testCases": [
       {
         "input": "5,5,6",
@@ -182,7 +182,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "The output should clearly state the number of remaining slices."
     ],
     "starterCode": "total_slices = 8\neaten_slices = 6\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "total_slices = 8\neaten_slices = 6\n\ndef solve():\n    remaining = total_slices - eaten_slices\n    print(f\"There are {remaining} slices remaining.\")\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "total_slices = 8\neaten_slices = 6\nslices_left = total_slices - eaten_slices\nprint(f\"There are {slices_left} slices remaining.\")",
     "testCases": [
       {
         "input": "8,6",
@@ -211,7 +211,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use an f-string to embed the name and new age into the output message."
     ],
     "starterCode": "def solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "def solve():\n    name = \"Alice\"\n    age = 20\n\n    new_age = age + 1\n    print(f\"{name} next birthday you will be {new_age}\")\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "name = \"Alice\"\nage = 20\nnew_age = age + 1\nprint(name, \"next birthday you will be\", new_age)",
     "testCases": [
       {
         "input": "Alice,20",
@@ -242,7 +242,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Make sure the numbers are treated as floats for division."
     ],
     "starterCode": "total_bill = 50.00\nnum_diners = 4\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "total_bill = 50.00\nnum_diners = 4\n\ndef solve():\n    amount_per_person = total_bill / num_diners\n    print(f\"Each person pays {amount_per_person:.2f}\")\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "total_bill = 50.00\npeople = 4\neach = total_bill / people\nprint(f\"Each person pays {each:.2f}\")",
     "testCases": [
       {
         "input": "50.00,4",
@@ -274,7 +274,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Calculate each unit separately and then print them in a descriptive sentence."
     ],
     "starterCode": "days = 2\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "days = 2\n\ndef solve():\n    hours = days * 24\n    minutes = hours * 60\n    seconds = minutes * 60\n    print(f\"{days} days is {hours} hours, {minutes} minutes, and {seconds} seconds.\")\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "days = 2\nhours = days * 24\nminutes = hours * 60\nseconds = minutes * 60\nprint(f\"{days} days is {hours} hours, {minutes} minutes, and {seconds} seconds.\")",
     "testCases": [
       {
         "input": "2",
@@ -303,7 +303,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Format the output using an f-string to show two decimal places for pounds."
     ],
     "starterCode": "kg = 10\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "kg = 10\n\ndef solve():\n    pounds = kg * 2.204\n    print(f\"{kg:.2f} kg is {pounds:.2f} pounds.\")\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "kg = 10\npounds = kg * 2.204\nprint(f\"{kg:.2f} kg is {pounds:.2f} pounds.\")",
     "testCases": [
       {
         "input": "10",
@@ -333,7 +333,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Ensure the output format matches the requirement."
     ],
     "starterCode": "num_over_100 = 115\nnum_under_10 = 10\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "num_over_100 = 115\nnum_under_10 = 10\n\ndef solve():\n    result = num_over_100 // num_under_10\n    print(f\"The integer division result is {result}\")\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "num_over_100 = 115\nnum_under_10 = 10\nanswer = num_over_100 // num_under_10\nprint(\"The integer division result is\", answer)",
     "testCases": [
       {
         "input": "115,10",
@@ -362,7 +362,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Print the numbers in the correct order based on the comparison."
     ],
     "starterCode": "num1 = 10\nnum2 = 5\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "num1 = 10\nnum2 = 5\n\ndef solve():\n    if num1 < num2:\n        print(f\"{num1}, {num2}\")\n    else:\n        print(f\"{num2}, {num1}\")\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "num1 = 10\nnum2 = 5\n\nif num1 < num2:\n    print(num1, num2, sep=\", \")\nelse:\n    print(num2, num1, sep=\", \")",
     "testCases": [
       {
         "input": "10,5",
@@ -391,7 +391,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "The `else` block will handle cases where the number is less than 20."
     ],
     "starterCode": "number = 25\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "number = 25\n\ndef solve():\n    if number >= 20:\n        print(\"Too high\")\n    else:\n        print(\"Thank you\")\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "number = 25\n\nif number >= 20:\n    print(\"Too high\")\nelse:\n    print(\"Thank you\")",
     "testCases": [
       {
         "input": "25",
@@ -420,7 +420,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Remember that 'inclusive' means the boundary numbers (10 and 20) are part of the range."
     ],
     "starterCode": "number = 15\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "number = 15\n\ndef solve():\n    if 10 <= number <= 20:\n        print(\"Thank you\")\n    else:\n        print(\"Incorrect answer\")\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "number = 15\n\nif 10 <= number <= 20:\n    print(\"Thank you\")\nelse:\n    print(\"Incorrect answer\")",
     "testCases": [
       {
         "input": "15",
@@ -450,7 +450,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use an f-string to embed the user's color in the 'don't like' message."
     ],
     "starterCode": "def solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "def solve():\n    color = \"red\"\n\n    if color.lower() == \"red\":\n        print(\"I like red too\")\n    else:\n        print(f\"I don't like {color}, I prefer red\")\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "color = \"red\"\n\nif color.lower() == \"red\":\n    print(\"I like red too\")\nelse:\n    print(f\"I don't like {color}, I prefer red\")",
     "testCases": [
       {
         "input": "red",
@@ -480,7 +480,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Pay attention to the specific conditions for each message, especially combining `and` and `not`."
     ],
     "starterCode": "raining = True\nwindy = True\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "raining = True\nwindy = True\n\ndef solve():\n    if raining and windy:\n        print(\"Too windy for an umbrella\")\n    elif raining and not windy:\n        print(\"Take an umbrella\")\n    else:\n        print(\"Enjoy your day\")\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "raining = True\nwindy = True\n\nif raining and windy:\n    print(\"Too windy for an umbrella\")\nelif raining:\n    print(\"Take an umbrella\")\nelse:\n    print(\"Enjoy your day\")",
     "testCases": [
       {
         "input": "True,True",
@@ -510,7 +510,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "The order of your `elif` conditions matters. Start with the highest age and work down, or test specific ages first."
     ],
     "starterCode": "age = 18\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "age = 18\n\ndef solve():\n    if age >= 18:\n        print(\"You can vote\")\n    elif age == 17:\n        print(\"You can learn to drive\")\n    elif age == 16:\n        print(\"You can buy a lottery ticket\")\n    else:\n        print(\"You can go Trick-or-Treating\")\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "age = 18\n\nif age >= 18:\n    print(\"You can vote\")\nelif age == 17:\n    print(\"You can learn to drive\")\nelif age == 16:\n    print(\"You can buy a lottery ticket\")\nelse:\n    print(\"You can go Trick-or-Treating\")",
     "testCases": [
       {
         "input": "18",
@@ -539,7 +539,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Remember to handle the inclusive range for \"Correct\" using `and` or chained comparisons."
     ],
     "starterCode": "number = 5\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "number = 5\n\ndef solve():\n    if number < 10:\n        print(\"Too low\")\n    elif 10 <= number <= 20:\n        print(\"Correct\")\n    else:\n        print(\"Too high\")\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "number = 5\n\nif number < 10:\n    print(\"Too low\")\nelif number <= 20:\n    print(\"Correct\")\nelse:\n    print(\"Too high\")",
     "testCases": [
       {
         "input": "5",
@@ -569,7 +569,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "The `else` block will catch any number that doesn't match 1, 2, or 3."
     ],
     "starterCode": "number = 1\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "number = 1\n\ndef solve():\n    if number == 1:\n        print(\"Thank you\")\n    elif number == 2:\n        print(\"Well done\")\n    elif number == 3:\n        print(\"Correct\")\n    else:\n        print(\"Error message\")\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "number = 1\n\nif number == 1:\n    print(\"Thank you\")\nelif number == 2:\n    print(\"Well done\")\nelif number == 3:\n    print(\"Correct\")\nelse:\n    print(\"Error message\")",
     "testCases": [
       {
         "input": "1",
@@ -598,7 +598,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Format the output to clearly state the name and its length."
     ],
     "starterCode": "def solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "def solve():\n    first_name = \"Alice\"\n\n    length = len(first_name)\n    print(f\"The length of {first_name} is {length}\")\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "first_name = \"Alice\"\nlength = len(first_name)\nprint(f\"The length of {first_name} is {length}\")",
     "testCases": [
       {
         "input": "Alice",
@@ -627,7 +627,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Apply the `len()` function to the resulting full name."
     ],
     "starterCode": "def solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "def solve():\n    first_name = \"Alice\"\n    surname = \"Smith\"\n\n    full_name = f\"{first_name} {surname}\"\n    total_length = len(full_name)\n    print(f\"Full name: {full_name}, Length: {total_length}\")\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "first_name = \"Alice\"\nsurname = \"Smith\"\nfull_name = first_name + \" \" + surname\nprint(f\"Full name: {full_name}, Length: {len(full_name)}\")",
     "testCases": [
       {
         "input": "Alice,Smith",
@@ -657,7 +657,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Then, combine them with a space and print."
     ],
     "starterCode": "def solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "def solve():\n    first_name_lower = \"alice\"\n    surname_lower = \"smith\"\n\n    first_name_title = first_name_lower.title()\n    surname_title = surname_lower.title()\n    full_name = f\"{first_name_title} {surname_title}\"\n    print(f\"Hello {full_name}\")\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "first_name = \"alice\"\nsurname = \"smith\"\nfull_name = first_name.title() + \" \" + surname.title()\nprint(\"Hello\", full_name)",
     "testCases": [
       {
         "input": "alice,smith",
@@ -687,7 +687,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Make sure your output clearly states the phrase and its calculated length."
     ],
     "starterCode": "def solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "def solve():\n    phrase = \"Hello world!\"\n\n    length = len(phrase)\n    print(f\"The phrase '{phrase}' has a length of {length} characters.\")\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "phrase = \"Hello world!\"\nlength = len(phrase)\nprint(f\"The phrase '{phrase}' has a length of {length} characters.\")",
     "testCases": [
       {
         "input": "Hello world!",
@@ -716,7 +716,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Simply print the result."
     ],
     "starterCode": "def solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "def solve():\n    word = \"hello\"\n\n    print(word.upper())\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "word = \"hello\"\nprint(word.upper())",
     "testCases": [
       {
         "input": "hello",
@@ -748,7 +748,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "For the '5 or more' case, use `.lower()`."
     ],
     "starterCode": "def solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "def solve():\n    first_name = \"Joe\"\n    surname = \"Smith\"\n\n    if len(first_name) < 5:\n        # Assuming surname is provided for testing this branch\n        if surname is None:\n            # This case shouldn't occur with the test mechanism, but good practice\n            print(\"Error: Surname expected but not provided.\")\n            return\n        combined_name = first_name + surname\n        print(combined_name.upper())\n    else:\n        print(first_name.lower())\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "first_name = \"Joe\"\nsurname = \"Smith\"\n\nif len(first_name) < 5:\n    full_name = first_name + surname\n    print(full_name.upper())\nelse:\n    print(first_name.lower())",
     "testCases": [
       {
         "input": "Joe,Smith",
@@ -782,7 +782,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "The string `find()` method or `startswith()` checks can be useful."
     ],
     "starterCode": "def solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "def solve():\n    word = \"apple\"\n\n    vowels = 'aeiou'\n    if word[0] in vowels:\n        print(word + 'way')\n    else:\n        consonant_cluster = ''\n        for char in word:\n            if char not in vowels:\n                consonant_cluster += char\n            else:\n                break\n        if consonant_cluster:\n            print(word[len(consonant_cluster):] + consonant_cluster + 'ay')\n        else: # Should ideally not happen if it passed the vowel check\n            print(word + 'ay') # Fallback if somehow no consonant cluster found for a consonant-starting word\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "word = \"apple\"\nvowels = \"aeiou\"\n\nif word[0] in vowels:\n    print(word + \"way\")\nelse:\n    first_vowel = 0\n    while word[first_vowel] not in vowels:\n        first_vowel += 1\n    print(word[first_vowel:] + word[:first_vowel] + \"ay\")",
     "testCases": [
       {
         "input": "apple",
@@ -813,7 +813,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Ensure the result is printed with appropriate precision (Python usually handles floats well by default)."
     ],
     "starterCode": "decimal_num = 5.25\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "decimal_num = 5.25\n\ndef solve():\n    result = decimal_num * 2\n    print(f\"The doubled number is {result}\")\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "decimal_num = 5.25\nanswer = decimal_num * 2\nprint(\"The doubled number is\", answer)",
     "testCases": [
       {
         "input": "5.25",
@@ -843,7 +843,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Then, use f-string formatting `:.2f` to round the result to two decimal places when printing."
     ],
     "starterCode": "decimal_num = 5.25\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "decimal_num = 5.25\n\ndef solve():\n    result = decimal_num * 2\n    print(f\"The doubled and rounded number is {result:.2f}\")\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "decimal_num = 5.25\nanswer = decimal_num * 2\nprint(f\"The doubled and rounded number is {answer:.2f}\")",
     "testCases": [
       {
         "input": "5.25",
@@ -874,7 +874,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Ensure the output is formatted to exactly two decimal places using f-string formatting (`:.2f`)."
     ],
     "starterCode": "import math\n\nnumber = 500\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "import math\n\nnumber = 500\n\ndef solve():\n    square_root = math.sqrt(number)\n    print(f\"The square root is {square_root:.2f}\")\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "import math\n\nnumber = 500\nsquare_root = math.sqrt(number)\nprint(f\"The square root is {square_root:.2f}\")",
     "testCases": [
       {
         "input": "500",
@@ -905,7 +905,7 @@ export const pythonChallenges: PythonChallenge[] = [
       "Use f-string formatting `:.5f` to display exactly five decimal places."
     ],
     "starterCode": "import math\n\ndef solve():\n    # Your code here\n    pass\n\nresult = solve()\nif result is not None:\n    print(result)",
-    "solution": "import math\n\ndef solve():\n    print(f\"Pi to 5 decimal places: {math.pi:.5f}\")\n\nresult = solve()\nif result is not None:\n    print(result)",
+    "solution": "import math\n\nprint(f\"Pi to 5 decimal places: {math.pi:.5f}\")",
     "testCases": [
       {
         "input": "None",
