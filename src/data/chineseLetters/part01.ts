@@ -5,10 +5,10 @@ export const letters: ZhLetter[] = [
  {
   "id": "v1-001",
   "vol": 1,
-  "label": "42",
+  "label": "Lời mở đầu",
   "zh": "如果有一天，当你的努力配得上你的梦想，那么，你的梦想也绝对不会辜负你的努力。让自己尽可能变得优秀，当你对一件事情拼命努力的时候，全世界都会帮你！",
   "pinyin": "rú guǒ yǒu yì tiān， dāng nǐ de nǔ lì pèi dé shàng nǐ de mèng xiǎng， nà me， nǐ de mèng xiǎng yě jué duì bú huì gū fù nǐ de nǔ lì。 ràng zì jǐ jǐn kě néng biàn de yōu xiù， dāng nǐ duì yí jiàn shì qíng pīn mìng nǔ lì de shí hòu， quán shì jiè dōu huì bāng nǐ！",
-  "vi": "Để Những Nỗ Lực Xứng Đáng Với Giấc Mơ Của Bạn Nếu có một ngày, khi những nỗ lực bạn bỏ ra tương xứng với giấc mơ bạn đang theo đuổi thì những giấc mơ đó cũng sẽ chẳng bao giờ phụ lại những gì bạn bỏ ra. hãy cố gắng hết sức để trở thành một người tài ba, khi bạn dốc hết sức để làm một chuyện gì đó, cả thế giới đều đứng về phía bạn.",
+  "vi": Nếu có một ngày, khi những nỗ lực bạn bỏ ra tương xứng với giấc mơ bạn đang theo đuổi thì những giấc mơ đó cũng sẽ chẳng bao giờ phụ lại những gì bạn bỏ ra. hãy cố gắng hết sức để trở thành một người tài ba, khi bạn dốc hết sức để làm một chuyện gì đó, cả thế giới đều đứng về phía bạn.",
   "level": "3-4",
   "words": [
    {
