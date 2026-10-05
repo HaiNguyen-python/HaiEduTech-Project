@@ -1,162 +1,90 @@
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { motion } from "framer-motion";
-import { Code2, ArrowLeft, CheckCircle, Filter } from "lucide-react";
+import { Code2, ArrowLeft, ArrowRight, CheckCircle, Filter, Terminal, Layers, Trophy } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { pythonChallenges } from "@/data/pythonChallenges";
 import { Progress } from "@/components/ui/progress";
+import { Button } from "@/components/ui/button";
 import { useState, useMemo } from "react";
+import PythonChallengeLeaderboard from "@/components/programming/PythonChallengeLeaderboard";
+import PythonProgressChart from "@/components/programming/PythonProgressChart";
+import { usePythonChallengeProgress } from "@/hooks/usePythonChallengeProgress";
+import headerImage from "@/assets/python-challenges-header.jpg";
 
-const diffColors = {
-  easy: "border-green-500/30 bg-green-500/5",
-  medium: "border-yellow-500/30 bg-yellow-500/5",
-  hard: "border-red-500/30 bg-red-500/5",
-};
-
-// Chapters follow "Python by Example" in book order.
-const SECTIONS: { id: string; labelVi: string; labelEn: string }[] = [
-  { id: "all", labelVi: "Tất cả", labelEn: "All" },
-  ...Array.from(new Set(pythonChallenges.map((c) => c.section))).map((name) => ({ id: name, labelVi: name, labelEn: name })),
-];
-
+const SECTIONS = ["all", ...new Set(pythonChallenges.map(c => c.section))];
 const PAGE_SIZE = 30;
 
 const PythonChallengeList = () => {
   const { t } = useLanguage();
   const [section, setSection] = useState("all");
   const [page, setPage] = useState(1);
-  const completed = pythonChallenges.filter(c => localStorage.getItem(`haiedu_challenge_${c.id}_passed`) === "1").length;
-  const pct = (completed / pythonChallenges.length) * 100;
-
-  const filtered = useMemo(() => {
-    if (section === "all") return pythonChallenges;
-    return pythonChallenges.filter((c) => c.section === section);
-  }, [section]);
-
+  const { ids, history, loading, error } = usePythonChallengeProgress();
+  const filtered = useMemo(() => section === "all" ? pythonChallenges : pythonChallenges.filter(c => c.section === section), [section]);
   const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
   const paged = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
-
-  const handleSection = (id: string) => {
-    setSection(id);
-    setPage(1);
-  };
-
+  const nextChallenge = pythonChallenges.find(c => !ids.has(c.id));
   return (
-    <div className="min-h-screen bg-background">
+    <div className="python-lab min-h-screen bg-background">
       <Navbar />
-      <div className="pt-6 pb-16">
-        <div className="container mx-auto px-4 sm:px-6 max-w-4xl">
-          <Link to="/programming" className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-1 mb-6">
-            <ArrowLeft className="w-4 h-4" /> Back to Programming
-          </Link>
-
-          <div className="text-center mb-10">
-            <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
-              <Code2 className="w-8 h-8 text-primary" />
+      <main className="container mx-auto max-w-7xl px-4 pb-16 pt-6 sm:px-6">
+        <Link to="/programming" className="mb-5 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
+          <ArrowLeft className="h-4 w-4" /> {t("Về trang lập trình", "Back to Programming")}
+        </Link>
+        <header className="python-lab-header relative isolate mb-7 overflow-hidden border-y border-border">
+          <img src={headerImage} width={1536} height={640} alt="" aria-hidden="true" fetchPriority="high" className="absolute inset-0 -z-20 h-full w-full object-cover object-right" />
+          <div className="python-lab-header-overlay absolute inset-0 -z-10" />
+          <div className="max-w-xl px-5 py-9 sm:px-9 sm:py-12">
+            <p className="mb-4 flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-widest text-primary"><Terminal className="h-4 w-4" /> Python learning lab</p>
+            <h1 className="mb-3 font-display text-3xl font-bold leading-tight text-foreground sm:text-4xl">150 Python Challenges</h1>
+            <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">{t("Từ dòng code đầu tiên đến dự án của riêng bạn.", "From your first line of code to your own projects.")}</p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Button asChild><Link to={`/python-challenges/${nextChallenge?.id ?? "001"}`}><Code2 />{t(ids.size ? "Tiếp tục luyện tập" : "Bắt đầu lập trình", ids.size ? "Continue coding" : "Start coding")}<ArrowRight /></Link></Button>
             </div>
-            <h1 className="text-3xl font-bold text-foreground mb-2">150 Python Challenges</h1>
-            <p className="text-muted-foreground text-sm max-w-lg mx-auto">
-              Practice Python right in your browser. No installation needed!
-            </p>
-            <div className="mt-4 max-w-xs mx-auto">
-              <div className="flex justify-between text-xs text-muted-foreground mb-1">
-                <span>Completed</span>
-                <span className="font-bold text-primary">{completed}/{pythonChallenges.length}</span>
-              </div>
-              <Progress value={pct} className="h-2" />
+            <div className="mt-6 max-w-xs">
+              <div className="mb-2 flex justify-between text-xs font-semibold"><span className="text-muted-foreground">{t("Đã hoàn thành", "Completed")}</span><span className="text-primary">{ids.size}/150</span></div>
+              <Progress value={ids.size / 150 * 100} className="h-2" />
             </div>
           </div>
-
-          {/* Section Filter */}
-          <div className="glass-card rounded-xl p-4 mb-6">
-            <div className="flex items-center gap-2 mb-3">
-              <Filter className="w-4 h-4 text-muted-foreground" />
-              <span className="text-sm font-medium text-foreground">Topics</span>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {SECTIONS.map(s => (
-                <button
-                  key={s.id}
-                  onClick={() => handleSection(s.id)}
-                  className={`px-3 py-1.5 rounded-lg text-xs transition-all ${
-                    section === s.id
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-secondary text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  {s.labelEn}
-                  {s.id !== "all" && (
-                    <span className="ml-1 opacity-70">({pythonChallenges.filter((c) => c.section === s.id).length})</span>
-                  )}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {paged.map((c, i) => {
-              const done = localStorage.getItem(`haiedu_challenge_${c.id}_passed`) === "1";
-              return (
-                <motion.div
-                  key={c.id}
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.02, duration: 0.3 }}
-                >
-                  <Link
-                    to={`/python-challenges/${c.id}`}
-                    className={`block rounded-xl border p-4 transition-all hover:shadow-md active:scale-[0.98] ${diffColors[c.difficulty]} ${done ? "ring-2 ring-green-500/30" : ""}`}
-                  >
-                    <div className="flex items-start justify-between mb-2">
-                      <span className="text-xs font-bold text-muted-foreground">#{c.number}</span>
-                      {done && <CheckCircle className="w-4 h-4 text-green-500" />}
-                    </div>
-                    <p className="font-semibold text-foreground text-sm leading-tight mb-1">{c.title}</p>
-                    <span className={`text-[10px] font-bold uppercase ${c.difficulty === "easy" ? "text-green-600" : c.difficulty === "medium" ? "text-yellow-600" : "text-red-600"}`}>
-                      {c.difficulty}
-                    </span>
-                  </Link>
-                </motion.div>
-              );
-            })}
-          </div>
-
-          {/* Pagination */}
-          {totalPages > 1 && (
-            <div className="flex justify-center items-center gap-2 mt-8">
-              <button
-                onClick={() => setPage(p => Math.max(1, p - 1))}
-                disabled={page === 1}
-                className="px-3 py-1.5 rounded-lg text-sm bg-secondary text-foreground disabled:opacity-40 hover:bg-primary/10 transition-colors"
-              >
-                ← Prev
-              </button>
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
-                <button
-                  key={p}
-                  onClick={() => setPage(p)}
-                  className={`w-8 h-8 rounded-lg text-sm transition-all ${
-                    page === p ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  {p}
-                </button>
-              ))}
-              <button
-                onClick={() => setPage(p => Math.min(totalPages, p + 1))}
-                disabled={page === totalPages}
-                className="px-3 py-1.5 rounded-lg text-sm bg-secondary text-foreground disabled:opacity-40 hover:bg-primary/10 transition-colors"
-              >
-                Next →
-              </button>
-            </div>
-          )}
+        </header>
+        <div className="mb-8 grid grid-cols-3 divide-x divide-border border-b border-border pb-6">
+          {[{ icon: CheckCircle, value: ids.size, label: t("Bài hoàn thành", "Completed") }, { icon: Layers, value: SECTIONS.length - 1, label: t("Chủ đề", "Topics") }, { icon: Trophy, value: `${Math.round(ids.size / 150 * 100)}%`, label: t("Hành trình Python", "Python journey") }].map(s => <div key={s.label} className="flex flex-col items-center gap-1 px-2 sm:flex-row sm:justify-center sm:gap-3"><s.icon className="h-5 w-5 text-primary" /><div className="text-center sm:text-left"><p className="font-mono text-xl font-bold text-foreground">{s.value}</p><p className="text-xs text-muted-foreground">{s.label}</p></div></div>)}
         </div>
-      </div>
+        <div className="grid items-start gap-7 lg:grid-cols-[minmax(0,1fr)_320px]">
+          <section className="min-w-0" aria-label={t("Danh sách thử thách", "Challenge library")}>
+            <div className="mb-6 border-b border-border pb-5">
+              <h2 className="mb-3 flex items-center gap-2 text-sm font-semibold"><Filter className="h-4 w-4 text-primary" />{t("Chủ đề", "Topics")}</h2>
+              <div className="flex flex-wrap gap-2">
+                {SECTIONS.map(s => <Button key={s} size="sm" variant={section === s ? "default" : "secondary"} onClick={() => { setSection(s); setPage(1); }} aria-pressed={section === s} className="h-auto min-h-8 max-w-full whitespace-normal px-2.5 py-1.5 text-left text-xs">
+                  {s === "all" ? t("Tất cả", "All") : s}{s !== "all" && <span className="opacity-70">{pythonChallenges.filter(c => c.section === s).length}</span>}
+                </Button>)}
+              </div>
+            </div>
+            <div className="mb-4 flex items-center justify-between gap-3"><h2 className="font-display text-lg font-bold">{section === "all" ? t("Thử thách của bạn", "Your challenges") : section}</h2><span className="shrink-0 font-mono text-xs text-muted-foreground">{filtered.length} {t("bài", "challenges")}</span></div>
+            <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+              {paged.map(c => {
+                const done = ids.has(c.id);
+                return <Link key={c.id} to={`/python-challenges/${c.id}`} className={`python-challenge-tile python-challenge-tile--${c.difficulty} group flex min-h-36 flex-col rounded-lg border p-4 transition-transform hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${done ? "ring-1 ring-primary/40" : ""}`}>
+                  <div className="mb-3 flex items-center justify-between"><span className="font-mono text-xs text-muted-foreground">{String(c.number).padStart(3, "0")}</span>{done ? <CheckCircle className="h-4 w-4 text-primary" aria-label={t("Đã hoàn thành", "Completed")} /> : <Code2 className="h-4 w-4 text-muted-foreground/60" />}</div>
+                  <h3 className="mb-3 text-sm font-semibold leading-snug text-foreground">{t(c.titleVi, c.title)}</h3>
+                  <div className="mt-auto flex items-center justify-between"><span className="python-challenge-difficulty font-mono text-[10px] font-bold uppercase">{t(c.difficulty === "easy" ? "Cơ bản" : c.difficulty === "medium" ? "Trung cấp" : "Nâng cao", c.difficulty)}</span><ArrowRight className="h-3.5 w-3.5 text-muted-foreground transition-transform group-hover:translate-x-1" /></div>
+                </Link>;
+              })}
+            </div>
+            {totalPages > 1 && <nav className="mt-7 flex flex-wrap items-center justify-center gap-1.5" aria-label={t("Trang thử thách", "Challenge pages")}>
+              <Button size="icon-sm" variant="outline" onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1} aria-label={t("Trang trước", "Previous page")}><ArrowLeft /></Button>
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => <Button key={p} size="icon-sm" variant={page === p ? "default" : "ghost"} onClick={() => setPage(p)} aria-current={page === p ? "page" : undefined}>{p}</Button>)}
+              <Button size="icon-sm" variant="outline" onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages} aria-label={t("Trang sau", "Next page")}><ArrowRight /></Button>
+            </nav>}
+          </section>
+          <div className="grid min-w-0 gap-5">
+            <PythonChallengeLeaderboard refreshKey={ids.size} />
+            <PythonProgressChart ids={ids} history={history} loading={loading} error={error} />
+          </div>
+        </div>
+      </main>
       <Footer />
     </div>
   );
 };
-
 export default PythonChallengeList;
