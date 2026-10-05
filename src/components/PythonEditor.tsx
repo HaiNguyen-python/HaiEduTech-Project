@@ -33,15 +33,6 @@ const stripHarness = (s: string) => {
   return (cut >= 0 ? lines.slice(0, cut) : lines).join("\n").replace(/\n+$/, "");
 };
 
-/** Compare outputs line by line, ignoring trailing spaces and CRLF noise. */
-const normalize = (s: string) =>
-  s
-    .replace(/\r\n/g, "\n")
-    .split("\n")
-    .map((line) => line.replace(/\s+$/, ""))
-    .join("\n")
-    .replace(/\n+$/, "");
-
 /** Multi-burst confetti + XP toast so a correct answer feels rewarding. */
 const celebrate = () => {
   const shoot = (x: number, delay: number) =>
@@ -184,13 +175,13 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
       setOutput(note + (shown.out.trimEnd() || (shown.svg ? t("(Đã vẽ hình bên dưới)", "(Drawing shown below)") : "(No output)")));
 
       // 2) Grading: every sample test, prompts hidden, fixed random seed.
-      const failed = challenge.testCases.find((tc) => !passesTest(exec(stdinLines(tc.input), false, 7), tc, challenge.turtle));
+      const failed = challenge.testCases.find((tc) => !passesTest(exec(stdinLines(tc.input), false, challenge.seed ?? 7), tc, challenge.turtle));
       if (!failed) {
         if (!passed) celebrate();
         setPassed(true);
         onPass?.();
       } else {
-        const got = exec(stdinLines(failed.input), false, 7);
+        const got = exec(stdinLines(failed.input), false, challenge.seed ?? 7);
         setMismatch({
           input: failed.input,
           expected: failed.expected,

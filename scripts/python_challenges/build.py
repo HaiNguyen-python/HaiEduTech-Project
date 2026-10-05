@@ -36,6 +36,8 @@ export interface PythonChallenge {
   tags: string[];
   /** Runs before the learner code (creates files the book assumes already exist). */
   setupCode?: string;
+  /** Random seed used when grading (default 7). */
+  seed?: number;
   /** Turtle challenges are graded on the drawing instead of printed text. */
   turtle?: TurtleCheck;
   /** Explains how a Tkinter/desktop task is done on the web page. */

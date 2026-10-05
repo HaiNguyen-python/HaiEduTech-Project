@@ -135,6 +135,8 @@ def build():
                 entry["setupCode"] = c["setup"]
             if c["turtle"]:
                 entry["turtle"] = c["turtle"]
+            if c["seed"] != 7:
+                entry["seed"] = c["seed"]
             if c["web_note"]:
                 entry["webNote"] = c["web_note"]; entry["webNoteVi"] = c["web_note_vi"]
             if "\u2014" in json.dumps(entry, ensure_ascii=False):
