@@ -15,6 +15,13 @@ export function completionIds(rows: PythonCompletion[], localIds: string[] = [])
   return new Set([...localIds, ...rows.map(r => r.activity_id)].filter((id): id is string => typeof id === "string" && valid.has(id)));
 }
 
+// Preserve completed exercises; new exercises follow the first unfinished step.
+export function isPythonChallengeUnlocked(id: string, ids: Set<string>) {
+  const index = pythonChallenges.findIndex(c => c.id === id);
+  if (index < 0) return false;
+  return ids.has(id) || pythonChallenges.slice(0, index).every(c => ids.has(c.id));
+}
+
 export function programmingSkills(ids: Set<string>) {
   return PYTHON_SKILLS.map(skill => {
     const challenges = pythonChallenges.filter(c => (c.number >= skill.start && c.number <= skill.end) ||

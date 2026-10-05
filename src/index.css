@@ -110,11 +110,24 @@
     --python-gold-wash: 45 95% 95%;
     --python-coral-wash: 345 80% 97%;
     --python-hero-surface: 210 65% 98%;
+    --python-success: 165 72% 30%;
+    --python-success-wash: 160 55% 96%;
+    --python-tile-shadow: 0 7px 20px hsl(var(--python-blue) / .09);
     --python-hero-overlay: linear-gradient(90deg, hsl(var(--python-hero-surface) / .97) 0%, hsl(var(--python-hero-surface) / .90) 31%, hsl(var(--python-hero-surface) / .15) 70%);
   }
   .python-lab-header-overlay { background: var(--python-hero-overlay); }
-  .python-challenge-tile { background: hsl(var(--python-tile-wash)); border-color: hsl(var(--python-tile-edge) / .3); }
-  .python-challenge-tile:hover { border-color: hsl(var(--python-tile-edge) / .75); }
+  .python-challenge-tile { background: hsl(var(--card)); border-color: hsl(var(--python-tile-edge) / .25); transition: transform .2s, box-shadow .2s, border-color .2s; }
+  a.python-challenge-tile:hover { border-color: hsl(var(--python-tile-edge) / .75); transform: translateY(-3px); box-shadow: var(--python-tile-shadow); }
+  a.python-challenge-tile:focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 3px; }
+  .python-tile-toolbar { background: hsl(var(--python-tile-wash)); color: hsl(var(--python-tile-edge)); border-bottom: 1px solid hsl(var(--python-tile-edge) / .15); }
+  .python-tile-icon { background: hsl(var(--python-tile-wash)); color: hsl(var(--python-tile-edge)); }
+  .python-tile-dots i { width: 4px; height: 4px; border-radius: 50%; background: currentColor; opacity: .45; }
+  .python-tile-status { color: hsl(var(--python-tile-edge)); }
+  .python-tile--ready { border-color: hsl(var(--python-tile-edge) / .6); box-shadow: var(--python-tile-shadow); }
+  .python-challenge-tile.python-tile--done { --python-tile-edge: var(--python-success); --python-tile-wash: var(--python-success-wash); }
+  .python-tile--locked { background: hsl(var(--muted) / .35); }
+  .python-tile--locked .python-tile-status { color: hsl(var(--muted-foreground)); }
+  @media (prefers-reduced-motion: reduce) { .python-challenge-tile { transition: none; } a.python-challenge-tile:hover { transform: none; } }
   .python-challenge-difficulty { color: hsl(var(--python-tile-edge)); }
   .python-challenge-tile--easy { --python-tile-wash: var(--python-blue-wash); --python-tile-edge: var(--python-blue); }
   .python-challenge-tile--medium { --python-tile-wash: var(--python-gold-wash); --python-tile-edge: var(--python-gold); }
@@ -123,6 +136,7 @@
     --python-blue: 204 90% 74%; --python-gold: 43 92% 70%; --python-coral: 345 80% 79%;
     --python-blue-wash: 207 30% 18%; --python-gold-wash: 40 24% 17%; --python-coral-wash: 345 24% 18%;
     --python-hero-surface: var(--background);
+    --python-success: 160 65% 70%; --python-success-wash: 165 25% 17%;
   }
   @media (max-width: 639px) {
     .python-lab { --python-hero-overlay: linear-gradient(90deg, hsl(var(--python-hero-surface) / .97), hsl(var(--python-hero-surface) / .82)); }

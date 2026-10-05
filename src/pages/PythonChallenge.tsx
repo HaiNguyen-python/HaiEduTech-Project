@@ -1,6 +1,6 @@
 import PremiumGate from "@/components/premium/PremiumGate";
 import { FREE_LESSONS } from "@/hooks/usePremium";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { useParams, Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -8,10 +8,13 @@ import Footer from "@/components/Footer";
 import PythonEditor from "@/components/PythonEditor";
 import PythonChallengeLeaderboard from "@/components/programming/PythonChallengeLeaderboard";
 import { motion } from "framer-motion";
-import { ArrowLeft, ChevronRight, ChevronLeft, Trophy, Code2, Flame } from "lucide-react";
+import { ArrowLeft, ChevronRight, ChevronLeft, Trophy, Code2, Flame, LockKeyhole } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { pythonChallenges, getChallengeById, getNextChallenge, getPrevChallenge } from "@/data/pythonChallenges";
 import { Progress } from "@/components/ui/progress";
+import { Button } from "@/components/ui/button";
+import { usePythonChallengeProgress } from "@/hooks/usePythonChallengeProgress";
+import { isPythonChallengeUnlocked } from "@/lib/pythonChallengeProgress";
 
 const difficultyColors = {
   easy: "bg-green-500/10 text-green-600 border-green-500/30",
@@ -126,20 +129,15 @@ const PythonChallengePage = () => {
   const next = getNextChallenge(id);
   const prev = getPrevChallenge(id);
 
-  const [completedCount, setCompletedCount] = useState(0);
+  const { ids, loading, error } = usePythonChallengeProgress();
+  const completedCount = ids.size;
   const [leaderboardRefreshKey, setLeaderboardRefreshKey] = useState(0);
-
-  useEffect(() => {
-    const count = pythonChallenges.filter(c => localStorage.getItem(`haiedu_challenge_${c.id}_passed`) === "1").length;
-    setCompletedCount(count);
-  }, [id]);
 
   const handlePass = async () => {
     const alreadyCompleted = localStorage.getItem(`haiedu_challenge_${id}_passed`) === "1";
     localStorage.setItem(`haiedu_challenge_${id}_passed`, "1");
+    window.dispatchEvent(new Event("python-challenge-completed"));
     if (alreadyCompleted) return;
-
-    setCompletedCount(previous => Math.min(previous + 1, pythonChallenges.length));
     await logStudentActivity({
       activityType: "python_challenge",
       activityId: id,
@@ -162,6 +160,16 @@ const PythonChallengePage = () => {
         </div>
       </div>
     );
+  }
+
+  if (loading || !isPythonChallengeUnlocked(id, ids)) {
+    const firstUnfinished = pythonChallenges.find(c => !ids.has(c.id));
+    return <div className="min-h-screen bg-background"><Navbar /><main className="container mx-auto flex min-h-96 max-w-xl flex-col items-center justify-center gap-5 px-4 py-12 text-center">
+      <LockKeyhole className="h-10 w-10 text-primary" />
+      <h1 className="text-xl font-bold text-foreground">{loading ? t("Đang tải tiến độ...", "Loading progress...") : t("Bài tập chưa được mở khóa", "Challenge locked")}</h1>
+      {!loading && <p className="text-muted-foreground">{error ? t("Chưa tải được tiến độ tài khoản. Vui lòng thử lại.", "Account progress could not be loaded. Please try again.") : t(`Hoàn thành bài #${firstUnfinished?.id ?? "001"} trước khi mở bài mới.`, `Complete challenge #${firstUnfinished?.id ?? "001"} before starting a new challenge.`)}</p>}
+      <Button asChild variant="outline"><Link to="/python-challenges"><ArrowLeft className="h-4 w-4" />{t("Danh sách bài tập", "Challenge library")}</Link></Button>
+    </main><Footer /></div>;
   }
 
   const progressPct = (completedCount / pythonChallenges.length) * 100;
@@ -203,8 +211,9 @@ const PythonChallengePage = () => {
                   <h3 className="font-semibold text-foreground text-sm">Challenges</h3>
                   <div className="space-y-0.5 max-h-[50vh] overflow-y-auto pr-1">
                     {pythonChallenges.map(c => {
-                      const done = localStorage.getItem(`haiedu_challenge_${c.id}_passed`) === "1";
+                      const done = ids.has(c.id);
                       const active = c.id === id;
+                      if (!isPythonChallengeUnlocked(c.id, ids)) return <div key={c.id} aria-disabled="true" className="flex items-center gap-2 rounded-lg px-3 py-2 text-xs text-muted-foreground"><LockKeyhole className="h-4 w-4 shrink-0" /><span className="font-mono">{c.id}</span><span className="truncate">{c.title}</span></div>;
                       return (
                         <Link
                           key={c.id}
@@ -295,16 +304,16 @@ const PythonChallengePage = () => {
 
                   {/* Navigation */}
                   <div className="flex justify-between items-center pt-6">
-                    {prev ? (
+                    {prev && isPythonChallengeUnlocked(prev.id, ids) ? (
                       <Link to={`/python-challenges/${prev.id}`} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
                         <ChevronLeft className="w-4 h-4" /> #{prev.number}: {prev.title}
                       </Link>
                     ) : <div />}
-                    {next ? (
+                    {next && isPythonChallengeUnlocked(next.id, ids) ? (
                       <Link to={`/python-challenges/${next.id}`} className="flex items-center gap-2 text-sm text-primary hover:underline font-medium">
                         #{next.number}: {next.title} <ChevronRight className="w-4 h-4" />
                       </Link>
-                    ) : <div />}
+                    ) : next ? <span className="flex items-center gap-2 text-sm text-muted-foreground"><LockKeyhole className="h-4 w-4" />#{next.number}</span> : <div />}
                   </div>
                 </motion.div>
               </div>
