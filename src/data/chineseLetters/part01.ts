@@ -5,16 +5,28 @@ export const letters: ZhLetter[] = [
  {
   "id": "v1-001",
   "vol": 1,
-  "label": "v1-001",
-  "zh": "如果有一天，当你的努力配得上你的梦想，那么，你的梦想也绝对不会辜负你的努力。让自己尽可能变得优秀，当你对一件事情拼命努力的时候，全世界都会帮你！",
-  "pinyin": "rú guǒ yǒu yì tiān， dāng nǐ de nǔ lì pèi dé shàng nǐ de mèng xiǎng， nà me， nǐ de mèng xiǎng yě jué duì bú huì gū fù nǐ de nǔ lì。 ràng zì jǐ jǐn kě néng biàn de yōu xiù， dāng nǐ duì yí jiàn shì qíng pīn mìng nǔ lì de shí hòu， quán shì jiè dōu huì bāng nǐ！",
-  "vi": "Để Những Nỗ Lực Xứng Đáng Với Giấc Mơ Của Bạn Nếu có một ngày, khi những nỗ lực bạn bỏ ra tương xứng với giấc mơ bạn đang theo đuổi thì những giấc mơ đó cũng sẽ chẳng bao giờ phụ lại những gì bạn bỏ ra. hãy cố gắng hết sức để trở thành một người tài ba, khi bạn dốc hết sức để làm một chuyện gì đó, cả thế giới đều đứng về phía bạn.",
-  "level": "3-4",
+  "label": "42",
+  "zh": "如果有一天，当你的努力配得上你的梦想，那么，你的梦想也绝对不会辜负你的努力。让自己尽可能变得优秀，当你对一件事情拼命努力的时候，全世界都会帮你！从今天开始，每天微笑吧，世上除了生死，都是小事。不管遇到了多么烦心事，都不要自己为难自己；无论今天发生什么糟糕的事，都不应该感到悲伤。今天是你往后日子里最年轻的一天了，因为有明天今天永远只是起跑线。",
+  "pinyin": "rú guǒ yǒu yì tiān， dāng nǐ de nǔ lì pèi dé shàng nǐ de mèng xiǎng， nà me， nǐ de mèng xiǎng yě jué duì bú huì gū fù nǐ de nǔ lì。 ràng zì jǐ jǐn kě néng biàn de yōu xiù， dāng nǐ duì yí jiàn shì qíng pīn mìng nǔ lì de shí hòu， quán shì jiè dōu huì bāng nǐ！ cóng jīn tiān kāi shǐ， měi tiān wēi xiào ba， shì shàng chú le shēng sǐ， dōu shì xiǎo shì。 bù guǎn yù dào le duō me fán xīn shì， dōu bú yào zì jǐ wéi nán zì jǐ； wú lùn jīn tiān fā shēng shén me zāo gāo de shì， dōu bú yīng gāi gǎn dào bēi shāng。 jīn tiān shì nǐ wǎng hòu rì zǐ lǐ zuì nián qīng de yì tiān le， yīn wèi yǒu míng tiān jīn tiān yǒng yuǎn zhǐ shì qǐ pǎo xiàn。",
+  "vi": "Để Những Nỗ Lực Xứng Đáng Với Giấc Mơ Của Bạn Nếu có một ngày, khi những nỗ lực bạn bỏ ra tương xứng với giấc mơ bạn đang theo đuổi thì những giấc mơ đó cũng sẽ chẳng bao giờ phụ lại những gì bạn bỏ ra. hãy cố gắng hết sức để trở thành một người tài ba, khi bạn dốc hết sức để làm một chuyện gì đó, cả thế giới đều đứng về phía bạn. Kể từ hôm nay, mỗi ngày hãy cười lên, trên đời này, trừ việc sinh tử ra còn lại đều là chuyện nhỏ. cho dù gặp phải chuyện buồn gì đi chăng nữa thì cũng đừng tự làm khó mình, cho dù xảy ra chuyện rắc rối đến thế nào đi nữa thì cũng chẳng cần phải đau lòng làm gì cả. Hôm nay là ngày bạn còn trẻ nhất so với những ngày tháng nỗ lực về sau rồi, bởi vì có ngày mai, hôm nay mãi mãi chỉ là vạch kẻ xuất phát cho hành trình ấy.",
+  "level": "5-6",
   "words": [
+   {
+    "w": "悲伤",
+    "py": "bēishāng",
+    "vi": "Đau buồn",
+    "lv": 6
+   },
    {
     "w": "绝对",
     "py": "juéduì",
     "vi": "absolute; unconditional",
+    "lv": 5
+   },
+   {
+    "w": "微笑",
+    "py": "wēixiào",
+    "vi": "Mỉm cười",
     "lv": 5
    },
    {
@@ -28,47 +40,6 @@ export const letters: ZhLetter[] = [
     "py": "yōu xiù",
     "vi": "ưu tú",
     "lv": 4
-   },
-   {
-    "w": "努力",
-    "py": "nǔlì",
-    "vi": "Nỗ lực",
-    "lv": 3
-   },
-   {
-    "w": "那么",
-    "py": "nàme",
-    "vi": "like that; in that way",
-    "lv": 2
-   },
-   {
-    "w": "自己",
-    "py": "zìjǐ",
-    "vi": "oneself; one's own",
-    "lv": 2
-   }
-  ]
- },
- {
-  "id": "v1-002",
-  "vol": 1,
-  "label": "Bức Thư Thứ Nhất",
-  "zh": "从今天开始，每天微笑吧，世上除了生死，都是小事。不管遇到了多么烦心事，都不要自己为难自己；无论今天发生什么糟糕的事，都不应该感到悲伤。今天是你往后日子里最年轻的一天了，因为有明天今天永远只是起跑线。",
-  "pinyin": "cóng jīn tiān kāi shǐ， měi tiān wēi xiào ba， shì shàng chú le shēng sǐ， dōu shì xiǎo shì。 bù guǎn yù dào le duō me fán xīn shì， dōu bú yào zì jǐ wéi nán zì jǐ； wú lùn jīn tiān fā shēng shén me zāo gāo de shì， dōu bú yīng gāi gǎn dào bēi shāng。 jīn tiān shì nǐ wǎng hòu rì zǐ lǐ zuì nián qīng de yì tiān le， yīn wèi yǒu míng tiān jīn tiān yǒng yuǎn zhǐ shì qǐ pǎo xiàn。",
-  "vi": "Kể từ hôm nay, mỗi ngày hãy cười lên, trên đời này, trừ việc sinh tử ra còn lại đều là chuyện nhỏ. cho dù gặp phải chuyện buồn gì đi chăng nữa thì cũng đừng tự làm khó mình, cho dù xảy ra chuyện rắc rối đến thế nào đi nữa thì cũng chẳng cần phải đau lòng làm gì cả. Hôm nay là ngày bạn còn trẻ nhất so với những ngày tháng nỗ lực về sau rồi, bởi vì có ngày mai, hôm nay mãi mãi chỉ là vạch kẻ xuất phát cho hành trình ấy.",
-  "level": "5-6",
-  "words": [
-   {
-    "w": "悲伤",
-    "py": "bēishāng",
-    "vi": "Đau buồn",
-    "lv": 6
-   },
-   {
-    "w": "微笑",
-    "py": "wēixiào",
-    "vi": "Mỉm cười",
-    "lv": 5
    },
    {
     "w": "不管",
@@ -87,31 +58,13 @@ export const letters: ZhLetter[] = [
     "py": "wúlùn",
     "vi": "Bất kể",
     "lv": 4
-   },
-   {
-    "w": "日子",
-    "py": "rìzi",
-    "vi": "ngày",
-    "lv": 4
-   },
-   {
-    "w": "永远",
-    "py": "yǒng yuǎn",
-    "vi": "mãi mãi",
-    "lv": 4
-   },
-   {
-    "w": "除了",
-    "py": "chúle",
-    "vi": "apart from; besides",
-    "lv": 3
    }
   ]
  },
  {
-  "id": "v1-003",
+  "id": "v1-002",
   "vol": 1,
-  "label": "Bức Thư Thứ 2",
+  "label": "2",
   "zh": "人生，总会有不期而遇的温暖，和生生不息的希望。不管前方的路有多苦，只要走的方向正确，不管多么崎岖不平，都比站在原地更接近幸福。",
   "pinyin": "rén shēng， zǒng huì yǒu bù qī ér yù de wēn nuǎn， hé shēng shēng bù xī de xī wàng。 bù guǎn qián fāng de lù yǒu duō kǔ， zhǐ yào zǒu de fāng xiàng zhèng què， bù guǎn duō me qí qū bù píng， dōu bǐ zhàn zài yuán dì gèng jiē jìn xìng fú。",
   "vi": "Đời người luôn có những điều ấm áp không mong mà tới, và cả những hi vọng không ngừng lớn lên. Cho dù con đường phía trước có bao nhiêu khổ ải, chỉ cần hướng đi đúng thì dù trên đường đi có bao nhiêu chông gai gập ghềnh cũng còn gần với bến bờ hạnh phúc hơn chỉ đứng mãi ở vạch xuất phát.",
@@ -168,9 +121,9 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v1-004",
+  "id": "v1-003",
   "vol": 1,
-  "label": "Bức Thư Thứ 3",
+  "label": "3",
   "zh": "你是个要强的人，时时刻刻要求自己做到百分之百的超出期望值。但是苛求并不是个好现象，你并不是天才，请允许自己犯错。不要太着急，你的努力，时间都会帮你兑现。",
   "pinyin": "nǐ shì gè yào qiáng de rén， shí shí kè kè yāo qiú zì jǐ zuò dào bǎi fēn zhī bǎi de chāo chū qī wàng zhí。 dàn shì kē qiú bìng bú shì gè hǎo xiàn xiàng， nǐ bìng bú shì tiān cái， qǐng yǔn xǔ zì jǐ fàn cuò。 bú yào tài zháo jí， nǐ de nǔ lì， shí jiān dōu huì bāng nǐ duì xiàn。",
   "vi": "Bạn là một người mạnh mẽ, bất kể lúc nào cũng bắt mình phải làm được trọn vẹn 100% những kì vọng của bản thân. Nhưng nghiêm khắc quá cũng không phải là điều tốt, bạn không phải là thiên tài, hãy cho phép mình phạm sai lầm, đừng quá vồi vàng, những nỗ lực của bạn, thời gian sẽ giúp bạn thực hiện.",
@@ -227,9 +180,9 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v1-005",
+  "id": "v1-004",
   "vol": 1,
-  "label": "Bức Thư Thứ 4",
+  "label": "4",
   "zh": "时间在变，人也在变。生活是一场无法回放的绝版电影，有些事不管你如何努力，回不去就是回不去了。世界上最远的距离，不是爱，不是恨，而是熟悉的人，渐渐变得陌生。",
   "pinyin": "shí jiān zài biàn， rén yě zài biàn。 shēng huó shì yì chǎng wú fǎ huí fàng de jué bǎn diàn yǐng， yǒu xiē shì bù guǎn nǐ rú hé nǔ lì， huí bú qù jiù shì huí bú qù le。 shì jiè shàng zuì yuǎn de jù lí， bú shì ài， bú shì hèn， ér shì shú xī de rén， jiàn jiàn biàn de mò shēng。",
   "vi": "Thời gian thay đổi, lòng người cũng thay đổi, cuộc sống của chúng ta tựa như một bộ phim điện ảnh không chiếu lại thêm lần nào nữa, có những thứ dù cho chúng ta có cố gắng đến như thế nào đi nữa thì cũng chẳng bao giờ trở lại được như xưa. Trên đời này cái khoảng cách xa nhất không phải là yêu, chẳng phải là hận, mà là những người quen biết nhau dần trở nên xa lạ với nhau.",
@@ -286,9 +239,9 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v1-006",
+  "id": "v1-005",
   "vol": 1,
-  "label": "Bức Thư Thứ 5",
+  "label": "5",
   "zh": "很多时候你在奋力拼搏后未能获得你想要的，并不是因为你不配，而只是时机未到，你要做的，只是咬紧牙关，将如此努力的自己继续保持下去，仅此而已。",
   "pinyin": "hěn duō shí hòu nǐ zài fèn lì pīn bó hòu wèi néng huò dé nǐ xiǎng yào de， bìng bú shì yīn wèi nǐ bú pèi， ér zhǐ shì shí jī wèi dào， nǐ yào zuò de， zhǐ shì yǎo jǐn yá guān， jiāng rú cǐ nǔ lì de zì jǐ jì xù bǎo chí xià qù， jǐn cǐ ér yǐ。",
   "vi": "Có nhiều lúc bạn đã cố gắng hết sức nhưng vẫn chưa thể có được những gì bạn muốn, không phải là vì bạn không xứng mà chỉ là thời cơ chưa đến, những thứ bạn phải làm chỉ đơn giản là cắn chặt răng, cứ tiếp tục để bản thân mình vẫn cố gắng như thế, chỉ có vậy thôi.",
@@ -345,9 +298,9 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v1-007",
+  "id": "v1-006",
   "vol": 1,
-  "label": "Bức Thư Thứ 6",
+  "label": "6",
   "zh": "所谓奇迹，大概都是这样吧-----奇迹并非是上天赐予某人原本不应获得的东西，而是对于勤奋者姗姗来迟的褒奖，它只会迟到，却从不缺席。",
   "pinyin": "suǒ wèi qí jì， dà gài dōu shì zhè yàng ba ----- qí jì bìng fēi shì shàng tiān cì yǔ mǒu rén yuán běn bú yìng huò dé de dōng xī， ér shì duì yú qín fèn zhě shān shān lái chí de bāo jiǎng， tā zhī huì chí dào， què cóng bù quē xí。",
   "vi": "Cái gọi là kì tích đại khái đều là như thế này, kỳ tích không có nghĩa là những thứ mà Thượng Đế ban tặng cho ai đó nhẽ ra không đáng được nhận, mà là những giải thưởng được gửi đến từ từ giành cho những người chăm chỉ, nó chỉ đến muộn chứ không bao giờ vằng mặt.",
@@ -404,9 +357,9 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v1-008",
+  "id": "v1-007",
   "vol": 1,
-  "label": "Bức Thư Thứ 7",
+  "label": "7",
   "zh": "宫崎骏在他的电影里说：\"我始终相信，在这个世界上，一定有另一个自己，在做着我不敢做的事，在过着我不敢过的生活。\"其实我们每个人都是另一个自己，只要我们愿意，就每有我们不敢做的事，没有我们过不上的生活。",
   "pinyin": "gōng qí jùn zài tā de diàn yǐng lǐ shuō：\" wǒ shǐ zhōng xiāng xìn， zài zhè ge shì jiè shàng， yí dìng yǒu lìng yí gè zì jǐ， zài zuò zhe wǒ bù gǎn zuò de shì， zài guò zhe wǒ bù gǎn guò de shēng huó。\" qí shí wǒ men měi gè rén dōu shì lìng yí gè zì jǐ， zhǐ yào wǒ men yuàn yì， jiù měi yǒu wǒ men bù gǎn zuò de shì， méi yǒu wǒ men guò bú shàng de shēng huó。",
   "vi": "Miyazaki Hayao đã từng nói thế này trong phim của ông ấy: \"Từ trước đến nay tôi đều tin rằng trên đời này có một 'tôi' khác tồn tại, dám làm những thứ tôi không dám làm, dám sống cuộc sống mà tôi không dám sống.\" Thực ra thì ai trong chúng ta đều có bản ngã khác của chính mình, chỉ cần chúng ta muốn, chẳng có gì chúng ta không dám làm, chẳng có cuộc sống nào không vượt qua được.",
@@ -463,9 +416,9 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v1-009",
+  "id": "v1-008",
   "vol": 1,
-  "label": "Bức Thư Thứ 8",
+  "label": "8",
   "zh": "或许你感觉自己一无所有，或许你会羡慕上司的房子，车子，学姐们的钻石耳钉。其实你不用羡慕这些，只要努力，所有的一切，岁月都会带给你。而你的年轻岁月，却是他们再也无法拥有的。",
   "pinyin": "huò xǔ nǐ gǎn jué zì jǐ yì wú suǒ yǒu， huò xǔ nǐ huì xiàn mù shàng sī de fáng zi， chē zi， xué jiě men de zuàn shí ěr dīng。 qí shí nǐ bú yòng xiàn mù zhè xiē， zhǐ yào nǔ lì， suǒ yǒu de yí qiè， suì yuè dōu huì dài gěi nǐ。 ér nǐ de nián qīng suì yuè， què shì tā men zài yě wú fǎ yōng yǒu de。",
   "vi": "Có lẽ bạn cảm thấy mình chẳng có gì, cũng có thể bạn sẽ ngưỡng mộ căn nhà rồi cả xe đẹp của cấp trên mình hoặc là đôi khuyên tai kim cương chị bạn trong trường đang đeo. Thực ra bạn không cần phải đi ngưỡng mộ những thứ này, chỉ cần bạn nỗ lực, tất cả mọi thứ, thời gian đều mang đến cho bạn. Những năm tháng thanh xuân của bạn, lại là thứ học chẳng bao giờ có được.",
@@ -522,9 +475,9 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v1-010",
+  "id": "v1-009",
   "vol": 1,
-  "label": "Bức Thư Thứ 9",
+  "label": "9",
   "zh": "你现在的结果，都是你以前的种种行为造成的。如果你讨厌自己的现在，更应该反思一下自己。因为每一个你不满意的现在，都有一个不努力的曾经。",
   "pinyin": "nǐ xiàn zài de jié guǒ， dōu shì nǐ yǐ qián de zhǒng zhǒng xíng wéi zào chéng de。 rú guǒ nǐ tǎo yàn zì jǐ de xiàn zài， gèng yīng gāi fǎn sī yí xià zì jǐ。 yīn wèi měi yí gè nǐ bù mǎn yì de xiàn zài， dōu yǒu yí gè bù nǔ lì de céng jīng。",
   "vi": "Kết quả của bây giờ đều là do những hành động ngày trước tạo nên. Nếu bạn ghét mình của hiện tại thì càng nên xem lại mình một chút. Bởi vì mỗi điều ở hiện tại mà bạn không hài lòng đều là do có những cái trước kia bạn không cố gắng đủ.",
@@ -581,9 +534,9 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v1-011",
+  "id": "v1-010",
   "vol": 1,
-  "label": "Bức Thư Thứ 10",
+  "label": "10",
   "zh": "年轻正是吃苦的时候，正是发奋努力的时候。你一定要相信，每一个发奋努力的背后，必有加倍的奖赏。今天的生活是由三年前确定的，但是如果你今天还过着和三年前一样的生活，那么三年后的你仍将如此。",
   "pinyin": "nián qīng zhèng shì chī kǔ de shí hòu， zhèng shì fā fèn nǔ lì de shí hòu。 nǐ yí dìng yào xiāng xìn， měi yí gè fā fèn nǔ lì de bèi hòu， bì yǒu jiā bèi de jiǎng shǎng。 jīn tiān de shēng huó shì yóu sān nián qián què dìng de， dàn shì rú guǒ nǐ jīn tiān hái guò zhe hé sān nián qián yí yàng de shēng huó， nà me sān nián hòu de nǐ réng jiāng rú cǐ。",
   "vi": "Tuổi trẻ chính là lúc nếm trải cực khổ, cũng chính là lúc chúng ta nỗ lực hết mình. Bạn nhất định phải tin rằng đằng sau những sự nỗ lực kia là phần thưởng đáng giá hơn gấp bội. Cuộc sống của ngày hôm nay là do 3 năm trước quyết định, nhưng nếu hôm nay bạn vẫn sống cuộc sống của 3 năm trước thì bạn của 3 năm sau vẫn cứ như thế mà thôi.",
@@ -640,9 +593,9 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v1-012",
+  "id": "v1-011",
   "vol": 1,
-  "label": "Bức Thư Thứ 11",
+  "label": "11",
   "zh": "其实奋斗就是每天踏踏实实地过好日子，做好手头的每件小事，不拖拉，不抱怨，不推卸，不偷懒。每一天一点一滴的努力，才能汇集起千万勇气，带着你的坚持，引领你到你想要到的地方去。",
   "pinyin": "qí shí fèn dòu jiù shì měi tiān tā tā shi shí dì guò hǎo rì zi， zuò hǎo shǒu tóu de měi jiàn xiǎo shì， bù tuō lā， bú bào yuàn， bù tuī xiè， bù tōu lǎn。 měi yì tiān yì diǎn yì dī de nǔ lì， cái néng huì jí qǐ qiān wàn yǒng qì， dài zhe nǐ de jiān chí， yǐn lǐng nǐ dào nǐ xiǎng yào dào de dì fāng qù。",
   "vi": "Thực ra phấn đấu chính là bình thản sống mỗi ngày, làm thật tốt những việc mình đang phải làm, không trì hoãn, không than phiền, không thoái thác, không lười biếng. Mỗi ngày cố gắng thêm một chút xíu, mới có thể gộp thành hàng ngàn dũng khí, mang theo sự kiên trì, dẫn bạn đến nơi bạn muốn đến.",
@@ -699,9 +652,9 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v1-013",
+  "id": "v1-012",
   "vol": 1,
-  "label": "Bức Thư Thứ 12",
+  "label": "12",
   "zh": "每一个努力的人都能在岁月中破茧成蝶，你要相信，有一天你将破蛹而出，成长得比人们期待的还要美丽，但这个过程会很痛，会很辛苦，有时候还会觉得灰心。面对着汹涌而来的现实，觉得自己渺小无力，但这也是生命的一部分。做好现在你能做的，然后，一切都会好起来。",
   "pinyin": "měi yí gè nǔ lì de rén dōu néng zài suì yuè zhōng pò jiǎn chéng dié， nǐ yào xiāng xìn， yǒu yì tiān nǐ jiāng pò yǒng ér chū， chéng zhǎng dé bǐ rén men qī dài de hái yào měi lì， dàn zhè ge guò chéng huì hěn tòng， huì hěn xīn kǔ， yǒu shí hòu hái huì jué de huī xīn。 miàn duì zhe xiōng yǒng ér lái de xiàn shí， jué de zì jǐ miǎo xiǎo wú lì， dàn zhè yě shì shēng mìng de yí bù fen。 zuò hǎo xiàn zài nǐ néng zuò de， rán hòu， yí qiè dōu huì hǎo qǐ lái。",
   "vi": "Những người biết cố gắng đều sẽ có một ngày từ nhộng hóa thành bướm, bạn phải tin rằng, rồi sẽ có ngày bạn phá kén chui ra, trở nên xinh đẹp hơn rất nhiều so với kỳ vọng của mọi người. Nhưng quá trình này sẽ rất đau đớn, sẽ rất gian khổ, có lúc còn cảm thấy nản lòng thoái chí. Đối mặt với hiện thực dồn đến mãnh liệt, bạn cảm thấy bản thân thật nhỏ bé và yếu đuối. Nhưng đây chính là một phần của cuộc sống. Hãy làm tốt những điều bây giờ bạn có thể làm, rồi sau đó mọi thứ sẽ tốt lên thôi.",
@@ -758,9 +711,9 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v1-014",
+  "id": "v1-013",
   "vol": 1,
-  "label": "Bức Thư Thứ 13",
+  "label": "13",
   "zh": "每个成功的人在成功之前，难免都会有一段黯淡的时光。此时，你无须害怕，也无须胆怯，只需努力朝着自己的目标大步迈进，然后再付出强于以往三倍的努力，若干年后，你一定会超越现在的自己。",
   "pinyin": "měi gè chéng gōng de rén zài chéng gōng zhī qián， nán miǎn dōu huì yǒu yí duàn àn dàn de shí guāng。 cǐ shí， nǐ wú xū hài pà， yě wú xū dǎn qiè， zhī xū nǔ lì cháo zhe zì jǐ de mù biāo dà bù mài jìn， rán hòu zài fù chū qiáng yú yǐ wǎng sān bèi de nǔ lì， ruò gān nián hòu， nǐ yí dìng huì chāo yuè xiàn zài de zì jǐ。",
   "vi": "Mỗi một người thành đạt trước khi tiến tới thành công, đều khó tránh khỏi trải qua khoảng thời gian tối tăm ảm đạm. Những lúc như vậy, bạn không cần sợ hãi, cũng đừng nhút nhát, chỉ cần cố gắng tiến từng bước về phía mục tiêu của bạn, sau đó tiếp tục cố gắng hơn gấp ba lần sự cố gắng bạn đã từng bỏ ra. Nhiều năm sau, bạn nhất định sẽ vượt qua chính bản thân của hiện tại.",
@@ -817,9 +770,9 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v1-015",
+  "id": "v1-014",
   "vol": 1,
-  "label": "Bức Thư Thứ 14",
+  "label": "14",
   "zh": "每一个优秀的人，都会有一段沉默的时光，不抱怨、不责难，不断努力，忍受着黑夜的孤独与寂寞，坚信在黑暗中也能盛开出最好的花。",
   "pinyin": "měi yí gè yōu xiù de rén， dōu huì yǒu yí duàn chén mò de shí guāng， bú bào yuàn、 bù zé nàn， bú duàn nǔ lì， rěn shòu zhe hēi yè de gū dú yǔ jì mò， jiān xìn zài hēi àn zhōng yě néng shèng kāi chū zuì hǎo de huā。",
   "vi": "Mỗi người tài giỏi đều có một khoảng thời gian trầm lặng, họ không than phiền hay trách móc, mà họ không ngừng nỗ lực, nhẫn nhịn chịu đựng những đêm dài cô độc và trống vắng, mang theo niềm tin rằng tại nơi tối tăm ảm đạm vẫn có thể nở ra đóa hoa xinh đẹp nhất.",
@@ -870,9 +823,9 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v1-016",
+  "id": "v1-015",
   "vol": 1,
-  "label": "Bức Thư Thứ 15",
+  "label": "15",
   "zh": "你现在还很年轻，完全没有必要因为你的衣服不如别人，包不是名牌，或者存款还不到五位数而觉得不安。因为每一个人都是这样过来的，你自己才是一切的根源，要想改变人生，首先要改变自己！",
   "pinyin": "nǐ xiàn zài hái hěn nián qīng， wán quán méi yǒu bì yào yīn wèi nǐ de yī fu bù rú bié rén， bāo bú shì míng pái， huò zhě cún kuǎn hái bú dào wǔ wèi shù ér jué de bù ān。 yīn wèi měi yí gè rén dōu shì zhè yàng guò lái de， nǐ zì jǐ cái shì yí qiè de gēn yuán， yào xiǎng gǎi biàn rén shēng， shǒu xiān yào gǎi biàn zì jǐ！",
   "vi": "Bây giờ bạn vẫn còn rất trẻ, hoàn toàn không cần buồn bực chỉ vì quần áo, túi xách của mình không phải hàng hiệu giống người ta, hoặc tiền tiết kiệm chưa được đến năm con số như người ta. Bởi vì ai ai cũng đều tiến lên như vậy, chính bản thân bạn mới là căn nguyên của tất cả, muốn đổi đời trước hết phải thay đổi chính mình.",
@@ -929,9 +882,9 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v1-017",
+  "id": "v1-016",
   "vol": 1,
-  "label": "Bức Thư Thứ 16",
+  "label": "16",
   "zh": "纵使你天生就拿到一副好牌，也不能保证你人生的棋局会步步顺畅，也未必能保证你在生活的博弈中稳操胜券。好的人生棋局，要靠自己步步为营，努力去争取。",
   "pinyin": "zòng shǐ nǐ tiān shēng jiù ná dào yí fù hǎo pái， yě bù néng bǎo zhèng nǐ rén shēng de qí jú huì bù bù shùn chàng， yě wèi bì néng bǎo zhèng nǐ zài shēng huó de bó yì zhōng wěn cāo shèng quàn。 hǎo de rén shēng qí jú， yào kào zì jǐ bù bù wéi yíng， nǔ lì qù zhēng qǔ。",
   "vi": "Cho dù bạn trời sinh đã được ban cho một ván cờ đẹp, cũng không thể chắc chắn rằng ván cờ cuộc đời bạn sẽ được đầu xuôi đuôi lọt, cũng chưa chắc bảo đảm được rằng mọi nước cờ bạn đi sẽ nắm chắc phần thắng. Để có một ván cờ cuộc đời tốt đẹp, bạn phải dựa vào bản thân mình, thận trọng trong từng bước đi và tranh thủ mọi cơ hội.",
@@ -970,9 +923,9 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v1-018",
+  "id": "v1-017",
   "vol": 1,
-  "label": "Bức Thư Thứ 17",
+  "label": "17",
   "zh": "所有的成功，都来自于不倦的努力和奔跑；所有幸福，都来自平凡的奋斗和坚持，你无法找到捷径。",
   "pinyin": "suǒ yǒu de chéng gōng， dōu lái zì yú bú juàn de nǔ lì hé bēn pǎo； suǒ yǒu xìng fú， dōu lái zì píng fán de fèn dòu hé jiān chí， nǐ wú fǎ zhǎo dào jié jìng。",
   "vi": "Mọi thành công đều đến từ sự phấn đấu không biết mệt mỏi; mọi niềm hạnh phúc đều đến từ sự nỗ lực và kiên trì tưởng như bình thường nhất, bạn không thể tìm được con đường tắt.",
@@ -1029,9 +982,9 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v1-019",
+  "id": "v1-018",
   "vol": 1,
-  "label": "Bức Thư Thứ 18",
+  "label": "18",
   "zh": "别人在熬夜的时候，你在睡觉；别人已经起床，你还在挣扎再多睡几分钟。你有很多想法，但脑袋热了就过了，别人却一件事坚持到底。你连一本书都要看很久，该工作的时候就刷起手机，肯定也不能早晨起来背单词，晚上加班到深夜。很多时候不是你平凡，碌碌无为，而是你没有别人付出得多。",
   "pinyin": "bié rén zài áo yè de shí hòu， nǐ zài shuì jué； bié rén yǐ jīng qǐ chuáng， nǐ hái zài zhēng zhá zài duō shuì jǐ fēn zhōng。 nǐ yǒu hěn duō xiǎng fǎ， dàn nǎo dài rè le jiù guò le， bié rén què yí jiàn shì jiān chí dào dǐ。 nǐ lián yì běn shū dōu yào kàn hěn jiǔ， gāi gōng zuò de shí hòu jiù shuā qǐ shǒu jī， kěn dìng yě bù néng zǎo chén qǐ lái bèi dān cí， wǎn shàng jiā bān dào shēn yè。 hěn duō shí hòu bú shì nǐ píng fán， lù lù wú wéi， ér shì nǐ méi yǒu bié rén fù chū dé duō。",
   "vi": "Trong lúc người khác thức trắng đêm thì bạn đã ngủ say; khi người khác đã thức dậy thì bạn vẫn cố ngủ nướng thêm dăm ba phút. Bạn có rất nhiều ý tưởng, nhưng chúng lại khiến đầu óc bạn như muốn nổ tung lên, liền bỏ qua không nghĩ tiếp nữa, còn người khác thì vẫn kiên trì suy nghĩ đến cùng. Đến cả một cuốn sách bạn cũng phải đọc rất lâu, lúc nên làm việc thì tay cầm điện thoại, chắc chắn bạn cũng sẽ không dậy từ sáng sớm để học từ mới, buổi tối sẽ không tăng ca đến tận đêm khuya. Có nhiều khi không phải do bạn tầm thường, không có chí tiến thủ, mà là bạn chưa bỏ ra nhiều công sức bằng người khác.",
@@ -1088,9 +1041,9 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v1-020",
+  "id": "v1-019",
   "vol": 1,
-  "label": "Bức Thư Thứ 19",
+  "label": "19",
   "zh": "当一个人忽略你时，不要伤心，每个人都有自己的生活，谁都不可能一直陪你。最尴尬的莫过于高估自己在别人心里的位置，其实你明明知道，最卑贱不过感情，最凉不过人心。是你的，就是你的。有的东西就像手中沙，越是紧握，就会流失得越快。努力了，珍惜了，问心无愧。其他的，交给命运。",
   "pinyin": "dāng yí gè rén hū lüè nǐ shí， bú yào shāng xīn， měi gè rén dōu yǒu zì jǐ de shēng huó， shuí dōu bù kě néng yì zhí péi nǐ。 zuì gān gà de mò guò yú gāo gū zì jǐ zài bié rén xīn lǐ de wèi zhì， qí shí nǐ míng míng zhī dào， zuì bēi jiàn bú guò gǎn qíng， zuì liáng bú guò rén xīn。 shì nǐ de， jiù shì nǐ de。 yǒu de dōng xī jiù xiàng shǒu zhōng shā， yuè shì jǐn wò， jiù huì liú shī dé yuè kuài。 nǔ lì le， zhēn xī le， wèn xīn wú kuì。 qí tā de， jiāo gěi mìng yùn。",
   "vi": "Khi một người nào đó không quan tâm bạn, đừng quá đau lòng, mỗi người đều có cuộc sống của riêng mình, không ai có thể ở bên bạn mãi mãi. Điều đáng xấu hổ nhất chính là đánh giá quá cao vị trí của bản thân trong lòng người khác, thực ra bạn biết đấy, rẻ tiền nhất là tình cảm, lạnh lẽo nhất là lòng người. Cái gì của bạn sẽ mãi là của bạn. Có những thứ giống như cát trong tay, càng nắm chặt sẽ trôi đi càng nhanh. Bạn đã nỗ lực rồi, đã quý trọng rồi, cho nên bạn không thẹn với lương tâm. Những thứ khác hãy để số phận quyết định.",
@@ -1147,9 +1100,9 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v1-021",
+  "id": "v1-020",
   "vol": 1,
-  "label": "Bức Thư Thứ 20",
+  "label": "20",
   "zh": "世上没有一件工作不辛苦，没有一处人事不复杂。不要随意发脾气，谁都不欠你的。学会低调，取舍间必有得失，不用太计较。学着踏实而务实，越努力越幸运。当一个人有了足够的内涵和物质做后盾，人生就会变得底气十足。",
   "pinyin": "shì shàng méi yǒu yí jiàn gōng zuò bù xīn kǔ， méi yǒu yí chù rén shì bú fù zá。 bú yào suí yì fā pí qi， shuí dōu bú qiàn nǐ de。 xué huì dī diào， qǔ shě jiān bì yǒu dé shī， bú yòng tài jì jiào。 xué zhe tà shí ér wù shí， yuè nǔ lì yuè xìng yùn。 dāng yí gè rén yǒu le zú gòu de nèi hán hé wù zhì zuò hòu dùn， rén shēng jiù huì biàn de dǐ qì shí zú。",
   "vi": "Trên đời này không có công việc nào là không cực nhọc, không có nơi nào chuyện đời, chuyện người là không phức tạp. Đừng dễ dàng nổi nóng, bởi chẳng ai thiếu nợ bạn điều gì cả. Khi đứng giữa sự lựa chọn hãy học cách đánh đổi, có được thì sẽ có mất, không nên quá tính toán chi li. Hãy học cách làm việc thoải mái nhưng vẫn thiết thực, càng cố gắng sẽ càng có nhiều may mắn đến với bạn. Khi một người đã được hậu thuẫn đầy đủ bởi tinh thần và vật chất, cuộc đời sẽ trở nên tràn đầy năng lượng.",
@@ -1206,9 +1159,9 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v1-022",
+  "id": "v1-021",
   "vol": 1,
-  "label": "Bức Thư Thứ 21",
+  "label": "21",
   "zh": "你今天的努力，是幸运的伏笔。当下的付出，是明日的花开。",
   "pinyin": "nǐ jīn tiān de nǔ lì， shì xìng yùn de fú bǐ。 dāng xià de fù chū， shì míng rì de huā kāi。",
   "vi": "Những cố gắng ngày hôm nay của bạn là tiền đề cho sự may mắn sắp đến. Điều bạn được nhận lại sẽ là những đóa hoa nở vào ngày mai.",
@@ -1241,9 +1194,9 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v1-023",
+  "id": "v1-022",
   "vol": 1,
-  "label": "Bức Thư Thứ 22",
+  "label": "22",
   "zh": "不管昨夜经历了怎样的泣不成声，早晨醒来这个城市依然车水马龙。开心或者不开心，城市都没有工夫等，你只能铭记或者遗忘。那一站你爱过或者恨过的旅程，那一段你拼命努力却感觉不到希望的日子，都会过去。",
   "pinyin": "bù guǎn zuó yè jīng lì le zěn yàng de qì bù chéng shēng， zǎo chén xǐng lái zhè ge chéng shì yī rán chē shuǐ mǎ lóng。 kāi xīn huò zhě bù kāi xīn， chéng shì dōu méi yǒu gōng fū děng， nǐ zhǐ néng míng jì huò zhě yí wàng。 nà yí zhàn nǐ ài guò huò zhě hèn guò de lǚ chéng， nà yí duàn nǐ pīn mìng nǔ lì què gǎn jué bú dào xī wàng de rì zi， dōu huì guò qù。",
   "vi": "Cho dù đêm qua bạn có khóc lóc, nức nở không thành tiếng đến thế nào thì sáng mai tỉnh dậy, thành phố này vẫn tấp nập người xe như cũ. Dù bạn vui hay không vui thì thành phố cũng không hơi đâu mà đợi bạn, bạn chỉ có thể đem những cảm xúc ấy khắc sâu vào lòng, hoặc là quên đi. Chặng đường mà bạn đã từng yêu từng hận đó, những tháng ngày bạn đã dốc hết sức lực nhưng vẫn không nhìn thấy hi vọng đó, tất cả rồi sẽ qua đi thôi.",
@@ -1300,9 +1253,9 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v1-024",
+  "id": "v1-023",
   "vol": 1,
-  "label": "Bức Thư Thứ 23",
+  "label": "23",
   "zh": "我不敢休息，因为我没有存款；我不敢说累，因为我没有成就；我不敢偷懒，因为我还要生活；我能放弃选择，但是我不能选择放弃。所以，坚强、拼搏、努力是我唯一的选择。",
   "pinyin": "wǒ bù gǎn xiū xi， yīn wèi wǒ méi yǒu cún kuǎn； wǒ bù gǎn shuō lèi， yīn wèi wǒ méi yǒu chéng jiù； wǒ bù gǎn tōu lǎn， yīn wèi wǒ hái yào shēng huó； wǒ néng fàng qì xuǎn zé， dàn shì wǒ bù néng xuǎn zé fàng qì。 suǒ yǐ， jiān qiáng、 pīn bó、 nǔ lì shì wǒ wéi yī de xuǎn zé。",
   "vi": "Tôi không dám nghỉ ngơi, bởi vì tôi vẫn chưa có một khoản tiền tiết kiệm nào; tôi không dám kêu mệt, bởi vì tôi vẫn chưa đạt được thành tựu gì; tôi không dám lười biếng, bởi vì tôi vẫn còn phải sống; tôi có thể từ bỏ quyền lựa chọn, nhưng tôi không thể lựa chọn từ bỏ. Vì vậy, kiên cường, phấn đấu, nỗ lực chính là sự lựa chọn duy nhất của tôi.",
@@ -1359,9 +1312,9 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v1-025",
+  "id": "v1-024",
   "vol": 1,
-  "label": "Bức Thư Thứ 24",
+  "label": "24",
   "zh": "每一个优秀的人，都有一段苦逼的时光。或许是因为一份学业，一份工作，一段爱情，离开了爸爸妈妈，去了一座别的城市。当你倦了厌了时，想想你的父母正在为你打拼，这就是你必须坚强的理由。",
   "pinyin": "měi yí gè yōu xiù de rén， dōu yǒu yí duàn kǔ bī de shí guāng。 huò xǔ shì yīn wèi yí fèn xué yè， yí fèn gōng zuò， yí duàn ài qíng， lí kāi le bà ba mā ma， qù le yí zuò bié de chéng shì。 dāng nǐ juàn le yàn le shí， xiǎng xiǎng nǐ de fù mǔ zhèng zài wèi nǐ dǎ pīn， zhè jiù shì nǐ bì xū jiān qiáng de lǐ yóu。",
   "vi": "Mỗi con người tài giỏi, đều có một quãng thời gian khổ cực. Có thể là vì chuyện bài vở học hành, vì công việc, vì tình yêu, phải rời xa cha mẹ đến một thành phố khác sinh sống. Khi bạn đã mệt mỏi và phát chán rồi, hãy nghĩ đến công sức cha mẹ đang bỏ ra vì bạn, đây chính là lý do buộc bạn phải kiên cường.",
@@ -1418,9 +1371,9 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v1-026",
+  "id": "v1-025",
   "vol": 1,
-  "label": "Bức Thư Thứ 25",
+  "label": "25",
   "zh": "这个社会是现实的，你没有实力的时候，人家首先看你外表。所以，当你没有外表的时候，努力增强实力，当你既没外表又没实力的时候，人家只会跟你说：拜拜。",
   "pinyin": "zhè gè shè huì shì xiàn shí de， nǐ méi yǒu shí lì de shí hòu， rén jiā shǒu xiān kàn nǐ wài biǎo。 suǒ yǐ， dāng nǐ méi yǒu wài biǎo de shí hòu， nǔ lì zēng qiáng shí lì， dāng nǐ jì méi wài biǎo yòu méi shí lì de shí hòu， rén jiā zhī huì gēn nǐ shuō： bài bài。",
   "vi": "Xã hội này rất thực tế, khi bạn không có thực lực, người ta sẽ nhìn vào vẻ bề ngoài của bạn. Cho nên, khi bạn không có ngoại hình, phải cố gắng trau dồi thực lực, còn khi bạn không có cả ngoại hình lẫn thực lực, thì người ta sẽ chỉ nói với bạn: bye bye.",
@@ -1471,9 +1424,9 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v1-027",
+  "id": "v1-026",
   "vol": 1,
-  "label": "Bức Thư Thứ 26",
+  "label": "26",
   "zh": "买得起自己喜欢的东西，去得了自己想去的地方，不会因为身边人的来或走损失生活的质量，反而会因为花自己的钱，来得更有底气一些，这就是应该努力的原因。",
   "pinyin": "mǎi de qǐ zì jǐ xǐ huan de dōng xī， qù dé le zì jǐ xiǎng qù de dì fāng， bú huì yīn wèi shēn biān rén de lái huò zǒu sǔn shī shēng huó de zhì liàng， fǎn ér huì yīn wèi huā zì jǐ de qián， lái de gèng yǒu dǐ qì yì xiē， zhè jiù shì yīng gāi nǔ lì de yuán yīn。",
   "vi": "Mua được thứ mình thích, đi tới nơi mình muốn đi, sẽ không vì sự đến hay đi của những người xung quanh mà làm ảnh hưởng đến chất lượng cuộc sống của mình. Ngược lại, hãy vì được tiêu những đồng tiền do chính bản thân mình làm ra mà cảm thấy tràn đầy năng lượng, đó chính là nguyên nhân để bạn nỗ lực.",
@@ -1530,9 +1483,9 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v1-028",
+  "id": "v1-027",
   "vol": 1,
-  "label": "Bức Thư Thứ 27",
+  "label": "27",
   "zh": "没有人陪你走一辈子，所以你要适应孤独；没有人会帮你一辈子，所以你要一直奋斗。",
   "pinyin": "méi yǒu rén péi nǐ zǒu yí bèi zi， suǒ yǐ nǐ yào shì yìng gū dú； méi yǒu rén huì bāng nǐ yí bèi zi， suǒ yǐ nǐ yào yì zhí fèn dòu。",
   "vi": "Không một ai đi cùng bạn suốt đời, vì vậy bạn phải học cách làm quen với cô đơn; không một ai giúp bạn cả đời, vì vậy bạn phải không ngừng phấn đấu.",
@@ -1571,9 +1524,9 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v1-029",
+  "id": "v1-028",
   "vol": 1,
-  "label": "Bức Thư Thứ 28",
+  "label": "28",
   "zh": "早上醒来时，给自己定个目标：今天一定要比昨天好！每天坚持，一定会大有收获！",
   "pinyin": "zǎo shàng xǐng lái shí， gěi zì jǐ dìng gè mù biāo： jīn tiān yí dìng yào bǐ zuó tiān hǎo！ měi tiān jiān chí， yí dìng huì dà yǒu shōu huò！",
   "vi": "Buổi sáng mỗi khi thức dậy, hãy tự đặt cho mình một mục tiêu: Hôm nay nhất định phải sống tốt hơn hôm qua! Kiên trì mỗi ngày, chắc chắn bạn sẽ nhận được thu hoạch lớn.",
@@ -1624,9 +1577,9 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v1-030",
+  "id": "v1-029",
   "vol": 1,
-  "label": "Bức Thư Thứ 29",
+  "label": "29",
   "zh": "静下心来好好做你该做的事，该好好努力了！有时候真的努力后，你会发现自己要比想象得优秀很多。",
   "pinyin": "jìng xià xīn lái hǎo hǎo zuò nǐ gāi zuò de shì， gāi hǎo hǎo nǔ lì le！ yǒu shí hòu zhēn de nǔ lì hòu， nǐ huì fā xiàn zì jǐ yào bǐ xiǎng xiàng dé yōu xiù hěn duō。",
   "vi": "Tĩnh tâm lại và làm tốt những việc bạn cần làm, hãy cố gắng thật nhiều nhé! Có đôi lúc khi đã thực sự cố gắng, bạn sẽ nhận ra bạn còn tài giỏi hơn mình tưởng rất nhiều.",
@@ -1671,9 +1624,9 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v1-031",
+  "id": "v1-030",
   "vol": 1,
-  "label": "Bức Thư Thứ 30",
+  "label": "30",
   "zh": "悄悄地去努力，等变厉害之后，蹦出来把曾经看不起自己的人吓一大跳，才是你现在需要当作目标的事。",
   "pinyin": "qiāo qiāo dì qù nǔ lì， děng biàn lì hài zhī hòu， bèng chū lái bǎ céng jīng kàn bù qǐ zì jǐ de rén xià yí dà tiào， cái shì nǐ xiàn zài xū yào dàng zuò mù biāo dì shì。",
   "vi": "Hãy cứ lặng lẽ mà cố gắng, chờ đến khi bạn trở nên tài giỏi rồi, sẽ phá kén chui ra, dọa cho những kẻ từng khinh thường bạn một phen giật mình, đó mới là mục tiêu bạn cần làm lúc này.",
@@ -1730,9 +1683,9 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v1-032",
+  "id": "v1-031",
   "vol": 1,
-  "label": "Bức Thư Thứ 31",
+  "label": "31",
   "zh": "你的努力，也许有人会讥讽；你的执着，也许不会有人读懂。在别人眼里你也许是小丑，但在自己心中你就是女王！",
   "pinyin": "nǐ de nǔ lì， yě xǔ yǒu rén huì jī fěng； nǐ de zhí zhuó， yě xǔ bú huì yǒu rén dú dǒng。 zài bié rén yǎn lǐ nǐ yě xǔ shì xiǎo chǒu， dàn zài zì jǐ xīn zhōng nǐ jiù shì nǚ wáng！",
   "vi": "Có lẽ sẽ có người mỉa mai sự nỗ lực của bạn; có lẽ sẽ có người không hiểu được những suy nghĩ cố chấp của bạn. Trong mắt người khác bạn có thể là một tên hề mua vui, nhưng trong trái tim mình, bạn chính là nữ hoàng!",
@@ -1777,9 +1730,9 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v1-033",
+  "id": "v1-032",
   "vol": 1,
-  "label": "Bức Thư Thứ 32",
+  "label": "32",
   "zh": "纵然我没有惊世才华，纵然我没有丰厚财富，但是我有满腔的激情，我有乐观的态度，因为我相信：只要努力，一切皆有可能！",
   "pinyin": "zòng rán wǒ méi yǒu jīng shì cái huá， zòng rán wǒ méi yǒu fēng hòu cái fù， dàn shì wǒ yǒu mǎn qiāng de jī qíng， wǒ yǒu lè guān de tài dù， yīn wèi wǒ xiāng xìn： zhǐ yào nǔ lì， yí qiè jiē yǒu kě néng！",
   "vi": "Cho dù tôi không có tài hoa tuyệt thế, cũng không có nhiều tiền của, nhưng tôi có tấm lòng tràn đầy đam mê và tinh thần lạc quan vui vẻ, bởi vì tôi tin rằng: Chỉ cần cố gắng, chuyện gì cũng có thể thực hiện được!",
@@ -1836,9 +1789,9 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v1-034",
+  "id": "v1-033",
   "vol": 1,
-  "label": "Bức Thư Thứ 33",
+  "label": "33",
   "zh": "有时候，努力一点，是为让自己有资格，不去做不喜欢的事；为了能让自己，遇见一个喜欢的人时，不会因为，自己不够好而没能留住对方；为了避免，与朋友拉开差距未来也能看到同一个世界；为了看清自己最后能走到哪里",
   "pinyin": "yǒu shí hòu， nǔ lì yì diǎn， shì wèi ràng zì jǐ yǒu zī gé， bú qù zuò bù xǐ huan de shì； wèi le néng ràng zì jǐ， yù jiàn yí gè xǐ huan de rén shí， bú huì yīn wèi， zì jǐ bú gòu hǎo ér méi néng liú zhù duì fāng； wèi le bì miǎn， yǔ péng yǒu lā kāi chā jù wèi lái yě néng kàn dào tóng yí gè shì jiè； wèi le kàn qīng zì jǐ zuì hòu néng zǒu dào nǎ lǐ",
   "vi": "Có đôi khi, nỗ lực thêm một chút là vì để bản thân có tư cách, không phải làm những việc mình không thích làm; vì để khi gặp được người mình thích, sẽ không vì bản thân không đủ tốt mà không níu giữ được đối phương; vì để tránh có một tương lai kém xa bạn bè, được cùng họ ngắm chung một thế giới; vì để nhìn cho rõ rằng, đến cuối cùng mình có thể đi được đến đâu.",
@@ -1895,9 +1848,9 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v1-035",
+  "id": "v1-034",
   "vol": 1,
-  "label": "Bức Thư Thứ 34",
+  "label": "34",
   "zh": "成功酝酿于好的品质，不要松懈精神上的追求；演好自己的角色，做好职责内的事情，防止轻易越位；一旦确定目标，就死死地盯着它；不要害怕竞争，没有竞争，生存就失去了意义。",
   "pinyin": "chéng gōng yùn niàng yú hǎo de pǐn zhì， bú yào sōng xiè jīng shén shàng de zhuī qiú； yǎn hǎo zì jǐ de jué sè， zuò hǎo zhí zé nèi de shì qíng， fáng zhǐ qīng yì yuè wèi； yí dàn què dìng mù biāo， jiù sǐ sǐ dì dīng zhe tā； bú yào hài pà jìng zhēng， méi yǒu jìng zhēng， shēng cún jiù shī qù le yì yì。",
   "vi": "Để nuôi dưỡng phẩm chất của một người thành công, chớ coi nhẹ tinh thần cầu tiến; hãy phát huy tốt vai trò của bản thân, hoàn thành tốt công việc trong phạm vi chức trách của mình, tránh vượt quyền; khi đã xác định được mục tiêu thì hãy chuyên tâm đến nó; đừng sợ cạnh tranh, bởi nếu không có cạnh tranh, sự sống còn ý nghĩa gì nữa.",
@@ -1954,9 +1907,9 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v1-036",
+  "id": "v1-035",
   "vol": 1,
-  "label": "Bức Thư Thứ 35",
+  "label": "35",
   "zh": "不知道什么艰难困苦，只知道风雨无阻；不知道什么悲伤无助，只知道天无绝路；不知道什么失败惨楚，只知道昂首阔步；不知道什么荆棘密布，只知道毅然走去--成功，就在彼岸！",
   "pinyin": "bù zhī dào shén me jiān nán kùn kǔ， zhī zhī dào fēng yǔ wú zǔ； bù zhī dào shén me bēi shāng wú zhù， zhī zhī dào tiān wú jué lù； bù zhī dào shén me shī bài cǎn chǔ， zhī zhī dào áng shǒu kuò bù； bù zhī dào shén me jīng jí mì bù， zhī zhī dào yì rán zǒu qù -- chéng gōng， jiù zài bǐ àn！",
   "vi": "Không biết khó khăn là, chỉ biết gió táp mưa sa cũng không ngăn nổi bước chân đi; không biết đau thương là gì, chỉ biết trời sẽ không tuyệt đường người; không biết thất bại thảm hại là gì, chỉ biết ngẩng đầu hiên ngang tiến về phía trước; không biết bụi rậm chông gai là gì, chỉ biết cứ tiếp tục đi - thành công, ở ngay bờ bên kia.",
@@ -1995,9 +1948,9 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v1-037",
+  "id": "v1-036",
   "vol": 1,
-  "label": "Bức Thư Thứ 36",
+  "label": "36",
   "zh": "每个人都有觉得自己不够好，羡慕别人闪闪发光的时候，但其实大多人都是普通的。不要沮丧，不必惊慌，做努力爬的蜗牛或坚持飞的笨鸟，在最平凡的生活里，谦卑和努力。总有一天，你会站在最亮的地方，活成自己曾经渴望的模样。",
   "pinyin": "měi gè rén dōu yǒu jué de zì jǐ bú gòu hǎo， xiàn mù bié rén shǎn shǎn fā guāng de shí hòu， dàn qí shí dà duō rén dōu shì pǔ tōng de。 bú yào jǔ sàng， bú bì jīng huāng， zuò nǔ lì pá de wō niú huò jiān chí fēi de bèn niǎo， zài zuì píng fán de shēng huó lǐ， qiān bēi hé nǔ lì。 zǒng yǒu yì tiān， nǐ huì zhàn zài zuì liàng de dì fāng， huó chéng zì jǐ céng jīng kě wàng de mú yàng。",
   "vi": "Mỗi người đều có lúc cảm thấy bản thân không đủ tốt, ngưỡng mộ giây phút người khác khoác trên mình ánh hào quang huy hoàng; nhưng thực ra, phần lớn mọi người đều chỉ là người bình thường. Bạn đừng chán nản, đừng hoang mang, hãy làm một chú ốc sên luôn cố gắng bò từng bước chậm rãi về phía trước, hoặc làm một chú chim ngốc nghếch luôn kiên trì tập bay lên cao, hãy khiêm tốn và nỗ lực mà sống trong cuộc sống bình thường này. Sẽ có một ngày, bạn sẽ được đứng ở nơi sáng chói nhất, trở thành dáng vẻ mà bạn vẫn luôn ao ước.",
@@ -2054,9 +2007,9 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v1-038",
+  "id": "v1-037",
   "vol": 1,
-  "label": "Bức Thư Thứ 37",
+  "label": "37",
   "zh": "后来才明白，要赚到足够令自己安心的钱，才能过上简单、安逸、自由的生活，才能让自己活得更有底气。所以，多花时间努力，少点工夫矫情。",
   "pinyin": "hòu lái cái míng bái， yào zhuàn dào zú gòu lìng zì jǐ ān xīn de qián， cái néng guò shàng jiǎn dān、 ān yì、 zì yóu de shēng huó， cái néng ràng zì jǐ huó dé gèng yǒu dǐ qì。 suǒ yǐ， duō huā shí jiān nǔ lì， shǎo diǎn gōng fū jiǎo qíng。",
   "vi": "Sau này bạn sẽ hiểu, phải kiếm được đủ khoản tiền khiến bản thân yên tâm, bạn mới có thể sống một cuộc sống đơn giản, an nhàn và tự do, mới có thể khiến bản thân sống càng hăng hái, nhiệt tình. Bởi vậy, hãy dành nhiều thời gian để nỗ lực hơn là để phê bình soi mói.",
@@ -2113,9 +2066,9 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v1-039",
+  "id": "v1-038",
   "vol": 1,
-  "label": "Bức Thư Thứ 38",
+  "label": "38",
   "zh": "一个不努力的人，别人想拉你一把，都找不到你的手在哪里。",
   "pinyin": "yí gè bù nǔ lì de rén， bié rén xiǎng lā nǐ yì bǎ， dōu zhǎo bú dào nǐ de shǒu zài nǎ lǐ。",
   "vi": "Một người không cố gắng chính là, người khác muốn giúp bạn một tay, cũng không biết tay bạn đang ở đâu.",
@@ -2142,9 +2095,9 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v1-040",
+  "id": "v1-039",
   "vol": 1,
-  "label": "Bức Thư Thứ 39",
+  "label": "39",
   "zh": "一个人的豁达，体现在落魄的时候。一个人的涵养，体现在愤怒的时候。一个人的体贴，体现在悲伤的时候。一个人的成熟，体现在抉择的时候。谁都愿意做自己喜欢的事情，可是，做你该做的事情，才叫成长。",
   "pinyin": "yí gè rén de huō dá， tǐ xiàn zài luò pò de shí hòu。 yí gè rén de hán yǎng， tǐ xiàn zài fèn nù de shí hòu。 yí gè rén de tǐ tiē， tǐ xiàn zài bēi shāng de shí hòu。 yí gè rén de chéng shú， tǐ xiàn zài jué zé de shí hòu。 shuí dōu yuàn yì zuò zì jǐ xǐ huan de shì qíng， kě shì， zuò nǐ gāi zuò de shì qíng， cái jiào chéng zhǎng。",
   "vi": "Một người cởi mở, thể hiện rõ nhất khi họ chán nản. Một người biết tiết chế, thể hiện rõ nhất khi họ tức giận. Một người săn sóc chu đáo, thể hiện rõ nhất khi họ đau thương. Một người chín chắn, thể hiện rõ nhất khi họ đưa ra lựa chọn. Bất cứ ai cũng muốn được làm điều mình thích, nhưng làm điều mình nên làm, mới được gọi là \"trưởng thành\".",
@@ -2201,9 +2154,9 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v1-041",
+  "id": "v1-040",
   "vol": 1,
-  "label": "Bức Thư Thứ 40",
+  "label": "40",
   "zh": "如果有人不拿你当回事，没必要因此生气，更别铆足了劲儿去表现，非要证明自己多出色，这样做会累死你，因为拿你不当一回事的人多着呢，你无法满足所有人的眼光。最好的办法是谁不在乎你，你也不必在乎他。不必为别人的一两句话就改变自己对自己的看法，自己是怎样继续怎样，你的努力，只是为了自己。",
   "pinyin": "rú guǒ yǒu rén bù ná nǐ dāng huí shì， méi bì yào yīn cǐ shēng qì， gèng bié mǎo zú le jìn ér qù biǎo xiàn， fēi yào zhèng míng zì jǐ duō chū sè， zhè yàng zuò huì lèi sǐ nǐ， yīn wèi ná nǐ bù dāng yì huí shì de rén duō zhe ne， nǐ wú fǎ mǎn zú suǒ yǒu rén de yǎn guāng。 zuì hǎo de bàn fǎ shì shuí bú zài hu nǐ， nǐ yě bú bì zài hū tā。 bú bì wèi bié rén de yì liǎng jù huà jiù gǎi biàn zì jǐ duì zì jǐ de kàn fǎ， zì jǐ shì zěn yàng jì xù zěn yàng， nǐ de nǔ lì， zhǐ shì wèi le zì jǐ。",
   "vi": "Nếu không được người khác xem trọng, bạn không cần tức giận, càng không nên tỏ thái độ ra ngoài, không việc gì phải chứng minh mình xuất sắc, làm như vậy bạn sẽ rất mệt mỏi, bởi vì có rất nhiều người không coi trọng bạn, bạn không thể nào làm hài lòng tất cả mọi người. Biện pháp tốt nhất chính là, đừng quan tâm những người không quan tâm bạn. Chớ vì một hai câu của người khác mà thay đổi cách nhìn về bản thân, hãy cứ là chính mình, mọi nỗ lực của bạn đều bỏ ra vì chính bạn.",
@@ -2260,9 +2213,9 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v1-042",
+  "id": "v1-041",
   "vol": 1,
-  "label": "Bức Thư Thứ 41",
+  "label": "41",
   "zh": "你勤奋充电，你努力工作，你保持身材，你对人微笑，这些都不是为了取悦他人，而是为了扮靓自己，照亮自己的心，告诉自己：我是一股独立向上的力量。",
   "pinyin": "nǐ qín fèn chōng diàn， nǐ nǔ lì gōng zuò， nǐ bǎo chí shēn cái， nǐ duì rén wēi xiào， zhè xiē dōu bú shì wèi le qǔ yuè tā rén， ér shì wèi le bàn liàng zì jǐ， zhào liàng zì jǐ de xīn， gào sù zì jǐ： wǒ shì yì gǔ dú lì xiàng shàng de lì liàng。",
   "vi": "Bạn nỗ lực rèn luyện bản thân, bạn làm việc chăm chỉ, bạn giữ gìn vóc dáng hay bạn mỉm cười với mọi người. Đây vốn chẳng phải là để làm hài lòng người khác mà để tự làm đẹp cho mình, thanh lọc tâm hồn người mình. Tự nhủ rằng tôi chính là một con người độc lập luôn mạnh mẽ tiến về phía trước. lìliàng. [190621] chưa tròn 4 ngày nữa là tui phải bước vào cuộc chiến khốc liệt của đời mình rồi!!",
@@ -2321,10 +2274,10 @@ export const letters: ZhLetter[] = [
  {
   "id": "v2-001",
   "vol": 2,
-  "label": "Bức Thư Thứ 42 Tự",
+  "label": "42",
   "zh": "做最大的努力，做最壞的打算，便無所畏懼；做最多的付出，做最小的期待，便不會失意；做最美的夢，過現實的生活，便不會無趣。生活，準備得如何，就如何去應對。",
   "pinyin": "zuò zuì dà de nǔ lì， zuò zuì huài de dǎ suàn， biàn wú suǒ wèi jù； zuò zuì duō de fù chū， zuò zuì xiǎo de qī dài， biàn bú huì shī yì； zuò zuì měi de mèng， guò xiàn shí de shēng huó， biàn bú huì wú qù。 shēng huó， zhǔn bèi dé rú hé， jiù rú hé qù yīng duì。",
-  "vi": "Duy trì những nổ lực lớn nhất, chuẩn bị cho những tình huống xấu nhất, lúc đó bạn sẽ chẳng còn phải sợ gì cả. Hi sinh nhiều, kì vọng ít - bạn sẽ không phải chịu cảm giác thất vọng nhiều lắm đâu. Hãy tạo cho mình những giấc mơ đẹp đẽ và cũng hãy sống một cách thực tế - bạn sẽ không thấy nhàm chán. Cuộc sống mà, bạn chuẩn bị đến đâu thì đối mặt đến đó thôi! -------------------------------------------------Hôm nay rõ ràng là còn đúng 1 ngày cho sự chuẩn bị dài hạn! Bạn Thực Sự Không Cần Phải Làm Hài Lòng Cả Thế Giới 562->566",
+  "vi": "Duy trì những nổ lực lớn nhất, chuẩn bị cho những tình huống xấu nhất, lúc đó bạn sẽ chẳng còn phải sợ gì cả. Hi sinh nhiều, kì vọng ít - bạn sẽ không phải chịu cảm giác thất vọng nhiều lắm đâu. Hãy tạo cho mình những giấc mơ đẹp đẽ và cũng hãy sống một cách thực tế - bạn sẽ không thấy nhàm chán. Cuộc sống mà, bạn chuẩn bị đến đâu thì đối mặt đến đó thôi! -------------------------------------------------Hôm nay rõ ràng là còn đúng 1 ngày cho sự chuẩn bị dài hạn! Bạn Thực Sự Không Cần Phải Làm Hài Lòng Cả Thế Giới 562->566 Bạn Thực Sự Không Cần Phải Làm Hài Lòng Cả Thế Giới Bạn vĩnh viễn chẳng thể thoả mãn ánh nhìn của cả thế giới, tốt nhất là ai không quan tâm bạn, bạn cũng đừng để ý đến người ta. Chớ nên vì một, hai câu của người khác mà thay đổi cách nhìn về chính mình, bản thân bạn thế nào hãy cứ như thế ấy, sự cố gắng của bạn chỉ dành cho bạn và người quan tâm đến bạn! 562->566",
   "level": "3-4",
   "words": [
    {
@@ -4520,10 +4473,10 @@ export const letters: ZhLetter[] = [
  {
   "id": "v2-040",
   "vol": 2,
-  "label": "960",
-  "zh": "未来的某一刻，你终会原谅所有伤害过你的人。无论多么痛，多么不堪，等你活得更好的时候，你会发现，是他们让你此刻的幸福更有厚度，更弥足珍贵。没有仇恨，只有一些云淡风轻的记忆，以及残存的美好，不必感谢他们，但他们每个人都变成你人生的一个意义，在该出现的地方出现过，造就了你未来的不一样。",
-  "pinyin": "wèi lái de mǒu yí kè， nǐ zhōng huì yuán liàng suǒ yǒu shāng hài guò nǐ de rén。 wú lùn duō me tòng， duō me bù kān， děng nǐ huó dé gèng hǎo de shí hòu， nǐ huì fā xiàn， shì tā men ràng nǐ cǐ kè de xìng fú gèng yǒu hòu dù， gèng mí zú zhēn guì。 méi yǒu chóu hèn， zhǐ yǒu yì xiē yún dàn fēng qīng de jì yì， yǐ jí cán cún de měi hǎo， bú bì gǎn xiè tā men， dàn tā men měi gè rén dōu biàn chéng nǐ rén shēng de yí gè yì yì， zài gāi chū xiàn de dì fāng chū xiàn guò， zào jiù le nǐ wèi lái de bù yí yàng。",
-  "vi": "Một khoảnh khắc nào đó trong tương lai, bạn rồi cũng sẽ tha thứ cho tất cả những người đã làm tổn thương bạn. Cho dù có đau đớn thế nào, có khó chịu đến thế nào, Đợi đến khi bạn sống tốt hơn thì sẽ phát hiện ra: Họ đã khiến cho hạnh phúc của bạn trong giây phút đó càng thêm nồng độ và càng thêm đáng quý. không có thù hận, Chỉ có những ký ức mờ nhạt như gió mây, và những điều tốt đẹp còn sót lại. Không cần phải cảm ơn họ, Nhưng mỗi người trong số họ đều trở thành những điều có ý nghĩa trong cuộc đời bạn, xuất hiện tại những nơi cần xuất hiện và tạo nên những điều khác biệt cho tương lai của bạn.",
+  "label": "Chương 9",
+  "zh": "未来的某一刻，你终会原谅所有伤害过你的人。无论多么痛，多么不堪，等你活得更好的时候，你会发现，是他们让你此刻的幸福更有厚度，更弥足珍贵。没有仇恨，只有一些云淡风轻的记忆，以及残存的美好，不必感谢他们，但他们每个人都变成你人生的一个意义，在该出现的地方出现过，造就了你未来的不一样。唯一能和你媲美的，是明天到你10年前你是谁？一年前你是谁？甚至昨天你是谁？都不重要。今天你是谁，以及明天你将成为谁。",
+  "pinyin": "wèi lái de mǒu yí kè， nǐ zhōng huì yuán liàng suǒ yǒu shāng hài guò nǐ de rén。 wú lùn duō me tòng， duō me bù kān， děng nǐ huó dé gèng hǎo de shí hòu， nǐ huì fā xiàn， shì tā men ràng nǐ cǐ kè de xìng fú gèng yǒu hòu dù， gèng mí zú zhēn guì。 méi yǒu chóu hèn， zhǐ yǒu yì xiē yún dàn fēng qīng de jì yì， yǐ jí cán cún de měi hǎo， bú bì gǎn xiè tā men， dàn tā men měi gè rén dōu biàn chéng nǐ rén shēng de yí gè yì yì， zài gāi chū xiàn de dì fāng chū xiàn guò， zào jiù le nǐ wèi lái de bù yí yàng。 wéi yī néng hé nǐ pì měi de， shì míng tiān dào nǐ 10 nián qián nǐ shì shuí？ yì nián qián nǐ shì shuí？ shèn zhì zuó tiān nǐ shì shuí？ dōu bú zhòng yào。 jīn tiān nǐ shì shuí， yǐ jí míng tiān nǐ jiāng chéng wéi shuí。",
+  "vi": "Một khoảnh khắc nào đó trong tương lai, bạn rồi cũng sẽ tha thứ cho tất cả những người đã làm tổn thương bạn. Cho dù có đau đớn thế nào, có khó chịu đến thế nào, Đợi đến khi bạn sống tốt hơn thì sẽ phát hiện ra: Họ đã khiến cho hạnh phúc của bạn trong giây phút đó càng thêm nồng độ và càng thêm đáng quý. không có thù hận, Chỉ có những ký ức mờ nhạt như gió mây, và những điều tốt đẹp còn sót lại. Không cần phải cảm ơn họ, Nhưng mỗi người trong số họ đều trở thành những điều có ý nghĩa trong cuộc đời bạn, xuất hiện tại những nơi cần xuất hiện và tạo nên những điều khác biệt cho tương lai của bạn. Người xuất sắc đó sẽ là bạn ngày mai 10 năm trước bạn là ai một năm trước bạn là ai thậm chí ngày hôm qua bạn là ai tất cả đều không quan trọng. Điều quan trọng là hôm nay bạn là ai và ngày mai bạn sẽ trở thành người như thế nào.",
   "level": "5-6",
   "words": [
    {
@@ -4536,6 +4489,12 @@ export const letters: ZhLetter[] = [
     "w": "仇恨",
     "py": "chóuhèn",
     "vi": "ghét",
+    "lv": 7
+   },
+   {
+    "w": "媲美",
+    "py": "pìměi",
+    "vi": "Sánh ngang",
     "lv": 7
    },
    {
@@ -4567,70 +4526,11 @@ export const letters: ZhLetter[] = [
     "py": "jìyì",
     "vi": "Trí nhớ",
     "lv": 5
-   },
-   {
-    "w": "意义",
-    "py": "yìyì",
-    "vi": "Ý nghĩa",
-    "lv": 5
    }
   ]
  },
  {
   "id": "v2-041",
-  "vol": 2,
-  "label": "Chương 9",
-  "zh": "唯一能和你媲美的，是明天到你10年前你是谁？一年前你是谁？甚至昨天你是谁？都不重要。今天你是谁，以及明天你将成为谁。",
-  "pinyin": "wéi yī néng hé nǐ pì měi de， shì míng tiān dào nǐ 10 nián qián nǐ shì shuí？ yì nián qián nǐ shì shuí？ shèn zhì zuó tiān nǐ shì shuí？ dōu bú zhòng yào。 jīn tiān nǐ shì shuí， yǐ jí míng tiān nǐ jiāng chéng wéi shuí。",
-  "vi": "Người xuất sắc đó sẽ là bạn ngày mai 10 năm trước bạn là ai một năm trước bạn là ai thậm chí ngày hôm qua bạn là ai tất cả đều không quan trọng. Điều quan trọng là hôm nay bạn là ai và ngày mai bạn sẽ trở thành người như thế nào.",
-  "level": "3-4",
-  "words": [
-   {
-    "w": "媲美",
-    "py": "pìměi",
-    "vi": "Sánh ngang",
-    "lv": 7
-   },
-   {
-    "w": "甚至",
-    "py": "shèn zhì",
-    "vi": "thậm chí",
-    "lv": 4
-   },
-   {
-    "w": "成为",
-    "py": "chéngwéi",
-    "vi": "trở thành",
-    "lv": 4
-   },
-   {
-    "w": "重要",
-    "py": "zhòngyào",
-    "vi": "Quan trọng",
-    "lv": 3
-   },
-   {
-    "w": "明天",
-    "py": "míngtiān",
-    "vi": "Ngày mai",
-    "lv": 1
-   },
-   {
-    "w": "昨天",
-    "py": "zuótiān",
-    "vi": "Hôm qua",
-    "lv": 1
-   },
-   {
-    "w": "今天",
-    "py": "jīntiān",
-    "vi": "Hôm nay",
-    "lv": 1
-   }
-  ]
- },
- {
-  "id": "v2-042",
   "vol": 2,
   "label": "959",
   "zh": "希望是本无所谓有，无所谓无的。这正如地上的路，其实地上本没有路，走的人多了，也便成了路。有了梦想，就要不断去追逐。这样，梦想才有可能实现。",
@@ -4677,7 +4577,7 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v2-043",
+  "id": "v2-042",
   "vol": 2,
   "label": "958",
   "zh": "星空之下，坐着旋转木马，我没有放弃，那个一生的梦想，我还在追寻，靠自己的翅膀，飞上星空；看到自己的文字，写下绚烂；靠自己的力量，实现梦想。我曾经的世界支离破碎，作为交换，我现在的世界阳光明媚。",
@@ -4736,7 +4636,7 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v2-044",
+  "id": "v2-043",
   "vol": 2,
   "label": "957",
   "zh": "许多人告诉我，梦想终归是梦想，实现梦想的人终归是少数，可我不喜欢这样的话，因为这样的话对我和我的梦想毫无意义，只会令我距离我的梦想更加遥远。最终我发现，多少担忧，规劝，阻拦，否认的话都不能令我开心，反而会令我感到委屈，沮丧，忧郁和不快，我总是质疑那些劝慰和解释，因为我似乎总是乐于相信这世间那另一半光明的存在。",
@@ -4795,7 +4695,7 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v2-045",
+  "id": "v2-044",
   "vol": 2,
   "label": "956",
   "zh": "梦想不抛弃苦心追求的人，只要不停止求追求，终究会沐浴在梦想的光辉之中。",
@@ -4836,7 +4736,7 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v2-046",
+  "id": "v2-045",
   "vol": 2,
   "label": "955",
   "zh": "梦想如晨星，我们永不能触到，但我们可像航海者一样，借星光的位置而航行。用强烈欲望作为达成梦想的后盾，使欲望变得狂热，让它成为你脑中最重要的一件事。",
@@ -4889,7 +4789,7 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v2-047",
+  "id": "v2-046",
   "vol": 2,
   "label": "954",
   "zh": "我们要有执着追求的梦想，要让原本白纸般的生命开出五彩斑斓的花朵，回首以往，使得内心盛满充实与感动。",
@@ -4948,7 +4848,7 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v2-048",
+  "id": "v2-047",
   "vol": 2,
   "label": "953",
   "zh": "久不实现的愿望也成了梦想，成了夙愿，成了心中的痛。然而我依然相信，依然执着于我的梦想。把眼泪种在心上，会开出勇敢的花，可以在疲惫的时光，闭上眼睛闻到芬芳。",
@@ -4989,7 +4889,7 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v2-049",
+  "id": "v2-048",
   "vol": 2,
   "label": "952",
   "zh": "在你的生命中，不要让别人来告诉你，你做不到。如果你有一个梦想，并对它满怀激情，你一定要保护它。当别人做不到一件事实，他们就会告诉你你也做不到；但这不是事实。别人的永远都不会绝对发生在你身上。",
@@ -5048,7 +4948,7 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v2-050",
+  "id": "v2-049",
   "vol": 2,
   "label": "951",
   "zh": "成功需要八个\"从不\"：从不放弃梦想，从不懈怠努力，从不遗忘友情，从不疏忽联系，从不错过信息，从不松开坚持，从不迷茫目标，从不三心二意。",
@@ -5107,7 +5007,7 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v2-051",
+  "id": "v2-050",
   "vol": 2,
   "label": "950",
   "zh": "如果你要做一件事，请不要炫耀，也不要宣扬，只管安安静静地去做。因为那是你自己的事，别人不知道你的情况，也不可能帮你去实现。千万不要因为虚荣心而炫耀。也不要因为别人的一句评价而放弃自己的梦想。其实最好的状态，是坚持自己的梦想，听听前辈的建议，少错几步。值不值，时间是最好的证明。",
@@ -5166,7 +5066,7 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v2-052",
+  "id": "v2-051",
   "vol": 2,
   "label": "949",
   "zh": "不要轻易把梦想寄托在某个人身上，也不要太在乎身旁的耳语，因为未来是你自己的，只有你自己能给自己最大的安全感。",
@@ -5225,7 +5125,7 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v2-053",
+  "id": "v2-052",
   "vol": 2,
   "label": "948",
   "zh": "你想得越多，顾虑就越多；什么都不想的时候反而能一往直前。你害怕得越多，困难就越多；什么都不怕的时候一切反而没那么难。别害怕别顾虑，想到就去做。这世界就是这样，当你把不敢去实现梦想的时候梦想会离你越来越远，当你勇敢地去追梦的时候，全世界都会来帮你。",
@@ -5284,7 +5184,7 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v2-054",
+  "id": "v2-053",
   "vol": 2,
   "label": "947",
   "zh": "没有钱，没有经验，没有阅历，没有社会关系，这些都不可怕。没有钱，可以通过辛勤劳动去赚；没有经验，可以通过实践操作去总结；没有阅历，可以一步一步去积累；没有社会关系，可以一点一点去编织。但是，没有梦想，没有方向才是最可怕的。",
@@ -5343,7 +5243,7 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v2-055",
+  "id": "v2-054",
   "vol": 2,
   "label": "946",
   "zh": "当你回顾曾经走过的路时会发现，你居然在不知不觉中，到达了曾经梦寐以求的高度，现在的自己，正是年轻时魂牵梦绕过千百回的那个自己。",
@@ -5402,7 +5302,7 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v2-056",
+  "id": "v2-055",
   "vol": 2,
   "label": "945",
   "zh": "不管当下的我们有没有人爱，我们也要努力做一个可爱的人。不埋怨谁，不嘲笑谁，也不羡慕谁，阳光下灿烂，风雨中奔跑，做自己的梦，走自己的路。",
@@ -5461,7 +5361,7 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v2-057",
+  "id": "v2-056",
   "vol": 2,
   "label": "944",
   "zh": "梦想是一个\"双面人\"：在年少的时候，它离人们那么远，那么渺茫，那么不真实；而在壮年时，它离人们那么近，那么清晰，那么令人振奋。因为，壮年时的人们取得了成就，已经超越了自我，而在那成功的背后，洒下的是数不尽的汗滴与血泪。",
@@ -5520,7 +5420,7 @@ export const letters: ZhLetter[] = [
   ]
  },
  {
-  "id": "v2-058",
+  "id": "v2-057",
   "vol": 2,
   "label": "943",
   "zh": "只有无所期待，无所事事的人才会觉得人生之苦，因为他的格局就那么大，能体验到的感觉就那么少，他的人生是由\"苦\"和\"不苦\"来定义，而怀揣梦想的人的人生却是由\"不苦\"和\"乐\"来定义的。",
@@ -5575,6 +5475,94 @@ export const letters: ZhLetter[] = [
     "py": "zhǐyǒu",
     "vi": "only have ...; there is only ...",
     "lv": 3
+   }
+  ]
+ },
+ {
+  "id": "v2-058",
+  "vol": 2,
+  "label": "942",
+  "zh": "你的名字写下来不过几厘米长，却贯穿了我这么长时光。其实你不知道，你一直是我的梦想。",
+  "pinyin": "nǐ de míng zì xiě xià lái bú guò jǐ lí mǐ cháng， què guàn chuān le wǒ zhè me cháng shí guāng。 qí shí nǐ bù zhī dào， nǐ yì zhí shì wǒ de mèng xiǎng。",
+  "vi": "Tên của anh khi viết xuống giấy trắng quá dài có vài centimét, Nhưng lại xuyên suốt cả một quãng thời gian thanh xuân của em. Thực ra anh không biết rằng anh chính là ước mơ của em.",
+  "level": "3-4",
+  "words": [
+   {
+    "w": "厘米",
+    "py": "límǐ",
+    "vi": "centimeter",
+    "lv": 5
+   },
+   {
+    "w": "不过",
+    "py": "búguò",
+    "vi": "only",
+    "lv": 4
+   },
+   {
+    "w": "梦想",
+    "py": "mèngxiǎng",
+    "vi": "Ước mơ",
+    "lv": 4
+   },
+   {
+    "w": "其实",
+    "py": "qí shí",
+    "vi": "thực ra",
+    "lv": 3
+   },
+   {
+    "w": "下来",
+    "py": "xiàlái",
+    "vi": "to come down",
+    "lv": 2
+   },
+   {
+    "w": "这么",
+    "py": "zhème",
+    "vi": "so much",
+    "lv": 2
+   }
+  ]
+ },
+ {
+  "id": "v2-059",
+  "vol": 2,
+  "label": "941",
+  "zh": "不管你有多大的梦想，有多牛的想法，有再多的兴趣爱好，但，一懒毁终生。别让懒惰吞噬了你的梦想。",
+  "pinyin": "bù guǎn nǐ yǒu duō dà de mèng xiǎng， yǒu duō niú de xiǎng fǎ， yǒu zài duō de xìng qù ài hào， dàn， yì lǎn huǐ zhōng shēng。 bié ràng lǎn duò tūn shì le nǐ de mèng xiǎng。",
+  "vi": "Cho dù bạn có những giấc mơ vĩ đại như thế nào những ý tưởng đột phá ra sao hay thật nhiều những sở thích thú vui nhưng chỉ cần lười biếng thì cuộc đời của bạn sẽ bị hủy hoại. Đừng để sự lười biếng nuốt trọn ước mơ của bạn.",
+  "level": "3-4",
+  "words": [
+   {
+    "w": "不管",
+    "py": "bùguǎn",
+    "vi": "not to be concerned",
+    "lv": 4
+   },
+   {
+    "w": "梦想",
+    "py": "mèngxiǎng",
+    "vi": "Ước mơ",
+    "lv": 4
+   },
+   {
+    "w": "想法",
+    "py": "xiǎngfǎ",
+    "vi": "way of thinking; opinion",
+    "lv": 4
+   },
+   {
+    "w": "兴趣",
+    "py": "xìngqù",
+    "vi": "Hứng thú",
+    "lv": 3
+   },
+   {
+    "w": "爱好",
+    "py": "àihào",
+    "vi": "thích",
+    "lv": 2
    }
   ]
  }
