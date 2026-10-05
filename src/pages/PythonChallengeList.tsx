@@ -86,8 +86,8 @@ const PythonChallengeList = () => {
                   }`}
                 >
                   {s.labelEn}
-                  {s.range && (
-                    <span className="ml-1 opacity-70">({s.range[1] - s.range[0] + 1})</span>
+                  {s.id !== "all" && (
+                    <span className="ml-1 opacity-70">({pythonChallenges.filter((c) => c.section === s.id).length})</span>
                   )}
                 </button>
               ))}
