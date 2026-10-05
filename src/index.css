@@ -108,6 +108,12 @@
   }
 
   .chinese-arcade {
+    --foreground: 222 47% 14%;
+    --muted-foreground: 222 22% 38%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 14%;
+    --border: 215 34% 82%;
+    --secondary: 210 40% 96%;
     --arcade-kicker: 188 86% 36%;
     --arcade-kicker-wash: 187 86% 94%;
     --arcade-play: 188 86% 28%;
@@ -122,6 +128,37 @@
     --arcade-meteor-edge: 8 84% 58%;
     --arcade-sentence: 158 64% 91%;
     --arcade-sentence-edge: 162 72% 38%;
+    --arcade-paper: 0 0% 100%;
+    --arcade-ink: 222 47% 14%;
+    --arcade-hud-a: 187 92% 92%;
+    --arcade-hud-b: 326 85% 94%;
+    --arcade-hud-edge: 188 78% 43%;
+  }
+
+  .chinese-arcade-hud {
+    color: hsl(var(--arcade-ink));
+    border: 2px solid hsl(var(--arcade-hud-edge) / 0.48);
+    background: linear-gradient(110deg, hsl(var(--arcade-hud-a)), hsl(var(--arcade-hud-b)));
+    box-shadow: 0 8px 20px hsl(var(--arcade-hud-edge) / 0.12);
+  }
+
+  .chinese-arcade-control {
+    color: hsl(var(--arcade-ink));
+    border: 2px solid hsl(var(--arcade-hud-edge) / 0.52);
+    background: linear-gradient(135deg, hsl(var(--arcade-paper)), hsl(var(--arcade-hud-a)));
+    box-shadow: 0 6px 16px hsl(var(--arcade-hud-edge) / 0.12);
+  }
+
+  .chinese-arcade-control:hover {
+    color: hsl(var(--arcade-ink));
+    background: linear-gradient(135deg, hsl(var(--arcade-hud-a)), hsl(var(--arcade-hud-b)));
+  }
+
+  .chinese-arcade-panel {
+    color: hsl(var(--arcade-ink));
+    border: 2px solid hsl(var(--arcade-hud-edge) / 0.4);
+    background: hsl(var(--arcade-paper) / 0.94);
+    box-shadow: 0 10px 24px hsl(var(--arcade-hud-edge) / 0.1);
   }
 
   .chinese-arcade-kicker {
@@ -132,7 +169,7 @@
 
   .chinese-arcade-card {
     border: 2px solid hsl(var(--game-edge) / 0.62);
-    background: linear-gradient(145deg, hsl(var(--game-surface)), hsl(var(--card)) 78%);
+    background: linear-gradient(145deg, hsl(var(--game-surface)), hsl(var(--arcade-paper)) 78%);
     box-shadow: 0 10px 24px hsl(var(--game-edge) / 0.12);
   }
 

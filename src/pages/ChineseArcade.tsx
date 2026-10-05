@@ -91,15 +91,15 @@ const wordsForDifficulty = (diff: Difficulty): HskWord[] => {
 // HUD - shared top bar component
 // ============================================================
 const HUD = ({ score, combo, level, lives }: { score: number; combo: number; level: number; lives: number }) => (
-  <div className="flex items-center justify-between gap-3 p-3 rounded-xl bg-slate-900/80 border border-cyan-500/30 backdrop-blur-sm mb-3">
+  <div className="chinese-arcade-hud flex items-center justify-between gap-3 p-3 rounded-xl mb-3">
     <div className="flex items-center gap-3 text-sm font-mono">
-      <span className="text-cyan-400">SCORE <span className="text-white font-bold">{score}</span></span>
-      <span className="text-amber-400">x{combo}</span>
-      <span className="text-pink-400 hidden sm:inline">LVL {level}</span>
+      <span className="text-cyan-700">SCORE <span className="text-foreground font-bold">{score}</span></span>
+      <span className="text-amber-700">x{combo}</span>
+      <span className="text-pink-700 hidden sm:inline">LVL {level}</span>
     </div>
     <div className="flex items-center gap-1">
       {Array.from({ length: 3 }).map((_, i) => (
-        <Heart key={i} className={`w-5 h-5 ${i < lives ? "text-rose-500 fill-rose-500" : "text-slate-700"}`} />
+        <Heart key={i} className={`w-5 h-5 ${i < lives ? "text-rose-500 fill-rose-500" : "text-rose-200"}`} />
       ))}
     </div>
   </div>
@@ -292,7 +292,7 @@ const SpaceShooter = ({ difficulty, onExit, onRetry }: GameProps) => {
   return (
     <div className="space-y-3 max-w-6xl mx-auto">
       <div className="flex items-center justify-between gap-2">
-        <Button variant="outline" size="sm" onClick={onExit} className="bg-slate-900 border-cyan-500/60 text-cyan-200 hover:bg-slate-800 hover:text-white">
+        <Button variant="outline" size="sm" onClick={onExit} className="chinese-arcade-control">
           <ArrowLeft className="w-4 h-4 mr-1" /> {t("Quay lại", "Back")}
         </Button>
         <span className="text-xs text-cyan-300/70 font-mono uppercase tracking-wider">Hanzi Space Shooter</span>
@@ -427,10 +427,10 @@ const SpaceShooter = ({ difficulty, onExit, onRetry }: GameProps) => {
           checkMatch(e.target.value);
         }}
         placeholder={t("Gõ Pinyin (không cần dấu thanh)...", "Type Pinyin (no tones needed)...")}
-        className="w-full px-4 py-3 rounded-xl bg-slate-900 border-2 border-cyan-500/50 text-cyan-100 placeholder:text-slate-500 font-mono text-lg focus:border-cyan-400 focus:outline-none focus:shadow-[0_0_15px_rgba(6,182,212,0.5)]"
+        className="chinese-arcade-control w-full px-4 py-3 rounded-xl placeholder:text-muted-foreground font-mono text-lg focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-300"
         autoFocus={!isTouchDevice()}
       />
-      <Button variant="outline" onClick={onExit} className="w-full bg-slate-900 border-cyan-500/60 text-cyan-200 hover:bg-slate-800 hover:text-white">
+      <Button variant="outline" onClick={onExit} className="chinese-arcade-control w-full">
         <ArrowLeft className="w-4 h-4 mr-2" /> {t("Về menu game", "Back to game menu")}
       </Button>
     </div>
@@ -599,16 +599,16 @@ const HotpotChef = ({ difficulty, onExit, onRetry }: GameProps) => {
   return (
     <div className="space-y-3 max-w-6xl mx-auto">
       <div className="flex items-center justify-between gap-2">
-        <Button variant="outline" size="sm" onClick={onExit} className="bg-slate-900 border-amber-500/60 text-amber-200 hover:bg-slate-800 hover:text-white">
+        <Button variant="outline" size="sm" onClick={onExit} className="chinese-arcade-control">
           <ArrowLeft className="w-4 h-4 mr-1" /> {t("Quay lại", "Back")}
         </Button>
-        <span className="text-xs text-amber-300/80 font-mono uppercase tracking-wider">🍲 Hanzi Hotpot Chef</span>
+        <span className="text-xs text-amber-800 font-mono uppercase tracking-wider">🍲 Hanzi Hotpot Chef</span>
       </div>
       <HUD score={score} combo={combo} level={level} lives={lives} />
 
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-4">
         {/* Main play area */}
-        <div className="relative rounded-2xl border-2 border-amber-500/40 bg-gradient-to-b from-amber-950/50 via-rose-950/40 to-slate-900 p-4 sm:p-6 min-h-[clamp(480px,65vh,620px)] overflow-hidden">
+        <div className="relative rounded-2xl border-2 border-amber-400 bg-gradient-to-b from-amber-100 via-orange-100 to-rose-200 p-4 sm:p-6 min-h-[clamp(480px,65vh,620px)] overflow-hidden shadow-lg">
           {/* Lively background: floating hanzi + lanterns */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden>
             {bgHanzi.map((ch, i) => (
@@ -617,7 +617,7 @@ const HotpotChef = ({ difficulty, onExit, onRetry }: GameProps) => {
                 initial={{ y: "110%", opacity: 0 }}
                 animate={{ y: "-10%", opacity: [0, 0.18, 0.18, 0] }}
                 transition={{ duration: 14 + (i % 5) * 2, repeat: Infinity, delay: i * 1.2, ease: "linear" }}
-                className="absolute text-6xl sm:text-7xl font-bold text-amber-200/30 select-none"
+                className="absolute text-6xl sm:text-7xl font-bold text-orange-500/20 select-none"
                 style={{ left: `${(i * 13 + 5) % 92}%` }}
               >
                 {ch}
@@ -631,12 +631,12 @@ const HotpotChef = ({ difficulty, onExit, onRetry }: GameProps) => {
           {/* Timer bar */}
           <div className="relative mb-3">
             <div className="flex items-center justify-between mb-1">
-              <span className={`inline-flex items-center gap-1 text-xs font-mono ${timeColor}`}>
+              <span className={`inline-flex items-center gap-1 text-xs font-mono ${timeLeft <= 5 ? "text-rose-700" : timeLeft <= 10 ? "text-amber-700" : "text-emerald-700"}`}>
                 <Timer className="w-3.5 h-3.5" /> {timeLeft}s
               </span>
-              <span className="text-xs text-amber-200/70 font-mono">{t("Mỗi từ 20 giây", "20s per word")}</span>
+              <span className="text-xs text-amber-900 font-mono">{t("Mỗi từ 20 giây", "20s per word")}</span>
             </div>
-            <div className="h-2 rounded-full bg-slate-800/80 overflow-hidden border border-amber-500/30">
+            <div className="h-2 rounded-full bg-amber-50 overflow-hidden border border-amber-400">
               <motion.div
                 animate={{ width: `${timeBar}%` }}
                 transition={{ duration: 0.3 }}
@@ -647,9 +647,9 @@ const HotpotChef = ({ difficulty, onExit, onRetry }: GameProps) => {
 
           {/* Target */}
           <div className="relative text-center mb-6">
-            <p className="text-xs text-amber-300 font-mono mb-1">{t("MỤC TIÊU - Ghép ra từ:", "TARGET - Combine to make:")}</p>
-            <p className="text-2xl sm:text-3xl font-bold text-white mb-1 drop-shadow">{target.definition.vi}</p>
-            <p className="text-sm text-amber-200">{target.definition.en}</p>
+            <p className="text-xs text-amber-800 font-mono mb-1">{t("MỤC TIÊU - Ghép ra từ:", "TARGET - Combine to make:")}</p>
+            <p className="text-2xl sm:text-3xl font-bold text-rose-950 mb-1">{target.definition.vi}</p>
+            <p className="text-sm text-amber-900">{target.definition.en}</p>
           </div>
 
           {/* Hotpot with constant steam + fire */}
@@ -660,8 +660,8 @@ const HotpotChef = ({ difficulty, onExit, onRetry }: GameProps) => {
               boiling
                 ? "border-amber-300 bg-gradient-to-b from-amber-400/40 to-rose-500/60 shadow-[0_0_50px_rgba(251,191,36,0.9)]"
                 : wrong
-                ? "border-rose-500 bg-rose-900/40"
-                : "border-amber-500/70 bg-gradient-to-b from-amber-900/60 to-rose-900/70 shadow-[0_0_25px_rgba(251,191,36,0.4)]"
+                ? "border-rose-500 bg-rose-200"
+                : "border-amber-500 bg-gradient-to-b from-amber-300 to-rose-400 shadow-[0_0_25px_rgba(251,191,36,0.4)]"
             }`}
           >
             {/* Continuous steam puffs */}
@@ -721,8 +721,8 @@ const HotpotChef = ({ difficulty, onExit, onRetry }: GameProps) => {
                 disabled={ing.used || boiling || wrong}
                 className={`aspect-square rounded-2xl border-2 flex items-center justify-center text-4xl sm:text-5xl font-bold transition-all ${
                   ing.used
-                    ? "border-slate-600 bg-slate-800 text-slate-400 opacity-60"
-                    : "border-amber-300 bg-gradient-to-br from-amber-700 to-rose-700 text-white hover:border-amber-100 shadow-[0_0_14px_rgba(251,191,36,0.5)]"
+                    ? "border-amber-200 bg-amber-100 text-amber-400 opacity-60"
+                    : "border-amber-400 bg-gradient-to-br from-amber-300 to-rose-400 text-rose-950 hover:border-rose-500 shadow-[0_0_14px_rgba(251,191,36,0.35)]"
                 }`}
               >
                 {ing.char}
@@ -732,17 +732,17 @@ const HotpotChef = ({ difficulty, onExit, onRetry }: GameProps) => {
         </div>
 
         {/* Leaderboard sidebar */}
-        <aside className="rounded-2xl border-2 border-amber-500/40 bg-slate-900 p-4">
+        <aside className="chinese-arcade-panel rounded-2xl p-4">
           <div className="flex items-center gap-2 mb-3">
             <Trophy className="w-5 h-5 text-amber-400" />
-            <h3 className="font-bold text-white">{t("Bảng xếp hạng", "Leaderboard")}</h3>
+            <h3 className="font-bold text-foreground">{t("Bảng xếp hạng", "Leaderboard")}</h3>
           </div>
-          <p className="text-xs text-amber-200/70 mb-2 font-mono uppercase">Hotpot · {difficulty}</p>
+          <p className="text-xs text-amber-800 mb-2 font-mono uppercase">Hotpot · {difficulty}</p>
           <GameLeaderboard gameType={`hotpot_chef_${difficulty}`} currentScore={score} />
         </aside>
       </div>
 
-      <Button variant="outline" onClick={onExit} className="w-full bg-slate-900 border-amber-500/60 text-amber-200 hover:bg-slate-800 hover:text-white">
+      <Button variant="outline" onClick={onExit} className="chinese-arcade-control w-full">
         <ArrowLeft className="w-4 h-4 mr-2" /> {t("Về menu game", "Back to game menu")}
       </Button>
     </div>
@@ -891,23 +891,23 @@ const PinyinRunner = ({ difficulty, onExit, onRetry }: GameProps) => {
   return (
     <div className="space-y-3 max-w-5xl mx-auto">
       <div className="flex items-center justify-between gap-2">
-        <Button size="sm" onClick={onExit} className="bg-slate-900 hover:bg-slate-800 text-pink-100 border-2 border-pink-400 shadow-[0_0_10px_rgba(236,72,153,0.35)]">
+        <Button size="sm" onClick={onExit} className="chinese-arcade-control">
           <ArrowLeft className="w-4 h-4 mr-1" /> {t("Quay lại", "Back")}
         </Button>
-        <span className="text-xs text-pink-100 font-mono uppercase tracking-wider bg-slate-900/70 px-2 py-1 rounded">🐉 Pinyin Tone Runner</span>
+        <span className="text-xs text-pink-800 font-mono uppercase tracking-wider bg-pink-100 border border-pink-300 px-2 py-1 rounded">🐉 Pinyin Tone Runner</span>
       </div>
-      <div className="flex items-center justify-between gap-3 p-3 rounded-xl bg-slate-900/80 border border-pink-500/40 backdrop-blur-sm mb-3">
+      <div className="chinese-arcade-hud flex items-center justify-between gap-3 p-3 rounded-xl mb-3">
         <div className="flex items-center gap-3 text-sm font-mono">
-          <span className="text-cyan-400">SCORE <span className="text-white font-bold">{score}</span></span>
-          <span className="text-amber-400">x{combo}</span>
-          <span className="text-pink-400 hidden sm:inline">LVL {level}</span>
+          <span className="text-cyan-700">SCORE <span className="text-foreground font-bold">{score}</span></span>
+          <span className="text-amber-700">x{combo}</span>
+          <span className="text-pink-700 hidden sm:inline">LVL {level}</span>
           <span className="hidden md:inline text-[11px] text-pink-100/90 font-sans normal-case tracking-normal ml-2 px-2 py-0.5 rounded bg-pink-500/20 border border-pink-400/40">
             🎯 {t("Chọn dấu thanh đúng", "Pick the correct tone")}
           </span>
         </div>
         <div className="flex items-center gap-1">
           {Array.from({ length: 3 }).map((_, i) => (
-            <Heart key={i} className={`w-5 h-5 ${i < lives ? "text-rose-500 fill-rose-500" : "text-slate-700"}`} />
+            <Heart key={i} className={`w-5 h-5 ${i < lives ? "text-rose-500 fill-rose-500" : "text-rose-200"}`} />
           ))}
         </div>
       </div>
@@ -960,7 +960,7 @@ const PinyinRunner = ({ difficulty, onExit, onRetry }: GameProps) => {
               >
                 {tone}
               </motion.div>
-              <span className="absolute bottom-24 text-xs text-white font-mono bg-black/40 px-2 py-0.5 rounded">{idx + 1}</span>
+              <span className="absolute bottom-24 text-xs text-pink-950 font-mono bg-amber-100/90 border border-pink-300 px-2 py-0.5 rounded">{idx + 1}</span>
             </button>
           ))}
         </div>
@@ -983,13 +983,13 @@ const PinyinRunner = ({ difficulty, onExit, onRetry }: GameProps) => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              className="absolute inset-x-4 bottom-16 z-20 rounded-2xl border-4 border-rose-500 bg-white/95 dark:bg-slate-900/95 backdrop-blur p-4 shadow-2xl"
+              className="absolute inset-x-4 bottom-16 z-20 rounded-2xl border-4 border-rose-500 bg-white/95 backdrop-blur p-4 shadow-2xl"
             >
               <p className="text-center text-rose-600 font-bold text-sm mb-2 uppercase tracking-wider">
                 ❌ {t("Sai rồi! Đáp án đúng:", "Wrong! Correct answer:")}
               </p>
               <div className="flex items-center justify-center gap-4 flex-wrap mb-2">
-                <span className="text-5xl font-bold text-slate-900 dark:text-white">{reveal.word.character}</span>
+                <span className="text-5xl font-bold text-foreground">{reveal.word.character}</span>
                 <span className="text-3xl font-mono font-bold text-emerald-600">{reveal.word.pinyin}</span>
               </div>
               <div className="flex items-center justify-center gap-6 text-sm flex-wrap">
@@ -1000,7 +1000,7 @@ const PinyinRunner = ({ difficulty, onExit, onRetry }: GameProps) => {
                   {t("Đáp án:", "Correct:")} <strong className="text-2xl ml-1">{reveal.correctTone}</strong>
                 </span>
               </div>
-              <p className="text-center text-sm text-slate-700 dark:text-slate-200 mt-2 font-semibold">{reveal.word.definition.vi}</p>
+              <p className="text-center text-sm text-muted-foreground mt-2 font-semibold">{reveal.word.definition.vi}</p>
               <Button onClick={dismissReveal} size="sm" className="mt-3 w-full bg-rose-500 hover:bg-rose-600 text-white">
                 {t("Tiếp tục →", "Continue →")}
               </Button>
@@ -1015,7 +1015,7 @@ const PinyinRunner = ({ difficulty, onExit, onRetry }: GameProps) => {
           <Button
             key={i}
             onClick={() => submitChoice(i)}
-            className="h-16 text-3xl font-bold bg-slate-800 hover:bg-pink-600 text-white border-2 border-pink-400 shadow-[0_0_10px_rgba(236,72,153,0.4)]"
+            className="h-16 text-3xl font-bold bg-gradient-to-br from-pink-300 to-amber-200 hover:from-pink-400 hover:to-amber-300 text-pink-950 border-2 border-pink-500 shadow-[0_0_10px_rgba(236,72,153,0.25)]"
           >
             {trackTones[i]}
           </Button>
@@ -1024,7 +1024,7 @@ const PinyinRunner = ({ difficulty, onExit, onRetry }: GameProps) => {
       <p className="text-xs text-center text-muted-foreground">
         {t("Phím 1-4 hoặc bấm vào ô có dấu thanh đúng", "Press 1-4 or tap the track with the correct tone")}
       </p>
-      <Button onClick={onExit} className="w-full bg-slate-900 hover:bg-slate-800 text-pink-100 border-2 border-pink-400 shadow-[0_0_15px_rgba(236,72,153,0.35)]">
+      <Button onClick={onExit} className="chinese-arcade-control w-full">
         <ArrowLeft className="w-4 h-4 mr-2" /> {t("Thoát", "Exit")}
       </Button>
     </div>
@@ -1194,7 +1194,7 @@ const SentenceBuilder = ({ difficulty, onExit, onRetry }: GameProps) => {
   return (
     <div className="space-y-3 max-w-6xl mx-auto">
       <div className="flex items-center justify-between gap-2">
-        <Button variant="outline" size="sm" onClick={onExit} className="bg-slate-900 border-emerald-500/60 text-emerald-200 hover:bg-slate-800 hover:text-white">
+        <Button variant="outline" size="sm" onClick={onExit} className="chinese-arcade-control">
           <ArrowLeft className="w-4 h-4 mr-1" /> {t("Quay lại", "Back")}
         </Button>
         <span className="text-xs text-emerald-300/80 font-mono uppercase tracking-wider">📝 Sentence Builder · 句子大师</span>
@@ -1202,7 +1202,7 @@ const SentenceBuilder = ({ difficulty, onExit, onRetry }: GameProps) => {
       <HUD score={score} combo={combo} level={Math.floor(score / 100) + 1} lives={lives} />
 
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-4">
-        <div className={`relative rounded-2xl border-2 p-4 sm:p-6 min-h-[520px] bg-gradient-to-br from-emerald-100 via-teal-50 to-sky-100 dark:from-emerald-950/60 dark:via-teal-950/40 dark:to-sky-950/60 transition-colors ${
+        <div className={`relative rounded-2xl border-2 p-4 sm:p-6 min-h-[520px] bg-gradient-to-br from-emerald-100 via-teal-50 to-sky-100 transition-colors ${
           feedback === "ok" ? "border-emerald-400 shadow-[0_0_30px_rgba(52,211,153,0.5)]" : feedback === "wrong" ? "border-rose-400 shadow-[0_0_30px_rgba(244,63,94,0.5)]" : "border-emerald-500/40"
         }`}>
           {/* Decorative bamboo */}
@@ -1215,20 +1215,20 @@ const SentenceBuilder = ({ difficulty, onExit, onRetry }: GameProps) => {
               <span className="inline-flex items-center gap-1 text-foreground font-mono"><Timer className="w-3.5 h-3.5" /> {timeLeft}s</span>
               <span className="text-muted-foreground font-mono">{t("30s mỗi câu", "30s per sentence")}</span>
             </div>
-            <div className="h-2 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
+            <div className="h-2 rounded-full bg-emerald-100 overflow-hidden">
               <motion.div animate={{ width: `${timeBar}%` }} transition={{ duration: 0.3 }} className={`h-full ${timeColor}`} />
             </div>
           </div>
 
           {/* Target meaning */}
           <div className="text-center mb-5">
-            <p className="text-xs uppercase tracking-wider text-emerald-700 dark:text-emerald-300 font-mono mb-1">{t("Sắp xếp thành câu:", "Arrange into sentence:")}</p>
+            <p className="text-xs uppercase tracking-wider text-emerald-700 font-mono mb-1">{t("Sắp xếp thành câu:", "Arrange into sentence:")}</p>
             <p className="text-xl sm:text-2xl font-bold text-foreground">{current.vi}</p>
             <p className="text-sm text-muted-foreground italic mt-1">{current.en}</p>
           </div>
 
           {/* Picked tiles slot */}
-          <div className="min-h-[80px] mx-auto max-w-3xl p-3 rounded-xl bg-white/70 dark:bg-slate-900/60 border-2 border-dashed border-emerald-400/50 flex flex-wrap gap-2 items-center justify-center mb-5">
+          <div className="min-h-[80px] mx-auto max-w-3xl p-3 rounded-xl bg-white/80 border-2 border-dashed border-emerald-400/50 flex flex-wrap gap-2 items-center justify-center mb-5">
             {picked.length === 0 ? (
               <span className="text-sm text-muted-foreground">{t("Bấm vào các thẻ bên dưới...", "Tap the tiles below...")}</span>
             ) : (
@@ -1256,8 +1256,8 @@ const SentenceBuilder = ({ difficulty, onExit, onRetry }: GameProps) => {
                 disabled={tile.used || feedback !== "idle"}
                 className={`px-5 py-3 rounded-xl text-2xl sm:text-3xl font-bold border-2 transition-all ${
                   tile.used
-                    ? "opacity-30 bg-slate-200 dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-500"
-                    : "bg-white dark:bg-slate-900 border-emerald-400 text-emerald-700 dark:text-emerald-200 hover:bg-emerald-50 dark:hover:bg-emerald-900/40 shadow-md"
+                    ? "opacity-40 bg-emerald-100 border-emerald-200 text-emerald-500"
+                    : "bg-white border-emerald-400 text-emerald-700 hover:bg-emerald-50 shadow-md"
                 }`}
               >
                 {tile.word}
@@ -1288,7 +1288,7 @@ const SentenceBuilder = ({ difficulty, onExit, onRetry }: GameProps) => {
 
         {/* Leaderboard */}
         <aside className="rounded-2xl border-2 border-emerald-500/40 bg-card p-4">
-          <p className="text-xs text-emerald-600 dark:text-emerald-300 mb-2 font-mono uppercase">Sentence Builder · {difficulty}</p>
+          <p className="text-xs text-emerald-700 mb-2 font-mono uppercase">Sentence Builder · {difficulty}</p>
           <GameLeaderboard gameType={`sentence_builder_${difficulty}`} currentScore={score} />
         </aside>
       </div>
@@ -1310,11 +1310,11 @@ const GameOverScreen = ({ score, onRetry, onExit }: { score: number; onRetry: ()
     <motion.div
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="rounded-2xl border-2 border-rose-500/40 bg-gradient-to-b from-slate-950 to-rose-950/30 p-8 text-center"
+      className="rounded-2xl border-2 border-rose-400 bg-gradient-to-b from-rose-100 via-amber-50 to-cyan-100 p-8 text-center shadow-lg"
     >
       <div className="text-6xl mb-4">💀</div>
-      <h3 className="text-3xl font-bold text-rose-400 mb-2">GAME OVER</h3>
-      <p className="text-cyan-300 font-mono text-xl mb-6">SCORE: {score}</p>
+      <h3 className="text-3xl font-bold text-rose-700 mb-2">GAME OVER</h3>
+      <p className="text-cyan-800 font-mono text-xl mb-6">SCORE: {score}</p>
       <div className="flex gap-3 justify-center">
         <Button onClick={onRetry} className="bg-cyan-500 hover:bg-cyan-600">
           <Zap className="w-4 h-4 mr-2" /> {t("Chơi lại", "Play Again")}
@@ -1395,7 +1395,7 @@ const ChineseArcade = () => {
   const floatHanzi = ["学", "中", "文", "你", "好", "汉", "字", "拼", "音", "龙", "福", "爱", "家", "天", "山", "水"];
 
   return (
-    <div className="chinese-arcade relative min-h-screen bg-gradient-to-br from-rose-50 via-amber-50 to-rose-100 dark:from-rose-950 dark:via-amber-950 dark:to-rose-900 text-foreground overflow-hidden">
+    <div className="chinese-arcade relative min-h-screen bg-gradient-to-br from-rose-50 via-amber-50 to-cyan-50 text-foreground overflow-hidden">
       <SEO
         title="Chinese Arcade: 3 Game Học Tiếng Trung HSK | HaiEduTech"
         description="Bộ 3 mini-game tiếng Trung phong cách cyberpunk-arcade: Space Shooter Pinyin, Hotpot Chef ghép từ ghép, Pinyin Tone Runner luyện phản xạ thanh điệu."
@@ -1410,7 +1410,7 @@ const ChineseArcade = () => {
             initial={{ y: "110vh", opacity: 0 }}
             animate={{ y: "-15vh", opacity: [0, 0.18, 0.18, 0] }}
             transition={{ duration: 18 + (i % 6) * 3, repeat: Infinity, delay: i * 1.6, ease: "linear" }}
-            className="absolute text-7xl sm:text-8xl font-bold text-rose-500/25 dark:text-amber-300/15 select-none"
+            className="absolute text-7xl sm:text-8xl font-bold text-rose-500/20 select-none"
             style={{ left: `${(i * 11 + 4) % 94}%` }}
           >
             {ch}

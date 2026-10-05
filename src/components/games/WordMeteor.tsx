@@ -61,7 +61,7 @@ const METEOR_DECOR: Record<MeteorLang, { symbols: string[]; glyphs: string[]; fi
   zh: {
     symbols: ["🏮", "🐉", "🌸", "🎏", "🏮", "🌸", "🎋", "🏮"],
     glyphs: ["福", "龙"],
-    field: "from-rose-200 via-amber-100 to-rose-300 dark:from-rose-900 dark:via-amber-900 dark:to-rose-950",
+    field: "from-rose-200 via-amber-100 to-rose-300",
   },
   vi: {
     symbols: ["SEN", "VIỆT", "LÚA", "TRỐNG", "PHỞ", "TRE", "SEN", "LÚA"],
@@ -303,7 +303,7 @@ export default function WordMeteor({
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-4">
       <div className="space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-border bg-card/60 p-3">
+        <div className={lang === "zh" ? "chinese-arcade-hud flex flex-wrap items-center justify-between gap-3 rounded-xl p-3" : "flex flex-wrap items-center justify-between gap-3 rounded-xl border border-border bg-card/60 p-3"}>
           <div className="flex items-center gap-2 text-sm">
             {onExit && (
               <Button variant="ghost" size="sm" onClick={onExit}>
@@ -382,7 +382,7 @@ export default function WordMeteor({
                         key={opt}
                         onClick={() => handlePick(m, opt)}
                         aria-label={`${opt} - ${m.word}`}
-                      className="w-full max-w-full rounded-xl border-2 border-background/70 bg-foreground/85 px-4 py-3 text-base font-semibold text-background backdrop-blur transition hover:scale-[1.03] hover:bg-foreground active:scale-95 shadow-lg"
+                      className={lang === "zh" ? "w-full max-w-full rounded-xl border-2 border-rose-400 bg-white/95 px-4 py-3 text-base font-semibold text-rose-950 backdrop-blur transition hover:scale-[1.03] hover:bg-amber-100 active:scale-95 shadow-lg" : "w-full max-w-full rounded-xl border-2 border-background/70 bg-foreground/85 px-4 py-3 text-base font-semibold text-background backdrop-blur transition hover:scale-[1.03] hover:bg-foreground active:scale-95 shadow-lg"}
                       >
                         {opt}
                       </button>
@@ -416,12 +416,12 @@ export default function WordMeteor({
           </motion.div>
 
           {!running && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-foreground/85 text-center text-background p-4 z-20">
+            <div className={lang === "zh" ? "absolute inset-0 flex flex-col items-center justify-center gap-3 bg-gradient-to-br from-rose-100/95 via-amber-100/95 to-cyan-100/95 text-center text-foreground p-4 z-20" : "absolute inset-0 flex flex-col items-center justify-center gap-3 bg-foreground/85 text-center text-background p-4 z-20"}>
               <Sparkles className="h-10 w-10 text-amber-300" />
               <h3 className="text-2xl font-bold">
                 {lives <= 0 ? `Game Over - ${score} pts` : `Word Meteor - ${theme.label}`}
               </h3>
-              <p className="max-w-sm text-sm text-background/80">
+              <p className={lang === "zh" ? "max-w-sm text-sm text-muted-foreground" : "max-w-sm text-sm text-background/80"}>
                 Pick the correct meaning before the meteor lands. Use ← → (or A/D) to fly the rocket. Chain answers for bonus points!
               </p>
               <Button onClick={reset} className={`bg-gradient-to-r ${theme.accent} text-white`}>
@@ -461,7 +461,7 @@ export default function WordMeteor({
       </div>
 
       {/* Leaderboard sidebar */}
-      <aside className="rounded-xl border-2 border-primary/25 bg-card p-4 text-foreground shadow-sm">
+      <aside className={lang === "zh" ? "chinese-arcade-panel rounded-xl p-4" : "rounded-xl border-2 border-primary/25 bg-card p-4 text-foreground shadow-sm"}>
         <GameLeaderboard gameType={resolvedGameType} currentScore={score} />
       </aside>
     </div>
