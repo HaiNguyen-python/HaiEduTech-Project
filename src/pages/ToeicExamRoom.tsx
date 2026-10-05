@@ -358,17 +358,12 @@ const LRExamRunner = ({ exam, mode }: LRRunnerProps) => {
     window.speechSynthesis.onvoiceschanged = onv;
   }, []);
 
-  // Auto-play audio when a listening question (Parts 1-4) becomes active
+  // Audio plays only when the learner presses Play; stop any audio when the recording changes.
   useEffect(() => {
-    if (!current || current.part > 4 || submitted || paused) return;
-    if (current.audioSrc) return; // real audio element handles its own playback
-    const timer = setTimeout(() => playGeneratedAudio(current), 350);
     return () => {
-      clearTimeout(timer);
       if ("speechSynthesis" in window) window.speechSynthesis.cancel();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [current?.passageGroupId || current?.id, submitted, paused, speed]);
+  }, [current?.passageGroupId || current?.id, submitted, paused]);
 
   // Group by part for navigator
   const partGroups = useMemo(() => {
@@ -474,10 +469,10 @@ const LRExamRunner = ({ exam, mode }: LRRunnerProps) => {
                     </label>
                   </div>
                   {current.audioSrc ? (
-                    <audio controls autoPlay src={current.audioSrc} className="mt-2 w-full" />
+                    <audio controls preload="none" src={current.audioSrc} className="mt-2 w-full" />
                   ) : (
                     <Button size="sm" className="mt-2 font-semibold shadow-md" onClick={() => playGeneratedAudio(current)}>
-                      <Play className="w-4 h-4 mr-1" /> {t("Phát lại audio", "Replay audio")}
+                      <Play className="w-4 h-4 mr-1" /> {t("Phát audio", "Play audio")}
                     </Button>
                   )}
                 </div>
