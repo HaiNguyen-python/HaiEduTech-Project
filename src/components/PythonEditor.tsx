@@ -152,6 +152,17 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
       let stderr = "";
       py.setStdout({ batched: (s: string) => (stdout += s + "\n") });
       py.setStderr({ batched: (s: string) => (stderr += s + "\n") });
+      // Browser has no terminal: ask for each input() value with a popup.
+      py.setStdin({
+        stdin: () => {
+          const lastLine = stdout.trimEnd().split("\n").pop() || "";
+          const value = window.prompt(
+            lastLine || t("Nhập dữ liệu cho input():", "Enter a value for input():"),
+            "",
+          );
+          return value ?? "";
+        },
+      });
 
       await py.runPythonAsync(code);
 
