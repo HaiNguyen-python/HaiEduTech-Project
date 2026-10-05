@@ -324,7 +324,7 @@ export default function WordMeteor({
         </div>
 
         <div
-          className={`relative h-[78vh] min-h-[640px] w-full overflow-hidden rounded-xl border-2 border-primary/35 bg-gradient-to-b ${decor.field}`}
+          className={`relative h-[clamp(460px,70vh,760px)] w-full overflow-hidden rounded-xl border-2 border-primary/35 bg-gradient-to-b ${decor.field}`}
           style={{
             backgroundImage:
               "radial-gradient(circle at 20% 20%, rgba(251,191,36,0.45), transparent 40%), radial-gradient(circle at 80% 70%, rgba(244,63,94,0.35), transparent 45%)",

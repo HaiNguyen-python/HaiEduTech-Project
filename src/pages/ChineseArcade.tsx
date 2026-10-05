@@ -302,7 +302,7 @@ const SpaceShooter = ({ difficulty, onExit, onRetry }: GameProps) => {
         ref={containerRef}
         animate={shake ? { x: [-8, 8, -6, 6, 0] } : {}}
         transition={{ duration: 0.3 }}
-        className="relative h-[640px] sm:h-[760px] rounded-2xl border-2 border-amber-300 bg-gradient-to-b from-rose-200 via-amber-100 to-rose-300 overflow-hidden"
+        className="relative h-[clamp(430px,68vh,720px)] rounded-2xl border-2 border-amber-300 bg-gradient-to-b from-rose-200 via-amber-100 to-rose-300 overflow-hidden"
         style={{
           backgroundImage:
             "radial-gradient(circle at 20% 20%, rgba(251,191,36,0.5), transparent 40%), radial-gradient(circle at 80% 70%, rgba(244,63,94,0.35), transparent 45%), radial-gradient(circle at 50% 50%, rgba(254,243,199,0.6), transparent 55%)",
@@ -428,7 +428,7 @@ const SpaceShooter = ({ difficulty, onExit, onRetry }: GameProps) => {
         }}
         placeholder={t("Gõ Pinyin (không cần dấu thanh)...", "Type Pinyin (no tones needed)...")}
         className="w-full px-4 py-3 rounded-xl bg-slate-900 border-2 border-cyan-500/50 text-cyan-100 placeholder:text-slate-500 font-mono text-lg focus:border-cyan-400 focus:outline-none focus:shadow-[0_0_15px_rgba(6,182,212,0.5)]"
-        autoFocus
+        autoFocus={!isTouchDevice()}
       />
       <Button variant="outline" onClick={onExit} className="w-full bg-slate-900 border-cyan-500/60 text-cyan-200 hover:bg-slate-800 hover:text-white">
         <ArrowLeft className="w-4 h-4 mr-2" /> {t("Về menu game", "Back to game menu")}
@@ -480,10 +480,18 @@ const HotpotChef = ({ difficulty, onExit, onRetry }: GameProps) => {
     const w = compoundWords[Math.floor(Math.random() * compoundWords.length)];
     const targetChars = Array.from(w.character);
     const distractors: string[] = [];
-    while (distractors.length < 3) {
+    let attempts = 0;
+    while (distractors.length < 3 && attempts < 60) {
+      attempts += 1;
       const other = compoundWords[Math.floor(Math.random() * compoundWords.length)];
       const c = Array.from(other.character)[Math.floor(Math.random() * Array.from(other.character).length)];
       if (!targetChars.includes(c) && !distractors.includes(c)) distractors.push(c);
+    }
+    if (distractors.length < 3) {
+      const fallbackChars = compoundWords
+        .flatMap(other => Array.from(other.character))
+        .filter(c => !targetChars.includes(c) && !distractors.includes(c));
+      distractors.push(...shuffle([...new Set(fallbackChars)]).slice(0, 3 - distractors.length));
     }
     const all = shuffle([...targetChars, ...distractors]).map(c => ({
       char: c,
@@ -600,7 +608,7 @@ const HotpotChef = ({ difficulty, onExit, onRetry }: GameProps) => {
 
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-4">
         {/* Main play area */}
-        <div className="relative rounded-2xl border-2 border-amber-500/40 bg-gradient-to-b from-amber-950/50 via-rose-950/40 to-slate-900 p-4 sm:p-6 min-h-[560px] overflow-hidden">
+        <div className="relative rounded-2xl border-2 border-amber-500/40 bg-gradient-to-b from-amber-950/50 via-rose-950/40 to-slate-900 p-4 sm:p-6 min-h-[clamp(480px,65vh,620px)] overflow-hidden">
           {/* Lively background: floating hanzi + lanterns */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden>
             {bgHanzi.map((ch, i) => (
@@ -845,15 +853,20 @@ const PinyinRunner = ({ difficulty, onExit, onRetry }: GameProps) => {
   // Keyboard controls (1-4 keys, or Arrow Left/Right to switch tracks then Enter)
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      const target = e.target;
+      if (target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target instanceof HTMLSelectElement || (target instanceof HTMLElement && target.isContentEditable)) return;
       if (e.key >= "1" && e.key <= "4") {
         const idx = parseInt(e.key, 10) - 1;
         setPlayerTrack(idx);
         submitChoice(idx);
       } else if (e.key === "ArrowLeft") {
+        e.preventDefault();
         setPlayerTrack(p => Math.max(0, p - 1));
       } else if (e.key === "ArrowRight") {
+        e.preventDefault();
         setPlayerTrack(p => Math.min(3, p + 1));
       } else if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
         submitChoice(playerTrack);
       }
     };
@@ -903,10 +916,9 @@ const PinyinRunner = ({ difficulty, onExit, onRetry }: GameProps) => {
         🎯 {t("Chọn dấu thanh đúng cho âm này", "Pick the correct tone for this syllable")}
       </p>
       <div
-        className={`relative rounded-2xl border-2 overflow-hidden bg-gradient-to-b from-rose-300 via-amber-200 to-rose-400 transition-colors ${
+        className={`relative h-[clamp(430px,62vh,560px)] rounded-2xl border-2 overflow-hidden bg-gradient-to-b from-rose-300 via-amber-200 to-rose-400 transition-colors ${
           flashCorrect ? "border-green-400 shadow-[0_0_30px_rgba(74,222,128,0.7)]" : flashWrong ? "border-rose-500 shadow-[0_0_30px_rgba(244,63,94,0.7)]" : "border-amber-500/70"
         }`}
-        style={{ height: 520 }}
       >
         {/* Chinese cultural backdrop: lanterns, blossoms, dragons */}
         <div className="absolute inset-0 pointer-events-none">

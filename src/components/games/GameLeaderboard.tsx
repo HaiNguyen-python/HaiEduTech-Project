@@ -77,7 +77,7 @@ const GameLeaderboard = ({ gameType, currentScore }: GameLeaderboardProps) => {
     // Subscribe to realtime updates
     const channel = supabase
       .channel(`leaderboard-${gameType}`)
-      .on("postgres_changes", { event: "INSERT", schema: "public", table: "game_scores" }, () => {
+      .on("postgres_changes", { event: "INSERT", schema: "public", table: "game_scores", filter: `game_type=eq.${gameType}` }, () => {
         fetchLeaderboard();
       })
       .subscribe();
