@@ -17,3 +17,4 @@
 - TOEIC lecture guidance is organized by tested Part alongside lesson-specific techniques, so strategy depth stays consistent without duplicating lecture question data.
 - TOEIC Speaking/Writing content comes from `toeicSWContentSets` (one unique set per test, audited by `toeicSwAudit.test.ts`); grading goes through the `grade-toeic-sw` function using speech transcripts for Speaking and text for Writing, while audio recordings stay session-only, because recordings themselves are never uploaded.
 - Python Challenge rankings count distinct completed challenge IDs from activity logs through an authenticated read-only function, preventing repeat attempts from inflating totals.
+- The 999 Letters typing set is generated from the uploaded book into `src/data/chineseLetters/part*.ts` (lazy-loaded, Pinyin/keywords regenerated, audited by `scripts/audit_chinese_letters.ts`), so the book never bloats the main bundle.

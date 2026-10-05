@@ -12,12 +12,14 @@ import {
 import ZhSentenceTask, { type ZhTaskItem } from "@/components/chineseWriting/ZhSentenceTask";
 import ZhEssayTask from "@/components/chineseWriting/ZhEssayTask";
 import ZhTypingTask from "@/components/chineseWriting/ZhTypingTask";
+import ZhLetterTyping from "@/components/chineseWriting/ZhLetterTyping";
 
 export default function ChineseWritingPractice() {
   const { t } = useLanguage();
   const [level, setLevel] = useState<ZhLevel>("1-2");
   const [topic, setTopic] = useState<string>("all");
   const [tab, setTab] = useState("essay");
+  const [typingMode, setTypingMode] = useState<"sentences" | "letters">("sentences");
   const tp = <T extends { topic: string; level: string }>(xs: T[]) => xs.filter((x) => x.level === level && (topic === "all" || x.topic === topic));
 
   const essays = useMemo(() => tp(ZH_ESSAYS), [level, topic]);
@@ -85,7 +87,13 @@ export default function ChineseWritingPractice() {
           <TabsContent value="connector"><ZhSentenceTask items={connectors} mode="connector" poolKey={`zhw-conn-${level}`} /></TabsContent>
           <TabsContent value="translation"><ZhSentenceTask items={translation} mode="translation" poolKey={`zhw-tr-${level}-${topic}`} /></TabsContent>
           <TabsContent value="paraphrase"><ZhSentenceTask items={paraphrase} mode="paraphrase" poolKey={`zhw-para-${paraLevel}-${topic}`} /></TabsContent>
-          <TabsContent value="typing"><ZhTypingTask items={typing} poolKey={`zhw-type-${level}`} /></TabsContent>
+          <TabsContent value="typing" className="space-y-3">
+            <div className="flex gap-2">
+              <Button size="sm" variant={typingMode === "sentences" ? "default" : "outline"} onClick={() => setTypingMode("sentences")}>{t("Câu luyện gõ", "Sentences")}</Button>
+              <Button size="sm" variant={typingMode === "letters" ? "default" : "outline"} onClick={() => setTypingMode("letters")}>{t("999 lá thư", "999 Letters")}</Button>
+            </div>
+            {typingMode === "sentences" ? <ZhTypingTask items={typing} poolKey={`zhw-type-${level}`} /> : <ZhLetterTyping level={level} />}
+          </TabsContent>
         </Tabs>
       </main>
     </div>
