@@ -10,7 +10,7 @@
 
 - [x] Add a secure Top 10 leaderboard based on unique completed challenges.
 - [x] Show the leaderboard beside the coding workspace and refresh it after a new pass.
-- [ ] Verify desktop/mobile layout and authenticated data rendering.
+- [x] Verify desktop/mobile layout and authenticated data rendering.
 
 # TOEIC Learning Upgrade
 
