@@ -1,5 +1,11 @@
 # Business English & Academic English
 
+# Python Challenge Motivation
+
+- [ ] Add a bright programming illustration and refresh the challenge overview.
+- [ ] Reuse the student leaderboard and show personal completion by programming skill.
+- [ ] Verify data, filters and desktop/mobile layouts.
+
 # Python Challenges aligned with the book (Python by Example)
 
 - [x] Rewrite all 150 challenges to match the book's numbering, wording and beginner-style answers.
