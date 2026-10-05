@@ -388,11 +388,11 @@ function footer(pageNo: number, total: number): string {
 }
 
 function statCard(labelVi: string, labelEn: string, value: string, color: string, valueSize = 24): string {
-  const fittedSize = value.length > 18 ? Math.min(valueSize, 15) : value.length > 11 ? Math.min(valueSize, 18) : valueSize;
-  return `<div style="min-width:0;height:92px;box-sizing:border-box;border:1px solid ${BORDER};border-radius:10px;padding:11px 14px;background:#F8FAFC;overflow:hidden;">
-    <div style="font-size:10.5px;color:${MUTED};text-transform:uppercase;letter-spacing:.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(labelEn)}</div>
-    <div style="font-size:11.5px;color:${MUTED};margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(labelVi)}</div>
-    <div style="font-size:${fittedSize}px;font-weight:700;color:${color};margin-top:6px;line-height:1.12;overflow-wrap:anywhere;">${esc(value)}</div>
+  const fittedSize = value.length > 22 ? Math.min(valueSize, 14) : value.length > 16 ? Math.min(valueSize, 16) : value.length > 11 ? Math.min(valueSize, 18) : valueSize;
+  return `<div style="min-width:0;height:100px;box-sizing:border-box;border:1px solid ${BORDER};border-radius:10px;padding:10px 14px 9px;background:#F8FAFC;display:flex;flex-direction:column;justify-content:flex-start;">
+    <div style="min-height:14px;font-size:10.5px;line-height:14px;color:${MUTED};text-transform:uppercase;letter-spacing:.5px;overflow-wrap:anywhere;">${esc(labelEn)}</div>
+    <div style="min-height:16px;font-size:11.5px;line-height:16px;color:${MUTED};margin-top:1px;overflow-wrap:anywhere;">${esc(labelVi)}</div>
+    <div style="font-size:${fittedSize}px;font-weight:700;color:${color};margin-top:auto;line-height:1.18;overflow-wrap:anywhere;word-break:normal;">${esc(value)}</div>
   </div>`;
 }
 
@@ -565,12 +565,12 @@ export function buildReportPages(data: ReportData): string[] {
   const page1 = `${pageOpen()}
     ${header(data, "Tổng quan tiến độ", "Progress overview")}
     <div style="padding:24px 40px 0;">
-      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:14px;">
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:12px;">
         ${statCard("Tổng hoạt động", "Activities", String(data.totalActivities), BRAND_BLUE)}
         ${statCard("Điểm trung bình", "Average score", data.avgScore10 != null ? `${data.avgScore10}/10` : "-", BRAND_EMERALD)}
         ${statCard("Thời gian học", "Study time", fmtDuration(data.studySeconds), "#8B5CF6")}
       </div>
-      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:22px;">
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:18px;">
         ${statCard("Ngày có học", "Active days", String(data.activeDays), "#0EA5E9")}
         ${statCard("Chuỗi ngày dài nhất", "Best streak", `${data.bestStreak}`, "#F59E0B")}
         ${statCard("Xu hướng", "Trend", trendText[data.trend], data.trend === "declining" ? "#EF4444" : INK, 17)}
@@ -588,7 +588,7 @@ export function buildReportPages(data: ReportData): string[] {
         </div>
       </div>
 
-      <div style="margin-top:20px;">
+      <div style="margin-top:14px;">
         ${sectionTitle("Điểm trung bình theo tuần", "Weekly average score")}
         ${timelineSvg(data.timeline)}
       </div>

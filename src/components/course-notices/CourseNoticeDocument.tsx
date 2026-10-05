@@ -56,7 +56,7 @@ const CourseNoticeDocument = forwardRef<HTMLDivElement, Props>(({ code, data, ed
   <article ref={ref} id="course-notice-print" className="course-notice mx-auto w-full max-w-[794px] overflow-hidden bg-card text-foreground shadow-xl print:max-w-none print:shadow-none">
     <div className="course-notice-top-rule" />
 
-    <header className="course-notice-letterhead px-8 pb-5 pt-8 sm:px-11">
+    <header className="course-notice-letterhead px-8 pb-5 pt-12 sm:px-11">
       <div className="flex items-center gap-4">
         <div className="flex min-w-0 items-center gap-4">
           <img src="/haiedutech-logo.jpg" alt="HaiEduTech" className="h-[76px] w-[76px] shrink-0 object-contain" />
