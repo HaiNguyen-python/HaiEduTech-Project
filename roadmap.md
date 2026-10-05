@@ -1,5 +1,11 @@
 # Business English & Academic English
 
+# Python Challenge Model Answers
+
+- [x] Simplify beginner model answers using the uploaded reference style.
+- [x] Audit all 150 answers against their expected output and challenge level.
+- [x] Verify representative answers in the challenge page.
+
 # TOEIC Learning Upgrade
 
 - [x] Lighten TOEIC exam library and test rooms, keeping controls legible.
