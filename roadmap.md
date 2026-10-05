@@ -4,7 +4,7 @@
 
 - [x] Refresh challenge tiles with a light code-editor theme and clear completion/lock states.
 - [x] Apply sequential unlocking to tiles, direct links and workspace navigation while preserving completed exercises.
-- [ ] Verify sequential access, live completion updates and tile layout.
+- [x] Verify sequential access, live completion updates and tile layout.
 
 - [x] Add a bright programming illustration and refresh the challenge overview.
 - [x] Reuse the student leaderboard and show personal completion by programming skill.
