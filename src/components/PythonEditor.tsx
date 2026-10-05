@@ -8,6 +8,8 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import type { PythonChallenge } from "@/data/pythonChallenges";
 import confetti from "canvas-confetti";
 import { ensurePyodideRuntime } from "@/components/python/PyodideRunner";
+import { PY_HARNESS, passesTest, stdinLines, type HarnessResult } from "@/lib/pythonChallengeHarness";
+import DOMPurify from "dompurify";
 
 
 interface Props {
@@ -75,9 +77,11 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
   const [aiHelp, setAiHelp] = useState("");
   const [aiLoading, setAiLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
-  const [stdinValues, setStdinValues] = useState<string[]>([]);
-  const inputPrompts = Array.from(code.matchAll(/input\(\s*(?:f?(["'])(.*?)\1)?\s*\)/g)).map(m => m[2] || "");
-  const [mismatch, setMismatch] = useState<{ expected: string; got: string } | null>(null);
+  const [stdinText, setStdinText] = useState("");
+  const usesInput = /\binput\s*\(/.test(code);
+  const sampleInput = challenge.testCases.find((tc) => tc.input.trim())?.input ?? "";
+  const [svg, setSvg] = useState("");
+  const [mismatch, setMismatch] = useState<{ input: string; expected: string; got: string } | null>(null);
   const pyodideRef = useRef<any>(null);
 
   // Load saved code (the learner's own work only - never a template)
@@ -108,7 +112,8 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
     setShowHints(false);
     setMismatch(null);
     setAnswerState("hidden");
-    setStdinValues([]);
+    setStdinText("");
+    setSvg("");
   }, [challenge.id]);
 
   // Auto-save
@@ -144,6 +149,7 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
     }
     setRunning(true);
     setOutput("");
+    setSvg("");
     setHasError(false);
     setAiHelp("");
     setMismatch(null);
@@ -151,54 +157,52 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
     try {
       const py = pyodideRef.current ?? (await ensurePyodideRuntime());
       pyodideRef.current = py;
-      let stdout = "";
-      let stderr = "";
-      py.setStdout({ batched: (s: string) => (stdout += s + "\n") });
-      py.setStderr({ batched: (s: string) => (stderr += s + "\n") });
-      // Feed input() from the inline input fields, one value per call.
-      let stdinIdx = 0;
-      py.setStdin({
-        stdin: () => {
-          const v = stdinValues[stdinIdx++] ?? "";
-          stdout += v + "\n";
-          return v;
-        },
-      });
+      if (!py.globals.get("_hai_run")) py.runPython(PY_HARNESS);
+      const setup = challenge.setupCode ?? "";
+      if (/\bsqlite3\b/.test(code + setup)) await py.loadPackage("sqlite3");
+      const harness = py.globals.get("_hai_run");
+      const exec = (stdin: string[], echo: boolean, seed: number): HarnessResult =>
+        JSON.parse(harness(code, JSON.stringify(stdin), echo, setup, seed));
 
-      await py.runPythonAsync(code);
-
-      const result = stdout.trimEnd();
-      const errResult = stderr.trimEnd();
-
-      if (errResult) {
-        setOutput(result ? `${result}\n\n⚠️ ${errResult}` : `❌ Error:\n${errResult}`);
+      // 1) Interactive run: the learner's own values (or the sample input when the box is empty).
+      let typed = stdinText;
+      let usedSample = false;
+      if (usesInput && !typed.trim() && sampleInput) {
+        typed = sampleInput;
+        usedSample = true;
+        setStdinText(sampleInput);
+      }
+      const shown = exec(stdinLines(typed), true, -1);
+      setSvg(shown.svg);
+      const note = usedSample ? t("(Đang dùng dữ liệu mẫu)\n", "(Using the sample input)\n") : "";
+      if (shown.err) {
+        setOutput(`${note}${shown.out}${shown.out ? "\n" : ""}❌ ${shown.err}`);
         setHasError(true);
+        setRunning(false);
+        return;
+      }
+      setOutput(note + (shown.out.trimEnd() || (shown.svg ? t("(Đã vẽ hình bên dưới)", "(Drawing shown below)") : "(No output)")));
+
+      // 2) Grading: every sample test, prompts hidden, fixed random seed.
+      const failed = challenge.testCases.find((tc) => !passesTest(exec(stdinLines(tc.input), false, 7), tc, challenge.turtle));
+      if (!failed) {
+        if (!passed) celebrate();
+        setPassed(true);
+        onPass?.();
       } else {
-        setOutput(result || "(No output)");
-
-        // Accept the reference output or any verified test case, comparing
-        // line by line so trailing spaces / CRLF never fail a correct answer.
-        const targets = [challenge.expectedOutput, ...challenge.testCases.map(tc => tc.expected)];
-        const isCorrect = targets.some(target => normalize(result) === normalize(target));
-
-        if (isCorrect) {
-          if (!passed) celebrate();
-          setPassed(true);
-          onPass?.();
-        } else {
-          setMismatch({ expected: challenge.expectedOutput.trimEnd(), got: result || "(No output)" });
-        }
+        const got = exec(stdinLines(failed.input), false, 7);
+        setMismatch({
+          input: failed.input,
+          expected: failed.expected,
+          got: got.err ? `❌ ${got.err}` : challenge.turtle ? t("Hình vẽ chưa đủ yêu cầu.", "The drawing does not meet the task yet.") : got.out.trimEnd() || "(No output)",
+        });
       }
     } catch (err: any) {
-      const errMsg = err?.message || String(err);
-      // Extract just the Python error from the Pyodide traceback
-      const lines = errMsg.split("\n");
-      const pyErr = lines.filter((l: string) => !l.includes("at ") && !l.includes("wasm")).join("\n");
-      setOutput(`❌ Error:\n${pyErr}`);
+      setOutput(`❌ Error:\n${err?.message || String(err)}`);
       setHasError(true);
     }
     setRunning(false);
-  }, [code, challenge, onPass, passed, t, stdinValues]);
+  }, [code, challenge, onPass, passed, t, stdinText, usesInput, sampleInput]);
 
 
   const askAiDebug = async () => {
@@ -353,29 +357,34 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
         </div>
       )}
 
-      {inputPrompts.length > 0 && (
-        <div className="rounded-xl border border-primary/30 bg-primary/5 p-4 space-y-3">
-          <p className="text-sm font-semibold text-foreground">
-            ⌨️ {t("Dữ liệu nhập cho input()", "Values for input()")}
-          </p>
-          <div className="grid gap-3 sm:grid-cols-2">
-            {inputPrompts.map((label, i) => (
-              <label key={i} className="space-y-1 text-xs text-muted-foreground">
-                <span className="font-mono">{label || `input() #${i + 1}`}</span>
-                <input
-                  value={stdinValues[i] ?? ""}
-                  onChange={e => {
-                    const next = [...stdinValues];
-                    next[i] = e.target.value;
-                    setStdinValues(next);
-                  }}
-                  onKeyDown={e => { if (e.key === "Enter") runCode(); }}
-                  placeholder={t("Nhập giá trị...", "Type a value...")}
-                  className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm font-mono text-foreground focus:outline-none focus:ring-2 focus:ring-primary/40"
-                />
-              </label>
-            ))}
+      {usesInput && (
+        <div className="rounded-xl border border-primary/30 bg-primary/5 p-4 space-y-2">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <p className="text-sm font-semibold text-foreground">
+              ⌨️ {t("Dữ liệu nhập cho input() - mỗi dòng một giá trị", "Values for input() - one value per line")}
+            </p>
+            {sampleInput && (
+              <button
+                onClick={() => setStdinText(sampleInput)}
+                className="text-xs font-semibold text-primary hover:underline"
+              >
+                {t("Dùng dữ liệu mẫu", "Use sample input")}
+              </button>
+            )}
           </div>
+          <textarea
+            value={stdinText}
+            onChange={(e) => setStdinText(e.target.value)}
+            rows={Math.min(6, Math.max(2, stdinLines(stdinText).length))}
+            placeholder={sampleInput || t("Nhập giá trị...", "Type a value...")}
+            className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm font-mono text-foreground focus:outline-none focus:ring-2 focus:ring-primary/40"
+          />
+          <p className="text-xs text-muted-foreground">
+            {t(
+              "Mỗi lần code gọi input() sẽ lấy dòng tiếp theo. Để trống thì dùng dữ liệu mẫu. Khi chấm, hệ thống thử thêm các bộ dữ liệu mẫu khác.",
+              "Each input() call takes the next line. Leave it empty to use the sample input. Grading also tries the other sample inputs.",
+            )}
+          </p>
         </div>
       )}
 
@@ -391,14 +400,29 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
              ? "Loading Python runtime (first time may take 5-10s)..."
              : output || "Press 'Run Code' to see results..."}
         </pre>
+        {svg && (
+          <div
+            className="border-t border-border bg-background p-3 [&>svg]:mx-auto [&>svg]:max-h-80 [&>svg]:w-full"
+            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(svg, { USE_PROFILES: { svg: true } }) }}
+          />
+        )}
       </div>
 
       {/* Output mismatch helper - shows expected vs actual side by side */}
       {!passed && mismatch && !hasError && (
         <div className="rounded-xl bg-yellow-500/10 border border-yellow-500/40 p-4 space-y-3">
           <p className="text-sm font-semibold text-yellow-600">
-            {t("Chưa khớp kết quả mong đợi - so sánh bên dưới nhé!", "Not matching the expected output yet - compare below!")}
+            {t(
+              "Chưa khớp kết quả mong đợi - so sánh bên dưới nhé! (Câu chữ có thể khác, nhưng các giá trị chính phải đúng.)",
+              "Not matching the expected output yet - compare below! (Wording may differ, but the key values must be right.)",
+            )}
           </p>
+          {mismatch.input && (
+            <p className="text-xs text-muted-foreground">
+              {t("Với dữ liệu nhập:", "With the input:")}{" "}
+              <span className="font-mono text-foreground">{mismatch.input.split("\n").join(" | ")}</span>
+            </p>
+          )}
           <div className="grid gap-3 sm:grid-cols-2">
             <div>
               <p className="text-xs font-semibold text-muted-foreground mb-1">{t("Mong đợi", "Expected")}</p>

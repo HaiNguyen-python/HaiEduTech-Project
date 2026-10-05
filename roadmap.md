@@ -1,5 +1,12 @@
 # Business English & Academic English
 
+# Python Challenges aligned with the book (Python by Example)
+
+- [ ] Rewrite all 150 challenges to match the book's numbering, wording and beginner-style answers.
+- [ ] Grade with real input values (sample inputs) so input() programs can pass.
+- [ ] Web versions for Turtle (drawn preview), Tkinter (console) and files/SQLite (in-browser).
+- [ ] Audit every answer against its tests and verify on the page.
+
 # Python Challenge Model Answers
 
 - [x] Simplify beginner model answers using the uploaded reference style.
