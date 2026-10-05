@@ -357,8 +357,6 @@ const esc = (s: string) =>
 
 const NO_DATA = "Chưa có dữ liệu / No data";
 
-const shortName = (s: string) => (s.length > 30 ? s.slice(0, 29) + "…" : s);
-
 function pageOpen(): string {
   return `<section style="width:${PAGE_W}px;height:${PAGE_H}px;box-sizing:border-box;padding:0;background:#ffffff;color:${INK};font-family:'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;position:relative;overflow:hidden;">`;
 }
@@ -372,7 +370,7 @@ function header(data: ReportData, subtitleVi: string, subtitleEn: string): strin
         <div style="font-size:15px;margin-top:6px;opacity:.95;">${esc(subtitleVi)} · ${esc(subtitleEn)}</div>
       </div>
       <div style="min-width:0;text-align:right;font-size:11.5px;line-height:1.55;opacity:.95;overflow-wrap:anywhere;">
-        <div style="font-size:15px;font-weight:700;line-height:1.3;">${esc(shortName(data.studentName))}</div>
+        <div style="font-size:15px;font-weight:700;line-height:1.3;overflow-wrap:anywhere;">${esc(data.studentName)}</div>
         <div>${esc(data.periodLabelVi)} / ${esc(data.periodLabelEn)}</div>
         <div>Xuất ngày / Issued: ${data.generatedAt.toLocaleDateString("vi-VN")}</div>
       </div>
@@ -422,13 +420,24 @@ function radarSvg(points: Array<{ label: string; value: number }>): string {
   }
   let spokes = "";
   let labels = "";
+  const wrapLabel = (label: string): string[] => {
+    const words = label.split(/\s+/).filter(Boolean);
+    const lines: string[] = [];
+    for (const word of words) {
+      const current = lines[lines.length - 1];
+      if (!current || current.length + word.length + 1 > 17) lines.push(word);
+      else lines[lines.length - 1] = `${current} ${word}`;
+    }
+    return lines;
+  };
   points.forEach((p, i) => {
     const [x, y] = at(i, r);
     spokes += `<line x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="${BORDER}" stroke-width="1"/>`;
     const [lx, ly] = at(i, r + 18);
     const anchor = lx > cx + 6 ? "start" : lx < cx - 6 ? "end" : "middle";
-    const text = p.label.length > 13 ? p.label.slice(0, 12) + "…" : p.label;
-    labels += `<text x="${lx.toFixed(1)}" y="${(ly + 4).toFixed(1)}" font-size="9.5" fill="${MUTED}" text-anchor="${anchor}">${esc(text)} ${p.value}</text>`;
+    const lines = wrapLabel(`${p.label} ${p.value}`);
+    const firstY = ly + 4 - ((lines.length - 1) * 5);
+    labels += `<text x="${lx.toFixed(1)}" y="${firstY.toFixed(1)}" font-size="8.5" fill="${MUTED}" text-anchor="${anchor}">${lines.map((line, lineIndex) => `<tspan x="${lx.toFixed(1)}" dy="${lineIndex === 0 ? 0 : 10}">${esc(line)}</tspan>`).join("")}</text>`;
   });
   const shape = points
     .map((p, i) => at(i, (Math.max(0, Math.min(10, p.value)) / 10) * r).map((v) => v.toFixed(1)).join(","))
