@@ -54,6 +54,6 @@ if __name__ == "__main__":
         sys.exit(1)
     target = os.path.join(build_lib.ROOT, "src/data/pythonChallenges.ts")
     with open(target, "w", encoding="utf-8") as f:
-        f.write(HEADER + json.dumps(data, ensure_ascii=False, indent=2) + ";\n")
+        f.write(HEADER + json.dumps(data, ensure_ascii=False, indent=2) + ";\n" + FOOTER)
     tests = sum(len(c["testCases"]) for c in data)
     print(f"OK: {len(data)} challenges, {tests} tests, all reference answers pass.")
