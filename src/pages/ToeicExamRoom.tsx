@@ -469,10 +469,10 @@ const LRExamRunner = ({ exam, mode }: LRRunnerProps) => {
                     </label>
                   </div>
                   {current.audioSrc ? (
-                    <audio controls autoPlay src={current.audioSrc} className="mt-2 w-full" />
+                    <audio controls preload="none" src={current.audioSrc} className="mt-2 w-full" />
                   ) : (
                     <Button size="sm" className="mt-2 font-semibold shadow-md" onClick={() => playGeneratedAudio(current)}>
-                      <Play className="w-4 h-4 mr-1" /> {t("Phát lại audio", "Replay audio")}
+                      <Play className="w-4 h-4 mr-1" /> {t("Phát audio", "Play audio")}
                     </Button>
                   )}
                 </div>
