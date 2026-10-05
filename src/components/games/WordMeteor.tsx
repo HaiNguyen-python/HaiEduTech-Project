@@ -121,8 +121,14 @@ export default function WordMeteor({
   // Keyboard rocket movement
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft" || e.key === "a") keysRef.current.left = true;
-      if (e.key === "ArrowRight" || e.key === "d") keysRef.current.right = true;
+      if (e.key === "ArrowLeft" || e.key.toLowerCase() === "a") {
+        keysRef.current.left = true;
+        e.preventDefault();
+      }
+      if (e.key === "ArrowRight" || e.key.toLowerCase() === "d") {
+        keysRef.current.right = true;
+        e.preventDefault();
+      }
     };
     const up = (e: KeyboardEvent) => {
       if (e.key === "ArrowLeft" || e.key === "a") keysRef.current.left = false;
@@ -243,7 +249,7 @@ export default function WordMeteor({
   }, [lives, running]);
 
   useEffect(() => {
-    if (!running && lives <= 0 && score > 0 && !scoreSubmitted) {
+    if (!running && lives <= 0 && !scoreSubmitted) {
       setScoreSubmitted(true);
       finishGame({
         gameType: resolvedGameType,
@@ -318,7 +324,7 @@ export default function WordMeteor({
         </div>
 
         <div
-          className={`relative h-[78vh] min-h-[640px] w-full overflow-hidden rounded-xl border-2 border-primary/35 bg-gradient-to-b ${decor.field}`}
+          className={`relative h-[clamp(460px,70vh,760px)] w-full overflow-hidden rounded-xl border-2 border-primary/35 bg-gradient-to-b ${decor.field}`}
           style={{
             backgroundImage:
               "radial-gradient(circle at 20% 20%, rgba(251,191,36,0.45), transparent 40%), radial-gradient(circle at 80% 70%, rgba(244,63,94,0.35), transparent 45%)",
@@ -375,6 +381,7 @@ export default function WordMeteor({
                       <button
                         key={opt}
                         onClick={() => handlePick(m, opt)}
+                        aria-label={`${opt} - ${m.word}`}
                       className="w-full max-w-full rounded-xl border-2 border-background/70 bg-foreground/85 px-4 py-3 text-base font-semibold text-background backdrop-blur transition hover:scale-[1.03] hover:bg-foreground active:scale-95 shadow-lg"
                       >
                         {opt}
@@ -433,6 +440,7 @@ export default function WordMeteor({
               onMouseDown={() => { keysRef.current.left = true; }}
               onMouseUp={() => { keysRef.current.left = false; }}
               onMouseLeave={() => { keysRef.current.left = false; }}
+              aria-label="Move rocket left"
               className="h-12 bg-rose-600 hover:bg-rose-700 text-2xl"
             >
               ◀
@@ -443,6 +451,7 @@ export default function WordMeteor({
               onMouseDown={() => { keysRef.current.right = true; }}
               onMouseUp={() => { keysRef.current.right = false; }}
               onMouseLeave={() => { keysRef.current.right = false; }}
+              aria-label="Move rocket right"
               className="h-12 bg-rose-600 hover:bg-rose-700 text-2xl"
             >
               ▶
