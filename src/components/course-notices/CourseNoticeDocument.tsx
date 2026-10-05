@@ -56,7 +56,7 @@ const CourseNoticeDocument = forwardRef<HTMLDivElement, Props>(({ code, data, ed
   <article ref={ref} id="course-notice-print" className="course-notice mx-auto w-full max-w-[794px] overflow-hidden bg-card text-foreground shadow-xl print:max-w-none print:shadow-none">
     <div className="course-notice-top-rule" />
 
-    <header className="course-notice-letterhead px-8 pb-5 pt-6 sm:px-11">
+    <header className="course-notice-letterhead px-8 pb-5 pt-8 sm:px-11">
       <div className="flex items-center gap-4">
         <div className="flex min-w-0 items-center gap-4">
           <img src="/haiedutech-logo.jpg" alt="HaiEduTech" className="h-[76px] w-[76px] shrink-0 object-contain" />
@@ -73,8 +73,8 @@ const CourseNoticeDocument = forwardRef<HTMLDivElement, Props>(({ code, data, ed
         <h1 className="text-[28px] font-black sm:text-[32px]">{copy.title}</h1>
       </div>
 
-      <section className="py-5">
-        <h2 className="text-2xl font-extrabold" {...editableProps("recipientName")}>{data.recipientName || copy.learner}</h2>
+      <section className="course-notice-recipient pb-5 pt-7">
+        <h2 className="text-xl font-extrabold sm:text-[22px]" {...editableProps("recipientName")}>{data.recipientName || copy.learner}</h2>
         <p className="mt-1 text-xs text-muted-foreground"><span {...editableProps("recipientEmail")}>{data.recipientEmail}</span>{data.recipientEmail && data.recipientPhone ? " · " : ""}<span {...editableProps("recipientPhone")}>{data.recipientPhone}</span></p>
       </section>
 

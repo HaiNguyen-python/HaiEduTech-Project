@@ -364,15 +364,15 @@ function pageOpen(): string {
 }
 
 function header(data: ReportData, subtitleVi: string, subtitleEn: string): string {
-  return `<div style="background:linear-gradient(135deg,${BRAND_BLUE},${BRAND_EMERALD});padding:26px 40px;color:#ffffff;">
-    <div style="display:flex;justify-content:space-between;align-items:flex-end;">
-      <div>
+  return `<div style="background:linear-gradient(135deg,${BRAND_BLUE},${BRAND_EMERALD});padding:24px 40px;color:#ffffff;">
+    <div style="display:grid;grid-template-columns:minmax(0,1.4fr) minmax(190px,.8fr);gap:28px;align-items:end;">
+      <div style="min-width:0;">
         <div style="font-size:13px;letter-spacing:2px;text-transform:uppercase;opacity:.9;">HaiEduTech</div>
-        <div style="font-size:23px;font-weight:700;margin-top:4px;white-space:nowrap;">Báo cáo học tập / Learning Report</div>
+        <div style="font-size:22px;font-weight:700;margin-top:4px;line-height:1.22;">Báo cáo học tập / Learning Report</div>
         <div style="font-size:15px;margin-top:6px;opacity:.95;">${esc(subtitleVi)} · ${esc(subtitleEn)}</div>
       </div>
-      <div style="text-align:right;font-size:12px;line-height:1.7;opacity:.95;">
-        <div style="font-size:16px;font-weight:700;white-space:nowrap;">${esc(shortName(data.studentName))}</div>
+      <div style="min-width:0;text-align:right;font-size:11.5px;line-height:1.55;opacity:.95;overflow-wrap:anywhere;">
+        <div style="font-size:15px;font-weight:700;line-height:1.3;">${esc(shortName(data.studentName))}</div>
         <div>${esc(data.periodLabelVi)} / ${esc(data.periodLabelEn)}</div>
         <div>Xuất ngày / Issued: ${data.generatedAt.toLocaleDateString("vi-VN")}</div>
       </div>
@@ -388,10 +388,11 @@ function footer(pageNo: number, total: number): string {
 }
 
 function statCard(labelVi: string, labelEn: string, value: string, color: string, valueSize = 24): string {
-  return `<div style="flex:1;height:92px;box-sizing:border-box;border:1px solid ${BORDER};border-radius:12px;padding:12px 16px;background:#F8FAFC;">
-    <div style="font-size:11px;color:${MUTED};text-transform:uppercase;letter-spacing:.6px;">${esc(labelEn)}</div>
-    <div style="font-size:12px;color:${MUTED};margin-top:1px;">${esc(labelVi)}</div>
-    <div style="font-size:${valueSize}px;font-weight:700;color:${color};margin-top:6px;line-height:1.15;">${esc(value)}</div>
+  const fittedSize = value.length > 18 ? Math.min(valueSize, 15) : value.length > 11 ? Math.min(valueSize, 18) : valueSize;
+  return `<div style="min-width:0;height:92px;box-sizing:border-box;border:1px solid ${BORDER};border-radius:10px;padding:11px 14px;background:#F8FAFC;overflow:hidden;">
+    <div style="font-size:10.5px;color:${MUTED};text-transform:uppercase;letter-spacing:.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(labelEn)}</div>
+    <div style="font-size:11.5px;color:${MUTED};margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${esc(labelVi)}</div>
+    <div style="font-size:${fittedSize}px;font-weight:700;color:${color};margin-top:6px;line-height:1.12;overflow-wrap:anywhere;">${esc(value)}</div>
   </div>`;
 }
 
@@ -407,9 +408,9 @@ function radarSvg(points: Array<{ label: string; value: number }>): string {
   if (points.length < 3) {
     return `<div style="height:260px;display:flex;align-items:center;justify-content:center;color:${MUTED};font-size:13px;">${NO_DATA}</div>`;
   }
-  const cx = 195;
+  const cx = 180;
   const cy = 140;
-  const r = 96;
+  const r = 82;
   const n = points.length;
   const angle = (i: number) => (Math.PI * 2 * i) / n - Math.PI / 2;
   const at = (i: number, rad: number) => [cx + Math.cos(angle(i)) * rad, cy + Math.sin(angle(i)) * rad];
@@ -424,16 +425,16 @@ function radarSvg(points: Array<{ label: string; value: number }>): string {
   points.forEach((p, i) => {
     const [x, y] = at(i, r);
     spokes += `<line x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="${BORDER}" stroke-width="1"/>`;
-    const [lx, ly] = at(i, r + 20);
+    const [lx, ly] = at(i, r + 18);
     const anchor = lx > cx + 6 ? "start" : lx < cx - 6 ? "end" : "middle";
-    const text = p.label.length > 16 ? p.label.slice(0, 15) + "…" : p.label;
-    labels += `<text x="${lx.toFixed(1)}" y="${(ly + 4).toFixed(1)}" font-size="10" fill="${MUTED}" text-anchor="${anchor}">${esc(text)} ${p.value}</text>`;
+    const text = p.label.length > 13 ? p.label.slice(0, 12) + "…" : p.label;
+    labels += `<text x="${lx.toFixed(1)}" y="${(ly + 4).toFixed(1)}" font-size="9.5" fill="${MUTED}" text-anchor="${anchor}">${esc(text)} ${p.value}</text>`;
   });
   const shape = points
     .map((p, i) => at(i, (Math.max(0, Math.min(10, p.value)) / 10) * r).map((v) => v.toFixed(1)).join(","))
     .join(" ");
 
-  return `<svg width="390" height="280" viewBox="0 0 390 280">${grid}${spokes}
+  return `<svg width="360" height="280" viewBox="0 0 360 280" style="display:block;max-width:100%;">${grid}${spokes}
     <polygon points="${shape}" fill="${BRAND_BLUE}33" stroke="${BRAND_BLUE}" stroke-width="2"/>
     ${points.map((p, i) => {
       const [x, y] = at(i, (Math.max(0, Math.min(10, p.value)) / 10) * r);
@@ -448,9 +449,9 @@ function domainBars(data: ReportData): string {
       const pct = d.avg != null ? Math.max(3, d.avg * 10) : 0;
       const value = d.avg != null ? `${d.avg}/10` : "-";
       return `<div style="margin-bottom:13px;">
-        <div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:5px;">
-          <span>${esc(d.labelVi)} / ${esc(d.labelEn)} <span style="color:${MUTED};">· ${d.count} hoạt động</span></span>
-          <span style="font-weight:700;">${value}</span>
+        <div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:start;font-size:12px;margin-bottom:5px;">
+          <span style="min-width:0;line-height:1.35;overflow-wrap:anywhere;">${esc(d.labelVi)} / ${esc(d.labelEn)} <span style="color:${MUTED};">· ${d.count} hoạt động</span></span>
+          <span style="font-weight:700;white-space:nowrap;">${value}</span>
         </div>
         <div style="height:9px;background:#EEF2F7;border-radius:99px;overflow:hidden;">
           <div style="height:9px;width:${pct}%;background:${d.color};border-radius:99px;"></div>
@@ -564,23 +565,23 @@ export function buildReportPages(data: ReportData): string[] {
   const page1 = `${pageOpen()}
     ${header(data, "Tổng quan tiến độ", "Progress overview")}
     <div style="padding:24px 40px 0;">
-      <div style="display:flex;gap:12px;margin-bottom:14px;">
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:14px;">
         ${statCard("Tổng hoạt động", "Activities", String(data.totalActivities), BRAND_BLUE)}
         ${statCard("Điểm trung bình", "Average score", data.avgScore10 != null ? `${data.avgScore10}/10` : "-", BRAND_EMERALD)}
         ${statCard("Thời gian học", "Study time", fmtDuration(data.studySeconds), "#8B5CF6")}
       </div>
-      <div style="display:flex;gap:12px;margin-bottom:22px;">
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:22px;">
         ${statCard("Ngày có học", "Active days", String(data.activeDays), "#0EA5E9")}
         ${statCard("Chuỗi ngày dài nhất", "Best streak", `${data.bestStreak}`, "#F59E0B")}
         ${statCard("Xu hướng", "Trend", trendText[data.trend], data.trend === "declining" ? "#EF4444" : INK, 17)}
       </div>
 
-      <div style="display:flex;gap:24px;align-items:flex-start;">
-        <div style="width:390px;">
+      <div style="display:grid;grid-template-columns:360px minmax(0,1fr);gap:24px;align-items:start;">
+        <div style="min-width:0;">
           ${sectionTitle("Learning DNA", "Skill radar (0-10)")}
           ${radarSvg(data.radar)}
         </div>
-        <div style="flex:1;padding-top:2px;">
+        <div style="min-width:0;padding-top:2px;">
           ${sectionTitle("Hiệu suất theo lĩnh vực", "Performance by domain")}
           ${domainBars(data)}
           <div style="margin-top:14px;">${bandBlock(data)}</div>
