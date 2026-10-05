@@ -2,9 +2,9 @@
 
 # Python Challenge Model Answers
 
-- [ ] Simplify beginner model answers using the uploaded reference style.
-- [ ] Audit all 150 answers against their expected output and challenge level.
-- [ ] Verify representative answers in the challenge page.
+- [x] Simplify beginner model answers using the uploaded reference style.
+- [x] Audit all 150 answers against their expected output and challenge level.
+- [x] Verify representative answers in the challenge page.
 
 # TOEIC Learning Upgrade
 
