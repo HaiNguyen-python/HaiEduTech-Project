@@ -124,7 +124,7 @@
   .python-tile-dots i { width: 4px; height: 4px; border-radius: 50%; background: currentColor; opacity: .45; }
   .python-tile-status { color: hsl(var(--python-tile-edge)); }
   .python-tile--ready { border-color: hsl(var(--python-tile-edge) / .6); box-shadow: var(--python-tile-shadow); }
-  .python-tile--done { --python-tile-edge: var(--python-success); --python-tile-wash: var(--python-success-wash); }
+  .python-challenge-tile.python-tile--done { --python-tile-edge: var(--python-success); --python-tile-wash: var(--python-success-wash); }
   .python-tile--locked { background: hsl(var(--muted) / .35); }
   .python-tile--locked .python-tile-status { color: hsl(var(--muted-foreground)); }
   @media (prefers-reduced-motion: reduce) { .python-challenge-tile { transition: none; } a.python-challenge-tile:hover { transform: none; } }
