@@ -75,6 +75,8 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
   const [aiHelp, setAiHelp] = useState("");
   const [aiLoading, setAiLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const [stdinValues, setStdinValues] = useState<string[]>([]);
+  const inputPrompts = Array.from(code.matchAll(/input\(\s*(?:f?(["'])(.*?)\1)?\s*\)/g)).map(m => m[2] || "");
   const [mismatch, setMismatch] = useState<{ expected: string; got: string } | null>(null);
   const pyodideRef = useRef<any>(null);
 
@@ -106,6 +108,7 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
     setShowHints(false);
     setMismatch(null);
     setAnswerState("hidden");
+    setStdinValues([]);
   }, [challenge.id]);
 
   // Auto-save
@@ -152,15 +155,13 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
       let stderr = "";
       py.setStdout({ batched: (s: string) => (stdout += s + "\n") });
       py.setStderr({ batched: (s: string) => (stderr += s + "\n") });
-      // Browser has no terminal: ask for each input() value with a popup.
+      // Feed input() from the inline input fields, one value per call.
+      let stdinIdx = 0;
       py.setStdin({
         stdin: () => {
-          const lastLine = stdout.trimEnd().split("\n").pop() || "";
-          const value = window.prompt(
-            lastLine || t("Nhập dữ liệu cho input():", "Enter a value for input():"),
-            "",
-          );
-          return value ?? "";
+          const v = stdinValues[stdinIdx++] ?? "";
+          stdout += v + "\n";
+          return v;
         },
       });
 
@@ -197,7 +198,7 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
       setHasError(true);
     }
     setRunning(false);
-  }, [code, challenge, onPass, passed, t]);
+  }, [code, challenge, onPass, passed, t, stdinValues]);
 
 
   const askAiDebug = async () => {
@@ -349,6 +350,32 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
           <pre className="p-4 bg-[#1e1e1e] text-green-400 text-sm font-mono whitespace-pre-wrap break-words overflow-x-auto">
             {stripHarness(challenge.solution)}
           </pre>
+        </div>
+      )}
+
+      {inputPrompts.length > 0 && (
+        <div className="rounded-xl border border-primary/30 bg-primary/5 p-4 space-y-3">
+          <p className="text-sm font-semibold text-foreground">
+            ⌨️ {t("Dữ liệu nhập cho input()", "Values for input()")}
+          </p>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {inputPrompts.map((label, i) => (
+              <label key={i} className="space-y-1 text-xs text-muted-foreground">
+                <span className="font-mono">{label || `input() #${i + 1}`}</span>
+                <input
+                  value={stdinValues[i] ?? ""}
+                  onChange={e => {
+                    const next = [...stdinValues];
+                    next[i] = e.target.value;
+                    setStdinValues(next);
+                  }}
+                  onKeyDown={e => { if (e.key === "Enter") runCode(); }}
+                  placeholder={t("Nhập giá trị...", "Type a value...")}
+                  className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm font-mono text-foreground focus:outline-none focus:ring-2 focus:ring-primary/40"
+                />
+              </label>
+            ))}
+          </div>
         </div>
       )}
 
