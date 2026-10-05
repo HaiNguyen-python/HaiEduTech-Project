@@ -108,6 +108,7 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
     setShowHints(false);
     setMismatch(null);
     setAnswerState("hidden");
+    setStdinValues([]);
   }, [challenge.id]);
 
   // Auto-save
