@@ -253,19 +253,20 @@ const SpaceShooter = ({ difficulty, onExit, onRetry }: GameProps) => {
 
   // Check input matches any meteor pinyin
   const checkMatch = (val: string) => {
-    const typed = val.toLowerCase().trim();
+    const typed = stripTones(val);
     if (!typed) return;
     const target = meteors.find(m => stripTones(m.word.pinyin) === typed);
     if (target) {
       // Fire laser, destroy meteor
       setLaser({ x: target.x, from: shipX });
       setTimeout(() => setLaser(null), 200);
+      const particleId = ++particleIdRef.current;
       setParticles(prev => [
         ...prev,
-        { id: ++particleIdRef.current, x: target.x, y: target.y },
+        { id: particleId, x: target.x, y: target.y },
       ]);
       setTimeout(() => {
-        setParticles(prev => prev.filter(p => p.id !== particleIdRef.current));
+        setParticles(prev => prev.filter(p => p.id !== particleId));
       }, 600);
       setMeteors(prev => prev.filter(m => m.id !== target.id));
       setScore(s => s + 10 * combo);
@@ -537,7 +538,7 @@ const HotpotChef = ({ difficulty, onExit, onRetry }: GameProps) => {
   }, [gameOver, score, combo, difficulty]);
 
   const handleSelect = (ing: IngredientWord) => {
-    if (ing.used || !target) return;
+    if (ing.used || !target || boiling || wrong || gameOver) return;
     const next = [...selected, ing];
     setSelected(next);
     setIngredients(prev => prev.map(i => (i.id === ing.id ? { ...i, used: true } : i)));
@@ -555,7 +556,6 @@ const HotpotChef = ({ difficulty, onExit, onRetry }: GameProps) => {
         speakChinese(target.character);
         setTimeout(() => {
           setBoiling(false);
-          setLevel(Math.floor(score / 100) + 1);
           loadNewRound();
         }, 1100);
       }
@@ -574,6 +574,10 @@ const HotpotChef = ({ difficulty, onExit, onRetry }: GameProps) => {
       }, 700);
     }
   };
+
+  useEffect(() => {
+    setLevel(Math.floor(score / 100) + 1);
+  }, [score]);
 
   if (gameOver) return <GameOverScreen score={score} onRetry={onRetry} onExit={onExit} />;
   if (!target) return <p className="text-center p-8">Loading...</p>;
@@ -706,7 +710,7 @@ const HotpotChef = ({ difficulty, onExit, onRetry }: GameProps) => {
                 whileHover={!ing.used ? { scale: 1.1 } : {}}
                 whileTap={!ing.used ? { scale: 0.95 } : {}}
                 onClick={() => handleSelect(ing)}
-                disabled={ing.used}
+                disabled={ing.used || boiling || wrong}
                 className={`aspect-square rounded-2xl border-2 flex items-center justify-center text-4xl sm:text-5xl font-bold transition-all ${
                   ing.used
                     ? "border-slate-600 bg-slate-800 text-slate-400 opacity-60"
@@ -1066,6 +1070,7 @@ const SentenceBuilder = ({ difficulty, onExit, onRetry }: GameProps) => {
   const [gameOver, setGameOver] = useState(false);
   const tileIdRef = useRef(0);
   const scoreSubmittedRef = useRef(false);
+  const correctWordsRef = useRef<string[]>([]);
 
   const current = pool[idx % pool.length];
 
@@ -1118,7 +1123,14 @@ const SentenceBuilder = ({ difficulty, onExit, onRetry }: GameProps) => {
   useEffect(() => {
     if (gameOver && !scoreSubmittedRef.current) {
       scoreSubmittedRef.current = true;
-      void finishGame({ gameType: `sentence_builder_${difficulty}`, score, maxStreak: combo, difficulty });
+      void finishGame({
+        gameType: `sentence_builder_${difficulty}`,
+        score,
+        maxStreak: combo,
+        difficulty,
+        subject: "hsk",
+        correctWords: correctWordsRef.current,
+      });
     }
   }, [gameOver, score, combo, difficulty]);
 
@@ -1134,6 +1146,7 @@ const SentenceBuilder = ({ difficulty, onExit, onRetry }: GameProps) => {
         setFeedback("ok");
         setScore(s => s + 30 * combo + timeLeft);
         setCombo(c => Math.min(c + 1, 10));
+        correctWordsRef.current.push(current.zh.join(""));
         speakChinese(current.zh.join(""));
         setTimeout(() => setIdx(i => i + 1), 1100);
       } else {
@@ -1321,6 +1334,7 @@ const ChineseArcade = () => {
       title: t("Hanzi Space Shooter", "Hanzi Space Shooter"),
       desc: t("Gõ Pinyin để bắn hạ thiên thạch Hán tự đang rơi!", "Type Pinyin to shoot down falling Hanzi meteorites!"),
       color: "from-cyan-500 to-blue-600",
+      surface: "chinese-arcade-card--shooter",
       glow: "shadow-[0_0_30px_rgba(6,182,212,0.4)]",
     },
     {
@@ -1330,6 +1344,7 @@ const ChineseArcade = () => {
       title: t("Hanzi Hotpot Chef", "Hanzi Hotpot Chef"),
       desc: t("Ghép các ký tự thành từ ghép tiếng Trung trong nồi lẩu!", "Combine characters to form compound words in the hotpot!"),
       color: "from-amber-500 to-rose-600",
+      surface: "chinese-arcade-card--hotpot",
       glow: "shadow-[0_0_30px_rgba(251,191,36,0.4)]",
     },
     {
@@ -1339,6 +1354,7 @@ const ChineseArcade = () => {
       title: t("Pinyin Tone Runner", "Pinyin Tone Runner"),
       desc: t("Chạy vào làn có dấu thanh đúng. Phản xạ là tất cả!", "Run into the track with the correct tone mark. Reflexes are everything!"),
       color: "from-pink-500 to-purple-600",
+      surface: "chinese-arcade-card--runner",
       glow: "shadow-[0_0_30px_rgba(236,72,153,0.4)]",
     },
     {
@@ -1348,6 +1364,7 @@ const ChineseArcade = () => {
       title: t("Word Meteor (中文)", "Word Meteor (中文)"),
       desc: t("Bắn nghĩa đúng cho thiên thạch Hán tự + Pinyin đang rơi.", "Tap the correct meaning of falling Hanzi + Pinyin meteors."),
       color: "from-red-500 to-orange-600",
+      surface: "chinese-arcade-card--meteor",
       glow: "shadow-[0_0_30px_rgba(239,68,68,0.4)]",
     },
     {
@@ -1357,6 +1374,7 @@ const ChineseArcade = () => {
       title: t("Sentence Builder · 句子大师", "Sentence Builder · 句子大师"),
       desc: t("Sắp xếp các thẻ Hán tự để tạo câu hoàn chỉnh - luyện ngữ pháp & viết câu!", "Arrange Hanzi tiles to build a complete sentence - practice grammar & sentence writing!"),
       color: "from-emerald-500 to-teal-600",
+      surface: "chinese-arcade-card--sentence",
       glow: "shadow-[0_0_30px_rgba(16,185,129,0.4)]",
     },
   ];
@@ -1365,7 +1383,7 @@ const ChineseArcade = () => {
   const floatHanzi = ["学", "中", "文", "你", "好", "汉", "字", "拼", "音", "龙", "福", "爱", "家", "天", "山", "水"];
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-rose-50 via-amber-50 to-rose-100 dark:from-rose-950 dark:via-amber-950 dark:to-rose-900 text-foreground overflow-hidden">
+    <div className="chinese-arcade relative min-h-screen bg-gradient-to-br from-rose-50 via-amber-50 to-rose-100 dark:from-rose-950 dark:via-amber-950 dark:to-rose-900 text-foreground overflow-hidden">
       <SEO
         title="Chinese Arcade: 3 Game Học Tiếng Trung HSK | HaiEduTech"
         description="Bộ 3 mini-game tiếng Trung phong cách cyberpunk-arcade: Space Shooter Pinyin, Hotpot Chef ghép từ ghép, Pinyin Tone Runner luyện phản xạ thanh điệu."
@@ -1402,13 +1420,13 @@ const ChineseArcade = () => {
         {active === "menu" && (
           <>
             <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/40 text-cyan-300 text-xs font-mono mb-3">
+              <div className="chinese-arcade-kicker inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono mb-3">
                 <Trophy className="w-4 h-4" /> CHINESE ARCADE HUB
               </div>
               <h1 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-cyan-400 via-pink-400 to-amber-400 bg-clip-text text-transparent mb-2">
                 {t("Trung tâm trò chơi tiếng Trung", "Chinese Vocabulary Arcade")}
               </h1>
-              <p className="text-sm text-slate-400 max-w-md mx-auto">
+              <p className="text-sm text-muted-foreground max-w-md mx-auto">
                 {t("5 mini-game arcade luyện Hanzi, Pinyin, thanh điệu và viết câu theo phong cách neon-cyberpunk.", "5 neon-cyberpunk arcade mini-games to drill Hanzi, Pinyin, tones, and sentence building.")}
               </p>
             </motion.div>
@@ -1421,7 +1439,7 @@ const ChineseArcade = () => {
                 className={
                   difficulty === "easy"
                     ? "bg-cyan-500 hover:bg-cyan-600 text-white border-2 border-cyan-300"
-                    : "bg-slate-800 text-cyan-100 border-2 border-cyan-400/60 hover:bg-slate-700 hover:text-white"
+                    : "bg-card text-foreground border-2 border-border hover:bg-secondary"
                 }
               >
                 HSK 1-2 · {t("Dễ", "Easy")}
@@ -1432,7 +1450,7 @@ const ChineseArcade = () => {
                 className={
                   difficulty === "hard"
                     ? "bg-pink-500 hover:bg-pink-600 text-white border-2 border-pink-300"
-                    : "bg-slate-800 text-pink-100 border-2 border-pink-400/60 hover:bg-slate-700 hover:text-white"
+                    : "bg-card text-foreground border-2 border-border hover:bg-secondary"
                 }
               >
                 HSK 3-4 · {t("Khó", "Hard")}
@@ -1443,7 +1461,7 @@ const ChineseArcade = () => {
                 className={
                   difficulty === "expert"
                     ? "bg-amber-500 hover:bg-amber-600 text-white border-2 border-amber-300"
-                    : "bg-slate-800 text-amber-100 border-2 border-amber-400/60 hover:bg-slate-700 hover:text-white"
+                    : "bg-card text-foreground border-2 border-border hover:bg-secondary"
                 }
               >
                 HSK 5-6 · {t("Chuyên gia", "Expert")}
@@ -1461,7 +1479,8 @@ const ChineseArcade = () => {
                   whileHover={{ scale: 1.03, y: -3 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => setActive(g.id)}
-                  className={`relative overflow-hidden p-6 min-h-[240px] rounded-2xl border-2 border-slate-700 bg-slate-900 text-left transition-all hover:border-cyan-500/50 hover:${g.glow}`}
+                  aria-label={`${t("Chơi", "Play")} ${g.title}`}
+                  className={`chinese-arcade-card ${g.surface} relative overflow-hidden p-5 sm:p-6 min-h-[240px] rounded-2xl text-left transition-all hover:${g.glow}`}
                 >
                   <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${g.color} rounded-t-2xl`} />
                   <motion.div
@@ -1475,14 +1494,14 @@ const ChineseArcade = () => {
                   <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${g.color} flex items-center justify-center text-white mb-4`}>
                     {g.icon}
                   </div>
-                  <h3 className="font-bold text-lg text-white mb-2 leading-tight">{g.title}</h3>
-                  <p className="text-sm text-slate-300 leading-relaxed max-w-[75%]">{g.desc}</p>
-                  <div className="absolute top-3 right-3 px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 text-[10px] font-mono">▶ PLAY</div>
+                  <h3 className="font-bold text-lg text-foreground mb-2 leading-tight pr-8">{g.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed max-w-[78%]">{g.desc}</p>
+                  <div className="chinese-arcade-play absolute top-3 right-3 px-2 py-1 rounded-full text-[10px] font-mono font-bold">▶ PLAY</div>
                 </motion.button>
               ))}
             </div>
 
-            <div className="mt-6 text-center text-xs text-slate-500">
+            <div className="mt-6 text-center text-xs text-muted-foreground">
               {isTouchDevice()
                 ? t("📱 Chế độ cảm ứng đã bật - chạm để chơi", "📱 Touch mode enabled - tap to play")
                 : t("⌨️ Phím Pinyin (Shooter) · Click (Hotpot) · Phím 1-4 (Runner)", "⌨️ Type Pinyin (Shooter) · Click (Hotpot) · Press 1-4 (Runner)")}

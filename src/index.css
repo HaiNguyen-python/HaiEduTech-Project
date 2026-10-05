@@ -107,6 +107,52 @@
     letter-spacing: 0;
   }
 
+  .chinese-arcade {
+    --arcade-kicker: 188 86% 36%;
+    --arcade-kicker-wash: 187 86% 94%;
+    --arcade-play: 188 86% 28%;
+    --arcade-play-wash: 187 86% 91%;
+    --arcade-shooter: 197 93% 93%;
+    --arcade-shooter-edge: 199 89% 48%;
+    --arcade-hotpot: 40 100% 92%;
+    --arcade-hotpot-edge: 28 92% 54%;
+    --arcade-runner: 304 74% 94%;
+    --arcade-runner-edge: 292 84% 55%;
+    --arcade-meteor: 10 100% 93%;
+    --arcade-meteor-edge: 8 84% 58%;
+    --arcade-sentence: 158 64% 91%;
+    --arcade-sentence-edge: 162 72% 38%;
+  }
+
+  .chinese-arcade-kicker {
+    color: hsl(var(--arcade-kicker));
+    border: 1px solid hsl(var(--arcade-kicker) / 0.5);
+    background: hsl(var(--arcade-kicker-wash) / 0.92);
+  }
+
+  .chinese-arcade-card {
+    border: 2px solid hsl(var(--game-edge) / 0.62);
+    background: linear-gradient(145deg, hsl(var(--game-surface)), hsl(var(--card)) 78%);
+    box-shadow: 0 10px 24px hsl(var(--game-edge) / 0.12);
+  }
+
+  .chinese-arcade-card:hover {
+    border-color: hsl(var(--game-edge));
+    box-shadow: 0 16px 34px hsl(var(--game-edge) / 0.23);
+  }
+
+  .chinese-arcade-card--shooter { --game-surface: var(--arcade-shooter); --game-edge: var(--arcade-shooter-edge); }
+  .chinese-arcade-card--hotpot { --game-surface: var(--arcade-hotpot); --game-edge: var(--arcade-hotpot-edge); }
+  .chinese-arcade-card--runner { --game-surface: var(--arcade-runner); --game-edge: var(--arcade-runner-edge); }
+  .chinese-arcade-card--meteor { --game-surface: var(--arcade-meteor); --game-edge: var(--arcade-meteor-edge); }
+  .chinese-arcade-card--sentence { --game-surface: var(--arcade-sentence); --game-edge: var(--arcade-sentence-edge); }
+
+  .chinese-arcade-play {
+    color: hsl(var(--arcade-play));
+    border: 1px solid hsl(var(--arcade-play) / 0.32);
+    background: hsl(var(--arcade-play-wash) / 0.94);
+  }
+
   .dark .course-tuition {
     --tuition-ink: 166 31% 94%;
     --tuition-teal: 166 56% 68%;
