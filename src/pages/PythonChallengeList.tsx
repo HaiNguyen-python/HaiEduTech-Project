@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Code2, ArrowLeft, ArrowRight, CheckCircle, Filter, Terminal, Layers, Trophy } from "lucide-react";
+import { Code2, ArrowLeft, ArrowRight, CheckCircle, Filter, Terminal, Layers, Trophy, LockKeyhole, Braces } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { pythonChallenges } from "@/data/pythonChallenges";
 import { Progress } from "@/components/ui/progress";
@@ -11,6 +11,7 @@ import PythonChallengeLeaderboard from "@/components/programming/PythonChallenge
 import PythonProgressChart from "@/components/programming/PythonProgressChart";
 import { usePythonChallengeProgress } from "@/hooks/usePythonChallengeProgress";
 import headerImage from "@/assets/python-challenges-header.jpg";
+import { isPythonChallengeUnlocked } from "@/lib/pythonChallengeProgress";
 
 const SECTIONS = ["all", ...new Set(pythonChallenges.map(c => c.section))];
 const PAGE_SIZE = 30;
@@ -65,11 +66,19 @@ const PythonChallengeList = () => {
             <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
               {paged.map(c => {
                 const done = ids.has(c.id);
-                return <Link key={c.id} to={`/python-challenges/${c.id}`} className={`python-challenge-tile ${TILE_CLASSES[c.difficulty]} group flex min-h-36 flex-col rounded-lg border p-4 transition-transform hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${done ? "ring-1 ring-primary/40" : ""}`}>
-                  <div className="mb-3 flex items-center justify-between"><span className="font-mono text-xs text-muted-foreground">{String(c.number).padStart(3, "0")}</span>{done ? <CheckCircle className="h-4 w-4 text-primary" aria-label={t("Đã hoàn thành", "Completed")} /> : <Code2 className="h-4 w-4 text-muted-foreground/60" />}</div>
-                  <h3 className="mb-3 text-sm font-semibold leading-snug text-foreground">{t(c.titleVi, c.title)}</h3>
-                  <div className="mt-auto flex items-center justify-between"><span className="python-challenge-difficulty font-mono text-[10px] font-bold uppercase">{t(c.difficulty === "easy" ? "Cơ bản" : c.difficulty === "medium" ? "Trung cấp" : "Nâng cao", c.difficulty)}</span><ArrowRight className="h-3.5 w-3.5 text-muted-foreground transition-transform group-hover:translate-x-1" /></div>
-                </Link>;
+                const unlocked = !loading && isPythonChallengeUnlocked(c.id, ids);
+                const status = done ? t("Hoàn thành", "Completed") : unlocked ? t("Sẵn sàng", "Ready to code") : t("Đã khóa", "Locked");
+                const contents = <>
+                  <div className="python-tile-toolbar flex items-center justify-between gap-2 px-4 py-2.5"><span className="flex min-w-0 items-center gap-2 font-mono text-xs"><Terminal className="h-3.5 w-3.5 shrink-0" />challenge_{c.id}.py</span><span className="python-tile-dots flex gap-1" aria-hidden="true"><i /><i /><i /></span></div>
+                  <div className="relative flex flex-1 flex-col p-4">
+                    <div className="mb-4 flex items-center justify-between gap-2"><span className="python-tile-icon flex h-10 w-10 items-center justify-center rounded-lg">{done ? <CheckCircle className="h-5 w-5" /> : unlocked ? <Braces className="h-5 w-5" /> : <LockKeyhole className="h-5 w-5" />}</span><span className="python-challenge-difficulty font-mono text-[11px] font-semibold">#{c.id}</span></div>
+                    <h3 className="mb-2 text-base font-semibold leading-snug text-foreground">{t(c.titleVi, c.title)}</h3>
+                    <p className="mb-5 line-clamp-1 text-xs text-muted-foreground">{c.section}</p>
+                    <div className="mt-auto flex items-center justify-between gap-2 border-t border-border/60 pt-3"><span className="python-tile-status flex items-center gap-1.5 text-xs font-semibold">{done ? <CheckCircle className="h-3.5 w-3.5" /> : unlocked ? <Code2 className="h-3.5 w-3.5" /> : <LockKeyhole className="h-3.5 w-3.5" />}{status}</span><span className="python-challenge-difficulty font-mono text-[10px] uppercase">{t(c.difficulty === "easy" ? "Cơ bản" : c.difficulty === "medium" ? "Trung cấp" : "Nâng cao", c.difficulty)}</span></div>
+                  </div>
+                </>;
+                const tileClass = `python-challenge-tile ${TILE_CLASSES[c.difficulty]} ${done ? "python-tile--done" : unlocked ? "python-tile--ready" : "python-tile--locked"} group flex min-h-60 flex-col overflow-hidden rounded-lg border text-left`;
+                return unlocked ? <Link key={c.id} to={`/python-challenges/${c.id}`} className={tileClass} aria-label={`${c.id}: ${t(c.titleVi, c.title)} - ${status}`}>{contents}</Link> : <div key={c.id} className={tileClass} aria-disabled="true" title={loading ? t("Đang tải tiến độ", "Loading progress") : t(`Hoàn thành bài ${nextChallenge?.id ?? "001"} để tiếp tục mở khóa.`, `Complete challenge ${nextChallenge?.id ?? "001"} to continue unlocking.`)}>{contents}</div>;
               })}
             </div>
             {totalPages > 1 && <nav className="mt-7 flex flex-wrap items-center justify-center gap-1.5" aria-label={t("Trang thử thách", "Challenge pages")}>

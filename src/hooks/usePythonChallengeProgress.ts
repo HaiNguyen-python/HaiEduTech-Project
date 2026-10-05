@@ -41,7 +41,8 @@ export function usePythonChallengeProgress() {
     const onStorage = () => { if (active) setIds(completionIds(latestHistory, localCompletions())); };
     window.addEventListener("focus", load);
     window.addEventListener("storage", onStorage);
-    return () => { active = false; window.removeEventListener("focus", load); window.removeEventListener("storage", onStorage); };
+    window.addEventListener("python-challenge-completed", onStorage);
+    return () => { active = false; window.removeEventListener("focus", load); window.removeEventListener("storage", onStorage); window.removeEventListener("python-challenge-completed", onStorage); };
   }, []);
   return { ids, history, loading, error };
 }
