@@ -102,6 +102,31 @@
 }
 
 @layer utilities {
+  .python-lab {
+    --python-blue: 207 80% 40%;
+    --python-gold: 38 82% 38%;
+    --python-coral: 348 67% 44%;
+    --python-blue-wash: 204 85% 96%;
+    --python-gold-wash: 45 95% 95%;
+    --python-coral-wash: 345 80% 97%;
+    --python-hero-surface: 210 65% 98%;
+    --python-hero-overlay: linear-gradient(90deg, hsl(var(--python-hero-surface) / .97) 0%, hsl(var(--python-hero-surface) / .90) 31%, hsl(var(--python-hero-surface) / .15) 70%);
+  }
+  .python-lab-header-overlay { background: var(--python-hero-overlay); }
+  .python-challenge-tile { background: hsl(var(--python-tile-wash)); border-color: hsl(var(--python-tile-edge) / .3); }
+  .python-challenge-tile:hover { border-color: hsl(var(--python-tile-edge) / .75); }
+  .python-challenge-difficulty { color: hsl(var(--python-tile-edge)); }
+  .python-challenge-tile--easy { --python-tile-wash: var(--python-blue-wash); --python-tile-edge: var(--python-blue); }
+  .python-challenge-tile--medium { --python-tile-wash: var(--python-gold-wash); --python-tile-edge: var(--python-gold); }
+  .python-challenge-tile--hard { --python-tile-wash: var(--python-coral-wash); --python-tile-edge: var(--python-coral); }
+  .dark .python-lab {
+    --python-blue: 204 90% 74%; --python-gold: 43 92% 70%; --python-coral: 345 80% 79%;
+    --python-blue-wash: 207 30% 18%; --python-gold-wash: 40 24% 17%; --python-coral-wash: 345 24% 18%;
+    --python-hero-surface: var(--background);
+  }
+  @media (max-width: 639px) {
+    .python-lab { --python-hero-overlay: linear-gradient(90deg, hsl(var(--python-hero-surface) / .97), hsl(var(--python-hero-surface) / .82)); }
+  }
   .course-tuition {
     font-family: "Manrope", sans-serif;
     letter-spacing: 0;

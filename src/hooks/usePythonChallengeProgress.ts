@@ -14,6 +14,7 @@ export function usePythonChallengeProgress() {
   const [error, setError] = useState(false);
   useEffect(() => {
     let active = true;
+    let latestHistory: PythonCompletion[] = [];
     const load = async () => {
       try {
         const { data: { session } } = await supabase.auth.getSession();
@@ -29,7 +30,7 @@ export function usePythonChallengeProgress() {
           rows.push(...(data ?? []));
           if (!data || data.length < 1000) break;
         }
-        if (active) { setHistory(rows); setIds(completionIds(rows, localCompletions())); setError(false); }
+        if (active) { latestHistory = rows; setHistory(rows); setIds(completionIds(rows, localCompletions())); setError(false); }
       } catch {
         if (active) setError(true);
       } finally {
@@ -37,7 +38,7 @@ export function usePythonChallengeProgress() {
       }
     };
     void load();
-    const onStorage = () => { if (active) setIds(completionIds(history, localCompletions())); };
+    const onStorage = () => { if (active) setIds(completionIds(latestHistory, localCompletions())); };
     window.addEventListener("focus", load);
     window.addEventListener("storage", onStorage);
     return () => { active = false; window.removeEventListener("focus", load); window.removeEventListener("storage", onStorage); };
