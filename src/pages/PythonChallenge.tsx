@@ -263,10 +263,25 @@ const PythonChallengePage = () => {
                       <Trophy className="w-4 h-4 text-yellow-500" /> Problem
                     </h2>
                     <FormattedProblem text={challenge.description} />
-                    {challenge.testCases.length > 0 && (
+                    {challenge.webNote && (
+                      <p className="mt-4 rounded-lg border border-primary/30 bg-primary/5 p-3 text-sm text-foreground">
+                        🌐 {t(challenge.webNoteVi ?? challenge.webNote, challenge.webNote)}
+                      </p>
+                    )}
+                    {challenge.testCases[0]?.input.trim() && (
                       <div className="mt-4 pt-4 border-t border-border">
                         <p className="text-xs font-semibold text-muted-foreground mb-2 uppercase tracking-wide">
-                          {t("Kết quả mong đợi:", "Expected output:")}
+                          {t("Dữ liệu nhập mẫu:", "Sample input:")}
+                        </p>
+                        <div className="text-[15px] font-mono bg-secondary rounded-lg p-4 text-foreground whitespace-pre-wrap break-words max-h-40 overflow-y-auto">
+                          {challenge.testCases[0].input}
+                        </div>
+                      </div>
+                    )}
+                    {challenge.testCases.length > 0 && !challenge.turtle && (
+                      <div className="mt-4 pt-4 border-t border-border">
+                        <p className="text-xs font-semibold text-muted-foreground mb-2 uppercase tracking-wide">
+                          {t("Kết quả mong đợi (ví dụ):", "Expected output (example):")}
                         </p>
                         <div className="text-[15px] font-mono bg-secondary rounded-lg p-4 text-foreground whitespace-pre-wrap break-words overflow-y-auto max-h-56 leading-relaxed">
                           {challenge.testCases[0].expected}

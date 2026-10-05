@@ -14,16 +14,10 @@ const diffColors = {
   hard: "border-red-500/30 bg-red-500/5",
 };
 
-const SECTIONS = [
+// Chapters follow "Python by Example" in book order.
+const SECTIONS: { id: string; labelVi: string; labelEn: string }[] = [
   { id: "all", labelVi: "Tất cả", labelEn: "All" },
-  { id: "basics", labelVi: "Cơ bản", labelEn: "The Basics", range: [1, 20] },
-  { id: "if", labelVi: "If Statements", labelEn: "If Statements", range: [21, 40] },
-  { id: "strings", labelVi: "Strings", labelEn: "Strings", range: [41, 55] },
-  { id: "maths", labelVi: "Toán học", labelEn: "Maths", range: [56, 70] },
-  { id: "loops", labelVi: "Vòng lặp", labelEn: "Loops", range: [71, 90] },
-  { id: "random", labelVi: "Random", labelEn: "Random", range: [91, 100] },
-  { id: "lists", labelVi: "Lists & Dicts", labelEn: "Lists & Dicts", range: [101, 120] },
-  { id: "advanced", labelVi: "Nâng cao", labelEn: "Advanced", range: [121, 150] },
+  ...Array.from(new Set(pythonChallenges.map((c) => c.section))).map((name) => ({ id: name, labelVi: name, labelEn: name })),
 ];
 
 const PAGE_SIZE = 30;
@@ -37,12 +31,7 @@ const PythonChallengeList = () => {
 
   const filtered = useMemo(() => {
     if (section === "all") return pythonChallenges;
-    const sec = SECTIONS.find(s => s.id === section);
-    if (!sec || !sec.range) return pythonChallenges;
-    return pythonChallenges.filter(c => {
-      const num = parseInt(c.id);
-      return num >= sec.range![0] && num <= sec.range![1];
-    });
+    return pythonChallenges.filter((c) => c.section === section);
   }, [section]);
 
   const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
@@ -97,8 +86,8 @@ const PythonChallengeList = () => {
                   }`}
                 >
                   {s.labelEn}
-                  {s.range && (
-                    <span className="ml-1 opacity-70">({s.range[1] - s.range[0] + 1})</span>
+                  {s.id !== "all" && (
+                    <span className="ml-1 opacity-70">({pythonChallenges.filter((c) => c.section === s.id).length})</span>
                   )}
                 </button>
               ))}
