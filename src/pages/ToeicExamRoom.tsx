@@ -358,17 +358,12 @@ const LRExamRunner = ({ exam, mode }: LRRunnerProps) => {
     window.speechSynthesis.onvoiceschanged = onv;
   }, []);
 
-  // Auto-play audio when a listening question (Parts 1-4) becomes active
+  // Audio plays only when the learner presses Play; stop any audio when the recording changes.
   useEffect(() => {
-    if (!current || current.part > 4 || submitted || paused) return;
-    if (current.audioSrc) return; // real audio element handles its own playback
-    const timer = setTimeout(() => playGeneratedAudio(current), 350);
     return () => {
-      clearTimeout(timer);
       if ("speechSynthesis" in window) window.speechSynthesis.cancel();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [current?.passageGroupId || current?.id, submitted, paused, speed]);
+  }, [current?.passageGroupId || current?.id, submitted, paused]);
 
   // Group by part for navigator
   const partGroups = useMemo(() => {
