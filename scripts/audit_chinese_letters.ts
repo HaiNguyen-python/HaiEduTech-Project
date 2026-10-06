@@ -8,6 +8,7 @@ for (const l of letters) {
   if (ids.has(l.id)) issues.push(`dup id ${l.id}`); ids.add(l.id);
   if (texts.has(l.zh)) issues.push(`dup text ${l.id}`); texts.add(l.zh);
   if (!l.zh.trim() || !l.pinyin.trim() || !l.vi.trim()) issues.push(`${l.id}: missing part`);
+  if (!/[，。！？；：、]/.test(l.zh)) issues.push(`${l.id}: missing Hanzi punctuation`);
   const han = (l.zh.match(/[\u4e00-\u9fff]/g) ?? []).length;
   const syl = l.pinyin.split(/[\s，。！？、；：,.!?;:“”（）()]+/).filter((s) => /[a-zü]/i.test(s)).length;
   if (Math.abs(han - syl) > 2) issues.push(`${l.id}: pinyin ${syl} vs hanzi ${han}`);

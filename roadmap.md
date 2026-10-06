@@ -1,5 +1,10 @@
 # Business English & Academic English
 
+# 999 Letters Punctuation
+
+- [ ] Preserve original Hanzi punctuation while keeping typing feedback and scoring aligned.
+- [ ] Audit all loaded letters and verify punctuation and typing feedback on the page.
+
 # Python Challenge Motivation
 
 - [x] Refresh challenge tiles with a light code-editor theme and clear completion/lock states.

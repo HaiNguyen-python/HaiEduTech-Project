@@ -11,8 +11,8 @@ import { playChineseTts } from "@/lib/chineseTts";
 import HanziStrokeOrder from "@/components/HanziStrokeOrder";
 import { loadLetters, type ZhLetter } from "@/data/chineseLetters";
 import type { ZhLevel } from "@/data/chineseWritingBank";
+import { letterDisplayCharacters, normalizeLetterTyping as strip } from "@/lib/chineseLetterTyping";
 
-const strip = (s: string) => s.replace(/[\s，。！？、；：,.!?;:"“”‘’（）()…—\-·《》]/g, "");
 const PROGRESS_KEY = "zh-letters-progress";
 type Progress = { done: string[]; bestCpm: number; words: string[] };
 const readProgress = (): Progress => {
@@ -110,8 +110,8 @@ export default function ZhLetterTyping({ level }: { level: ZhLevel }) {
 
         <div className="space-y-2">
           <p className="text-2xl leading-relaxed tracking-wide">
-            {Array.from(target).map((ch, i) => (
-              <span key={i} className={i < got.length ? (got[i] === ch ? "text-primary" : "text-destructive underline") : i === got.length ? "text-foreground border-b-2 border-primary" : "text-foreground"}>{ch}</span>
+            {letterDisplayCharacters(item.zh).map(({ character, typingIndex }, i) => (
+              <span key={i} className={typingIndex === null ? "text-foreground" : typingIndex < got.length ? (got[typingIndex] === character ? "text-primary" : "text-destructive underline") : typingIndex === got.length ? "text-foreground border-b-2 border-primary" : "text-foreground"}>{character}</span>
             ))}
           </p>
           {showPy && <p className="text-muted-foreground">{item.pinyin}</p>}
