@@ -2,8 +2,8 @@
 
 # 999 Letters Punctuation
 
-- [ ] Preserve original Hanzi punctuation while keeping typing feedback and scoring aligned.
-- [ ] Audit all loaded letters and verify punctuation and typing feedback on the page.
+- [x] Preserve original Hanzi punctuation while keeping typing feedback and scoring aligned.
+- [x] Audit all 235 loaded letters and verify punctuation and typing feedback on the page.
 
 # Python Challenge Motivation
 
