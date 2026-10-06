@@ -1,6 +1,8 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { python } from "@codemirror/lang-python";
+import { keymap } from "@codemirror/view";
+import { Prec } from "@codemirror/state";
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 import { Play, Loader2, Sparkles, RotateCcw, Eye, EyeOff, BookOpen } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -133,6 +135,11 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
     };
   }, []);
 
+  const runRef = useRef<() => void>(() => {});
+  const runKeymap = useMemo(
+    () => Prec.highest(keymap.of([{ key: "Mod-Enter", preventDefault: true, run: () => { runRef.current(); return true; } }])),
+    []
+  );
   const runCode = useCallback(async () => {
     if (!code.trim()) {
       setOutput(t("Hãy viết code trước khi chạy nhé!", "Write some code first!"));
@@ -222,6 +229,8 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
     setMismatch(null);
   };
 
+  runRef.current = runCode;
+
   return (
     <div className="space-y-4">
       {/* Editor */}
@@ -249,7 +258,7 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
           value={code}
           onChange={setCode}
           theme={vscodeDark}
-          extensions={[python()]}
+          extensions={[python(), runKeymap]}
           height="280px"
           placeholder={t("# Viết code Python của bạn ở đây...", "# Write your Python code here...")}
           basicSetup={{ lineNumbers: true, foldGutter: true, autocompletion: true }}
