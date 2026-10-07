@@ -2,8 +2,8 @@
 
 # Chinese Sentence Typing
 
-- [ ] Preserve and audit punctuation in the ordinary sentence bank.
-- [ ] Add a Pinyin visibility control and verify typing scores and display.
+- [x] Preserve and audit punctuation in the ordinary sentence bank.
+- [x] Add a Pinyin visibility control and verify typing scores and display.
 
 # IELTS Reading room
 
