@@ -2,6 +2,7 @@
 
 # Finnish YKI Writing
 
+- [x] Review Finnish Typing email closings and contextual forms of address against University of Turku guidance; verify translations and regression tests.
 - [x] Remove Vietnamese translations from YKI writing task instructions and model answers; retain English.
 - [x] Import all three uploaded reading documents with original question formats and checked answer guidance into YKI B1.
 - [x] Verify Writing language display and Reading navigation, answers and content coverage.

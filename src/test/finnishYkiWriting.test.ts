@@ -3,6 +3,31 @@ import { describe, expect, it } from "vitest";
 import { getYkiWritingEnglish, YKI_SKILL_BANK, YKI_WRITING_SENTENCES, YKI_WRITING_TASKS } from "@/data/finnishYkiWriting";
 
 describe("Finnish YKI writing bank", () => {
+  it("uses Finnish closing punctuation without importing English commas", () => {
+    for (const task of YKI_WRITING_TASKS) {
+      expect(task.modelFi).not.toMatch(/(?:Ystävällisin terveisin|Terveisin),/);
+      if (task.kind === "email") {
+        expect(task.modelFi).toMatch(/Ystävällisin terveisin\n[^\n]+$/);
+      }
+    }
+    const closings = YKI_WRITING_SENTENCES.filter((sentence) => sentence.fi.startsWith("Ystävällisin terveisin"));
+    expect(closings).toHaveLength(9);
+    for (const sentence of closings) {
+      expect(sentence.fi).not.toContain("terveisin,");
+      expect(sentence.en).toMatch(/^Kind regards, /);
+    }
+  });
+
+  it("keeps mielestänne as genuine plural address to the course group", () => {
+    const task = YKI_WRITING_TASKS.find((item) => item.id === "yki-doc-7-1");
+    expect(task?.promptFi).toContain("ryhmän jäsenille");
+    expect(task?.modelFi).toContain("Hei kaikki!");
+    const sentence = YKI_WRITING_SENTENCES.find((item) => item.id === "yki-doc-7-1-s6");
+    expect(sentence?.fi).toBe("Kumpi vaihtoehto on mielestänne parempi?");
+    expect(sentence?.en).toBe("Which option do you all think is better?");
+    expect(YKI_WRITING_SENTENCES.filter((item) => item.fi.includes("mielestänne"))).toHaveLength(1);
+  });
+
   it("contains nine complete three-task exam sets", () => {
     expect(YKI_WRITING_TASKS).toHaveLength(27);
     for (let set = 1; set <= 9; set += 1) {
