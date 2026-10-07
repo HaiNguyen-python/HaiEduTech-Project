@@ -41,6 +41,7 @@ import { B1_GRAMMAR_EXPANSION_MODULES_2 } from "@/data/ykiB1GrammarExpansion2";
 import { B1_GRAMMAR_EXPANSION_MODULES_3 } from "@/data/ykiB1GrammarExpansion3";
 import { B1_WRITING_SAMPLES } from "@/data/ykiB1WritingSamples";
 import { Lightbulb } from "lucide-react";
+import YkiB1SpeakingExamPractice from "@/components/finnish/YkiB1SpeakingExamPractice";
 
 // Use Finnish TTS pipeline (proxy → Google translate_tts → native fi-FI voice)
 // to guarantee proper Finnish pronunciation, not the system's English fallback voice.
@@ -591,6 +592,7 @@ const YkiB1Dashboard = () => {
 
           {/* SPEAKING */}
           <TabsContent value="speaking" className="mt-6 space-y-4">
+            <YkiB1SpeakingExamPractice />
             {/* === B1 Speaking Beginner Guide === */}
             <Card className="p-5 border-2 border-[#003580]/30 bg-gradient-to-br from-[#003580]/5 to-emerald-500/5">
               <h3 className="text-lg font-bold flex items-center gap-2 mb-2">
