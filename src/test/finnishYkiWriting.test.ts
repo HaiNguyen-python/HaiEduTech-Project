@@ -1,3 +1,4 @@
+import { YKI_TYPING_ENGLISH } from "@/data/finnishYkiTypingEnglish";
 import { describe, expect, it } from "vitest";
 import { getYkiWritingEnglish, YKI_SKILL_BANK, YKI_WRITING_SENTENCES, YKI_WRITING_TASKS } from "@/data/finnishYkiWriting";
 
@@ -44,8 +45,15 @@ describe("Finnish YKI writing bank", () => {
       expect(sentence.en.length, `${sentence.id} English`).toBeGreaterThan(10);
     }
     expect(YKI_WRITING_SENTENCES.find((item) => item.fi === "Ensinnäkin puhelinta katsotaan jatkuvasti työssä, koulussa ja kotona.")?.en)
-      .toBe("First, people constantly check their phones at work, school and home.");
+      .toBe("First, people constantly look at their phones at work, at school and at home.");
     expect(YKI_WRITING_SENTENCES.find((item) => item.fi === "Se vaikeuttaa keskittymistä.")?.en)
-      .toBe("This makes concentration difficult.");
+      .toBe("This makes it hard to concentrate.");
+    const ids = new Set(YKI_WRITING_SENTENCES.map((item) => item.id));
+    expect(Object.keys(YKI_TYPING_ENGLISH).filter((id) => !ids.has(id))).toEqual([]);
+    for (const level of [1, 2, 3, 4]) {
+      const count = YKI_WRITING_SENTENCES.filter((item) => item.level === level).length;
+      expect(count).toBeGreaterThanOrEqual(35);
+      expect(count).toBeLessThanOrEqual(45);
+    }
   });
 });
