@@ -104,6 +104,15 @@ const SUBJECT_COLORS: Record<string, SubjectColor> = {
     header: "text-amber-600",
     accent: "hover:border-amber-500",
   },
+  fi: {
+    trigger: "hover:text-sky-600 hover:bg-sky-500/10",
+    rowHover: "hover:text-sky-600 hover:bg-sky-500/10",
+    rowActive: "text-sky-600 bg-sky-500/10",
+    childHover: "hover:text-sky-600 hover:bg-sky-500/10",
+    icon: "text-sky-500/80",
+    header: "text-sky-600",
+    accent: "hover:border-sky-500",
+  },
   prog: {
     trigger: "hover:text-emerald-600 hover:bg-emerald-500/10",
     rowHover: "hover:text-emerald-600 hover:bg-emerald-500/10",
@@ -422,6 +431,17 @@ const Navbar = () => {
     { to: "#prog-div2", label: "", divider: true },
     { to: "/programming/arcade", label: t("Tech & Code Game Hub", "Tech & Code Game Hub"), icon: Gamepad2 },
   ];
+  const finnishSubs: SubItem[] = [
+    { to: "/finnish", label: t("Khóa học & Lộ trình", "Courses & Roadmap"), icon: Route },
+    { to: "/finnish/beginner", label: t("Tiếng Phần Lan Cơ bản", "Finnish Beginner"), icon: Sprout },
+    { to: "/finnish/yki-dashboard", label: t("Luyện thi YKI A2", "YKI A2 Prep"), icon: Snowflake },
+    { to: "/finnish/yki-b1", label: t("Luyện thi YKI B1", "YKI B1 Prep"), icon: Target },
+    { to: "/finnish-vocabulary", label: t("Từ vựng", "Vocabulary"), icon: BookOpen },
+    { to: "/finnish/writing", label: t("Luyện viết YKI", "YKI Writing Practice"), icon: PenLine },
+    { to: "/speaking-coach/finnish", label: t("Luyện nói", "Speaking Coach"), icon: Mic2 },
+    { to: "/finnish/arcade", label: t("Finnish Arcade", "Finnish Arcade"), icon: Gamepad2 },
+    { to: "/finnish/life-in-finland", label: t("Cuộc sống ở Phần Lan", "Life in Finland"), icon: Snowflake },
+  ];
 
   const studyAbroadSubs: SubItem[] = [
     { to: "/study-abroad", label: t("🌍 Tổng quan", "🌍 Overview"), icon: Compass },
@@ -448,6 +468,7 @@ const Navbar = () => {
     { to: "/about", label: t("Giới thiệu", "About"), icon: Brain, key: "about" },
     { to: "/english", label: t("Tiếng Anh", "English"), icon: BookOpen, subs: [...englishSubs, teacherNotes("English")], key: "en" },
     { to: "/chinese", label: t("Tiếng Trung", "Chinese"), icon: Languages, subs: [...chineseSubs, teacherNotes("Chinese")], key: "cn" },
+    { to: "/finnish", label: t("Tiếng Phần Lan", "Finnish"), icon: Snowflake, subs: [...finnishSubs, teacherNotes("Finnish")], key: "fi" },
     { to: "/learn-vietnamese", label: t("Tiếng Việt", "Vietnamese"), icon: Library, subs: [...vietnameseSubs, teacherNotes("Vietnamese")], key: "vn" },
     { to: "/programming", label: t("Công nghệ", "Technology\n"), icon: Code2, subs: [...programmingSubs, teacherNotes("Programming")], key: "prog" },
     { to: "/lifestyle-academy", label: t("Kỹ năng mềm", "Interpersonal Skills"), icon: Heart, subs: ([

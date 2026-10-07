@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom";
 import FloatingNordicParticles from "@/components/FloatingNordicParticles";
 import { motion } from "framer-motion";
-import { ChevronRight, Sprout, Snowflake, Target, Mic, type LucideIcon } from "lucide-react";
+import { ChevronRight, Sprout, Snowflake, Target, Mic, PenLine, type LucideIcon } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PlacementCta from "@/components/personalization/PlacementCta";
@@ -76,6 +76,20 @@ const Finnish = () => {
       accent: "from-violet-500 to-purple-600",
     },
     {
+      emoji: "✍️",
+      Icon: PenLine,
+      titleVi: "Luyện viết YKI",
+      titleEn: "YKI Writing Practice",
+      descVi: "Luyện 27 nhiệm vụ từ 9 bộ đề YKI cùng từ vựng, ngữ pháp, liên kết, dịch và gõ câu.",
+      descEn: "Practise 27 tasks from nine YKI sets with vocabulary, grammar, connectors, translation, and typing.",
+      bulletsVi: ["9 bộ đề YKI thực tế", "Tin nhắn, email và bài ý kiến", "Bài mẫu song ngữ", "Đồng hồ, lưu nháp và phản hồi"],
+      bulletsEn: ["Nine real YKI sets", "Messages, emails and opinions", "Bilingual model answers", "Timer, drafts and feedback"],
+      badgeVi: "YKI Writing A2-B1",
+      badgeEn: "YKI Writing A2-B1",
+      to: "/finnish/writing",
+      accent: "from-cyan-500 to-emerald-600",
+    },
+    {
       emoji: "🇫🇮",
       Icon: Snowflake,
       titleVi: "Cuộc sống ở Phần Lan",
@@ -126,11 +140,11 @@ const Finnish = () => {
               <div className="flex items-center justify-center gap-3 mb-4">
                 <span className="text-4xl">🇫🇮</span>
                 <Badge className="bg-white/20 text-white border-white/30 text-sm px-3 py-1 backdrop-blur-sm">
-                  {t("4 Chương trình", "4 Programs")}
+                  {t("5 Chương trình", "5 Programs")}
                 </Badge>
               </div>
               <h1 className="text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight">
-                {t("Học Tiếng Phần Lan - 4 Chương trình", "Learn Finnish - 4 Programs")}
+                {t("Học Tiếng Phần Lan - 5 Chương trình", "Learn Finnish - 5 Programs")}
               </h1>
               <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed">
                 {t(

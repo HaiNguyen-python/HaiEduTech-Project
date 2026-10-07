@@ -281,6 +281,7 @@ const SwedishReadingLab = lazyWithRetry(() => import("./pages/SwedishReadingLab.
 const SwedishSkillsLab = lazyWithRetry(() => import("./pages/SwedishSkillsLab.tsx"));
 const SwedishPerformance = lazyWithRetry(() => import("./pages/SwedishPerformance.tsx"));
 const YkiDashboard = lazyWithRetry(() => import("./pages/YkiDashboard.tsx"));
+const FinnishWritingPractice = lazyWithRetry(() => import("./pages/FinnishWritingPractice.tsx"));
 const FinnishBeginner = lazyWithRetry(() => import("./pages/FinnishBeginner.tsx"));
 const YkiB1Dashboard = lazyWithRetry(() => import("./pages/YkiB1Dashboard.tsx"));
 const LifeInFinland = lazyWithRetry(() => import("./pages/LifeInFinland.tsx"));
@@ -540,6 +541,7 @@ const App = () => (
             <Route path="/knowledge-hub" element={<Navigate to="/global-scholarship" replace />} />
             <Route path="/finnish" element={<LazyRoute><Finnish /></LazyRoute>} />
             <Route path="/finnish/yki-dashboard" element={<LazyRoute><YkiDashboard /></LazyRoute>} />
+            <Route path="/finnish/writing" element={<LazyRoute><FinnishWritingPractice /></LazyRoute>} />
             <Route path="/finnish/beginner" element={<LazyRoute><FinnishBeginner /></LazyRoute>} />
             <Route path="/finnish/yki-b1" element={<LazyRoute><YkiB1Dashboard /></LazyRoute>} />
             <Route path="/finnish/life-in-finland" element={<LazyRoute><LifeInFinland /></LazyRoute>} />
