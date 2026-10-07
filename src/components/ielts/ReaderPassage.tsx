@@ -12,7 +12,8 @@
  * The component is intentionally self-contained so both ExamEngine and
  * FullTestEngine can drop it in without re-implementing selection logic.
  */
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Highlighter, BookOpen, Trash2 } from "lucide-react";
 
@@ -25,15 +26,15 @@ interface Highlight {
 }
 
 const COLOR_BG: Record<HLColor, string> = {
-  yellow: "bg-yellow-300/70 dark:bg-yellow-400/40",
-  green: "bg-emerald-300/70 dark:bg-emerald-400/40",
-  pink: "bg-pink-300/70 dark:bg-pink-400/40",
+  yellow: "reading-highlight reading-highlight--yellow",
+  green: "reading-highlight reading-highlight--green",
+  pink: "reading-highlight reading-highlight--pink",
 };
 
 const COLOR_SWATCH: Record<HLColor, string> = {
-  yellow: "bg-yellow-400",
-  green: "bg-emerald-400",
-  pink: "bg-pink-400",
+  yellow: "reading-swatch reading-highlight--yellow",
+  green: "reading-swatch reading-highlight--green",
+  pink: "reading-swatch reading-highlight--pink",
 };
 
 const storageKey = (passageId: string) => `ielts-reading-hl::${passageId}`;
@@ -101,23 +102,28 @@ interface ToolbarState {
 
 interface Props {
   passageId: string;
-  passage: string;
-  fontSize: number;
+  passage?: string;
+  fontSize?: number;
   paperTheme: "light" | "dark";
+  children?: (renderText: (text: string) => ReactNode) => ReactNode;
 }
 
-export const ReaderPassage: React.FC<Props> = ({ passageId, passage, fontSize, paperTheme }) => {
+export const ReaderPassage: React.FC<Props> = ({ passageId, passage = "", fontSize, paperTheme, children }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const [highlights, setHighlights] = useState<Highlight[]>(() => loadHighlights(passageId));
+  const toolbarRef = useRef<HTMLDivElement | null>(null);
+  const [stored, setStored] = useState(() => ({ passageId, highlights: loadHighlights(passageId) }));
+  const highlights = stored.passageId === passageId ? stored.highlights : loadHighlights(passageId);
+  const setHighlights = (update: (items: Highlight[]) => Highlight[]) => {
+    setStored(previous => ({ passageId, highlights: update(previous.passageId === passageId ? previous.highlights : loadHighlights(passageId)) }));
+  };
   const [toolbar, setToolbar] = useState<ToolbarState>({ visible: false, x: 0, y: 0, selectedText: "" });
 
   // Reset on passage change
   useEffect(() => {
-    setHighlights(loadHighlights(passageId));
     setToolbar(t => ({ ...t, visible: false }));
   }, [passageId]);
 
-  useEffect(() => { saveHighlights(passageId, highlights); }, [passageId, highlights]);
+  useEffect(() => { saveHighlights(stored.passageId, stored.highlights); }, [stored]);
 
   const paragraphs = useMemo(() => passage.split("\n\n"), [passage]);
 
@@ -131,13 +137,13 @@ export const ReaderPassage: React.FC<Props> = ({ passageId, passage, fontSize, p
     // Selection must be inside the container
     if (!containerRef.current) return;
     const anchor = sel.anchorNode;
-    if (!anchor || !containerRef.current.contains(anchor)) { closeToolbar(); return; }
+    if (!anchor || !sel.focusNode || !containerRef.current.contains(anchor) || !containerRef.current.contains(sel.focusNode)) { closeToolbar(); return; }
     const range = sel.getRangeAt(0);
     const rect = range.getBoundingClientRect();
     setToolbar({
       visible: true,
-      x: rect.left + rect.width / 2,
-      y: rect.top - 8,
+      x: Math.max(120, Math.min(window.innerWidth - 120, rect.left + rect.width / 2)),
+      y: Math.max(48, rect.top - 8),
       selectedText: text,
     });
   }, [closeToolbar]);
@@ -150,7 +156,7 @@ export const ReaderPassage: React.FC<Props> = ({ passageId, passage, fontSize, p
       if (!containerRef.current) return;
       const target = e.target as Node;
       // Allow clicks on the toolbar itself
-      const tb = document.getElementById("reader-toolbar");
+      const tb = toolbarRef.current;
       if (tb && tb.contains(target)) return;
       if (!containerRef.current.contains(target)) closeToolbar();
     };
@@ -195,43 +201,34 @@ export const ReaderPassage: React.FC<Props> = ({ passageId, passage, fontSize, p
     closeToolbar();
   };
 
+  const renderText = (text: string): ReactNode => segmentParagraph(text, highlights).map((s, j) =>
+    s.hlId ? (
+      <mark key={j} className={cn("rounded-sm cursor-pointer", s.color && COLOR_BG[s.color])}
+        title="Click to remove highlight"
+        onClick={(e) => { e.preventDefault(); e.stopPropagation(); if (s.hlId) removeById(s.hlId); }}>
+        {s.text}
+      </mark>
+    ) : <span key={j}>{s.text}</span>
+  );
+
   return (
     <>
       <div
         ref={containerRef}
         onMouseUp={handleMouseUp}
-        className="max-w-none font-['Georgia',_'Merriweather',_serif] leading-[1.85] select-text"
-        style={{ fontSize: `${fontSize}px` }}
+        onTouchEnd={handleMouseUp}
+        onKeyUp={handleMouseUp}
+        className={cn("max-w-none select-text", !children && "font-['Georgia',_'Merriweather',_serif] leading-[1.85]")}
+        style={fontSize ? { fontSize: `${fontSize}px` } : undefined}
       >
-        {paragraphs.map((para, i) => {
-          const segs = segmentParagraph(para, highlights);
-          return (
-            <p key={i} className="mb-4 break-inside-avoid">
-              {segs.map((s, j) =>
-                s.hlId ? (
-                  <span
-                    key={j}
-                    className={cn(
-                      "rounded-sm px-0.5 cursor-pointer transition-opacity hover:opacity-70",
-                      s.color && COLOR_BG[s.color]
-                    )}
-                    title="Click to remove highlight"
-                    onClick={(e) => { e.stopPropagation(); removeById(s.hlId!); }}
-                  >
-                    {s.text}
-                  </span>
-                ) : (
-                  <span key={j}>{s.text}</span>
-                )
-              )}
-            </p>
-          );
-        })}
+        {children ? children(renderText) : paragraphs.map((para, i) => (
+          <p key={i} className="mb-4 break-inside-avoid">{renderText(para)}</p>
+        ))}
       </div>
 
       {toolbar.visible && (
         <div
-          id="reader-toolbar"
+          ref={toolbarRef}
           role="toolbar"
           aria-label="Reading toolbar"
           className="fixed z-[75] flex items-center gap-0.5 rounded-full border bg-card px-1.5 py-1 shadow-xl -translate-x-1/2 -translate-y-full"
@@ -239,7 +236,7 @@ export const ReaderPassage: React.FC<Props> = ({ passageId, passage, fontSize, p
           onMouseDown={(e) => e.preventDefault()}
         >
           {(["yellow", "green", "pink"] as HLColor[]).map(c => (
-            <button
+            <Button variant="ghost" size="icon"
               key={c}
               onClick={() => addHighlight(c)}
               className={cn(
@@ -249,35 +246,35 @@ export const ReaderPassage: React.FC<Props> = ({ passageId, passage, fontSize, p
               title={`Highlight ${c}`}
               aria-label={`Highlight ${c}`}
             >
-              <Highlighter className="w-3 h-3 mx-auto text-black/50" />
-            </button>
+              <Highlighter className="w-3 h-3 mx-auto" />
+            </Button>
           ))}
           <span className="w-px h-4 bg-border mx-1" />
-          <button
+          <Button variant="ghost" size="sm"
             onClick={openDict}
             className="inline-flex items-center gap-1 px-2 h-7 rounded-full text-xs font-semibold text-primary hover:bg-primary/10"
             title="Look up in Dictionary"
           >
             <BookOpen className="w-3.5 h-3.5" /> Dict
-          </button>
-          <button
+          </Button>
+          <Button variant="ghost" size="icon"
             onClick={removeOverlapping}
             className="inline-flex items-center justify-center w-7 h-7 rounded-full text-muted-foreground hover:text-destructive hover:bg-destructive/10"
             title="Remove highlight"
             aria-label="Remove highlight"
           >
             <Trash2 className="w-3.5 h-3.5" />
-          </button>
+          </Button>
         </div>
       )}
 
       {/* Hint */}
-      <p className={cn(
+      {!children && <p className={cn(
         "text-[11px] mt-3 italic",
         paperTheme === "light" ? "text-slate-500" : "text-slate-400"
       )}>
         💡 Select text to highlight (3 colors) or look up in the Dictionary. Click a highlight to remove.
-      </p>
+      </p>}
     </>
   );
 };

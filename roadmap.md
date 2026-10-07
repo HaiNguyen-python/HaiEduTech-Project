@@ -1,5 +1,11 @@
 # Business English & Academic English
 
+# IELTS Reading room
+
+- [x] Apply dark mode across both panes and exam controls with readable passage labels and answer fields.
+- [x] Reuse persistent multi-color highlighting for question prompts, instructions, options and heading lists.
+- [x] Verify both exam modes, theme changes, saved highlights and answer controls in the browser.
+
 # 999 Letters Punctuation
 
 - [x] Preserve original Hanzi punctuation while keeping typing feedback and scoring aligned.
