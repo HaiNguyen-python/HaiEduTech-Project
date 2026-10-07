@@ -35,14 +35,13 @@ function SkillCards({ kind }: { kind: SkillKind }) {
   const { t } = useLanguage();
   const [index, setIndex] = useState(0);
   const [answer, setAnswer] = useState("");
-  const [revealed, setRevealed] = useState(false);
   const items = YKI_SKILL_BANK[kind];
   const item = items[index % items.length];
-  const meaningVi = item[1];
-  const meaningEn = item[2];
-  const exampleFi = item[3];
+  const meaningVi = kind === "grammar" ? item[0] : item[1];
+  const meaningEn = kind === "grammar" ? item[1] : item[2];
+  const exampleFi = kind === "grammar" ? item[2] : item[3];
   const exampleEn = item[4];
-  const next = () => { setIndex((value) => (value + 1) % items.length); setAnswer(""); setRevealed(false); };
+  const next = () => { setIndex((value) => (value + 1) % items.length); setAnswer(""); };
 
   return (
     <Card className="border-primary/20">
@@ -57,12 +56,11 @@ function SkillCards({ kind }: { kind: SkillKind }) {
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-1 text-sm text-muted-foreground"><p><strong>VI:</strong> {meaningVi}</p><p><strong>EN:</strong> {meaningEn}</p></div>
+        <div className="space-y-2 rounded-lg border border-primary/20 bg-primary/5 p-4 text-base"><p className="font-semibold" lang="fi">{exampleFi}</p><p className="text-base text-muted-foreground" lang="en"><strong>EN:</strong> {exampleEn}</p></div>
         <Textarea value={answer} onChange={(event) => setAnswer(event.target.value)} className="min-h-28 text-base" placeholder={t("Tự viết một câu tiếng Phần Lan...", "Write your own Finnish sentence...")} />
         <div className="flex flex-wrap gap-2">
-          <Button variant="secondary" onClick={() => setRevealed((value) => !value)}>{revealed ? t("Ẩn ví dụ", "Hide example") : t("Xem ví dụ", "Show example")}</Button>
           {answer.trim() && <Button variant="outline" onClick={next}>{t("Hoàn thành & tiếp tục", "Complete & continue")}</Button>}
         </div>
-        {revealed && <div className="space-y-2 rounded-lg border border-primary/20 bg-primary/5 p-4 text-base"><p className="font-semibold" lang="fi">{exampleFi}</p><p className="text-sm text-muted-foreground"><strong>EN:</strong> {exampleEn}</p></div>}
       </CardContent>
     </Card>
   );
@@ -97,7 +95,7 @@ function SentencePractice({ mode }: { mode: "translation" | "paraphrase" | "typi
         <CardTitle className="pt-2 text-lg">{labels[mode]}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="rounded-lg bg-muted/60 p-4 text-lg leading-relaxed">{source}</div>
+        <div className="space-y-2 rounded-lg bg-muted/60 p-4 text-lg leading-relaxed"><p lang={mode === "translation" ? "vi" : "fi"}>{source}</p>{mode !== "translation" && <p className="text-base text-muted-foreground" lang="en"><strong>EN:</strong> {meaningEn}</p>}</div>
         <Textarea value={answer} onChange={(event) => setAnswer(event.target.value)} className="min-h-32 text-base" lang="fi" placeholder="Kirjoita tähän..." />
         {mode === "typing" && answer && <p className="text-sm font-semibold text-primary">{t("Độ chính xác theo từ", "Word accuracy")}: {typingScore}%</p>}
         <Button variant="secondary" onClick={() => setRevealed((value) => !value)}>{revealed ? t("Ẩn đáp án", "Hide answer") : t("Xem đáp án", "Show answer")}</Button>
