@@ -195,8 +195,8 @@ const useSplit = () => {
 
 const paperClass = (t: "light" | "dark") =>
   t === "light"
-    ? "bg-white text-slate-900"
-    : "bg-slate-950 text-slate-100";
+    ? "bg-card text-foreground"
+    : "bg-background text-foreground";
 
 // ============================================================
 // Post-submit review: detailed Q-by-Q analysis + key vocabulary
@@ -513,7 +513,7 @@ const ExamEngine: React.FC<ExamEngineProps> = ({ exam, onClose }) => {
   }, [activeQ]);
 
   return (
-    <div className="fixed inset-0 z-[60] bg-background flex flex-col">
+    <div className={cn("reading-room fixed inset-0 z-[60] bg-background text-foreground flex flex-col", paperTheme === "dark" && "reading-room--dark")}>
       {/* Sticky control bar */}
       <header className="border-b bg-card shadow-sm shrink-0">
         <div className="container mx-auto px-3 sm:px-4 py-2.5 flex items-center gap-3 flex-wrap">
@@ -597,7 +597,7 @@ const ExamEngine: React.FC<ExamEngineProps> = ({ exam, onClose }) => {
         >
           <div className="w-full px-5 md:px-8 lg:px-10 py-6 md:py-8">
             <h2 className="text-xl md:text-2xl font-bold mb-1">{exam.passageTitle}</h2>
-            <p className={cn("text-xs uppercase tracking-wide mb-5", paperTheme === "light" ? "text-slate-500" : "text-slate-400")}>
+            <p className={cn("text-xs uppercase tracking-wide mb-5", "text-muted-foreground")}>
               {t("Đoạn văn", "Reading Passage")}
             </p>
             <ReaderPassage
@@ -630,6 +630,8 @@ const ExamEngine: React.FC<ExamEngineProps> = ({ exam, onClose }) => {
               <QuestionBlock
                 key={q.number}
                 question={q}
+                highlightId={`${exam.id}::question::${q.number}`}
+                paperTheme={paperTheme}
                 value={answers[q.number] || ""}
                 onChange={(v) => handleAnswer(q.number, v)}
                 submitted={submitted}
@@ -685,16 +687,19 @@ interface QBlockProps {
   onFocus: () => void;
   flagged?: boolean;
   onToggleFlag?: () => void;
+  highlightId: string;
+  paperTheme: "light" | "dark";
 }
 
-const QuestionBlock: React.FC<QBlockProps> = ({ question: q, value, onChange, submitted, onFocus, flagged, onToggleFlag }) => {
+const QuestionBlock: React.FC<QBlockProps> = ({ question: q, value, onChange, submitted, onFocus, flagged, onToggleFlag, highlightId, paperTheme }) => {
   const { lang } = useLanguage();
   const isVi = lang === "vi";
   const correct = submitted && isReadingAnswerCorrect(q, value);
   const wrong = submitted && value && !correct;
 
   return (
-    <div
+    <ReaderPassage passageId={highlightId} paperTheme={paperTheme}>
+      {renderText => <div
       id={`q-${q.number}`}
       onFocus={onFocus}
       onClick={onFocus}
@@ -706,7 +711,7 @@ const QuestionBlock: React.FC<QBlockProps> = ({ question: q, value, onChange, su
     >
       <div className="flex items-start gap-3 mb-3">
         <Badge variant="outline" className="font-bold text-sm shrink-0">{q.number}</Badge>
-        <p className="text-sm font-medium text-foreground leading-relaxed flex-1">{q.prompt}</p>
+        <p className="text-sm font-medium text-foreground leading-relaxed flex-1">{renderText(q.prompt)}</p>
         {!submitted && onToggleFlag && (
           <button
             type="button"
@@ -729,7 +734,7 @@ const QuestionBlock: React.FC<QBlockProps> = ({ question: q, value, onChange, su
 
       {q.instruction && (
         <p className="pl-9 mb-2 text-[11px] font-semibold uppercase tracking-wide text-primary/80">
-          {q.instruction}
+          {renderText(q.instruction)}
         </p>
       )}
 
@@ -765,7 +770,7 @@ const QuestionBlock: React.FC<QBlockProps> = ({ question: q, value, onChange, su
                   className="accent-primary"
                 />
                 <span className="font-bold mr-1">{letter}.</span>
-                <span>{opt}</span>
+                <span>{renderText(opt)}</span>
               </label>
             );
           })}
@@ -773,7 +778,10 @@ const QuestionBlock: React.FC<QBlockProps> = ({ question: q, value, onChange, su
       )}
 
       {q.type === "matching-headings" && q.headings && (
-        <div className="pl-9">
+        <div className="pl-9 space-y-2">
+          <ul className="rounded-lg border border-dashed bg-muted/40 p-2.5 space-y-1 text-xs text-foreground">
+            {q.headings.map(h => <li key={h.label}><span className="font-bold text-primary">{h.label}.</span> {renderText(h.text)}</li>)}
+          </ul>
           <select
             value={value}
             onChange={(e) => onChange(e.target.value)}
@@ -847,7 +855,7 @@ const QuestionBlock: React.FC<QBlockProps> = ({ question: q, value, onChange, su
         <div className="pl-9 space-y-2">
           <ul className="rounded-lg border border-dashed bg-muted/40 p-2.5 space-y-1 text-xs text-foreground">
             {(q.features || q.endings || q.wordBank || []).map((o) => (
-              <li key={o.label}><span className="font-bold text-primary">{o.label}.</span> {o.text}</li>
+              <li key={o.label}><span className="font-bold text-primary">{o.label}.</span> {renderText(o.text)}</li>
             ))}
           </ul>
           <select
@@ -884,7 +892,7 @@ const QuestionBlock: React.FC<QBlockProps> = ({ question: q, value, onChange, su
             return (
               <label
                 key={opt}
-                onClick={(e) => { e.preventDefault(); if (!submitted) toggle(); }}
+                onClick={(e) => { e.preventDefault(); if (!submitted && window.getSelection()?.isCollapsed !== false) toggle(); }}
                 className={cn(
                   "flex items-start gap-2 rounded-lg border px-3 py-2 text-sm cursor-pointer transition-colors",
                   submitted
@@ -899,7 +907,7 @@ const QuestionBlock: React.FC<QBlockProps> = ({ question: q, value, onChange, su
                 )}
               >
                 <input type="checkbox" checked={selected} readOnly disabled={submitted} className="mt-1 accent-primary" />
-                <span><span className="font-bold mr-1">{letter}.</span>{opt}</span>
+                <span><span className="font-bold mr-1">{letter}.</span>{renderText(opt)}</span>
               </label>
             );
           })}
@@ -918,7 +926,8 @@ const QuestionBlock: React.FC<QBlockProps> = ({ question: q, value, onChange, su
           )}
         </div>
       )}
-    </div>
+    </div>}
+    </ReaderPassage>
   );
 };
 
@@ -1064,7 +1073,7 @@ const FullTestEngine: React.FC<FullTestEngineProps> = ({ test, onClose }) => {
   const currentItems = flat.filter(i => i.passageIndex === activePassage);
 
   return (
-    <div className="fixed inset-0 z-[60] bg-background flex flex-col">
+    <div className={cn("reading-room fixed inset-0 z-[60] bg-background text-foreground flex flex-col", paperTheme === "dark" && "reading-room--dark")}>
       <header className="border-b bg-card shadow-sm shrink-0">
         <div className="container mx-auto px-3 sm:px-4 py-2.5 flex items-center gap-3 flex-wrap">
           <Button variant="ghost" size="sm" onClick={handleClose}>
@@ -1140,11 +1149,11 @@ const FullTestEngine: React.FC<FullTestEngineProps> = ({ test, onClose }) => {
           style={{ flexBasis: `${leftPct}%`, flexGrow: 0, flexShrink: 0 } as React.CSSProperties}
         >
           <div className="w-full px-5 md:px-8 lg:px-10 py-6 md:py-8">
-            <Badge variant="outline" className="mb-2 text-[10px]">
+            <Badge variant="outline" className="mb-2 text-[10px] text-foreground border-border">
               {t(`Đoạn ${activePassage + 1} / ${passages.length}`, `Passage ${activePassage + 1} of ${passages.length}`)}
             </Badge>
             <h2 className="text-xl md:text-2xl font-bold mb-1">{currentPassage.passageTitle}</h2>
-            <p className={cn("text-xs uppercase tracking-wide mb-5", paperTheme === "light" ? "text-slate-500" : "text-slate-400")}>
+            <p className={cn("text-xs uppercase tracking-wide mb-5", "text-muted-foreground")}>
               {t("Đoạn văn", "Reading Passage")}
             </p>
             <ReaderPassage
@@ -1178,6 +1187,8 @@ const FullTestEngine: React.FC<FullTestEngineProps> = ({ test, onClose }) => {
               <QuestionBlock
                 key={item.globalNumber}
                 question={{ ...item.q, number: item.globalNumber }}
+                highlightId={`${currentPassage.id}::question::${item.q.number}`}
+                paperTheme={paperTheme}
                 value={answers[item.globalNumber] || ""}
                 onChange={v => setAnswers(p => ({ ...p, [item.globalNumber]: v }))}
                 submitted={submitted}
