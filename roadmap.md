@@ -4,7 +4,7 @@
 
 - [x] Restore Finnish to desktop and mobile navigation with its learning links.
 - [x] Add a dedicated seven-mode YKI Writing practice page from all 9 uploaded sets (27 tasks).
-- [ ] Verify task flow, draft saving, feedback, navigation and responsive layout.
+- [x] Verify task flow, draft saving, feedback, navigation and responsive layout.
 
 # Chinese Sentence Typing
 

@@ -69,9 +69,13 @@ function SentencePractice({ mode }: { mode: "translation" | "paraphrase" | "typi
   const [index, setIndex] = useState(0);
   const [answer, setAnswer] = useState("");
   const [revealed, setRevealed] = useState(false);
-  const item = YKI_WRITING_SENTENCES[index % YKI_WRITING_SENTENCES.length];
-  const target = item.fi;
-  const next = () => { setIndex((value) => (value + 1) % YKI_WRITING_SENTENCES.length); setAnswer(""); setRevealed(false); };
+  const poolSize = mode === "translation" ? YKI_WRITING_TASKS.length : YKI_WRITING_SENTENCES.length;
+  const sentenceItem = YKI_WRITING_SENTENCES[index % YKI_WRITING_SENTENCES.length];
+  const translationItem = YKI_WRITING_TASKS[index % YKI_WRITING_TASKS.length];
+  const source = mode === "translation" ? translationItem.promptVi : sentenceItem.fi;
+  const target = mode === "translation" ? translationItem.promptFi : sentenceItem.fi;
+  const meaning = mode === "translation" ? translationItem.promptVi : sentenceItem.vi;
+  const next = () => { setIndex((value) => (value + 1) % poolSize); setAnswer(""); setRevealed(false); };
   const typingScore = target ? Math.round((normalize(answer).split(" ").filter((word, i) => word === normalize(target).split(" ")[i]).length / Math.max(1, normalize(target).split(" ").length)) * 100) : 0;
   const labels = {
     translation: t("Dịch ý tiếng Việt sau sang tiếng Phần Lan", "Translate the Vietnamese idea into Finnish"),
@@ -82,17 +86,17 @@ function SentencePractice({ mode }: { mode: "translation" | "paraphrase" | "typi
     <Card className="border-primary/20">
       <CardHeader>
         <div className="flex items-center justify-between gap-3">
-          <Badge variant="outline">{index + 1} / {YKI_WRITING_SENTENCES.length}</Badge>
+          <Badge variant="outline">{index + 1} / {poolSize}</Badge>
           <Button size="sm" variant="outline" onClick={next}>{t("Tiếp theo", "Next")}<ChevronRight className="ml-1 h-4 w-4" /></Button>
         </div>
         <CardTitle className="pt-2 text-lg">{labels[mode]}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="rounded-lg bg-muted/60 p-4 text-lg leading-relaxed">{mode === "translation" ? item.vi : item.fi}</div>
+        <div className="rounded-lg bg-muted/60 p-4 text-lg leading-relaxed">{source}</div>
         <Textarea value={answer} onChange={(event) => setAnswer(event.target.value)} className="min-h-32 text-base" lang="fi" placeholder="Kirjoita tähän..." />
         {mode === "typing" && answer && <p className="text-sm font-semibold text-primary">{t("Độ chính xác theo từ", "Word accuracy")}: {typingScore}%</p>}
         <Button variant="secondary" onClick={() => setRevealed((value) => !value)}>{revealed ? t("Ẩn đáp án", "Hide answer") : t("Xem đáp án", "Show answer")}</Button>
-        {revealed && <div className="rounded-lg border border-primary/20 bg-primary/5 p-4"><p className="font-semibold" lang="fi">{target}</p>{mode !== "typing" && <p className="mt-2 text-sm text-muted-foreground">{item.vi}</p>}</div>}
+        {revealed && <div className="rounded-lg border border-primary/20 bg-primary/5 p-4"><p className="font-semibold" lang="fi">{target}</p>{mode !== "typing" && <p className="mt-2 text-sm text-muted-foreground">{meaning}</p>}</div>}
       </CardContent>
     </Card>
   );
@@ -173,7 +177,7 @@ export default function FinnishWritingPractice() {
       <main className="container mx-auto max-w-6xl space-y-6 px-4 pb-16 pt-28 sm:px-6">
         <IllustratedPageHeader variant="finnish">
           <div className="text-center">
-            <Badge className="mb-3">🇫🇮 YKI · Kirjoittaminen</Badge>
+            <Badge className="mb-3">YKI · Kirjoittaminen</Badge>
             <h1 className="text-3xl font-bold md:text-4xl">{t("Luyện viết YKI tiếng Phần Lan", "Finnish YKI Writing Practice")}</h1>
             <p className="mx-auto mt-3 max-w-3xl text-foreground/80">{t("9 bộ đề, 27 nhiệm vụ từ tài liệu YKI thực tế cùng 7 phần luyện kỹ năng viết.", "Nine exam sets, 27 tasks from real YKI materials, and seven focused writing modes.")}</p>
           </div>
