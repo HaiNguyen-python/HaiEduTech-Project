@@ -15,19 +15,11 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { toast } from "@/hooks/use-toast";
 import { playFinnishTts, stopFinnishTts } from "@/lib/finnishTts";
+import { formatModelLetter } from "@/lib/finnishModelLetter";
 import { getYkiWritingEnglish, YKI_SKILL_BANK, YKI_WRITING_KINDS, YKI_TYPING_LEVELS, YKI_WRITING_SENTENCES, YKI_WRITING_TASKS, type YkiWritingKind } from "@/data/finnishYkiWriting";
 
 type FilterKind = "all" | YkiWritingKind;
 type SkillKind = keyof typeof YKI_SKILL_BANK;
-
-/** Lays out a model letter: greeting line, body, then closing on its own line. */
-const formatModelLetter = (text: string) => {
-  let out = text.replace(/\r/g, "").trim();
-  if (out.includes("\n\n")) return out;
-  out = out.replace(/^((?:Hei|Hyvä|Hyvät|Arvoisa|Moi|Terve|Dear|Hello|Hi)[^,.!?\n]{0,40}[,!])\s+/, "$1\n\n");
-  out = out.replace(/\s*\n?\s*((?:Ystävällisin terveisin|Parhain terveisin|Terveisin|Kiittäen|Kind regards|Best regards|Best wishes|Regards)[,.]?)\s*$/, "\n\n$1");
-  return out;
-};
 
 const TABS = [
   { value: "tasks", icon: PenLine, vi: "Đề YKI", en: "YKI Tasks" },

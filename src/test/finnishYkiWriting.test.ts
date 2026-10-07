@@ -1,8 +1,26 @@
 import { YKI_TYPING_ENGLISH } from "@/data/finnishYkiTypingEnglish";
+import { formatModelLetter } from "@/lib/finnishModelLetter";
 import { describe, expect, it } from "vitest";
 import { getYkiWritingEnglish, YKI_SKILL_BANK, YKI_WRITING_SENTENCES, YKI_WRITING_TASKS } from "@/data/finnishYkiWriting";
 
 describe("Finnish YKI writing bank", () => {
+  it("separates closings from the body and puts retained signatures on the next line", () => {
+    expect(formatModelLetter("Hei Anna! Tavataan pian. Terveisin\nMai"))
+      .toBe("Hei Anna!\n\nTavataan pian.\n\nTerveisin\nMai");
+    expect(formatModelLetter("Hi Anna! Let us meet soon. Best wishes, Mai"))
+      .toBe("Hi Anna!\n\nLet us meet soon.\n\nBest wishes,\nMai");
+    expect(formatModelLetter("Hei!\n\nKiitos avusta. Terveisin\nMai"))
+      .toBe("Hei!\n\nKiitos avusta.\n\nTerveisin\nMai");
+    for (const task of YKI_WRITING_TASKS) {
+      for (const text of [task.modelFi, getYkiWritingEnglish(task.id)?.modelEn ?? ""]) {
+        const formatted = formatModelLetter(text);
+        expect(formatModelLetter(formatted)).toBe(formatted);
+        expect(formatted.replace(/\s+/g, " ")).toBe(text.trim().replace(/\s+/g, " "));
+        expect(formatted).not.toMatch(/[^\n] (?:Terveisin|Ystävällisin terveisin|Best wishes|Kind regards)/);
+      }
+    }
+  });
+
   it("uses Finnish closing punctuation without importing English commas", () => {
     for (const task of YKI_WRITING_TASKS) {
       expect(task.modelFi).not.toMatch(/(?:Ystävällisin terveisin|Terveisin),/);
