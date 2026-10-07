@@ -63,7 +63,14 @@ export const useUserRole = () => {
           setLoading(false);
         }
       }
-      await fetchRolesOnce(u.id);
+      try {
+        await Promise.race([
+          fetchRolesOnce(u.id),
+          new Promise((r) => setTimeout(r, 6000)),
+        ]);
+      } catch {
+        // keep previously known roles
+      }
       if (mounted) {
         setRoles(cachedRoles);
         setLoading(false);
@@ -83,10 +90,14 @@ export const useUserRole = () => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       cachedHydrated = true;
       refresh(session?.user ?? null);
-    });
+    }).catch(() => { if (mounted) setLoading(false); });
+
+    // Failsafe: never keep the app spinning if auth storage is locked.
+    const failsafe = setTimeout(() => { if (mounted) setLoading(false); }, 8000);
 
     return () => {
       mounted = false;
+      clearTimeout(failsafe);
       subscription.unsubscribe();
     };
   }, []);

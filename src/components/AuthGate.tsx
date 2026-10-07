@@ -112,6 +112,16 @@ const LoginInvite = ({ pathname, search }: { pathname: string; search: string })
   );
 };
 
+const hasStoredSession = () => {
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i) || "";
+      if (k.startsWith("sb-") && k.endsWith("-auth-token") && localStorage.getItem(k)) return true;
+    }
+  } catch { /* storage unavailable */ }
+  return false;
+};
+
 const AuthGate = ({ children }: { children: ReactNode }) => {
   const { pathname, search } = useLocation();
   const [status, setStatus] = useState<"loading" | "authed" | "guest">("loading");
@@ -123,8 +133,13 @@ const AuthGate = ({ children }: { children: ReactNode }) => {
     });
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (mounted) setStatus(session?.user ? "authed" : "guest");
-    });
-    return () => { mounted = false; subscription.unsubscribe(); };
+    }).catch(() => { if (mounted) setStatus(hasStoredSession() ? "authed" : "guest"); });
+    // Failsafe: if the auth check hangs (locked browser storage after tab
+    // switches), decide from the stored session instead of spinning forever.
+    const failsafe = setTimeout(() => {
+      if (mounted) setStatus((s) => (s === "loading" ? (hasStoredSession() ? "authed" : "guest") : s));
+    }, 6000);
+    return () => { mounted = false; clearTimeout(failsafe); subscription.unsubscribe(); };
   }, []);
 
   if (isPublicPath(pathname)) return <>{children}</>;
