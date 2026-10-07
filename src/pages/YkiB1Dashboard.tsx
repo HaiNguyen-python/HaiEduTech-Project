@@ -42,6 +42,7 @@ import { B1_GRAMMAR_EXPANSION_MODULES_3 } from "@/data/ykiB1GrammarExpansion3";
 import { B1_WRITING_SAMPLES } from "@/data/ykiB1WritingSamples";
 import { Lightbulb } from "lucide-react";
 import YkiB1SpeakingExamPractice from "@/components/finnish/YkiB1SpeakingExamPractice";
+import YkiB1ReadingDocumentPractice from "@/components/finnish/YkiB1ReadingDocumentPractice";
 
 // Use Finnish TTS pipeline (proxy → Google translate_tts → native fi-FI voice)
 // to guarantee proper Finnish pronunciation, not the system's English fallback voice.
@@ -236,6 +237,7 @@ const YkiB1Dashboard = () => {
               </Button>
             </div>
 
+            <YkiB1ReadingDocumentPractice translateMode={translateMode} />
             {B1_READING.map(p => (
               <Card key={p.id} className="p-5">
                 <div className="flex items-start justify-between gap-3 mb-3 flex-wrap">
