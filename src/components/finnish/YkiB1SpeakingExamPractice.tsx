@@ -89,7 +89,7 @@ export default function YkiB1SpeakingExamPractice() {
             <div className="space-y-2">
               <Badge variant="outline" className={PART_STYLES[active.part]}>{partMeta.fi} · {partMeta.en}</Badge>
               <CardTitle className="text-xl">{active.titleFi}</CardTitle>
-              <div className="space-y-0.5 text-sm text-muted-foreground"><p>🇬🇧 {active.titleEn}</p><p>🇻🇳 {active.titleVi}</p></div>
+              <div className="space-y-0.5 text-sm text-muted-foreground"><p><strong>EN:</strong> {active.titleEn}</p><p><strong>VI:</strong> {active.titleVi}</p></div>
             </div>
             <div className="flex items-center gap-2">
               <Badge variant={secondsLeft === 0 ? "destructive" : "secondary"}><Clock3 className="mr-1 h-3.5 w-3.5" />{Math.floor(secondsLeft / 60)}:{String(secondsLeft % 60).padStart(2, "0")}</Badge>
@@ -101,7 +101,7 @@ export default function YkiB1SpeakingExamPractice() {
         <CardContent className="space-y-5">
           <div className="rounded-lg bg-muted/60 p-4">
             <p className="font-semibold leading-relaxed" lang="fi">{active.promptFi}</p>
-            <div className="mt-2 space-y-1 text-sm text-muted-foreground"><p>🇬🇧 {active.promptEn}</p><p>🇻🇳 {active.promptVi}</p></div>
+            <div className="mt-2 space-y-1 text-sm text-muted-foreground"><p><strong>EN:</strong> {active.promptEn}</p><p><strong>VI:</strong> {active.promptVi}</p></div>
           </div>
 
           <div>
@@ -119,8 +119,8 @@ export default function YkiB1SpeakingExamPractice() {
           {showModel && (
             <div className="space-y-3 rounded-lg border border-emerald-500/25 bg-emerald-500/5 p-4">
               <div className="leading-relaxed" lang="fi"><ClickableFinnishText text={active.modelFi} /></div>
-              <p className="border-t pt-3 text-sm text-muted-foreground">🇬🇧 {active.modelEn}</p>
-              <p className="text-sm text-muted-foreground">🇻🇳 {active.modelVi}</p>
+              <p className="border-t pt-3 text-sm text-muted-foreground"><strong>EN:</strong> {active.modelEn}</p>
+              <p className="text-sm text-muted-foreground"><strong>VI:</strong> {active.modelVi}</p>
               <Button size="sm" variant="ghost" onClick={() => navigator.clipboard?.writeText(`${active.modelFi}\n\n${active.modelEn}\n\n${active.modelVi}`)}><NotebookPen className="mr-1 h-3.5 w-3.5" />{t("Sao chép để ghi chú", "Copy for notes")}</Button>
             </div>
           )}

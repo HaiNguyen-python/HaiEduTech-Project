@@ -56,13 +56,13 @@ function SkillCards({ kind }: { kind: SkillKind }) {
         </div>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="space-y-1 text-sm text-muted-foreground"><p>🇻🇳 {meaningVi}</p><p>🇬🇧 {meaningEn}</p></div>
+        <div className="space-y-1 text-sm text-muted-foreground"><p><strong>VI:</strong> {meaningVi}</p><p><strong>EN:</strong> {meaningEn}</p></div>
         <Textarea value={answer} onChange={(event) => setAnswer(event.target.value)} className="min-h-28 text-base" placeholder={t("Tự viết một câu tiếng Phần Lan...", "Write your own Finnish sentence...")} />
         <div className="flex flex-wrap gap-2">
           <Button variant="secondary" onClick={() => setRevealed((value) => !value)}>{revealed ? t("Ẩn ví dụ", "Hide example") : t("Xem ví dụ", "Show example")}</Button>
           {answer.trim() && <Button variant="outline" onClick={next}>{t("Hoàn thành & tiếp tục", "Complete & continue")}</Button>}
         </div>
-        {revealed && <div className="space-y-2 rounded-lg border border-primary/20 bg-primary/5 p-4 text-base"><p className="font-semibold" lang="fi">{exampleFi}</p><p className="text-sm text-muted-foreground">🇬🇧 {exampleEn}</p></div>}
+        {revealed && <div className="space-y-2 rounded-lg border border-primary/20 bg-primary/5 p-4 text-base"><p className="font-semibold" lang="fi">{exampleFi}</p><p className="text-sm text-muted-foreground"><strong>EN:</strong> {exampleEn}</p></div>}
       </CardContent>
     </Card>
   );
@@ -101,7 +101,7 @@ function SentencePractice({ mode }: { mode: "translation" | "paraphrase" | "typi
         <Textarea value={answer} onChange={(event) => setAnswer(event.target.value)} className="min-h-32 text-base" lang="fi" placeholder="Kirjoita tähän..." />
         {mode === "typing" && answer && <p className="text-sm font-semibold text-primary">{t("Độ chính xác theo từ", "Word accuracy")}: {typingScore}%</p>}
         <Button variant="secondary" onClick={() => setRevealed((value) => !value)}>{revealed ? t("Ẩn đáp án", "Hide answer") : t("Xem đáp án", "Show answer")}</Button>
-        {revealed && <div className="rounded-lg border border-primary/20 bg-primary/5 p-4"><p className="font-semibold" lang="fi">{target}</p><div className="mt-2 space-y-1 text-sm text-muted-foreground"><p>🇬🇧 {meaningEn}</p>{mode !== "typing" && <p>🇻🇳 {meaningVi}</p>}</div></div>}
+        {revealed && <div className="rounded-lg border border-primary/20 bg-primary/5 p-4"><p className="font-semibold" lang="fi">{target}</p><div className="mt-2 space-y-1 text-sm text-muted-foreground"><p><strong>EN:</strong> {meaningEn}</p>{mode !== "typing" && <p><strong>VI:</strong> {meaningVi}</p>}</div></div>}
       </CardContent>
     </Card>
   );
@@ -206,14 +206,14 @@ export default function FinnishWritingPractice() {
                       <div>
                         <div className="mb-2 flex flex-wrap gap-2"><Badge>{t("Bộ", "Set")} {active.set}</Badge><Badge variant="secondary">Tehtävä {active.task}</Badge>{active.date && <Badge variant="outline">{active.date}</Badge>}</div>
                          <CardTitle>{active.titleFi}</CardTitle>
-                         <div className="mt-1 space-y-0.5 text-sm text-muted-foreground"><p>🇬🇧 {activeEnglish?.titleEn}</p><p>🇻🇳 {active.titleVi}</p></div>
+                         <div className="mt-1 space-y-0.5 text-sm text-muted-foreground"><p><strong>EN:</strong> {activeEnglish?.titleEn}</p><p><strong>VI:</strong> {active.titleVi}</p></div>
                       </div>
                       <Button variant="outline" onClick={nextTask}>{t("Tiếp theo", "Next")}<ChevronRight className="ml-1 h-4 w-4" /></Button>
                     </div>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                     <div className="rounded-lg bg-primary/5 p-4"><p className="font-semibold leading-relaxed" lang="fi">{active.promptFi}</p><div className="mt-2 space-y-1 text-sm text-muted-foreground"><p>🇬🇧 {activeEnglish?.promptEn}</p><p>🇻🇳 {active.promptVi}</p></div></div>
-                     <ul className="space-y-2">{active.pointsFi.map((point, index) => <li key={point} className="flex gap-2 text-sm"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" /><span><strong>{point}</strong><span className="block text-muted-foreground">🇬🇧 {activeEnglish?.pointsEn[index]}</span><span className="block text-muted-foreground">🇻🇳 {active.pointsVi[index]}</span></span></li>)}</ul>
+                     <div className="rounded-lg bg-primary/5 p-4"><p className="font-semibold leading-relaxed" lang="fi">{active.promptFi}</p><div className="mt-2 space-y-1 text-sm text-muted-foreground"><p><strong>EN:</strong> {activeEnglish?.promptEn}</p><p><strong>VI:</strong> {active.promptVi}</p></div></div>
+                     <ul className="space-y-2">{active.pointsFi.map((point, index) => <li key={point} className="flex gap-2 text-sm"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" /><span><strong>{point}</strong><span className="block text-muted-foreground"><strong>EN:</strong> {activeEnglish?.pointsEn[index]}</span><span className="block text-muted-foreground"><strong>VI:</strong> {active.pointsVi[index]}</span></span></li>)}</ul>
                     <div className="flex flex-wrap gap-2">{active.starters.map((starter) => <Button key={starter} type="button" size="sm" variant="outline" onClick={() => setDraft((value) => value ? `${value}\n${starter}` : starter)} className="h-auto whitespace-normal rounded-full py-1.5 text-left font-normal">{starter}</Button>)}</div>
                   </CardContent>
                 </Card>
@@ -234,7 +234,7 @@ export default function FinnishWritingPractice() {
 
                 {submitted && <Card className="border-primary/30 bg-primary/5"><CardHeader><CardTitle>{t("Phản hồi YKI", "YKI feedback")}</CardTitle></CardHeader><CardContent className="space-y-4"><div className="grid gap-3 sm:grid-cols-3"><div className="rounded-lg bg-card p-4 text-center"><strong className="text-2xl text-primary">{wordCount}</strong><p className="text-xs text-muted-foreground">{t("Số từ", "Words")}</p></div><div className="rounded-lg bg-card p-4 text-center"><strong className="text-2xl text-primary">{keywordHits.length}/{active.keywords.length}</strong><p className="text-xs text-muted-foreground">{t("Từ khóa chủ đề", "Topic words")}</p></div><div className="rounded-lg bg-card p-4 text-center"><strong className="text-2xl text-primary">{coveredPoints}/{active.pointsFi.length}</strong><p className="text-xs text-muted-foreground">{t("Ý đã bao phủ", "Points covered")}</p></div></div><p className="text-sm text-muted-foreground">{wordCount < active.minWords ? t("Bài còn ngắn. Hãy phát triển từng ý bắt buộc bằng một lý do hoặc ví dụ.", "Your response is short. Develop each required point with a reason or example.") : wordCount > active.maxWords ? t("Bài vượt độ dài mục tiêu. Hãy bỏ chi tiết lặp và giữ ý chính.", "Your response exceeds the target. Remove repetition and keep the key points.") : t("Độ dài phù hợp. Hãy kiểm tra cách chia đoạn, dạng từ và dấu câu trước khi hoàn tất.", "The length is appropriate. Check paragraphing, word forms, and punctuation before finishing.")}</p></CardContent></Card>}
 
-                 <Card className="border-amber-500/20"><CardHeader><div className="flex items-center justify-between gap-3"><CardTitle className="text-lg">{t("Bài mẫu tham khảo", "Model answer")}</CardTitle><Button variant="secondary" onClick={() => setShowModel((value) => !value)}>{showModel ? t("Ẩn", "Hide") : t("Hiện", "Show")}</Button></div></CardHeader>{showModel && <CardContent className="space-y-3"><p className="whitespace-pre-wrap leading-relaxed" lang="fi">{active.modelFi}</p><p className="border-t pt-3 text-sm text-muted-foreground">🇬🇧 {activeEnglish?.modelEn}</p><p className="text-sm text-muted-foreground">🇻🇳 {active.modelVi}</p></CardContent>}</Card>
+                 <Card className="border-amber-500/20"><CardHeader><div className="flex items-center justify-between gap-3"><CardTitle className="text-lg">{t("Bài mẫu tham khảo", "Model answer")}</CardTitle><Button variant="secondary" onClick={() => setShowModel((value) => !value)}>{showModel ? t("Ẩn", "Hide") : t("Hiện", "Show")}</Button></div></CardHeader>{showModel && <CardContent className="space-y-3"><p className="whitespace-pre-wrap leading-relaxed" lang="fi">{active.modelFi}</p><p className="border-t pt-3 text-sm text-muted-foreground"><strong>EN:</strong> {activeEnglish?.modelEn}</p><p className="text-sm text-muted-foreground"><strong>VI:</strong> {active.modelVi}</p></CardContent>}</Card>
               </div>
 
               <aside className="space-y-3 lg:sticky lg:top-28 lg:self-start">
