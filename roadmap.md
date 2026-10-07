@@ -2,6 +2,9 @@
 
 # Finnish YKI Writing
 
+- [x] Remove Vietnamese translations from YKI writing task instructions and model answers; retain English.
+- [x] Import all three uploaded reading documents with original question formats and checked answer guidance into YKI B1.
+- [x] Verify Writing language display and Reading navigation, answers and content coverage.
 - [x] Restore Finnish to desktop and mobile navigation with its learning links.
 - [x] Add a dedicated seven-mode YKI Writing practice page from all 9 uploaded sets (27 tasks).
 - [x] Verify task flow, draft saving, feedback, navigation and responsive layout.
