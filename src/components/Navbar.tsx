@@ -14,7 +14,7 @@ import {
   Menu, X, Brain, BookOpen, Languages, Code2, GraduationCap,
   Globe, UserPlus, Heart, LogIn, ChevronDown, ChevronRight, Cpu, LogOut, Library, Shield,
   FileText, PenTool, Map, MessageSquare, Award, School, Swords, User, LayoutDashboard, Newspaper,
-  FolderLock, Compass, Briefcase, Trophy, Sparkles, Bot, Database, Workflow, Cloud, Network, Gamepad2, MessagesSquare, Target, Settings2, Flame, Music, Quote, Mic2, Crown, BookType, Blocks, Rocket, Users, Plane, ClipboardCheck, FlaskConical, Route, Ruler, Volume2, Headphones, Landmark, Puzzle, Wallet, Handshake, Activity, PartyPopper, LifeBuoy, PenLine
+  FolderLock, Compass, Briefcase, Trophy, Sparkles, Bot, Database, Workflow, Cloud, Network, Gamepad2, MessagesSquare, Target, Settings2, Flame, Music, Quote, Mic2, Crown, BookType, Blocks, Rocket, Users, Plane, ClipboardCheck, FlaskConical, Route, Ruler, Volume2, Headphones, Landmark, Puzzle, Wallet, Handshake, Activity, PartyPopper, LifeBuoy, PenLine, Sprout, Snowflake
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -499,8 +499,7 @@ const Navbar = () => {
 
   // Dashboard and Admin entries are intentionally omitted from the main menu —
   // they are accessible from the user dropdown after login to keep the navbar clean.
-  // "vn" (Vietnamese) is temporarily hidden from the menu — direct URLs still work.
-  // Re-enable by removing "vn" from HIDDEN_NAV_KEYS below.
+  // Vietnamese is temporarily hidden from the menu; Finnish is intentionally visible.
   const HIDDEN_NAV_KEYS: string[] = ["vn"];
   const navLinks = (user && isPureAssistant
     ? [...baseLinks, { to: "/assistant", label: t("CTV", "Assistant"), icon: Shield, key: "assistant" }]

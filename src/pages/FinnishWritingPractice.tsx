@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { BookOpen, CheckCircle2, ChevronRight, Clock3, Keyboard, Languages, Link2, PenLine, Puzzle, RotateCcw, Save, Sparkles } from "lucide-react";
+import { BookOpen, CheckCircle2, ChevronRight, Clock3, Keyboard, Languages, Link2, PenLine, Puzzle, Save, Sparkles } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
@@ -204,7 +204,7 @@ export default function FinnishWritingPractice() {
                   <CardContent className="space-y-4">
                     <div className="rounded-lg bg-primary/5 p-4"><p className="font-semibold leading-relaxed" lang="fi">{active.promptFi}</p><p className="mt-2 text-sm text-muted-foreground">{active.promptVi}</p></div>
                     <ul className="space-y-2">{active.pointsFi.map((point, index) => <li key={point} className="flex gap-2 text-sm"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" /><span><strong>{point}</strong><span className="block text-muted-foreground">{active.pointsVi[index]}</span></span></li>)}</ul>
-                    <div className="flex flex-wrap gap-2">{active.starters.map((starter) => <button key={starter} type="button" onClick={() => setDraft((value) => value ? `${value}\n${starter}` : starter)} className="rounded-full border border-primary/20 bg-primary/5 px-3 py-1.5 text-left text-sm hover:bg-primary/10">{starter}</button>)}</div>
+                    <div className="flex flex-wrap gap-2">{active.starters.map((starter) => <Button key={starter} type="button" size="sm" variant="outline" onClick={() => setDraft((value) => value ? `${value}\n${starter}` : starter)} className="h-auto whitespace-normal rounded-full py-1.5 text-left font-normal">{starter}</Button>)}</div>
                   </CardContent>
                 </Card>
 
