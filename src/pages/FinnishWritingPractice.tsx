@@ -78,8 +78,28 @@ function SentencePractice({ mode }: { mode: "translation" | "paraphrase" | "typi
   const target = mode === "translation" ? translationItem.promptFi : sentenceItem.fi;
   const meaningEn = mode === "translation" ? getYkiWritingEnglish(translationItem.id)?.promptEn : sentenceItem.en;
   const meaningVi = mode === "translation" ? translationItem.promptVi : sentenceItem.vi;
-  const next = () => { setIndex((value) => (value + 1) % poolSize); setAnswer(""); setRevealed(false); };
+  const [start, setStart] = useState<number | null>(null);
+  const [now, setNow] = useState(0);
+  const [checked, setChecked] = useState<{ wpm: number; acc: number; ms: number } | null>(null);
+  const [best, setBest] = useState(() => Number(localStorage.getItem("fi-typing-best-wpm") || 0));
+  useEffect(() => {
+    if (mode !== "typing" || !start || checked) return;
+    const id = setInterval(() => setNow(Date.now()), 500);
+    return () => clearInterval(id);
+  }, [mode, start, checked]);
+  const next = () => { setIndex((value) => (value + 1) % poolSize); setAnswer(""); setRevealed(false); setStart(null); setChecked(null); };
   const typingScore = target ? Math.round((normalize(answer).split(" ").filter((word, i) => word === normalize(target).split(" ")[i]).length / Math.max(1, normalize(target).split(" ").length)) * 100) : 0;
+  const elapsed = start ? Math.max(0, now - start) : 0;
+  const correctChars = Array.from(answer).filter((c, i) => c === target[i]).length;
+  const calcWpm = (ms: number) => ms > 0 ? Math.round(correctChars / 5 / Math.max(ms / 60000, 1 / 60)) : 0;
+  const liveWpm = calcWpm(elapsed);
+  const check = () => {
+    const ms = start ? Date.now() - start : 0;
+    const r = { wpm: calcWpm(ms), acc: typingScore, ms };
+    setChecked(r);
+    if (r.acc >= 80 && r.wpm > best) { setBest(r.wpm); localStorage.setItem("fi-typing-best-wpm", String(r.wpm)); }
+    logStudentActivity({ activityType: "finnish_writing_typing", activityId: sentenceItem.id, score: r.acc, maxScore: 100, domain: "finnish", metadata: { wpm: r.wpm } });
+  };
   const labels = {
     translation: t("Dịch ý tiếng Việt sau sang tiếng Phần Lan", "Translate the Vietnamese idea into Finnish"),
     paraphrase: t("Viết lại câu theo cách khác nhưng giữ nguyên nghĩa", "Rewrite the sentence without changing its meaning"),
@@ -96,8 +116,22 @@ function SentencePractice({ mode }: { mode: "translation" | "paraphrase" | "typi
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-2 rounded-lg bg-muted/60 p-4 text-lg leading-relaxed"><p lang={mode === "translation" ? "vi" : "fi"}>{source}</p>{mode !== "translation" && <p className="text-base text-muted-foreground" lang="en"><strong>EN:</strong> {meaningEn}</p>}</div>
-        <Textarea value={answer} onChange={(event) => setAnswer(event.target.value)} className="min-h-32 text-base" lang="fi" placeholder="Kirjoita tähän..." />
-        {mode === "typing" && answer && <p className="text-sm font-semibold text-primary">{t("Độ chính xác theo từ", "Word accuracy")}: {typingScore}%</p>}
+        <Textarea value={answer} readOnly={mode === "typing" && !!checked}
+          onChange={(event) => { if (mode === "typing" && start === null) { setStart(Date.now()); } setNow(Date.now()); setAnswer(event.target.value); }}
+          onKeyDown={mode === "typing" ? (event) => {
+            if (event.key !== "Enter" || event.shiftKey || event.nativeEvent.isComposing) return;
+            event.preventDefault();
+            if (checked) next(); else if (answer.trim()) check();
+          } : undefined}
+          className="min-h-32 text-base" lang="fi" placeholder={mode === "typing" ? t("Gõ câu... (Enter lần 1: chấm, Enter lần 2: câu tiếp)", "Type... (Enter once: check, Enter again: next)") : "Kirjoita tähän..."} />
+        {mode === "typing" && (
+          <div className="grid grid-cols-3 gap-2 text-center">
+            <div className="rounded-lg bg-muted/50 p-2"><div className="text-xs text-muted-foreground">WPM</div><div className="text-xl font-bold">{checked?.wpm ?? liveWpm}</div></div>
+            <div className="rounded-lg bg-muted/50 p-2"><div className="text-xs text-muted-foreground">{t("Chính xác", "Accuracy")}</div><div className="text-xl font-bold">{checked?.acc ?? typingScore}%</div></div>
+            <div className="rounded-lg bg-muted/50 p-2"><div className="text-xs text-muted-foreground">{t("Thời gian", "Time")}</div><div className="text-xl font-bold">{Math.round((checked?.ms ?? elapsed) / 1000)}s</div></div>
+          </div>
+        )}
+        {mode === "typing" && checked && <p className="text-sm font-semibold text-primary">{t("Đã chấm! Nhấn Enter để sang câu tiếp.", "Checked! Press Enter for the next sentence.")} {t("Kỷ lục", "Best")}: {best} WPM</p>}
         <Button variant="secondary" onClick={() => setRevealed((value) => !value)}>{revealed ? t("Ẩn đáp án", "Hide answer") : t("Xem đáp án", "Show answer")}</Button>
         {revealed && <div className="rounded-lg border border-primary/20 bg-primary/5 p-4"><p className="font-semibold" lang="fi">{target}</p><div className="mt-2 space-y-1 text-sm text-muted-foreground"><p><strong>EN:</strong> {meaningEn}</p>{mode !== "typing" && <p><strong>VI:</strong> {meaningVi}</p>}</div></div>}
       </CardContent>
