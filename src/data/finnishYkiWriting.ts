@@ -1,3 +1,4 @@
+import { YKI_TYPING_ENGLISH } from "./finnishYkiTypingEnglish";
 export type YkiWritingKind = "message" | "email" | "opinion";
 
 export interface YkiWritingTask {
@@ -203,20 +204,33 @@ const YKI_WRITING_SENTENCE_ENGLISH: Record<string, string[]> = {
   ],
 };
 
-export const YKI_WRITING_SENTENCES = YKI_WRITING_TASKS.flatMap((item) =>
+const RAW_YKI_WRITING_SENTENCES = YKI_WRITING_TASKS.flatMap((item) =>
   item.modelFi
     .split(/(?<=[.!?])\s+(?=[A-ZÅÄÖ])/)
     .map((sentence, index) => ({
       id: `${item.id}-s${index + 1}`,
       fi: sentence.trim(),
       vi: item.modelVi,
-      en: YKI_WRITING_SENTENCE_ENGLISH[item.id]?.[index]
-        ?? YKI_WRITING_ENGLISH[item.id]?.modelEn.split(/(?<=[.!?])\s+/)[index]
-        ?? "",
+      en: YKI_TYPING_ENGLISH[`${item.id}-s${index + 1}`] ?? "",
       taskId: item.id,
     }))
     .filter((entry) => entry.fi.length >= 24),
 );
+
+export const YKI_TYPING_LEVELS = [
+  { id: 1, labelEn: "Level 1 - Short", labelVi: "Cấp 1 - Câu ngắn" },
+  { id: 2, labelEn: "Level 2 - Basic", labelVi: "Cấp 2 - Cơ bản" },
+  { id: 3, labelEn: "Level 3 - Intermediate", labelVi: "Cấp 3 - Trung cấp" },
+  { id: 4, labelEn: "Level 4 - Advanced", labelVi: "Cấp 4 - Nâng cao" },
+] as const;
+
+const wordCount = (text: string) => text.trim().split(/\s+/).length;
+const byLength = [...RAW_YKI_WRITING_SENTENCES].sort((x, y) => wordCount(x.fi) - wordCount(y.fi) || x.fi.length - y.fi.length);
+const perLevel = Math.ceil(byLength.length / YKI_TYPING_LEVELS.length);
+const levelById = new Map(byLength.map((entry, i) => [entry.id, Math.min(YKI_TYPING_LEVELS.length, Math.floor(i / perLevel) + 1)]));
+
+/** Typing/paraphrase bank, each sentence with its own explicit English translation and a length-based level (1 = shortest). */
+export const YKI_WRITING_SENTENCES = RAW_YKI_WRITING_SENTENCES.map((entry) => ({ ...entry, level: levelById.get(entry.id) ?? 1 }));
 
 export const YKI_SKILL_BANK = {
   vocabulary: [
