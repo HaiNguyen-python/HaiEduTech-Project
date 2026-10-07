@@ -1,5 +1,11 @@
 # Business English & Academic English
 
+# Finnish YKI Writing
+
+- [x] Restore Finnish to desktop and mobile navigation with its learning links.
+- [x] Add a dedicated seven-mode YKI Writing practice page from all 9 uploaded sets (27 tasks).
+- [x] Verify task flow, draft saving, feedback, navigation and responsive layout.
+
 # Chinese Sentence Typing
 
 - [x] Preserve and audit punctuation in the ordinary sentence bank.
