@@ -1,3 +1,4 @@
+import { AutoSpeakToggle, useAutoSpeak, useAutoSpeakPref } from "@/components/typing/AutoSpeak";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowRight, Volume2, Eye, EyeOff, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -7,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { pickRandomIndex, markPracticed } from "@/lib/randomPicker";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
-import { playChineseTts } from "@/lib/chineseTts";
+import { playChineseTts, stopChineseTts } from "@/lib/chineseTts";
 import HanziStrokeOrder from "@/components/HanziStrokeOrder";
 import { loadLetters, type ZhLetter } from "@/data/chineseLetters";
 import type { ZhLevel } from "@/data/chineseWritingBank";
@@ -57,6 +58,8 @@ export default function ZhLetterTyping({ level }: { level: ZhLevel }) {
   useEffect(() => { if (items.length) setIdx(pickRandomIndex(poolKey, ids)); reset(); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [poolKey, items.length]);
   const next = () => { if (item) markPracticed(poolKey, item.id); setIdx(pickRandomIndex(poolKey, ids, item?.id)); reset(); };
 
+  const speak = useAutoSpeakPref();
+  useAutoSpeak(speak.on, item?.id, item?.zh, (x) => playChineseTts(x), stopChineseTts);
   if (!all) return <Card><CardContent className="p-8 flex justify-center"><Loader2 className="w-6 h-6 animate-spin text-muted-foreground" /></CardContent></Card>;
   if (!item) return <Card><CardContent className="p-6 text-muted-foreground">{t("Chưa có lá thư ở cấp độ này.", "No letters at this level yet.")}</CardContent></Card>;
 
@@ -103,7 +106,7 @@ export default function ZhLetterTyping({ level }: { level: ZhLevel }) {
           <Badge variant="outline">HSK {item.level}</Badge>
           <Badge variant="secondary">{t(`Tập ${item.vol}`, `Vol. ${item.vol}`)} · {/^\d+$/.test(item.label) ? t(`Thư ${item.label}`, `Letter ${item.label}`) : item.label}</Badge>
           <div className="ml-auto flex gap-1">
-            <Button size="sm" variant="ghost" onClick={() => playChineseTts(item.zh)}><Volume2 className="w-4 h-4" /></Button>
+            <AutoSpeakToggle on={speak.on} toggle={speak.toggle} onReplay={() => playChineseTts(item.zh)} />
             <Button size="sm" variant="ghost" onClick={() => setShowPy((s) => !s)}>{showPy ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}<span className="ml-1">Pinyin</span></Button>
           </div>
         </div>

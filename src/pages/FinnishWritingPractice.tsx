@@ -1,3 +1,4 @@
+import { AutoSpeakToggle, useAutoSpeak, useAutoSpeakPref } from "@/components/typing/AutoSpeak";
 import { useEffect, useMemo, useState } from "react";
 import { BookOpen, CheckCircle2, ChevronRight, Clock3, Keyboard, Languages, Link2, PenLine, Puzzle, Save, Sparkles } from "lucide-react";
 import Navbar from "@/components/Navbar";
@@ -13,6 +14,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { toast } from "@/hooks/use-toast";
+import { playFinnishTts, stopFinnishTts } from "@/lib/finnishTts";
 import { getYkiWritingEnglish, YKI_SKILL_BANK, YKI_WRITING_KINDS, YKI_TYPING_LEVELS, YKI_WRITING_SENTENCES, YKI_WRITING_TASKS, type YkiWritingKind } from "@/data/finnishYkiWriting";
 
 type FilterKind = "all" | YkiWritingKind;
@@ -87,6 +89,8 @@ function SentencePractice({ mode }: { mode: "translation" | "paraphrase" | "typi
   const target = mode === "translation" ? translationItem.promptFi : sentenceItem.fi;
   const meaningEn = mode === "translation" ? getYkiWritingEnglish(translationItem.id)?.promptEn : sentenceItem.en;
   const meaningVi = mode === "translation" ? translationItem.promptVi : sentenceItem.vi;
+  const speak = useAutoSpeakPref();
+  useAutoSpeak(speak.on && mode === "typing", sentenceItem?.id, sentenceItem?.fi, (x) => playFinnishTts(x), stopFinnishTts);
   const [start, setStart] = useState<number | null>(null);
   const [now, setNow] = useState(0);
   const [checked, setChecked] = useState<{ wpm: number; acc: number; ms: number } | null>(null);
@@ -132,7 +136,7 @@ function SentencePractice({ mode }: { mode: "translation" | "paraphrase" | "typi
               </Button>
             ))}
           </div>
-          <Button size="sm" variant="outline" onClick={next}>{t("Tiếp theo", "Next")}<ChevronRight className="ml-1 h-4 w-4" /></Button>
+          <div className="flex items-center gap-2">{mode === "typing" && <AutoSpeakToggle on={speak.on} toggle={speak.toggle} onReplay={() => playFinnishTts(sentenceItem.fi)} />}<Button size="sm" variant="outline" onClick={next}>{t("Tiếp theo", "Next")}<ChevronRight className="ml-1 h-4 w-4" /></Button></div>
         </div>
         <CardTitle className="pt-2 text-lg">{labels[mode]}</CardTitle>
       </CardHeader>

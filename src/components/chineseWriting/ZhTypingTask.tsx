@@ -1,3 +1,4 @@
+import { AutoSpeakToggle, useAutoSpeak, useAutoSpeakPref } from "@/components/typing/AutoSpeak";
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -6,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { pickRandomIndex, markPracticed } from "@/lib/randomPicker";
+import { playChineseTts, stopChineseTts } from "@/lib/chineseTts";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
 import type { ZhSentence } from "@/data/chineseWritingBank";
 import { letterDisplayCharacters, normalizeLetterTyping } from "@/lib/chineseLetterTyping";
@@ -25,6 +27,8 @@ export default function ZhTypingTask({ items, poolKey }: { items: ZhSentence[]; 
   useEffect(() => { setIdx(pickRandomIndex(poolKey, ids)); reset(); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [poolKey, items.length]);
   const next = () => { if (item) markPracticed(poolKey, item.id); setIdx(pickRandomIndex(poolKey, ids, item?.id)); reset(); };
 
+  const speak = useAutoSpeakPref();
+  useAutoSpeak(speak.on, item?.id, item?.zh, (x) => playChineseTts(x), stopChineseTts);
   if (!item) return null;
   const target = normalizeLetterTyping(item.zh);
   const got = normalizeLetterTyping(typed);
@@ -48,7 +52,7 @@ export default function ZhTypingTask({ items, poolKey }: { items: ZhSentence[]; 
     <Card>
       <CardContent className="p-5 space-y-4">
         <div className="flex items-center justify-between text-sm text-muted-foreground">
-          <Badge variant="outline">HSK {item.level}</Badge><span>{(idx % items.length) + 1}/{items.length}</span>
+          <Badge variant="outline">HSK {item.level}</Badge><span className="flex items-center gap-2"><AutoSpeakToggle on={speak.on} toggle={speak.toggle} onReplay={() => playChineseTts(item.zh)} />{(idx % items.length) + 1}/{items.length}</span>
         </div>
         <div>
           <p className="text-2xl" lang="zh-CN" data-testid="zh-typing-passage">

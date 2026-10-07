@@ -1,9 +1,11 @@
+import { AutoSpeakToggle, useAutoSpeak, useAutoSpeakPref } from "@/components/typing/AutoSpeak";
 import { pickRandomIndex, markPracticed } from "@/lib/randomPicker";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Keyboard, RotateCcw, ArrowRight, Timer, Trophy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { playEnglishTts, stopEnglishTts } from "@/lib/englishTts";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { typingSentences, TYPING_CATEGORIES, type TypingLevel, type TypingSentence } from "@/data/ieltsTypingBank";
 
@@ -67,6 +69,8 @@ export default function TypingPractice({ taskType }: { taskType: 1 | 2 }) {
 
   const elapsed = start ? (result ? 0 : now - start) : 0;
   const sprintLeft = mode === "sprint" && start ? Math.max(0, 60 - Math.floor(elapsed / 1000)) : 60;
+  const speak = useAutoSpeakPref();
+  useAutoSpeak(speak.on, current?.id, current?.text, (x) => playEnglishTts(x), stopEnglishTts);
   const live = current && start ? calc(current.text, typed, elapsed, keystrokes, errors) : null;
 
   const saveResult = useCallback((r: Result, id: string) => {
@@ -168,6 +172,7 @@ export default function TypingPractice({ taskType }: { taskType: 1 | 2 }) {
             <span className="text-xs font-semibold text-muted-foreground w-20">{t("Chế độ", "Mode")}</span>
             <Chip active={mode === "single"} onClick={() => setMode("single")}>{t("Từng câu", "Single sentence")}</Chip>
             <Chip active={mode === "sprint"} onClick={() => setMode("sprint")}>Sprint 60s</Chip>
+            <AutoSpeakToggle on={speak.on} toggle={speak.toggle} onReplay={() => current && playEnglishTts(current.text)} />
             {stat && (
               <span className="ml-auto text-xs text-muted-foreground flex items-center gap-1">
                 <Trophy className="w-3.5 h-3.5 text-primary" />
