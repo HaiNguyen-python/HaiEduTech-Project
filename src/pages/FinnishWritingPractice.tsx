@@ -13,7 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { toast } from "@/hooks/use-toast";
-import { getYkiWritingEnglish, YKI_SKILL_BANK, YKI_WRITING_KINDS, YKI_WRITING_SENTENCES, YKI_WRITING_TASKS, type YkiWritingKind } from "@/data/finnishYkiWriting";
+import { getYkiWritingEnglish, YKI_SKILL_BANK, YKI_WRITING_KINDS, YKI_TYPING_LEVELS, YKI_WRITING_SENTENCES, YKI_WRITING_TASKS, type YkiWritingKind } from "@/data/finnishYkiWriting";
 
 type FilterKind = "all" | YkiWritingKind;
 type SkillKind = keyof typeof YKI_SKILL_BANK;
@@ -66,13 +66,22 @@ function SkillCards({ kind }: { kind: SkillKind }) {
   );
 }
 
+const shuffledIds = (level: number) => {
+  const ids = YKI_WRITING_SENTENCES.map((item, i) => (item.level === level ? i : -1)).filter((i) => i >= 0);
+  for (let i = ids.length - 1; i > 0; i -= 1) { const j = Math.floor(Math.random() * (i + 1)); [ids[i], ids[j]] = [ids[j], ids[i]]; }
+  return ids;
+};
+
 function SentencePractice({ mode }: { mode: "translation" | "paraphrase" | "typing" }) {
   const { t } = useLanguage();
   const [index, setIndex] = useState(0);
   const [answer, setAnswer] = useState("");
   const [revealed, setRevealed] = useState(false);
-  const poolSize = mode === "translation" ? YKI_WRITING_TASKS.length : YKI_WRITING_SENTENCES.length;
-  const sentenceItem = YKI_WRITING_SENTENCES[index % YKI_WRITING_SENTENCES.length];
+  const [level, setLevel] = useState(1);
+  const [order, setOrder] = useState<number[]>(() => shuffledIds(1));
+  const levelPool = order.map((i) => YKI_WRITING_SENTENCES[i]);
+  const poolSize = mode === "translation" ? YKI_WRITING_TASKS.length : levelPool.length;
+  const sentenceItem = levelPool[index % levelPool.length];
   const translationItem = YKI_WRITING_TASKS[index % YKI_WRITING_TASKS.length];
   const source = mode === "translation" ? translationItem.promptVi : sentenceItem.fi;
   const target = mode === "translation" ? translationItem.promptFi : sentenceItem.fi;
@@ -87,7 +96,13 @@ function SentencePractice({ mode }: { mode: "translation" | "paraphrase" | "typi
     const id = setInterval(() => setNow(Date.now()), 500);
     return () => clearInterval(id);
   }, [mode, start, checked]);
-  const next = () => { setIndex((value) => (value + 1) % poolSize); setAnswer(""); setRevealed(false); setStart(null); setChecked(null); };
+  const reset = () => { setAnswer(""); setRevealed(false); setStart(null); setChecked(null); };
+  const next = () => {
+    if (mode !== "translation" && index + 1 >= poolSize) { setOrder(shuffledIds(level)); setIndex(0); }
+    else setIndex((value) => (value + 1) % poolSize);
+    reset();
+  };
+  const changeLevel = (value: number) => { setLevel(value); setOrder(shuffledIds(value)); setIndex(0); reset(); };
   const typingScore = target ? Math.round((normalize(answer).split(" ").filter((word, i) => word === normalize(target).split(" ")[i]).length / Math.max(1, normalize(target).split(" ").length)) * 100) : 0;
   const elapsed = start ? Math.max(0, now - start) : 0;
   const correctChars = Array.from(answer).filter((c, i) => c === target[i]).length;
@@ -108,8 +123,15 @@ function SentencePractice({ mode }: { mode: "translation" | "paraphrase" | "typi
   return (
     <Card className="border-primary/20">
       <CardHeader>
-        <div className="flex items-center justify-between gap-3">
-          <Badge variant="outline">{index + 1} / {poolSize}</Badge>
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex flex-wrap items-center gap-2">
+            <Badge variant="outline">{index + 1} / {poolSize}</Badge>
+            {mode !== "translation" && YKI_TYPING_LEVELS.map((lv) => (
+              <Button key={lv.id} size="sm" variant={level === lv.id ? "default" : "outline"} onClick={() => changeLevel(lv.id)}>
+                {t(lv.labelVi, lv.labelEn)}
+              </Button>
+            ))}
+          </div>
           <Button size="sm" variant="outline" onClick={next}>{t("Tiếp theo", "Next")}<ChevronRight className="ml-1 h-4 w-4" /></Button>
         </div>
         <CardTitle className="pt-2 text-lg">{labels[mode]}</CardTitle>
