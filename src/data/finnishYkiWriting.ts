@@ -205,7 +205,7 @@ const YKI_WRITING_SENTENCE_ENGLISH: Record<string, string[]> = {
 
 export const YKI_WRITING_SENTENCES = YKI_WRITING_TASKS.flatMap((item) =>
   item.modelFi
-    .split(/(?<=[.!?])\s+/)
+    .split(/(?<=[.!?])\s+(?=[A-ZÅÄÖ])/)
     .map((sentence, index) => ({
       id: `${item.id}-s${index + 1}`,
       fi: sentence.trim(),
