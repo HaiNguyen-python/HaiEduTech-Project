@@ -116,7 +116,7 @@ export const YKI_TYPING_ENGLISH: Record<string, string> = {
   "yki-doc-7-1-s3": "We could buy a bouquet of flowers, because it is beautiful and easy to give.",
   "yki-doc-7-1-s4": "Another option is a gift card to a bookshop, since the instructor likes reading.",
   "yki-doc-7-1-s5": "We can give the gift in the classroom after the last lesson on Thursday at 7 p.m.",
-  "yki-doc-7-1-s6": "Which option do you think is better?",
+  "yki-doc-7-1-s6": "Which option do you all think is better?",
   "yki-doc-7-2-s1": "Dear Property Manager, I am not satisfied with our housing company's yard.",
   "yki-doc-7-2-s2": "The equipment in the children's playground is old, and some of it is broken.",
   "yki-doc-7-2-s3": "In addition, there are not enough benches in the yard for older residents.",
