@@ -98,7 +98,7 @@ function SentencePractice({ mode }: { mode: "translation" | "paraphrase" | "typi
     const r = { wpm: calcWpm(ms), acc: typingScore, ms };
     setChecked(r);
     if (r.acc >= 80 && r.wpm > best) { setBest(r.wpm); localStorage.setItem("fi-typing-best-wpm", String(r.wpm)); }
-    logStudentActivity({ activityType: "finnish_writing_typing", activityId: sentenceItem.id, score: r.acc, maxScore: 100, domain: "finnish", metadata: { wpm: r.wpm } });
+    logStudentActivity({ activityType: "finnish_writing_typing", activityId: sentenceItem.id, score: r.acc, maxScore: 100, metadata: { wpm: r.wpm } });
   };
   const labels = {
     translation: t("Dịch ý tiếng Việt sau sang tiếng Phần Lan", "Translate the Vietnamese idea into Finnish"),
