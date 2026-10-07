@@ -780,7 +780,7 @@ const QuestionBlock: React.FC<QBlockProps> = ({ question: q, value, onChange, su
       {q.type === "matching-headings" && q.headings && (
         <div className="pl-9 space-y-2">
           <ul className="rounded-lg border border-dashed bg-muted/40 p-2.5 space-y-1 text-xs text-foreground">
-            {q.headings.map(h => <li key={h.label}><span className="font-bold text-primary">{h.label}.</span> {renderText(h.text)}</li>)}
+            {q.headings.map(h => <li key={h.label}>{renderText(`${h.label}. ${h.text}`)}</li>)}
           </ul>
           <select
             value={value}
@@ -855,7 +855,7 @@ const QuestionBlock: React.FC<QBlockProps> = ({ question: q, value, onChange, su
         <div className="pl-9 space-y-2">
           <ul className="rounded-lg border border-dashed bg-muted/40 p-2.5 space-y-1 text-xs text-foreground">
             {(q.features || q.endings || q.wordBank || []).map((o) => (
-              <li key={o.label}><span className="font-bold text-primary">{o.label}.</span> {renderText(o.text)}</li>
+              <li key={o.label}>{renderText(`${o.label}. ${o.text}`)}</li>
             ))}
           </ul>
           <select
