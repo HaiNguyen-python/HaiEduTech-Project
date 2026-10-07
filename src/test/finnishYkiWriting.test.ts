@@ -7,15 +7,11 @@ describe("Finnish YKI writing bank", () => {
     for (const task of YKI_WRITING_TASKS) {
       expect(task.modelFi).not.toMatch(/(?:Ystävällisin terveisin|Terveisin),/);
       if (task.kind === "email") {
-        expect(task.modelFi).toMatch(/Ystävällisin terveisin\n[^\n]+$/);
+        expect(task.modelFi).toMatch(/Ystävällisin terveisin$/);
       }
     }
     const closings = YKI_WRITING_SENTENCES.filter((sentence) => sentence.fi.startsWith("Ystävällisin terveisin"));
-    expect(closings).toHaveLength(9);
-    for (const sentence of closings) {
-      expect(sentence.fi).not.toContain("terveisin,");
-      expect(sentence.en).toMatch(/^Kind regards, /);
-    }
+    expect(closings).toHaveLength(0);
   });
 
   it("keeps mielestänne as genuine plural address to the course group", () => {
