@@ -5,10 +5,10 @@
 - [x] Restore Finnish to desktop and mobile navigation with its learning links.
 - [x] Add a dedicated seven-mode YKI Writing practice page from all 9 uploaded sets (27 tasks).
 - [x] Verify task flow, draft saving, feedback, navigation and responsive layout.
-- [ ] Add English translations for Finnish Writing prompts, required points, model answers and sentence practice.
-- [ ] Expand Writing vocabulary and skill cards with Finnish examples and English meanings.
-- [ ] Add nine uploaded YKI B1 speaking sets with structured tasks and model answers.
-- [ ] Audit the new writing and speaking content and verify representative flows.
+- [x] Add English translations for Finnish Writing prompts, required points, model answers and sentence practice.
+- [x] Expand Writing vocabulary and skill cards with Finnish examples and English meanings.
+- [x] Add nine uploaded YKI B1 speaking sets with structured tasks and model answers.
+- [x] Audit the new writing and speaking content and verify representative flows.
 
 # Chinese Sentence Typing
 

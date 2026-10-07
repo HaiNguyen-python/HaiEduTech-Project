@@ -11,6 +11,7 @@
 
 - Public subject UI exposes Home, About, English, Chinese, Finnish, Vietnamese, Technology, Interpersonal Skills and Your Corner. Finnish pages stay open to all signed-in users; hide JA/SV from navigation (teacher-gated routes), Specialized Language and Super Dictionary; keep direct course URLs.
 - Keep Finnish YKI Writing prompts in a dedicated typed bank grouped into nine three-task exam sets; reuse this bank across task and skill practice to prevent content drift.
+- Keep uploaded Finnish YKI B1 Speaking exams in one typed bank grouped by exam and the four official practice parts, so prompts and trilingual model answers stay aligned.
 - Pattern Drilling is English/Chinese only: 15 frames per Starter-C1 level and five substitutions per frame.
 - Writing-practice tasks use unseen random selection with a single Next action; Chinese vocabulary and pattern tasks always show a complete Hanzi, Pinyin, and meaning example.
 - Course notices use shared tuition defaults, store one selected-language snapshot per recipient, and send only through the staff-authorized single-notice email function.
