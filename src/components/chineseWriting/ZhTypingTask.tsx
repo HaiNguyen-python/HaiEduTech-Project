@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
@@ -8,13 +8,13 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { pickRandomIndex, markPracticed } from "@/lib/randomPicker";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
 import type { ZhSentence } from "@/data/chineseWritingBank";
-
-const strip = (s: string) => s.replace(/[\s，。！？、；：,.!?;:"“”（）()…]/g, "");
+import { letterDisplayCharacters, normalizeLetterTyping } from "@/lib/chineseLetterTyping";
 
 export default function ZhTypingTask({ items, poolKey }: { items: ZhSentence[]; poolKey: string }) {
   const { t } = useLanguage();
   const [idx, setIdx] = useState(0);
   const [typed, setTyped] = useState("");
+  const [showPinyin, setShowPinyin] = useState(true);
   const [start, setStart] = useState<number | null>(null);
   const [done, setDone] = useState<{ acc: number; cpm: number } | null>(null);
   const ref = useRef<HTMLTextAreaElement>(null);
@@ -26,8 +26,8 @@ export default function ZhTypingTask({ items, poolKey }: { items: ZhSentence[]; 
   const next = () => { if (item) markPracticed(poolKey, item.id); setIdx(pickRandomIndex(poolKey, ids, item?.id)); reset(); };
 
   if (!item) return null;
-  const target = strip(item.zh);
-  const got = strip(typed);
+  const target = normalizeLetterTyping(item.zh);
+  const got = normalizeLetterTyping(typed);
 
   function finish() {
     let ok = 0;
@@ -51,12 +51,16 @@ export default function ZhTypingTask({ items, poolKey }: { items: ZhSentence[]; 
           <Badge variant="outline">HSK {item.level}</Badge><span>{(idx % items.length) + 1}/{items.length}</span>
         </div>
         <div>
-          <p className="text-2xl tracking-wide">
-            {Array.from(target).map((ch, i) => (
-              <span key={i} className={i < got.length ? (got[i] === ch ? "text-primary" : "text-destructive underline") : "text-foreground"}>{ch}</span>
+          <p className="text-2xl" lang="zh-CN" data-testid="zh-typing-passage">
+            {letterDisplayCharacters(item.zh).map(({ character, typingIndex }, i) => (
+              <span key={i} className={typingIndex !== null && typingIndex < got.length ? (got[typingIndex] === character ? "text-primary" : "text-destructive underline") : "text-foreground"}>{character}</span>
             ))}
           </p>
-          <p className="text-muted-foreground">{item.pinyin}</p>
+          <Button variant="ghost" size="sm" className="my-1 gap-2" aria-expanded={showPinyin} aria-controls="zh-typing-pinyin" onClick={() => setShowPinyin((visible) => !visible)}>
+            {showPinyin ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+            {showPinyin ? t("Ẩn Pinyin", "Hide Pinyin") : t("Hiện Pinyin", "Show Pinyin")}
+          </Button>
+          <p id="zh-typing-pinyin" className="text-muted-foreground" hidden={!showPinyin}>{item.pinyin}</p>
           <p className="text-sm text-muted-foreground">{item.vi}</p>
         </div>
         <Textarea ref={ref} value={typed} readOnly={!!done} rows={2} lang="zh-CN" onKeyDown={onKey}

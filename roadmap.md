@@ -1,5 +1,10 @@
 # Business English & Academic English
 
+# Chinese Sentence Typing
+
+- [x] Preserve and audit punctuation in the ordinary sentence bank.
+- [x] Add a Pinyin visibility control and verify typing scores and display.
+
 # IELTS Reading room
 
 - [x] Apply dark mode across both panes and exam controls with readable passage labels and answer fields.

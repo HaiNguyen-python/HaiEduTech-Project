@@ -1,8 +1,21 @@
 import { describe, expect, it } from "vitest";
 import { loadLetters } from "../data/chineseLetters";
+import { ZH_TYPING } from "../data/chineseWritingBank";
 import { letterDisplayCharacters, normalizeLetterTyping } from "../lib/chineseLetterTyping";
 
 describe("999 Letters punctuation", () => {
+  it("preserves punctuation and scoring indices in every ordinary typing sentence", () => {
+    expect(ZH_TYPING.length).toBeGreaterThan(0);
+    for (const sentence of ZH_TYPING) {
+      const characters = letterDisplayCharacters(sentence.zh);
+      expect(characters.map((c) => c.character).join(""), sentence.id).toBe(sentence.zh);
+      expect(/[。！？]$/.test(sentence.zh), sentence.id).toBe(true);
+      const scored = characters.filter((c) => c.typingIndex !== null);
+      expect(scored.map((c) => c.character).join(""), sentence.id).toBe(normalizeLetterTyping(sentence.zh));
+      expect(scored.map((c) => c.typingIndex), sentence.id).toEqual(scored.map((_, i) => i));
+    }
+  });
+
   it("retains commas and periods without shifting the typing cursor", () => {
     const text = "除了你自己，没有人会明白。";
     const characters = letterDisplayCharacters(text);
