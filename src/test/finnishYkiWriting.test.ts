@@ -39,5 +39,13 @@ describe("Finnish YKI writing bank", () => {
   it("derives a substantial sentence bank from the same exam content", () => {
     expect(YKI_WRITING_SENTENCES.length).toBeGreaterThanOrEqual(100);
     expect(new Set(YKI_WRITING_SENTENCES.map((item) => item.id)).size).toBe(YKI_WRITING_SENTENCES.length);
+    for (const sentence of YKI_WRITING_SENTENCES) {
+      expect(sentence.fi.length, `${sentence.id} Finnish`).toBeGreaterThan(20);
+      expect(sentence.en.length, `${sentence.id} English`).toBeGreaterThan(10);
+    }
+    expect(YKI_WRITING_SENTENCES.find((item) => item.fi === "Ensinnäkin puhelinta katsotaan jatkuvasti työssä, koulussa ja kotona.")?.en)
+      .toBe("First, people constantly check their phones at work, school and home.");
+    expect(YKI_WRITING_SENTENCES.find((item) => item.fi === "Se vaikeuttaa keskittymistä.")?.en)
+      .toBe("This makes concentration difficult.");
   });
 });
