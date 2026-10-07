@@ -27,14 +27,25 @@ export const usePremium = () => {
       setLoading(false);
       return;
     }
-    const { data } = await supabase
-      .from("user_subscriptions")
-      .select("status, source, expires_at")
-      .eq("user_id", user.id)
-      .limit(1)
-      .maybeSingle();
-    setState({ status: data?.status ?? null, source: data?.source ?? null, expiresAt: data?.expires_at ?? null });
-    setLoading(false);
+    try {
+      const res: any = await Promise.race([
+        supabase
+          .from("user_subscriptions")
+          .select("status, source, expires_at")
+          .eq("user_id", user.id)
+          .limit(1)
+          .maybeSingle(),
+        new Promise((r) => setTimeout(() => r({ data: undefined, timedOut: true }), 8000)),
+      ]);
+      if (!res?.timedOut) {
+        const data = res?.data;
+        setState({ status: data?.status ?? null, source: data?.source ?? null, expiresAt: data?.expires_at ?? null });
+      }
+    } catch {
+      // keep previous state on network failure
+    } finally {
+      setLoading(false);
+    }
   }, [user]);
 
   useEffect(() => {
