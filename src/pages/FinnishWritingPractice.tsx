@@ -20,6 +20,15 @@ import { getYkiWritingEnglish, YKI_SKILL_BANK, YKI_WRITING_KINDS, YKI_TYPING_LEV
 type FilterKind = "all" | YkiWritingKind;
 type SkillKind = keyof typeof YKI_SKILL_BANK;
 
+/** Lays out a model letter: greeting line, body, then closing on its own line. */
+const formatModelLetter = (text: string) => {
+  let out = text.replace(/\r/g, "").trim();
+  if (out.includes("\n\n")) return out;
+  out = out.replace(/^((?:Hei|Hyvä|Hyvät|Arvoisa|Moi|Terve|Dear|Hello|Hi)[^,.!?\n]{0,40}[,!])\s+/, "$1\n\n");
+  out = out.replace(/\s*\n?\s*((?:Ystävällisin terveisin|Parhain terveisin|Terveisin|Kiittäen|Kind regards|Best regards|Best wishes|Regards)[,.]?)\s*$/, "\n\n$1");
+  return out;
+};
+
 const TABS = [
   { value: "tasks", icon: PenLine, vi: "Đề YKI", en: "YKI Tasks" },
   { value: "vocabulary", icon: BookOpen, vi: "Từ vựng", en: "Vocabulary" },
@@ -292,7 +301,7 @@ export default function FinnishWritingPractice() {
 
                 {submitted && <Card className="border-primary/30 bg-primary/5"><CardHeader><CardTitle>{t("Phản hồi YKI", "YKI feedback")}</CardTitle></CardHeader><CardContent className="space-y-4"><div className="grid gap-3 sm:grid-cols-3"><div className="rounded-lg bg-card p-4 text-center"><strong className="text-2xl text-primary">{wordCount}</strong><p className="text-xs text-muted-foreground">{t("Số từ", "Words")}</p></div><div className="rounded-lg bg-card p-4 text-center"><strong className="text-2xl text-primary">{keywordHits.length}/{active.keywords.length}</strong><p className="text-xs text-muted-foreground">{t("Từ khóa chủ đề", "Topic words")}</p></div><div className="rounded-lg bg-card p-4 text-center"><strong className="text-2xl text-primary">{coveredPoints}/{active.pointsFi.length}</strong><p className="text-xs text-muted-foreground">{t("Ý đã bao phủ", "Points covered")}</p></div></div><p className="text-sm text-muted-foreground">{wordCount < active.minWords ? t("Bài còn ngắn. Hãy phát triển từng ý bắt buộc bằng một lý do hoặc ví dụ.", "Your response is short. Develop each required point with a reason or example.") : wordCount > active.maxWords ? t("Bài vượt độ dài mục tiêu. Hãy bỏ chi tiết lặp và giữ ý chính.", "Your response exceeds the target. Remove repetition and keep the key points.") : t("Độ dài phù hợp. Hãy kiểm tra cách chia đoạn, dạng từ và dấu câu trước khi hoàn tất.", "The length is appropriate. Check paragraphing, word forms, and punctuation before finishing.")}</p></CardContent></Card>}
 
-                  <Card className="border-amber-500/20"><CardHeader><div className="flex items-center justify-between gap-3"><CardTitle className="text-lg">{t("Bài mẫu tham khảo", "Model answer")}</CardTitle><Button variant="secondary" onClick={() => setShowModel((value) => !value)}>{showModel ? t("Ẩn", "Hide") : t("Hiện", "Show")}</Button></div></CardHeader>{showModel && <CardContent className="space-y-3"><p className="whitespace-pre-wrap leading-relaxed" lang="fi">{active.modelFi}</p><p className="border-t pt-3 text-sm text-muted-foreground" lang="en"><strong>EN:</strong> {activeEnglish?.modelEn}</p></CardContent>}</Card>
+                  <Card className="border-amber-500/20"><CardHeader><div className="flex items-center justify-between gap-3"><CardTitle className="text-lg">{t("Bài mẫu tham khảo", "Model answer")}</CardTitle><Button variant="secondary" onClick={() => setShowModel((value) => !value)}>{showModel ? t("Ẩn", "Hide") : t("Hiện", "Show")}</Button></div></CardHeader>{showModel && <CardContent className="space-y-3"><div className="whitespace-pre-wrap text-base leading-relaxed" lang="fi">{formatModelLetter(active.modelFi)}</div><div className="border-t pt-3 text-sm text-muted-foreground" lang="en"><p className="mb-1 font-semibold">EN</p><div className="whitespace-pre-wrap leading-relaxed">{formatModelLetter(activeEnglish?.modelEn ?? "")}</div></div></CardContent>}</Card>
               </div>
 
               <aside className="space-y-3 lg:sticky lg:top-28 lg:self-start">
