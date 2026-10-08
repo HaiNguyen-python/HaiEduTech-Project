@@ -11,7 +11,7 @@ import { cmuPhonemicIpa } from "./lib/cmuPhonemicIpa";
 // sense used in the curriculum. Heteronyms that vary by sentence stay runtime.
 const overrides: Record<string, string> = {
   "wi-fi": "ˈwaɪˌfaɪ", pho: "fɝ", "second-hand": "ˌsɛkəndˈhænd",
-  "double-check": "ˌdʌbəlˈtʃɛk", "cost-effective": "ˌkɔstɪˈfɛktɪv",
+  "double-check": "ˌdʌbəlˈtʃɛk", "cost-effective": "ˌkɑstɪˈfɛktɪv",
   "long-standing": "ˌlɔŋˈstændɪŋ", "long-term": "ˌlɔŋˈtɝm",
   scalable: "ˈskeɪləbəl", scalability: "ˌskeɪləˈbɪləti",
   overthought: "ˌoʊvɚˈθɔt", email: "ˈiˌmeɪl", reading: "ˈɹidɪŋ",

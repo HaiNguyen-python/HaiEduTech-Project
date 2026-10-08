@@ -44,6 +44,7 @@ describe("Pattern Drilling sentence IPA", () => {
     ["addresses", "əˈdɹɛsɪz"], ["refund", "ˈɹiˌfʌnd"], ["transport", "ˈtɹænsˌpɔɹt"],
     ["teamwork", "ˈtimˌwɝk"], ["passport", "ˈpæsˌpɔɹt"], ["weekend", "ˈwikˌɛnd"],
     ["monday", "ˈmʌndeɪ"], ["suggest", "səɡˈdʒɛst"],
+    ["cost-effective", "ˌkɑstɪˈfɛktɪv"], ["pho", "fɝ"],
   ])("uses the reviewed curriculum pronunciation for %s", (word, expected) => {
     expect(patternDrillSentenceIpa(word, dictionary)).toBe(`/${expected}/`);
   });

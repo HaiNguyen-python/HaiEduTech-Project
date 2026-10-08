@@ -13,7 +13,7 @@
 - Format Finnish and English model-letter layout through the shared letter formatter, preserving wording and testing closing/signature separation to prevent inline sign-offs.
 - Keep uploaded Finnish YKI B1 Speaking exams in one typed bank grouped by exam and the four official practice parts, so prompts and trilingual model answers stay aligned.
 - Keep uploaded YKI B1 Reading documents in a separate typed bank with original mixed question formats; auto-score choices and provide reference guidance for short answers to avoid false exact-match grading.
-- Pattern Drilling: EN/ZH, 15 frames/Starter-C1 level, five fills; shared lazy IPA + scoped overrides ensure coverage.
+- Pattern Drilling uses scoped CMU phone-based IPA plus context rules, not lossy shared IPA, to preserve stress.
 - Writing-practice tasks use unseen random selection with a single Next action; Chinese vocabulary and pattern tasks always show a complete Hanzi, Pinyin, and meaning example.
 - Course notices use shared tuition defaults, store one selected-language snapshot per recipient, and send only through the staff-authorized single-notice email function.
 - TOEIC vocabulary uses the shared Word Quest and Daily Mission engines with its own storage namespace and existing TOEIC mastery subject, so learning progress never collides with IELTS.
