@@ -1,4 +1,5 @@
 # Tasks
+- [ ] Audit all 450 Pattern Drilling sentences against stress-preserving pronunciation data; correct lexical/context errors and verify regressions.
 - [x] Add full sentence IPA to all 450 English Pattern Drilling sentences; 27 tests passed and browser verified repeat/reflex visibility.
 - [x] Audit Programming code indentation; 572 curated Python samples pass static syntax checks, unsafe indent scaling removed and Spark/activation samples repaired.
 - [x] Verify code layout and exact clipboard text in Python pathway, basic Python and Spark lessons; 15 regression tests and preview build passed.
