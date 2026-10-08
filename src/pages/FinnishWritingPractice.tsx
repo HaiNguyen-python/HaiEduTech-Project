@@ -9,7 +9,8 @@ import IllustratedPageHeader from "@/components/common/IllustratedPageHeader";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ElevatedTabs, ElevatedTabsList, ElevatedTabsTrigger } from "@/components/ui/elevated-tabs";
+import { TabsContent } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
@@ -248,10 +249,10 @@ export default function FinnishWritingPractice() {
           </div>
         </IllustratedPageHeader>
 
-        <Tabs value={tab} onValueChange={setTab}>
-          <TabsList className="grid h-auto w-full grid-cols-2 gap-1 sm:grid-cols-4 lg:grid-cols-7">
-            {TABS.map(({ value, icon: Icon, vi, en }) => <TabsTrigger key={value} value={value} className="gap-1.5 py-2.5"><Icon className="h-4 w-4" />{t(vi, en)}</TabsTrigger>)}
-          </TabsList>
+        <ElevatedTabs value={tab} onValueChange={setTab}>
+          <ElevatedTabsList className="grid w-full grid-cols-2 sm:grid-cols-4 lg:grid-cols-7">
+            {TABS.map(({ value, icon: Icon, vi, en }) => <ElevatedTabsTrigger key={value} value={value} className="justify-center px-2 py-2.5 sm:px-3"><Icon className="h-4 w-4 shrink-0" /><span className="truncate">{t(vi, en)}</span></ElevatedTabsTrigger>)}
+          </ElevatedTabsList>
 
           <TabsContent value="tasks" className="mt-5 space-y-5">
             <div className="flex flex-wrap gap-2">
@@ -308,7 +309,7 @@ export default function FinnishWritingPractice() {
           <TabsContent value="translation" className="mt-5"><SentencePractice mode="translation" /></TabsContent>
           <TabsContent value="paraphrase" className="mt-5"><SentencePractice mode="paraphrase" /></TabsContent>
           <TabsContent value="typing" className="mt-5"><SentencePractice mode="typing" /></TabsContent>
-        </Tabs>
+        </ElevatedTabs>
       </main>
       <Footer />
     </div>
