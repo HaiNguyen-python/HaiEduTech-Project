@@ -19,6 +19,7 @@ import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -241,7 +242,7 @@ const LifeInFinland = () => {
                     </div>
                   </div>
 
-                  <div className="grid md:grid-cols-2 gap-5">
+                  <Accordion type="multiple" className="space-y-3">
                     {cat.guides.map((guide, i) => (
                       <motion.div
                         key={guide.id}
@@ -249,24 +250,18 @@ const LifeInFinland = () => {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: i * 0.1 }}
                       >
-                        <Card className="h-full border-2 hover:shadow-lg transition-shadow">
-                          <CardHeader>
-                            <div className="flex items-start justify-between gap-2">
-                              <div>
-                                <CardTitle className="flex items-center gap-2 text-lg">
-                                  <span className="text-2xl">{guide.emoji}</span>
-                                  {t(guide.title, guide.titleEn)}
-                                </CardTitle>
-                                <CardDescription className="mt-2 text-sm leading-relaxed">
-                                  {t(guide.summary, guide.summaryEn)}
-                                </CardDescription>
-                              </div>
-                              {readGuides.includes(guide.id) && (
-                                <Badge className="bg-emerald-500 text-white shrink-0">✓</Badge>
-                              )}
-                            </div>
-                          </CardHeader>
-                          <CardContent className="space-y-4">
+                        <AccordionItem value={guide.id} className="rounded-lg border border-border bg-card px-4 sm:px-6 shadow-sm">
+                          <AccordionTrigger className="gap-4 py-5 text-left hover:no-underline">
+                            <span className="flex min-w-0 items-start gap-3">
+                              <span className="text-2xl shrink-0" aria-hidden="true">{guide.emoji}</span>
+                              <span className="min-w-0">
+                                <span className="block text-base sm:text-lg font-semibold text-foreground">{t(guide.title, guide.titleEn)}</span>
+                                <span className="mt-1 block text-sm font-normal leading-relaxed text-muted-foreground">{t(guide.summary, guide.summaryEn)}</span>
+                              </span>
+                            </span>
+                            {readGuides.includes(guide.id) && <CheckCircle2 className="h-5 w-5 shrink-0 text-primary" aria-label={t("Đã đọc", "Read")} />}
+                          </AccordionTrigger>
+                          <AccordionContent className="space-y-4 border-t border-border pt-5 pb-6">
                             {/* Steps */}
                             <div>
                               <h4 className="font-semibold text-sm mb-2 text-foreground">
@@ -358,11 +353,11 @@ const LifeInFinland = () => {
                                 {readGuides.includes(guide.id) ? t("Đã đọc", "Read") : t("Đánh dấu đã đọc", "Mark as read")}
                               </Button>
                             </div>
-                          </CardContent>
-                        </Card>
+                          </AccordionContent>
+                        </AccordionItem>
                       </motion.div>
                     ))}
-                  </div>
+                  </Accordion>
                 </TabsContent>
               );
             })}
