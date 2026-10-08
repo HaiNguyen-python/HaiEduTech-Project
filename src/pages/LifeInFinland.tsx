@@ -27,7 +27,7 @@ import { Progress } from "@/components/ui/progress";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import {
-  NEWCOMER_CATEGORIES, FIRST_30_DAYS_CHECKLIST, COMMUNITY_RESOURCES, NEWCOMER_BADGE,
+  NEWCOMER_CATEGORIES, FIRST_30_DAYS_CHECKLIST, COMMUNITY_RESOURCES, NEWCOMER_BADGE, LIFE_IN_FINLAND_REVIEW_DATE,
 } from "@/data/lifeInFinlandData";
 
 const PILLAR_ICON_MAP = {
@@ -131,7 +131,7 @@ const LifeInFinland = () => {
     doc.text("First 30 Days in Finland - HaiEduTech", 14, 20);
     doc.setFontSize(11);
     doc.setTextColor(100);
-    doc.text("Personalised checklist generated for your move to Finland", 14, 28);
+    doc.text(`Reviewed ${LIFE_IN_FINLAND_REVIEW_DATE}. Timing is indicative; eligibility varies.`, 14, 28);
 
     let y = 40;
     [1, 2, 3, 4].forEach((week) => {
@@ -208,6 +208,9 @@ const LifeInFinland = () => {
 
         {/* Tabs */}
         <section className="container mx-auto px-4 sm:px-6 py-8">
+          <p className="mb-5 text-sm text-muted-foreground">
+            {t("Rà soát ngày 08/10/2026. Hướng dẫn chung; điều kiện trợ cấp, phí và thời gian xử lý tùy hoàn cảnh. Xem nguồn chính thức trong từng bài.", "Reviewed 8 October 2026. General guidance; benefit eligibility, fees and processing times vary. See official sources in each guide.")}
+          </p>
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="w-full grid grid-cols-2 md:grid-cols-6 gap-1 h-auto p-1 mb-8">
               {NEWCOMER_CATEGORIES.map((cat) => (
@@ -332,6 +335,16 @@ const LifeInFinland = () => {
                               </div>
                             )}
 
+                            <div className="border-t border-border pt-4">
+                              <h4 className="mb-2 text-sm font-semibold">{t("Nguồn chính thức", "Official sources")}</h4>
+                              <div className="flex flex-wrap gap-3">
+                                {guide.sources.map((source) => (
+                                  <a key={source.url} href={source.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-sm text-primary underline underline-offset-4">
+                                    {source.label} <ExternalLink className="h-3.5 w-3.5" />
+                                  </a>
+                                ))}
+                              </div>
+                            </div>
                             {/* Actions */}
                             <div className="flex flex-wrap gap-2 pt-2 border-t">
                               <Button
@@ -372,7 +385,7 @@ const LifeInFinland = () => {
                         ✅ {t("30 ngày đầu tại Phần Lan", "First 30 Days in Finland")}
                       </CardTitle>
                       <CardDescription className="mt-1">
-                        {t("Đánh dấu mỗi nhiệm vụ khi hoàn thành - tiến độ được lưu tự động.", "Tick each task as you finish - progress saves automatically.")}
+                        {t("Lịch tuần chỉ để tham khảo, không phải hạn bắt buộc hoặc thời gian xử lý bảo đảm. Chỉ làm mục phù hợp với hoàn cảnh.", "Weeks are suggested planning milestones, not legal deadlines or guaranteed processing times. Complete only tasks relevant to your circumstances.")}
                       </CardDescription>
                     </div>
                     <Button onClick={handleDownloadPdf} className="gap-2">
