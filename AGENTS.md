@@ -1,7 +1,7 @@
 - Interpersonal Skills uses `lifestyle` for placement/personalization and `interpersonal` for activity-log reporting; dedicated lesson/placement tables remain authoritative to prevent duplicate chart entries.
 - Keep curated IELTS vocabulary photos in an explicit one-word mapping, separate from shared emoji resolution.
 - Home page student results come only from the `testimonials` table (public reads published rows, staff manage all); never hardcode or auto-generate testimonial content - the section self-hides when the table is empty.
-- Keep public tuition in shared `CourseTuitionSection` so prices and the 3x one-to-one rule stay consistent.
+- Share public tuition via `CourseTuitionSection` to keep prices and the 3x one-to-one rule consistent.
 - Use semantic `--tuition-*` tokens and one responsive course-list layout across subject pages.
 - Derive registration prices from the shared catalog; server-validate EUR prices and separate course payments from Premium.
 - Keep only the exact `/english`, `/chinese`, `/programming`, and `/register` overview routes public; nested learning routes remain authentication and Premium protected.
@@ -29,4 +29,4 @@
 - IELTS Reading rooms scope theme tokens to the entire exam; passage and question annotations share ReaderPassage with separate original-question storage keys to preserve highlights across full-test renumbering.
 - All Code Typing Race paths use the shared quote-aware numeric formatter to preserve identifiers and string data.
 
-- Finnish arcade audio uses the shared Finnish TTS pipeline and stops on game exit; native fallback must select an actual Finnish voice to prevent English pronunciation.
+- Finnish games share Finnish TTS and stop audio on exit; native fallback requires a Finnish voice, never English.
