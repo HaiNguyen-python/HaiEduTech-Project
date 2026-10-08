@@ -309,7 +309,7 @@ export default function FinnishWritingPractice() {
           <TabsContent value="translation" className="mt-5"><SentencePractice mode="translation" /></TabsContent>
           <TabsContent value="paraphrase" className="mt-5"><SentencePractice mode="paraphrase" /></TabsContent>
           <TabsContent value="typing" className="mt-5"><SentencePractice mode="typing" /></TabsContent>
-        </Tabs>
+        </ElevatedTabs>
       </main>
       <Footer />
     </div>

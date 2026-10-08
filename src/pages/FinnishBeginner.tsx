@@ -316,7 +316,7 @@ const FinnishBeginner = () => {
               )}
             </div>
           </TabsContent>
-        </Tabs>
+        </ElevatedTabs>
       </main>
       <Footer />
     </div>
