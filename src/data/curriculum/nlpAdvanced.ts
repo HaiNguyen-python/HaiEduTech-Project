@@ -537,7 +537,7 @@ SCRIPT_HINTS = [
     ("zh", re.compile(r"[\\u4e00-\\u9fff]")),
     ("ja", re.compile(r"[\\u3040-\\u30ff]")),
     ("ko", re.compile(r"[\\uac00-\\ud7af]")),
-    ("vi", re.compile(r"[ăâđêôơưĂÂĐÊÔƠƯ]|[áàảãạắằẳẵặấầẩẫậéèẻẽẹếềểễệíìỉĩịóòỏõọốồổỗộớờởỡợúùủũụứừửữựýỳỷỹỵ]", re.I)),
+    ("vi", re.compile(r"[\\u0102\\u0103\\u0110\\u0111\\u0128\\u0129\\u0168\\u0169\\u01a0\\u01a1\\u01af\\u01b0\\u1ea0-\\u1ef9]", re.I)),
     ("fi", re.compile(r"[äöÄÖ]")),
 ]
 
@@ -551,7 +551,7 @@ def detect_lang(text: str) -> str:
     return "en"  # fallback
 
 samples = [
-    "Học sinh chăm chỉ là học sinh tốt.",
+    "Hardworking students are good students.",
     "Sinä olet rakas ystäväni.",
     "我喜欢学习中文。",
     "Embeddings power modern NLP.",
