@@ -20,6 +20,8 @@ import {
   type MeteorItem,
 } from "@/data/wordMeteorBanks";
 import { finishGame } from "@/lib/gameSession";
+import { playFinnishTts, stopFinnishTts } from "@/lib/finnishTts";
+import { toast } from "@/hooks/use-toast";
 import GameLeaderboard from "./GameLeaderboard";
 
 /** Vocabulary subject each meteor language feeds in the memory brain. */
@@ -83,6 +85,8 @@ export default function WordMeteor({
   onExit,
   onScore,
 }: Props) {
+  useEffect(() => () => { if (lang === "fi") stopFinnishTts(); }, [lang]);
+
   const fullBank: MeteorItem[] = useMemo(() => {
     const src = customBank && customBank.length >= 4 ? customBank : METEOR_BANKS[lang];
     // de-dup by meaning to avoid trivial repeats
@@ -280,6 +284,9 @@ export default function WordMeteor({
       recentRef.current = recentRef.current.filter((mng) => mng !== m.meaning);
       correctWordsRef.current = [...correctWordsRef.current, m.word];
       onScore?.(delta);
+      if (lang === "fi") void playFinnishTts(m.word).then(ok => {
+        if (!ok) toast({ title: "Finnish audio unavailable", description: "Please try again.", variant: "destructive" });
+      });
     } else {
       setStreak(0);
       setLives((l) => Math.max(0, l - 1));
@@ -318,14 +325,14 @@ export default function WordMeteor({
             </div>
             <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-base font-semibold text-foreground">Lives {lives}</div>
           </div>
-          <Button onClick={reset} size="sm" className={`bg-gradient-to-r ${theme.accent} text-white`}>
+          <Button onClick={reset} size="sm" className={lang === "fi" ? "bg-primary text-primary-foreground" : `bg-gradient-to-r ${theme.accent} text-white`}>
             {running ? "Restart" : "Start"}
           </Button>
         </div>
 
         <div
-          className={`relative h-[clamp(460px,70vh,760px)] w-full overflow-hidden rounded-xl border-2 border-primary/35 bg-gradient-to-b ${decor.field}`}
-          style={{
+          className={`relative h-[clamp(460px,70vh,760px)] w-full overflow-hidden rounded-lg border-2 border-primary/35 ${lang === "fi" ? "finnish-meteor-field" : `bg-gradient-to-b ${decor.field}`}`}
+          style={lang === "fi" ? undefined : {
             backgroundImage:
               "radial-gradient(circle at 20% 20%, rgba(251,191,36,0.45), transparent 40%), radial-gradient(circle at 80% 70%, rgba(244,63,94,0.35), transparent 45%)",
           }}
@@ -378,14 +385,14 @@ export default function WordMeteor({
                   </motion.div>
                   <div className="mt-3 flex flex-wrap justify-center gap-3">
                     {m.options.map((opt) => (
-                      <button
+                      <Button variant="outline"
                         key={opt}
                         onClick={() => handlePick(m, opt)}
                         aria-label={`${opt} - ${m.word}`}
-                      className={lang === "zh" ? "w-full max-w-full rounded-xl border-2 border-rose-400 bg-white/95 px-4 py-3 text-base font-semibold text-rose-950 backdrop-blur transition hover:scale-[1.03] hover:bg-amber-100 active:scale-95 shadow-lg" : "w-full max-w-full rounded-xl border-2 border-background/70 bg-foreground/85 px-4 py-3 text-base font-semibold text-background backdrop-blur transition hover:scale-[1.03] hover:bg-foreground active:scale-95 shadow-lg"}
+                      className={lang === "fi" ? "finnish-choice w-full h-auto whitespace-normal px-4 py-3 text-base font-semibold" : lang === "zh" ? "w-full max-w-full rounded-xl border-2 border-rose-400 bg-white/95 px-4 py-3 text-base font-semibold text-rose-950 backdrop-blur transition hover:scale-[1.03] hover:bg-amber-100 active:scale-95 shadow-lg" : "w-full max-w-full rounded-xl border-2 border-background/70 bg-foreground/85 px-4 py-3 text-base font-semibold text-background backdrop-blur transition hover:scale-[1.03] hover:bg-foreground active:scale-95 shadow-lg"}
                       >
                         {opt}
-                      </button>
+                      </Button>
                     ))}
                   </div>
                 </div>
@@ -416,15 +423,15 @@ export default function WordMeteor({
           </motion.div>
 
           {!running && (
-            <div className={lang === "zh" ? "absolute inset-0 flex flex-col items-center justify-center gap-3 bg-gradient-to-br from-rose-100/95 via-amber-100/95 to-cyan-100/95 text-center text-foreground p-4 z-20" : "absolute inset-0 flex flex-col items-center justify-center gap-3 bg-foreground/85 text-center text-background p-4 z-20"}>
+            <div className={lang === "fi" ? "finnish-meteor-intro absolute inset-0 flex flex-col items-center justify-center gap-3 text-center p-4 z-20" : lang === "zh" ? "absolute inset-0 flex flex-col items-center justify-center gap-3 bg-gradient-to-br from-rose-100/95 via-amber-100/95 to-cyan-100/95 text-center text-foreground p-4 z-20" : "absolute inset-0 flex flex-col items-center justify-center gap-3 bg-foreground/85 text-center text-background p-4 z-20"}>
               <Sparkles className="h-10 w-10 text-amber-300" />
               <h3 className="text-2xl font-bold">
                 {lives <= 0 ? `Game Over - ${score} pts` : `Word Meteor - ${theme.label}`}
               </h3>
-              <p className={lang === "zh" ? "max-w-sm text-sm text-muted-foreground" : "max-w-sm text-sm text-background/80"}>
+              <p className={lang === "fi" || lang === "zh" ? "max-w-sm text-sm text-muted-foreground" : "max-w-sm text-sm text-background/80"}>
                 Pick the correct meaning before the meteor lands. Use ← → (or A/D) to fly the rocket. Chain answers for bonus points!
               </p>
-              <Button onClick={reset} className={`bg-gradient-to-r ${theme.accent} text-white`}>
+              <Button onClick={reset} className={lang === "fi" ? "bg-primary text-primary-foreground" : `bg-gradient-to-r ${theme.accent} text-white`}>
                 {lives <= 0 ? "Play Again" : "Start"}
               </Button>
             </div>
@@ -441,7 +448,7 @@ export default function WordMeteor({
               onMouseUp={() => { keysRef.current.left = false; }}
               onMouseLeave={() => { keysRef.current.left = false; }}
               aria-label="Move rocket left"
-              className="h-12 bg-rose-600 hover:bg-rose-700 text-2xl"
+              className={lang === "fi" ? "chinese-arcade-control h-12 text-2xl" : "h-12 bg-rose-600 hover:bg-rose-700 text-2xl"}
             >
               ◀
             </Button>
@@ -452,7 +459,7 @@ export default function WordMeteor({
               onMouseUp={() => { keysRef.current.right = false; }}
               onMouseLeave={() => { keysRef.current.right = false; }}
               aria-label="Move rocket right"
-              className="h-12 bg-rose-600 hover:bg-rose-700 text-2xl"
+              className={lang === "fi" ? "chinese-arcade-control h-12 text-2xl" : "h-12 bg-rose-600 hover:bg-rose-700 text-2xl"}
             >
               ▶
             </Button>

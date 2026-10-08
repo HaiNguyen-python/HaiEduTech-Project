@@ -180,7 +180,8 @@
     letter-spacing: 0;
   }
 
-  .chinese-arcade {
+  .chinese-arcade,
+  .finnish-arcade {
     --foreground: 222 47% 14%;
     --muted-foreground: 222 22% 38%;
     --card: 0 0% 100%;
@@ -206,6 +207,61 @@
     --arcade-hud-a: 187 92% 92%;
     --arcade-hud-b: 326 85% 94%;
     --arcade-hud-edge: 188 78% 43%;
+  }
+
+  .finnish-arcade {
+    --background: 190 65% 97%;
+    --primary: 188 86% 32%;
+    --primary-foreground: 0 0% 100%;
+    --finnish-success: 158 64% 91%;
+    --finnish-success-ink: 162 72% 25%;
+    --finnish-selected: 197 93% 89%;
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
+  }
+  .finnish-beginner-heading {
+    --finnish-heading-paper: 210 40% 98%;
+  }
+  .finnish-heading-wash {
+    background: linear-gradient(90deg, hsl(var(--finnish-heading-paper) / .96), hsl(var(--finnish-heading-paper) / .9) 48%, hsl(var(--finnish-heading-paper) / .15));
+  }
+  .finnish-choice {
+    background: hsl(var(--card));
+    color: hsl(var(--foreground));
+    border-color: hsl(var(--arcade-hud-edge) / .5);
+    min-height: 3.25rem;
+  }
+  .finnish-choice:hover, .finnish-choice--selected {
+    background: hsl(var(--finnish-selected));
+    border-color: hsl(var(--primary));
+  }
+  .finnish-choice--correct, .finnish-choice--correct:disabled {
+    background: hsl(var(--finnish-success));
+    color: hsl(var(--finnish-success-ink));
+    opacity: 1;
+  }
+  .finnish-game-icon {
+    color: hsl(var(--game-edge));
+    background: hsl(var(--arcade-paper));
+  }
+  .finnish-runner-field {
+    background: linear-gradient(130deg, hsl(var(--arcade-shooter)), hsl(var(--arcade-sentence)));
+    border-color: hsl(var(--arcade-shooter-edge) / .45);
+  }
+  .finnish-detective-field {
+    background: hsl(var(--arcade-runner));
+    border-color: hsl(var(--arcade-runner-edge) / .4);
+  }
+  .finnish-meteor-intro {
+    background: linear-gradient(130deg, hsl(var(--arcade-shooter)), hsl(var(--arcade-hotpot)), hsl(var(--arcade-sentence)));
+    color: hsl(var(--foreground));
+  }
+  .finnish-meteor-field {
+    background: linear-gradient(180deg, hsl(var(--arcade-shooter)), hsl(var(--arcade-paper)), hsl(var(--arcade-sentence)));
+  }
+  .finnish-arcade .chinese-arcade-card { color: hsl(var(--foreground)); }
+  @media (max-width: 640px) {
+    .finnish-heading-wash { background: hsl(var(--finnish-heading-paper) / .87); }
   }
 
   .chinese-arcade-hud {

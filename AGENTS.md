@@ -1,12 +1,12 @@
 - Interpersonal Skills uses `lifestyle` for placement/personalization and `interpersonal` for activity-log reporting; dedicated lesson/placement tables remain authoritative to prevent duplicate chart entries.
 - Keep curated IELTS vocabulary photos in an explicit one-word mapping, separate from shared emoji resolution.
 - Home page student results come only from the `testimonials` table (public reads published rows, staff manage all); never hardcode or auto-generate testimonial content - the section self-hides when the table is empty.
-- Keep public tuition in shared `CourseTuitionSection` so prices and the 3x one-to-one rule stay consistent.
+- Share public tuition via `CourseTuitionSection` to keep prices and the 3x one-to-one rule consistent.
 - Use semantic `--tuition-*` tokens and one responsive course-list layout across subject pages.
 - Derive registration prices from the shared catalog; server-validate EUR prices and separate course payments from Premium.
 - Keep only the exact `/english`, `/chinese`, `/programming`, and `/register` overview routes public; nested learning routes remain authentication and Premium protected.
 - Keep auth emails in the shared six HaiEduTech templates deployed through the auth hook.
-- Keep Programming math cleanup in shared `normalizeMath` and audit malformed delimiters.
+- Use shared `normalizeMath` for Programming math; audit malformed delimiters.
 - Resolve HSK vocabulary visuals from the Hanzi-aware resolver, with explicit common-word mappings and stable category fallbacks, so unknown meanings do not repeat one generic icon.
 
 - Public subject UI exposes Home, About, English, Chinese, Finnish, Vietnamese, Technology, Interpersonal Skills and Your Corner. Finnish pages stay open to all signed-in users; hide JA/SV from navigation (teacher-gated routes), Specialized Language and Super Dictionary; keep direct course URLs.
@@ -28,3 +28,5 @@
 - Python Challenge list, direct routes and workspace navigation share the sequential-unlock helper and merged progress hook; completion events refresh same-tab state immediately to prevent inconsistent access.
 - IELTS Reading rooms scope theme tokens to the entire exam; passage and question annotations share ReaderPassage with separate original-question storage keys to preserve highlights across full-test renumbering.
 - All Code Typing Race paths use the shared quote-aware numeric formatter to preserve identifiers and string data.
+
+- Finnish games share Finnish TTS and stop audio on exit; native fallback requires a Finnish voice, never English.
