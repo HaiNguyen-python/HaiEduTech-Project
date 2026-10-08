@@ -1,5 +1,6 @@
 import { useState, memo } from "react";
 import { Check, Copy } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { normalizeCodeIndentation } from "@/lib/normalizeCodeIndentation";
@@ -95,29 +96,29 @@ const CodeBlock = ({ code, language = "text", showHeader = true, className = "" 
       .trimEnd();
   };
   const displayText = preserveLayout ? stripOuterDiagramFrame(codeText) : codeText;
-  const blockShellClass = preserveLayout
-    ? `my-4 rounded-xl overflow-hidden bg-[#0f172a] shadow-md ${className}`
-    : `my-4 rounded-xl overflow-hidden border border-slate-800 bg-[#0f172a] shadow-md ${className}`;
+  const blockShellClass = `lesson-code-block my-4 rounded-lg overflow-hidden shadow-md ${className}`;
   const scrollAreaClass = preserveLayout
-    ? "overflow-x-auto px-6 sm:px-10 lg:px-14"
-    : "overflow-x-auto";
+    ? "lesson-code-scroll px-6 sm:px-10 lg:px-14"
+    : "lesson-code-scroll";
 
   return (
     <div className={blockShellClass}>
       {showHeader && (
-        <div className="flex items-center justify-between px-4 py-2 bg-slate-900/80 border-b border-slate-800">
-          <span className="text-xs font-mono uppercase tracking-wide text-emerald-400/90">
+        <div className="lesson-code-header flex items-center justify-between px-4 py-2 border-b">
+          <span className="lesson-code-label text-xs font-mono uppercase tracking-wide">
             {preserveLayout ? "diagram" : normalizedLang}
           </span>
-          <button
+          <Button
+            variant="ghost"
+            size="sm"
             onClick={handleCopy}
-            className="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition-colors active:scale-[0.97]"
+            className="lesson-code-copy gap-1.5 px-2.5 text-xs"
             aria-label="Copy code"
           >
             {copied ? (
               <>
-                <Check className="w-3.5 h-3.5 text-emerald-400" />
-                <span className="text-emerald-400">Copied</span>
+                <Check className="lesson-code-label w-3.5 h-3.5" />
+                <span className="lesson-code-label">Copied</span>
               </>
             ) : (
               <>
@@ -125,20 +126,20 @@ const CodeBlock = ({ code, language = "text", showHeader = true, className = "" 
                 <span>Copy</span>
               </>
             )}
-          </button>
+          </Button>
         </div>
       )}
-      <div className={scrollAreaClass}>
+      <div className={scrollAreaClass} tabIndex={0} role="region" aria-label={`${normalizedLang} code`}>
         {preserveLayout ? (
           <pre
-            className="mx-auto my-0 block w-max max-w-none py-5 text-sm leading-7 text-slate-100"
+             className="mx-auto my-0 block w-max max-w-none py-5 text-sm leading-7"
             style={{
-              background: "#0f172a",
+              background: "hsl(var(--code-surface))",
               fontFamily:
                 "'JetBrains Mono', 'Fira Code', 'Source Code Pro', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
               fontFeatureSettings: "normal",
               fontVariantLigatures: "none",
-              tabSize: 2,
+              tabSize: 8,
               whiteSpace: "pre",
               wordBreak: "normal",
               overflowWrap: "normal",
@@ -153,7 +154,7 @@ const CodeBlock = ({ code, language = "text", showHeader = true, className = "" 
             customStyle={{
               margin: 0,
               padding: "1.25rem",
-              background: "#0f172a",
+              background: "hsl(var(--code-surface))",
               fontSize: "0.875rem",
               lineHeight: 1.7,
               fontFamily:

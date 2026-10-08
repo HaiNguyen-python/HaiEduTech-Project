@@ -1879,23 +1879,27 @@ Master Spark = Data Engineering foundation complete. Next: **Spark Streaming**, 
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
 
-spark = SparkSession.builder \\\\
-    .appName("SalesAnalysis") \\\\
+spark = (
+    SparkSession.builder
+    .appName("SalesAnalysis")
     .getOrCreate()
+)
 
 # Read data
 sales = spark.read.csv("sales.csv", header=True, inferSchema=True)
 
 # Transformations (lazy, not yet executed)
-monthly_sales = sales \\\\
-    .withColumn("month", F.month("date")) \\\\
-    .groupBy("month", "category") \\\\
+monthly_sales = (
+    sales
+    .withColumn("month", F.month("date"))
+    .groupBy("month", "category")
     .agg(
         F.sum("amount").alias("total_sales"),
         F.count("*").alias("num_transactions"),
         F.avg("amount").alias("avg_sale")
-    ) \\\\
+    )
     .orderBy("month")
+)
 
 # Action (triggers execution)
 monthly_sales.show()

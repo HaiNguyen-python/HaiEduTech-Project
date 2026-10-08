@@ -46,6 +46,12 @@
     --ring: 173 58% 39%;
 
     --radius: 0.75rem;
+    --code-surface: 222 47% 11%;
+    --code-header: 222 47% 9%;
+    --code-ink: 210 40% 96%;
+    --code-muted: 215 20% 78%;
+    --code-border: 217 33% 24%;
+    --code-accent: 160 70% 65%;
 
     /* Shared public course-list palette */
     --tuition-ink: 204 32% 21%;
@@ -1467,6 +1473,28 @@
 .theory-content .theory-callout + p { margin-top: 0.85rem; }
 
 /* Pre wrapper for CodeBlock should have no extra prose spacing */
+.lesson-code-block {
+  min-width: 0;
+  max-width: 100%;
+  color: hsl(var(--code-ink));
+  background: hsl(var(--code-surface));
+  border: 1px solid hsl(var(--code-border));
+}
+.lesson-code-header { background: hsl(var(--code-header)); border-color: hsl(var(--code-border)); }
+.lesson-code-label { color: hsl(var(--code-accent)); }
+.lesson-code-copy { color: hsl(var(--code-muted)); }
+.lesson-code-copy:hover { color: hsl(var(--code-ink)); background: hsl(var(--code-border)); }
+.lesson-code-scroll { min-width: 0; max-width: 100%; overflow-x: auto; }
+.lesson-code-block pre,
+.lesson-code-block code,
+.lesson-code-block code span {
+  white-space: pre;
+  word-break: normal;
+  overflow-wrap: normal;
+  tab-size: 8;
+}
+.lesson-code-block pre { color: hsl(var(--code-ink)); }
+.theory-content .lesson-code-block code { background: transparent; padding: 0; border: 0; }
 .theory-content pre {
   margin: 1.25rem 0;
   padding: 0;

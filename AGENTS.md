@@ -1,8 +1,7 @@
 - Interpersonal Skills uses `lifestyle` for placement/personalization and `interpersonal` for activity-log reporting; dedicated lesson/placement tables remain authoritative to prevent duplicate chart entries.
 - Keep curated IELTS vocabulary photos in an explicit one-word mapping, separate from shared emoji resolution.
 - Home page student results come only from the `testimonials` table (public reads published rows, staff manage all); never hardcode or auto-generate testimonial content - the section self-hides when the table is empty.
-- Share public tuition via `CourseTuitionSection` to keep prices and the 3x one-to-one rule consistent.
-- Use semantic `--tuition-*` tokens and one responsive course-list layout across subject pages.
+- Tuition uses `CourseTuitionSection`, `--tuition-*` tokens and one responsive list to keep prices and the 3x one-to-one rule consistent.
 - Derive registration prices from the shared catalog; server-validate EUR prices and separate course payments from Premium.
 - Keep only the exact `/english`, `/chinese`, `/programming`, and `/register` overview routes public; nested learning routes remain authentication and Premium protected.
 - Keep auth emails in the shared six HaiEduTech templates deployed through the auth hook.
@@ -27,6 +26,6 @@
 - Python overview charts group unique completed challenge IDs into six curriculum areas; dated growth uses earliest account activity only, so completion coverage is never presented as an invented ability grade.
 - Python Challenge list, direct routes and workspace navigation share the sequential-unlock helper and merged progress hook; completion events refresh same-tab state immediately to prevent inconsistent access.
 - IELTS Reading rooms scope theme tokens to the entire exam; passage and question annotations share ReaderPassage with separate original-question storage keys to preserve highlights across full-test renumbering.
-- All Code Typing Race paths use the shared quote-aware numeric formatter to preserve identifiers and string data.
+- Code Typing uses quote-aware numeric formatting. Lessons share CodeBlock with local scrolling; preserve nesting/literals and fix syntax at source to avoid corrupting code.
 
 - Finnish games share Finnish TTS and stop audio on exit; native fallback requires a Finnish voice, never English.

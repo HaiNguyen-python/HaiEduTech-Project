@@ -14,18 +14,14 @@ describe("normalizeTheoryMarkdownStructure", () => {
     expect(normalizeTheoryMarkdownStructure(input)).toBe(input);
   });
 
-  it("repairs shallow Python indentation by nesting level", () => {
+  it("preserves valid Python nesting without guessing from indentation widths", () => {
     const input = "```python\ndef train():\n for epoch in range(2):\n  if epoch:\n   print(epoch)\n```";
-    expect(normalizeTheoryMarkdownStructure(input)).toBe(
-      "```python\ndef train():\n    for epoch in range(2):\n        if epoch:\n            print(epoch)\n```",
-    );
+    expect(normalizeTheoryMarkdownStructure(input)).toBe(input);
   });
 
-  it("uses two spaces for TypeScript and converts tabs", () => {
+  it("preserves TypeScript tabs rather than altering source text", () => {
     const input = "```typescript\nif (ready) {\n\tstart();\n}\n```";
-    expect(normalizeTheoryMarkdownStructure(input)).toBe(
-      "```typescript\nif (ready) {\n  start();\n}\n```",
-    );
+    expect(normalizeTheoryMarkdownStructure(input)).toBe(input);
   });
 
   it("preserves Python multiline string contents", () => {
@@ -34,8 +30,8 @@ describe("normalizeTheoryMarkdownStructure", () => {
   });
 
   it.each([
-    ["yaml", "service:\n image: api:latest\n ports:\n  - 8080:80", "service:\n  image: api:latest\n  ports:\n    - 8080:80"],
-    ["mermaid", "flowchart TD\n A[Input] --> B{Valid}\n  B --> C[Store]", "flowchart TD\n  A[Input] --> B{Valid}\n    B --> C[Store]"],
+    ["yaml", "service:\n image: api:latest\n ports:\n  - 8080:80", "service:\n image: api:latest\n ports:\n  - 8080:80"],
+    ["mermaid", "flowchart TD\n A[Input] --> B{Valid}\n  B --> C[Store]", "flowchart TD\n A[Input] --> B{Valid}\n  B --> C[Store]"],
     ["sql", "SELECT id\n  FROM users\n  WHERE active = true", "SELECT id\n  FROM users\n  WHERE active = true"],
     ["", "root\n child", "root\n child"],
   ])("normalizes %s fenced code conservatively", (language, source, expected) => {

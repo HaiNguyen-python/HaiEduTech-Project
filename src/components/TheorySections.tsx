@@ -604,6 +604,9 @@ function groupRepeatedCallouts(markdown: string): string {
 
 // ── Markdown components: blockquote → Callout, code → CodeBlock, table → wrapper ──
 const markdownComponents = (defaultLang: string) => ({
+  // ReactMarkdown's default pre would nest the entire CodeBlock in another
+  // pre; prose styles then clip the inner horizontal scrolling surface.
+  pre: ({ children }: { children?: React.ReactNode }) => <div className="min-w-0 max-w-full">{children}</div>,
   table: ({ children }: { children?: React.ReactNode }) => (
     <div className="theory-table-wrap">
       <table>{children}</table>
