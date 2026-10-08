@@ -36,7 +36,8 @@ export const normalizeCodeIndentation = (input: string, language = "text"): stri
 export const normalizeFencedCodeIndentation = (markdown: string): string =>
   markdown.replace(/```([^\n`]*)\n([\s\S]*?)```/g, (_whole, info: string, code: string) => {
     const language = info.trim().split(/\s+/)[0] || "text";
-    return `\`\`\`${info.trim()}\n${normalizeCodeIndentation(code, language)}\n\`\`\``;
+    const normalized = normalizeCodeIndentation(code, language);
+    return `\`\`\`${info.trim()}\n${normalized}${normalized.endsWith("\n") ? "" : "\n"}\`\`\``;
   });
 
 export const inspectFencedCodeIndentation = (markdown: string): string[] => {
