@@ -1,5 +1,5 @@
 # Tasks
-- [ ] Add full sentence IPA to English Pattern Drilling and verify all levels and reflex visibility.
+- [x] Add full sentence IPA to all 450 English Pattern Drilling sentences; 27 tests passed and browser verified repeat/reflex visibility.
 - [x] Audit Programming code indentation; 572 curated Python samples pass static syntax checks, unsafe indent scaling removed and Spark/activation samples repaired.
 - [x] Verify code layout and exact clipboard text in Python pathway, basic Python and Spark lessons; 15 regression tests and preview build passed.
 - [x] Collapse all 28 Life in Finland lessons; browser verified every open/close control.
