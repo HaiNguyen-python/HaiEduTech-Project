@@ -129,7 +129,7 @@ const _NEWCOMER_CATEGORIES_BASE: NewcomerCategory[] = [
         emoji: "🏦",
         title: "Mở tài khoản & định danh điện tử mạnh",
         titleEn: "Open a Finnish Bank Account & Strong Identification",
-        sources: [{ label: "www.infofinland.fi", url: "https://www.infofinland.fi/en/settling-in-finland/everyday-life-in-finland/bank-account" }, { label: "www.suomi.fi", url: "https://www.suomi.fi/instructions-and-support/identification" }],
+        sources: [{ label: "www.infofinland.fi", url: "https://www.infofinland.fi/en" }, { label: "www.suomi.fi", url: "https://www.suomi.fi/instructions-and-support/identification" }],
         summary: "Tài khoản ngân hàng và định danh điện tử mạnh là hai dịch vụ riêng; hỏi ngân hàng về điều kiện của từng dịch vụ.",
         summaryEn: "A bank account and strong electronic identification are separate services; ask your bank about the requirements for each.",
         steps: [
@@ -375,7 +375,7 @@ const _NEWCOMER_CATEGORIES_BASE: NewcomerCategory[] = [
         emoji: "🚨",
         title: "Số khẩn cấp 112",
         titleEn: "Emergency Number 112",
-        sources: [{ label: "112.fi", url: "https://112.fi/en/emergency-number-112" }, { label: "112.fi", url: "https://112.fi/en/112-suomi-application" }],
+        sources: [{ label: "112.fi", url: "https://112.fi/en/erc-number" }, { label: "112.fi", url: "https://112.fi/en/112-suomi-application" }],
         summary: "Gọi 112 khi tính mạng, sức khỏe, tài sản hoặc môi trường đang bị đe dọa khẩn cấp.",
         summaryEn: "Call 112 when life, health, property or the environment is in immediate danger.",
         steps: [

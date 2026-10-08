@@ -51,7 +51,7 @@ export const LIBRARY_GUIDES: NewcomerGuide[] = [
     emoji: "📚",
     title: "Thư viện Helmet & Yle Areena",
     titleEn: "Helmet libraries & Yle Areena",
-    sources: [{ label: "www.helmet.fi", url: "https://www.helmet.fi/en-US" }, { label: "areena.yle.fi", url: "https://areena.yle.fi/" }],
+    sources: [{ label: "www.helmet.fi", url: "https://helmet.finna.fi/?lng=en-gb" }, { label: "areena.yle.fi", url: "https://areena.yle.fi/" }],
     summary: "Thẻ và mượn tài liệu thư viện thường miễn phí; in ấn, trả muộn hoặc một số dịch vụ có thể có phí. Yle Areena có quyền xem và phụ đề theo chương trình.",
     summaryEn: "Library cards and borrowing are generally free; printing, late returns or some services may cost extra. Yle Areena access and subtitles vary by programme.",
     steps: [
@@ -111,7 +111,7 @@ export const WINTER_SAFETY_GUIDES: NewcomerGuide[] = [
     emoji: "❄️",
     title: "Lái xe & đi bộ an toàn mùa đông",
     titleEn: "Winter driving & walking safety",
-    sources: [{ label: "poliisi.fi", url: "https://poliisi.fi/en/traffic-safety" }, { label: "www.liikenneturva.fi", url: "https://www.liikenneturva.fi/en/" }, { label: "en.ilmatieteenlaitos.fi", url: "https://en.ilmatieteenlaitos.fi/" }, { label: "116117.fi", url: "https://116117.fi/en" }],
+    sources: [{ label: "poliisi.fi", url: "https://poliisi.fi/en" }, { label: "www.liikenneturva.fi", url: "https://www.liikenneturva.fi/en/" }, { label: "en.ilmatieteenlaitos.fi", url: "https://en.ilmatieteenlaitos.fi/" }, { label: "116117.fi", url: "https://116117.fi/en" }],
     summary: "Lốp đông cần từ tháng 11 đến tháng 3 khi thời tiết hoặc đường yêu cầu; giày chống trượt và phản quang giúp đi bộ an toàn.",
     summaryEn: "Winter tyres are needed from November through March when weather or roads require them; shoe grippers and reflectors help pedestrian safety.",
     steps: [

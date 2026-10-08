@@ -124,7 +124,7 @@ export const HOUSING_GUIDES: NewcomerGuide[] = [
     emoji: "🏠",
     title: "Tìm nhà ở Phần Lan (2026)",
     titleEn: "Finding Housing in Finland (2026)",
-    sources: [{ label: "www.infofinland.fi", url: "https://www.infofinland.fi/en/housing/rental-housing" }, { label: "www.kela.fi", url: "https://www.kela.fi/student-housing-supplement" }],
+    sources: [{ label: "www.infofinland.fi", url: "https://www.infofinland.fi/en" }, { label: "www.kela.fi", url: "https://www.kela.fi/financial-aid-for-students-housing-supplement" }],
     summary: "Đăng ký nhà sinh viên sớm và so sánh nhà tư nhân; giá, hàng chờ và tiêu chí ưu tiên thay đổi theo nhà cung cấp.",
     summaryEn: "Apply early for student housing and compare private rentals; prices, queues and priority criteria vary by provider.",
     steps: [
@@ -154,7 +154,7 @@ export const HOUSING_GUIDES: NewcomerGuide[] = [
     emoji: "📶",
     title: "SIM điện thoại & Internet (2026)",
     titleEn: "Phone SIM & Internet (2026)",
-    sources: [{ label: "www.traficom.fi", url: "https://www.traficom.fi/en/communications/broadband-and-telephone" }, { label: "europa.eu", url: "https://europa.eu/youreurope/citizens/consumers/internet-telecoms/mobile-roaming-costs/index_en.htm" }],
+    sources: [{ label: "www.traficom.fi", url: "https://www.traficom.fi/en" }, { label: "europa.eu", url: "https://europa.eu/youreurope/citizens/consumers/internet-telecoms/mobile-roaming-costs/index_en.htm" }],
     summary: "DNA, Telia và Elisa cung cấp SIM trả trước và gói thuê bao; so sánh vùng phủ sóng, giá và điều kiện hiện hành.",
     summaryEn: "DNA, Telia and Elisa offer prepaid SIMs and subscriptions; compare coverage, prices and current terms.",
     steps: [
@@ -189,7 +189,7 @@ export const SEASONAL_GUIDES: NewcomerGuide[] = [
     emoji: "❄️",
     title: "Sống sót mùa đông Phần Lan",
     titleEn: "Surviving Finnish Winter",
-    sources: [{ label: "en.ilmatieteenlaitos.fi", url: "https://en.ilmatieteenlaitos.fi/" }, { label: "www.ruokavirasto.fi", url: "https://www.ruokavirasto.fi/en/foodstuffs/healthy-diet/nutrients/vitamin-d/" }, { label: "poliisi.fi", url: "https://poliisi.fi/en/traffic-safety" }],
+    sources: [{ label: "en.ilmatieteenlaitos.fi", url: "https://en.ilmatieteenlaitos.fi/" }, { label: "www.ruokavirasto.fi", url: "https://www.ruokavirasto.fi/en/foodstuffs/healthy-diet/nutrients/vitamin-d/" }, { label: "poliisi.fi", url: "https://poliisi.fi/en" }],
     summary: "Thời tiết mùa đông khác nhau theo vùng và năm; theo dõi dự báo, cảnh báo và chuẩn bị đồ phù hợp.",
     summaryEn: "Winter conditions vary by region and year; follow forecasts/warnings and prepare suitable clothing.",
     steps: [

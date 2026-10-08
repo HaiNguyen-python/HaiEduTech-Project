@@ -97,7 +97,7 @@ export const CULTURE_GUIDES: NewcomerGuide[] = [
     emoji: "🤫",
     title: "Văn hóa giao tiếp Phần Lan & Sisu",
     titleEn: "Finnish Social Etiquette & Sisu",
-    sources: [{ label: "www.infofinland.fi", url: "https://www.infofinland.fi/en/information-about-finland/cultures-and-religions-in-finland/finnish-customs" }],
+    sources: [{ label: "www.infofinland.fi", url: "https://www.infofinland.fi/en" }],
     summary: "Đúng giờ, bình đẳng và không gian riêng thường được coi trọng; cách giao tiếp khác nhau theo người và hoàn cảnh.",
     summaryEn: "Punctuality, equality and personal space are often valued; communication varies by person and situation.",
     steps: [
@@ -136,7 +136,7 @@ export const FAMILY_HEALTH_GUIDES: NewcomerGuide[] = [
     emoji: "👶",
     title: "Neuvola - Trung tâm chăm sóc mẹ và bé miễn phí",
     titleEn: "Neuvola - Free Maternal & Child Health Center",
-    sources: [{ label: "www.kela.fi", url: "https://www.kela.fi/maternity-grant" }, { label: "www.kela.fi", url: "https://www.kela.fi/pregnancy-allowance" }, { label: "www.kela.fi", url: "https://www.kela.fi/parental-allowance" }, { label: "www.infofinland.fi", url: "https://www.infofinland.fi/en/family/children/early-childhood-education" }],
+    sources: [{ label: "www.kela.fi", url: "https://www.kela.fi/maternity-grant" }, { label: "www.kela.fi", url: "https://www.kela.fi/during-pregnancy" }, { label: "www.kela.fi", url: "https://www.kela.fi/on-parental-leave" }, { label: "www.infofinland.fi", url: "https://www.infofinland.fi/en" }],
     summary: "Neuvola cung cấp chăm sóc thai kỳ và trẻ nhỏ trong hệ thống y tế công; liên hệ dịch vụ khu vực về quyền dùng và lịch khám.",
     summaryEn: "Neuvola provides maternity and young-child care within public healthcare; contact regional services about entitlement and visits.",
     steps: [
@@ -172,7 +172,7 @@ export const ADVANCED_HEALTH_GUIDES: NewcomerGuide[] = [
     emoji: "🦷",
     title: "Nha khoa công + tư (Hammashoito)",
     titleEn: "Dental Care - Public + Private",
-    sources: [{ label: "www.infofinland.fi", url: "https://www.infofinland.fi/en/health/dental-care" }, { label: "www.kela.fi", url: "https://www.kela.fi/dental-care" }],
+    sources: [{ label: "www.infofinland.fi", url: "https://www.infofinland.fi/en/health/dental-care" }, { label: "www.kela.fi", url: "https://www.kela.fi/reimbursements-for-private-dental-care" }],
     summary: "Dùng nha khoa công, tư hoặc YTHS nếu đủ điều kiện; phí và thời gian chờ tùy nơi, điều trị và mức độ khẩn cấp.",
     summaryEn: "Use public, private or eligible YTHS dental care; fees and waits vary by provider, procedure and urgency.",
     steps: [
