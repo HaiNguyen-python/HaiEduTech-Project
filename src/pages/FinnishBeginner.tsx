@@ -14,7 +14,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ElevatedTabs, ElevatedTabsList, ElevatedTabsTrigger } from "@/components/ui/elevated-tabs";
 import { ArrowLeft, Volume2, AlertTriangle, NotebookPen, CheckCircle2, XCircle } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -86,15 +86,15 @@ const FinnishBeginner = () => {
           </p>
         </motion.div>
 
-        <Tabs defaultValue="alphabet" className="w-full">
-          <TabsList className="w-full flex-wrap h-auto justify-start">
-            <TabsTrigger value="alphabet">🔤 {t("Phát âm", "Alphabet")}</TabsTrigger>
-            <TabsTrigger value="grammar">📐 {t("Ngữ pháp", "Grammar")}</TabsTrigger>
-            <TabsTrigger value="phrases">💬 {t("Hội thoại", "Phrases")}</TabsTrigger>
-            <TabsTrigger value="vocab">🖼️ {t("Từ vựng", "Vocab")}</TabsTrigger>
-            <TabsTrigger value="pitfalls">⚠️ {t("Lỗi thường gặp", "VN Pitfalls")}</TabsTrigger>
-            <TabsTrigger value="quiz">✏️ Quiz</TabsTrigger>
-          </TabsList>
+        <ElevatedTabs defaultValue="alphabet" className="w-full">
+          <ElevatedTabsList className="w-full">
+            <ElevatedTabsTrigger value="alphabet"><span className="tab-emoji">🔤</span> {t("Phát âm", "Alphabet")}</ElevatedTabsTrigger>
+            <ElevatedTabsTrigger value="grammar"><span className="tab-emoji">📐</span> {t("Ngữ pháp", "Grammar")}</ElevatedTabsTrigger>
+            <ElevatedTabsTrigger value="phrases"><span className="tab-emoji">💬</span> {t("Hội thoại", "Phrases")}</ElevatedTabsTrigger>
+            <ElevatedTabsTrigger value="vocab"><span className="tab-emoji">🖼️</span> {t("Từ vựng", "Vocab")}</ElevatedTabsTrigger>
+            <ElevatedTabsTrigger value="pitfalls"><span className="tab-emoji">⚠️</span> {t("Lỗi thường gặp", "VN Pitfalls")}</ElevatedTabsTrigger>
+            <ElevatedTabsTrigger value="quiz"><span className="tab-emoji">✏️</span> Quiz</ElevatedTabsTrigger>
+          </ElevatedTabsList>
 
           {/* ALPHABET */}
           <TabsContent value="alphabet" className="mt-6">
