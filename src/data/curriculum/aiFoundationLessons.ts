@@ -513,7 +513,7 @@ print("LeakyReLU: ", np.round(leaky_relu(x.astype(float)), 3))
 # Initialize a logits array (raw output from a neural network layer) to test softmax.
 logits = np.array([2.0, 1.0, 0.1])
 # Apply the softmax function to the logits array and print the result, rounded to 3 decimal places.
-# Expected result: \nSoftmax([2.  1.  0.1]) = [0.659 0.242 0.099]
+# Expected result: Softmax([2.  1.  0.1]) = [0.659 0.242 0.099]
 print(f"\nSoftmax({logits}) = {np.round(softmax(logits), 3)}")
 # Calculate the sum of the values after applying softmax and print it.
 # This sum should approximate 1.0.
