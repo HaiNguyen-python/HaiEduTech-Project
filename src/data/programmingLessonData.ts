@@ -831,33 +831,33 @@ CREATE POLICY "Users create own notes" ON notes
         code: `import pandas as pd
 
 # EXTRACT: Read CSV data
-df = pd.read_csv("doanh_thu.csv")
+df = pd.read_csv("revenue.csv")
 
 # Or create from dictionary
 data = {
-    "Product": ["Laptop", "Phone", "Tablet", "Tai nghe", "Keyboard"],
+    "Product": ["Laptop", "Phone", "Tablet", "Headphones", "Keyboard"],
     "Quantity": [120, 350, 200, 500, 180],
     "Unit price": [15000000, 8000000, 12000000, 500000, 1200000],
-    "Month": ["T1", "T1", "T2", "T2", "T3"]
+    "Month": ["Jan", "Jan", "Feb", "Feb", "Mar"]
 }
 df = pd.DataFrame(data)
 
 # TRANSFORM: Calculate revenue
-df["Doanh thu"] = df["Quantity"] * df["Unit price"]
+df["Revenue"] = df["Quantity"] * df["Unit price"]
 
 # Filter products with revenue > 1 billion
-hot = df[df["Doanh thu"] > 1_000_000_000]
+hot = df[df["Revenue"] > 1000000000]
 print("🔥 Hot products:")
 print(hot)
 
 # Statistics by month
-monthly = df.groupby("Month")["Doanh thu"].sum()
+monthly = df.groupby("Month")["Revenue"].sum()
 print("\\n📊 Revenue by month:")
 print(monthly)
 
 # LOAD: Export results
-df.to_csv("ket_qua.csv", index=False)
-print("\\n✅ Saved file result_qua.csv")`,
+df.to_csv("results.csv", index=False)
+print("\\n✅ Saved file results.csv")`,
         codeLanguage: "python",
         exercise: "Download the sample CSV file (3 months sales) and perform: (1) Clean null data, (2) Calculate revenue by category, (3) Draw matplotlib chart.",
         exerciseEn: "Load sample CSV (3-month sales) and: (1) Clean null data, (2) Calculate revenue by category, (3) Create matplotlib chart.",

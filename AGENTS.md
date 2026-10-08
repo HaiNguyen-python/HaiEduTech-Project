@@ -19,7 +19,7 @@
 - Course notices use shared tuition defaults, store one selected-language snapshot per recipient, and send only through the staff-authorized single-notice email function.
 - TOEIC vocabulary uses the shared Word Quest and Daily Mission engines with its own storage namespace and existing TOEIC mastery subject, so learning progress never collides with IELTS.
 - TOEIC lecture guidance is organized by tested Part alongside lesson-specific techniques, so strategy depth stays consistent without duplicating lecture question data.
-- TOEIC Speaking/Writing content comes from `toeicSWContentSets` (one unique set per test, audited by `toeicSwAudit.test.ts`); grading goes through the `grade-toeic-sw` function using speech transcripts for Speaking and text for Writing, while audio recordings stay session-only, because recordings themselves are never uploaded.
+- TOEIC S/W uses unique `toeicSWContentSets`, audited by `toeicSwAudit.test.ts`; `grade-toeic-sw` grades transcripts/text, never session-only recordings.
 - Python Challenge rankings count distinct completed challenge IDs from activity logs through an authenticated read-only function, preventing repeat attempts from inflating totals.
 - The 999 Letters typing set is generated from the uploaded book into `src/data/chineseLetters/part*.ts` (lazy-loaded, Pinyin/keywords regenerated, audited by `scripts/audit_chinese_letters.ts`), so the book never bloats the main bundle.
 - Render both Chinese sentence typing and 999 Letters from original punctuated Hanzi and map scoring indices separately through `chineseLetterTyping`, so punctuation stays visible without changing existing typing scores.
@@ -27,3 +27,4 @@
 - Python overview charts group unique completed challenge IDs into six curriculum areas; dated growth uses earliest account activity only, so completion coverage is never presented as an invented ability grade.
 - Python Challenge list, direct routes and workspace navigation share the sequential-unlock helper and merged progress hook; completion events refresh same-tab state immediately to prevent inconsistent access.
 - IELTS Reading rooms scope theme tokens to the entire exam; passage and question annotations share ReaderPassage with separate original-question storage keys to preserve highlights across full-test renumbering.
+- All Code Typing Race paths use the shared quote-aware numeric formatter to preserve identifiers and string data.

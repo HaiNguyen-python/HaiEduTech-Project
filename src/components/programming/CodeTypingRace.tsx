@@ -12,6 +12,7 @@ import { Keyboard, Timer, Target, Zap, RotateCcw, Trophy, Shuffle, BookOpen, Loa
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { resolveTopicSnippets } from "@/data/programming/typingSnippetBank";
+import { normalizeTypingNumbers } from "@/lib/codeTypingNumbers";
 
 interface Props {
   /** Source code or text the player must retype. */
@@ -117,7 +118,7 @@ function stripEmojis(text: string): string {
   if (!text) return text;
   // Remove emoji/pictograph/symbol ranges + variation selectors + ZWJ.
   const emojiRe = /[\u{1F1E6}-\u{1F1FF}\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2300}-\u{23FF}\u{2B00}-\u{2BFF}]|\u{FE0F}|\u{200D}/gu;
-  return asciifySymbols(text.replace(emojiRe, "")).replace(/[ \t]+\n/g, "\n");
+  return normalizeTypingNumbers(asciifySymbols(text.replace(emojiRe, ""))).replace(/[ \t]+\n/g, "\n");
 }
 
 /** Pick a short, fun-to-type slice from a longer source. */
