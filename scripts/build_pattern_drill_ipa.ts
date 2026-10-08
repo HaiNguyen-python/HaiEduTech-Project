@@ -4,7 +4,7 @@
  */
 import { writeFileSync } from "node:fs";
 import { dictionary } from "cmu-pronouncing-dictionary";
-import { ENGLISH_PATTERNS, fillSentence } from "../src/data/patternDrills";
+import { getPatterns, fillSentence } from "../src/data/patternDrills";
 import { cmuPhonemicIpa } from "./lib/cmuPhonemicIpa";
 
 // Broad GA teaching forms. Preserve compound boundaries; choose the lexical
@@ -37,7 +37,7 @@ const overrides: Record<string, string> = {
   online: "ˈɑnˌlaɪn", suggest: "səɡˈdʒɛst", suggestion: "səɡˈdʒɛstʃən",
 };
 
-const words = [...new Set(ENGLISH_PATTERNS.flatMap((pattern) => pattern.fills.flatMap((fill) =>
+const words = [...new Set(getPatterns("english").flatMap((pattern) => pattern.fills.flatMap((fill) =>
   fillSentence(pattern.frame, fill.w).toLowerCase().split(/\s+/)
     .map((word) => word.replace(/[^a-z'-]/g, "")),
 )))].sort();

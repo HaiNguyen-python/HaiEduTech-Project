@@ -1,27 +1,30 @@
 import { formatIpa, phraseToIpa } from "@/lib/englishIpa";
-
-// American-English curriculum words missing from the shared dictionary.
-const PATTERN_WORD_IPA: Record<string, string> = {
-  pho: "fɜː",
-  "wi-fi": "ˈwaɪ faɪ",
-  favourite: "ˈfeɪvɚɪt",
-  neighbour: "ˈneɪbɚ",
-  "second-hand": "ˌsɛkənd ˈhænd",
-  "double-check": "ˌdʌbəl ˈtʃɛk",
-  "cost-effective": "ˌkɔst ɪˈfɛktɪv",
-  scalable: "ˈskeɪləbəl",
-  scalability: "ˌskeɪləˈbɪləti",
-  "long-standing": "ˌlɔŋ ˈstændɪŋ",
-};
+import pronunciations from "@/data/patternDrillPronunciations.json";
 
 const extendedDictionaries = new WeakMap<Record<string, string>, Record<string, string>>();
 
 export function patternDrillSentenceIpa(sentence: string, dictionary: Record<string, string>): string | null {
   let extended = extendedDictionaries.get(dictionary);
   if (!extended) {
-    extended = { ...dictionary, ...PATTERN_WORD_IPA };
+    extended = { ...dictionary, ...pronunciations };
     extendedDictionaries.set(dictionary, extended);
   }
-  const ipa = phraseToIpa(sentence, extended);
-  return ipa ? formatIpa(ipa) : null;
+  const words = sentence.toLowerCase().replace(/[’‘]/g, "'")
+    .split(/\s+/).map((word) => word.replace(/[^a-z'-]/g, "")).filter(Boolean);
+  const parts: string[] = [];
+  for (let index = 0; index < words.length; index++) {
+    const word = words[index];
+    const next = words[index + 1];
+    // Habitual 'used to' /just/ is not the verb 'used a sample' /juzd/.
+    // 'the' has /ði/ before a vowel sound, not simply a vowel letter.
+    let ipa = phraseToIpa(word, extended);
+    if (word === "used" && next === "to") ipa = "just";
+    if (word === "the" && next) {
+      const following = phraseToIpa(next, extended)?.replace(/[ˈˌ]/g, "");
+      ipa = following && /^[ɑæʌɔaɛɝɚeɪioʊuə]/u.test(following) ? "ði" : "ðə";
+    }
+    if (!ipa) return null;
+    parts.push(ipa);
+  }
+  return parts.length ? formatIpa(parts.join(" ")) : null;
 }
