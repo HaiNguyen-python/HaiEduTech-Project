@@ -4,7 +4,7 @@ import { TOPIC_SNIPPETS } from "@/data/programming/typingSnippetBank";
 import { normalizeTypingNumbers } from "@/lib/codeTypingNumbers";
 
 const vietnamese = /[ăâđêôơưĂÂĐÊÔƠƯáàảãạắằẳẵặấầẩẫậéèẻẽẹếềểễệíìỉĩịóòỏõọốồổỗộớờởỡợúùủũụứừửữựýỳỷỹỵ]/;
-const untranslated = /\b(?:so_canh|do_dai|diem|ten|tuoi|tuoi_str|chieu_cao|hoc_gioi|study_gioi|danh_sach_vat_pham|vat_pham_moi|dien_tich_hcn|chieu_dai|chieu_rong|kiem_tra_chan_le|ngon_ngu|hoc_sinh|student_student|vi_tri|dien_tich_moi|du_doan|doanh_thu|ket_qua|result_qua|Tai nghe|Doanh thu)\b/;
+const untranslated = /\b(?:so_canh|do_dai|diem|tuoi|tuoi_str|chieu_cao|hoc_gioi|study_gioi|danh_sach_vat_pham|vat_pham_moi|dien_tich_hcn|chieu_dai|chieu_rong|kiem_tra_chan_le|ngon_ngu|hoc_sinh|student_student|vi_tri|dien_tich_moi|du_doan|doanh_thu|ket_qua|result_qua|Tai nghe|Doanh thu)\b|\bten\s*(?:=|,|\})/;
 
 describe("English-only Code Typing Race sources", () => {
   it("audits every lesson code and every topic fallback", () => {
