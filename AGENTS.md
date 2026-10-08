@@ -6,7 +6,7 @@
 - Derive registration prices from the shared catalog; server-validate EUR prices and separate course payments from Premium.
 - Keep only the exact `/english`, `/chinese`, `/programming`, and `/register` overview routes public; nested learning routes remain authentication and Premium protected.
 - Keep auth emails in the shared six HaiEduTech templates deployed through the auth hook.
-- Keep Programming math cleanup in shared `normalizeMath` and audit malformed delimiters.
+- Use shared `normalizeMath` for Programming math; audit malformed delimiters.
 - Resolve HSK vocabulary visuals from the Hanzi-aware resolver, with explicit common-word mappings and stable category fallbacks, so unknown meanings do not repeat one generic icon.
 
 - Public subject UI exposes Home, About, English, Chinese, Finnish, Vietnamese, Technology, Interpersonal Skills and Your Corner. Finnish pages stay open to all signed-in users; hide JA/SV from navigation (teacher-gated routes), Specialized Language and Super Dictionary; keep direct course URLs.
