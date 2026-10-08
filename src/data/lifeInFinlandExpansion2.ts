@@ -20,7 +20,7 @@ export const TRANSPORT_GUIDES: NewcomerGuide[] = [
     title: "Giao thông công cộng (HSL, Nysse, Föli)",
     titleEn: "Public Transport (HSL, Nysse, Föli)",
     sources: [{ label: "www.hsl.fi", url: "https://www.hsl.fi/en/tickets-and-fares" }, { label: "www.hsl.fi", url: "https://www.hsl.fi/en/citybikes" }, { label: "www.vr.fi", url: "https://www.vr.fi/en/discounts-on-train-tickets" }],
-        summary: "Vé theo vùng và loại; vé xe đạp thành phố là sản phẩm riêng, không mặc nhiên nằm trong vé giao thông công cộng.",
+    summary: "Vé theo vùng và loại; vé xe đạp thành phố là sản phẩm riêng, không mặc nhiên nằm trong vé giao thông công cộng.",
     summaryEn: "Tickets depend on zones and type; city-bike access is a separate product, not automatically included in public transport tickets.",
     steps: [
           { vi: "Tải ứng dụng của nhà vận hành và kiểm tra phương thức trả tiền được hỗ trợ.", en: "Use the operator’s app and check supported payment methods." },
@@ -61,7 +61,7 @@ export const BANKING_GUIDES: NewcomerGuide[] = [
     title: "Ngân hàng & định danh mạnh (Pankkitunnukset)",
     titleEn: "Banking & Strong Identification (Pankkitunnukset)",
     sources: [{ label: "www.suomi.fi", url: "https://www.suomi.fi/instructions-and-support/identification" }, { label: "www.kyberturvallisuuskeskus.fi", url: "https://www.kyberturvallisuuskeskus.fi/en" }, { label: "poliisi.fi", url: "https://poliisi.fi/en/report-a-crime" }],
-        summary: "Định danh mạnh có thể dùng mã ngân hàng, chứng thư di động hoặc thẻ định danh được chấp nhận; không phải dịch vụ nào cũng chỉ nhận mã ngân hàng.",
+    summary: "Định danh mạnh có thể dùng mã ngân hàng, chứng thư di động hoặc thẻ định danh được chấp nhận; không phải dịch vụ nào cũng chỉ nhận mã ngân hàng.",
     summaryEn: "Strong identification may use accepted banking credentials, mobile certificates or identity cards; services do not all require bank credentials exclusively.",
     steps: [
           { vi: "So sánh ngân hàng theo ngôn ngữ phục vụ, phí và giấy tờ; tránh xếp hạng ngân hàng nào dễ duyệt nhất.", en: "Compare banks by service languages, fees and documents; avoid assuming one bank approves newcomers most easily." },
@@ -98,7 +98,7 @@ export const CULTURE_GUIDES: NewcomerGuide[] = [
     title: "Văn hóa giao tiếp Phần Lan & Sisu",
     titleEn: "Finnish Social Etiquette & Sisu",
     sources: [{ label: "www.infofinland.fi", url: "https://www.infofinland.fi/en/information-about-finland/cultures-and-religions-in-finland/finnish-customs" }],
-        summary: "Đúng giờ, bình đẳng và không gian riêng thường được coi trọng; cách giao tiếp khác nhau theo người và hoàn cảnh.",
+    summary: "Đúng giờ, bình đẳng và không gian riêng thường được coi trọng; cách giao tiếp khác nhau theo người và hoàn cảnh.",
     summaryEn: "Punctuality, equality and personal space are often valued; communication varies by person and situation.",
     steps: [
           { vi: "Không cần lấp đầy mọi khoảng im lặng; hỏi rõ nếu bạn chưa hiểu.", en: "You need not fill every silence; ask for clarification when needed." },
@@ -137,7 +137,7 @@ export const FAMILY_HEALTH_GUIDES: NewcomerGuide[] = [
     title: "Neuvola - Trung tâm chăm sóc mẹ và bé miễn phí",
     titleEn: "Neuvola - Free Maternal & Child Health Center",
     sources: [{ label: "www.kela.fi", url: "https://www.kela.fi/maternity-grant" }, { label: "www.kela.fi", url: "https://www.kela.fi/pregnancy-allowance" }, { label: "www.kela.fi", url: "https://www.kela.fi/parental-allowance" }, { label: "www.infofinland.fi", url: "https://www.infofinland.fi/en/family/children/early-childhood-education" }],
-        summary: "Neuvola cung cấp chăm sóc thai kỳ và trẻ nhỏ trong hệ thống y tế công; liên hệ dịch vụ khu vực về quyền dùng và lịch khám.",
+    summary: "Neuvola cung cấp chăm sóc thai kỳ và trẻ nhỏ trong hệ thống y tế công; liên hệ dịch vụ khu vực về quyền dùng và lịch khám.",
     summaryEn: "Neuvola provides maternity and young-child care within public healthcare; contact regional services about entitlement and visits.",
     steps: [
           { vi: "Liên hệ neuvola khi biết mình mang thai; số và cách đặt hẹn ở trang khu vực phúc lợi hoặc Helsinki, không phải MyKanta.", en: "Contact neuvola when you know you are pregnant; booking details are on your wellbeing services county or Helsinki website, not MyKanta." },
@@ -173,7 +173,7 @@ export const ADVANCED_HEALTH_GUIDES: NewcomerGuide[] = [
     title: "Nha khoa công + tư (Hammashoito)",
     titleEn: "Dental Care - Public + Private",
     sources: [{ label: "www.infofinland.fi", url: "https://www.infofinland.fi/en/health/dental-care" }, { label: "www.kela.fi", url: "https://www.kela.fi/dental-care" }],
-        summary: "Dùng nha khoa công, tư hoặc YTHS nếu đủ điều kiện; phí và thời gian chờ tùy nơi, điều trị và mức độ khẩn cấp.",
+    summary: "Dùng nha khoa công, tư hoặc YTHS nếu đủ điều kiện; phí và thời gian chờ tùy nơi, điều trị và mức độ khẩn cấp.",
     summaryEn: "Use public, private or eligible YTHS dental care; fees and waits vary by provider, procedure and urgency.",
     steps: [
           { vi: "Liên hệ nha khoa khu vực để được đánh giá nhu cầu; xem phí khám và điều trị hiện hành.", en: "Contact regional dental services for a care assessment; check current examination and treatment charges." },
@@ -186,7 +186,7 @@ export const ADVANCED_HEALTH_GUIDES: NewcomerGuide[] = [
       { fi: "Hammashoito", vi: "Khám nha khoa", en: "Dental care" },
       { fi: "Hammaslääkäri", vi: "Bác sĩ nha khoa", en: "Dentist" },
       { fi: "Paikkaus", vi: "Trám răng", en: "Filling" },
-      { fi: "Hammaskivi", vi: "Cao răng", en: "Tartar / scaling" },
+      { fi: "Hammaskivi", vi: "Cao răng", en: "Tartar" },
       { fi: "Oikomishoito", vi: "Niềng răng", en: "Orthodontics / braces" },
     ],
     phrases: [
@@ -202,11 +202,11 @@ export const ADVANCED_HEALTH_GUIDES: NewcomerGuide[] = [
     title: "Hỗ trợ sức khỏe tâm thần (Mielenterveys)",
     titleEn: "Mental Health Support (Mielenterveys)",
     sources: [{ label: "mieli.fi", url: "https://mieli.fi/en/support-and-help/crisis-helpline/" }, { label: "www.yths.fi", url: "https://www.yths.fi/en/" }, { label: "www.kela.fi", url: "https://www.kela.fi/rehabilitative-psychotherapy" }, { label: "www.mielenterveystalo.fi", url: "https://www.mielenterveystalo.fi/en" }],
-        summary: "Có hỗ trợ qua y tế công, YTHS, MIELI và chương trình tự trợ giúp; điều kiện, ngôn ngữ và giờ phục vụ khác nhau.",
+    summary: "Có hỗ trợ qua y tế công, YTHS, MIELI và chương trình tự trợ giúp; điều kiện, ngôn ngữ và giờ phục vụ khác nhau.",
     summaryEn: "Support is available through public healthcare, YTHS, MIELI and self-help programmes; eligibility, languages and hours vary.",
     steps: [
           { vi: "Nếu đang có nguy hiểm tức thời, gọi 112. Với MIELI, kiểm tra số và giờ tiếng Anh trên trang chính thức trước khi gọi; đường dây khủng hoảng không thay cho cấp cứu.", en: "For immediate danger, call 112. For MIELI, check current English phone numbers/hours on its official page; a crisis line is not emergency dispatch." },
-          { vi: "Sinh viên đủ điều kiện liên hệ YTHS qua kênh hiện hành; dịch vụ không phải trung tâm cấp cứu hoặc bảo đảm trị liệu không giới hạn.", en: "Eligible students contact YTHS through current channels; it is not an emergency service or a guarantee of unlimited therapy." },
+          { vi: "Sinh viên đủ điều kiện liên hệ YTHS qua YTHSDigi (thay Self từ tháng 5/2026); dịch vụ không phải trung tâm cấp cứu hoặc bảo đảm trị liệu không giới hạn.", en: "Eligible students contact YTHS through YTHSDigi (replacing Self in May 2026); it is not an emergency service or a guarantee of unlimited therapy." },
           { vi: "Mielenterveystalo có chương trình tự trợ giúp; trị liệu có hướng dẫn hoặc điều trị chuyên môn có thể cần giới thiệu/đánh giá.", en: "Mielenterveystalo offers self-help programmes; guided therapy or specialist treatment may require referral/assessment." },
           { vi: "Kela rehabilitative psychotherapy cần điều kiện và quyết định riêng; hỗ trợ tối đa ba năm, 80 buổi/năm và 200 buổi tổng cộng, không phải hoàn 60% mặc định.", en: "Kela rehabilitative psychotherapy requires eligibility and a separate decision; support is available for up to three years, 80 sessions/year and 200 in total, not a default 60% refund." },
           { vi: "Giữ giấc ngủ và hoạt động phù hợp; hỏi nhân viên y tế về vitamin D hoặc đèn trị liệu thay vì tự dùng liều cao.", en: "Maintain sleep and suitable activity; ask a clinician about vitamin D or light therapy rather than using high doses yourself." },
@@ -220,7 +220,7 @@ export const ADVANCED_HEALTH_GUIDES: NewcomerGuide[] = [
       { fi: "Kaamos", vi: "Mùa đêm dài (cực Bắc)", en: "Polar night" },
     ],
     phrases: [
-      { fi: "Tunnen oloni masentuneeksi.", vi: "Tôi cảm thấy buồn chán.", en: "I feel depressed." },
+      { fi: "Tunnen oloni masentuneeksi.", vi: "Tôi cảm thấy trầm buồn.", en: "I feel depressed." },
       { fi: "Tarvitsen apua.", vi: "Tôi cần giúp đỡ.", en: "I need help." },
       { fi: "Voinko saada lähetteen terapeutille?", vi: "Tôi xin giấy giới thiệu đến nhà trị liệu được không?", en: "Can I get a referral to a therapist?" },
     ],
@@ -234,10 +234,10 @@ export const ADVANCED_HEALTH_GUIDES: NewcomerGuide[] = [
 export const FIRST_30_DAYS_CHECKLIST_V2: ChecklistItem[] = [
   { key: "hsl-app", vi: "Cài app HSL/Nysse/Föli", en: "Install HSL/Nysse/Föli app", category: "daily", week: 1 },
   { key: "mobilepay", vi: "Cài MobilePay (chuyển tiền P2P)", en: "Install MobilePay (P2P transfers)", category: "admin", week: 2 },
-  { key: "vsaf-join", vi: "Đăng ký Vietnamese Students Association (VSAF)", en: "Register with Vietnamese Students Association (VSAF)", category: "daily", week: 2 },
+  { key: "vsaf-join", vi: "Tìm hội sinh viên hoặc cộng đồng đáng tin cậy qua trường", en: "Find a trusted student association or community through your institution", category: "daily", week: 2 },
   { key: "neuvola-register", vi: "Đăng ký Neuvola (nếu có thai/em bé)", en: "Register at Neuvola (if pregnant/with baby)", category: "health", week: 3 },
   { key: "dental-checkup", vi: "Đặt lịch khám răng định kỳ đầu tiên", en: "Book first dental checkup", category: "health", week: 4 },
-  { key: "self-app", vi: "Cài Self.fi (sinh viên FSHS) cho dịch vụ y tế", en: "Install Self.fi (FSHS students) for healthcare", category: "health", week: 2 },
+  { key: "self-app", vi: "Sinh viên đủ điều kiện: kiểm tra YTHSDigi trên trang YTHS", en: "Eligible students: access YTHSDigi through the YTHS website", category: "health", week: 2 },
   { key: "sauna-experience", vi: "Trải nghiệm sauna công cộng đầu tiên", en: "First public sauna experience", category: "daily", week: 3 },
   { key: "mielenterveystalo", vi: "Bookmark Mielenterveystalo.fi", en: "Bookmark Mielenterveystalo.fi", category: "health", week: 4 },
 ];

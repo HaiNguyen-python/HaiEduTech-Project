@@ -19,7 +19,7 @@ export const SHOPPING_GUIDES: NewcomerGuide[] = [
     title: "Hướng dẫn đi chợ siêu thị (2026)",
     titleEn: "Grocery Shopping Guide (2026)",
     sources: [{ label: "www.ruokavirasto.fi", url: "https://www.ruokavirasto.fi/en/foodstuffs/instructions-for-consumers/" }],
-        summary: "Lập ngân sách theo giá thực tế tại nơi ở; không có giá chợ hoặc mức lạm phát cố định dùng cho mọi gia đình.",
+    summary: "Lập ngân sách theo giá thực tế tại nơi ở; không có giá chợ hoặc mức lạm phát cố định dùng cho mọi gia đình.",
     summaryEn: "Budget using actual local prices; there is no fixed grocery cost or inflation rate suitable for every household.",
     steps: [
           { vi: "Lập danh sách và ngân sách dựa trên nhu cầu, khẩu phần và giá đơn vị.", en: "Make a list and budget based on needs, portions and unit prices." },
@@ -54,7 +54,7 @@ export const SHOPPING_GUIDES: NewcomerGuide[] = [
     title: "Các loại chợ ở Phần Lan",
     titleEn: "Types of Markets in Finland",
     sources: [{ label: "www.infofinland.fi", url: "https://www.infofinland.fi/en/settling-in-finland/everyday-life-in-finland" }],
-        summary: "Các lựa chọn gồm siêu thị, chợ trong nhà, chợ quảng trường, nhóm REKO và cửa hàng Á; lịch hoạt động tùy địa phương.",
+    summary: "Các lựa chọn gồm siêu thị, chợ trong nhà, chợ quảng trường, nhóm REKO và cửa hàng Á; lịch hoạt động tùy địa phương.",
     summaryEn: "Options include supermarkets, indoor market halls, market squares, REKO groups and Asian shops; schedules vary locally.",
     steps: [
           { vi: "Xem giờ và địa chỉ trên trang cửa hàng trước khi đi, kể cả Chủ nhật và ngày lễ.", en: "Check store hours and addresses before visiting, including Sundays and holidays." },
@@ -82,7 +82,7 @@ export const SHOPPING_GUIDES: NewcomerGuide[] = [
     title: "Mua đồ cũ (Kirpputori)",
     titleEn: "Second-hand Shopping (Kirpputori)",
     sources: [{ label: "www.kkv.fi", url: "https://www.kkv.fi/en/consumer-affairs/" }, { label: "www.kyberturvallisuuskeskus.fi", url: "https://www.kyberturvallisuuskeskus.fi/en" }],
-        summary: "Đồ cũ có thể giảm chi phí và rác thải; kiểm tra tình trạng, an toàn và quyền người mua trước khi trả tiền.",
+    summary: "Đồ cũ có thể giảm chi phí và rác thải; kiểm tra tình trạng, an toàn và quyền người mua trước khi trả tiền.",
     summaryEn: "Second-hand items can reduce costs and waste; check condition, safety and buyer rights before paying.",
     steps: [
           { vi: "Tìm cửa hàng đồ cũ hoặc trung tâm tái sử dụng; kiểm tra giờ, chính sách đổi trả và tình trạng hàng.", en: "Find thrift shops or reuse centres; check hours, return policies and item condition." },
@@ -125,7 +125,7 @@ export const HOUSING_GUIDES: NewcomerGuide[] = [
     title: "Tìm nhà ở Phần Lan (2026)",
     titleEn: "Finding Housing in Finland (2026)",
     sources: [{ label: "www.infofinland.fi", url: "https://www.infofinland.fi/en/housing/rental-housing" }, { label: "www.kela.fi", url: "https://www.kela.fi/student-housing-supplement" }],
-        summary: "Đăng ký nhà sinh viên sớm và so sánh nhà tư nhân; giá, hàng chờ và tiêu chí ưu tiên thay đổi theo nhà cung cấp.",
+    summary: "Đăng ký nhà sinh viên sớm và so sánh nhà tư nhân; giá, hàng chờ và tiêu chí ưu tiên thay đổi theo nhà cung cấp.",
     summaryEn: "Apply early for student housing and compare private rentals; prices, queues and priority criteria vary by provider.",
     steps: [
           { vi: "Tìm HOAS, TOAS, TYS hoặc PSOAS theo thành phố; xem điều kiện, thời hạn hồ sơ và loại phòng. Không có bảo đảm ưu tiên chung cho mọi sinh viên quốc tế.", en: "Find HOAS, TOAS, TYS or PSOAS for your city; check eligibility, application validity and room types. There is no universal priority guarantee for international students." },
@@ -155,7 +155,7 @@ export const HOUSING_GUIDES: NewcomerGuide[] = [
     title: "SIM điện thoại & Internet (2026)",
     titleEn: "Phone SIM & Internet (2026)",
     sources: [{ label: "www.traficom.fi", url: "https://www.traficom.fi/en/communications/broadband-and-telephone" }, { label: "europa.eu", url: "https://europa.eu/youreurope/citizens/consumers/internet-telecoms/mobile-roaming-costs/index_en.htm" }],
-        summary: "DNA, Telia và Elisa cung cấp SIM trả trước và gói thuê bao; so sánh vùng phủ sóng, giá và điều kiện hiện hành.",
+    summary: "DNA, Telia và Elisa cung cấp SIM trả trước và gói thuê bao; so sánh vùng phủ sóng, giá và điều kiện hiện hành.",
     summaryEn: "DNA, Telia and Elisa offer prepaid SIMs and subscriptions; compare coverage, prices and current terms.",
     steps: [
           { vi: "Kiểm tra vùng phủ sóng tại địa chỉ ở/làm việc và điện thoại có hỗ trợ SIM/eSIM hay không.", en: "Check coverage at home/work and whether your phone supports the SIM/eSIM." },
@@ -190,7 +190,7 @@ export const SEASONAL_GUIDES: NewcomerGuide[] = [
     title: "Sống sót mùa đông Phần Lan",
     titleEn: "Surviving Finnish Winter",
     sources: [{ label: "en.ilmatieteenlaitos.fi", url: "https://en.ilmatieteenlaitos.fi/" }, { label: "www.ruokavirasto.fi", url: "https://www.ruokavirasto.fi/en/foodstuffs/healthy-diet/nutrients/vitamin-d/" }, { label: "poliisi.fi", url: "https://poliisi.fi/en/traffic-safety" }],
-        summary: "Thời tiết mùa đông khác nhau theo vùng và năm; theo dõi dự báo, cảnh báo và chuẩn bị đồ phù hợp.",
+    summary: "Thời tiết mùa đông khác nhau theo vùng và năm; theo dõi dự báo, cảnh báo và chuẩn bị đồ phù hợp.",
     summaryEn: "Winter conditions vary by region and year; follow forecasts/warnings and prepare suitable clothing.",
     steps: [
           { vi: "Mặc nhiều lớp, giữ tay/chân/đầu ấm và chọn giày phù hợp điều kiện, không cần một thương hiệu cụ thể.", en: "Dress in layers, keep hands/feet/head warm and choose footwear for conditions; no particular brand is required." },
@@ -227,7 +227,7 @@ export const STUDENT_TIPS_GUIDES: NewcomerGuide[] = [
     title: "20 Tips vàng cho du học sinh mới sang (2026)",
     titleEn: "20 Golden Tips for New Students (2026)",
     sources: [{ label: "www.kela.fi", url: "https://www.kela.fi/meal-subsidy" }, { label: "www.kela.fi", url: "https://www.kela.fi/healthcare-fee-for-students-in-higher-education" }, { label: "migri.fi", url: "https://migri.fi/en/working-and-internships-during-studies" }, { label: "migri.fi", url: "https://migri.fi/en/extended-permit" }],
-        summary: "Các mẹo cho sinh viên: kiểm tra điều kiện riêng về cư trú, quyền làm việc, y tế và giảm giá; không phải ai cũng hưởng mọi quyền lợi.",
+    summary: "Các mẹo cho sinh viên: kiểm tra điều kiện riêng về cư trú, quyền làm việc, y tế và giảm giá; không phải ai cũng hưởng mọi quyền lợi.",
     summaryEn: "Student tips: check individual conditions for residence, work rights, healthcare and discounts; not everyone receives every entitlement.",
     steps: [
           { vi: "Dùng thẻ sinh viên được nơi cung cấp chấp nhận (ví dụ Frank/Tuudo); kiểm tra giảm giá từng dịch vụ.", en: "Use a student ID accepted by the provider (for example Frank/Tuudo); check each service’s discount." },
@@ -272,7 +272,7 @@ export const STUDENT_TIPS_GUIDES: NewcomerGuide[] = [
     title: "Cộng đồng Việt tại Phần Lan",
     titleEn: "Vietnamese Community in Finland",
     sources: [{ label: "www.infofinland.fi", url: "https://www.infofinland.fi/en" }, { label: "vnembassy-helsinki.mofa.gov.vn", url: "https://vnembassy-helsinki.mofa.gov.vn/en-us/Pages/default.aspx" }],
-        summary: "Kết nối cộng đồng Việt và cộng đồng địa phương; kiểm tra thông tin nhóm, sự kiện và dịch vụ lãnh sự từ nguồn hiện hành.",
+    summary: "Kết nối cộng đồng Việt và cộng đồng địa phương; kiểm tra thông tin nhóm, sự kiện và dịch vụ lãnh sự từ nguồn hiện hành.",
     summaryEn: "Connect with Vietnamese and local communities; verify current group, event and consular information.",
     steps: [
           { vi: "Tìm nhóm cộng đồng qua người quen hoặc trường; không chia sẻ giấy tờ, mã định danh hay chuyển tiền cho người chưa xác minh.", en: "Find community groups through trusted contacts or your institution; do not share documents/identity codes or send money to unverified contacts." },
@@ -293,7 +293,7 @@ export const STUDENT_TIPS_GUIDES: NewcomerGuide[] = [
     ],
     proTip: { vi: "Hỏi trường về buddy/mentor programme; thời lượng và người hỗ trợ tùy chương trình.", en: "Ask your institution about buddy/mentor programmes; duration and support vary." },
     mapLinks: [
-      { label: "Vietnamese Embassy Helsinki", url: "https://www.google.com/maps/search/Vietnam+Embassy+Helsinki+Kulosaarentie" },
+      { label: "Vietnamese Embassy Helsinki", url: "https://www.google.com/maps/search/Vietnam+Embassy+Helsinki" },
       { label: "Saigon Restaurant Helsinki", url: "https://www.google.com/maps/search/Saigon+Restaurant+Helsinki" },
     ],
   },
@@ -305,15 +305,15 @@ export const STUDENT_TIPS_GUIDES: NewcomerGuide[] = [
 
 export const FIRST_30_DAYS_CHECKLIST_EXPANSION: ChecklistItem[] = [
   { key: "tori-account", vi: "Tạo tài khoản Tori.fi để mua đồ cũ", en: "Create Tori.fi account for second-hand", category: "daily", week: 1 },
-  { key: "welcome-sim", vi: "Lấy Welcome SIM miễn phí ở sân bay (nếu mới đến)", en: "Pick up free Welcome SIM at airport (if just arrived)", category: "daily", week: 1 },
-  { key: "vitamin-d", vi: "Mua Vitamin D 50–100µg (Oct–Mar)", en: "Buy Vitamin D 50–100µg (Oct–Mar)", category: "health", week: 2 },
+  { key: "welcome-sim", vi: "Kiểm tra nơi mua SIM trả trước và giá hiện hành nếu cần", en: "Check prepaid SIM retailers and current prices if needed", category: "daily", week: 1 },
+  { key: "vitamin-d", vi: "Kiểm tra hướng dẫn vitamin D phù hợp tuổi và chế độ ăn; hỏi y tế nếu cần", en: "Check vitamin D guidance for your age and diet; ask healthcare if needed", category: "health", week: 2 },
   { key: "ice-grippers", vi: "Mua liukuesteet (đinh chống trượt) cho mùa đông", en: "Buy ice grippers (liukuesteet) for winter", category: "daily", week: 2 },
   { key: "frank-app", vi: "Cài app Frank/Tuudo (thẻ sinh viên số)", en: "Install Frank/Tuudo (digital student ID)", category: "work", week: 2 },
   { key: "asian-market", vi: "Tìm chợ Á gần nhất (Vii Voan, Hoan Nam, Tokyokan)", en: "Locate nearest Asian market (Vii Voan, Hoan Nam, Tokyokan)", category: "daily", week: 3 },
   { key: "reko-group", vi: "Tham gia REKO Facebook group ở thành phố bạn", en: "Join your city's REKO Facebook group", category: "daily", week: 3 },
-  { key: "asumistuki", vi: "Nộp đơn xin trợ cấp nhà Yleinen asumistuki", en: "Apply for Kela housing benefit (Yleinen asumistuki)", category: "admin", week: 3 },
+  { key: "asumistuki", vi: "Kiểm tra quyền trợ cấp nhà ở hoặc bổ sung nhà ở sinh viên với Kela", en: "Check housing-allowance or student housing-supplement eligibility with Kela", category: "admin", week: 3 },
   { key: "winter-jacket", vi: "Đầu tư áo khoác mùa đông + bốt chống trượt", en: "Invest in winter jacket + waterproof boots", category: "daily", week: 4 },
-  { key: "vietnamese-community", vi: "Tham gia FB 'Người Việt tại Phần Lan' & VSAF", en: "Join 'Vietnamese in Finland' FB & VSAF", category: "daily", week: 4 },
-  { key: "remittance-app", vi: "Cài Wise/Revolut để chuyển tiền về VN rẻ", en: "Install Wise/Revolut for cheap VN remittance", category: "admin", week: 4 },
-  { key: "weather-app", vi: "Cài Foreca / Yle Säätutka (dự báo thời tiết)", en: "Install Foreca / Yle Säätutka (weather)", category: "daily", week: 4 },
+  { key: "vietnamese-community", vi: "Tìm nhóm cộng đồng Việt có thông tin đáng tin cậy", en: "Find a Vietnamese community group with trustworthy information", category: "daily", week: 4 },
+  { key: "remittance-app", vi: "So sánh tổng phí và tỷ giá các dịch vụ chuyển tiền trước khi chọn", en: "Compare total transfer fees and exchange rates before choosing a service", category: "admin", week: 4 },
+  { key: "weather-app", vi: "Lưu dự báo và cảnh báo thời tiết FMI hoặc ứng dụng phù hợp", en: "Save FMI forecasts/warnings or a suitable weather app", category: "daily", week: 4 },
 ];

@@ -30,6 +30,7 @@ export interface NewcomerGuide {
   keyTerms: FinnishKeyTerm[];
   phrases: SurvivalPhrase[];
   proTip?: { vi: string; en: string };
+  sources: { label: string; url: string }[];
   mapLinks?: { label: string; url: string }[];
 }
 
@@ -408,6 +409,8 @@ export const NEWCOMER_CATEGORIES: NewcomerCategory[] = _NEWCOMER_CATEGORIES_BASE
   if (cat.id === "health") return { ...cat, guides: [...cat.guides, ...FAMILY_HEALTH_GUIDES, ...ADVANCED_HEALTH_GUIDES, ...WINTER_SAFETY_GUIDES] };
   return cat;
 });
+export const LIFE_IN_FINLAND_REVIEW_DATE = "2026-10-08";
+
 export interface ChecklistItem {
   key: string;
   vi: string;
@@ -417,24 +420,24 @@ export interface ChecklistItem {
 }
 
 export const FIRST_30_DAYS_CHECKLIST: ChecklistItem[] = [
-  { key: "passport-copy", vi: "Sao chụp hộ chiếu & Oleskelulupa (3 bản)", en: "Photocopy passport & residence permit (3 copies)", category: "admin", week: 1 },
+  { key: "passport-copy", vi: "Lưu bản sao hộ chiếu và giấy phép cư trú an toàn khi cần", en: "Keep secure copies of passport and residence permit when needed", category: "admin", week: 1 },
   { key: "dvv-appointment", vi: "Đặt lịch hẹn DVV", en: "Book DVV appointment", category: "admin", week: 1 },
   { key: "sim-card", vi: "Mua SIM Phần Lan (DNA, Telia, Elisa)", en: "Buy a Finnish SIM (DNA, Telia, Elisa)", category: "daily", week: 1 },
   { key: "rental-contract", vi: "Ký hợp đồng thuê nhà & lưu PDF", en: "Sign rental contract & save PDF", category: "admin", week: 1 },
-  { key: "henkilotunnus", vi: "Nhận Henkilötunnus từ DVV", en: "Receive Henkilötunnus from DVV", category: "admin", week: 2 },
-  { key: "bank-account", vi: "Mở tài khoản ngân hàng + BankID", en: "Open bank account + activate BankID", category: "admin", week: 2 },
+  { key: "henkilotunnus", vi: "Kiểm tra mã định danh đã có; đăng ký DVV và theo dõi hồ sơ nếu cần", en: "Check existing identity code; apply to DVV and follow up if needed", category: "admin", week: 2 },
+  { key: "bank-account", vi: "Hỏi điều kiện tài khoản và định danh điện tử mạnh tại ngân hàng", en: "Check bank-account and strong-identification requirements", category: "admin", week: 2 },
   { key: "hsl-card", vi: "Đăng ký vé tháng giao thông công cộng", en: "Buy public transport monthly pass", category: "daily", week: 2 },
   { key: "loyalty-cards", vi: "Đăng ký thẻ S-Etukortti hoặc K-Plussa", en: "Sign up for S-Etukortti or K-Plussa", category: "daily", week: 2 },
-  { key: "kela-application", vi: "Nộp đơn xin Kela (Form Y77)", en: "Submit Kela application (Form Y77)", category: "admin", week: 3 },
+  { key: "kela-application", vi: "Thông báo chuyển đến và kiểm tra quyền hưởng Kela, dùng biểu mẫu hiện hành", en: "Notify Kela of your move and check eligibility using current forms", category: "admin", week: 3 },
   { key: "tax-card", vi: "Tải Verokortti từ vero.fi", en: "Download Verokortti from vero.fi", category: "work", week: 3 },
   { key: "omakanta", vi: "Đăng nhập omakanta.fi và xác thực", en: "Log in to omakanta.fi and verify", category: "health", week: 3 },
   { key: "terveysasema", vi: "Tìm Terveysasema gần nhà", en: "Locate the nearest Terveysasema", category: "health", week: 3 },
   { key: "112-app", vi: "Cài app 112 Suomi", en: "Install the 112 Suomi app", category: "health", week: 3 },
   { key: "library-card", vi: "Đăng ký thẻ thư viện (miễn phí)", en: "Get a library card (free)", category: "daily", week: 4 },
   { key: "union", vi: "Tham gia công đoàn ngành (nếu đi làm)", en: "Join a trade union (if employed)", category: "work", week: 4 },
-  { key: "kela-card", vi: "Nhận thẻ KELA qua bưu điện", en: "Receive KELA card by mail", category: "admin", week: 4 },
+  { key: "kela-card", vi: "Theo dõi đơn thẻ Kela nếu đủ điều kiện (thời gian tùy hồ sơ)", en: "Follow up a Kela-card application if eligible (processing varies)", category: "admin", week: 4 },
   { key: "recycling-points", vi: "Tìm điểm tái chế (Rinki-piste) gần nhất", en: "Find the nearest Rinki recycling point", category: "daily", week: 4 },
-  { key: "language-course", vi: "Đăng ký khóa tiếng Phần Lan miễn phí (kotoutumiskoulutus)", en: "Enroll in free Finnish course (integration training)", category: "work", week: 4 },
+  { key: "language-course", vi: "Hỏi dịch vụ địa phương hoặc trường về khóa Finnish phù hợp và điều kiện", en: "Ask local services or your institution about suitable Finnish courses and eligibility", category: "work", week: 4 },
   ...FIRST_30_DAYS_CHECKLIST_EXPANSION,
   ...FIRST_30_DAYS_CHECKLIST_V2,
   ...FIRST_30_DAYS_CHECKLIST_V3,
@@ -446,10 +449,10 @@ export const COMMUNITY_RESOURCES = [
   { title: "InfoFinland (Official multilingual portal)", url: "https://www.infofinland.fi/en", emoji: "🌐" },
   { title: "Người Việt tại Phần Lan (Facebook)", url: "https://www.facebook.com/groups/nguoivietphanlan", emoji: "👥" },
   { title: "Vietnam Association in Finland", url: "https://www.facebook.com/vietnamfinland", emoji: "🤝" },
-  { title: "Helsinki International House", url: "https://www.google.com/maps/search/International+House+Helsinki", emoji: "🏛️" },
+  { title: "Helsinki International House", url: "https://ihhelsinki.fi/", emoji: "🏛️" },
   { title: "Tori.fi - Buy used in Finland", url: "https://www.tori.fi", emoji: "♻️" },
   { title: "HOAS - Helsinki student housing", url: "https://www.hoas.fi/en/", emoji: "🏠" },
-  { title: "Kela - Benefits 2026", url: "https://www.kela.fi/web/en", emoji: "💳" },
+  { title: "Kela - Benefits 2026", url: "https://www.kela.fi", emoji: "💳" },
   { title: "Vero - Tax info 2026", url: "https://www.vero.fi/en/", emoji: "🧾" },
 ];
 

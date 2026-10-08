@@ -19,7 +19,7 @@ export const INTEGRATION_GUIDES: NewcomerGuide[] = [
     title: "Kotoutumiskoulutus - Khóa hòa nhập miễn phí",
     titleEn: "Integration training (free Finnish course)",
     sources: [{ label: "tyomarkkinatori.fi", url: "https://tyomarkkinatori.fi/en/personal-customers" }, { label: "kotoutuminen.fi", url: "https://kotoutuminen.fi/en/integration-training" }, { label: "www.kela.fi", url: "https://www.kela.fi/general-social-security-benefit" }, { label: "migri.fi", url: "https://migri.fi/en/language-skills" }],
-        summary: "Từ 2025, dịch vụ việc làm chuyển sang đô thị/khu vực việc làm. Khóa hòa nhập và trợ cấp tùy kế hoạch, điều kiện và quyết định riêng.",
+    summary: "Từ 2025, dịch vụ việc làm chuyển sang đô thị/khu vực việc làm. Khóa hòa nhập và trợ cấp tùy kế hoạch, điều kiện và quyết định riêng.",
     summaryEn: "Since 2025, employment services are organised by municipalities/employment areas. Integration training and benefits depend on a plan, eligibility and individual decisions.",
     steps: [
           { vi: "Nếu phù hợp hoàn cảnh, đăng ký tìm việc tại Job Market Finland và liên hệ cơ quan việc làm địa phương; người không thuộc lực lượng lao động hỏi dịch vụ hòa nhập đô thị.", en: "Where appropriate, register as a jobseeker at Job Market Finland and contact local employment services; people outside the labour force can ask municipal integration services." },
@@ -52,7 +52,7 @@ export const LIBRARY_GUIDES: NewcomerGuide[] = [
     title: "Thư viện Helmet & Yle Areena",
     titleEn: "Helmet libraries & Yle Areena",
     sources: [{ label: "www.helmet.fi", url: "https://www.helmet.fi/en-US" }, { label: "areena.yle.fi", url: "https://areena.yle.fi/" }],
-        summary: "Thẻ và mượn tài liệu thư viện thường miễn phí; in ấn, trả muộn hoặc một số dịch vụ có thể có phí. Yle Areena có quyền xem và phụ đề theo chương trình.",
+    summary: "Thẻ và mượn tài liệu thư viện thường miễn phí; in ấn, trả muộn hoặc một số dịch vụ có thể có phí. Yle Areena có quyền xem và phụ đề theo chương trình.",
     summaryEn: "Library cards and borrowing are generally free; printing, late returns or some services may cost extra. Yle Areena access and subtitles vary by programme.",
     steps: [
           { vi: "Helmet phục vụ Helsinki, Espoo, Kauniainen và Vantaa; xem giấy tờ, địa chỉ và quy định trẻ em khi đăng ký thẻ.", en: "Helmet serves Helsinki, Espoo, Kauniainen and Vantaa; check identification, address and children’s card requirements." },
@@ -79,7 +79,7 @@ export const LIBRARY_GUIDES: NewcomerGuide[] = [
     title: "Hệ thống tái chế Rinki & Pantti",
     titleEn: "Rinki recycling & Pantti deposits",
     sources: [{ label: "rinkiin.fi", url: "https://rinkiin.fi/en/for-households/" }, { label: "www.palpa.fi", url: "https://www.palpa.fi/beverage-container-recycling/deposit-refund-system/" }, { label: "www.hsy.fi", url: "https://www.hsy.fi/en/waste-and-recycling/" }],
-        summary: "Rinki dành cho bao bì; Pantti hoàn khoản đặt cọc đã trả, không phải thu nhập hoặc khoản tiết kiệm cố định.",
+    summary: "Rinki dành cho bao bì; Pantti hoàn khoản đặt cọc đã trả, không phải thu nhập hoặc khoản tiết kiệm cố định.",
     summaryEn: "Rinki is for packaging; Pantti returns a deposit you paid, not a fixed income or saving.",
     steps: [
           { vi: "Theo hướng dẫn địa phương, tách rác hữu cơ, bao bì, giấy và rác đặc biệt; không dùng cùng một thùng cho mọi loại.", en: "Follow local instructions for bio-waste, packaging, paper and special waste; do not use one bin for all materials." },
@@ -112,7 +112,7 @@ export const WINTER_SAFETY_GUIDES: NewcomerGuide[] = [
     title: "Lái xe & đi bộ an toàn mùa đông",
     titleEn: "Winter driving & walking safety",
     sources: [{ label: "poliisi.fi", url: "https://poliisi.fi/en/traffic-safety" }, { label: "www.liikenneturva.fi", url: "https://www.liikenneturva.fi/en/" }, { label: "en.ilmatieteenlaitos.fi", url: "https://en.ilmatieteenlaitos.fi/" }, { label: "116117.fi", url: "https://116117.fi/en" }],
-        summary: "Lốp đông cần từ tháng 11 đến tháng 3 khi thời tiết hoặc đường yêu cầu; giày chống trượt và phản quang giúp đi bộ an toàn.",
+    summary: "Lốp đông cần từ tháng 11 đến tháng 3 khi thời tiết hoặc đường yêu cầu; giày chống trượt và phản quang giúp đi bộ an toàn.",
     summaryEn: "Winter tyres are needed from November through March when weather or roads require them; shoe grippers and reflectors help pedestrian safety.",
     steps: [
           { vi: "Đánh giá thời tiết và thay lốp phù hợp trước khi lái; lốp đinh không bắt buộc, lốp ma sát phù hợp cũng được dùng.", en: "Assess conditions and fit suitable tyres before driving; studs are not mandatory, as suitable non-studded winter tyres are also allowed." },
@@ -139,10 +139,10 @@ export const WINTER_SAFETY_GUIDES: NewcomerGuide[] = [
 // ============================================================
 export const FIRST_30_DAYS_CHECKLIST_V3: ChecklistItem[] = [
   { key: "library-helmet-card", vi: "Đăng ký thẻ thư viện Helmet/Vaski/Piki", en: "Sign up for Helmet/Vaski/Piki library card", category: "daily", week: 2 },
-  { key: "te-palvelut", vi: "Tạo tài khoản TE-palvelut.fi", en: "Create a TE-palvelut.fi account", category: "work", week: 3 },
-  { key: "integration-plan", vi: "Đặt lịch kotoutumissuunnitelma với TE", en: "Book kotoutumissuunnitelma meeting with TE", category: "work", week: 3 },
-  { key: "winter-tyres", vi: "Đổi lốp đông trước 1/12 (nếu có xe)", en: "Switch to winter tyres before Dec 1 (if you drive)", category: "daily", week: 4 },
-  { key: "reflector", vi: "Mua đèn phản quang (heijastin) cho áo khoác", en: "Buy a reflector (heijastin) for your jacket", category: "daily", week: 2 },
+  { key: "te-palvelut", vi: "Đăng ký tìm việc trên Job Market Finland nếu phù hợp hoàn cảnh", en: "Register as a jobseeker on Job Market Finland if appropriate", category: "work", week: 3 },
+  { key: "integration-plan", vi: "Hỏi dịch vụ hòa nhập/việc làm đô thị về kế hoạch hòa nhập nếu phù hợp", en: "Ask municipal integration/employment services about an integration plan if applicable", category: "work", week: 3 },
+  { key: "winter-tyres", vi: "Kiểm tra lốp đông tháng 11–3 khi thời tiết/đường yêu cầu (nếu lái xe)", en: "Check winter tyres November–March when conditions require them (if driving)", category: "daily", week: 4 },
+  { key: "reflector", vi: "Mua vật phản quang (heijastin) phù hợp cho đi bộ khi tối", en: "Get a suitable reflector (heijastin) for walking in darkness", category: "daily", week: 2 },
   { key: "pantti-routine", vi: "Bắt đầu lưu chai để hoàn Pantti", en: "Start saving bottles for Pantti refunds", category: "daily", week: 3 },
-  { key: "yle-areena", vi: "Tạo tài khoản Yle Areena (miễn phí, có phụ đề)", en: "Create a free Yle Areena account (with subtitles)", category: "daily", week: 2 },
+  { key: "yle-areena", vi: "Xem quyền truy cập và lựa chọn phụ đề của chương trình Yle Areena", en: "Check Yle Areena programme access and available subtitles", category: "daily", week: 2 },
 ];
