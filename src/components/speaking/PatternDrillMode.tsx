@@ -13,6 +13,8 @@ import { DRILL_LEVELS, fillSentence, getPatterns, splitDrillFrame, type DrillLev
 import { useSpeechRecognizer } from "@/hooks/useSpeechRecognizer";
 import { addWeakWords, missedWordsFromResults } from "@/lib/speakingWeakWords";
 import { safeStorage } from "@/lib/safeStorage";
+import { loadEnglishIpaDict } from "@/lib/englishIpa";
+import { patternDrillSentenceIpa } from "@/lib/patternDrillIpa";
 import {
   compareSentence, micErrorMessage, playSpeakingTts, stopSpeakingTts,
   type SimpleWordResult, type SpeakingLang,
@@ -61,6 +63,17 @@ const PatternDrillMode = ({ language, onPerfectScore }: Props) => {
   const target = pattern && fill ? fillSentence(pattern.frame, fill.w) : "";
   const targetPy = pattern?.framePy && fill?.py ? fillSentence(pattern.framePy, fill.py) : "";
   const cueVi = pattern && fill ? fillSentence(pattern.frameVi, fill.vi) : "";
+  const [ipaDictionary, setIpaDictionary] = useState<Record<string, string>>({});
+  useEffect(() => {
+    if (language !== "english") return;
+    let active = true;
+    loadEnglishIpaDict().then((dictionary) => {
+      if (active) setIpaDictionary(dictionary);
+    });
+    return () => { active = false; };
+  }, [language]);
+  const targetIpa = useMemo(() => language === "english" && Object.keys(ipaDictionary).length
+    ? patternDrillSentenceIpa(target, ipaDictionary) : null, [language, target, ipaDictionary]);
 
   const handleFinal = useCallback((heard: string) => {
     if (!target) return;
@@ -165,6 +178,7 @@ const PatternDrillMode = ({ language, onPerfectScore }: Props) => {
                     </span>
                   )) : <SlottedSentence frame={pattern.frame} fill={fill.w} />}
                 </p>
+                {targetIpa && <p aria-label="IPA" className="text-base leading-relaxed text-muted-foreground break-words">{targetIpa}</p>}
                 {targetPy && pattern.framePy && fill.py && (
                   <p className="text-muted-foreground"><SlottedSentence frame={pattern.framePy} fill={fill.py} /></p>
                 )}
