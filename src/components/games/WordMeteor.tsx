@@ -385,7 +385,7 @@ export default function WordMeteor({
                   </motion.div>
                   <div className="mt-3 flex flex-wrap justify-center gap-3">
                     {m.options.map((opt) => (
-                      <button
+                      <Button variant="outline"
                         key={opt}
                         onClick={() => handlePick(m, opt)}
                         aria-label={`${opt} - ${m.word}`}
