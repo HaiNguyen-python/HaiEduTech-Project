@@ -1,0 +1,2 @@
+- Life in Finland guides carry official source links; update bilingual guide and checklist claims together while preserving IDs and progress keys, so advice stays aligned without resetting progress.
+- Treat Life in Finland prices, processing times and benefit eligibility as conditional; record review dates rather than implying automatic live updates.

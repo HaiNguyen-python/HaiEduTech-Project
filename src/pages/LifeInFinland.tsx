@@ -19,6 +19,7 @@ import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -26,7 +27,7 @@ import { Progress } from "@/components/ui/progress";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import {
-  NEWCOMER_CATEGORIES, FIRST_30_DAYS_CHECKLIST, COMMUNITY_RESOURCES, NEWCOMER_BADGE,
+  NEWCOMER_CATEGORIES, FIRST_30_DAYS_CHECKLIST, COMMUNITY_RESOURCES, NEWCOMER_BADGE, LIFE_IN_FINLAND_REVIEW_DATE,
 } from "@/data/lifeInFinlandData";
 
 const PILLAR_ICON_MAP = {
@@ -130,7 +131,7 @@ const LifeInFinland = () => {
     doc.text("First 30 Days in Finland - HaiEduTech", 14, 20);
     doc.setFontSize(11);
     doc.setTextColor(100);
-    doc.text("Personalised checklist generated for your move to Finland", 14, 28);
+    doc.text(`Reviewed ${LIFE_IN_FINLAND_REVIEW_DATE}. Timing is indicative; eligibility varies.`, 14, 28);
 
     let y = 40;
     [1, 2, 3, 4].forEach((week) => {
@@ -207,6 +208,9 @@ const LifeInFinland = () => {
 
         {/* Tabs */}
         <section className="container mx-auto px-4 sm:px-6 py-8">
+          <p className="mb-5 text-sm text-muted-foreground">
+            {t("Rà soát ngày 08/10/2026. Hướng dẫn chung; điều kiện trợ cấp, phí và thời gian xử lý tùy hoàn cảnh. Xem nguồn chính thức trong từng bài.", "Reviewed 8 October 2026. General guidance; benefit eligibility, fees and processing times vary. See official sources in each guide.")}
+          </p>
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="w-full grid grid-cols-2 md:grid-cols-6 gap-1 h-auto p-1 mb-8">
               {NEWCOMER_CATEGORIES.map((cat) => (
@@ -241,7 +245,7 @@ const LifeInFinland = () => {
                     </div>
                   </div>
 
-                  <div className="grid md:grid-cols-2 gap-5">
+                  <Accordion type="multiple" className="space-y-3">
                     {cat.guides.map((guide, i) => (
                       <motion.div
                         key={guide.id}
@@ -249,24 +253,18 @@ const LifeInFinland = () => {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: i * 0.1 }}
                       >
-                        <Card className="h-full border-2 hover:shadow-lg transition-shadow">
-                          <CardHeader>
-                            <div className="flex items-start justify-between gap-2">
-                              <div>
-                                <CardTitle className="flex items-center gap-2 text-lg">
-                                  <span className="text-2xl">{guide.emoji}</span>
-                                  {t(guide.title, guide.titleEn)}
-                                </CardTitle>
-                                <CardDescription className="mt-2 text-sm leading-relaxed">
-                                  {t(guide.summary, guide.summaryEn)}
-                                </CardDescription>
-                              </div>
-                              {readGuides.includes(guide.id) && (
-                                <Badge className="bg-emerald-500 text-white shrink-0">✓</Badge>
-                              )}
-                            </div>
-                          </CardHeader>
-                          <CardContent className="space-y-4">
+                        <AccordionItem value={guide.id} className="rounded-lg border border-border bg-card px-4 sm:px-6 shadow-sm">
+                          <AccordionTrigger className="gap-4 py-5 text-left hover:no-underline">
+                            <span className="flex min-w-0 items-start gap-3">
+                              <span className="text-2xl shrink-0" aria-hidden="true">{guide.emoji}</span>
+                              <span className="min-w-0">
+                                <span className="block text-base sm:text-lg font-semibold text-foreground">{t(guide.title, guide.titleEn)}</span>
+                                <span className="mt-1 block text-sm font-normal leading-relaxed text-muted-foreground">{t(guide.summary, guide.summaryEn)}</span>
+                              </span>
+                            </span>
+                            {readGuides.includes(guide.id) && <CheckCircle2 className="h-5 w-5 shrink-0 text-primary" aria-label={t("Đã đọc", "Read")} />}
+                          </AccordionTrigger>
+                          <AccordionContent className="space-y-4 border-t border-border pt-5 pb-6">
                             {/* Steps */}
                             <div>
                               <h4 className="font-semibold text-sm mb-2 text-foreground">
@@ -337,6 +335,16 @@ const LifeInFinland = () => {
                               </div>
                             )}
 
+                            <div className="border-t border-border pt-4">
+                              <h4 className="mb-2 text-sm font-semibold">{t("Nguồn chính thức", "Official sources")}</h4>
+                              <div className="flex flex-wrap gap-3">
+                                {guide.sources.map((source) => (
+                                  <a key={source.url} href={source.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-sm text-primary underline underline-offset-4">
+                                    {source.label} <ExternalLink className="h-3.5 w-3.5" />
+                                  </a>
+                                ))}
+                              </div>
+                            </div>
                             {/* Actions */}
                             <div className="flex flex-wrap gap-2 pt-2 border-t">
                               <Button
@@ -358,11 +366,11 @@ const LifeInFinland = () => {
                                 {readGuides.includes(guide.id) ? t("Đã đọc", "Read") : t("Đánh dấu đã đọc", "Mark as read")}
                               </Button>
                             </div>
-                          </CardContent>
-                        </Card>
+                          </AccordionContent>
+                        </AccordionItem>
                       </motion.div>
                     ))}
-                  </div>
+                  </Accordion>
                 </TabsContent>
               );
             })}
@@ -377,7 +385,7 @@ const LifeInFinland = () => {
                         ✅ {t("30 ngày đầu tại Phần Lan", "First 30 Days in Finland")}
                       </CardTitle>
                       <CardDescription className="mt-1">
-                        {t("Đánh dấu mỗi nhiệm vụ khi hoàn thành - tiến độ được lưu tự động.", "Tick each task as you finish - progress saves automatically.")}
+                        {t("Lịch tuần chỉ để tham khảo, không phải hạn bắt buộc hoặc thời gian xử lý bảo đảm. Chỉ làm mục phù hợp với hoàn cảnh.", "Weeks are suggested planning milestones, not legal deadlines or guaranteed processing times. Complete only tasks relevant to your circumstances.")}
                       </CardDescription>
                     </div>
                     <Button onClick={handleDownloadPdf} className="gap-2">

@@ -18,32 +18,16 @@ export const SHOPPING_GUIDES: NewcomerGuide[] = [
     emoji: "🛒",
     title: "Hướng dẫn đi chợ siêu thị (2026)",
     titleEn: "Grocery Shopping Guide (2026)",
-    summary:
-      "Phần Lan có 3 chuỗi siêu thị chính: S-Ryhmä (rẻ + bonus), K-Ryhmä (chất lượng cao), và Lidl (giá thấp nhất). Năm 2026 lạm phát thực phẩm giảm còn ~2.1%, giá ổn định nhưng vẫn cần chiến lược.",
-    summaryEn:
-      "Finland has 3 main grocery chains: S-Ryhmä (cheap + bonus), K-Ryhmä (premium), and Lidl (lowest prices). In 2026 food inflation has cooled to ~2.1%, prices are stable but smart shopping still matters.",
+    sources: [{ label: "www.ruokavirasto.fi", url: "https://www.ruokavirasto.fi/en/foodstuffs/instructions-for-consumers/" }],
+    summary: "Lập ngân sách theo giá thực tế tại nơi ở; không có giá chợ hoặc mức lạm phát cố định dùng cho mọi gia đình.",
+    summaryEn: "Budget using actual local prices; there is no fixed grocery cost or inflation rate suitable for every household.",
     steps: [
-      {
-        vi: "Lập kế hoạch tuần: trung bình 1 sinh viên tiêu 200–280€/tháng tiền chợ (2026). Ghi danh sách trước khi đi.",
-        en: "Weekly meal plan: avg student spends €200–280/month on groceries (2026). Always make a list first.",
-      },
-      {
-        vi: "Đi siêu thị sau 20:00 - thực phẩm gần hết hạn giảm 30%–60% (sticker vàng/đỏ). Sáng thứ Hai cũng có hàng giảm.",
-        en: "Shop after 20:00 - items near expiry get 30%–60% off (yellow/red stickers). Monday mornings also have markdowns.",
-      },
-      {
-        vi: "App tiết kiệm: 'S-mobiili' (cá nhân hóa coupon S-Ryhmä), 'K-Ruoka' (đặt online K-Ryhmä), 'ResQ Club' (đồ ăn cuối ngày 3–5€).",
-        en: "Money-saving apps: 'S-mobiili' (personalized S-Ryhmä coupons), 'K-Ruoka' (K-online ordering), 'ResQ Club' (end-of-day meals €3–5).",
-      },
-      {
-        vi: "Mua thịt/cá đông lạnh ở Lidl rẻ hơn 20–30%. Rau củ theo mùa: dưa chuột Phần Lan giá tốt nhất tháng 6–9.",
-        en: "Buy frozen meat/fish at Lidl - 20–30% cheaper. Seasonal produce: Finnish cucumbers cheapest June–Sept.",
-      },
-      {
-        vi: "Mang túi vải - túi nilon ở quầy thanh toán mất 0.30€/túi (2026). Xe đẩy cần đồng xu 1€ (đặt cọc).",
-        en: "Bring fabric bags - plastic bags cost €0.30 each (2026). Shopping carts need a €1 coin (refundable).",
-      },
-    ],
+          { vi: "Lập danh sách và ngân sách dựa trên nhu cầu, khẩu phần và giá đơn vị.", en: "Make a list and budget based on needs, portions and unit prices." },
+          { vi: "Kiểm tra nhãn hạn dùng: viimeinen käyttöpäivä là hạn sử dụng an toàn, parasta ennen là tốt nhất trước ngày ghi.", en: "Check date labels: viimeinen käyttöpäivä is the use-by date; parasta ennen is best-before." },
+          { vi: "Xem ưu đãi trong ứng dụng cửa hàng; giá hàng cận hạn và giờ giảm khác nhau theo cửa hàng.", en: "Check store apps for offers; near-expiry prices and markdown times vary by store." },
+          { vi: "So sánh đồ tươi, đông lạnh và sản phẩm theo mùa; không giả định một chuỗi luôn rẻ hơn.", en: "Compare fresh, frozen and seasonal products; do not assume one chain is always cheaper." },
+          { vi: "Mang túi dùng lại; phí túi và đồng xu/đồng token cho xe đẩy tùy cửa hàng.", en: "Bring reusable bags; bag charges and trolley coins/tokens vary by store." },
+        ],
     keyTerms: [
       { fi: "Ruokakauppa", vi: "Cửa hàng tạp hóa", en: "Grocery store" },
       { fi: "Tarjous", vi: "Khuyến mãi", en: "Special offer" },
@@ -52,14 +36,11 @@ export const SHOPPING_GUIDES: NewcomerGuide[] = [
       { fi: "Kassa", vi: "Quầy thanh toán", en: "Checkout counter" },
     ],
     phrases: [
-      { fi: "Missä on maitotuotteet?", vi: "Khu sản phẩm sữa ở đâu?", en: "Where are the dairy products?" },
+      { fi: "Missä ovat maitotuotteet?", vi: "Khu sản phẩm sữa ở đâu?", en: "Where are the dairy products?" },
       { fi: "Onko tämä alennuksessa?", vi: "Cái này có đang giảm giá không?", en: "Is this on discount?" },
       { fi: "Saanko kuitin, kiitos?", vi: "Cho tôi hóa đơn nhé.", en: "Can I have the receipt, please?" },
     ],
-    proTip: {
-      vi: "💡 Mẹo vàng: Mua thịt halal/Á tại 'Hakaniemen Halli' (Helsinki) hoặc 'Tampereen Kauppahalli'. Gạo, mì, gia vị Việt rẻ ở chợ Á 'Vii Voan' & 'Hoan Nam Market'.",
-      en: "💡 Pro tip: Get halal/Asian meat at 'Hakaniemen Halli' (Helsinki) or 'Tampereen Kauppahalli'. Cheap Vietnamese rice/noodles/spices at 'Vii Voan' & 'Hoan Nam Market'.",
-    },
+    proTip: { vi: "Chợ Á có thể có nguyên liệu quen thuộc; kiểm tra giờ mở cửa, giá và tình trạng cửa hàng hiện tại.", en: "Asian shops may stock familiar ingredients; check current opening hours, prices and availability." },
     mapLinks: [
       { label: "Vii Voan Asian Market Helsinki", url: "https://www.google.com/maps/search/Vii+Voan+Helsinki" },
       { label: "Hoan Nam Market", url: "https://www.google.com/maps/search/Hoan+Nam+Market+Helsinki" },
@@ -72,32 +53,16 @@ export const SHOPPING_GUIDES: NewcomerGuide[] = [
     emoji: "🏪",
     title: "Các loại chợ ở Phần Lan",
     titleEn: "Types of Markets in Finland",
-    summary:
-      "Phần Lan có 5 loại chợ chính: siêu thị (ruokakauppa), chợ truyền thống (kauppahalli), chợ ngoài trời (tori), chợ nông sản (lähiruokatori) và chợ Á (aasialainen kauppa).",
-    summaryEn:
-      "Finland has 5 main market types: supermarkets (ruokakauppa), traditional indoor markets (kauppahalli), outdoor markets (tori), farmers' markets (lähiruokatori), and Asian markets (aasialainen kauppa).",
+    sources: [{ label: "www.infofinland.fi", url: "https://www.infofinland.fi/en/settling-in-finland/everyday-life-in-finland" }],
+    summary: "Các lựa chọn gồm siêu thị, chợ trong nhà, chợ quảng trường, nhóm REKO và cửa hàng Á; lịch hoạt động tùy địa phương.",
+    summaryEn: "Options include supermarkets, indoor market halls, market squares, REKO groups and Asian shops; schedules vary locally.",
     steps: [
-      {
-        vi: "🏬 Siêu thị (Prisma, Citymarket, Lidl, K-Market, Alepa, Sale): mở 7:00–23:00, có tất cả mọi thứ.",
-        en: "🏬 Supermarkets (Prisma, Citymarket, Lidl, K-Market, Alepa, Sale): open 7:00–23:00, sell everything.",
-      },
-      {
-        vi: "🏛️ Kauppahalli (Chợ trong nhà): Hakaniemi (Helsinki), Tampere, Turku, Oulu - thịt cá tươi, đặc sản, giá cao hơn nhưng chất lượng đỉnh.",
-        en: "🏛️ Kauppahalli (indoor halls): Hakaniemi (Helsinki), Tampere, Turku, Oulu - fresh meat/fish, gourmet, premium price.",
-      },
-      {
-        vi: "🌞 Tori (Chợ quảng trường): Helsinki Kauppatori, Hakaniemi Tori - rau củ, hoa quả, đồ thủ công. Mùa hè 6:30–18:00.",
-        en: "🌞 Tori (square markets): Helsinki Kauppatori, Hakaniemi Tori - produce, flowers, crafts. Summer 6:30–18:00.",
-      },
-      {
-        vi: "🌾 Lähiruokatori (Chợ nông sản địa phương): cuối tuần ở các quận - REKO Ring (đặt qua Facebook, nhận tận tay từ nông dân).",
-        en: "🌾 Lähiruokatori (local farmers' markets): weekends in neighborhoods - REKO Rings (Facebook orders, farmer hand-off).",
-      },
-      {
-        vi: "🥢 Aasialainen kauppa (Chợ Á): Vii Voan, Hoan Nam, Tokyokan, K-Citymarket có khu Á - gạo Việt, nước mắm, bánh tráng, lá chanh.",
-        en: "🥢 Asian markets: Vii Voan, Hoan Nam, Tokyokan, K-Citymarket Asian sections - Vietnamese rice, fish sauce, rice paper, lime leaves.",
-      },
-    ],
+          { vi: "Xem giờ và địa chỉ trên trang cửa hàng trước khi đi, kể cả Chủ nhật và ngày lễ.", en: "Check store hours and addresses before visiting, including Sundays and holidays." },
+          { vi: "Chợ trong nhà có quầy thực phẩm và dịch vụ khác nhau; so sánh giá và nguồn gốc sản phẩm.", en: "Indoor markets have different food stalls and services; compare prices and product origins." },
+          { vi: "Chợ quảng trường hoạt động theo mùa và sự kiện; kiểm tra lịch của thành phố hoặc nhà tổ chức.", en: "Market squares operate seasonally and for events; check city or organiser schedules." },
+          { vi: "Với REKO, xem lịch đặt/nhận hàng, phương thức thanh toán và người bán trong nhóm địa phương.", en: "For REKO, check local ordering/pickup schedules, payment methods and sellers." },
+          { vi: "Cửa hàng Á có danh mục hàng khác nhau; hỏi về thành phần và dị ứng nếu cần.", en: "Asian shops stock different products; ask about ingredients and allergens when needed." },
+        ],
     keyTerms: [
       { fi: "Tori", vi: "Chợ ngoài trời", en: "Outdoor market square" },
       { fi: "Kauppahalli", vi: "Chợ trong nhà", en: "Indoor market hall" },
@@ -108,43 +73,24 @@ export const SHOPPING_GUIDES: NewcomerGuide[] = [
       { fi: "Onko tämä lähiruokaa?", vi: "Đây có phải đồ địa phương không?", en: "Is this local food?" },
       { fi: "Mistä löydän aasialaisen kaupan?", vi: "Tôi tìm chợ Á ở đâu?", en: "Where can I find an Asian market?" },
     ],
-    proTip: {
-      vi: "💡 Tham gia 'REKO' Facebook group ở thành phố bạn - đặt rau, thịt, trứng trực tiếp từ nông dân, nhận hàng 1 lần/tuần ở bãi đỗ xe. Tươi & rẻ hơn siêu thị.",
-      en: "💡 Join your city's 'REKO' Facebook group - order produce, meat, eggs directly from farmers, weekly pickup at a parking lot. Fresher and cheaper than supermarkets.",
-    },
+    proTip: { vi: "Không coi lịch nhận REKO hoặc giờ chợ là giống nhau ở mọi thành phố.", en: "Do not assume REKO pickup schedules or market hours are the same in every city." },
   },
   {
     id: "second-hand-shopping",
     icon: "Recycle",
     emoji: "♻️",
-    title: "Mua đồ cũ (Kirpputori) - Tiết kiệm 60–80%",
-    titleEn: "Second-hand Shopping (Kirpputori) - Save 60–80%",
-    summary:
-      "Văn hóa đồ cũ ở Phần Lan rất phát triển và KHÔNG bị kỳ thị. 70% người Phần Lan mua đồ cũ ít nhất 1 lần/năm. Đồ nội thất, đồ điện tử, quần áo, sách - tất cả đều có thể mua secondhand chất lượng tốt.",
-    summaryEn:
-      "Finland's second-hand culture is huge and carries ZERO stigma. 70% of Finns buy used items at least yearly. Furniture, electronics, clothes, books - all available used at great quality.",
+    title: "Mua đồ cũ (Kirpputori)",
+    titleEn: "Second-hand Shopping (Kirpputori)",
+    sources: [{ label: "www.kkv.fi", url: "https://www.kkv.fi/en/consumer-affairs/" }, { label: "www.kyberturvallisuuskeskus.fi", url: "https://www.kyberturvallisuuskeskus.fi/en" }],
+    summary: "Đồ cũ có thể giảm chi phí và rác thải; kiểm tra tình trạng, an toàn và quyền người mua trước khi trả tiền.",
+    summaryEn: "Second-hand items can reduce costs and waste; check condition, safety and buyer rights before paying.",
     steps: [
-      {
-        vi: "🏪 Kirpputori (Chợ đồ cũ vật lý): UFF, Fida, Pelastusarmeijan kirppis, Relove (vintage cao cấp). Mở 10:00–18:00, có hàng mới mỗi tuần.",
-        en: "🏪 Physical thrift stores: UFF, Fida, Salvation Army (Pelastusarmeijan kirppis), Relove (premium vintage). Open 10:00–18:00, new stock weekly.",
-      },
-      {
-        vi: "📱 App đồ cũ #1: 'Tori.fi' - chợ online lớn nhất, gặp người bán trực tiếp. 'Huuto.net' - đấu giá kiểu eBay.",
-        en: "📱 Top used apps: 'Tori.fi' - biggest online marketplace, meet sellers in person. 'Huuto.net' - eBay-style auctions.",
-      },
-      {
-        vi: "🛋️ Nội thất miễn phí: nhóm Facebook 'Roskalavalle vai kierrätykseen?' - đồ chủ nhà bỏ đi. 'Nappi Naapuri' - hàng xóm cho/đổi đồ.",
-        en: "🛋️ Free furniture: Facebook 'Roskalavalle vai kierrätykseen?' - items being thrown out. 'Nappi Naapuri' - neighbors give/swap.",
-      },
-      {
-        vi: "🎒 Tự bán đồ: thuê quầy ở 'kirppis itsepalvelu' (1 tuần ~25–40€), bán quần áo/sách dư của bạn - kiếm 50–200€.",
-        en: "🎒 Sell your stuff: rent a shelf at self-service flea market (1 week ~€25–40), offload extra clothes/books - earn €50–200.",
-      },
-      {
-        vi: "🌐 'Joulukirppis' (chợ đồ cũ Giáng sinh tháng 11–12) là sự kiện lớn - đồ trang trí, quà tặng giảm 80%.",
-        en: "🌐 'Joulukirppis' (Christmas flea market Nov–Dec) is huge - decorations and gifts up to 80% off.",
-      },
-    ],
+          { vi: "Tìm cửa hàng đồ cũ hoặc trung tâm tái sử dụng; kiểm tra giờ, chính sách đổi trả và tình trạng hàng.", en: "Find thrift shops or reuse centres; check hours, return policies and item condition." },
+          { vi: "Trên chợ online, xác minh người bán và dùng kênh thanh toán an toàn; tránh liên kết vận chuyển/thanh toán do người lạ gửi.", en: "On online marketplaces, verify the seller and use safe payment channels; avoid shipping/payment links sent by strangers." },
+          { vi: "Hỏi rõ đồ cho miễn phí có được phép lấy không; không lấy đồ ở sân, kho hoặc thùng rác khi chưa có sự đồng ý.", en: "Ask whether free items may be collected; do not take items from yards, storage or bins without permission." },
+          { vi: "Nếu bán đồ tại kirpputori, xem phí thuê quầy, hoa hồng và trách nhiệm khi mất hàng; không có mức thu nhập bảo đảm.", en: "If selling through a flea market, check shelf fees, commission and liability for losses; earnings are not guaranteed." },
+          { vi: "Thận trọng với đồ điện, ghế trẻ em và thiết bị an toàn; quyền người mua khác nhau giữa cửa hàng và người bán tư nhân.", en: "Be cautious with electrical items, child seats and safety equipment; buyer rights differ between businesses and private sellers." },
+        ],
     keyTerms: [
       { fi: "Kirpputori", vi: "Chợ đồ cũ", en: "Flea market" },
       { fi: "Käytetty", vi: "Đã qua sử dụng", en: "Used / second-hand" },
@@ -158,10 +104,7 @@ export const SHOPPING_GUIDES: NewcomerGuide[] = [
       { fi: "Onko hinta neuvoteltavissa?", vi: "Giá có thương lượng được không?", en: "Is the price negotiable?" },
       { fi: "Otan sen!", vi: "Tôi lấy nó!", en: "I'll take it!" },
     ],
-    proTip: {
-      vi: "💡 Tip vàng cho du học sinh: 80% đồ trong căn hộ đầu tiên (giường, bàn, ghế, nồi, đèn) có thể mua trên Tori.fi với 200–400€. Mới mua ở Ikea sẽ tốn 1500€+. Tìm key 'opiskelijan muutto' (sinh viên dọn nhà).",
-      en: "💡 Golden tip for students: 80% of your first apartment (bed, desk, chairs, pots, lamps) can come from Tori.fi for €200–400. New from IKEA costs €1500+. Search 'opiskelijan muutto' (student moving out).",
-    },
+    proTip: { vi: "Lập danh sách đồ cần thiết và so sánh tổng chi phí gồm vận chuyển, không chỉ giá món đồ.", en: "List essentials and compare total cost including transport, not only the item price." },
     mapLinks: [
       { label: "Tori.fi (online)", url: "https://www.tori.fi" },
       { label: "UFF Helsinki stores", url: "https://www.google.com/maps/search/UFF+Helsinki" },
@@ -181,32 +124,16 @@ export const HOUSING_GUIDES: NewcomerGuide[] = [
     emoji: "🏠",
     title: "Tìm nhà ở Phần Lan (2026)",
     titleEn: "Finding Housing in Finland (2026)",
-    summary:
-      "Thị trường nhà 2026: Helsinki khan hiếm (chờ HOAS 6–12 tháng), Tampere/Turku/Oulu dễ hơn. Sinh viên ưu tiên ký túc xá HOAS/TOAS/TYS - rẻ nhất (250–450€/tháng).",
-    summaryEn:
-      "2026 housing market: Helsinki is tight (HOAS waitlist 6–12 months), Tampere/Turku/Oulu are easier. Students should prioritize HOAS/TOAS/TYS dorms - cheapest (€250–450/month).",
+    sources: [{ label: "www.infofinland.fi", url: "https://www.infofinland.fi/en" }, { label: "www.kela.fi", url: "https://www.kela.fi/financial-aid-for-students-housing-supplement" }],
+    summary: "Đăng ký nhà sinh viên sớm và so sánh nhà tư nhân; giá, hàng chờ và tiêu chí ưu tiên thay đổi theo nhà cung cấp.",
+    summaryEn: "Apply early for student housing and compare private rentals; prices, queues and priority criteria vary by provider.",
     steps: [
-      {
-        vi: "🎓 Đăng ký NGAY khi nhận giấy báo nhập học: HOAS (Helsinki), TOAS (Tampere), TYS (Turku), PSOAS (Oulu) - ưu tiên sinh viên quốc tế.",
-        en: "🎓 Apply IMMEDIATELY upon admission: HOAS (Helsinki), TOAS (Tampere), TYS (Turku), PSOAS (Oulu) - international students get priority.",
-      },
-      {
-        vi: "🏘️ Nhà tư nhân: Vuokraovi.com, Oikotie.fi, Tori.fi 'Vuokra-asunnot'. Helsinki studio 30m² ~750–950€/tháng (2026).",
-        en: "🏘️ Private rentals: Vuokraovi.com, Oikotie.fi, Tori.fi 'Vuokra-asunnot'. Helsinki studio 30m² ~€750–950/month (2026).",
-      },
-      {
-        vi: "🤝 Sublet (kimppakämppä): chia phòng với 2–4 sinh viên, 350–500€/tháng. Tìm trong group FB 'Vietnamese in Finland Housing'.",
-        en: "🤝 Shared apartments (kimppakämppä): split with 2–4 students, €350–500/month. Try FB group 'Vietnamese in Finland Housing'.",
-      },
-      {
-        vi: "📄 Hợp đồng PHẢI có: tên chủ nhà, địa chỉ, giá thuê, đặt cọc (max 3 tháng), thời hạn báo trước (1 tháng). Lưu ý đọc kỹ trước khi ký.",
-        en: "📄 Contract MUST include: landlord name, address, rent, deposit (max 3 months), notice period (1 month). Read carefully before signing.",
-      },
-      {
-        vi: "💰 Xin trợ cấp nhà Kela 'Yleinen asumistuki' - sinh viên có thể được hỗ trợ 200–400€/tháng (tùy thu nhập).",
-        en: "💰 Apply for Kela housing benefit 'Yleinen asumistuki' - students can get €200–400/month (income-based).",
-      },
-    ],
+          { vi: "Tìm HOAS, TOAS, TYS hoặc PSOAS theo thành phố; xem điều kiện, thời hạn hồ sơ và loại phòng. Không có bảo đảm ưu tiên chung cho mọi sinh viên quốc tế.", en: "Find HOAS, TOAS, TYS or PSOAS for your city; check eligibility, application validity and room types. There is no universal priority guarantee for international students." },
+          { vi: "So sánh nhà tư nhân, vị trí, chi phí đi lại và tổng tiền thuê gồm điện, nước, internet.", en: "Compare private rentals, location, commuting costs and total rent including electricity, water and internet." },
+          { vi: "Phân biệt thuê chung với thuê lại; xác nhận người cho thuê có quyền cho thuê và ký hợp đồng rõ ràng.", en: "Distinguish shared renting from subletting; verify the lessor has the right to rent and use a clear contract." },
+          { vi: "Tiền bảo đảm không được vượt quá ba tháng tiền thuê. Với hợp đồng không thời hạn, thời gian báo trước của người thuê thường một tháng; hợp đồng có thời hạn có quy tắc khác.", en: "Security cannot exceed three months’ rent. For an open-ended lease, the tenant’s notice period is generally one month; fixed-term leases have different rules." },
+          { vi: "Từ tháng 8/2025, đa số sinh viên đủ điều kiện chuyển sang opintotuen asumislisä. Sinh viên sống cùng con có thể thuộc yleinen asumistuki; hỏi Kela về hoàn cảnh riêng.", en: "Since August 2025, most eligible students use the student housing supplement. Students living with their child may fall under general housing allowance; ask Kela about your circumstances." },
+        ],
     keyTerms: [
       { fi: "Vuokra-asunto", vi: "Căn hộ cho thuê", en: "Rental apartment" },
       { fi: "Vuokrasopimus", vi: "Hợp đồng thuê nhà", en: "Rental contract" },
@@ -219,10 +146,7 @@ export const HOUSING_GUIDES: NewcomerGuide[] = [
       { fi: "Milloin voin tulla katsomaan?", vi: "Khi nào tôi có thể đến xem?", en: "When can I come to view it?" },
       { fi: "Sisältyykö vuokraan vesi ja sähkö?", vi: "Tiền thuê có bao gồm điện nước không?", en: "Does the rent include water and electricity?" },
     ],
-    proTip: {
-      vi: "💡 ⚠️ Cẩn thận lừa đảo nhà ở: KHÔNG BAO GIỜ chuyển khoản trước khi xem nhà thật. Lừa đảo phổ biến nhất: 'Tôi đang ở Anh, gửi tiền cho tôi qua Western Union'. Báo cảnh sát nếu nghi ngờ: 0295 419 800.",
-      en: "💡 ⚠️ Beware housing scams: NEVER transfer money before viewing in person. Most common: 'I'm in the UK, send money via Western Union'. Report to police if suspicious: 0295 419 800.",
-    },
+    proTip: { vi: "Xác minh chủ nhà và hợp đồng trước khi chuyển tiền; nếu nghi lừa đảo, liên hệ ngân hàng ngay và báo qua poliisi.fi.", en: "Verify the landlord and contract before transferring money; for suspected fraud, contact your bank immediately and report through poliisi.fi." },
   },
   {
     id: "sim-internet-2026",
@@ -230,32 +154,16 @@ export const HOUSING_GUIDES: NewcomerGuide[] = [
     emoji: "📶",
     title: "SIM điện thoại & Internet (2026)",
     titleEn: "Phone SIM & Internet (2026)",
-    summary:
-      "Phần Lan có internet/4G/5G nhanh nhất thế giới với giá rẻ. SIM trả trước miễn phí tại sân bay; SIM trả sau cần Henkilötunnus.",
-    summaryEn:
-      "Finland has the world's fastest and cheapest mobile internet. Prepaid SIMs are free at the airport; postpaid needs a Henkilötunnus.",
+    sources: [{ label: "www.traficom.fi", url: "https://www.traficom.fi/en" }, { label: "europa.eu", url: "https://europa.eu/youreurope/citizens/consumers/internet-telecoms/mobile-roaming-costs/index_en.htm" }],
+    summary: "DNA, Telia và Elisa cung cấp SIM trả trước và gói thuê bao; so sánh vùng phủ sóng, giá và điều kiện hiện hành.",
+    summaryEn: "DNA, Telia and Elisa offer prepaid SIMs and subscriptions; compare coverage, prices and current terms.",
     steps: [
-      {
-        vi: "📞 3 nhà mạng: DNA (rẻ nhất), Telia (phủ sóng tốt nhất), Elisa (nhanh nhất). 5G unlimited ~20–30€/tháng (2026).",
-        en: "📞 3 carriers: DNA (cheapest), Telia (best coverage), Elisa (fastest). 5G unlimited ~€20–30/month (2026).",
-      },
-      {
-        vi: "🛬 Tại sân bay Helsinki có cây ATM SIM miễn phí 'Welcome SIM' - gọi 100 phút + 5GB miễn phí trong 7 ngày để sống sót những ngày đầu.",
-        en: "🛬 At Helsinki airport, free 'Welcome SIM' kiosks - 100 mins + 5GB free for 7 days, perfect for surviving your first week.",
-      },
-      {
-        vi: "📱 SIM trả sau (postpaid): cần Henkilötunnus + thẻ ngân hàng. Đăng ký online tại dna.fi, telia.fi, elisa.fi - SIM gửi qua bưu điện 2–3 ngày.",
-        en: "📱 Postpaid SIM: need Henkilötunnus + bank card. Sign up online at dna.fi, telia.fi, elisa.fi - SIM mailed in 2–3 days.",
-      },
-      {
-        vi: "🌐 Internet nhà: thường đã có sẵn trong căn hộ (free Wifi). Nếu không, lắp riêng ~25–35€/tháng cho 1Gbps.",
-        en: "🌐 Home internet: usually included in apartments (free WiFi). If not, install separate ~€25–35/month for 1Gbps.",
-      },
-      {
-        vi: "🌍 Roaming EU miễn phí - SIM Phần Lan dùng được ở 27 nước EU + Iceland, Na Uy, Liechtenstein không phụ phí.",
-        en: "🌍 EU roaming is free - your Finnish SIM works in 27 EU countries + Iceland, Norway, Liechtenstein at no extra cost.",
-      },
-    ],
+          { vi: "Kiểm tra vùng phủ sóng tại địa chỉ ở/làm việc và điện thoại có hỗ trợ SIM/eSIM hay không.", en: "Check coverage at home/work and whether your phone supports the SIM/eSIM." },
+          { vi: "SIM trả trước có thể mua tại cửa hàng và một số quầy bán lẻ; không dựa vào lời hứa SIM miễn phí ở sân bay.", en: "Prepaid SIMs are sold in shops and some retail kiosks; do not rely on promises of a free airport SIM." },
+          { vi: "Gói trả sau có yêu cầu xác minh danh tính, tín dụng hoặc tiền đặt cọc tùy nhà mạng; hỏi trước khi ký.", en: "Postpaid plans may require identity verification, credit checks or a deposit; ask before signing." },
+          { vi: "Hỏi chủ nhà xem internet có trong tiền thuê không và cần kích hoạt hay mua router riêng không.", en: "Ask your landlord whether internet is included and whether activation or a separate router is needed." },
+          { vi: "Roaming EU/EEA thường theo quy tắc roam-like-at-home nhưng có giới hạn sử dụng hợp lý và data; kiểm tra gói cước, không áp dụng cho mọi điểm đến hoặc mạng tàu/máy bay.", en: "EU/EEA roaming generally follows roam-like-at-home rules with fair-use and data limits; check your plan, as not every destination or ship/aircraft network is covered." },
+        ],
     keyTerms: [
       { fi: "Liittymä", vi: "Gói cước", en: "Phone subscription" },
       { fi: "Prepaid", vi: "Trả trước", en: "Prepaid" },
@@ -266,10 +174,7 @@ export const HOUSING_GUIDES: NewcomerGuide[] = [
       { fi: "Haluaisin liittymän, jossa on rajaton data.", vi: "Tôi muốn gói data không giới hạn.", en: "I'd like a plan with unlimited data." },
       { fi: "Toimiiko tämä SIM EU:ssa?", vi: "SIM này dùng được ở EU không?", en: "Does this SIM work in the EU?" },
     ],
-    proTip: {
-      vi: "💡 Sinh viên: DNA Super 5G 19.90€/tháng có data unlimited + gọi nội mạng miễn phí. Đăng ký online, không cần ràng buộc 12 tháng.",
-      en: "💡 Students: DNA Super 5G €19.90/month gives unlimited data + free in-network calls. Sign up online, no 12-month commitment.",
-    },
+    proTip: { vi: "So sánh giá sau khuyến mãi, thời hạn ràng buộc và chi phí hủy; giá quảng cáo không nhất thiết là giá dài hạn.", en: "Compare post-promotion prices, commitment periods and cancellation costs; advertised prices may not be long-term prices." },
   },
 ];
 
@@ -284,36 +189,17 @@ export const SEASONAL_GUIDES: NewcomerGuide[] = [
     emoji: "❄️",
     title: "Sống sót mùa đông Phần Lan",
     titleEn: "Surviving Finnish Winter",
-    summary:
-      "Mùa đông Phần Lan kéo dài 5–7 tháng (tháng 10–4), nhiệt độ -5°C đến -25°C ở miền Nam, -40°C ở Lapland. Chuẩn bị đúng quần áo, vitamin D và tinh thần là chìa khóa.",
-    summaryEn:
-      "Finnish winter lasts 5–7 months (Oct–April), -5°C to -25°C in the south, -40°C in Lapland. Right clothing, vitamin D, and mindset are key.",
+    sources: [{ label: "en.ilmatieteenlaitos.fi", url: "https://en.ilmatieteenlaitos.fi/" }, { label: "www.ruokavirasto.fi", url: "https://www.ruokavirasto.fi/en/foodstuffs/healthy-diet/nutrients/vitamin-d/" }, { label: "poliisi.fi", url: "https://poliisi.fi/en" }],
+    summary: "Thời tiết mùa đông khác nhau theo vùng và năm; theo dõi dự báo, cảnh báo và chuẩn bị đồ phù hợp.",
+    summaryEn: "Winter conditions vary by region and year; follow forecasts/warnings and prepare suitable clothing.",
     steps: [
-      {
-        vi: "🧥 Quần áo lớp (kerrospukeutuminen): áo lót merino + áo len + áo khoác phao chống nước. Bộ đôi đắt nhất nhưng đáng giá: bốt 'Sorel' hoặc 'Kuoma'.",
-        en: "🧥 Layer dressing (kerrospukeutuminen): merino base + wool sweater + waterproof down jacket. Best investment: Sorel or Kuoma boots.",
-      },
-      {
-        vi: "💊 Vitamin D 50–100µg/ngày từ tháng 10 đến tháng 3 - Phần Lan thiếu nắng nghiêm trọng, Kela khuyến cáo.",
-        en: "💊 Vitamin D 50–100µg daily Oct–March - Finland's sun is scarce, Kela officially recommends supplementation.",
-      },
-      {
-        vi: "🥾 Bốt chống trượt + đinh sắt (liukuesteet, ~15€) gắn vào đế giày khi đường đóng băng. Ngã trên băng là tai nạn #1 ở Phần Lan.",
-        en: "🥾 Anti-slip ice grippers (liukuesteet, ~€15) clip onto your soles. Slipping on ice is Finland's #1 winter injury.",
-      },
-      {
-        vi: "💡 Đèn chống trầm cảm mùa đông (kirkasvalolamppu) ~50–100€ - dùng 30 phút mỗi sáng để tránh SAD (kaamosmasennus).",
-        en: "💡 SAD lamp (kirkasvalolamppu) ~€50–100 - use 30 mins each morning to fight winter depression (kaamosmasennus).",
-      },
-      {
-        vi: "🚗 Lốp đinh (nastarenkaat) bắt buộc 1/12–31/3 nếu tự lái xe. Phạt 100–200€ nếu vi phạm.",
-        en: "🚗 Studded tires (nastarenkaat) mandatory 1 Dec–31 Mar if driving. €100–200 fine if not.",
-      },
-      {
-        vi: "🌌 Đi ngắm Bắc cực quang (revontulet) tháng 11–3 ở Lapland (Rovaniemi, Saariselkä) - trải nghiệm không thể bỏ qua.",
-        en: "🌌 Chase Northern Lights (revontulet) Nov–Mar in Lapland (Rovaniemi, Saariselkä) - a must-do experience.",
-      },
-    ],
+          { vi: "Mặc nhiều lớp, giữ tay/chân/đầu ấm và chọn giày phù hợp điều kiện, không cần một thương hiệu cụ thể.", en: "Dress in layers, keep hands/feet/head warm and choose footwear for conditions; no particular brand is required." },
+          { vi: "Vitamin D: nhu cầu và bổ sung tùy tuổi, chế độ ăn, thai kỳ và bệnh lý. Xem hướng dẫn Ruokavirasto hoặc hỏi nhân viên y tế; không tự dùng 50–100µg/ngày như liều chuẩn.", en: "Vitamin D needs/supplementation depend on age, diet, pregnancy and health. Follow Finnish Food Authority guidance or ask a clinician; do not use 50–100µg/day as a default dose." },
+          { vi: "Dùng liukuesteet cho giày khi đường đóng băng và bước ngắn, chậm; tháo khi vào sàn không phù hợp.", en: "Use shoe ice grippers on icy routes and take short, slow steps; remove them on unsuitable indoor floors." },
+          { vi: "Giữ lịch ngủ và hoạt động ngoài trời phù hợp; hỏi chuyên viên y tế nếu buồn kéo dài hoặc muốn dùng đèn trị liệu.", en: "Keep a sleep routine and suitable outdoor activity; ask a clinician about persistent low mood or light therapy." },
+          { vi: "Lốp đông cần từ tháng 11 đến tháng 3 khi thời tiết/đường yêu cầu; có thể dùng lốp đinh hoặc lốp ma sát phù hợp.", en: "Winter tyres are required from November through March when weather/road conditions require them; suitable studded or non-studded winter tyres may be used." },
+          { vi: "Theo dõi dự báo và trang FMI trước khi đi vùng xa; không có bảo đảm nhìn thấy cực quang.", en: "Check forecasts and FMI information before remote travel; seeing the northern lights is not guaranteed." },
+        ],
     keyTerms: [
       { fi: "Talvi", vi: "Mùa đông", en: "Winter" },
       { fi: "Pakkanen", vi: "Lạnh giá (dưới 0°C)", en: "Frost / sub-zero cold" },
@@ -323,12 +209,9 @@ export const SEASONAL_GUIDES: NewcomerGuide[] = [
     ],
     phrases: [
       { fi: "On todella kylmä tänään!", vi: "Hôm nay lạnh kinh khủng!", en: "It's really cold today!" },
-      { fi: "Onko tiet liukkaat?", vi: "Đường có trơn không?", en: "Are the roads slippery?" },
+      { fi: "Ovatko tiet liukkaat?", vi: "Đường có trơn không?", en: "Are the roads slippery?" },
     ],
-    proTip: {
-      vi: "💡 Mantra Phần Lan: 'Ei ole huonoa säätä, on vain huonoja vaatteita' (Không có thời tiết xấu, chỉ có quần áo xấu). Đầu tư đúng đồ là sống sót mùa đông.",
-      en: "💡 Finnish mantra: 'Ei ole huonoa säätä, on vain huonoja vaatteita' (No bad weather, only bad clothes). Invest right and winter is fine.",
-    },
+    proTip: { vi: "Mang phản quang, sạc điện thoại và cho người khác biết hành trình khi đi vùng xa.", en: "Wear reflectors, charge your phone and tell someone your route for remote trips." },
   },
 ];
 
@@ -343,92 +226,31 @@ export const STUDENT_TIPS_GUIDES: NewcomerGuide[] = [
     emoji: "🎓",
     title: "20 Tips vàng cho du học sinh mới sang (2026)",
     titleEn: "20 Golden Tips for New Students (2026)",
-    summary:
-      "Tổng hợp 20 mẹo thực tế giúp du học sinh Việt tiết kiệm tiền, hòa nhập nhanh và tránh sai lầm phổ biến. Cập nhật cho năm học 2025–2026.",
-    summaryEn:
-      "20 practical hacks for Vietnamese students to save money, integrate fast, and avoid rookie mistakes. Updated for 2025–2026 academic year.",
+    sources: [{ label: "www.kela.fi", url: "https://www.kela.fi/meal-subsidy" }, { label: "www.kela.fi", url: "https://www.kela.fi/healthcare-fee-for-students-in-higher-education" }, { label: "migri.fi", url: "https://migri.fi/en/working-and-internships-during-studies" }, { label: "migri.fi", url: "https://migri.fi/en/extended-permit" }],
+    summary: "Các mẹo cho sinh viên: kiểm tra điều kiện riêng về cư trú, quyền làm việc, y tế và giảm giá; không phải ai cũng hưởng mọi quyền lợi.",
+    summaryEn: "Student tips: check individual conditions for residence, work rights, healthcare and discounts; not everyone receives every entitlement.",
     steps: [
-      {
-        vi: "🆔 Lấy ngay thẻ sinh viên Frank Slammer hoặc Tuudo - giảm 30–50% cho VR, HSL, bảo tàng, rạp phim, gym.",
-        en: "🆔 Get your Frank Slammer or Tuudo student ID - 30–50% off VR, HSL, museums, cinemas, gyms.",
-      },
-      {
-        vi: "🍱 Bữa trưa sinh viên Kela 2.95€ - căng tin trường (UniCafe, Sodexo, Compass) cung cấp bữa nóng đầy đủ chỉ ~2.95€ (2026).",
-        en: "🍱 Kela student lunch €2.95 - campus cafeterias (UniCafe, Sodexo, Compass) serve full hot meal for ~€2.95 (2026).",
-      },
-      {
-        vi: "📚 Sách giáo trình: dùng app 'LibGen', mượn tại thư viện trường, mua cũ trên Tori.fi (giảm 70%). Đừng mua mới.",
-        en: "📚 Textbooks: use 'LibGen', borrow from university library, buy used on Tori.fi (70% off). Never buy new.",
-      },
-      {
-        vi: "💼 Làm thêm: sinh viên non-EU được làm 30h/tuần (2026, tăng từ 25h). Quán cafe, dọn dẹp, đưa đồ ăn (Wolt, Foodora) phổ biến nhất.",
-        en: "💼 Part-time work: non-EU students can work 30h/week (2026, up from 25h). Cafes, cleaning, food delivery (Wolt, Foodora) are most common.",
-      },
-      {
-        vi: "🏋️ Gym sinh viên Unisport (Helsinki) hoặc Sykettä (Tampere): ~95–125€/học kỳ (5 tháng) - rẻ hơn 60% gym thường.",
-        en: "🏋️ Student gyms Unisport (Helsinki) or Sykettä (Tampere): ~€95–125/semester (5 months) - 60% cheaper than commercial gyms.",
-      },
-      {
-        vi: "📖 Thẻ thư viện công cộng MIỄN PHÍ - mượn sách (cả tiếng Việt, Anh), DVD, board game, dụng cụ làm bánh, máy in 3D.",
-        en: "📖 Public library card is FREE - borrow books (incl. Vietnamese, English), DVDs, board games, baking tools, even 3D printers.",
-      },
-      {
-        vi: "🚲 Xe đạp cũ trên Tori.fi 50–100€ - giải pháp di chuyển rẻ nhất mùa hè. Mua đèn LED bắt buộc theo luật.",
-        en: "🚲 Used bike on Tori.fi €50–100 - cheapest summer transport. Buy LED lights, legally required.",
-      },
-      {
-        vi: "🌐 Học tiếng Phần Lan MIỄN PHÍ: 'kotoutumiskoulutus' (Kela tài trợ), 'Suomen kieli ja kulttuuri' tại trường đại học.",
-        en: "🌐 Free Finnish lessons: 'kotoutumiskoulutus' (Kela-funded), 'Suomen kieli ja kulttuuri' at universities.",
-      },
-      {
-        vi: "🎉 Tham gia hội sinh viên Việt Nam (VSAF - Vietnamese Students Association in Finland) - tiệc Tết, hỗ trợ cộng đồng, networking.",
-        en: "🎉 Join VSAF (Vietnamese Students Association in Finland) - Tết parties, community support, networking.",
-      },
-      {
-        vi: "💸 Chuyển tiền về VN rẻ: Wise (phí ~0.5%), Revolut, Remitly. ĐỪNG dùng Western Union (phí 5–10%).",
-        en: "💸 Cheap VN remittance: Wise (~0.5% fee), Revolut, Remitly. DON'T use Western Union (5–10% fees).",
-      },
-      {
-        vi: "📞 Gọi VN miễn phí: WhatsApp, Zalo, Messenger - Phần Lan có mạng tốc độ cao, chất lượng video call siêu mượt.",
-        en: "📞 Free calls home: WhatsApp, Zalo, Messenger - Finland's high-speed network gives crystal-clear video.",
-      },
-      {
-        vi: "🍜 Nồi cơm điện + chảo + dao Việt: mua tại Vii Voan (Helsinki) hoặc Hoan Nam - đầu tư 1 lần, dùng 4 năm.",
-        en: "🍜 Rice cooker + wok + Vietnamese knife: buy at Vii Voan (Helsinki) or Hoan Nam - one-time investment, 4 years use.",
-      },
-      {
-        vi: "🌡️ Cài app 'Foreca' hoặc 'Yle Säätutka' - dự báo thời tiết Phần Lan chính xác nhất (Yandex/Google không chính xác).",
-        en: "🌡️ Install 'Foreca' or 'Yle Säätutka' - most accurate Finnish weather (Yandex/Google often wrong).",
-      },
-      {
-        vi: "🚇 App giao thông: Reittiopas (HSL), Nysse (Tampere), Föli (Turku) - tích hợp vé + chỉ đường thời gian thực.",
-        en: "🚇 Transit apps: Reittiopas (HSL), Nysse (Tampere), Föli (Turku) - combined tickets + real-time directions.",
-      },
-      {
-        vi: "🛏️ Phòng kí túc xá: tự sắm chăn ga gối! HOAS/TOAS chỉ cung cấp giường trống. Mua bộ giường ở IKEA hoặc Tori.fi.",
-        en: "🛏️ Dorm rooms: BYO bedding! HOAS/TOAS only provide an empty bed. Buy linens at IKEA or Tori.fi.",
-      },
-      {
-        vi: "💉 Tiêm vaccine miễn phí: cúm mùa đông (lokakuussa), HPV (dưới 26 tuổi). Đăng ký tại Terveysasema.",
-        en: "💉 Free vaccines: winter flu (October), HPV (under 26). Sign up at your Terveysasema.",
-      },
-      {
-        vi: "🧘 Hỗ trợ tâm lý sinh viên FREE: FSHS (YTHS) - tư vấn tâm lý, nha khoa, sức khỏe - phí dịch vụ ~74€/học kỳ.",
-        en: "🧘 Free student mental health: FSHS (YTHS) - counseling, dental, healthcare - service fee ~€74/semester.",
-      },
-      {
-        vi: "🛂 Gia hạn Oleskelulupa: nộp ĐƠN trước 3 tháng hết hạn qua enterfinland.fi. Phí 480€ (2026), xử lý 2–4 tháng.",
-        en: "🛂 Renew residence permit: apply 3 months before expiry via enterfinland.fi. Fee €480 (2026), processing 2–4 months.",
-      },
-      {
-        vi: "🏆 Networking: LinkedIn Finland rất mạnh - kết nối với cựu sinh viên Việt qua group 'Vietnamese Professionals in Finland'.",
-        en: "🏆 Networking: Finnish LinkedIn is huge - connect with Vietnamese alumni via 'Vietnamese Professionals in Finland' group.",
-      },
-      {
-        vi: "❤️ Đừng cô đơn! Tham gia 1 club/đội thể thao trong trường - sinh viên Phần Lan ngại bắt chuyện trước nhưng rất thân thiện khi làm quen.",
-        en: "❤️ Don't isolate! Join one club/sports team - Finns are shy at first but warm friends once you connect.",
-      },
-    ],
+          { vi: "Dùng thẻ sinh viên được nơi cung cấp chấp nhận (ví dụ Frank/Tuudo); kiểm tra giảm giá từng dịch vụ.", en: "Use a student ID accepted by the provider (for example Frank/Tuudo); check each service’s discount." },
+          { vi: "Bữa ăn cơ bản có trợ giá Kela cho sinh viên đủ điều kiện có giá tối đa 3,10 EUR năm 2026; bữa đặc biệt có giá khác.", en: "A standard Kela-subsidised meal for eligible students costs at most EUR 3.10 in 2026; special meals have different prices." },
+          { vi: "Mượn giáo trình, dùng tài nguyên trường và sách truy cập mở hợp pháp; hỏi thư viện về bản quyền.", en: "Borrow textbooks and use university resources and lawful open-access books; ask the library about licensing." },
+          { vi: "Giấy phép cư trú diện học tập thường cho phép làm bình quân 30 giờ/tuần; giới hạn tính bình quân, không phải giới hạn cứng từng tuần. Kiểm tra Migri và giấy phép của bạn.", en: "A residence permit for studies generally permits an average of 30 work hours per week; this is an average, not a fixed weekly cap. Check Migri and your permit." },
+          { vi: "Xem chương trình thể thao do trường cung cấp và bảng phí hiện tại.", en: "Check your institution’s sports services and current prices." },
+          { vi: "Dùng thư viện công; thiết bị và tài liệu có thể mượn khác nhau theo chi nhánh.", en: "Use public libraries; available equipment and materials vary by branch." },
+          { vi: "Đi xe đạp: đèn trắng/vàng trước, đỏ sau khi tối hoặc tầm nhìn kém; xem luật và trang an toàn giao thông.", en: "Cycling: use a white/yellow front light and red rear light in darkness or poor visibility; check traffic rules and safety guidance." },
+          { vi: "Hỏi trường về khóa Finnish; khóa hòa nhập do dịch vụ địa phương sắp xếp theo kế hoạch, không tự động miễn phí cho mọi sinh viên.", en: "Ask your institution about Finnish courses; local services arrange integration training under a plan, not automatically for every student." },
+          { vi: "Tìm hội sinh viên và mạng hỗ trợ qua trường; kiểm tra nhóm và lịch sự kiện trước khi tham gia.", en: "Find student associations and support networks through your institution; check groups and event schedules before joining." },
+          { vi: "Chuyển tiền quốc tế: so sánh phí, tỷ giá, thời gian và tổng tiền người nhận nhận được.", en: "International transfers: compare fees, exchange rates, timing and the recipient’s final amount." },
+          { vi: "Gọi qua internet có thể tiết kiệm; vẫn có chi phí data và điều kiện roaming.", en: "Internet calls may save money; data costs and roaming terms still apply." },
+          { vi: "Mua vật dụng thiết yếu theo ngân sách; so sánh đồ cũ, độ an toàn và phí vận chuyển.", en: "Buy essentials within your budget; compare used items, safety and delivery costs." },
+          { vi: "Dùng dự báo và cảnh báo thời tiết FMI; ứng dụng thương mại là lựa chọn bổ sung.", en: "Use FMI forecasts and weather warnings; commercial apps are additional options." },
+          { vi: "Tìm hành trình và vé trên trang nhà vận hành địa phương; mua đúng vùng và thời hạn.", en: "Plan routes and tickets with your local operator; buy the correct zones and validity." },
+          { vi: "Kiểm tra phòng có nội thất và đồ dùng gì trước khi đến; không phải nhà sinh viên nào cũng có giường.", en: "Check what furniture and supplies are included before arrival; not every student flat includes a bed." },
+          { vi: "Vaccine miễn phí phụ thuộc chương trình quốc gia, tuổi và nhóm nguy cơ; hỏi y tế sinh viên hoặc trạm y tế.", en: "Free vaccines depend on the national programme, age and risk group; ask student healthcare or your health centre." },
+          { vi: "Sinh viên đại học đủ điều kiện dùng YTHS/FSHS; phí Kela 2026 là 35,35 EUR/học kỳ, có ngoại lệ. Dịch vụ không có phí khám thông thường, nhưng có thể có phí bỏ hẹn.", en: "Eligible higher-education students use YTHS/FSHS; the 2026 Kela fee is EUR 35.35 per term, with exemptions. Ordinary visits have no appointment fee, but missed-appointment charges may apply." },
+          { vi: "Xin gia hạn trước khi giấy phép hết hạn; phí và thời gian xử lý phụ thuộc loại hồ sơ và cách nộp, xem Migri hiện hành.", en: "Apply for an extension before your permit expires; fees and processing times depend on application type/method, so check current Migri guidance." },
+          { vi: "Tìm việc qua trường, Job Market Finland và mạng nghề nghiệp; xác minh nhà tuyển dụng và quyền làm việc.", en: "Look for work through your institution, Job Market Finland and professional networks; verify employers and your work rights." },
+          { vi: "Giữ liên hệ xã hội và nhờ hỗ trợ khi cần; không có thời hạn bảo đảm đạt B1 hoặc hòa nhập.", en: "Maintain social connections and seek support when needed; there is no guaranteed deadline for reaching B1 or settling in." },
+        ],
     keyTerms: [
       { fi: "Opiskelija", vi: "Sinh viên", en: "Student" },
       { fi: "Opiskelijakortti", vi: "Thẻ sinh viên", en: "Student ID" },
@@ -441,10 +263,7 @@ export const STUDENT_TIPS_GUIDES: NewcomerGuide[] = [
       { fi: "Onko opiskelija-alennusta?", vi: "Có giảm giá sinh viên không?", en: "Is there a student discount?" },
       { fi: "Voitko auttaa minua suomen kielen kanssa?", vi: "Bạn giúp tôi tiếng Phần Lan được không?", en: "Can you help me with Finnish?" },
     ],
-    proTip: {
-      vi: "💡 ⭐ Quy tắc 1-3-12 cho du học sinh: 1 tháng đầu tập trung thủ tục, 3 tháng đầu xây dựng routine + bạn bè, 12 tháng đầu đạt B1 tiếng Phần Lan. Theo đúng = thành công 90%.",
-      en: "💡 ⭐ The 1-3-12 rule for students: month 1 = paperwork, months 1–3 = routine + friends, months 1–12 = reach B1 Finnish. Follow this = 90% success rate.",
-    },
+    proTip: { vi: "Điều kiện Kela và giấy phép cư trú là hai vấn đề khác nhau; kiểm tra cả hai trước khi nhận việc hoặc xin trợ cấp.", en: "Kela eligibility and residence-permit conditions are separate issues; check both before taking work or claiming support." },
   },
   {
     id: "vietnamese-community-2026",
@@ -452,32 +271,16 @@ export const STUDENT_TIPS_GUIDES: NewcomerGuide[] = [
     emoji: "🇻🇳",
     title: "Cộng đồng Việt tại Phần Lan",
     titleEn: "Vietnamese Community in Finland",
-    summary:
-      "~12,000 người Việt sinh sống tại Phần Lan (2026), tập trung ở Helsinki, Espoo, Vantaa, Turku, Tampere. Cộng đồng đoàn kết, hỗ trợ tốt cho người mới sang.",
-    summaryEn:
-      "~12,000 Vietnamese live in Finland (2026), mostly in Helsinki, Espoo, Vantaa, Turku, Tampere. Tight-knit community offering strong support for newcomers.",
+    sources: [{ label: "www.infofinland.fi", url: "https://www.infofinland.fi/en" }, { label: "vnembassy-helsinki.mofa.gov.vn", url: "https://vnembassy-helsinki.mofa.gov.vn/en-us/Pages/default.aspx" }],
+    summary: "Kết nối cộng đồng Việt và cộng đồng địa phương; kiểm tra thông tin nhóm, sự kiện và dịch vụ lãnh sự từ nguồn hiện hành.",
+    summaryEn: "Connect with Vietnamese and local communities; verify current group, event and consular information.",
     steps: [
-      {
-        vi: "👥 Tham gia FB Group: 'Người Việt tại Phần Lan' (~25,000 thành viên), 'Vietnam in Finland', 'Vietnamese Students in Finland' - hỏi đáp 24/7.",
-        en: "👥 Join FB groups: 'Người Việt tại Phần Lan' (~25k members), 'Vietnam in Finland', 'Vietnamese Students in Finland' - 24/7 Q&A.",
-      },
-      {
-        vi: "🏛️ Đại sứ quán Việt Nam tại Helsinki: Kulosaarentie 12, hỗ trợ hộ chiếu, công chứng, khai sinh, kết hôn.",
-        en: "🏛️ Vietnamese Embassy in Helsinki: Kulosaarentie 12 - passport, notarization, birth/marriage certificates.",
-      },
-      {
-        vi: "🍜 Nhà hàng Việt nổi tiếng: Saigon (Helsinki), Pho Vietnam (Tampere), Lemon Grass - đặt bàn cuối tuần.",
-        en: "🍜 Famous Vietnamese restaurants: Saigon (Helsinki), Pho Vietnam (Tampere), Lemon Grass - book ahead on weekends.",
-      },
-      {
-        vi: "🎊 Sự kiện cộng đồng: Tết Nguyên Đán (tháng 1–2) tại Helsinki, Trung Thu (tháng 9), Quốc khánh (2/9) - networking & hỗ trợ.",
-        en: "🎊 Community events: Lunar New Year (Jan–Feb) in Helsinki, Mid-Autumn (Sept), National Day (Sept 2) - networking + support.",
-      },
-      {
-        vi: "💼 Việc làm cộng đồng: nhà hàng Việt thường nhận sinh viên không cần B1 tiếng Phần Lan, lương 11–13€/giờ + tip.",
-        en: "💼 Community jobs: Vietnamese restaurants often hire students without B1 Finnish, pay €11–13/hour + tips.",
-      },
-    ],
+          { vi: "Tìm nhóm cộng đồng qua người quen hoặc trường; không chia sẻ giấy tờ, mã định danh hay chuyển tiền cho người chưa xác minh.", en: "Find community groups through trusted contacts or your institution; do not share documents/identity codes or send money to unverified contacts." },
+          { vi: "Dịch vụ lãnh sự: xem địa chỉ, lịch hẹn và giấy tờ trên trang Đại sứ quán Việt Nam tại Phần Lan trước khi đi.", en: "For consular services, check the Vietnamese Embassy in Finland’s current address, appointments and documents before visiting." },
+          { vi: "Xem thông tin nhà hàng/cửa hàng đang hoạt động và giờ mở cửa; không coi gợi ý cộng đồng là chứng nhận chất lượng.", en: "Check current restaurant/shop availability and opening hours; community recommendations are not quality certifications." },
+          { vi: "Ngày và địa điểm Tết, Trung Thu và các sự kiện khác do nhà tổ chức công bố mỗi năm.", en: "Organisers announce dates and venues for Tết, Mid-Autumn and other events each year." },
+          { vi: "Việc làm phải tuân thủ quyền làm việc, hợp đồng và TES áp dụng; không có mức lương hoặc yêu cầu ngôn ngữ chung cho mọi nhà hàng.", en: "Work must comply with work rights, contracts and applicable collective agreements; there is no universal pay rate or language requirement for restaurants." },
+        ],
     keyTerms: [
       { fi: "Vietnamilainen", vi: "Người Việt", en: "Vietnamese (person)" },
       { fi: "Yhteisö", vi: "Cộng đồng", en: "Community" },
@@ -488,12 +291,9 @@ export const STUDENT_TIPS_GUIDES: NewcomerGuide[] = [
       { fi: "Olen vietnamilainen.", vi: "Tôi là người Việt Nam.", en: "I am Vietnamese." },
       { fi: "Onko täällä vietnamilaista yhteisöä?", vi: "Ở đây có cộng đồng Việt không?", en: "Is there a Vietnamese community here?" },
     ],
-    proTip: {
-      vi: "💡 Tham gia VSAF (Vietnamese Students Association in Finland) ngay khi sang - họ tổ chức 'buddy system' ghép bạn với senior Việt giúp bạn 6 tháng đầu.",
-      en: "💡 Join VSAF (Vietnamese Students Association) right away - they run a buddy system pairing you with a Vietnamese senior for your first 6 months.",
-    },
+    proTip: { vi: "Hỏi trường về buddy/mentor programme; thời lượng và người hỗ trợ tùy chương trình.", en: "Ask your institution about buddy/mentor programmes; duration and support vary." },
     mapLinks: [
-      { label: "Vietnamese Embassy Helsinki", url: "https://www.google.com/maps/search/Vietnam+Embassy+Helsinki+Kulosaarentie" },
+      { label: "Vietnamese Embassy Helsinki", url: "https://www.google.com/maps/search/Vietnam+Embassy+Helsinki" },
       { label: "Saigon Restaurant Helsinki", url: "https://www.google.com/maps/search/Saigon+Restaurant+Helsinki" },
     ],
   },
@@ -505,15 +305,15 @@ export const STUDENT_TIPS_GUIDES: NewcomerGuide[] = [
 
 export const FIRST_30_DAYS_CHECKLIST_EXPANSION: ChecklistItem[] = [
   { key: "tori-account", vi: "Tạo tài khoản Tori.fi để mua đồ cũ", en: "Create Tori.fi account for second-hand", category: "daily", week: 1 },
-  { key: "welcome-sim", vi: "Lấy Welcome SIM miễn phí ở sân bay (nếu mới đến)", en: "Pick up free Welcome SIM at airport (if just arrived)", category: "daily", week: 1 },
-  { key: "vitamin-d", vi: "Mua Vitamin D 50–100µg (Oct–Mar)", en: "Buy Vitamin D 50–100µg (Oct–Mar)", category: "health", week: 2 },
+  { key: "welcome-sim", vi: "Kiểm tra nơi mua SIM trả trước và giá hiện hành nếu cần", en: "Check prepaid SIM retailers and current prices if needed", category: "daily", week: 1 },
+  { key: "vitamin-d", vi: "Kiểm tra hướng dẫn vitamin D phù hợp tuổi và chế độ ăn; hỏi y tế nếu cần", en: "Check vitamin D guidance for your age and diet; ask healthcare if needed", category: "health", week: 2 },
   { key: "ice-grippers", vi: "Mua liukuesteet (đinh chống trượt) cho mùa đông", en: "Buy ice grippers (liukuesteet) for winter", category: "daily", week: 2 },
   { key: "frank-app", vi: "Cài app Frank/Tuudo (thẻ sinh viên số)", en: "Install Frank/Tuudo (digital student ID)", category: "work", week: 2 },
   { key: "asian-market", vi: "Tìm chợ Á gần nhất (Vii Voan, Hoan Nam, Tokyokan)", en: "Locate nearest Asian market (Vii Voan, Hoan Nam, Tokyokan)", category: "daily", week: 3 },
   { key: "reko-group", vi: "Tham gia REKO Facebook group ở thành phố bạn", en: "Join your city's REKO Facebook group", category: "daily", week: 3 },
-  { key: "asumistuki", vi: "Nộp đơn xin trợ cấp nhà Yleinen asumistuki", en: "Apply for Kela housing benefit (Yleinen asumistuki)", category: "admin", week: 3 },
+  { key: "asumistuki", vi: "Kiểm tra quyền trợ cấp nhà ở hoặc bổ sung nhà ở sinh viên với Kela", en: "Check housing-allowance or student housing-supplement eligibility with Kela", category: "admin", week: 3 },
   { key: "winter-jacket", vi: "Đầu tư áo khoác mùa đông + bốt chống trượt", en: "Invest in winter jacket + waterproof boots", category: "daily", week: 4 },
-  { key: "vietnamese-community", vi: "Tham gia FB 'Người Việt tại Phần Lan' & VSAF", en: "Join 'Vietnamese in Finland' FB & VSAF", category: "daily", week: 4 },
-  { key: "remittance-app", vi: "Cài Wise/Revolut để chuyển tiền về VN rẻ", en: "Install Wise/Revolut for cheap VN remittance", category: "admin", week: 4 },
-  { key: "weather-app", vi: "Cài Foreca / Yle Säätutka (dự báo thời tiết)", en: "Install Foreca / Yle Säätutka (weather)", category: "daily", week: 4 },
+  { key: "vietnamese-community", vi: "Tìm nhóm cộng đồng Việt có thông tin đáng tin cậy", en: "Find a Vietnamese community group with trustworthy information", category: "daily", week: 4 },
+  { key: "remittance-app", vi: "So sánh tổng phí và tỷ giá các dịch vụ chuyển tiền trước khi chọn", en: "Compare total transfer fees and exchange rates before choosing a service", category: "admin", week: 4 },
+  { key: "weather-app", vi: "Lưu dự báo và cảnh báo thời tiết FMI hoặc ứng dụng phù hợp", en: "Save FMI forecasts/warnings or a suitable weather app", category: "daily", week: 4 },
 ];
