@@ -15,6 +15,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ElevatedTabs, ElevatedTabsList, ElevatedTabsTrigger } from "@/components/ui/elevated-tabs";
+import { TabsContent } from "@/components/ui/tabs";
 import { ArrowLeft, Volume2, AlertTriangle, NotebookPen, CheckCircle2, XCircle } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";

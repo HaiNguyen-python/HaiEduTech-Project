@@ -14,7 +14,7 @@ import { finnishVocabData as ieltsVocabData, FINNISH_CATEGORIES as IELTS_CATEGOR
 import FinnishSkier from "@/components/FinnishSkier";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ElevatedTabs, ElevatedTabsList, ElevatedTabsTrigger } from "@/components/ui/elevated-tabs";
 import GameLeaderboard from "@/components/games/GameLeaderboard";
 import VocabMasteryLeaderboard from "@/components/VocabMasteryLeaderboard";
 import { useMasteredVocab } from "@/hooks/useMasteredVocab";
@@ -793,20 +793,20 @@ const FinnishVocabulary = () => {
                 <option value="all">{t("Tất cả chủ đề", "All Topics")}</option>
                 {IELTS_CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
               </select>
-              <Tabs value={viewMode} onValueChange={v => setViewMode(v as "list" | "flashcard" | "exercise" | "quest" | "mission")}>
-                <TabsList>
-                  <TabsTrigger value="list" className="gap-1.5 px-4"><List className="w-4 h-4" /> {t("Từ vựng", "Vocabulary")}</TabsTrigger>
-                  <TabsTrigger value="flashcard" className="gap-1.5 px-4"><Layers className="w-4 h-4" /> Flashcard</TabsTrigger>
-                  <TabsTrigger value="quest" className="gap-1.5 px-4"><Sparkles className="w-4 h-4" /> Word Quest</TabsTrigger>
-                  <TabsTrigger value="mission" className="gap-1.5 px-4">
-                    <Target className="w-4 h-4" /> {t("Nhiệm vụ", "Daily Mission")}
+              <ElevatedTabs value={viewMode} onValueChange={v => setViewMode(v as "list" | "flashcard" | "exercise" | "quest" | "mission")}>
+                <ElevatedTabsList>
+                  <ElevatedTabsTrigger value="list"><List className="h-4 w-4" /> {t("Từ vựng", "Vocabulary")}</ElevatedTabsTrigger>
+                  <ElevatedTabsTrigger value="flashcard"><Layers className="h-4 w-4" /> Flashcard</ElevatedTabsTrigger>
+                  <ElevatedTabsTrigger value="quest"><Sparkles className="h-4 w-4" /> Word Quest</ElevatedTabsTrigger>
+                  <ElevatedTabsTrigger value="mission">
+                    <Target className="h-4 w-4" /> {t("Nhiệm vụ", "Daily Mission")}
                     {dueToday > 0 && (
                       <span className="ml-1 rounded-full bg-orange-500 px-1.5 text-[10px] font-bold text-white">{dueToday}</span>
                     )}
-                  </TabsTrigger>
-                  <TabsTrigger value="exercise" className="gap-1.5 px-4"><BookOpen className="w-4 h-4" /> {t("Luyện tập", "Practice")}</TabsTrigger>
-                </TabsList>
-              </Tabs>
+                  </ElevatedTabsTrigger>
+                  <ElevatedTabsTrigger value="exercise"><BookOpen className="h-4 w-4" /> {t("Luyện tập", "Practice")}</ElevatedTabsTrigger>
+                </ElevatedTabsList>
+              </ElevatedTabs>
             </div>
 
             <p className="text-xs text-muted-foreground mb-4">{filtered.length} {t("kết quả", "results")}</p>
