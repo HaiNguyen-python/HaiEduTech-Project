@@ -82,29 +82,16 @@ const _NEWCOMER_CATEGORIES_BASE: NewcomerCategory[] = [
         id: "dvv-registration",
         icon: "BadgeCheck",
         emoji: "🪪",
-        title: "Đăng ký tại DVV (Maistraatti)",
+        title: "Đăng ký thông tin cá nhân tại DVV",
         titleEn: "Register at DVV (Digital and Population Data Services)",
-        summary:
-          "DVV cấp Henkilötunnus (mã định danh cá nhân) - chìa khóa để mở mọi cánh cửa hành chính ở Phần Lan.",
-        summaryEn:
-          "DVV issues your Henkilötunnus (personal identity code) - the key that unlocks every administrative door in Finland.",
+        sources: [{ label: "dvv.fi", url: "https://dvv.fi/en/foreigner-registration" }, { label: "dvv.fi", url: "https://dvv.fi/en/moving" }],
+        summary: "Đăng ký thông tin cá nhân tại DVV; mã định danh, địa chỉ và đô thị thường trú là các thông tin khác nhau.",
+        summaryEn: "Register personal details with DVV; a personal identity code, address and municipality of residence are distinct records.",
         steps: [
-          {
-            vi: "Đặt lịch hẹn online tại dvv.fi (chọn 'Foreigner registration').",
-            en: "Book an appointment online at dvv.fi (choose 'Foreigner registration').",
-          },
-          {
-            vi: "Chuẩn bị: hộ chiếu, giấy phép cư trú (Oleskelulupa), hợp đồng thuê nhà, giấy đăng ký kết hôn (nếu có).",
-            en: "Prepare: passport, residence permit (Oleskelulupa), rental contract, marriage certificate (if applicable).",
-          },
-          {
-            vi: "Đến đúng giờ; nhân viên sẽ nhập dữ liệu và cấp Henkilötunnus trong 1-2 tuần qua thư.",
-            en: "Arrive on time; staff will register your data and mail your Henkilötunnus within 1-2 weeks.",
-          },
-          {
-            vi: "Cập nhật địa chỉ (Kotikunta) ngay khi chuyển nhà - bắt buộc trong 1 tuần.",
-            en: "Update your address (Kotikunta) as soon as you move - required within one week.",
-          },
+          { vi: "Kiểm tra xem Migri hoặc cơ quan thuế đã cấp henkilötunnus cho bạn chưa; có mã không đồng nghĩa đã có kotikunta.", en: "Check whether Migri or the Tax Administration has already issued your personal identity code; a code does not itself establish a municipality of residence." },
+          { vi: "Xem hướng dẫn DVV dành cho người nước ngoài, điền biểu mẫu phù hợp và đặt lịch xác minh danh tính nếu được yêu cầu.", en: "Read DVV foreigner-registration instructions, complete the appropriate form and book identity verification if required." },
+          { vi: "Mang giấy tờ gốc theo hướng dẫn: hộ chiếu, giấy phép hoặc quyền cư trú và giấy tờ gia đình; có thể cần hợp pháp hóa và bản dịch. Thời gian xử lý thay đổi.", en: "Bring original documents as instructed: passport, residence permit or right of residence, and family documents; legalisation and translations may be needed. Processing times vary." },
+          { vi: "Nộp ilmoitus muutosta khi chuyển nhà: có thể nộp sớm nhất một tháng trước và phải nộp chậm nhất một tuần sau khi chuyển. Địa chỉ mới không tự động thay đổi quyền cư trú.", en: "Submit a notification of move no earlier than one month before and no later than one week after moving. A new address does not automatically change residence rights." },
         ],
         keyTerms: [
           { fi: "Henkilötunnus", vi: "Mã định danh cá nhân", en: "Personal identity code" },
@@ -129,10 +116,7 @@ const _NEWCOMER_CATEGORIES_BASE: NewcomerCategory[] = [
             en: "Here is my passport and residence permit.",
           },
         ],
-        proTip: {
-          vi: "Lưu Henkilötunnus vào ví điện tử và KHÔNG chia sẻ qua email/SMS. Đây là dữ liệu nhạy cảm cấp 1.",
-          en: "Save your Henkilötunnus in a secure wallet and NEVER share it via email/SMS. It is top-tier sensitive data.",
-        },
+        proTip: { vi: "Giữ mã định danh an toàn, chỉ cung cấp khi thật sự cần qua kênh tin cậy; không chia sẻ mã ngân hàng hoặc mật khẩu.", en: "Keep your identity code secure and disclose it only when needed through trusted channels; never disclose banking codes or passwords." },
         mapLinks: [
           { label: "DVV Helsinki", url: "https://www.google.com/maps/search/DVV+Helsinki" },
           { label: "DVV Tampere", url: "https://www.google.com/maps/search/DVV+Tampere" },
@@ -142,17 +126,16 @@ const _NEWCOMER_CATEGORIES_BASE: NewcomerCategory[] = [
         id: "bank-account",
         icon: "Landmark",
         emoji: "🏦",
-        title: "Mở tài khoản ngân hàng & BankID",
-        titleEn: "Open a Finnish Bank Account & Strong Identification (BankID)",
-        summary:
-          "Vahva tunnistautuminen (BankID) là 'CMND số' - bắt buộc để dùng Kela, Vero, OmaPosti, Migri online.",
-        summaryEn:
-          "Strong Identification (BankID) is your 'digital ID' - required for Kela, Vero, OmaPosti, Migri online services.",
+        title: "Mở tài khoản & định danh điện tử mạnh",
+        titleEn: "Open a Finnish Bank Account & Strong Identification",
+        sources: [{ label: "www.infofinland.fi", url: "https://www.infofinland.fi/en/settling-in-finland/everyday-life-in-finland/bank-account" }, { label: "www.suomi.fi", url: "https://www.suomi.fi/instructions-and-support/identification" }],
+        summary: "Tài khoản ngân hàng và định danh điện tử mạnh là hai dịch vụ riêng; hỏi ngân hàng về điều kiện của từng dịch vụ.",
+        summaryEn: "A bank account and strong electronic identification are separate services; ask your bank about the requirements for each.",
         steps: [
-          { vi: "Chọn ngân hàng: OP, Nordea, S-Pankki, Danske Bank, hoặc Aktia.", en: "Pick a bank: OP, Nordea, S-Pankki, Danske Bank, or Aktia." },
-          { vi: "Đặt lịch hẹn (varaa aika); mang hộ chiếu, Henkilötunnus, hợp đồng lao động hoặc giấy nhập học.", en: "Book an appointment (varaa aika); bring passport, Henkilötunnus, employment contract or admission letter." },
-          { vi: "Yêu cầu Verkkopankkitunnukset (mã ngân hàng online) để có BankID.", en: "Request Verkkopankkitunnukset (online banking codes) to obtain BankID." },
-          { vi: "Kích hoạt MobilePay hoặc Pivo để chuyển tiền nhanh trong nước.", en: "Activate MobilePay or Pivo for instant domestic transfers." },
+          { vi: "So sánh ngân hàng và bảng phí hiện hành; không ngân hàng nào bảo đảm duyệt nhanh hoặc miễn phí cho mọi người mới đến.", en: "Compare banks and current fee schedules; no bank guarantees fast approval or free services for every newcomer." },
+          { vi: "Hỏi trước về giấy tờ nhận dạng được chấp nhận, địa chỉ, cư trú và nguồn tiền; mang giấy tờ ngân hàng yêu cầu.", en: "Ask which identity, address, residence and source-of-funds documents are accepted; bring the documents requested by the bank." },
+          { vi: "Yêu cầu thông tin về verkkopankkitunnukset dùng cho định danh mạnh. Một số dịch vụ công cũng hỗ trợ chứng thư di động hoặc thẻ định danh; có kênh khác nếu chưa đăng nhập điện tử được.", en: "Ask about online banking credentials usable for strong identification. Some public services also accept a mobile certificate or identity card; alternatives exist if you cannot sign in electronically." },
+          { vi: "Kích hoạt ứng dụng và thẻ theo hướng dẫn ngân hàng; nếu dùng MobilePay, kiểm tra điều kiện, hạn mức và phí hiện hành.", en: "Activate the app and card following bank instructions; if using MobilePay, check current eligibility, limits and fees." },
         ],
         keyTerms: [
           { fi: "Pankkitili", vi: "Tài khoản ngân hàng", en: "Bank account" },
@@ -163,10 +146,7 @@ const _NEWCOMER_CATEGORIES_BASE: NewcomerCategory[] = [
           { fi: "Haluaisin avata pankkitilin.", vi: "Tôi muốn mở tài khoản ngân hàng.", en: "I would like to open a bank account." },
           { fi: "Tarvitsen verkkopankkitunnukset.", vi: "Tôi cần mã ngân hàng điện tử.", en: "I need online banking codes." },
         ],
-        proTip: {
-          vi: "Sinh viên nên chọn S-Pankki (miễn phí) hoặc OP (giao diện tiếng Anh tốt nhất).",
-          en: "Students should choose S-Pankki (free) or OP (best English UI).",
-        },
+        proTip: { vi: "S-Etukortti liên quan đến tư cách thành viên hợp tác xã; so sánh phần góp vốn và phí dịch vụ thay vì hiểu là luôn miễn phí.", en: "S-Etukortti is linked to cooperative membership; compare membership contributions and service fees rather than assuming it is always free." },
       },
       {
         id: "kela-card",
@@ -174,16 +154,16 @@ const _NEWCOMER_CATEGORIES_BASE: NewcomerCategory[] = [
         emoji: "💳",
         title: "Đăng ký Kela (Bảo hiểm xã hội)",
         titleEn: "Apply for Kela Card (Social Security)",
-        summary:
-          "Kela cấp thẻ KELA-kortti - giảm giá thuốc, hỗ trợ y tế công, trợ cấp sinh viên (opintotuki) và trợ cấp nhà ở (asumistuki).",
-        summaryEn:
-          "Kela issues your KELA-kortti - discounts on medication, public healthcare access, study allowance (opintotuki), and housing benefit (asumistuki).",
+        sources: [{ label: "www.kela.fi", url: "https://www.kela.fi/moving-to-finland" }, { label: "www.kela.fi", url: "https://www.kela.fi/kela-card" }],
+        summary: "Kela đánh giá quyền hưởng từng trợ cấp theo hoàn cảnh. Thẻ Kela chứng minh bảo hiểm y tế, không tự cấp quyền dùng y tế công hay mọi trợ cấp.",
+        summaryEn: "Kela assesses each benefit based on your circumstances. A Kela card shows health-insurance coverage; it does not itself grant public healthcare or every benefit.",
         steps: [
-          { vi: "Sau khi có Henkilötunnus, vào kela.fi → 'Apply for benefits' hoặc đến văn phòng Kela gần nhất.", en: "After you have a Henkilötunnus, go to kela.fi → 'Apply for benefits' or visit the nearest Kela office." },
-          { vi: "Điền Form Y77 (cư dân chuyển đến Phần Lan); kèm hợp đồng lao động/học tập.", en: "Fill in Form Y77 (resident moving to Finland); attach employment/study contract." },
-          { vi: "Đợi 3-8 tuần để Kela quyết định xem bạn có thuộc diện bảo hiểm xã hội không.", en: "Wait 3-8 weeks for Kela to decide if you qualify for social insurance coverage." },
-          { vi: "Khi được duyệt, thẻ KELA sẽ gửi qua bưu điện trong 2 tuần.", en: "Once approved, your KELA card arrives by mail within 2 weeks." },
+          { vi: "Thông báo việc chuyển đến Phần Lan cho Kela qua OmaKela hoặc biểu mẫu hiện hành.", en: "Notify Kela of your move to Finland through OmaKela or the current form." },
+          { vi: "Kiểm tra quyền hưởng theo cư trú, việc làm và loại trợ cấp; sinh viên quốc tế không tự động được trợ cấp học tập hoặc nhà ở.", en: "Check eligibility based on residence, employment and the benefit in question; international students do not automatically qualify for study or housing support." },
+          { vi: "Nộp đơn cho thẻ Kela hoặc trợ cấp cần thiết và giấy tờ Kela yêu cầu; theo dõi thời gian xử lý hiện hành.", en: "Apply for a Kela card or the benefit you need and provide requested documents; check current processing times." },
+          { vi: "Quyền dùng y tế công thường căn cứ kotikunta hoặc quyền điều trị riêng; hỏi Kela và cơ quan y tế khu vực nếu chưa rõ.", en: "Public healthcare entitlement usually depends on a municipality of residence or a separate right to treatment; ask Kela and the local healthcare provider if unsure." },
         ],
+        proTip: { vi: "Đọc quyết định cho từng trợ cấp; có thẻ Kela không đồng nghĩa chắc chắn được opintotuki hoặc asumistuki.", en: "Read the decision for each benefit; having a Kela card does not guarantee study or housing support." },
         keyTerms: [
           { fi: "Kela", vi: "Cơ quan an sinh xã hội", en: "Social Insurance Institution" },
           { fi: "Sairausvakuutus", vi: "Bảo hiểm y tế", en: "Health insurance" },
@@ -212,14 +192,13 @@ const _NEWCOMER_CATEGORIES_BASE: NewcomerCategory[] = [
         emoji: "🚌",
         title: "Giao thông công cộng (HSL & VR)",
         titleEn: "Public Transport (HSL & VR)",
-        summary:
-          "HSL phục vụ thủ đô Helsinki; VR là tàu hỏa liên tỉnh. Mua vé qua app - rẻ và tiện hơn vé giấy.",
-        summaryEn:
-          "HSL serves the Helsinki capital region; VR runs intercity trains. Buying tickets via app is cheaper and faster than paper.",
+        sources: [{ label: "www.hsl.fi", url: "https://www.hsl.fi/en/tickets-and-fares" }, { label: "www.vr.fi", url: "https://www.vr.fi/en" }],
+        summary: "Dùng nhà vận hành giao thông địa phương và VR cho tàu liên tỉnh; giá phụ thuộc vùng, loại vé và hành trình.",
+        summaryEn: "Use your local transport operator and VR for long-distance trains; fares depend on zones, ticket type and route.",
         steps: [
-          { vi: "Tải app HSL (Helsinki) hoặc Nysse (Tampere), Föli (Turku) tùy thành phố.", en: "Install HSL (Helsinki) or Nysse (Tampere), Föli (Turku) depending on your city." },
-          { vi: "Mua vé tháng (kausilippu) nếu đi học/đi làm hàng ngày - tiết kiệm 50%.", en: "Buy a monthly pass (kausilippu) for daily commute - saves up to 50%." },
-          { vi: "Tàu liên tỉnh: đặt vé sớm tại vr.fi; ghế phổ thông từ 9€ nếu mua trước 1 tháng.", en: "Intercity trains: book early at vr.fi; economy seats from €9 if purchased one month ahead." },
+          { vi: "Tìm hành trình trên HSL, Nysse hoặc Föli tùy nơi ở; kiểm tra vùng vé và thời hạn hiệu lực.", en: "Plan your route with HSL, Nysse or Föli depending on where you live; check zones and validity." },
+          { vi: "So sánh vé đơn, ngày và mùa theo số lần đi thực tế; không giả định mức tiết kiệm cố định.", en: "Compare single, day and season tickets against your actual travel; do not assume a fixed saving." },
+          { vi: "Với VR, kiểm tra lịch chạy, điều kiện đổi/hủy và quyền giảm giá trên vr.fi; giá rẻ không được bảo đảm theo thời điểm đặt.", en: "For VR, check timetables, change/cancellation terms and discounts on vr.fi; cheap fares are not guaranteed by booking a set time ahead." },
         ],
         keyTerms: [
           { fi: "Kausilippu", vi: "Vé tháng", en: "Monthly travel pass" },
@@ -231,10 +210,7 @@ const _NEWCOMER_CATEGORIES_BASE: NewcomerCategory[] = [
           { fi: "Yksi aikuisten lippu Tampereelle, kiitos.", vi: "Cho tôi một vé người lớn đi Tampere.", en: "One adult ticket to Tampere, please." },
           { fi: "Mistä saan kausilipun?", vi: "Tôi mua vé tháng ở đâu?", en: "Where can I get a monthly pass?" },
         ],
-        proTip: {
-          vi: "Trẻ em dưới 7 tuổi đi MIỄN PHÍ trên HSL. Người 65+ có vé senior giảm 50%.",
-          en: "Children under 7 ride HSL FREE. Seniors 65+ get 50% off.",
-        },
+        proTip: { vi: "HSL có các nhóm giảm giá riêng với điều kiện cụ thể. Kiểm tra quyền lợi hiện hành của trẻ em, sinh viên và người cao tuổi trước khi mua.", en: "HSL has separate discount groups with specific requirements. Check current child, student and senior eligibility before buying." },
       },
       {
         id: "recycling",
@@ -242,15 +218,15 @@ const _NEWCOMER_CATEGORIES_BASE: NewcomerCategory[] = [
         emoji: "♻️",
         title: "Quy tắc tái chế (Kierrätys)",
         titleEn: "Recycling Rules",
-        summary:
-          "Phần Lan tái chế ~50% rác hộ gia đình. Mỗi loại rác có thùng riêng - phân loại sai có thể bị phạt.",
-        summaryEn:
-          "Finland recycles ~50% of household waste. Each type has its own bin - improper sorting can incur fines.",
+        sources: [{ label: "rinkiin.fi", url: "https://rinkiin.fi/en/for-households/" }, { label: "www.palpa.fi", url: "https://www.palpa.fi/beverage-container-recycling/deposit-refund-system/" }, { label: "www.kierratys.info", url: "https://www.kierratys.info/" }],
+        summary: "Phân loại theo hướng dẫn địa phương; Rinki thu gom bao bì, không phải mọi loại rác.",
+        summaryEn: "Follow local sorting instructions; Rinki collects packaging, not every type of waste.",
         steps: [
-          { vi: "Tách: Bio (rác thực phẩm), Paper, Cardboard, Glass, Metal, Plastic.", en: "Separate: Bio (food), Paper, Cardboard, Glass, Metal, Plastic." },
-          { vi: "Trả chai/lon nhựa & kim loại tại Pullonpalautus (máy đổi tiền) ở mọi siêu thị - 0.10–0.40€/chai.", en: "Return bottles/cans at Pullonpalautus (reverse vending machines) in any supermarket - €0.10–0.40 each." },
-          { vi: "Quần áo cũ bỏ vào thùng UFF hoặc Fida; pin/đồ điện tử mang đến Rinki-piste.", en: "Drop old clothes at UFF or Fida bins; batteries/electronics go to Rinki-piste collection points." },
+          { vi: "Tách rác hữu cơ, giấy, bao bì carton, bao bì nhựa, bao bì thủy tinh, kim loại và rác hỗn hợp theo nơi ở.", en: "Separate bio-waste, paper, cardboard packaging, plastic packaging, glass packaging, metal and mixed waste according to local rules." },
+          { vi: "Hoàn chai/lon có ký hiệu đặt cọc tại điểm nhận phù hợp; số tiền phụ thuộc loại bao bì và hệ thống Pantti.", en: "Return eligible deposit-marked bottles/cans at a suitable return point; the refund depends on packaging and the deposit system." },
+          { vi: "Pin và đồ điện tử đi đến điểm chuyên dụng hoặc cửa hàng nhận lại; không bỏ vào thùng bao bì Rinki. Quần áo còn dùng tốt có thể quyên góp, đồ hỏng theo hướng dẫn dệt may địa phương.", en: "Take batteries and electronics to dedicated collection or retailer take-back points, not Rinki packaging bins. Donate usable clothing; follow local textile instructions for damaged items." },
         ],
+        proTip: { vi: "Kiểm tra bản đồ kierratys.info và hướng dẫn của đơn vị quản lý rác tại địa phương.", en: "Check kierratys.info and the sorting instructions of your local waste authority." },
         keyTerms: [
           { fi: "Kierrätys", vi: "Tái chế", en: "Recycling" },
           { fi: "Pullonpalautus", vi: "Hoàn vỏ chai lấy tiền", en: "Bottle deposit return" },
@@ -268,15 +244,15 @@ const _NEWCOMER_CATEGORIES_BASE: NewcomerCategory[] = [
         emoji: "🛍️",
         title: "Mẹo đi siêu thị (S-Ryhmä, K, Lidl)",
         titleEn: "Supermarket Tips (S-Ryhmä vs K-Ryhmä vs Lidl)",
-        summary:
-          "S-Ryhmä (Prisma, S-market) tặng tiền hoàn (bonus); K-Ryhmä (K-Citymarket) chất lượng cao; Lidl rẻ nhất.",
-        summaryEn:
-          "S-Ryhmä (Prisma, S-market) gives cashback bonus; K-Ryhmä (K-Citymarket) is premium; Lidl is the cheapest.",
+        sources: [{ label: "www.infofinland.fi", url: "https://www.infofinland.fi/en/settling-in-finland/everyday-life-in-finland" }],
+        summary: "S-Ryhmä, K-Ryhmä và Lidl là các chuỗi phổ biến; giá và khuyến mãi thay đổi theo cửa hàng và sản phẩm.",
+        summaryEn: "S-Ryhmä, K-Ryhmä and Lidl are common chains; prices and offers vary by store and product.",
         steps: [
-          { vi: "Đăng ký thẻ S-Etukortti hoặc K-Plussa MIỄN PHÍ ngay tại quầy - hoàn 1-5% mỗi tháng.", en: "Sign up for the S-Etukortti or K-Plussa loyalty card FREE at the counter - 1-5% cashback monthly." },
-          { vi: "Mã giảm giá -30% / -50% trên thực phẩm gần hết hạn vào sau 20:00 hàng ngày.", en: "Look for -30% / -50% stickers on food nearing expiry after 20:00 daily." },
-          { vi: "Chủ nhật nhiều cửa hàng đóng cửa sớm hoặc nghỉ - kiểm tra giờ trên Google.", en: "Many shops close early or shut on Sundays - check hours on Google first." },
+          { vi: "So sánh đơn giá theo kg/lít, giá thường và điều kiện ưu đãi thành viên.", en: "Compare unit prices per kilogram/litre, regular prices and membership conditions." },
+          { vi: "Thẻ khách hàng không có cùng điều kiện: kiểm tra phí, phần góp vốn và cách tích điểm/Bonus trước khi đăng ký.", en: "Loyalty cards have different terms: check fees, membership contributions and points/Bonus rules before joining." },
+          { vi: "Giảm giá hàng cận hạn và giờ mở cửa do từng cửa hàng quyết định; xem thông tin chính thức của cửa hàng.", en: "Near-expiry markdowns and opening hours are set by each store; check its official information." },
         ],
+        proTip: { vi: "Mang túi dùng lại và giữ hóa đơn; ưu đãi không phải lúc nào cũng là lựa chọn rẻ nhất.", en: "Bring reusable bags and keep receipts; an advertised offer is not always the cheapest option." },
         keyTerms: [
           { fi: "Tarjous", vi: "Khuyến mãi", en: "Offer / discount" },
           { fi: "Bonus", vi: "Tiền hoàn lại", en: "Cashback bonus" },
@@ -305,15 +281,14 @@ const _NEWCOMER_CATEGORIES_BASE: NewcomerCategory[] = [
         emoji: "🧾",
         title: "Lấy thẻ thuế (Verokortti)",
         titleEn: "Get a Tax Card (Verokortti)",
-        summary:
-          "Mọi người đi làm ở Phần Lan đều cần Verokortti. Không có nó, công ty sẽ trừ 60% thuế mặc định.",
-        summaryEn:
-          "Everyone working in Finland needs a Verokortti. Without it, employers withhold 60% tax by default.",
+        sources: [{ label: "www.vero.fi", url: "https://www.vero.fi/en/individuals/tax-cards-and-tax-returns/tax_card/" }],
+        summary: "Thuế phụ thuộc thu nhập và hoàn cảnh cá nhân. Với lương, nếu chủ sử dụng không có thông tin thẻ thuế, thường khấu trừ 60%.",
+        summaryEn: "Tax depends on income and personal circumstances. For wages, an employer without tax-card information generally withholds 60%.",
         steps: [
-          { vi: "Vào vero.fi → đăng nhập bằng BankID → 'Tax card and prepayments'.", en: "Go to vero.fi → log in with BankID → 'Tax card and prepayments'." },
-          { vi: "Khai thu nhập dự kiến trong năm (lương + học bổng + freelance).", en: "Declare your expected annual income (salary + scholarship + freelance)." },
-          { vi: "Tải PDF Verokortti và gửi cho HR/payroll, hoặc cho phép Vero tự gửi.", en: "Download the Verokortti PDF and send it to HR/payroll, or allow Vero to send it automatically." },
-          { vi: "Cập nhật ngay nếu thu nhập thay đổi để tránh bị nợ thuế cuối năm.", en: "Update immediately if income changes to avoid back-taxes at year end." },
+          { vi: "Xem thẻ thuế trong MyTax hoặc liên hệ Vero nếu chưa có định danh điện tử mạnh.", en: "Check your tax card in MyTax or contact Vero if you do not have strong electronic identification." },
+          { vi: "Ước tính thu nhập cho cả năm dương lịch và các khoản khấu trừ; học bổng và thu nhập kinh doanh có quy tắc riêng.", en: "Estimate income for the full calendar year and deductions; grants and business income have separate rules." },
+          { vi: "Hỏi chủ sử dụng có nhận thông tin trực tiếp từ Vero không; gửi thẻ thuế nếu được yêu cầu.", en: "Ask whether your employer receives tax-card details directly from Vero; provide the card if requested." },
+          { vi: "Theo dõi giới hạn thu nhập và xin thẻ thuế điều chỉnh khi dự báo thay đổi.", en: "Monitor the income ceiling and request a revised tax card if your estimate changes." },
         ],
         keyTerms: [
           { fi: "Verokortti", vi: "Thẻ thuế", en: "Tax card" },
@@ -325,10 +300,7 @@ const _NEWCOMER_CATEGORIES_BASE: NewcomerCategory[] = [
           { fi: "Tarvitsen uuden verokortin.", vi: "Tôi cần thẻ thuế mới.", en: "I need a new tax card." },
           { fi: "Mikä on minun veroprosenttini?", vi: "Tỉ lệ thuế của tôi là bao nhiêu?", en: "What is my tax rate?" },
         ],
-        proTip: {
-          vi: "Sinh viên làm thêm dưới 19,000€/năm chỉ chịu thuế ~10%. Đừng quên khai học bổng.",
-          en: "Students earning under €19,000/year pay only ~10% tax. Don't forget to declare scholarships.",
-        },
+        proTip: { vi: "Không có mức thuế sinh viên cố định theo một ngưỡng thu nhập; dùng công cụ Vero và phân biệt thuế với các khoản đóng góp bảo hiểm.", en: "There is no fixed student tax rate tied to one income threshold; use Vero tools and distinguish tax from insurance contributions." },
       },
       {
         id: "work-culture",
@@ -336,16 +308,16 @@ const _NEWCOMER_CATEGORIES_BASE: NewcomerCategory[] = [
         emoji: "🤝",
         title: "Văn hóa làm việc & quyền lợi",
         titleEn: "Work Culture & Employee Rights",
-        summary:
-          "Phần Lan ưu tiên cân bằng cuộc sống - 5 tuần phép/năm, đi đúng giờ, im lặng là tôn trọng.",
-        summaryEn:
-          "Finland prioritizes work-life balance - 5 weeks paid leave, strict punctuality, silence is respect.",
+        sources: [{ label: "tyosuojelu.fi", url: "https://tyosuojelu.fi/en/employment-relationship" }, { label: "tyosuojelu.fi", url: "https://tyosuojelu.fi/en/employment-relationship/annual-holidays" }],
+        summary: "Quyền lao động căn cứ luật, hợp đồng và thỏa ước áp dụng; phép năm không luôn là năm tuần ngay từ khi mới làm.",
+        summaryEn: "Employment rights depend on law, your contract and the applicable collective agreement; five weeks of leave is not automatic when starting work.",
         steps: [
-          { vi: "Đến đúng giờ ± 5 phút; trễ là dấu hiệu không chuyên nghiệp.", en: "Arrive exactly on time ± 5 minutes; lateness signals unprofessionalism." },
-          { vi: "Hợp đồng phải ghi rõ TES (collective agreement) - quy định lương tối thiểu theo ngành.", en: "Contracts must reference a TES (collective agreement) - sets sector minimum wages." },
-          { vi: "Có quyền 11 giờ nghỉ giữa 2 ca, và ít nhất 35 giờ liên tục mỗi tuần.", en: "Right to 11 hours of rest between shifts and at least 35 continuous hours per week." },
-          { vi: "Tham gia công đoàn (Ammattiliitto) để được bảo vệ pháp lý + quỹ thất nghiệp.", en: "Join a trade union (Ammattiliitto) for legal protection + unemployment fund." },
+          { vi: "Thống nhất giờ làm và báo sớm nếu đến muộn; giao tiếp rõ ràng với quản lý.", en: "Agree working times and inform your manager promptly if delayed; communicate clearly." },
+          { vi: "Yêu cầu hợp đồng hoặc thông tin điều kiện lao động bằng văn bản; kiểm tra thỏa ước TES áp dụng và mức lương.", en: "Request a contract or written employment terms; check the applicable collective agreement and pay." },
+          { vi: "Nghỉ hằng ngày và hằng tuần thường có mức tối thiểu theo luật, nhưng có ngoại lệ; hỏi đơn vị bảo vệ lao động khi lịch ca không rõ.", en: "Daily and weekly rest normally have statutory minimums, but exceptions exist; ask occupational safety authorities if your shift pattern is unclear." },
+          { vi: "Tìm hiểu công đoàn và quỹ thất nghiệp: đây là hai tổ chức/dịch vụ khác nhau, quyền trợ cấp phụ thuộc điều kiện.", en: "Learn about unions and unemployment funds: they are distinct organisations/services, and benefit eligibility has conditions." },
         ],
+        proTip: { vi: "Lưu hợp đồng, bảng lương và giờ làm. Liên hệ cơ quan bảo vệ lao động nếu bị trả lương sai hoặc điều kiện không an toàn.", en: "Keep contracts, payslips and working-hour records. Contact occupational safety authorities for incorrect pay or unsafe conditions." },
         keyTerms: [
           { fi: "Työsopimus", vi: "Hợp đồng lao động", en: "Employment contract" },
           { fi: "Loma", vi: "Phép năm", en: "Paid vacation" },
@@ -375,16 +347,16 @@ const _NEWCOMER_CATEGORIES_BASE: NewcomerCategory[] = [
         emoji: "🩺",
         title: "Trạm y tế (Terveysasema)",
         titleEn: "Local Health Center (Terveysasema)",
-        summary:
-          "Mỗi Kotikunta có Terveysasema riêng. Đặt lịch online hoặc gọi sáng sớm (7:00) khi có chỗ trống.",
-        summaryEn:
-          "Each municipality (Kotikunta) has its own Terveysasema. Book online or call early morning (7:00) when slots open.",
+        sources: [{ label: "www.infofinland.fi", url: "https://www.infofinland.fi/en/health" }, { label: "www.kanta.fi", url: "https://www.kanta.fi/en/mykanta" }, { label: "116117.fi", url: "https://116117.fi/en" }],
+        summary: "Dịch vụ y tế công do khu vực phúc lợi tổ chức; Helsinki và Åland có cơ cấu riêng. Hỏi nhà cung cấp về quyền điều trị và phí.",
+        summaryEn: "Public healthcare is organised by wellbeing services counties; Helsinki and Åland have separate arrangements. Ask the provider about entitlement and charges.",
         steps: [
-          { vi: "Tìm trạm y tế của bạn trên trang web kunta (ví dụ: hel.fi, tampere.fi).", en: "Find your health center on the municipal website (e.g. hel.fi, tampere.fi)." },
-          { vi: "Đăng nhập omakanta.fi để xem hồ sơ y tế, đơn thuốc và đặt lịch.", en: "Log in at omakanta.fi to view medical records, prescriptions and book appointments." },
-          { vi: "Nếu cần khẩn cấp ngoài giờ, gọi tổng đài tư vấn y tế: 116 117.", en: "For non-emergency after-hours advice, call the medical helpline: 116 117." },
-          { vi: "Mang theo Kela-kortti & passport mỗi lần đi khám.", en: "Bring your Kela card & passport to every appointment." },
+          { vi: "Tìm trạm y tế và cách đặt lịch trên trang khu vực phúc lợi hoặc Helsinki; giờ điện thoại khác nhau theo nơi.", en: "Find your health centre and booking instructions on your wellbeing services county or Helsinki website; phone hours vary." },
+          { vi: "MyKanta cho xem hồ sơ và đơn thuốc, không phải cổng đặt lịch khám thông thường; dùng kênh đặt lịch của nhà cung cấp.", en: "MyKanta shows records and prescriptions, not general appointment booking; use your provider’s booking channel." },
+          { vi: "Với vấn đề y tế gấp nhưng không đe dọa tính mạng, gọi 116 117 trước khi đi cấp cứu tại các vùng có dịch vụ; Åland có hướng dẫn riêng. Nguy hiểm tính mạng: 112.", en: "For urgent but non-life-threatening problems, call 116 117 before attending urgent care where the service operates; Åland has separate instructions. Life-threatening emergency: 112." },
+          { vi: "Mang giấy tờ định danh và thông tin thuốc, quyền điều trị/bảo hiểm khi cần. Không trì hoãn cấp cứu vì chưa có thẻ Kela.", en: "Bring identification and medication details, and entitlement/insurance documents when needed. Do not delay emergency care because you lack a Kela card." },
         ],
+        proTip: { vi: "Phí và thời gian hẹn tùy dịch vụ, tuổi và khu vực; thẻ Kela không bảo đảm mọi khám chữa bệnh miễn phí.", en: "Fees and waiting times depend on service, age and region; a Kela card does not guarantee free treatment." },
         keyTerms: [
           { fi: "Terveysasema", vi: "Trạm y tế công", en: "Public health center" },
           { fi: "Lääkäri", vi: "Bác sĩ", en: "Doctor" },
@@ -402,14 +374,13 @@ const _NEWCOMER_CATEGORIES_BASE: NewcomerCategory[] = [
         emoji: "🚨",
         title: "Số khẩn cấp 112",
         titleEn: "Emergency Number 112",
-        summary:
-          "112 là số DUY NHẤT cho cảnh sát, cứu hỏa, cứu thương. Tải app 112 Suomi để định vị bạn tự động.",
-        summaryEn:
-          "112 is the SINGLE number for police, fire, ambulance. Install the 112 Suomi app for automatic geolocation.",
+        sources: [{ label: "112.fi", url: "https://112.fi/en/emergency-number-112" }, { label: "112.fi", url: "https://112.fi/en/112-suomi-application" }],
+        summary: "Gọi 112 khi tính mạng, sức khỏe, tài sản hoặc môi trường đang bị đe dọa khẩn cấp.",
+        summaryEn: "Call 112 when life, health, property or the environment is in immediate danger.",
         steps: [
-          { vi: "Gọi 112 (miễn phí, hoạt động cả khi không có SIM hoặc khóa máy).", en: "Dial 112 (free, works even without SIM or with a locked phone)." },
-          { vi: "Nói chậm bằng tiếng Anh: 'I need an ambulance / police / fire' + địa chỉ.", en: "Speak slowly in English: 'I need an ambulance / police / fire' + address." },
-          { vi: "Cài app '112 Suomi' để vị trí GPS gửi tự động - quan trọng khi ở vùng xa.", en: "Install the '112 Suomi' app so GPS sends automatically - vital in remote areas." },
+          { vi: "Gọi 112 miễn phí; cho biết sự việc và vị trí, trả lời câu hỏi và làm theo hướng dẫn.", en: "Call 112 free of charge; describe the incident and location, answer questions and follow instructions." },
+          { vi: "Không cúp máy trước khi được cho phép. Nếu cần, nói bạn cần hỗ trợ ngôn ngữ.", en: "Do not hang up until instructed. Say if you need language assistance." },
+          { vi: "Trong ứng dụng 112 Suomi, bật quyền vị trí và thực hiện cuộc gọi qua ứng dụng để hỗ trợ truyền vị trí; vẫn nói địa chỉ/địa điểm cho tổng đài.", en: "In 112 Suomi, enable location permissions and call through the app to help transmit your location; still tell the operator your address/location." },
         ],
         keyTerms: [
           { fi: "Hätänumero", vi: "Số khẩn cấp", en: "Emergency number" },
@@ -421,10 +392,7 @@ const _NEWCOMER_CATEGORIES_BASE: NewcomerCategory[] = [
           { fi: "Tarvitsen apua! Soittakaa ambulanssi!", vi: "Tôi cần giúp đỡ! Gọi xe cứu thương!", en: "I need help! Call an ambulance!" },
           { fi: "Osoitteeni on...", vi: "Địa chỉ của tôi là...", en: "My address is..." },
         ],
-        proTip: {
-          vi: "Đừng ngại gọi 112 chỉ vì tiếng Anh không tốt - tổng đài viên đều thông thạo tiếng Anh.",
-          en: "Don't hesitate to call 112 because of weak English - operators are all fluent in English.",
-        },
+        proTip: { vi: "Không dùng 112 cho tư vấn thông thường; vấn đề y tế gấp không đe dọa tính mạng có thể gọi 116 117 theo vùng.", en: "Do not use 112 for routine advice; urgent non-life-threatening medical problems may use 116 117 according to the region." },
       },
     ],
   },
