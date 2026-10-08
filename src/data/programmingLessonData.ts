@@ -90,18 +90,18 @@ for i in range(4):
 import turtle
 
 # Draw a hexagon (6 sides)
-so_canh = 6
-do_dai = 60
+num_sides = 6
+side_length = 60
 
-for i in range(so_canh):
-    turtle.forward(do_dai)  # Go straight
-    turtle.right(360 / so_canh)  # Turn
+for i in range(num_sides):
+    turtle.forward(side_length)  # Go straight
+    turtle.right(360 / num_sides)  # Turn
 
 # Conditional statement
-diem = 85
-if diem >= 90:
+score = 85
+if score >= 90:
     print("🌟 Excellent!")
-elif diem >= 70:
+elif score >= 70:
     print("👍 Good!")
 else:
     print("💪 Try harder!")`,
@@ -125,22 +125,22 @@ else:
         code: `# Variables and lists
 # Game of collecting points
 
-diem = 0
-ten = "Player1"
-danh_sach_vat_pham = []
+score = 0
+name = "Player1"
+inventory = []
 
 # Collect items
-vat_pham_moi = ["⭐ Star", "💎 Diamonds", "🍎 Apple"]
+new_items = ["⭐ Star", "💎 Diamonds", "🍎 Apple"]
 
-for vp in vat_pham_moi:
-    danh_sach_vat_pham.append(vp)
-    diem += 10
-    print(f"Picked up: {vp} | Points: {diem}")
+for item in new_items:
+    inventory.append(item)
+    score += 10
+    print(f"Picked up: {item} | Points: {score}")
 
-print(f"\n🎒 {ten}'s bag:")
-for i, vp in enumerate(danh_sach_vat_pham, 1):
-    print(f"  {i}. {vp}")
-print(f"🏆 Total score: {diem}")`,
+print(f"\\n🎒 {name}'s bag:")
+for i, item in enumerate(inventory, 1):
+    print(f"  {i}. {item}")
+print(f"🏆 Total score: {score}")`,
         codeLanguage: "python",
         exercise: "Create a list of 5 favorite animals. Print the quantity, add a new animal, delete the first animal, and reprint the list.",
         exerciseEn: "Create a list of 5 favorite animals. Print the count, add 1 new animal, remove the first one, and print the list again.",
@@ -171,24 +171,24 @@ print(f"🏆 Total score: {diem}")`,
         theory: "Python có các kiểu dữ liệu chính - hãy nghĩ chúng như **các loại hộp khác nhau** để chứa các thứ khác nhau:\n\n**🔢 int - Số nguyên** (hộp chỉ chứa số đếm được)\nVí dụ: tuổi = 15, số bạn = 42, nhiệt độ = -7\nGiống số trên bảng điểm - không có phần thập phân.\n\n**📐 float - Số thực** (hộp chứa số có dấu phẩy)\nVí dụ: pi = 3.14159, chiều cao = 1.68, giá = -0.5\nGiống cân nặng trên cân điện tử - chính xác đến phần thập phân.\n\n**📝 str - Chuỗi ký tự** (hộp chứa chữ/từ)\nVí dụ: ten = \"Minh\", loi_chao = 'Xin chào!'\nLuôn nằm trong dấu nháy \" \" hoặc ' '. Giống tin nhắn trong điện thoại 📱\n\n**✅ bool - Logic đúng/sai** (hộp chỉ có 2 trạng thái)\nVí dụ: dang_online = True, da_lam_bai = False\nGiống công tắc đèn 💡 - chỉ có BẬT (True) hoặc TẮT (False).\n\n**🏷️ Quy tắc đặt tên biến:**\n- ✅ `my_score`, `_name`, `player1` → Hợp lệ\n- ❌ `2name` (bắt đầu bằng số), `my-var` (có dấu gạch), `class` (từ khóa Python)\n- 💡 Mẹo: dùng snake_case: `diem_trung_binh` thay vì `diemtrungbinh`\n\n**🔄 Chuyển đổi kiểu - Biến hình dữ liệu:**\n```\nstr(42) → \"42\"    (số → chữ, để nối chuỗi)\nint(\"42\") → 42    (chữ → số, để tính toán)\nfloat(\"3.14\") → 3.14\n```",
         theoryEn: "Python has main data types - think of them as **different types of boxes** for different things:\n\n**🔢 int - Integer** (box for countable numbers)\nExamples: age = 15, friends = 42, temperature = -7\nLike scores on a report card - no decimal points.\n\n**📐 float - Float** (box for decimal numbers)\nExamples: pi = 3.14159, height = 1.68, price = -0.5\nLike weight on a digital scale - precise to decimal places.\n\n**📝 str - String** (box for text/words)\nExamples: name = \"Minh\", greeting = 'Hello!'\nAlways in quotes \" \" or ' '. Like text messages on your phone 📱\n\n**✅ bool - Boolean** (box with only 2 states)\nExamples: is_online = True, homework_done = False\nLike a light switch 💡 - only ON (True) or OFF (False).\n\n**🏷️ Variable naming rules:**\n- ✅ `my_score`, `_name`, `player1` → Valid\n- ❌ `2name` (starts with number), `my-var` (has dash), `class` (Python keyword)\n- 💡 Tip: use snake_case: `average_score` instead of `averagescore`\n\n**🔄 Type conversion - Shapeshifting data:**\n```\nstr(42) → \"42\"    (number → text, for concatenation)\nint(\"42\") → 42    (text → number, for math)\nfloat(\"3.14\") → 3.14\n```",
         code: `# Declare variables
-ten = "Minh"           # str
-tuoi = 12              # int
-chieu_cao = 1.52       # float
-hoc_gioi = True        # bool
+name = "Minh"           # str
+age = 12              # int
+height = 1.52       # float
+is_good_student = True        # bool
 
 # Print information
 print(f"Name: {name}")
 print(f"Age: {age}")
 print(f"Height: {height}m")
-print(f"Study well: {study_gioi}")
+print(f"Study well: {is_good_student}")
 
 # Check the data type
-print(type(ten))       # <class 'str'>
-print(type(tuoi))      # <class 'int'>
+print(type(name))       # <class 'str'>
+print(type(age))      # <class 'int'>
 
 # Type conversion
-tuoi_str = str(tuoi)   # int -> str
-so = int("42")         # str -> int`,
+age_text = str(age)   # int -> str
+number = int("42")         # str -> int`,
         codeLanguage: "python",
         exercise: "Declare a variable containing: name, age, average score (real number), and variable to check whether a student is good or not. Print out all information using f-string.",
         exerciseEn: "Declare variables for: name, age, average score (float), and whether the student is excellent. Print all info using f-string.",
@@ -207,28 +207,28 @@ so = int("42")         # str -> int`,
         theory: "**Hàm** là một khối code có tên, thực hiện một nhiệm vụ cụ thể - giống **công thức nấu ăn** 🍳!\n\nTưởng tượng bạn hay pha trà sữa. Mỗi lần bạn phải: lấy trà → đun nước → pha trà → thêm sữa → thêm đường. Thay vì nhớ 5 bước mỗi lần, bạn viết một 'công thức' tên `pha_tra_sua()` - lần sau chỉ cần gọi tên!\n\n**Cấu trúc hàm:**\n```python\ndef ten_ham(nguyen_lieu):    # Tên + Nguyên liệu\n    # Các bước thực hiện      # Công thức\n    return thanh_pham          # Thành phẩm\n```\n\n**Ví dụ minh họa:**\n```\n🧑‍🍳 def lam_banh(bot, trung, duong):\n      tron(bot, trung, duong)     # Bước 1\n      nuong(180, 30_phut)         # Bước 2\n      return banh_ngon            # Xong!\n\n🍰 banh = lam_banh('bot_mi', 2, '100g')  # Gọi hàm\n```\n\n**3 lợi ích lớn:**\n1. 🔁 **Tái sử dụng:** Viết 1 lần, gọi 100 lần. Không copy-paste!\n2. 📖 **Dễ đọc:** `tinh_diem_tb(8, 9, 7)` rõ nghĩa hơn `(8+9+7)/3`\n3. 🐛 **Dễ sửa lỗi:** Bug ở hàm nào → sửa hàm đó, không ảnh hưởng chỗ khác.\n\n**Tham số mặc định - Đặt sẵn 'mặc định':**\n```python\ndef chao(ten, ngon_ngu='vi'):  # Mặc định tiếng Việt\n    ...\nchao('Minh')          # → 'Xin chào, Minh!'\nchao('John', 'en')    # → 'Hello, John!'\n```\nGiống đặt pizza: nếu không nói gì, mặc định size M. Muốn size L thì nói thêm!",
         theoryEn: "A **Function** is a named block of code that performs a specific task - like a **cooking recipe** 🍳!\n\nImagine you often make bubble tea. Each time: get tea → boil water → brew → add milk → add sugar. Instead of remembering 5 steps each time, write a 'recipe' called `make_bubble_tea()` - next time just call its name!\n\n**Function structure:**\n```python\ndef function_name(ingredients):  # Name + Ingredients\n    # Steps to follow              # Recipe\n    return finished_product        # Done!\n```\n\n**Visual example:**\n```\n🧑‍🍳 def bake_cake(flour, eggs, sugar):\n      mix(flour, eggs, sugar)        # Step 1\n      bake(180, 30_minutes)          # Step 2\n      return delicious_cake          # Done!\n\n🍰 cake = bake_cake('flour', 2, '100g')  # Call function\n```\n\n**3 major benefits:**\n1. 🔁 **Reusable:** Write once, call 100 times. No copy-paste!\n2. 📖 **Readable:** `calc_average(8, 9, 7)` is clearer than `(8+9+7)/3`\n3. 🐛 **Debuggable:** Bug in which function → fix that function, no side effects.\n\n**Default parameters - Pre-set 'defaults':**\n```python\ndef greet(name, language='en'):  # Default English\n    ...\ngreet('Minh')           # → 'Hello, Minh!'\ngreet('Minh', 'vi')     # → 'Xin chào, Minh!'\n```\nLike ordering pizza: if you say nothing, default is Medium. Want Large? Just specify!",
         code: `# Function to calculate rectangle area
-def dien_tich_hcn(chieu_dai, chieu_rong):
-    return chieu_dai * chieu_rong
+def rectangle_area(length, width):
+    return length * width
 
 # Function to check even/odd numbers
-def kiem_tra_chan_le(so):
-    if so % 2 == 0:
-        return f"{so} is an even number ✅"
+def check_even_odd(number):
+    if number % 2 == 0:
+        return f"{number} is an even number ✅"
     else:
-        return f"{so} is an odd number ❌"
+        return f"{number} is an odd number ❌"
 
 # Greeting function with default value
-def chao(ten, ngon_ngu="vi"):
-    if ngon_ngu == "vi":
-        return f"Hello, {ten}! 👋"
+def greet(name, language="vi"):
+    if language == "vi":
+        return f"Hello, {name}! 👋"
     else:
-        return f"Hello, {ten}! 👋"
+        return f"Hello, {name}! 👋"
 
 # Use
-print(dien_tich_hcn(5, 3))       # 15
-print(kiem_tra_chan_le(7))         # 7 is an odd number
-print(chao("Minh"))               # Hello, Minh!
-print(chao("John", "en"))         # Hello, John!`,
+print(rectangle_area(5, 3))       # 15
+print(check_even_odd(7))         # 7 is an odd number
+print(greet("Minh"))               # Hello, Minh!
+print(greet("John", "en"))         # Hello, John!`,
         codeLanguage: "python",
         exercise: "Write 3 functions: (1) calculate the circumference of a circle, (2) check for prime numbers, (3) count the number of negative integers in the string.",
         exerciseEn: "Write 3 functions: (1) calculate circle circumference, (2) check if prime number, (3) count vowels in a string.",
@@ -247,10 +247,10 @@ print(chao("John", "en"))         # Hello, John!`,
         theory: "**Vòng lặp** giúp bạn tự động hóa công việc lặp đi lặp lại - giống **robot làm việc thay bạn** 🤖\n\n**for - Lặp qua dãy đã biết trước:**\nGiống bạn phát bài kiểm tra cho 30 học sinh - bạn biết trước có 30 bạn.\n```\nDanh sách: [An, Bình, Chi, Dũng]\nfor mỗi bạn trong danh sách:\n    phát bài kiểm tra cho bạn đó\n```\n\n**while - Lặp khi điều kiện còn đúng:**\nGiống ăn buffet - bạn ăn **cho đến khi** no. Không biết trước ăn bao nhiêu!\n```\nwhile chưa no:\n    lấy thêm đồ ăn\n    ăn\nprint('No rồi! 🫃')\n```\n\n**🎮 Lệnh điều khiển vòng lặp:**\n- 🚪 **break:** Thoát ngay! Giống kéo còi báo động → dừng mọi thứ.\n  ```python\n  for i in range(100):\n      if i == 5: break  # Dừng ở số 5, không chạy tiếp\n  ```\n- ⏭️ **continue:** Bỏ qua lần này, chạy tiếp! Giống gặp bài khó trong đề thi → bỏ qua, làm bài khác.\n  ```python\n  for i in range(10):\n      if i % 2 == 0: continue  # Bỏ qua số chẵn\n      print(i)  # Chỉ in số lẻ: 1, 3, 5, 7, 9\n  ```\n\n**📊 range() - Create dãy số tự động:**\n- `range(5)` → 0️⃣1️⃣2️⃣3️⃣4️⃣ (5 số, bắt đầu từ 0)\n- `range(1, 6)` → 1️⃣2️⃣3️⃣4️⃣5️⃣ (từ 1 đến 5)\n- `range(0, 10, 2)` → 0️⃣2️⃣4️⃣6️⃣8️⃣ (đếm cách 2)\n- `range(10, 0, -1)` → đếm ngược! 🔟9️⃣8️⃣...1️⃣",
         theoryEn: "**Loops** automate repetitive tasks - like a **robot doing work for you** 🤖\n\n**for - Loop through a known sequence:**\nLike handing out tests to 30 students - you know there are exactly 30.\n```\nStudent list: [An, Binh, Chi, Dung]\nfor each student in list:\n    hand out test to that student\n```\n\n**while - Loop while condition is true:**\nLike eating at a buffet - you eat **until** full. Don't know how many plates!\n```\nwhile not full:\n    get more food\n    eat\nprint('Full now! 🫃')\n```\n\n**🎮 Loop control statements:**\n- 🚪 **break:** Exit immediately! Like pulling a fire alarm → stop everything.\n  ```python\n  for i in range(100):\n      if i == 5: break  # Stops at 5, doesn't continue\n  ```\n- ⏭️ **continue:** Skip this round, keep going! Like skipping a hard question on an exam → move on.\n  ```python\n  for i in range(10):\n      if i % 2 == 0: continue  # Skip even numbers\n      print(i)  # Only prints odds: 1, 3, 5, 7, 9\n  ```\n\n**📊 range() - Auto-generate number sequences:**\n- `range(5)` → 0️⃣1️⃣2️⃣3️⃣4️⃣ (5 numbers, starting from 0)\n- `range(1, 6)` → 1️⃣2️⃣3️⃣4️⃣5️⃣ (from 1 to 5)\n- `range(0, 10, 2)` → 0️⃣2️⃣4️⃣6️⃣8️⃣ (step by 2)\n- `range(10, 0, -1)` → count down! 🔟9️⃣8️⃣...1️⃣",
         code: `# For loop - Print multiplication table
-so = 7
-print(f"📋 Multiplication table {so}:")
+number = 7
+print(f"📋 Multiplication table {number}:")
 for i in range(1, 11):
-    print(f"  {so} x {i} = {so * i}")
+    print(f"  {number} x {i} = {number * i}")
 
 # While loop - Guess the number
 import random
@@ -297,24 +297,24 @@ while True:
         theory: "Cấu trúc dữ liệu là cách bạn **tổ chức và sắp xếp thông tin** - giống như cách bạn sắp xếp đồ trong phòng! 🏠\n\n**📋 List [] - Danh sách linh hoạt:**\nGiống **danh sách mua sắm** - bạn có thể thêm, xóa, sắp xếp lại bất cứ lúc nào.\n```python\nmua_sam = ['sữa', 'trứng', 'bánh mì']\nmua_sam.append('phô mai')     # Thêm cuối: [..., 'phô mai']\nmua_sam.insert(0, 'nước')     # Thêm đầu: ['nước', ...]\nmua_sam.remove('trứng')       # Xóa: bỏ 'trứng'\nmua_sam.sort()                # Sắp xếp A-Z\n```\n\n**📌 Tuple () - Dữ liệu cố định 'không thể sửa':**\nGiống **tọa độ GPS** - một khi xác định, không ai thay đổi được!\n```python\nha_noi = (21.028511, 105.804817)    # Vĩ độ, Kinh độ\nha_noi[0] = 0  # ❌ LỖI! Tuple không cho sửa!\n```\nDùng khi dữ liệu KHÔNG BAO GIỜ nên thay đổi: ngày sinh, mã quốc gia, hằng số vật lý.\n\n**📖 Dictionary {} - Từ điển tra cứu siêu nhanh:**\nGiống **danh bạ điện thoại** - biết tên → tra ra số ngay lập tức!\n```python\ndanh_ba = {\n    'Minh': '0901234567',     # key: value\n    'An':   '0987654321',\n}\ndanh_ba['Minh']  # → '0901234567' (tra cứu cực nhanh!)\n```\n\n**🤔 Khi nào dùng gì?**\n| Tình huống | Chọn | Lý do |\n|---|---|---|\n| Danh sách học sinh (thêm/bớt) | List | Thay đổi thường xuyên |\n| Tọa độ GPS | Tuple | Không bao giờ đổi |\n| Bảng điểm (tên→điểm) | Dict | Tra cứu nhanh theo tên |",
         theoryEn: "Data structures are how you **organize and arrange information** - like how you arrange things in your room! 🏠\n\n**📋 List [] - Flexible list:**\nLike a **shopping list** - you can add, remove, rearrange anytime.\n```python\nshopping = ['milk', 'eggs', 'bread']\nshopping.append('cheese')      # Add end: [..., 'cheese']\nshopping.insert(0, 'water')    # Add front: ['water', ...]\nshopping.remove('eggs')        # Remove: drop 'eggs'\nshopping.sort()                # Sort A-Z\n```\n\n**📌 Tuple () - Fixed 'read-only' data:**\nLike **GPS coordinates** - once set, nobody can change them!\n```python\nhanoi = (21.028511, 105.804817)    # Latitude, Longitude\nhanoi[0] = 0  # ❌ ERROR! Tuples don't allow changes!\n```\nUse when data should NEVER change: birthday, country code, physics constants.\n\n**📖 Dictionary {} - Ultra-fast lookup book:**\nLike a **phone book** - know the name → get the number instantly!\n```python\ncontacts = {\n    'Minh': '0901234567',     # key: value\n    'An':   '0987654321',\n}\ncontacts['Minh']  # → '0901234567' (blazing fast lookup!)\n```\n\n**🤔 When to use what?**\n| Situation | Choice | Reason |\n|---|---|---|\n| Student roster (add/remove) | List | Changes frequently |\n| GPS coordinates | Tuple | Never changes |\n| Grade book (name→score) | Dict | Fast lookup by name |",
         code: `# LIST - Student list
-hoc_sinh = ["An", "Jar", "Chi", "Dung"]
-hoc_sinh.append("Em")        # Add end
-hoc_sinh.insert(0, "Anh")    # Add beginning
-hoc_sinh.sort()               # Sort A-Z
-print(f"The class has {len(student_student)} friends: {student_student}")
+students = ["An", "Jar", "Chi", "Dung"]
+students.append("Em")        # Add end
+students.insert(0, "Anh")    # Add beginning
+students.sort()               # Sort A-Z
+print(f"The class has {len(students)} friends: {students}")
 
 # TUPLE - Constant coordinates
-vi_tri = (10.762622, 106.660172)  # HCM
-print(f"Ho Chi Minh City coordinates: {vi_tri}")
+coordinates = (10.762622, 106.660172)  # HCM
+print(f"Ho Chi Minh City coordinates: {coordinates}")
 
 # DICTIONARY - Score
-diem = {
-    "An": {"Maths": 9, "Literature": 8, "Anh": 7},
-    "Jar": {"Maths": 7, "Literature": 9, "Anh": 8},
+score = {
+    "An": {"Maths": 9, "Literature": 8, "English": 7},
+    "Jar": {"Maths": 7, "Literature": 9, "English": 8},
 }
-for ten, mon in diem.items():
-    tb = sum(mon.values()) / len(mon)
-    print(f"{ten}: Average = {tb:.1f}")`,
+for name, subject_scores in score.items():
+    average = sum(subject_scores.values()) / len(subject_scores)
+    print(f"{name}: Average = {average:.1f}")`,
         codeLanguage: "python",
         exercise: "Create a dictionary containing information about 3 products (name, price, quantity). Write a function to calculate the total warehouse value.",
         exerciseEn: "Create a dictionary with 3 products (name, price, quantity). Write a function to calculate total inventory value.",
@@ -1073,10 +1073,10 @@ print(f"Intercept (b): {model.intercept_:.4f}")
 print(f"Equation: Price = {model.coef_[0]:.4f} × Area + {model.intercept_:.4f}")
 
 # Forecast
-dien_tich_moi = [[80], [150]]
-du_doan = model.predict(dien_tich_moi)
-for dt, gia in zip(dien_tich_moi, du_doan):
-    print(f"\\n🏠 Area {dt[0]}m² → Estimated price: {price:.2f} billion")
+new_areas = [[80], [150]]
+predictions = model.predict(new_areas)
+for area, price in zip(new_areas, predictions):
+    print(f"\\n🏠 Area {area[0]}m² → Estimated price: {price:.2f} billion")
 
 # Evaluate the model
 r2 = model.score(X, y)
