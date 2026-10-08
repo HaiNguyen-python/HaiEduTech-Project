@@ -28,3 +28,5 @@
 - Python Challenge list, direct routes and workspace navigation share the sequential-unlock helper and merged progress hook; completion events refresh same-tab state immediately to prevent inconsistent access.
 - IELTS Reading rooms scope theme tokens to the entire exam; passage and question annotations share ReaderPassage with separate original-question storage keys to preserve highlights across full-test renumbering.
 - All Code Typing Race paths use the shared quote-aware numeric formatter to preserve identifiers and string data.
+
+- Finnish arcade audio uses the shared Finnish TTS pipeline and stops on game exit; native fallback must select an actual Finnish voice to prevent English pronunciation.

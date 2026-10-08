@@ -4,6 +4,7 @@
  *   daily phrases, vocab, pitfalls for VN learners, quizzes.
  * @author Teacher Hai (HaiEduTech)
  */
+import finnishBanner from "@/assets/finnish-beginner-banner.jpg";
 import { useState } from "react";
 import FloatingNordicParticles from "@/components/FloatingNordicParticles";
 import { Link } from "react-router-dom";
@@ -74,9 +75,12 @@ const FinnishBeginner = () => {
           <ArrowLeft className="w-4 h-4" /> {t("Quay lại Finnish Hub", "Back to Finnish Hub")}
         </Link>
 
-        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
-          <Badge className="bg-[#003580] text-white mb-3">A1 - A2 · Aloittelijoille</Badge>
-          <h1 className="text-4xl md:text-5xl font-bold mb-3 bg-gradient-to-r from-[#003580] to-sky-500 bg-clip-text text-transparent">
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="finnish-beginner-heading relative overflow-hidden mb-8 px-5 py-10 sm:px-8 sm:py-12">
+          <img src={finnishBanner} alt="" aria-hidden="true" width={1536} height={640} className="absolute inset-0 h-full w-full object-cover" />
+          <div className="finnish-heading-wash absolute inset-0" aria-hidden="true" />
+          <div className="relative max-w-3xl">
+          <Badge className="bg-primary text-primary-foreground mb-3">A1 - A2 · Aloittelijoille</Badge>
+          <h1 className="text-4xl md:text-5xl font-bold mb-3 text-foreground">
             {t("Tiếng Phần Lan cho người mới bắt đầu", "Finnish for Beginners")}
           </h1>
           <p className="text-base md:text-lg text-muted-foreground max-w-3xl">
@@ -85,6 +89,7 @@ const FinnishBeginner = () => {
               "Start from zero: pronunciation, core grammar (KPT, 6 verb types, partitive), daily conversations, and common pitfalls Vietnamese learners face."
             )}
           </p>
+          </div>
         </motion.div>
 
         <ElevatedTabs defaultValue="alphabet" className="w-full">
