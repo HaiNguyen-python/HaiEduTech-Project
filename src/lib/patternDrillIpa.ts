@@ -14,7 +14,14 @@ const PATTERN_WORD_IPA: Record<string, string> = {
   "long-standing": "ˌlɔŋ ˈstændɪŋ",
 };
 
+const extendedDictionaries = new WeakMap<Record<string, string>, Record<string, string>>();
+
 export function patternDrillSentenceIpa(sentence: string, dictionary: Record<string, string>): string | null {
-  const ipa = phraseToIpa(sentence, { ...dictionary, ...PATTERN_WORD_IPA });
+  let extended = extendedDictionaries.get(dictionary);
+  if (!extended) {
+    extended = { ...dictionary, ...PATTERN_WORD_IPA };
+    extendedDictionaries.set(dictionary, extended);
+  }
+  const ipa = phraseToIpa(sentence, extended);
   return ipa ? formatIpa(ipa) : null;
 }
