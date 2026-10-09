@@ -153,6 +153,7 @@
     --python-success: 165 72% 30%;
     --python-success-wash: 160 55% 96%;
     --python-tile-shadow: 0 7px 20px hsl(var(--python-blue) / .09);
+    --python-tile-overlay: linear-gradient(0deg, hsl(var(--card)) 0%, hsl(var(--card) / .96) 24%, hsl(var(--card) / 0) 58%), linear-gradient(90deg, hsl(var(--card) / .98) 0%, hsl(var(--card) / .95) 32%, hsl(var(--card) / .78) 52%, hsl(var(--card) / .12) 100%);
     --python-hero-overlay: linear-gradient(90deg, hsl(var(--python-hero-surface) / .97) 0%, hsl(var(--python-hero-surface) / .90) 31%, hsl(var(--python-hero-surface) / .15) 70%);
   }
   .python-lab-header-overlay { background: var(--python-hero-overlay); }
@@ -162,6 +163,7 @@
   .python-module-tile { border-color: hsl(var(--python-module-ink) / .25); border-top: 3px solid hsl(var(--python-module-ink)); transition: border-color .2s, box-shadow .2s, transform .2s; }
   .python-module-tile:hover { border-color: hsl(var(--python-module-ink) / .6); box-shadow: var(--python-tile-shadow); transform: translateY(-2px); }
   .python-module-tile:focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 3px; }
+  .python-module-background-overlay { background: var(--python-tile-overlay); }
   .python-module-icon { background: hsl(var(--python-module-wash)); color: hsl(var(--python-module-ink)); }
   .python-module-accent { color: hsl(var(--python-module-ink)); }
   .python-module--complete { border-color: hsl(var(--python-success) / .6); }
