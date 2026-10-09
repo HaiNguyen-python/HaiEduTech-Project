@@ -156,6 +156,25 @@
     --python-hero-overlay: linear-gradient(90deg, hsl(var(--python-hero-surface) / .97) 0%, hsl(var(--python-hero-surface) / .90) 31%, hsl(var(--python-hero-surface) / .15) 70%);
   }
   .python-lab-header-overlay { background: var(--python-hero-overlay); }
+  .python-theory { --python-hero-overlay: linear-gradient(90deg, hsl(var(--python-hero-surface) / .98), hsl(var(--python-hero-surface) / .93) 45%, hsl(var(--python-hero-surface) / .7)); }
+  .python-theory-heading { padding-inline: 1.25rem; }
+  .python-theory-prose code { background: hsl(var(--primary) / .08); color: hsl(var(--foreground)); border-radius: .25rem; padding: .15rem .35rem; }
+  .python-theory-prose code::before, .python-theory-prose code::after { content: none; }
+  .python-theory .theory-content { font-size: 1rem; line-height: 1.8; }
+  .python-playground {
+    --card: 0 0% 3%; --card-foreground: 210 20% 94%;
+    --background: 0 0% 3%; --foreground: 210 20% 94%;
+    --muted: 220 10% 9%; --muted-foreground: 215 14% 70%;
+    --border: 220 10% 22%; --input: 220 10% 25%;
+    --primary: 160 70% 65%; --primary-foreground: 220 20% 7%;
+    --accent: 220 10% 18%; --accent-foreground: 210 20% 94%;
+    --secondary: 220 10% 15%; --secondary-foreground: 210 20% 94%;
+  }
+  .python-playground .cm-editor, .python-playground .cm-scroller { background: hsl(var(--background)); color: hsl(var(--foreground)); }
+  .python-playground .cm-scroller { font-family: 'JetBrains Mono', monospace; font-size: 1rem; line-height: 1.7; overflow: auto; }
+  .python-playground .cm-gutters { background: hsl(var(--muted)); color: hsl(var(--muted-foreground)); border-color: hsl(var(--border)); }
+  .python-playground .cm-activeLine, .python-playground .cm-activeLineGutter { background: hsl(var(--secondary)); }
+  .python-playground .cm-cursor { border-left-color: hsl(var(--primary)); }
   .python-challenge-tile { background: hsl(var(--card)); border-color: hsl(var(--python-tile-edge) / .25); transition: transform .2s, box-shadow .2s, border-color .2s; }
   a.python-challenge-tile:hover { border-color: hsl(var(--python-tile-edge) / .75); transform: translateY(-3px); box-shadow: var(--python-tile-shadow); }
   a.python-challenge-tile:focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 3px; }
