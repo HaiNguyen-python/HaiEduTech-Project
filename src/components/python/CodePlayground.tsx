@@ -28,6 +28,8 @@ const CodePlayground = ({ initialCode, needsScientific, lessonContext, storageKe
   });
   const [output, setOutput] = useState<string>("");
   const [running, setRunning] = useState(false);
+  const [input, setInput] = useState("");
+  const runLock = useRef(false);
   const [copied, setCopied] = useState(false);
   const [explain, setExplain] = useState<string>("");
   const [explainLoading, setExplainLoading] = useState(false);
@@ -40,20 +42,24 @@ const CodePlayground = ({ initialCode, needsScientific, lessonContext, storageKe
   }, [code, storageKey]);
 
   const handleRun = useCallback(async () => {
+    if (runLock.current) return;
+    runLock.current = true;
     setRunning(true);
     setOutput(loading || !ready ? "⏳ Waiting for Python runtime to finish loading…" : "⏳ Running…");
-    const res = await runCode(code);
+    const res = await runCode(code, input);
     const parts: string[] = [];
     if (res.stdout) parts.push(res.stdout);
     if (res.stderr) parts.push(`\n--- stderr ---\n${res.stderr}`);
     setOutput(parts.join("") || "(no output)");
     setRunning(false);
-  }, [code, runCode, loading, ready]);
+    runLock.current = false;
+  }, [code, input, runCode, loading, ready]);
 
   const handleReset = () => {
     setCode(initialCode);
     setOutput("");
     setExplain("");
+    setInput("");
     if (storageKey) localStorage.removeItem(storageKey);
   };
 
@@ -132,6 +138,7 @@ const CodePlayground = ({ initialCode, needsScientific, lessonContext, storageKe
 
       {/* Editor */}
       <textarea
+        aria-label="Python code"
         ref={editorRef}
         value={code}
         onChange={(e) => setCode(e.target.value)}
@@ -140,6 +147,13 @@ const CodePlayground = ({ initialCode, needsScientific, lessonContext, storageKe
         className="w-full min-h-[280px] max-h-[480px] p-4 bg-[#282a36] text-[#f8f8f2] font-mono text-sm leading-relaxed resize-y outline-none caret-[#ff79c6]"
         style={{ fontFamily: "'JetBrains Mono', monospace" }}
       />
+
+      {/\binput\s*\(/.test(code) && <div className="border-t border-border bg-muted p-3 text-foreground">
+        <label htmlFor={`${storageKey ?? "python"}-input`} className="mb-2 block text-sm font-medium">Input values</label>
+        <textarea id={`${storageKey ?? "python"}-input`} value={input} onChange={event => setInput(event.target.value)}
+          aria-label="Input values" placeholder="One value per line" rows={3}
+          className="w-full rounded-md border border-input bg-background p-3 font-mono text-base text-foreground" />
+      </div>}
 
       {/* Toolbar */}
       <div className="flex flex-wrap items-center gap-2 px-3 py-2 bg-[#1e1f29] border-t border-[#44475a]">

@@ -3,6 +3,7 @@
  * @description Lazy-loads Pyodide once per session and exposes runCode().
  */
 import { useCallback, useEffect, useRef, useState } from "react";
+import { PY_HARNESS, stdinLines, type HarnessResult } from "@/lib/pythonChallengeHarness";
 
 declare global {
   interface Window {
@@ -17,7 +18,7 @@ interface PyodideAPI {
   loadPackage: (pkg: string | string[]) => Promise<void>;
   setStdout: (cfg: { batched: (s: string) => void }) => void;
   setStderr: (cfg: { batched: (s: string) => void }) => void;
-  globals: { set: (k: string, v: unknown) => void };
+  globals: { set: (k: string, v: unknown) => void; get: (k: string) => unknown };
 }
 
 const PYODIDE_VERSION = "0.26.4";
@@ -85,7 +86,12 @@ async function ensurePyodide(needsScientific: boolean, onStatus: (s: string) => 
     return py;
   })();
 
-  return window.__haiPyodidePromise;
+  try {
+    return await window.__haiPyodidePromise;
+  } catch (error) {
+    window.__haiPyodidePromise = undefined;
+    throw error;
+  }
 }
 
 /**
@@ -103,7 +109,7 @@ export function ensurePyodideRuntime(needsScientific = false): Promise<PyodideAP
 export function preloadPyodide() {
   if (typeof window === "undefined") return;
   if (window.__haiPyodide || window.__haiPyodidePromise) return;
-  void ensurePyodide(false, () => {});
+  void ensurePyodide(false, () => {}).catch(() => {});
 }
 
 
@@ -133,21 +139,21 @@ export function usePyodide(needsScientific = false) {
   }, [needsScientific]);
 
   useEffect(() => {
-    void init();
+    void init().catch(() => setStatus("Python could not load. Run to retry."));
   }, [init]);
 
-  const runCode = useCallback(async (code: string): Promise<RunResult> => {
-    const py = pyRef.current ?? (await init());
-    let stdout = "";
-    let stderr = "";
-    py.setStdout({ batched: (s: string) => (stdout += s + "\n") });
-    py.setStderr({ batched: (s: string) => (stderr += s + "\n") });
+  const runCode = useCallback(async (code: string, input = ""): Promise<RunResult> => {
     try {
-      await py.runPythonAsync(code);
-      return { stdout: stdout.trimEnd(), stderr: stderr.trimEnd(), ok: !stderr };
+      const py = pyRef.current ?? (await init());
+      if (/\bsqlite3\b/.test(code)) await py.loadPackage("sqlite3");
+      if (!py.globals.get("_hai_run")) py.runPython(PY_HARNESS);
+      const values = JSON.stringify(stdinLines(input));
+      const raw = await py.runPythonAsync(`_hai_run(${JSON.stringify(code)}, ${JSON.stringify(values)}, True, "", 7)`);
+      const result: HarnessResult = JSON.parse(String(raw));
+      return { stdout: result.out.trimEnd(), stderr: result.err, ok: !result.err };
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
-      return { stdout: stdout.trimEnd(), stderr: (stderr + "\n" + msg).trim(), ok: false };
+      return { stdout: "", stderr: msg, ok: false };
     }
   }, [init]);
 
