@@ -23,5 +23,13 @@ export const scoreMultipleAnswers = (selected: number[], correctIndices: number[
 export const scoreHighlightedWords = (selected: number[], incorrectIndices: number[]): PteObjectiveResult =>
   scoreMultipleAnswers(selected, incorrectIndices);
 
+export const scoreReorderPairs = (order: number[], correctOrder: number[]): PteObjectiveResult => {
+  const pairs = new Set(correctOrder.slice(0, -1).map((value, index) => `${value}:${correctOrder[index + 1]}`));
+  const actual = new Set(order.slice(0, -1).map((value, index) => `${value}:${order[index + 1]}`));
+  const correct = [...actual].filter(pair => pairs.has(pair)).length;
+  const maxScore = pairs.size;
+  return { correct, incorrect: actual.size - correct, rawScore: correct, maxScore, accuracy: maxScore ? correct / maxScore * 100 : 0 };
+};
+
 export const objectiveAccuracyToEstimate = (accuracy: number): number =>
   Math.round(10 + Math.max(0, Math.min(100, accuracy)) * 0.8);
