@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Code2, ArrowLeft, ArrowRight, CheckCircle, Filter, Terminal, Layers, Trophy, LockKeyhole, Braces } from "lucide-react";
+import { Code2, ArrowLeft, ArrowRight, CheckCircle, Filter, Terminal, Layers, Trophy, LockKeyhole, Braces, ChevronDown } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { pythonChallenges } from "@/data/pythonChallenges";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useState, useMemo } from "react";
 import PythonChallengeLeaderboard from "@/components/programming/PythonChallengeLeaderboard";
 import PythonProgressChart from "@/components/programming/PythonProgressChart";
