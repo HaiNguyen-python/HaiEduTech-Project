@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useState, useMemo } from "react";
 import PythonChallengeLeaderboard from "@/components/programming/PythonChallengeLeaderboard";
 import PythonProgressChart from "@/components/programming/PythonProgressChart";
+import PythonCheatsheet from "@/components/programming/PythonCheatsheet";
 import { usePythonChallengeProgress } from "@/hooks/usePythonChallengeProgress";
 import headerImage from "@/assets/python-challenges-header.jpg";
 import { isPythonChallengeUnlocked } from "@/lib/pythonChallengeProgress";
@@ -109,6 +110,7 @@ const PythonChallengeList = () => {
           <div className="grid min-w-0 gap-5">
             <PythonChallengeLeaderboard refreshKey={ids.size} />
             <PythonProgressChart ids={ids} history={history} loading={loading} error={error} />
+            <PythonCheatsheet />
           </div>
         </div>
       </main>
