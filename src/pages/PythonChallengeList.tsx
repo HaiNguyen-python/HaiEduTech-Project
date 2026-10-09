@@ -70,7 +70,7 @@ const PythonChallengeList = () => {
               </div>
             </div>
             <div className="mb-4 flex items-center justify-between gap-3"><h2 className="font-display text-lg font-bold">{section === "all" ? t("Thử thách của bạn", "Your challenges") : section}</h2><span className="shrink-0 font-mono text-xs text-muted-foreground">{filtered.length} {t("bài", "challenges")}</span></div>
-            <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+            <div className="grid gap-4 sm:grid-cols-2 sm:gap-5 xl:grid-cols-3">
               {paged.map(c => {
                 const done = ids.has(c.id);
                 const unlocked = !loading && isPythonChallengeUnlocked(c.id, ids);
