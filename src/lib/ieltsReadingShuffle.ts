@@ -4,12 +4,12 @@
  *   1) Matching-headings questions share ONE list that always contains extra
  *      distractor headings, so students cannot solve by elimination.
  *   2) The correct label is de-biased (never always "i").
- *   3) Question GROUPS are re-ordered per exam so answers no longer run in a
- *      predictable paragraph A -> B -> C -> D sequence.
+ *   3) Authored task order and source question identity are preserved.
  * All randomness is deterministic (seeded by exam id) so the paper is stable
  * across renders, reloads and review mode.
  */
-import type { ReadingExam, ReadingQuestion, ReadingQuestionType } from "@/data/ieltsFullReadingExams";
+import type { ReadingExam, ReadingQuestion } from "@/data/ieltsFullReadingExams";
+import { READING_HEADING_DISTRACTORS, READING_HEADING_OVERRIDES } from "@/data/ieltsReadingHeadingDistractors";
 
 // Small deterministic PRNG (mulberry32)
 const mulberry32 = (seed: number) => () => {
@@ -33,20 +33,6 @@ const LABELS = [
   "xi", "xii", "xiii", "xiv", "xv", "xvi", "xvii", "xviii", "xix", "xx",
 ];
 
-/** Generic distractor headings: plausible academic phrasings that fit no paragraph. */
-const DISTRACTOR_HEADINGS = [
-  "An unexpected commercial application",
-  "Comparisons with a neighbouring region",
-  "A method that was later abandoned",
-  "Conflicting interpretations of the same evidence",
-  "The role of amateur enthusiasts",
-  "Predictions that proved inaccurate",
-  "A change in official terminology",
-  "Funding difficulties in the early years",
-  "Lessons drawn from an unrelated field",
-  "Why the debate remains unresolved",
-];
-
 const shuffled = <T,>(arr: T[], rng: () => number): T[] => {
   const out = [...arr];
   for (let i = out.length - 1; i > 0; i--) {
@@ -56,7 +42,10 @@ const shuffled = <T,>(arr: T[], rng: () => number): T[] => {
   return out;
 };
 
-/** Rebuild the shared heading list with >= 3 distractors and re-label everything. */
+/** Keep every correct heading and a compact selection of authored distractors.
+ * Two or three extras is our practice-paper choice, not an IELTS-mandated count.
+ * Never pad a paper with unrelated generic headings or shuffle task order.
+ */
 const rebuildHeadings = (exam: ReadingExam, rng: () => number): ReadingQuestion[] => {
   const hQs = exam.questions.filter((q) => q.type === "matching-headings" && q.headings?.length);
   if (!hQs.length) return exam.questions;
@@ -64,20 +53,20 @@ const rebuildHeadings = (exam: ReadingExam, rng: () => number): ReadingQuestion[
   // Correct heading text per question (by its current answer label).
   const correctText = new Map<number, string>();
   const pool = new Map<string, true>();
+  const override = READING_HEADING_OVERRIDES[exam.id];
   for (const q of hQs) {
-    for (const h of q.headings!) pool.set(h.text, true);
-    const hit = q.headings!.find((h) => h.label === q.answer);
-    if (hit) correctText.set(q.number, hit.text);
+    if (!override) for (const h of q.headings ?? []) pool.set(h.text, true);
+    const hit = q.headings?.find((h) => h.label === q.answer);
+    const paragraph = q.prompt.match(/Paragraph\s+([A-Z])/i)?.[1];
+    const text = (paragraph ? override?.byParagraph[paragraph] : undefined) ?? hit?.text;
+    if (text) correctText.set(q.number, text);
   }
+  for (const text of override?.distractors ?? []) pool.set(text, true);
 
-  const needed = hQs.length + 3;
-  const texts = [...pool.keys()];
-  const extras = shuffled(DISTRACTOR_HEADINGS, rng).filter((d) => !pool.has(d));
-  let i = 0;
-  while (texts.length < needed && i < extras.length) texts.push(extras[i++]);
-
-  const list = shuffled(texts, rng)
-    .slice(0, Math.max(needed, texts.length))
+  const correct = new Set(correctText.values());
+  for (const text of READING_HEADING_DISTRACTORS[exam.id] ?? []) pool.set(text, true);
+  const distractors = shuffled([...pool.keys()].filter(text => !correct.has(text)), rng).slice(0, 2 + (hashString(exam.id) % 2));
+  const list = shuffled([...correct, ...distractors], rng)
     .map((text, idx) => ({ label: LABELS[idx] ?? String(idx + 1), text }));
 
   const labelOf = (text: string) => list.find((h) => h.text === text)?.label;
@@ -90,29 +79,8 @@ const rebuildHeadings = (exam: ReadingExam, rng: () => number): ReadingQuestion[
   });
 };
 
-/**
- * Re-order question groups (contiguous runs of the same type) so answers do not
- * appear in passage order, then renumber 1..N for the navigation matrix.
- */
-const reorderGroups = (questions: ReadingQuestion[], rng: () => number): ReadingQuestion[] => {
-  if (questions.length < 6) return questions;
-  const groups: { type: ReadingQuestionType; items: ReadingQuestion[] }[] = [];
-  for (const q of questions) {
-    const last = groups[groups.length - 1];
-    if (last && last.type === q.type) last.items.push(q);
-    else groups.push({ type: q.type, items: [q] });
-  }
-  if (groups.length < 2) return questions;
-
-  // Matching-headings must stay as one block, but it should not always be first.
-  const order = shuffled(groups, rng);
-  const flat = order.flatMap((g) => g.items);
-  return flat.map((q, idx) => ({ ...q, number: idx + 1 }));
-};
-
 export const shuffleHeadingsInExam = (exam: ReadingExam): ReadingExam => {
   const rng = mulberry32(hashString(exam.id));
-  let questions = rebuildHeadings(exam, rng);
-  questions = reorderGroups(questions, rng);
+  const questions = rebuildHeadings(exam, rng);
   return { ...exam, questions };
 };

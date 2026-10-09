@@ -802,10 +802,10 @@ G. Sceptics argue that circular-economy ambitions risk being co-opted by produce
   // ============================================================
   {
     id: "rx-cam-21",
-    title: "Test 25 - The Rise of Vertical Farming",
+    title: "Test 25 - Vertical Farming: Energy, Economics and Resilience",
     level: "Medium",
     durationMinutes: 20,
-    passageTitle: "The Rise of Vertical Farming",
+    passageTitle: "Vertical Farming: Energy, Economics and Resilience",
     passage:
 `A. The idea of stacking rows of crops in a warehouse and growing them under artificial light has moved, over the last two decades, from the pages of speculative journalism into the accounts of listed companies. Vertical farms now operate at commercial scale in Newark, Osaka, Riyadh, Copenhagen and Ho Chi Minh City. Their advocates claim that the technology can significantly reduce the environmental cost of feeding cities. Critics reply that most current installations grow only the highest-value crops and are only marginally profitable even so.
 
