@@ -32,14 +32,17 @@ const PteObjectivePractice = () => {
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
   const { recordCompletion } = usePteProgress();
 
-  const source = useMemo(() => {
-    if (mode === "highlight-incorrect-words") return HIGHLIGHT_INCORRECT_ALL;
-    return MCQ_ALL.filter(item => mode === "reading-single-answer" ? item.correctIndices.length === 1 : item.correctIndices.length > 1);
-  }, [mode]);
-  const filtered = useMemo(() => {
-    const matches = applyPteFilter(source, filters);
-    return matches.length ? matches : source;
-  }, [source, filters]);
+  const mcqSource = useMemo(() => MCQ_ALL.filter(item => mode === "reading-single-answer" ? item.correctIndices.length === 1 : item.correctIndices.length > 1), [mode]);
+  const highlightSource = HIGHLIGHT_INCORRECT_ALL;
+  const filtered = useMemo<(PteMcq | PteHighlightIncorrect)[]>(() => {
+    if (mode === "highlight-incorrect-words") {
+      const matches = applyPteFilter(highlightSource, filters);
+      return matches.length ? matches : highlightSource;
+    }
+    const matches = applyPteFilter(mcqSource, filters);
+    return matches.length ? matches : mcqSource;
+  }, [filters, highlightSource, mcqSource, mode]);
+  const sourceLength = mode === "highlight-incorrect-words" ? highlightSource.length : mcqSource.length;
   const item = filtered[Math.min(idx, filtered.length - 1)];
   const isHighlight = mode === "highlight-incorrect-words";
   const mcq = isHighlight ? null : item as PteMcq;
@@ -129,7 +132,7 @@ const PteObjectivePractice = () => {
         ))}
       </div>
 
-      <PteFilterBar value={filters} onChange={(value) => { setFilters(value); setIdx(0); }} resultCount={filtered.length} totalCount={source.length} />
+      <PteFilterBar value={filters} onChange={(value) => { setFilters(value); setIdx(0); }} resultCount={filtered.length} totalCount={sourceLength} />
 
       <section className="rounded-lg border border-border bg-card p-5 text-card-foreground shadow-sm sm:p-6">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
