@@ -49,7 +49,7 @@ export default function PhdResearchTools({ context, proposal, onSave }: Props) {
       {error && <div role="alert" className="rounded-md border border-destructive/30 bg-destructive/5 p-4 text-sm text-destructive">{error}</div>}
       {busy && <div className="flex items-center gap-3 py-12 text-muted-foreground"><Loader2 className="w-5 h-5 animate-spin" />{t("Đang xem xét phương pháp và bằng chứng…", "Reviewing methods and evidence…")}</div>}
       {!busy && !result && !error && <div className="py-12 text-muted-foreground text-sm">{t("Chưa có bản phân tích.", "No analysis yet.")}</div>}
-      {result && <><div className="prose dark:prose-invert max-w-none break-words text-sm"><ReactMarkdown>{result}</ReactMarkdown></div><Button variant="outline" disabled={saving} className="gap-2" onClick={async () => { setSaving(true); try { await onSave(`${active.en}: ${input.slice(0, 100) || "Research review"}`, result, "Research Lab"); } finally { setSaving(false); } }}><Save className="w-4 h-4" />{t("Lưu vào sổ nghiên cứu", "Save to notebook")}</Button></>}
+      {result && <><div className="prose prose-sm dark:prose-invert max-w-none break-words text-sm leading-relaxed [&_h1]:text-xl [&_h2]:text-lg [&_h3]:text-base [&_h1]:mt-0 [&_h2]:mt-6 [&_h2]:mb-2 [&_p]:my-3"><ReactMarkdown>{result}</ReactMarkdown></div><Button variant="outline" disabled={saving} className="gap-2" onClick={async () => { setSaving(true); try { await onSave(`${active.en}: ${input.slice(0, 100) || "Research review"}`, result, "Research Lab"); } finally { setSaving(false); } }}><Save className="w-4 h-4" />{t("Lưu vào sổ nghiên cứu", "Save to notebook")}</Button></>}
     </div>
   </div>;
 }

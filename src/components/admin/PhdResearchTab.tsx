@@ -100,7 +100,7 @@ const PhdResearchTab = () => {
       ]);
       if (n.error || c.error) setDataError(n.error?.message || c.error?.message || "Unable to load research");
        if (!n.error) {
-         setNotes((n.data || []) as NoteRow[]);
+         setNotes((n.data || []).filter(row => row.topic !== "Roadmap State") as NoteRow[]);
          const latest = n.data?.find(row => row.topic === "Proposal");
          if (latest) { setProposalTitle(latest.title); setProposalText(latest.content); }
        }
@@ -719,7 +719,7 @@ EVIDENCE: ${(c.summary ?? "").slice(0, 1800)}`).join("\n\n").slice(0, 28000), [c
                         .from("phd_research_notes")
                         .select("*")
                         .order("updated_at", { ascending: false });
-                      setNotes((data || []) as NoteRow[]);
+                      setNotes((data || []).filter(row => row.topic !== "Roadmap State") as NoteRow[]);
                     }}
                   >
                     <Save className="w-3.5 h-3.5 mr-1.5" />
