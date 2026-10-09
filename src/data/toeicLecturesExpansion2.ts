@@ -156,9 +156,9 @@ const part1PeopleAction: ToeicLecture = {
     },
   ],
   businessContext:
-    "People-centered photos appear in 5/6 Part 1 questions. Office, retail, restaurant, and warehouse settings dominate.",
+    "People, objects and workplace arrangements can all appear in the six Part 1 photographs; there is no fixed five-to-one split.",
   businessContextVi:
-    "Ảnh có người chiếm 5/6 câu Part 1. Bối cảnh phổ biến: văn phòng, bán lẻ, nhà hàng, kho bãi.",
+    "Sáu ảnh Part 1 có thể có người, đồ vật và cách sắp xếp công sở; không cố định năm ảnh người và một ảnh vật.",
   proSpeedTip:
     "💡 In 4 seconds, ask yourself: WHO + VERB + OBJECT? Lock these 3 words mentally before audio plays.",
   proSpeedTipVi:
@@ -807,9 +807,9 @@ const part5VerbTense: ToeicLecture = {
   level: "intermediate",
   targetScore: "600+",
   description:
-    "30% of Part 5 tests verb tense. Learn the 5 time-signal categories that instantly reveal the correct tense in 4 seconds.",
+    "Choose verb forms by combining time references, completion, duration, clause structure and subject agreement. A time word is a clue, not an automatic tense rule.",
   descriptionVi:
-    "30% Part 5 kiểm tra thì động từ. Học 5 nhóm tín hiệu thời gian giúp xác định thì đúng trong 4 giây.",
+    "Chọn động từ theo mốc thời gian, hoàn tất, kéo dài, cấu trúc mệnh đề và hợp chủ vị. Từ thời gian là manh mối, không tự quyết định thì.",
   trapAlerts: [
     {
       trap: "Time signal hidden at end of sentence",
@@ -913,9 +913,9 @@ const part5VerbTense: ToeicLecture = {
     },
   ],
   businessContext:
-    "Part 5 verb tense questions appear 8-12 times per test. Mastering tense signals saves seconds and boosts accuracy.",
+    "Tense questions test how workplace events relate in time. Their number varies across tests; practise timelines rather than memorising an item count.",
   businessContextVi:
-    "Câu thì Part 5 xuất hiện 8-12 lần/đề. Làm chủ tín hiệu giúp tiết kiệm thời gian và tăng độ chính xác.",
+    "Câu thì kiểm tra quan hệ thời gian của việc công sở. Số câu thay đổi; luyện trục thời gian thay vì thuộc số lượng câu.",
   proSpeedTip:
     "💡 The TIME WORD usually decides the tense - find it FIRST, before reading anything else.",
   proSpeedTipVi:
@@ -1265,9 +1265,9 @@ const part7TripleCrossRef: ToeicLecture = {
   practiceSet: [
     {
       context:
-        "Doc1 (Ad): 'Spring sale: 20% off jackets, 15% off shoes.' Doc2 (Email): 'I'd like to order 2 jackets and 1 pair of shoes.' Doc3 (Receipt): 'Subtotal $400. Discount: $80.'",
+        "Doc1 (Ad): Spring sale: 20% off jackets, 15% off shoes. Doc2 (Email): Please order two jackets at $200 each; I will buy shoes another time. Doc3 (Receipt): Jackets subtotal $400, discount $80, total $320.",
       contextVi:
-        "Doc1 (QC): 'Sale xuân: jacket 20%, giày 15%.' Doc2 (Email): 'Mua 2 jacket và 1 đôi giày.' Doc3 (Hóa đơn): 'Tạm tính $400. Giảm: $80.'",
+        "QC: jacket giảm 20%, giày 15%. Email: Đặt hai jacket giá $200 mỗi chiếc; giày mua sau. Hóa đơn: jacket $400, giảm $80, tổng $320.",
       question: "What discount rate did the customer apply?",
       options: ["10%", "15%", "20%", "25%"],
       answer: 2,

@@ -113,7 +113,7 @@ const part2QuestionMap: ToeicLecture = {
     { question: "Question: ‘Why are you late?’ Which option is automatically wrong?", options: ["‘Traffic was terrible.’", "‘I missed the bus.’", "‘Yes, I am.’"], answer: 2, explanation: "WH ⇒ never Yes/No." },
     { question: "‘I'll check with HR’ as a reply to a WH-question is:", options: ["Always wrong", "Often correct (indirect answer)", "Grammatically illegal", "Only for Part 3"], answer: 1, explanation: "Relevance to the question makes an indirect response valid, not a frequency statistic." },
     { question: "Question: ‘Have you printed the agenda?’ Option: ‘The printer is jammed.’ - verdict:", options: ["Echo trap", "Indirect but correct (explains why not)", "Yes/No mismatch", "Off-topic"], answer: 1, explanation: "Indirectly says ‘No, because…’ - valid reply." },
-    { question: "Echo distractors usually appear in what % of Part 2 questions?", options: ["10 %", "Roughly 80 % of trap options", "Never", "1 %"], answer: 1, explanation: "Echo is the dominant distractor design in Part 2." },
+    { question: "What does repeated wording tell you about an answer?", options: ["Always correct", "Check meaning; repetition alone proves nothing", "Always wrong", "Choose C"], answer: 1, explanation: "A response can repeat a word and still be relevant. Compare its whole meaning with the question." },
     { question: "Tag question expects:", options: ["Yes/No", "Confirmation or correction", "An apology", "A long story"], answer: 1, explanation: "‘…, didn't you?’ asks for confirmation or correction." },
   ],
   cheatSheetPoints: [
@@ -159,8 +159,8 @@ const part3Flow: ToeicLecture = {
   ],
   businessContext: "Part 3 conversations mirror typical inter-department chats: deliveries, scheduling, hiring. Mastery is directly usable at work.",
   businessContextVi: "Hội thoại Part 3 mô phỏng trao đổi liên phòng ban: giao hàng, lịch họp, tuyển dụng. Học xong dùng được tại công sở.",
-  proSpeedTip: "Pre-read = points. Every 8 seconds spent pre-reading buys you 3 confident answers.",
-  proSpeedTipVi: "Đọc trước = điểm. 8 giây đọc trước đổi được 3 đáp án chắc.",
+  proSpeedTip: "Preview the three stems during available pauses, then listen to the full dialogue. Move to the next set only after selecting the current answers.",
+  proSpeedTipVi: "Xem trước ba câu trong khoảng nghỉ có sẵn rồi nghe toàn bộ hội thoại. Chỉ qua bộ tiếp sau khi chọn đáp án bộ hiện tại.",
   vocabHighlights: [
     { word: "to push back", definition: "To delay to a later date.", definitionVi: "Dời lại.", example: "We pushed back the launch to Q3.", businessContext: "Scheduling vocabulary." },
     { word: "to follow through", definition: "To complete what was promised.", definitionVi: "Hoàn tất lời hứa.", example: "Make sure you follow through on the order.", businessContext: "Project-management vocabulary." },
@@ -199,9 +199,9 @@ const part4Announcement: ToeicLecture = {
   level: "intermediate",
   targetScore: "750+",
   description:
-    "Almost every Part 4 monologue is built in 3 blocks: GREETING → BODY → CTA. Identify each block and you can predict where each answer lives BEFORE the speaker arrives.",
+    "Greeting, information and requested action form a useful practice pattern. Actual talks may omit a greeting or action and organise details differently, so follow the question stems.",
   descriptionVi:
-    "Gần như mọi đoạn độc thoại Part 4 có 3 khối: CHÀO → THÂN → KÊU GỌI HÀNH ĐỘNG. Nhận diện khối nào ⇒ đoán được đáp án nằm ở đâu TRƯỚC khi speaker nói tới.",
+    "Lời chào, thông tin và hành động là mẫu hữu ích để luyện. Bài thực tế có thể thiếu lời chào hay yêu cầu, sắp chi tiết khác; bám câu hỏi.",
   trapAlerts: [
     { trap: "Listener-identity decoys (‘co-workers’ vs ‘shoppers’)", trapVi: "Bẫy danh tính người nghe", why: "Speakers rarely say ‘colleagues’; they hint via context (‘meeting room 2’).", whyVi: "Speaker hiếm nói ‘colleagues’; gợi qua bối cảnh (‘meeting room 2’)." },
     { trap: "Numbers said TWICE with self-correction", trapVi: "Số nói 2 lần kèm sửa", why: "In 'five - sorry, fifteen percent off', fifteen is explicitly the correction. Distinguish corrected values from different quantities or old/new figures by the actual question.", whyVi: "Trong 'five - sorry, fifteen percent off', fifteen là số được sửa rõ ràng. Phân biệt số sửa với đại lượng khác hoặc số cũ/mới theo câu hỏi." },
@@ -220,8 +220,8 @@ const part4Announcement: ToeicLecture = {
   ],
   businessContext: "Part 4 monologues mirror PA announcements, voicemails and conference openings - daily workplace listening skills.",
   businessContextVi: "Độc thoại Part 4 giống thông báo loa, voicemail, mở hội thảo - kỹ năng nghe văn phòng hàng ngày.",
-  proSpeedTip: "Greeting words = listener identity. Always lock Q1 in the first 5 seconds of the monologue.",
-  proSpeedTipVi: "Từ chào = danh tính người nghe. Chốt Q1 trong 5 giây đầu monologue.",
+  proSpeedTip: "Use the opening to identify audience and purpose provisionally. Verify them with the rest of the talk; the first question is not always about listeners.",
+  proSpeedTipVi: "Dùng phần mở để tạm xác định người nghe và mục đích. Xác nhận qua cả bài; câu đầu không phải luôn hỏi người nghe.",
   vocabHighlights: [
     { word: "to proceed", definition: "To go forward / continue.", definitionVi: "Tiến hành / đi tiếp.", example: "Please proceed to the boarding gate.", businessContext: "Airport / event announcements." },
     { word: "attendees", definition: "People who attend an event.", definitionVi: "Người tham dự.", example: "Attendees should sign in at reception.", businessContext: "Conference vocabulary." },
@@ -260,9 +260,9 @@ const part5Prepositions: ToeicLecture = {
   level: "foundation",
   targetScore: "600+",
   description:
-    "Preposition questions are 6-8 marks per Part 5. Learn the 5-rule decoder and your accuracy on this question type jumps from ~50 % to ~90 %.",
+    "Distinguish dates, clock times, deadlines, duration and fixed combinations. Check the intended relationship in the full sentence when more than one preposition seems possible.",
   descriptionVi:
-    "Câu giới từ chiếm 6-8 điểm/Part 5. Học bộ giải mã 5 quy tắc dưới đây, độ chính xác dạng này nhảy từ ~50% lên ~90%.",
+    "Phân biệt ngày, giờ, hạn chót, khoảng thời gian và cụm cố định. Kiểm tra quan hệ nghĩa toàn câu khi nhiều giới từ có vẻ phù hợp.",
   trapAlerts: [
     { trap: "Confusing TIME prepositions: in (year/month) / on (day/date) / at (clock)", trapVi: "Nhầm giới từ thời gian", why: "‘in Monday’ is a classic Vietnamese-learner error; must be ‘on Monday’.", whyVi: "‘in Monday’ là lỗi quen - phải ‘on Monday’." },
     { trap: "‘By’ vs ‘until’", trapVi: "‘By’ vs ‘until’", why: "‘by Friday’ = deadline; ‘until Friday’ = continuous up to.", whyVi: "‘by Friday’ = hạn chót; ‘until Friday’ = liên tục đến." },
@@ -321,9 +321,9 @@ const part6Cohesion: ToeicLecture = {
   level: "intermediate",
   targetScore: "750+",
   description:
-    "Half of Part 6 mistakes come from picking a connector that fits ONE sentence but breaks the paragraph's logic flow. The Before/After Rule fixes this in 10 seconds per question.",
+    "Connectors and inserted sentences must link the surrounding ideas. Check references, logical relationships and the timeline, then read wider if local context is insufficient.",
   descriptionVi:
-    "Một nửa lỗi Part 6 do chọn liên từ khớp 1 câu nhưng phá mạch logic đoạn. Quy tắc Trước/Sau sửa lỗi trong 10 giây/câu.",
+    "Từ nối và câu chèn phải liên kết ý xung quanh. Kiểm tra tham chiếu, quan hệ logic và trục thời gian; đọc rộng hơn nếu chưa đủ ngữ cảnh.",
   trapAlerts: [
     { trap: "Picking ‘however’ when no contrast exists", trapVi: "Chọn ‘however’ khi không có tương phản", why: "Connector must match the LOGIC between sentences, not the sound of one.", whyVi: "Liên từ phải khớp LOGIC giữa các câu, không phải âm thanh 1 câu." },
     { trap: "Verb tense mismatch with surrounding paragraph", trapVi: "Sai thì so với đoạn xung quanh", why: "Look at tenses TWO sentences before and after to decide.", whyVi: "Xem thì 2 câu trước và sau để quyết." },
@@ -342,8 +342,8 @@ const part6Cohesion: ToeicLecture = {
   ],
   businessContext: "Part 6 texts mimic real business memos, notices and emails - cohesion skill carries straight into the workplace.",
   businessContextVi: "Văn bản Part 6 mô phỏng memo, thông báo, email công sở - kỹ năng cohesion áp dụng trực tiếp ở công sở.",
-  proSpeedTip: "Don't read the entire passage twice. Read the 1 sentence before + 1 sentence after the blank - that's 80 % of the context you need.",
-  proSpeedTipVi: "Đừng đọc cả bài 2 lần. Đọc 1 câu trước + 1 câu sau chỗ trống - đủ 80% ngữ cảnh cần thiết.",
+  proSpeedTip: "Start with the sentence before and after the blank. Expand to the paragraph or full text whenever a reference, tense or purpose remains unclear.",
+  proSpeedTipVi: "Bắt đầu với câu trước và sau chỗ trống. Đọc rộng ra đoạn hay cả bài khi tham chiếu, thì hoặc mục đích chưa rõ.",
   vocabHighlights: [
     { word: "consequently", definition: "As a result.", definitionVi: "Kết quả là.", example: "Sales rose; consequently, profits doubled.", businessContext: "Cause-effect signals." },
     { word: "in contrast", definition: "On the other hand.", definitionVi: "Ngược lại.", example: "In contrast, Asian markets cooled.", businessContext: "Comparison signals." },
@@ -397,8 +397,8 @@ const part7Email: ToeicLecture = {
     { step: 4, title: "Cross-check dates with any attachment", titleVi: "Đối chiếu ngày với file đính kèm", description: "‘What date will the event happen?’ may need the attachment, not the email body.", descriptionVi: "‘Sự kiện diễn ra ngày nào?’ có thể cần file, không phải thân email." },
   ],
   practiceSet: [
-    { context: "Email 1 (From: Lin To: Carlos) - request quote", contextVi: "Email 1 - yêu cầu báo giá", question: "Who is requesting a quote?", options: ["Carlos", "Lin", "The CC recipient", "An attached supplier"], answer: 1, explanation: "Sender of email 1 (Lin) made the request.", explanationVi: "Người gửi email 1 (Lin) yêu cầu." },
-    { context: "Email 2 (From: Carlos To: Lin) - agrees, attaches PDF", contextVi: "Email 2 - đồng ý, đính kèm PDF", question: "What has Carlos included with his reply?", options: ["Cancel the order", "Email the price list", "Call the warehouse", "Visit Lin's office"], answer: 1, explanation: "'I have attached our latest price list' shows a completed action: he included the price list, not a promised future action.", explanationVi: "'I have attached our latest price list' shows a completed action: he included the price list, not a promised future action." },
+    { context: "Email 1 - From Lin to Carlos: Please send your current price list for our event on 14 May. Email 2 - From Carlos to Lin: I have attached our latest price list and the event schedule.", contextVi: "Email 1 - Lin gửi Carlos: Vui lòng gửi bảng giá cho sự kiện 14/5. Email 2 - Carlos gửi Lin: Tôi đã đính kèm bảng giá mới và lịch sự kiện.", question: "Who is requesting a quote?", options: ["Carlos", "Lin", "The CC recipient", "An attached supplier"], answer: 1, explanation: "Sender of email 1 (Lin) made the request.", explanationVi: "Người gửi email 1 (Lin) yêu cầu." },
+    { context: "From Carlos to Lin: I have attached our latest price list and the event schedule. Please review them and tell me how many chairs you need.", contextVi: "Carlos gửi Lin: Tôi đã đính kèm bảng giá mới và lịch sự kiện. Vui lòng xem và báo số ghế cần.", question: "What has Carlos included with his reply?", options: ["A cancellation notice", "The latest price list", "Warehouse directions", "A job application"], answer: 1, explanation: "'I have attached our latest price list' shows a completed action: he included the price list, not a promised future action.", explanationVi: "'I have attached our latest price list' shows a completed action: he included the price list, not a promised future action." },
     { context: "Attached PDF: event date is 14 May", contextVi: "PDF đính kèm: sự kiện 14/5", question: "When will the event take place?", options: ["10 May", "12 May", "14 May", "20 May"], answer: 2, explanation: "Date comes from the ATTACHMENT, not the body.", explanationVi: "Ngày lấy từ FILE ĐÍNH KÈM, không phải thân email." },
   ],
   businessContext: "Email-thread passages mirror everyday workplace communication; mastering them strengthens both your TOEIC and real-job inbox.",
@@ -443,9 +443,9 @@ const businessFinance: ToeicLecture = {
   level: "intermediate",
   targetScore: "750+",
   description:
-    "TOEIC tests finance vocabulary in ~12 questions per exam. Master these 15 essentials and you unlock easy points across Parts 5-7 and Listening Parts 3-4.",
+    "Learn finance terms in reports, invoices and business correspondence. Distinguish revenue, profit, expenses and yield through their collocations and context.",
   descriptionVi:
-    "TOEIC kiểm tra từ vựng tài chính ~12 câu/đề. Nắm 15 từ cốt lõi dưới đây mở khóa điểm dễ ở Part 5-7 và Part 3-4 nghe.",
+    "Học thuật ngữ tài chính trong báo cáo, hóa đơn và thư công sở. Phân biệt revenue, profit, expenses và yield qua cụm từ và ngữ cảnh.",
   trapAlerts: [
     { trap: "‘Profit’ vs ‘revenue’ vs ‘income’", trapVi: "‘Profit’ vs ‘revenue’ vs ‘income’", why: "Revenue = total sales; profit = revenue − costs; income may include non-sales.", whyVi: "Revenue = tổng doanh thu; profit = doanh thu − chi phí; income có thể gồm thu nhập khác." },
     { trap: "‘Expense’ vs ‘expenditure’", trapVi: "‘Expense’ vs ‘expenditure’", why: "Synonyms but expenditure is more formal and often plural in scope (capital expenditure).", whyVi: "Đồng nghĩa nhưng expenditure trang trọng và rộng hơn (capital expenditure)." },
@@ -504,9 +504,9 @@ const speedSkimScan: ToeicLecture = {
   level: "advanced",
   targetScore: "900+",
   description:
-    "Part 7 contains 54 questions across 15 passages - there's no time to read everything. The Skim-and-Scan Loop is a 4-step routine elite candidates use to finish on time with 90 %+ accuracy.",
+    "Part 7 has 54 questions in single and multiple-document sets. Build a document map, locate relevant evidence and read it carefully; adapt pacing to your measured practice performance.",
   descriptionVi:
-    "Part 7 có 54 câu trong 15 đoạn - không đủ thời gian đọc hết. Vòng Skim-and-Scan là quy trình 4 bước thí sinh top dùng để hoàn thành đúng giờ với độ chính xác 90%+.",
+    "Part 7 có 54 câu trong bộ đơn và nhiều văn bản. Lập sơ đồ nội dung, tìm và đọc kỹ bằng chứng; điều chỉnh nhịp theo kết quả luyện thực tế.",
   trapAlerts: [
     { trap: "Reading every word of every passage", trapVi: "Đọc kỹ từng chữ mọi đoạn", why: "You'll run out of time before reaching the triple passages.", whyVi: "Sẽ hết giờ trước khi tới triple passages." },
     { trap: "Spending >90 seconds on a single-passage question", trapVi: "Dành >90 giây cho 1 câu single-passage", why: "Budget = ~75 sec single, ~90 sec double, ~100 sec triple. Over-budget = next-set damage.", whyVi: "Ngân sách = ~75 giây single, ~90 giây double, ~100 giây triple. Vượt = hỏng bộ tiếp." },
@@ -519,9 +519,9 @@ const speedSkimScan: ToeicLecture = {
     { step: 4, title: "VERIFY with the surrounding sentence", titleVi: "XÁC NHẬN bằng câu xung quanh", description: "Read 1 sentence above + 1 below before locking the answer.", descriptionVi: "Đọc 1 câu trên + 1 câu dưới trước khi chốt." },
   ],
   practiceSet: [
-    { context: "Notice about office closure", contextVi: "Thông báo đóng cửa văn phòng", question: "Where would this notice most likely appear?", options: ["A magazine ad", "A bulletin board in the office", "A textbook", "A receipt"], answer: 1, explanation: "Office notices live on bulletin boards / intranet.", explanationVi: "Thông báo nội bộ trên bảng tin / intranet." },
-    { context: "Advertisement for a new gym", contextVi: "Quảng cáo phòng gym mới", question: "What is the main purpose of the ad?", options: ["To recruit staff", "To promote a membership offer", "To complain", "To audit the gym"], answer: 1, explanation: "Ads with discount language → promote offer.", explanationVi: "Quảng cáo có giảm giá → khuyến mãi." },
-    { context: "Triple passage: invoice + email + reply", contextVi: "Triple: hóa đơn + email + trả lời", question: "Which document shows the discount amount?", options: ["The reply only", "The invoice only", "The email only", "All three"], answer: 1, explanation: "The discount amount is shown on this invoice. Other document sets may state figures in emails, advertisements or replies, so verify all relevant texts.", explanationVi: "Bộ này ghi giảm giá trên hóa đơn. Bộ khác có thể ghi số ở email, quảng cáo hay thư trả lời; đối chiếu văn bản liên quan." },
+    { context: "Staff notice: Our office will close on Friday for maintenance. Please work remotely and contact your manager if you need access to equipment.", contextVi: "Thông báo đóng cửa văn phòng", question: "Where would this notice most likely appear?", options: ["A magazine ad", "A bulletin board in the office", "A textbook", "A receipt"], answer: 1, explanation: "Office notices live on bulletin boards / intranet.", explanationVi: "Thông báo nội bộ trên bảng tin / intranet." },
+    { context: "FitLife gym advertisement: Join this month and receive your first month at half price. Membership includes access to fitness classes. Offer ends 30 June.", contextVi: "Quảng cáo phòng gym mới", question: "What is the main purpose of the ad?", options: ["To recruit staff", "To promote a membership offer", "To complain", "To audit the gym"], answer: 1, explanation: "Ads with discount language → promote offer.", explanationVi: "Quảng cáo có giảm giá → khuyến mãi." },
+    { context: "Invoice: Subtotal $200; discount $20; total $180. Email: Please send the invoice for our order. Reply: The invoice is attached; payment is due Friday.", contextVi: "Triple: hóa đơn + email + trả lời", question: "Which document shows the discount amount?", options: ["The reply only", "The invoice only", "The email only", "All three"], answer: 1, explanation: "The discount amount is shown on this invoice. Other document sets may state figures in emails, advertisements or replies, so verify all relevant texts.", explanationVi: "Bộ này ghi giảm giá trên hóa đơn. Bộ khác có thể ghi số ở email, quảng cáo hay thư trả lời; đối chiếu văn bản liên quan." },
   ],
   businessContext: "Skim-and-scan is the same skill you use on real-job emails, contracts and dashboards - TOEIC's reading section trains it directly.",
   businessContextVi: "Skim-and-scan là kỹ năng dùng email, hợp đồng, dashboard công việc thực - TOEIC reading luyện trực tiếp.",
@@ -540,7 +540,7 @@ const speedSkimScan: ToeicLecture = {
     { question: "Time budget for a single-passage question:", options: ["~30 sec", "~75 sec", "~3 min", "Unlimited"], answer: 1, explanation: "~75 seconds keeps you on pace for the full section." },
     { question: "When scanning, your eyes should:", options: ["Read every word", "Move zigzag, stopping on caps/numbers/bold", "Close briefly", "Read right-to-left"], answer: 1, explanation: "Zigzag scanning is the fastest pattern." },
     { question: "If a question takes >90 sec, you should:", options: ["Keep trying", "Choose the best remaining option and flag", "Skip the next 2 questions", "Stop the test"], answer: 1, explanation: "Mark and flag - protect time for later questions." },
-    { question: "Where do numbers usually live in a triple passage?", options: ["Email", "Invoice", "Reply email", "Footer"], answer: 1, explanation: "Invoices carry the figures." },
+    { question: "Where should you check a discount amount in a multiple-document set?", options: ["Only the first email", "All relevant documents identified by the question", "Always the invoice only", "Never the reply"], answer: 1, explanation: "Figures may be in an advertisement, invoice or correspondence. Identify the requested figure and verify it against the relevant documents." },
     { question: "Before locking the answer, you should:", options: ["Re-read the entire passage", "Verify with 1 sentence above + 1 below", "Skip verification", "Translate"], answer: 1, explanation: "Verify by reading the immediate surroundings only." },
   ],
   cheatSheetPoints: [
