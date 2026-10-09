@@ -12,10 +12,17 @@ import PythonProgressChart from "@/components/programming/PythonProgressChart";
 import { usePythonChallengeProgress } from "@/hooks/usePythonChallengeProgress";
 import headerImage from "@/assets/python-challenges-header.jpg";
 import { isPythonChallengeUnlocked } from "@/lib/pythonChallengeProgress";
+import superheroFly from "@/assets/python-superhero-fly.png";
+import superheroCode from "@/assets/python-superhero-code.png";
+import superheroCelebrate from "@/assets/python-superhero-celebrate.png";
+import superheroIdea from "@/assets/python-superhero-idea.png";
+import superheroShield from "@/assets/python-superhero-shield.png";
+import superheroRocket from "@/assets/python-superhero-rocket.png";
 
 const SECTIONS = ["all", ...new Set(pythonChallenges.map(c => c.section))];
 const PAGE_SIZE = 30;
 const TILE_CLASSES = { easy: "python-challenge-tile--easy", medium: "python-challenge-tile--medium", hard: "python-challenge-tile--hard" };
+const SUPERHERO_POSES = [superheroFly, superheroCode, superheroCelebrate, superheroIdea, superheroShield, superheroRocket];
 
 const PythonChallengeList = () => {
   const { t } = useLanguage();
@@ -71,13 +78,16 @@ const PythonChallengeList = () => {
                 const contents = <>
                   <div className="python-tile-toolbar flex items-center justify-between gap-2 px-4 py-2.5"><span className="flex min-w-0 items-center gap-2 font-mono text-xs"><Terminal className="h-3.5 w-3.5 shrink-0" />challenge_{c.id}.py</span><span className="python-tile-dots flex gap-1" aria-hidden="true"><i /><i /><i /></span></div>
                   <div className="relative flex flex-1 flex-col p-4">
-                    <div className="mb-4 flex items-center justify-between gap-2"><span className="python-tile-icon flex h-10 w-10 items-center justify-center rounded-lg">{done ? <CheckCircle className="h-5 w-5" /> : unlocked ? <Braces className="h-5 w-5" /> : <LockKeyhole className="h-5 w-5" />}</span><span className="python-challenge-difficulty font-mono text-[11px] font-semibold">#{c.id}</span></div>
+                    <div className="mb-3 flex h-24 items-center justify-between gap-3">
+                      <img src={SUPERHERO_POSES[(Number(c.id) - 1) % SUPERHERO_POSES.length]} width={384} height={384} loading="lazy" alt="" aria-hidden="true" className="h-24 w-24 shrink-0 object-contain motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover:-translate-y-1 motion-safe:group-hover:rotate-3 motion-safe:group-hover:scale-105" />
+                      <div className="flex flex-col items-end gap-3"><span className="python-challenge-difficulty font-mono text-[11px] font-semibold">#{c.id}</span><span className="python-tile-icon flex h-9 w-9 items-center justify-center rounded-lg">{done ? <CheckCircle className="h-5 w-5" /> : unlocked ? <Braces className="h-5 w-5" /> : <LockKeyhole className="h-5 w-5" />}</span></div>
+                    </div>
                     <h3 className="mb-2 text-base font-semibold leading-snug text-foreground">{t(c.titleVi, c.title)}</h3>
                     <p className="mb-5 line-clamp-1 text-xs text-muted-foreground">{c.section}</p>
                     <div className="mt-auto flex items-center justify-between gap-2 border-t border-border/60 pt-3"><span className="python-tile-status flex items-center gap-1.5 text-xs font-semibold">{done ? <CheckCircle className="h-3.5 w-3.5" /> : unlocked ? <Code2 className="h-3.5 w-3.5" /> : <LockKeyhole className="h-3.5 w-3.5" />}{status}</span><span className="python-challenge-difficulty font-mono text-[10px] uppercase">{t(c.difficulty === "easy" ? "Cơ bản" : c.difficulty === "medium" ? "Trung cấp" : "Nâng cao", c.difficulty)}</span></div>
                   </div>
                 </>;
-                const tileClass = `python-challenge-tile ${TILE_CLASSES[c.difficulty]} ${done ? "python-tile--done" : unlocked ? "python-tile--ready" : "python-tile--locked"} group flex min-h-60 flex-col overflow-hidden rounded-lg border text-left`;
+                const tileClass = `python-challenge-tile ${TILE_CLASSES[c.difficulty]} ${done ? "python-tile--done" : unlocked ? "python-tile--ready" : "python-tile--locked"} group flex min-h-72 flex-col overflow-hidden rounded-lg border text-left`;
                 return unlocked ? <Link key={c.id} to={`/python-challenges/${c.id}`} className={tileClass} aria-label={`${c.id}: ${t(c.titleVi, c.title)} - ${status}`}>{contents}</Link> : <div key={c.id} className={tileClass} aria-disabled="true" title={loading ? t("Đang tải tiến độ", "Loading progress") : t(`Hoàn thành bài ${nextChallenge?.id ?? "001"} để tiếp tục mở khóa.`, `Complete challenge ${nextChallenge?.id ?? "001"} to continue unlocking.`)}>{contents}</div>;
               })}
             </div>
