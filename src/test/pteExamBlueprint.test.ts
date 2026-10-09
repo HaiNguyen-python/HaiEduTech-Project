@@ -26,4 +26,10 @@ describe("PTE Academic blueprint", () => {
     expect(ids).toContain("respond-to-situation");
     expect(ids).toContain("summarize-group-discussion");
   });
+
+  it("links every available item type to an active practice route", () => {
+    for (const item of PTE_SCORED_ITEM_TYPES.filter(entry => entry.available)) {
+      expect(item.practiceRoute).toMatch(/^\/pte\//);
+    }
+  });
 });

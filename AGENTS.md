@@ -33,4 +33,4 @@
 
 - Dictionary uses local Finnish entries and deferred English translations; request IDs reject stale results for fast safe searches.
 - IELTS lesson summaries use subject visuals and evidence checks, not grammar defaults.
-- PTE uses one 22-scored-type blueprint and protected attempt records; label heuristic results as practice estimates.
+- PTE uses one 22-scored-type blueprint, shared objective scoring, and protected attempt records; label local or heuristic results as practice estimates.
