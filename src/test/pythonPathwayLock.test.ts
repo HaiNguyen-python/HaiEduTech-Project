@@ -16,3 +16,10 @@ describe("python pathway lock", () => {
     expect(isPythonProgramComplete({}, 150)).toBe(false);
   });
 });
+
+import { pythonPlaygroundTasks } from "@/data/pythonPlaygroundTasks";
+describe("playground tasks", () => {
+  it("every book chapter has a playground brief", () => {
+    for (const l of pythonLessons) expect(pythonPlaygroundTasks[l.id]?.steps.length, l.id).toBeGreaterThan(0);
+  });
+});
