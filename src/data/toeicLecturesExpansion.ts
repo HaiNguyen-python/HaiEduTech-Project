@@ -29,8 +29,8 @@ const part1StateAction: ToeicLecture = {
     {
       trap: "'The car is being washed' when no one is in the photo",
       trapVi: "'Xe đang được rửa' nhưng trong ảnh không có ai",
-      why: "'Is being + V3' requires a visible person performing the action right now.",
-      whyVi: "'Is being + V3' yêu cầu phải thấy người đang thực hiện hành động.",
+      why: "An ongoing passive needs visible evidence of the action, not necessarily a person: a machine can wash a vehicle. A finished-looking scene alone does not establish an ongoing action.",
+      whyVi: "Bị động tiếp diễn cần bằng chứng hành động đang xảy ra, không bắt buộc có người: máy có thể rửa xe. Cảnh đã hoàn tất không chứng minh hành động đang diễn ra.",
     },
     {
       trap: "'Has been parked' when a car is moving",
@@ -40,8 +40,8 @@ const part1StateAction: ToeicLecture = {
     },
   ],
   coreTechnique: [
-    { step: 1, title: "Scan for people", titleVi: "Quét xem có người không", description: "If NO person → eliminate all 'is being + V3' choices.", descriptionVi: "Nếu KHÔNG có người → loại tất cả 'is being + V3'." },
-    { step: 2, title: "Check motion vs. stillness", titleVi: "Xem chuyển động hay đứng yên", description: "Moving objects → use present continuous active. Still objects → 'has been + V3'.", descriptionVi: "Vật chuyển động → dùng tiếp diễn chủ động. Vật đứng yên → 'has been + V3'." },
+    { step: 1, title: "Scan for people", titleVi: "Quét xem có người không", description: "Check for an ongoing process, including machines. Do not eliminate a passive solely because no person is visible.", descriptionVi: "Kiểm tra quá trình đang diễn ra, kể cả máy móc. Không loại bị động chỉ vì không thấy người." },
+    { step: 2, title: "Check motion vs. stillness", titleVi: "Xem chuyển động hay đứng yên", description: "Both active and passive statements may describe a photograph. Verify motion or arrangement against the full sentence rather than choosing a tense automatically.", descriptionVi: "Chủ động và bị động đều có thể mô tả ảnh. Đối chiếu chuyển động hay cách sắp xếp với toàn câu, không tự động chọn một thì." },
     { step: 3, title: "Match exact location prepositions", titleVi: "Khớp chính xác giới từ vị trí", description: "'On' (touching surface) ≠ 'above' (no contact) ≠ 'next to' (beside).", descriptionVi: "'On' (chạm) ≠ 'above' (không chạm) ≠ 'next to' (cạnh)." },
   ],
   practiceSet: [
@@ -57,19 +57,19 @@ const part1StateAction: ToeicLecture = {
   ],
   businessContext: "Office and workplace photos dominate Part 1. Knowing passive states helps describe environments.",
   businessContextVi: "Ảnh văn phòng chiếm đa số Part 1. Hiểu thể bị động giúp mô tả môi trường chính xác.",
-  proSpeedTip: "💡 If you hear 'is being' but see no person, eliminate immediately - saves 3 seconds per question.",
-  proSpeedTipVi: "💡 Nghe 'is being' mà không thấy người → loại ngay, tiết kiệm 3 giây/câu.",
+  proSpeedTip: "Check whether the photograph supports an ongoing action or only a resulting arrangement. No visible person is not an automatic tense rule.",
+  proSpeedTipVi: "Xem ảnh thể hiện hành động đang diễn ra hay cách sắp xếp đã có. Không thấy người không phải quy tắc tự động loại thì.",
   vocabHighlights: [
     { word: "stacked", definition: "piled on top of each other", definitionVi: "xếp chồng", example: "Boxes are stacked in the corner.", businessContext: "warehouse/office" },
     { word: "displayed", definition: "shown for viewing", definitionVi: "trưng bày", example: "Products are displayed on shelves." },
     { word: "occupied", definition: "in use / taken", definitionVi: "đang được sử dụng", example: "All seats are occupied." },
   ],
   quiz: [
-    { question: "When can you use 'is being painted'?", options: ["Painter is visible", "Wall looks fresh", "Paint can is on floor", "Room is empty"], answer: 0, explanation: "Action in progress requires a visible agent." },
+    { question: "When can you use 'is being painted'?", options: ["Painter is visible", "Wall looks fresh", "Paint can is on floor", "Room is empty"], answer: 0, explanation: "The visible painting action supports an ongoing passive; fresh paint alone does not." },
     { question: "'The boxes ___ on the shelves' (no person in photo)", options: ["are being placed", "have been placed", "are placing", "place"], answer: 1, explanation: "Static state, no agent → 'have been placed'." },
   ],
   cheatSheetPoints: [
-    "🚫 No person + 'is being V3' = WRONG",
+    "Check for evidence of the ongoing action, including machinery",
     "✅ Empty result scene = 'has/have been V3'",
     "👁️ Match prepositions to physical contact",
   ],
@@ -92,12 +92,12 @@ const part2WhDecoder: ToeicLecture = {
   description: "Master the 7 Wh-words (Who/What/When/Where/Why/Which/How) - each demands a SPECIFIC answer type.",
   descriptionVi: "Làm chủ 7 từ Wh - mỗi từ yêu cầu một loại trả lời CỤ THỂ.",
   trapAlerts: [
-    { trap: "Answering 'Where' question with 'Yes/No'", trapVi: "Trả lời câu 'Where' bằng 'Yes/No'", why: "Wh-questions NEVER take Yes/No.", whyVi: "Câu Wh KHÔNG BAO GIỜ trả lời Yes/No." },
-    { trap: "Repeating words from the question", trapVi: "Lặp từ trong câu hỏi", why: "Repeated words = 90% wrong (distractor trap).", whyVi: "Từ lặp = 90% sai (bẫy)." },
+    { trap: "Answering 'Where' question with 'Yes/No'", trapVi: "Trả lời câu 'Where' bằng 'Yes/No'", why: "A bare yes/no normally does not provide requested information. Listen to the full response: 'No, it is beside the printer' can correct an assumption and supply a location.", whyVi: "Chỉ yes/no thường không cung cấp thông tin được hỏi. Nghe cả đáp án: 'No, it is beside the printer' có thể sửa hiểu nhầm và cung cấp địa điểm." },
+    { trap: "Repeating words from the question", trapVi: "Lặp từ trong câu hỏi", why: "Repeated wording may appear in correct answers and distractors. Check whether the full response answers the speaker's intention.", whyVi: "Từ lặp có thể xuất hiện ở cả đáp án đúng và nhiễu. Kiểm tra cả câu có đáp ứng ý người hỏi không." },
   ],
   coreTechnique: [
     { step: 1, title: "Lock the first word", titleVi: "Khóa chữ đầu tiên", description: "Who→person, When→time, Where→place, Why→reason, How→method, How much/many→quantity.", descriptionVi: "Who→người, When→thời gian, Where→nơi chốn, Why→lý do, How→cách thức, How much/many→số lượng." },
-    { step: 2, title: "Reject Yes/No answers", titleVi: "Loại đáp án Yes/No", description: "If you hear 'Yes' or 'No' for a Wh-question → automatic eliminate.", descriptionVi: "Nghe Yes/No cho câu Wh → loại ngay." },
+    { step: 2, title: "Check the complete response", titleVi: "Kiểm tra toàn bộ phản hồi", description: "Reject replies that fail to address the requested information or conversational purpose, not every reply beginning with yes/no.", descriptionVi: "Loại phản hồi không đáp ứng thông tin hay mục đích hỏi, không loại mọi câu bắt đầu yes/no." },
     { step: 3, title: "Watch for indirect answers", titleVi: "Cảnh giác trả lời gián tiếp", description: "'I don't know', 'Let me check', 'Ask Mark' are often correct.", descriptionVi: "'I don't know', 'Let me check', 'Ask Mark' thường ĐÚNG." },
   ],
   practiceSet: [
@@ -113,8 +113,8 @@ const part2WhDecoder: ToeicLecture = {
   ],
   businessContext: "Workplace dialogues constantly use Wh-questions for scheduling, location, responsibility.",
   businessContextVi: "Hội thoại công sở liên tục dùng câu Wh để hỏi lịch, địa điểm, trách nhiệm.",
-  proSpeedTip: "💡 If you miss the first word → guess C and move on. Don't lose the next 2 questions trying to recover.",
-  proSpeedTipVi: "💡 Nếu lỡ chữ đầu → đoán C và đi tiếp. Đừng mất 2 câu sau vì cố cứu.",
+  proSpeedTip: "If you miss the opening, use the remaining question and all responses to eliminate mismatches. Guess among plausible choices if needed, then refocus on the next item.",
+  proSpeedTipVi: "Lỡ phần đầu thì dùng phần còn nghe được và toàn bộ phản hồi để loại sai. Nếu cần, đoán trong đáp án còn hợp lý rồi tập trung câu tiếp.",
   vocabHighlights: [
     { word: "due", definition: "expected to be ready/paid", definitionVi: "đến hạn", example: "The invoice is due tomorrow.", businessContext: "deadlines" },
     { word: "in charge", definition: "responsible for", definitionVi: "phụ trách", example: "Who's in charge of marketing?" },
@@ -125,7 +125,7 @@ const part2WhDecoder: ToeicLecture = {
   ],
   cheatSheetPoints: [
     "🔑 First word = answer category",
-    "❌ Yes/No NEVER answers Wh",
+    "A bare yes/no rarely supplies WH information; check the full reply",
     "✅ 'Let me check' / 'Ask X' = often correct",
   ],
   isNew: true,
@@ -157,19 +157,19 @@ const part3Intent: ToeicLecture = {
   ],
   practiceSet: [
     {
-      context: "After hearing a long complaint, the manager says 'Well, that's certainly… interesting.'",
-      contextVi: "Sau khi nghe than phiền dài, quản lý nói 'Ờ, thú vị nhỉ…'",
+      context: "Employee: I think we should cancel the supplier contract. Manager: I appreciate the concern, but the delays were caused by our own late orders. Cancelling would not solve that problem.",
+      contextVi: "Nhân viên: Nên hủy hợp đồng nhà cung cấp. Quản lý: Tôi hiểu lo ngại, nhưng trễ là do ta đặt muộn. Hủy không giải quyết vấn đề ấy.",
       question: "What does the manager mean?",
       options: ["She finds it fascinating.", "She wants more details.", "She doesn't agree but stays polite.", "She will fix it."],
       answer: 2,
-      explanation: "Hesitation + 'certainly… interesting' = polite disagreement.",
-      explanationVi: "Ngập ngừng + 'thú vị nhỉ' = bất đồng lịch sự.",
+      explanation: "The manager acknowledges the concern but explicitly rejects the proposed solution, supporting polite disagreement rather than an inference from hesitation alone.",
+      explanationVi: "Quản lý ghi nhận lo ngại nhưng bác đề xuất rõ ràng, chứng minh bất đồng lịch sự thay vì đoán từ ngập ngừng.",
     },
   ],
   businessContext: "Indirect speech is essential in workplace politeness; intent questions reflect real boardroom dynamics.",
   businessContextVi: "Lời nói gián tiếp quan trọng trong giao tiếp công sở lịch sự.",
-  proSpeedTip: "💡 If quoted line is short and casual ('Sure', 'Right'), 80% chance the intent is sarcasm or doubt.",
-  proSpeedTipVi: "💡 Câu trích ngắn ('Sure', 'Right') → 80% là mỉa mai hoặc nghi ngờ.",
+  proSpeedTip: "Short replies such as Sure or Right can signal agreement or doubt. Use the surrounding dialogue and audible tone; length alone gives no answer.",
+  proSpeedTipVi: "Sure hay Right có thể đồng ý hoặc nghi ngờ. Dựa vào hội thoại và giọng nói; độ dài không quyết định đáp án.",
   vocabHighlights: [
     { word: "imply", definition: "suggest indirectly", definitionVi: "ngụ ý", example: "She implied that we should leave." },
     { word: "hesitate", definition: "pause before speaking", definitionVi: "do dự", example: "He hesitated before answering." },
@@ -207,7 +207,7 @@ const part4Announcements: ToeicLecture = {
   coreTechnique: [
     { step: 1, title: "Identify the announcement type from first 5 seconds", titleVi: "Nhận diện loại thông báo trong 5 giây đầu", description: "Airport/Train station, Store/Sale, Office meeting, Building maintenance, Weather alert.", descriptionVi: "Sân bay/ga, cửa hàng/giảm giá, họp văn phòng, bảo trì tòa nhà, cảnh báo thời tiết." },
     { step: 2, title: "Listen for the 'action verb'", titleVi: "Nghe động từ hành động", description: "'Please proceed', 'kindly visit', 'do not forget' = next answer cue.", descriptionVi: "'Please proceed', 'kindly visit' = gợi ý đáp án tiếp theo." },
-    { step: 3, title: "Predict 'why', 'what to do', 'where to go'", titleVi: "Đoán 'vì sao', 'làm gì', 'đi đâu'", description: "These 3 questions appear in 90% of announcements.", descriptionVi: "3 câu này xuất hiện trong 90% thông báo." },
+    { step: 3, title: "Predict 'why', 'what to do', 'where to go'", titleVi: "Đoán 'vì sao', 'làm gì', 'đi đâu'", description: "These are useful categories, but read the actual question stems: a set can ask for a reason, a detail, intention or graphic information.", descriptionVi: "Đây là nhóm để luyện; đọc câu hỏi thực tế vì đề có thể hỏi lý do, chi tiết, ý định hoặc thông tin biểu đồ." },
   ],
   practiceSet: [
     {
@@ -222,8 +222,8 @@ const part4Announcements: ToeicLecture = {
   ],
   businessContext: "Announcements are everyday business communication - shoppers, employees, travelers all hear them.",
   businessContextVi: "Thông báo là giao tiếp công sở hằng ngày.",
-  proSpeedTip: "💡 First 10 words = location & purpose. Skip the rest if running out of time.",
-  proSpeedTipVi: "💡 10 từ đầu = địa điểm + mục đích. Bỏ phần còn lại nếu hết giờ.",
+  proSpeedTip: "Use the opening to form a hypothesis about location and purpose. Keep listening for details, changes and requested actions.",
+  proSpeedTipVi: "Dùng phần mở để dự đoán địa điểm, mục đích. Tiếp tục nghe chi tiết, thay đổi và hành động được yêu cầu.",
   vocabHighlights: [
     { word: "proceed", definition: "go forward", definitionVi: "tiến tới", example: "Please proceed to gate B12.", businessContext: "airport" },
     { word: "complimentary", definition: "free", definitionVi: "miễn phí", example: "Enjoy complimentary refreshments." },
@@ -234,7 +234,7 @@ const part4Announcements: ToeicLecture = {
   cheatSheetPoints: [
     "📍 First 10 words = location + purpose",
     "🎬 Action verbs cue answers",
-    "❓ Why / What / Where = 90% of Qs",
+    "Read the actual stems; question categories and order vary",
   ],
   isNew: true,
 };
@@ -243,7 +243,7 @@ const part4Announcements: ToeicLecture = {
 // 5. Part 5 Word Forms - Suffixes Decoded
 // ============================================================
 const part5WordForms: ToeicLecture = {
-  id: "toeic-part5-word-forms",
+  id: "toeic-part5-word-forms-suffixes",
   title: "Part 5 Word Forms: Suffixes Decode Position",
   titleVi: "Part 5: Hình thức từ - Hậu tố giải mã vị trí",
   category: "grammar",
@@ -273,8 +273,8 @@ const part5WordForms: ToeicLecture = {
       explanationVi: "Sau 'provides' cần TÂN NGỮ (DT) → 'protection'.",
     },
   ],
-  businessContext: "Word-form questions = ~10 of 30 Part 5 questions. Mastering this alone adds 30+ points.",
-  businessContextVi: "Câu word-form = ~10/30 câu Part 5. Chỉ luyện cái này đã +30 điểm.",
+  businessContext: "Word forms are useful in Part 5. Question counts and scaled-score gains vary; identify the grammatical role before inspecting suffixes.",
+  businessContextVi: "Từ loại hữu ích cho Part 5. Số câu và mức tăng điểm thay đổi; xác định vai trò ngữ pháp trước khi xem hậu tố.",
   proSpeedTip: "💡 Cover the 4 options. Predict the part of speech FIRST, then match - 2× faster.",
   proSpeedTipVi: "💡 Che 4 đáp án, đoán từ loại TRƯỚC, rồi khớp - nhanh gấp 2.",
   vocabHighlights: [
@@ -360,15 +360,15 @@ const part7Not: ToeicLecture = {
   duration: "20 min",
   level: "intermediate",
   targetScore: "600+",
-  description: "Master 'Which is NOT mentioned?' questions - the time-sink that derails 30% of test takers.",
-  descriptionVi: "Làm chủ 'Câu nào KHÔNG được đề cập?' - bẫy thời gian khiến 30% thí sinh lệch giờ.",
+  description: "Answer NOT mentioned questions by locating support for three options and checking that the remaining option is absent across the relevant documents.",
+  descriptionVi: "Giải câu NOT mentioned bằng bằng chứng cho ba lựa chọn, rồi kiểm tra lựa chọn còn lại không có trong các văn bản liên quan.",
   trapAlerts: [
     { trap: "Trying to confirm the NOT-mentioned option directly", trapVi: "Cố tìm đáp án KHÔNG có", why: "You can't search for what's absent. You must verify what IS present.", whyVi: "Không thể tìm cái không có. Phải xác minh cái CÓ." },
   ],
   coreTechnique: [
-    { step: 1, title: "Convert to 3 elimination tasks", titleVi: "Chuyển thành 3 nhiệm vụ loại trừ", description: "For each of A, B, C, find evidence in passage. Whichever has NO evidence = answer.", descriptionVi: "Với A, B, C - tìm bằng chứng. Cái KHÔNG có = đáp án." },
+    { step: 1, title: "Convert to 3 elimination tasks", titleVi: "Chuyển thành 3 nhiệm vụ loại trừ", description: "Check all four options against the passage. Eliminate three supported statements; verify that the remaining statement is not mentioned.", descriptionVi: "Đối chiếu cả bốn lựa chọn với bài. Loại ba ý có bằng chứng; kiểm tra ý còn lại không được đề cập." },
     { step: 2, title: "Scan for keywords, not synonyms", titleVi: "Quét từ khóa, không quét từ đồng nghĩa", description: "TOEIC paraphrases - the 'mentioned' options will appear as synonyms.", descriptionVi: "TOEIC dùng từ đồng nghĩa - đáp án 'có' sẽ là từ tương đương." },
-    { step: 3, title: "Set 90-second timer", titleVi: "Đặt timer 90 giây", description: "If not solved in 90s, mark B and move on. NOT questions are the slowest type.", descriptionVi: "Quá 90 giây → đánh B và đi. Câu NOT là dạng chậm nhất." },
+    { step: 3, title: "Set 90-second timer", titleVi: "Đặt timer 90 giây", description: "Set a personal pacing checkpoint, not an official per-question limit. If stuck, eliminate supported choices, make your best guess and return if time permits.", descriptionVi: "Dùng mốc thời gian cá nhân, không phải giới hạn chính thức cho mỗi câu. Nếu mắc, loại ý có bằng chứng, chọn hợp lý nhất và quay lại khi còn giờ." },
   ],
   practiceSet: [
     {
@@ -435,8 +435,8 @@ const businessEmailVocab: ToeicLecture = {
       explanationVi: "'I'd like to take this opportunity' = trang trọng & lịch sự.",
     },
   ],
-  businessContext: "Part 6 & 7 emails account for ~35% of Reading section. Tone-matching is critical.",
-  businessContextVi: "Email Part 6 & 7 chiếm ~35% Reading.",
+  businessContext: "Emails are a common workplace text type. Match the wording to the actual relationship, purpose and surrounding message.",
+  businessContextVi: "Email là dạng văn bản công sở thường gặp. Khớp cách diễn đạt với quan hệ, mục đích và nội dung thư.",
   proSpeedTip: "💡 If a sentence sounds 'too casual' → it's likely wrong. TOEIC favors slight over-formality.",
   proSpeedTipVi: "💡 Câu nghe 'quá xuề xòa' → thường sai. TOEIC ưu ái hơi trang trọng.",
   vocabHighlights: [
@@ -492,10 +492,10 @@ const meetingNegotiationVocab: ToeicLecture = {
       explanationVi: "'Table' (Mỹ) = hoãn, hợp với 'đến quý sau'.",
     },
   ],
-  businessContext: "Meeting dialogues are 30% of Part 3/4 content.",
-  businessContextVi: "Hội thoại họp chiếm 30% Part 3/4.",
-  proSpeedTip: "💡 'Let's circle back' = revisit later. 'Touch base' = brief check-in. Memorize the 10 idioms - they're tested every test.",
-  proSpeedTipVi: "💡 'Let's circle back' = quay lại sau. 'Touch base' = trao đổi nhanh. Học 10 thành ngữ - luôn xuất hiện.",
+  businessContext: "Meeting vocabulary helps interpret agreements, proposals and follow-up actions in workplace conversations and documents; topic frequency varies.",
+  businessContextVi: "Từ họp giúp hiểu đồng thuận, đề xuất và hành động tiếp theo trong hội thoại và văn bản công sở; tần suất chủ đề thay đổi.",
+  proSpeedTip: "Circle back means revisit; touch base means make brief contact. Learn these phrases with context, without assuming they appear in every test.",
+  proSpeedTipVi: "Circle back là quay lại chủ đề; touch base là trao đổi ngắn. Học theo ngữ cảnh, không mặc định xuất hiện trong mọi đề.",
   vocabHighlights: [
     { word: "agenda", definition: "list of meeting topics", definitionVi: "chương trình họp", example: "Today's agenda has 5 items." },
     { word: "minutes", definition: "written meeting record", definitionVi: "biên bản họp", example: "Sarah will take the minutes." },
@@ -532,7 +532,7 @@ const score900Mindset: ToeicLecture = {
   description: "Beyond skills - the test-day strategy used by 990 scorers: pacing per part, triage rules, confidence anchors.",
   descriptionVi: "Vượt kỹ năng - chiến lược ngày thi của thí sinh 990: nhịp độ/phần, quy tắc phân loại, neo tự tin.",
   trapAlerts: [
-    { trap: "Re-checking answers when finishing early", trapVi: "Xem lại bài khi xong sớm", why: "Statistics show 60% of changes go from RIGHT to WRONG.", whyVi: "Thống kê: 60% sửa đổi đi từ ĐÚNG sang SAI." },
+    { trap: "Re-checking answers when finishing early", trapVi: "Xem lại bài khi xong sớm", why: "Review flagged answers when time allows. Change an answer when you find clear textual or grammatical evidence, not because of anxiety alone.", whyVi: "Xem lại câu đánh dấu khi còn giờ. Đổi khi tìm được bằng chứng văn bản hay ngữ pháp rõ ràng, không chỉ vì lo lắng." },
     { trap: "Spending >75 sec on a single Part 5 question", trapVi: "Mất >75 giây cho một câu Part 5", why: "Breaks pacing for the entire Reading section.", whyVi: "Phá nhịp cả phần Reading." },
   ],
   coreTechnique: [
@@ -551,10 +551,10 @@ const score900Mindset: ToeicLecture = {
       explanationVi: "Skim + đoán tốt cho bài khó nhất → tối đa câu đúng.",
     },
   ],
-  businessContext: "Test-day execution accounts for ~50 points of difference between 850 and 950 scorers.",
-  businessContextVi: "Chiến lược ngày thi tạo khác biệt ~50 điểm giữa 850 và 950.",
-  proSpeedTip: "💡 Eat carbs 90 min before test. Caffeine 30 min before. Drink minimal water (no breaks!).",
-  proSpeedTipVi: "💡 Ăn carb 90 phút trước thi. Caffeine 30 phút. Uống nước tối thiểu (không có giải lao!).",
+  businessContext: "Pacing and evidence-based review help you use your knowledge under time pressure; no fixed score gain is guaranteed.",
+  businessContextVi: "Nhịp độ và xem lại theo bằng chứng giúp vận dụng kiến thức dưới áp lực; không bảo đảm mức tăng điểm cố định.",
+  proSpeedTip: "Follow the test centre's instructions, sleep normally and use familiar food and hydration habits. Do not experiment with caffeine or restrict water for a score strategy.",
+  proSpeedTipVi: "Theo hướng dẫn điểm thi, ngủ đủ và giữ thói quen ăn uống quen thuộc. Không thử caffeine hay hạn chế nước để tăng điểm.",
   vocabHighlights: [
     { word: "triage", definition: "prioritize tasks by urgency", definitionVi: "phân loại ưu tiên", example: "Triage your weak spots before test day." },
     { word: "pacing", definition: "controlling speed", definitionVi: "kiểm soát tốc độ", example: "Pacing is everything in TOEIC Reading." },
@@ -566,8 +566,8 @@ const score900Mindset: ToeicLecture = {
   cheatSheetPoints: [
     "⏱️ P5:12 / P6:8 / P7:55 minutes",
     "🚫 NEVER leave blank",
-    "🔄 Don't change answers when reviewing",
-    "🍞 Carbs + caffeine, minimal water",
+    "Review and change only when supported by clear evidence",
+    "Follow centre instructions and familiar healthy routines",
   ],
   isNew: true,
 };

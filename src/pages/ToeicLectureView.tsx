@@ -232,7 +232,7 @@ const ToeicLectureView = () => {
                       <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-1" style={{ fontSize: "20px", lineHeight: "1.8" }}>
                         {t(step.titleVi, step.title)}
                       </h3>
-                      <p className="text-slate-700 dark:text-muted-foreground mb-2" style={{ fontSize: "20px", lineHeight: "1.8" }}>
+                      <p className="whitespace-pre-line text-slate-700 dark:text-muted-foreground mb-2" style={{ fontSize: "20px", lineHeight: "1.8" }}>
                         {t(step.descriptionVi, step.description)}
                       </p>
                       {step.example && (
@@ -248,7 +248,7 @@ const ToeicLectureView = () => {
               {lecture.practiceSet[0] && (
                 <section className="border-l-4 border-accent bg-secondary/60 px-5 py-5 sm:px-7">
                   <h3 className="mb-3 text-lg font-bold text-foreground">{t("Ví dụ giải chi tiết", "Worked example")}</h3>
-                  <p className="mb-2 text-sm text-muted-foreground">{t(lecture.practiceSet[0].contextVi, lecture.practiceSet[0].context)}</p>
+                  <p className="mb-2 whitespace-pre-line text-base leading-relaxed text-muted-foreground">{t(lecture.practiceSet[0].contextVi, lecture.practiceSet[0].context)}</p>
                   <p className="mb-3 font-semibold text-foreground">{lecture.practiceSet[0].question}</p>
                   <p className="mb-3 text-foreground">{t("Đáp án mẫu", "Model answer")}: <strong>{lecture.practiceSet[0].options[lecture.practiceSet[0].answer]}</strong></p>
                   <p className="text-foreground leading-relaxed">{t(lecture.practiceSet[0].explanationVi, lecture.practiceSet[0].explanation)}</p>

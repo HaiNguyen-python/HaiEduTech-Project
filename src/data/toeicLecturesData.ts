@@ -1259,8 +1259,8 @@ const part5Subjunctive: ToeicLecture = {
   ],
   businessContext: "The subjunctive is used extensively in formal business communication: board resolutions, legal requirements, company policies, and official recommendations.",
   businessContextVi: "Câu giả định dùng nhiều trong giao tiếp kinh doanh chính thức: nghị quyết hội đồng, yêu cầu pháp lý, chính sách công ty.",
-  proSpeedTip: "See trigger word + 'that'? → Pick the BASE FORM answer. It's always the uninflected verb (no -s, no -ed, no -ing).",
-  proSpeedTipVi: "Thấy từ kích hoạt + 'that'? → Chọn NGUYÊN THỂ. Luôn là động từ không chia (không -s, -ed, -ing).",
+  proSpeedTip: "For a requested or recommended action, check the base-form subjunctive or should + base form. For an asserted fact, use the tense supported by the context.",
+  proSpeedTipVi: "Với hành động yêu cầu hay đề xuất, xét giả định nguyên thể hoặc should + nguyên thể. Với sự thật được khẳng định, dùng thì phù hợp ngữ cảnh.",
   vocabHighlights: [
     { word: "mandate", definition: "to officially require", definitionVi: "bắt buộc chính thức", example: "The policy mandates that all employees undergo training.", businessContext: "Company policies" },
     { word: "imperative", definition: "absolutely necessary", definitionVi: "bắt buộc, cấp thiết", example: "It is imperative that the deadline be met.", businessContext: "Urgent business decisions" },

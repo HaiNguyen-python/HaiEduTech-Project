@@ -103,7 +103,7 @@ const ToeicLectureDiagram = ({ lectureId }: Props) => {
               <text x="50" y="60" textAnchor="middle" fill={C.textMute} fontSize="10">{b.ans}</text>
             </g>
           ))}
-          <text x="300" y="250" textAnchor="middle" fill={C.amberLight} fontSize="11" fontStyle="italic">⚡ 80% bài Part 2 quyết định bằng từ đầu tiên</text>
+          <text x="300" y="250" textAnchor="middle" fill={C.amberLight} fontSize="11" fontStyle="italic">Opening words are clues - listen to the full question and reply</text>
         </svg>
       </Wrapper>
     );
@@ -615,7 +615,7 @@ const ToeicLectureDiagram = ({ lectureId }: Props) => {
           <text x="300" y="170" textAnchor="middle" fill={C.text} fontSize="12" fontWeight="700">Polite refusal = NO</text>
           <text x="300" y="195" textAnchor="middle" fill={C.text} fontSize="11">Listen to BEFORE line</text>
           <text x="300" y="215" textAnchor="middle" fill={C.text} fontSize="11">Decode tone words</text>
-          <text x="300" y="235" textAnchor="middle" fill={C.textMute} fontSize="10" fontStyle="italic">90% of meaning is hidden</text>
+          <text x="300" y="235" textAnchor="middle" fill={C.textMute} fontSize="10" fontStyle="italic">Context and tone reveal the intended meaning</text>
         </svg>
       </Wrapper>
     );

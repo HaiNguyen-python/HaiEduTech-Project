@@ -17,7 +17,7 @@
 - Writing-practice tasks use unseen random selection with a single Next action; Chinese vocabulary and pattern tasks always show a complete Hanzi, Pinyin, and meaning example.
 - Course notices use shared tuition defaults, store one selected-language snapshot per recipient, and send only through the staff-authorized single-notice email function.
 - TOEIC vocabulary uses the shared Word Quest and Daily Mission engines with its own storage namespace and existing TOEIC mastery subject, so learning progress never collides with IELTS.
-- TOEIC lecture guidance is organized by tested Part alongside lesson-specific techniques, so strategy depth stays consistent without duplicating lecture question data.
+- TOEIC shares Part guides with lesson techniques; audit unique IDs, answer indices and contextual evidence in `toeicLectureContent.test.ts` to prevent collisions and ambiguous grading.
 - TOEIC S/W uses unique `toeicSWContentSets`, audited by `toeicSwAudit.test.ts`; `grade-toeic-sw` grades transcripts/text, never session-only recordings.
 - Python Challenge rankings count distinct completed challenge IDs from activity logs through an authenticated read-only function, preventing repeat attempts from inflating totals.
 - Generate 999 Letters into lazy-loaded `src/data/chineseLetters/part*.ts`; regenerate Pinyin/keywords and audit with `scripts/audit_chinese_letters.ts` to avoid bundle bloat.

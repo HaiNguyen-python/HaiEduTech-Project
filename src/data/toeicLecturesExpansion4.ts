@@ -53,7 +53,7 @@ const part2SameWordTrap = lecture({
   level: "foundation",
   targetScore: "450+",
   description:
-    "In Part 2 the option that repeats a word from the question is almost always wrong. This lecture trains you to hear the repetition, reject it, and choose the answer that responds to the question function instead.",
+    "In Part 2 repeated wording can occur in both correct responses and distractors. Learn to check the full meaning, requested information and conversational function instead of rejecting a familiar word automatically.",
   trapAlerts: [
     trap("An option repeating a word from the question", "ETS deliberately recycles a question word so a nervous listener recognises it and selects it."),
     trap("Similar-sounding words: report / reporter, fair / fare", "Sound overlap feels familiar under time pressure but changes the meaning completely."),
@@ -62,7 +62,7 @@ const part2SameWordTrap = lecture({
   coreTechnique: [
     step(1, "Catch the first two words", "The first two words fix the question type: Where, When, Who, How long, Do you, Would you, Should we."),
     step(2, "Predict the answer shape", "Where expects a place, When expects a time, Who expects a person or department, How long expects a duration."),
-    step(3, "Reject repetition", "If an option repeats a key noun or verb from the question, mark it as suspect immediately."),
+    step(3, "Verify repeated wording", "Listen to the complete response. Repetition alone does not decide correctness: 'Where is the report?' - 'The report is on your desk' is valid."),
     step(4, "Accept indirect answers", "\"I'll check the schedule\" is a valid reply to \"When does the training start?\" - relevance beats directness."),
   ],
   practiceSet: [
@@ -87,8 +87,8 @@ const part2SameWordTrap = lecture({
     vh("to postpone", "To move to a later time.", "The meeting was postponed until Friday.", "Scheduling."),
   ],
   quiz: [
-    q("An option that repeats a word from the question is usually:", ["Correct", "Incorrect", "Always about time", "Grammatically wrong"], 1,
-      "Word repetition is the classic Part 2 distractor design."),
+    q("How should you evaluate a response that repeats a question word?", ["Always reject it", "Check its complete meaning and relevance", "Always choose it", "Ignore the rest of the response"], 1,
+      "Repetition is used in some distractors, but can also appear in a correct response. Meaning and relevance determine the answer."),
     q("\"How long will the audit take?\" expects an answer about:", ["A place", "A duration", "A person", "A reason"], 1,
       "How long asks for length of time."),
     q("A yes/no answer to a Wh- question is:", ["Acceptable", "Wrong because it mismatches the question type", "Preferred", "Only wrong in Part 3"], 1,
@@ -101,7 +101,7 @@ const part2SameWordTrap = lecture({
   cheatSheetPoints: [
     "Lock the question type from the first two words",
     "Predict the answer shape before the options play",
-    "Repetition of question words signals a trap",
+    "Repeated words require a meaning check, not automatic rejection",
     "Indirect but relevant replies are usually correct",
     "Choose within one second - never revisit an option",
   ],
@@ -119,7 +119,7 @@ const part2RequestsOffers = lecture({
   level: "foundation",
   targetScore: "600+",
   description:
-    "Roughly a quarter of Part 2 items are not questions at all but requests, offers and suggestions. They need a functional reply - accepting, declining or deferring - rather than information.",
+    "Part 2 includes requests, offers, suggestions and statements as well as information questions. Recognise the purpose and choose a relevant acceptance, refusal, condition or explanation; there is no fixed share for each type.",
   trapAlerts: [
     trap("Treating \"Would you mind...\" as a yes/no question", "\"Yes\" to Would you mind actually means refusal, which reverses your intended meaning."),
     trap("Answering a suggestion with information", "\"Why don't we move the meeting?\" needs agreement or an alternative, not a time fact."),
@@ -161,8 +161,8 @@ const part2RequestsOffers = lecture({
       "Could plus a helpful action is an offer."),
     q("\"As long as it's before five\" is an example of:", ["Refusal", "Conditional acceptance", "A question", "A repetition trap"], 1,
       "It accepts, subject to a condition, and is a common correct answer."),
-    q("Roughly what share of Part 2 items are requests, offers or suggestions?", ["None", "About a quarter", "About 90%", "Only one item"], 1,
-      "Around a quarter of items test these functional exchanges."),
+    q("What matters most when responding to a request or offer?", ["A memorised percentage", "Its conversational purpose and relevant response", "Repeating every word", "Choosing a fixed letter"], 1,
+      "The conversational purpose determines an appropriate response, not a predicted percentage of item types."),
   ],
   cheatSheetPoints: [
     "Could / Would / Why don't / How about = functional item",

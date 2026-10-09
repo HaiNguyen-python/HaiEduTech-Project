@@ -156,9 +156,9 @@ const part1PeopleAction: ToeicLecture = {
     },
   ],
   businessContext:
-    "People-centered photos appear in 5/6 Part 1 questions. Office, retail, restaurant, and warehouse settings dominate.",
+    "People, objects and workplace arrangements can all appear in the six Part 1 photographs; there is no fixed five-to-one split.",
   businessContextVi:
-    "Ảnh có người chiếm 5/6 câu Part 1. Bối cảnh phổ biến: văn phòng, bán lẻ, nhà hàng, kho bãi.",
+    "Sáu ảnh Part 1 có thể có người, đồ vật và cách sắp xếp công sở; không cố định năm ảnh người và một ảnh vật.",
   proSpeedTip:
     "💡 In 4 seconds, ask yourself: WHO + VERB + OBJECT? Lock these 3 words mentally before audio plays.",
   proSpeedTipVi:
@@ -807,9 +807,9 @@ const part5VerbTense: ToeicLecture = {
   level: "intermediate",
   targetScore: "600+",
   description:
-    "30% of Part 5 tests verb tense. Learn the 5 time-signal categories that instantly reveal the correct tense in 4 seconds.",
+    "Choose verb forms by combining time references, completion, duration, clause structure and subject agreement. A time word is a clue, not an automatic tense rule.",
   descriptionVi:
-    "30% Part 5 kiểm tra thì động từ. Học 5 nhóm tín hiệu thời gian giúp xác định thì đúng trong 4 giây.",
+    "Chọn động từ theo mốc thời gian, hoàn tất, kéo dài, cấu trúc mệnh đề và hợp chủ vị. Từ thời gian là manh mối, không tự quyết định thì.",
   trapAlerts: [
     {
       trap: "Time signal hidden at end of sentence",
@@ -820,20 +820,20 @@ const part5VerbTense: ToeicLecture = {
     {
       trap: "Confusing 'for' (duration) with 'since' (start point)",
       trapVi: "Nhầm 'for' (khoảng) với 'since' (mốc)",
-      why: "'For 3 years' + 'since 2020' both signal present perfect, but mean different things.",
-      whyVi: "'For 3 years' + 'since 2020' đều báo hiện tại hoàn thành, nhưng nghĩa khác nhau.",
+      why: "For gives a duration; since gives a starting point. Ongoing work can use present perfect, but for also works with past or future situations: she worked here for three years before leaving.",
+      whyVi: "For chỉ khoảng; since chỉ mốc bắt đầu. Việc còn tiếp diễn có thể dùng hoàn thành; for cũng dùng quá khứ hay tương lai: she worked here for three years before leaving.",
     },
     {
       trap: "Future-in-past trap",
       trapVi: "Bẫy tương lai trong quá khứ",
-      why: "'She said she ___ call.' → 'would' (not 'will'). Past reporting needs past forms.",
-      whyVi: "'She said she ___ call.' → 'would' (không 'will'). Tường thuật quá khứ cần dạng quá khứ.",
+      why: "Would normally marks future viewed from a past report. Will can remain when the future promise is still current, so check the reporting context rather than automatically rejecting it.",
+      whyVi: "Would thường diễn tả tương lai nhìn từ quá khứ. Will có thể giữ khi lời hứa tương lai vẫn còn hiệu lực; kiểm tra ngữ cảnh tường thuật.",
     },
     {
       trap: "By + future date = future perfect",
       trapVi: "By + thời gian tương lai = tương lai hoàn thành",
-      why: "'By next month, the team ___ finished.' → 'will have finished'. Memorize this.",
-      whyVi: "'By next month, the team ___ finished.' → 'will have finished'. Học thuộc.",
+      why: "For completion viewed before a future deadline: By next month, the team will have finished. By alone does not force a perfect tense: Please finish by Friday is also correct.",
+      whyVi: "Hoàn tất trước mốc tương lai: By next month, the team will have finished. By không tự buộc dùng hoàn thành: Please finish by Friday cũng đúng.",
     },
   ],
   coreTechnique: [
@@ -860,18 +860,18 @@ const part5VerbTense: ToeicLecture = {
       title: "Sequence rule: 2 actions, 1 sentence",
       titleVi: "Quy tắc trình tự: 2 hành động, 1 câu",
       description:
-        "Earlier action = past perfect. Later = past simple. 'When she arrived, he had already left.'",
+        "Past perfect makes an earlier completed event explicit: When she arrived, he had already left. Past simple can describe an ordinary chronological sequence; not every earlier action requires past perfect.",
       descriptionVi:
-        "Hành động trước = quá khứ hoàn thành. Sau = quá khứ đơn. 'When she arrived, he had already left.'",
+        "Quá khứ hoàn thành làm rõ việc xong trước: When she arrived, he had already left. Quá khứ đơn có thể kể theo thứ tự; không mọi việc trước đều bắt buộc hoàn thành.",
     },
     {
       step: 4,
       title: "Subject-Verb agreement check",
       titleVi: "Kiểm tra hợp chủ-vị",
       description:
-        "Singular subject + 's' verb. Plural + base verb. Don't choose tense without checking subject first.",
+        "In the present simple, third-person singular normally takes -s; I/you/we/they use the base form. Be and modal verbs have different patterns. Identify subject and tense before choosing.",
       descriptionVi:
-        "Chủ ngữ số ít + động từ thêm 's'. Số nhiều + động từ nguyên. Phải kiểm tra chủ ngữ trước khi chọn thì.",
+        "Hiện tại đơn, ngôi ba số ít thường thêm -s; I/you/we/they dùng nguyên thể. Be và modal có quy tắc riêng. Xác định chủ ngữ và thì trước.",
     },
     {
       step: 5,
@@ -899,7 +899,7 @@ const part5VerbTense: ToeicLecture = {
       question: "Choose the verb form:",
       options: ["opens", "opened", "will have opened", "is opening"],
       answer: 2,
-      explanation: "'By + future' = future perfect → 'will have opened'.",
+      explanation: "Will have opened emphasises completion before a future deadline. The other offered forms do not express this intended completed-by viewpoint as clearly.",
       explanationVi: "'By + tương lai' = tương lai hoàn thành.",
     },
     {
@@ -913,17 +913,17 @@ const part5VerbTense: ToeicLecture = {
     },
   ],
   businessContext:
-    "Part 5 verb tense questions appear 8-12 times per test. Mastering tense signals saves seconds and boosts accuracy.",
+    "Tense questions test how workplace events relate in time. Their number varies across tests; practise timelines rather than memorising an item count.",
   businessContextVi:
-    "Câu thì Part 5 xuất hiện 8-12 lần/đề. Làm chủ tín hiệu giúp tiết kiệm thời gian và tăng độ chính xác.",
+    "Câu thì kiểm tra quan hệ thời gian của việc công sở. Số câu thay đổi; luyện trục thời gian thay vì thuộc số lượng câu.",
   proSpeedTip:
-    "💡 The TIME WORD usually decides the tense - find it FIRST, before reading anything else.",
+    "Read the full clause, identify the timeline and check whether the action is completed, ongoing or habitual. Then verify agreement and auxiliary structure.",
   proSpeedTipVi:
-    "💡 TỪ CHỈ THỜI GIAN thường quyết định thì - tìm nó TRƯỚC khi đọc bất cứ gì khác.",
+    "Đọc cả mệnh đề, xác định trục thời gian và hành động hoàn tất, đang diễn ra hay thói quen. Sau đó kiểm tra hợp chủ vị và trợ động từ.",
   vocabHighlights: [
     { word: "since", definition: "from a starting time", definitionVi: "kể từ", example: "Since 2020, prices have risen." },
     { word: "for", definition: "duration of time", definitionVi: "trong khoảng", example: "For 5 hours straight." },
-    { word: "by", definition: "no later than (with future perfect)", definitionVi: "trước khi", example: "By Monday, we'll have finished." },
+    { word: "by", definition: "no later than; marks a deadline, not one required tense", definitionVi: "trước khi", example: "By Monday, we'll have finished." },
     { word: "ago", definition: "in the past from now", definitionVi: "trước đây", example: "Two days ago." },
     { word: "currently", definition: "at present", definitionVi: "hiện tại", example: "We are currently hiring." },
     { word: "previously", definition: "before now / earlier", definitionVi: "trước đó", example: "Previously, she worked at HSBC." },
@@ -942,10 +942,10 @@ const part5VerbTense: ToeicLecture = {
       explanation: "Form: will have + past participle.",
     },
     {
-      question: "'Currently' pairs with:",
+      question: "Which tense describes an action in progress: We are currently reviewing the draft?",
       options: ["Past simple", "Present continuous", "Past perfect", "Future"],
       answer: 1,
-      explanation: "'Currently' = right now → present continuous.",
+      explanation: "Are reviewing describes an ongoing action. Currently also occurs with states in present simple, such as She currently works here.",
     },
     {
       question: "'When she arrived, he ___ already left.'",
@@ -960,18 +960,18 @@ const part5VerbTense: ToeicLecture = {
       explanation: "Time word usually decides the tense.",
     },
     {
-      question: "Reported speech 'She said she ___ help.':",
+      question: "Past viewpoint: Yesterday she promised she ___ help later that same day.:",
       options: ["will", "would", "is", "has"],
       answer: 1,
-      explanation: "Past reporting verb → 'would'.",
+      explanation: "Would expresses the future promise from yesterday's viewpoint; the intended helping time is now past.",
     },
   ],
   cheatSheetPoints: [
     "🔍 Find TIME WORD first",
     "📅 'yesterday/ago/last' → past simple",
-    "🔁 'since/for' → present perfect",
-    "🚀 'by + future' → future perfect",
-    "🕒 'currently/now' → present continuous",
+    "For = duration; since = starting point; check the timeline",
+    "Future perfect emphasises completion by a future reference point",
+    "Currently can describe an ongoing action or a present state",
     "👥 Always check subject-verb agreement",
   ],
   isNew: true,
@@ -1265,9 +1265,9 @@ const part7TripleCrossRef: ToeicLecture = {
   practiceSet: [
     {
       context:
-        "Doc1 (Ad): 'Spring sale: 20% off jackets, 15% off shoes.' Doc2 (Email): 'I'd like to order 2 jackets and 1 pair of shoes.' Doc3 (Receipt): 'Subtotal $400. Discount: $80.'",
+        "Doc1 (Ad): Spring sale: 20% off jackets, 15% off shoes. Doc2 (Email): Please order two jackets at $200 each; I will buy shoes another time. Doc3 (Receipt): Jackets subtotal $400, discount $80, total $320.",
       contextVi:
-        "Doc1 (QC): 'Sale xuân: jacket 20%, giày 15%.' Doc2 (Email): 'Mua 2 jacket và 1 đôi giày.' Doc3 (Hóa đơn): 'Tạm tính $400. Giảm: $80.'",
+        "QC: jacket giảm 20%, giày 15%. Email: Đặt hai jacket giá $200 mỗi chiếc; giày mua sau. Hóa đơn: jacket $400, giảm $80, tổng $320.",
       question: "What discount rate did the customer apply?",
       options: ["10%", "15%", "20%", "25%"],
       answer: 2,
