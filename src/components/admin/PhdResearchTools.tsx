@@ -29,7 +29,7 @@ export default function PhdResearchTools({ context, proposal, onSave }: Props) {
   const run = async () => {
     setBusy(true); setError(""); setResult("");
     try {
-      const { data, error: failure } = await supabase.functions.invoke("phd-research-ai", { body: { mode, content: input, context: mode === "proposal_review" ? proposal : context, language: lang === "vi" ? "vi" : "en" } });
+      const { data, error: failure } = await supabase.functions.invoke("phd-research-ai", { body: { mode, content: input, context: mode === "proposal_review" ? `${context}\n\nPROPOSAL:\n${proposal}`.slice(0, 30000) : context, language: lang === "vi" ? "vi" : "en" } });
       if (failure) throw failure;
       if (!data?.content) throw new Error(data?.error || "Empty AI response");
       setResult(data.content);

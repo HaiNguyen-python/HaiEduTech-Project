@@ -8,7 +8,7 @@
 - Use shared `normalizeMath` for Programming math; audit malformed delimiters.
 - HSK visuals use Hanzi-aware mappings and stable category fallbacks to avoid generic icons.
 
-- Public subject UI exposes Home, About, English, Chinese, Finnish, Vietnamese, Technology, Interpersonal Skills and Your Corner. Finnish pages stay open to all signed-in users; hide JA/SV from navigation (teacher-gated routes), Specialized Language and Super Dictionary; keep direct course URLs.
+- Public nav: Home, About, English, Chinese, Finnish, Vietnamese, Technology, Interpersonal Skills, Your Corner. Finnish is open to signed-in users; hide JA/SV (teacher-gated), Specialized Language and Super Dictionary; preserve course URLs.
 - Keep Finnish YKI Writing prompts in a dedicated typed bank grouped into nine three-task exam sets; reuse this bank across task and skill practice to prevent content drift.
 - Format Finnish and English model-letter layout through the shared letter formatter, preserving wording and testing closing/signature separation to prevent inline sign-offs.
 - Keep uploaded Finnish YKI B1 Speaking exams in one typed bank grouped by exam and the four official practice parts, so prompts and trilingual model answers stay aligned.
@@ -34,6 +34,6 @@
 - Dictionary: local Finnish entries, deferred EN translations; reject stale request IDs.
 - IELTS lesson summaries use subject visuals and evidence checks, not grammar defaults.
 - PTE shares sourced 22-type rules, protected attempts and exact-ID mini-set links; audit mismatch indices/adjacent pairs; label estimates, not official scores.
-- PhD architecture: follow `docs/phd-research.md`.
+- PhD and admin sorting: follow `docs/phd-research.md` for persistence and access safety.
 
 - Admin flags share rlEngine to avoid divergent alerts.
