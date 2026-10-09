@@ -15,7 +15,7 @@ const entry = (signature: string, en: string, vi: string, example: string, check
 
 export const pythonCheatsheetGroups: PythonCheatsheetGroup[] = [
   { title: "Input, output & types", vi: "Nhập, xuất & kiểu dữ liệu", entries: [
-    entry("print(*values, sep=" ", end="\\n")", "sep separates values; end follows the output (default: newline).", "sep ngăn cách các giá trị; end kết thúc đầu ra (mặc định: xuống dòng).", 'print("A", "B", sep="-", end="!")  # A-B!', 'assert captured.getvalue() == "A-B!"'),
+    entry('print(*values, sep=" ", end="\\n")', "sep separates values; end follows the output (default: newline).", "sep ngăn cách các giá trị; end kết thúc đầu ra (mặc định: xuống dòng).", 'print("A", "B", sep="-", end="!")  # A-B!', 'assert captured.getvalue() == "A-B!"'),
     entry("input()", "Returns text without the trailing newline; convert it before arithmetic.", "Trả về chuỗi không có dấu xuống dòng cuối; cần chuyển kiểu trước khi tính toán.", 'name = input()  # Example input: Hai', 'assert name == "Hai"'),
     entry("int(x)", "Parse integer text; floats truncate toward zero. Invalid integer text raises ValueError.", "Đọc chuỗi số nguyên; số thực bị cắt về phía 0. Chuỗi không hợp lệ gây ValueError.", 'n = int("42")  # 42\nm = int(-3.9)  # -3', 'assert (n, m) == (42, -3)\ntry:\n    int("3.5")\nexcept ValueError:\n    pass\nelse:\n    raise AssertionError("decimal text is not an integer")'),
     entry("float(x)", "Convert to a floating-point number; many decimal fractions are not exact.", "Đổi sang số thực dấu phẩy động; nhiều phân số thập phân không được biểu diễn chính xác.", 'x = float("3.5")  # 3.5', 'assert x == 3.5\nassert 0.1 + 0.2 != 0.3'),
