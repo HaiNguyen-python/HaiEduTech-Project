@@ -13,7 +13,7 @@ import { playChineseTts, stopChineseTts } from "@/lib/chineseTts";
 import HanziStrokeOrder from "@/components/HanziStrokeOrder";
 import { loadLetters, type ZhLetter } from "@/data/chineseLetters";
 import type { ZhLevel } from "@/data/chineseWritingBank";
-import { letterDisplayCharacters, liveChineseTyping, normalizeLetterTyping as strip } from "@/lib/chineseLetterTyping";
+import { activePinyinIndex, letterDisplayCharacters, liveChineseTyping, normalizeLetterTyping as strip } from "@/lib/chineseLetterTyping";
 
 const PROGRESS_KEY = "zh-letters-progress";
 type Progress = { done: string[]; bestCpm: number; words: string[] };
@@ -66,6 +66,7 @@ export default function ZhLetterTyping({ level }: { level: ZhLevel }) {
 
   const target = strip(item.zh);
   const got = liveChineseTyping(input.committed);
+  const activeIndex = activePinyinIndex(item.zh, input.typed, input.draft);
 
   function finish() {
     if (input.isComposing || !got.length) return;
@@ -117,7 +118,7 @@ export default function ZhLetterTyping({ level }: { level: ZhLevel }) {
         <div className="space-y-2">
           <p className="text-2xl leading-relaxed tracking-wide" lang="zh-CN" data-testid="zh-letter-typing-passage">
             {letterDisplayCharacters(item.zh).map(({ character, typingIndex }, i) => (
-              <span key={i} className={typingIndex === null ? "text-foreground" : typingIndex < got.length ? (got[typingIndex] === character ? "text-primary" : "text-destructive underline") : typingIndex === got.length ? "text-foreground border-b-2 border-primary" : "text-foreground"}>{character}</span>
+              <span key={i} className={typingIndex === null ? "text-foreground" : typingIndex === activeIndex ? "text-primary underline" : typingIndex < got.length ? (got[typingIndex] === character ? "text-primary" : "text-destructive underline") : typingIndex === got.length ? "text-foreground border-b-2 border-primary" : "text-foreground"}>{character}</span>
             ))}
           </p>
           {showPy && <p className="text-muted-foreground">{item.pinyin}</p>}
@@ -125,7 +126,7 @@ export default function ZhLetterTyping({ level }: { level: ZhLevel }) {
         </div>
 
         <Textarea ref={ref} value={input.typed} readOnly={!!done} rows={3} lang="zh-CN" onKeyDown={onKey}
-          onCompositionStart={input.onCompositionStart} onCompositionEnd={input.onCompositionEnd}
+          onCompositionStart={input.onCompositionStart} onCompositionUpdate={input.onCompositionUpdate} onCompositionEnd={input.onCompositionEnd}
           onPaste={(e) => e.preventDefault()}
           onChange={(e) => { if (start === null) setStart(Date.now()); input.onChange(e); }}
           placeholder={t("Gõ lại lá thư bằng bộ gõ Pinyin... (Enter để chấm)", "Retype the letter with a Pinyin IME... (Enter to check)")} />
