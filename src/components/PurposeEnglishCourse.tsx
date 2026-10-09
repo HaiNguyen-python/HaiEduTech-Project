@@ -13,6 +13,7 @@ import {
   MessageSquareMore,
   Search,
   ShieldCheck,
+  UserRoundCheck,
   Sparkles,
   Target,
   Trophy,
@@ -22,6 +23,7 @@ import Footer from "@/components/Footer";
 import PurposeCoreLearningPath from "@/components/PurposeCoreLearningPath";
 import PurposeCommunicationLab from "@/components/PurposeCommunicationLab";
 import PurposeEnglishReadiness from "@/components/PurposeEnglishReadiness";
+import BusinessInterviewQuestions from "@/components/BusinessInterviewQuestions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
@@ -301,11 +303,12 @@ const PurposeEnglishCourse = ({
 
         <section className="container mx-auto px-4 py-8 lg:py-10">
           <Tabs value={view} onValueChange={openView}>
-            <TabsList className="grid h-auto w-full grid-cols-2 p-1 sm:max-w-4xl sm:grid-cols-4">
+            <TabsList className={`grid h-auto w-full grid-cols-2 p-1 sm:max-w-5xl ${track === "business" ? "sm:grid-cols-5" : "sm:grid-cols-4"}`}>
               <TabsTrigger value="overview" className="min-h-11 gap-2"><Target className="h-4 w-4" /> {t("Lộ trình", "Roadmap")}</TabsTrigger>
               <TabsTrigger value="core" className="min-h-11 gap-2"><BookOpen className="h-4 w-4" /> {t("Bài nền tảng", "Core Lessons")}</TabsTrigger>
               <TabsTrigger value="lab" className="min-h-11 gap-2"><MessageSquareMore className="h-4 w-4" /> Lab</TabsTrigger>
               <TabsTrigger value="readiness" className="min-h-11 gap-2"><Trophy className="h-4 w-4" /> Readiness</TabsTrigger>
+              {track === "business" && <TabsTrigger value="interview" className="min-h-11 gap-2"><UserRoundCheck className="h-4 w-4" /> Interview</TabsTrigger>}
             </TabsList>
 
             <TabsContent value="overview" className="mt-7">
@@ -355,6 +358,12 @@ const PurposeEnglishCourse = ({
                 })}
               </div>
             </TabsContent>
+
+            {track === "business" && (
+              <TabsContent value="interview" className="mt-7">
+                <BusinessInterviewQuestions />
+              </TabsContent>
+            )}
 
             <TabsContent value="readiness" className="mt-7">
               <PurposeEnglishReadiness
