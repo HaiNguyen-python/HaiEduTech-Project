@@ -32,7 +32,10 @@ with tempfile.TemporaryDirectory() as work:
                 compile(snippet, lesson["id"] + "-section", "exec")
                 result = json.loads(namespace["_hai_run"](snippet, "[]", False, "", 7))
                 assert not result["err"], f"{lesson['id']} section: {result['err']}"
-                assert result["out"].strip(), f"{lesson['id']}: empty section output"
+                if lesson["id"] == "m6-l1-files" and "print(" not in snippet:
+                    assert Path("example.txt").read_text() == "Hello\n"
+                else:
+                    assert result["out"].strip(), f"{lesson['id']}: empty section output"
             for question in lesson["quiz"]:
                 if question["type"] == "fill":
                     compile(question["codeBefore"] + question["answer"] + question["codeAfter"], "fill.py", "exec")
