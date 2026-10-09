@@ -351,8 +351,8 @@ const part34Graphic: ToeicLecture = {
   ],
   practiceSet: [
     {
-      context: "Graphic: A meeting room schedule showing Room A (9AM), Room B (10AM), Room C (11AM), Room D (2PM)",
-      contextVi: "Biểu đồ: Lịch phòng họp - Phòng A (9h), Phòng B (10h), Phòng C (11h), Phòng D (14h)",
+      context: "Graphic: Room A (9 a.m.), Room B (10 a.m.), Room C (11 a.m.), Room D (2 p.m.).\nWoman: 'Room A is booked.' Man: 'Ten is too early for me. Let us use the eleven o'clock slot.'",
+      contextVi: "Bảng: Phòng A (9h), B (10h), C (11h), D (14h).\nNữ: 'Phòng A đã đặt.' Nam: '10 giờ quá sớm. Chọn khung 11 giờ nhé.'",
       question: "Look at the graphic. Which room will the speakers use?",
       options: ["Room A", "Room B", "Room C", "Room D"],
       answer: 2,
@@ -360,8 +360,8 @@ const part34Graphic: ToeicLecture = {
       explanationVi: "Họ nói: 'Phòng A đã đặt, 10 giờ quá sớm. Chọn khung 11 giờ nhé.' → Phòng C.",
     },
     {
-      context: "Graphic: Product price list - Basic ($29), Standard ($49), Premium ($79), Enterprise ($149)",
-      contextVi: "Biểu đồ: Bảng giá sản phẩm - Basic ($29), Standard ($49), Premium ($79), Enterprise ($149)",
+      context: "Price list: Basic ($29), Standard ($49), Premium ($79), Enterprise ($149).\nSpeaker: 'We need team features but not the full Enterprise plan. Premium has everything we need, so let us buy that.'",
+      contextVi: "Bảng giá: Basic ($29), Standard ($49), Premium ($79), Enterprise ($149).\nNgười nói: 'Cần tính năng nhóm nhưng không cần Enterprise. Premium có đủ, nên mua gói đó.'",
       question: "Look at the graphic. Which plan will the company purchase?",
       options: ["Basic", "Standard", "Premium", "Enterprise"],
       answer: 2,
@@ -651,8 +651,8 @@ const part7Skimming: ToeicLecture = {
   ],
   practiceSet: [
     {
-      context: "Email from HR department to all employees about a new parking policy",
-      contextVi: "Email từ phòng Nhân sự gửi toàn bộ nhân viên về chính sách đỗ xe mới",
+      context: "From: HR. To: All staff. Subject: Parking update.\nFrom Monday, staff must display a parking permit in the north lot. Please collect your permit at reception by Friday. The visitor parking area will remain unchanged.",
+      contextVi: "Từ: Nhân sự. Đến: Toàn bộ nhân viên. Chủ đề: Cập nhật đỗ xe.\nTừ thứ Hai, nhân viên phải trưng giấy phép tại bãi phía bắc. Nhận giấy ở lễ tân trước thứ Sáu. Bãi khách không thay đổi.",
       question: "What is the purpose of this email?",
       options: ["To announce a new parking policy", "To complain about parking", "To request a meeting", "To introduce a new employee"],
       answer: 0,
@@ -660,8 +660,8 @@ const part7Skimming: ToeicLecture = {
       explanationVi: "HR → toàn nhân viên + chính sách mới = mục đích thông báo.",
     },
     {
-      context: "Email from a supplier confirming an order shipment date",
-      contextVi: "Email từ nhà cung cấp xác nhận ngày giao hàng",
+      context: "From: Bright Supplies. Subject: Order 1842.\nThank you for your order. Your items will leave our warehouse on Tuesday and should reach your office on Thursday. The tracking link will be sent after dispatch.",
+      contextVi: "Từ: Bright Supplies. Chủ đề: Đơn 1842.\nCảm ơn đã đặt hàng. Hàng rời kho thứ Ba và dự kiến đến văn phòng thứ Năm. Đường dẫn theo dõi gửi sau khi xuất hàng.",
       question: "What is the email mainly about?",
       options: ["A price negotiation", "A shipment confirmation", "A product complaint", "A meeting request"],
       answer: 1,
@@ -745,10 +745,10 @@ const part7DoubleTriple: ToeicLecture = {
   ],
   practiceSet: [
     {
-      context: "Text 1: Job advertisement for a Marketing Manager. Text 2: Application email from a candidate.",
-      contextVi: "Bài 1: Quảng cáo tuyển dụng Marketing Manager. Bài 2: Email ứng tuyển từ ứng viên.",
+      context: "Text 1 - Job ad: Marketing Manager. Applicants need at least five years of marketing experience and a business-related degree.\nText 2 - Application: I hold a business degree and have six years of digital marketing experience. I have not worked for your company before.",
+      contextVi: "Bài 1 - Tuyển Marketing Manager: Ít nhất năm năm marketing và bằng liên quan kinh doanh.\nBài 2 - Ứng tuyển: Tôi có bằng kinh doanh và sáu năm digital marketing. Tôi chưa làm tại công ty anh/chị.",
       question: "What qualification does the candidate have that matches the job requirements?",
-      options: ["5 years of marketing experience", "A degree in computer science", "Fluency in Japanese", "A previous job at the same company"],
+      options: ["At least five years of marketing experience", "A degree in computer science", "Fluency in Japanese", "A previous job at the same company"],
       answer: 0,
       explanation: "Cross-reference: Job ad requires '5+ years marketing experience' + Candidate's email mentions '6 years in digital marketing'.",
       explanationVi: "Tham chiếu chéo: Quảng cáo yêu cầu '5+ năm kinh nghiệm marketing' + Email ứng viên đề cập '6 năm digital marketing'.",
@@ -936,7 +936,7 @@ const timeManagement: ToeicLecture = {
     {
       context: "Time calculation exercise",
       contextVi: "Bài tập tính thời gian",
-      question: "If Part 5 takes you 15 minutes, how much time is left for Part 7?",
+      question: "If Part 5 takes 15 minutes and Part 6 takes 10 minutes, how much of the 75-minute Reading section remains for Part 7?",
       options: ["60 minutes", "50 minutes", "55 minutes", "45 minutes"],
       answer: 1,
       explanation: "75 min total - 15 min (Part 5) - 10 min (Part 6) = 50 min for Part 7. That's 5 min less than optimal!",
@@ -945,11 +945,11 @@ const timeManagement: ToeicLecture = {
     {
       context: "Pace calculation",
       contextVi: "Tính tốc độ",
-      question: "Part 7 has 15 passages and 54 questions. At 55 minutes, how long per passage on average?",
-      options: ["2 minutes", "3.5 minutes", "5 minutes", "1 minute"],
+      question: "You allocate 55 minutes to 54 Part 7 questions. Approximately how much time is available per question, including reading the documents?",
+      options: ["30 seconds", "61 seconds", "120 seconds", "180 seconds"],
       answer: 1,
-      explanation: "55 min ÷ 15 passages ≈ 3.5 min/passage average (but singles need less, doubles/triples need more).",
-      explanationVi: "55 phút ÷ 15 bài ≈ 3,5 phút/bài trung bình (bài đơn ít hơn, đôi/ba nhiều hơn).",
+      explanation: "55 × 60 ÷ 54 ≈ 61 seconds per question, including passage reading. This is an average, not a hard limit; longer sets share reading time across several questions.",
+      explanationVi: "55 × 60 ÷ 54 ≈ 61 giây mỗi câu, gồm đọc bài. Đây là trung bình, không phải giới hạn cứng; nhiều câu cùng dùng thời gian đọc một bộ.",
     },
   ],
   businessContext: "Time management in TOEIC directly mirrors workplace skills: prioritizing tasks, meeting deadlines, and making quick decisions under pressure - all valued by employers.",
@@ -1114,7 +1114,7 @@ const part2Indirect: ToeicLecture = {
     { word: "get back to you", definition: "to respond later", definitionVi: "phản hồi sau", example: "Let me get back to you on that.", businessContext: "Communication" },
   ],
   quiz: [
-    { question: "What percentage of Part 2 answers at 750+ level are indirect?", options: ["10%", "25%", "40%", "60%"], answer: 2, explanation: "About 40% of high-difficulty Part 2 questions use indirect answers." },
+    { question: "Which response appropriately expresses uncertainty about a deadline?", options: ["The desk is new.", "Yes, it is blue.", "The manager has not confirmed the date yet.", "The file contains ten pages."], answer: 2, explanation: "The manager has not confirmed the date yet explains why the speaker cannot provide the deadline; no fixed percentage of indirect responses is needed." },
     { question: "'Hasn't the memo been sent?' is what type of indirect answer?", options: ["Redirect", "Counter-question", "Conditional", "Direct"], answer: 1, explanation: "It's a counter-question - answering a question with a question." },
     { question: "Which is an indirect answer to 'Where's the report?'", options: ["On my desk.", "Ms. Lee was working on it.", "It's 10 pages.", "Yes, there is a report."], answer: 1, explanation: "'Ms. Lee was working on it' redirects - ask her." },
     { question: "Indirect answers work because they:", options: ["Avoid the question", "Are contextually appropriate in conversation", "Use big vocabulary", "Repeat question words"], answer: 1, explanation: "They're natural conversational responses, just not direct ones." },
@@ -1140,8 +1140,8 @@ const part3PreRead: ToeicLecture = {
   duration: "18 min",
   level: "intermediate",
   targetScore: "600+",
-  description: "Use the 5-second pause to pre-read questions and predict answers before the audio plays.",
-  descriptionVi: "Tận dụng 5 giây nghỉ để đọc trước câu hỏi và dự đoán đáp án trước khi nghe.",
+  description: "Preview each three-question set during available instructions and pauses. Identify the information requested before listening; there is no guaranteed five-second preparation window.",
+  descriptionVi: "Đọc trước bộ ba câu trong thời gian hướng dẫn và khoảng nghỉ có sẵn. Xác định thông tin cần nghe; không có bảo đảm luôn đủ năm giây chuẩn bị.",
   trapAlerts: [
     { trap: "Spending too long on previous questions", trapVi: "Dành quá lâu cho câu trước", why: "If you're still thinking about Q1, you'll miss the 5-second window for Q2-Q4.", whyVi: "Nếu còn nghĩ Q1, bạn sẽ lỡ 5 giây vàng cho Q2-Q4." },
     { trap: "Reading all 4 answer choices instead of just the question stem", trapVi: "Đọc cả 4 đáp án thay vì chỉ đọc câu hỏi", why: "You only have time to scan questions, not answers.", whyVi: "Chỉ đủ thời gian quét câu hỏi, không phải đáp án." },
@@ -1152,8 +1152,8 @@ const part3PreRead: ToeicLecture = {
     { step: 3, title: "Mark and Move - Never Look Back", titleVi: "Đánh dấu và đi tiếp - Không bao giờ quay lại", description: "Answer immediately, move to pre-read the NEXT set. Going back wastes the golden window.", descriptionVi: "Trả lời ngay, chuyển sang đọc trước bộ TIẾP THEO. Quay lại sẽ lãng phí 5 giây vàng." },
   ],
   practiceSet: [
-    { context: "Conversation between 2 colleagues", contextVi: "Hội thoại giữa 2 đồng nghiệp", question: "What does the woman suggest?", options: ["Hiring more staff", "Postponing the meeting", "Ordering new equipment", "Changing the deadline"], answer: 1, explanation: "Pre-reading tells you to listen for the WOMAN's SUGGESTION specifically.", explanationVi: "Đọc trước cho biết phải nghe GỢI Ý của NGƯỜI PHỤ NỮ cụ thể." },
-    { context: "Phone call", contextVi: "Cuộc gọi điện thoại", question: "Where does the man most likely work?", options: ["A hospital", "A bank", "A restaurant", "A school"], answer: 1, explanation: "WHERE + MAN = listen for location clues from the male speaker.", explanationVi: "Ở ĐÂU + NAM = nghe manh mối địa điểm từ người nam." },
+    { context: "Woman: 'We cannot review the figures before today's meeting.' Man: 'What should we do?' Woman: 'Let us postpone the meeting until tomorrow so everyone can prepare.'", contextVi: "Nữ: 'Chưa kịp xem số liệu trước cuộc họp hôm nay.' Nam: 'Vậy làm sao?' Nữ: 'Dời cuộc họp sang ngày mai để mọi người chuẩn bị nhé.'", question: "What does the woman suggest?", options: ["Hiring more staff", "Postponing the meeting", "Ordering new equipment", "Changing the deadline"], answer: 1, explanation: "The woman proposes moving the meeting to tomorrow: B. She does not suggest changing staff, equipment or the project deadline.", explanationVi: "Người nữ đề xuất dời cuộc họp đến mai: B. Không đề cập thêm nhân sự, đổi thiết bị hay hạn dự án." },
+    { context: "Woman: 'Could you explain the charge on my account?' Man: 'Certainly. I can check your transactions and help with your savings account at our branch.'", contextVi: "Nữ: 'Anh giải thích khoản phí trong tài khoản được không?' Nam: 'Được. Tôi kiểm tra giao dịch và hỗ trợ tài khoản tiết kiệm tại chi nhánh.'", question: "Where does the man most likely work?", options: ["A hospital", "A bank", "A restaurant", "A school"], answer: 1, explanation: "Transactions, savings account and branch together support a bank: B. The other workplaces do not fit these combined clues.", explanationVi: "Giao dịch, tài khoản tiết kiệm và chi nhánh cùng cho thấy ngân hàng: B. Các nơi khác không khớp bộ manh mối này." },
   ],
   businessContext: "Pre-reading is a real-world skill used in meetings (scanning agendas before discussion) and email management (reading subject lines to prioritize).",
   businessContextVi: "Đọc trước là kỹ năng thực tế: xem nhanh chương trình họp trước buổi họp, đọc tiêu đề email để ưu tiên.",
@@ -1204,7 +1204,7 @@ const part5RelativeClauses: ToeicLecture = {
   practiceSet: [
     { context: "Part 5", contextVi: "Part 5", question: "The employee _____ was promoted has been with the company for 10 years.", options: ["who", "whom", "which", "whose"], answer: 0, explanation: "'who' is subject of 'was promoted' - a person doing an action.", explanationVi: "'who' là chủ ngữ của 'was promoted' - người thực hiện hành động." },
     { context: "Part 5", contextVi: "Part 5", question: "The report, _____ was submitted yesterday, contains errors.", options: ["that", "which", "who", "whom"], answer: 1, explanation: "After a comma → WHICH (not THAT). Report = thing.", explanationVi: "Sau dấu phẩy → WHICH (không THAT). Report = vật." },
-    { context: "Part 5", contextVi: "Part 5", question: "The client _____ we met last week has signed the contract.", options: ["who", "whom", "which", "whose"], answer: 1, explanation: "'whom' is the object - 'we met whom'. Client = person in object position.", explanationVi: "'whom' là tân ngữ - 'we met whom'. Client = người ở vị trí tân ngữ." },
+    { context: "Part 5", contextVi: "Part 5", question: "The client to _____ we sent the proposal has signed the contract.", options: ["who", "whom", "which", "whose"], answer: 1, explanation: "After the fronted preposition to, formal relative clauses use whom for a person. Who is common as an object without a fronted preposition, so the original who/whom distinction alone would not give a unique answer.", explanationVi: "Sau giới từ to đưa lên trước, mệnh đề quan hệ trang trọng dùng whom cho người. Who thường được dùng làm tân ngữ khi không có giới từ đưa trước; chỉ phân biệt who/whom theo tân ngữ là chưa đủ." },
   ],
   businessContext: "Relative clauses are essential in business writing: job descriptions, contracts, and reports frequently use who/which/that to define roles and specifications.",
   businessContextVi: "Mệnh đề quan hệ thiết yếu trong văn bản kinh doanh: mô tả công việc, hợp đồng, báo cáo thường xuyên dùng who/which/that.",
@@ -1241,14 +1241,14 @@ const part5Subjunctive: ToeicLecture = {
   duration: "20 min",
   level: "advanced",
   targetScore: "750+",
-  description: "Master the subjunctive mood - a high-frequency grammar point that appears 1-2 times per TOEIC test.",
-  descriptionVi: "Làm chủ câu giả định - điểm ngữ pháp xuất hiện 1-2 lần mỗi đề TOEIC.",
+  description: "Use the mandative subjunctive for formal recommendations, requirements and necessary actions; distinguish these from statements of fact.",
+  descriptionVi: "Dùng giả định cho đề xuất, yêu cầu và hành động cần thiết trong văn bản trang trọng; phân biệt với câu khẳng định sự thật.",
   trapAlerts: [
-    { trap: "Using 'should' or conjugated forms after demand/require/suggest", trapVi: "Dùng 'should' hoặc chia động từ sau demand/require/suggest", why: "Subjunctive uses BASE FORM: 'suggest that he GO' not 'goes' or 'should go'.", whyVi: "Câu giả định dùng NGUYÊN THỂ: 'suggest that he GO' không phải 'goes' hay 'should go'." },
+    { trap: "Using 'should' or conjugated forms after demand/require/suggest", trapVi: "Dùng 'should' hoặc chia động từ sau demand/require/suggest", why: "For recommendations or demands, the mandative subjunctive uses the base form: 'suggest that he go'. 'Should go' is also a valid construction, especially in British English. Do not treat it as universally wrong.", whyVi: "Với đề xuất hay yêu cầu, giả định dùng nguyên thể: 'suggest that he go'. 'Should go' cũng đúng, nhất là tiếng Anh Anh. Không coi cấu trúc này luôn sai." },
     { trap: "Not recognizing subjunctive trigger words", trapVi: "Không nhận ra từ kích hoạt giả định", why: "Key triggers: recommend, suggest, insist, demand, require, request, propose, essential, vital, important.", whyVi: "Từ kích hoạt: recommend, suggest, insist, demand, require, request, propose, essential, vital, important." },
   ],
   coreTechnique: [
-    { step: 1, title: "Spot the Trigger Word", titleVi: "Phát hiện từ kích hoạt", description: "See: recommend/suggest/insist/demand/require/request + that → SUBJUNCTIVE.", descriptionVi: "Thấy: recommend/suggest/insist/demand/require/request + that → CÂU GIẢ ĐỊNH." },
+    { step: 1, title: "Spot the Trigger Word", titleVi: "Phát hiện từ kích hoạt", description: "Check the meaning: 'insist that he attend' demands attendance, but 'insist that he attended' asserts a past fact. A trigger word alone does not always require the subjunctive.", descriptionVi: "Kiểm tra nghĩa: 'insist that he attend' yêu cầu tham dự; 'insist that he attended' khẳng định việc đã xảy ra. Không phải cứ có từ kích hoạt là bắt buộc giả định." },
     { step: 2, title: "Use BASE FORM (no -s, no -ed)", titleVi: "Dùng NGUYÊN THỂ (không -s, không -ed)", description: "'It is essential that every employee ATTEND the meeting' (not attends).", descriptionVi: "'It is essential that every employee ATTEND the meeting' (không phải attends)." },
     { step: 3, title: "Adjective Triggers: It is + adj + that", titleVi: "Tính từ kích hoạt: It is + adj + that", description: "essential/vital/important/necessary/imperative + that + S + BASE FORM.", descriptionVi: "essential/vital/important/necessary/imperative + that + S + NGUYÊN THỂ." },
   ],
@@ -1269,15 +1269,9 @@ const part5Subjunctive: ToeicLecture = {
     { question: "After 'suggest that', the verb should be in:", options: ["Present tense", "Base form (subjunctive)", "Past tense", "Future tense"], answer: 1, explanation: "Subjunctive: suggest/recommend/insist + that + S + base form." },
     { question: "'It is vital that he ___ on time.' Choose:", options: ["arrives", "arrive", "arrived", "arriving"], answer: 1, explanation: "'Vital that' triggers subjunctive → base form 'arrive'." },
     { question: "Which is NOT a subjunctive trigger?", options: ["recommend", "suggest", "hope", "insist"], answer: 2, explanation: "'Hope' does NOT trigger subjunctive. 'I hope he comes' uses normal tense." },
-    { question: "The subjunctive appears in TOEIC approximately:", options: ["Never", "1-2 times per test", "5-10 times", "Every question"], answer: 1, explanation: "It's a high-value grammar point appearing 1-2 times per test." },
+    { question: "Which sentence expresses a formal recommendation?", options: ["I hope he comes.", "I recommend that he attend.", "He attended yesterday.", "He will arrive tomorrow."], answer: 1, explanation: "Recommend introduces a proposed action; attend is the base-form subjunctive. The other sentences express hope or facts, not a recommendation." },
   ],
-  cheatSheetPoints: [
-    "Trigger words: recommend, suggest, insist, demand, require, request",
-    "Adjective triggers: essential, vital, important, necessary, imperative",
-    "Rule: trigger + that + S + BASE FORM (no -s, -ed, -ing)",
-    "'be' is the base form of 'to be' in subjunctive",
-    "Appears 1-2 times per TOEIC test - high-value points",
-  ],
+  cheatSheetPoints: ["Trigger words in requests: recommend, suggest, insist, demand, require, request", "Meaning matters: demand an action, not assert a fact", "Mandative form: that + subject + base verb; should + base verb is also valid", "Passive subjunctive: that the report be submitted", "Practise real examples; frequency is not fixed per test"],
   isNew: true,
 };
 
@@ -1304,7 +1298,7 @@ const part6TextCompletion: ToeicLecture = {
     { step: 3, title: "Look for Transition Signals", titleVi: "Tìm tín hiệu chuyển tiếp", description: "However, Therefore, In addition, For example - these words in the answer choices hint at the relationship.", descriptionVi: "However, Therefore, In addition, For example - các từ này trong đáp án gợi ý mối quan hệ." },
   ],
   practiceSet: [
-    { context: "Business email about office renovation", contextVi: "Email kinh doanh về sửa chữa văn phòng", question: "Which sentence best fits in the blank?", options: ["However, the renovation will be completed ahead of schedule.", "The company was founded in 2010.", "We appreciate your patience during this time.", "The new printer has been installed."], answer: 2, explanation: "Email about renovation → acknowledging inconvenience → 'appreciate patience' fits the context.", explanationVi: "Email về sửa chữa → nhận biết bất tiện → 'appreciate patience' phù hợp ngữ cảnh." },
+    { context: "To all staff: Renovation work will block the main entrance for the next two weeks. Please use the side entrance and allow extra time to reach your desk. ____ We will notify you when the main entrance reopens.", contextVi: "Gửi nhân viên: Sửa chữa làm lối chính bị chặn hai tuần tới. Dùng lối bên và dành thêm thời gian đến chỗ làm. ____ Chúng tôi thông báo khi lối chính mở lại.", question: "Which sentence best fits in the blank?", options: ["However, the renovation will be completed ahead of schedule.", "The company was founded in 2010.", "We appreciate your patience during this time.", "The new printer has been installed."], answer: 2, explanation: "Email about renovation → acknowledging inconvenience → 'appreciate patience' fits the context.", explanationVi: "Email về sửa chữa → nhận biết bất tiện → 'appreciate patience' phù hợp ngữ cảnh." },
   ],
   businessContext: "Part 6 simulates real business documents: emails, memos, notices, and advertisements. The skill of inserting appropriate sentences is used daily in drafting professional communications.",
   businessContextVi: "Part 6 mô phỏng tài liệu kinh doanh thực: email, bản ghi nhớ, thông báo, quảng cáo. Kỹ năng chèn câu phù hợp dùng hàng ngày trong soạn thảo văn bản.",
@@ -1402,7 +1396,7 @@ const part7OnlineChat: ToeicLecture = {
     { step: 3, title: "Use Timestamps for Sequence Questions", titleVi: "Dùng mốc thời gian cho câu hỏi thứ tự", description: "'At 2:15 PM, what does Ms. Park mean?' → find the 2:15 PM message by Ms. Park.", descriptionVi: "'Lúc 2:15 PM, Ms. Park có ý gì?' → tìm tin nhắn 2:15 PM của Ms. Park." },
   ],
   practiceSet: [
-    { context: "Online chat between 3 colleagues about a project deadline", contextVi: "Chat online giữa 3 đồng nghiệp về deadline dự án", question: "What does Ms. Kim suggest at 3:30 PM?", options: ["Canceling the project", "Extending the deadline by one week", "Hiring a freelancer", "Having a meeting"], answer: 1, explanation: "Find Ms. Kim's message at 3:30 PM specifically - don't confuse with other speakers.", explanationVi: "Tìm tin nhắn của Ms. Kim lúc 3:30 PM cụ thể - đừng nhầm với người khác." },
+    { context: "3:25 - Park: Two suppliers still have not sent their figures.\n3:28 - Lee: Should we hire a freelancer?\n3:30 - Kim: That will not solve the missing data. Let us extend the deadline by one week.\n3:31 - Park: Agreed. I will update the calendar.", contextVi: "3:25 - Park: Hai nhà cung cấp chưa gửi số liệu.\n3:28 - Lee: Thuê freelancer nhé?\n3:30 - Kim: Không giải quyết dữ liệu thiếu. Gia hạn một tuần nhé.\n3:31 - Park: Đồng ý. Tôi cập nhật lịch.", question: "What does Ms. Kim suggest at 3:30 PM?", options: ["Canceling the project", "Extending the deadline by one week", "Hiring a freelancer", "Having a meeting"], answer: 1, explanation: "Find Ms. Kim's message at 3:30 PM specifically - don't confuse with other speakers.", explanationVi: "Tìm tin nhắn của Ms. Kim lúc 3:30 PM cụ thể - đừng nhầm với người khác." },
   ],
   businessContext: "Online chat (Slack, Teams, etc.) is now the primary communication tool in modern offices. TOEIC reflects this real-world shift in its Part 7 passages.",
   businessContextVi: "Chat online (Slack, Teams, v.v.) là công cụ giao tiếp chính trong văn phòng hiện đại. TOEIC phản ánh xu hướng thực tế này trong Part 7.",
