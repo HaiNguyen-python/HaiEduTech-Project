@@ -22,9 +22,9 @@ const part1PeopleState: ToeicLecture = {
   level: "foundation",
   targetScore: "450+",
   description:
-    "About 30 % of Part 1 photos test STATE verbs (standing, leaning, facing, holding) rather than action verbs. Learners who memorise the 14 most-frequent state verbs gain 3-4 extra points instantly.",
+    "Practise observable posture and orientation: standing, leaning, facing and holding. Distinguish a visible state from an action you cannot verify.",
   descriptionVi:
-    "Khoảng 30% ảnh Part 1 hỏi động từ TRẠNG THÁI (standing, leaning, facing, holding) chứ không phải hành động. Học thuộc 14 động từ trạng thái phổ biến nhất sẽ kiếm thêm 3-4 điểm ngay.",
+    "Luyện tư thế và hướng nhìn: standing, leaning, facing, holding. Phân biệt trạng thái thấy được với hành động chưa có căn cứ.",
   trapAlerts: [
     { trap: "Confusing ‘holding’ vs ‘grabbing’ vs ‘picking up’", trapVi: "Nhầm ‘holding’ vs ‘grabbing’ vs ‘picking up’", why: "ETS uses the wrong action verb even when the object is correct.", whyVi: "ETS dùng SAI động từ hành động dù đồ vật đúng." },
     { trap: "‘Facing each other’ vs ‘standing side by side’", trapVi: "‘Facing each other’ vs ‘standing side by side’", why: "Body orientation traps; you must check WHICH WAY they look.", whyVi: "Bẫy hướng người; phải xem họ NHÌN HƯỚNG NÀO." },
@@ -33,7 +33,7 @@ const part1PeopleState: ToeicLecture = {
   coreTechnique: [
     { step: 1, title: "Pre-photo scan: count people, note posture", titleVi: "Quét trước: đếm người, ghi tư thế", description: "Before audio plays, mentally label: ‘2 men, 1 standing, 1 sitting, both facing camera’.", descriptionVi: "Trước audio, gán nhãn trong đầu: ‘2 người, 1 đứng, 1 ngồi, cả hai hướng camera’." },
     { step: 2, title: "Lock the SUBJECT first", titleVi: "Khóa CHỦ NGỮ trước", description: "If option starts ‘The women…’ but you see 1 woman + 1 man, eliminate instantly.", descriptionVi: "Nếu option mở ‘The women…’ nhưng bạn thấy 1 nữ + 1 nam, loại ngay." },
-    { step: 3, title: "Check the VERB-TENSE = present continuous", titleVi: "Kiểm tra THÌ = present continuous", description: "All Part 1 answers use is/are + V-ing. Anything else is a trap (e.g. ‘has been repaired’).", descriptionVi: "Mọi đáp án Part 1 dùng is/are + V-ing. Khác thì là bẫy (vd ‘has been repaired’)." },
+    { step: 3, title: "Check the state or action", titleVi: "Kiểm tra trạng thái hay hành động", description: "Correct descriptions can use present continuous ('is standing'), simple present ('stands beside') or a state passive ('are stacked'). Match meaning to the photograph; tense alone does not decide correctness.", descriptionVi: "Mô tả đúng có thể dùng tiếp diễn ('is standing'), hiện tại đơn ('stands beside') hay bị động trạng thái ('are stacked'). Đối chiếu nghĩa với ảnh; thì không tự quyết định đúng sai." },
     { step: 4, title: "Confirm with the OBJECT", titleVi: "Xác nhận bằng TÂN NGỮ", description: "Object must be VISIBLE in the photo. If you can't see it, the option is wrong.", descriptionVi: "Tân ngữ phải có TRONG ảnh. Không thấy = sai." },
   ],
   practiceSet: [
@@ -54,20 +54,14 @@ const part1PeopleState: ToeicLecture = {
     { word: "to be seated", definition: "Formal version of ‘to sit’.", definitionVi: "Đang ngồi (trang trọng).", example: "Guests are seated around the table.", businessContext: "Boardroom photos." },
   ],
   quiz: [
-    { question: "Around what % of Part 1 photos test STATE verbs (not action)?", options: ["10 %", "30 %", "70 %", "0 %"], answer: 1, explanation: "Roughly 30 % - that's why mastering state verbs is high-leverage." },
-    { question: "All correct Part 1 sentences use which structure?", options: ["Present perfect passive", "Present continuous (is/are + V-ing)", "Past simple", "Future"], answer: 1, explanation: "Part 1 always describes what's happening NOW." },
+    { question: "What does leaning against a wall describe?", options: ["A future plan", "A visible posture", "A completed purchase", "A sound"], answer: 1, explanation: "Leaning describes the visible posture of someone resting weight against a surface." },
+    { question: "Which description can accurately show a static arrangement?", options: ["The chairs will arrive tomorrow.", "The chairs are arranged around a table.", "The chairs were ordered last week.", "The chairs are being purchased online."], answer: 1, explanation: "A state passive can describe visible arrangement. Correct Part 1 statements are not restricted to is/are + V-ing." },
     { question: "‘Both women are sitting’ is wrong because:", options: ["Wrong tense", "Only ONE woman is sitting", "‘Both’ is informal", "Spelling"], answer: 1, explanation: "‘Both’ requires every person to do X - if one is standing, eliminate." },
     { question: "Best pre-audio routine is to:", options: ["Read all 4 options aloud", "Silently caption the photo in English", "Close your eyes", "Translate to Vietnamese"], answer: 1, explanation: "Self-captioning primes your ears for the correct vocabulary." },
     { question: "Which verb belongs to the STATE family?", options: ["leaning", "running", "throwing", "kicking"], answer: 0, explanation: "Leaning = static posture; the others are dynamic actions." },
     { question: "An option mentions an object NOT visible in the photo. You should:", options: ["Choose it anyway", "Eliminate it", "Re-listen", "Choose 'C' by default"], answer: 1, explanation: "If the object isn't visible, the option is wrong." },
   ],
-  cheatSheetPoints: [
-    "Pre-scan: count people, note posture & orientation",
-    "All correct answers use ‘is/are + V-ing’",
-    "‘Both / all’ require EVERY person doing the same action",
-    "Object must be VISIBLE in the photo",
-    "Self-caption the photo silently BEFORE audio plays",
-  ],
+  cheatSheetPoints: ["Count people and observe posture and orientation", "Both/all must match every referenced person", "Check the entire subject, action and location", "Present continuous and state descriptions may both be correct", "Reject unsupported actions, not a tense automatically"],
   isNew: true,
 };
 
@@ -144,9 +138,9 @@ const part3Flow: ToeicLecture = {
   level: "intermediate",
   targetScore: "600+",
   description:
-    "Every Part 3 dialogue answers exactly 3 questions in a predictable order: Topic (gist) → Detail (fact) → Future (next step). Pre-reading the question stems makes the audio feel scripted.",
+    "Each Part 3 conversation has three questions. Topic, detail and next action are useful practice categories, not a fixed order: sets may ask about occupation, intention or a graphic instead.",
   descriptionVi:
-    "Mọi đoạn hội thoại Part 3 trả lời đúng 3 câu theo thứ tự cố định: Chủ đề (ý chính) → Chi tiết (sự thật) → Tương lai (bước tiếp). Đọc trước câu hỏi khiến audio như được viết sẵn cho bạn.",
+    "Mỗi hội thoại Part 3 có ba câu hỏi. Chủ đề, chi tiết và hành động tiếp là nhóm để luyện, không phải thứ tự cố định; đề có thể hỏi nghề, ý định hay biểu đồ.",
   trapAlerts: [
     { trap: "Synonym-paraphrase answers (the right one!)", trapVi: "Đáp án paraphrase (chính là đáp án đúng)", why: "Correct answers RARELY repeat the speaker's word; they paraphrase.", whyVi: "Đáp án đúng HIẾM khi lặp từ người nói; thường paraphrase." },
     { trap: "Distractors using ‘decoy’ numbers", trapVi: "Đáp án nhiễu dùng số ‘mồi’", why: "Speaker says ‘$15 each’ - distractor says ‘$50’.", whyVi: "Người nói ‘$15 each’ - đáp án nhiễu ‘$50’." },
@@ -159,9 +153,9 @@ const part3Flow: ToeicLecture = {
     { step: 4, title: "Lock answers BEFORE the narrator reads", titleVi: "Chốt đáp án TRƯỚC khi narrator đọc", description: "Use the narrator reading time to pre-read the NEXT set.", descriptionVi: "Tận dụng lúc narrator đọc để đọc trước bộ câu hỏi tiếp." },
   ],
   practiceSet: [
-    { context: "Office chat about a delayed project", contextVi: "Đoạn chat về dự án trễ", question: "What is the main topic of the conversation?", options: ["A budget cut", "A delayed delivery", "A new hire", "A holiday party"], answer: 1, explanation: "Topic question = first 2 lines; speaker opens with ‘the shipment is late.’", explanationVi: "Câu chủ đề = 2 câu đầu; speaker mở ‘shipment is late.’" },
-    { context: "Same conversation, detail", contextVi: "Cùng đoạn, chi tiết", question: "What is the new delivery date?", options: ["Monday", "Wednesday", "Friday", "Next Tuesday"], answer: 2, explanation: "Speaker B: ‘They've pushed it to Friday.’", explanationVi: "Speaker B: ‘They've pushed it to Friday.’" },
-    { context: "Same conversation, future", contextVi: "Cùng đoạn, tương lai", question: "What will the man do next?", options: ["Call the supplier", "Email the manager", "Cancel the order", "Visit the warehouse"], answer: 1, explanation: "Man: ‘I'll email Sarah right away.’ - future action.", explanationVi: "Man: ‘I'll email Sarah right away.’ - hành động tương lai." },
+    { context: "Woman: 'The shipment is late, so production cannot start on Monday.' Man: 'The supplier has moved delivery to Friday. I will email Sarah, our manager, right away.'", contextVi: "Nữ: 'Hàng trễ nên thứ Hai chưa sản xuất được.' Nam: 'Nhà cung cấp dời giao sang thứ Sáu. Tôi email ngay cho Sarah, quản lý của ta.'", question: "What is the main topic of the conversation?", options: ["A budget cut", "A delayed delivery", "A new hire", "A holiday party"], answer: 1, explanation: "Topic question = first 2 lines; speaker opens with ‘the shipment is late.’", explanationVi: "Câu chủ đề = 2 câu đầu; speaker mở ‘shipment is late.’" },
+    { context: "Woman: 'The shipment is late, so production cannot start on Monday.' Man: 'The supplier has moved delivery to Friday. I will email Sarah, our manager, right away.'", contextVi: "Nữ: 'Hàng trễ nên thứ Hai chưa sản xuất được.' Nam: 'Nhà cung cấp dời giao sang thứ Sáu. Tôi email ngay cho Sarah, quản lý của ta.'", question: "What is the new delivery date?", options: ["Monday", "Wednesday", "Friday", "Next Tuesday"], answer: 2, explanation: "Speaker B: ‘They've pushed it to Friday.’", explanationVi: "Speaker B: ‘They've pushed it to Friday.’" },
+    { context: "Woman: 'The shipment is late, so production cannot start on Monday.' Man: 'The supplier has moved delivery to Friday. I will email Sarah, our manager, right away.'", contextVi: "Nữ: 'Hàng trễ nên thứ Hai chưa sản xuất được.' Nam: 'Nhà cung cấp dời giao sang thứ Sáu. Tôi email ngay cho Sarah, quản lý của ta.'", question: "What will the man do next?", options: ["Call the supplier", "Email the manager", "Cancel the order", "Visit the warehouse"], answer: 1, explanation: "Man: ‘I'll email Sarah right away.’ - future action.", explanationVi: "Man: ‘I'll email Sarah right away.’ - hành động tương lai." },
   ],
   businessContext: "Part 3 conversations mirror typical inter-department chats: deliveries, scheduling, hiring. Mastery is directly usable at work.",
   businessContextVi: "Hội thoại Part 3 mô phỏng trao đổi liên phòng ban: giao hàng, lịch họp, tuyển dụng. Học xong dùng được tại công sở.",
@@ -176,7 +170,7 @@ const part3Flow: ToeicLecture = {
     { word: "deadline", definition: "Final due date.", definitionVi: "Hạn chót.", example: "Deadline is Friday.", businessContext: "Workplace urgency." },
   ],
   quiz: [
-    { question: "Part 3 questions follow which fixed order?", options: ["Future → Topic → Detail", "Detail → Topic → Future", "Topic → Detail → Future", "Random"], answer: 2, explanation: "Topic (gist) → Detail (fact) → Future (next step)." },
+    { question: "How should you identify what a Part 3 set asks?", options: ["Assume the last question is always future", "Use the same template every time", "Read all three question stems", "Ignore the question wording"], answer: 2, explanation: "Each set has three questions, but topic/detail/future is not a mandatory pattern." },
     { question: "Q1 (Topic) is usually answered in:", options: ["The last line", "The first 2 lines", "The middle line", "The narrator's intro"], answer: 1, explanation: "Topic gist appears in the opening lines." },
     { question: "Correct answers tend to be:", options: ["Exact word matches", "Paraphrases of what was said", "Random options", "Always ‘C’"], answer: 1, explanation: "Paraphrase is the dominant correct-answer style." },
     { question: "‘They've pushed it to Friday’ paraphrases best as:", options: ["Cancelled until Friday", "Delivery delayed to Friday", "Friday off", "Friday meeting"], answer: 1, explanation: "‘Push to’ = delay to a later date." },
@@ -220,9 +214,9 @@ const part4Announcement: ToeicLecture = {
     { step: 4, title: "Pre-read 3 stems in 5 seconds", titleVi: "Đọc trước 3 stem trong 5 giây", description: "Same routine as Part 3. The narrator's reading is your pre-read budget.", descriptionVi: "Giống Part 3. Lúc narrator đọc là ngân sách đọc trước của bạn." },
   ],
   practiceSet: [
-    { context: "Airport announcement", contextVi: "Thông báo sân bay", question: "Who are the listeners?", options: ["Passengers", "Pilots", "Mechanics", "Cleaners"], answer: 0, explanation: "‘Welcome aboard Flight 207’ = passengers (greeting block).", explanationVi: "‘Welcome aboard Flight 207’ = hành khách (khối chào)." },
-    { context: "Same announcement, detail", contextVi: "Cùng thông báo, chi tiết", question: "What time will the plane depart?", options: ["7:15", "7:50", "8:15", "8:50"], answer: 2, explanation: "‘Departure has been moved from 7:50 to 8:15.’ - second number wins.", explanationVi: "‘Departure has been moved from 7:50 to 8:15.’ - số thứ hai thắng." },
-    { context: "Same, CTA", contextVi: "Cùng thông báo, CTA", question: "What are listeners asked to do?", options: ["Buy duty-free", "Board at Gate 22", "Show passports", "Stow seat belts"], answer: 1, explanation: "‘Please proceed to Gate 22 for boarding.’", explanationVi: "‘Please proceed to Gate 22 for boarding.’" },
+    { context: "Attention passengers on Flight 207: Departure has moved from 7:50 to 8:15. Please proceed to Gate 22 for boarding. Have your boarding passes ready.", contextVi: "Hành khách chuyến 207 lưu ý: Giờ khởi hành dời từ 7:50 sang 8:15. Đến cổng 22 để lên máy bay. Chuẩn bị thẻ lên máy bay.", question: "Who are the listeners?", options: ["Passengers", "Pilots", "Mechanics", "Cleaners"], answer: 0, explanation: "‘Welcome aboard Flight 207’ = passengers (greeting block).", explanationVi: "‘Welcome aboard Flight 207’ = hành khách (khối chào)." },
+    { context: "Attention passengers on Flight 207: Departure has moved from 7:50 to 8:15. Please proceed to Gate 22 for boarding. Have your boarding passes ready.", contextVi: "Hành khách chuyến 207 lưu ý: Giờ khởi hành dời từ 7:50 sang 8:15. Đến cổng 22 để lên máy bay. Chuẩn bị thẻ lên máy bay.", question: "What time will the plane depart?", options: ["7:15", "7:50", "8:15", "8:50"], answer: 2, explanation: "‘Departure has been moved from 7:50 to 8:15.’ - second number wins.", explanationVi: "‘Departure has been moved from 7:50 to 8:15.’ - số thứ hai thắng." },
+    { context: "Attention passengers on Flight 207: Departure has moved from 7:50 to 8:15. Please proceed to Gate 22 for boarding. Have your boarding passes ready.", contextVi: "Hành khách chuyến 207 lưu ý: Giờ khởi hành dời từ 7:50 sang 8:15. Đến cổng 22 để lên máy bay. Chuẩn bị thẻ lên máy bay.", question: "What are listeners asked to do?", options: ["Buy duty-free", "Board at Gate 22", "Show passports", "Stow seat belts"], answer: 1, explanation: "‘Please proceed to Gate 22 for boarding.’", explanationVi: "‘Please proceed to Gate 22 for boarding.’" },
   ],
   businessContext: "Part 4 monologues mirror PA announcements, voicemails and conference openings - daily workplace listening skills.",
   businessContextVi: "Độc thoại Part 4 giống thông báo loa, voicemail, mở hội thảo - kỹ năng nghe văn phòng hàng ngày.",
@@ -343,8 +337,8 @@ const part6Cohesion: ToeicLecture = {
   ],
   practiceSet: [
     { context: "Tense check", contextVi: "Kiểm tra thì", question: "‘Our company opened in 2010. By 2015 we ___ three new branches.’", options: ["open", "had opened", "are opening", "will open"], answer: 1, explanation: "‘By 2015’ + past reference → past perfect.", explanationVi: "‘By 2015’ + mốc quá khứ → past perfect." },
-    { context: "Connector logic", contextVi: "Logic liên từ", question: "‘Sales fell in Q1. ___, the company introduced a new product line.’", options: ["Therefore", "However", "For example", "In addition"], answer: 1, explanation: "Contrast between fall and new initiative → However.", explanationVi: "Tương phản giữa sụt giảm và sáng kiến mới → However." },
-    { context: "Sentence insertion", contextVi: "Chèn câu", question: "Paragraph about employee wellness. Best sentence to insert?", options: ["Our cafeteria menu changes weekly.", "Wellness programs reduce absenteeism by 12%.", "The CEO grew up in Boston.", "Sales targets remain unchanged."], answer: 1, explanation: "Only (B) keeps the wellness theme.", explanationVi: "Chỉ (B) giữ chủ đề wellness." },
+    { context: "Connector logic", contextVi: "Logic liên từ", question: "Sales fell in Q1. To reverse the decline, management decided to act. ___, the company introduced a new product line.", options: ["Therefore", "However", "For example", "In addition"], answer: 0, explanation: "Therefore introduces the result of the stated decision to act. However would suggest a contrast not established here; For example and In addition do not express this causal link.", explanationVi: "Therefore nêu kết quả của quyết định hành động vừa nói. However tạo tương phản chưa có căn cứ; For example và In addition không nêu quan hệ kết quả này." },
+    { context: "Sentence insertion", contextVi: "Chèn câu", question: "The company is introducing an employee wellness programme. ____ Employees can sign up for these activities on the staff portal.", options: ["Our cafeteria menu changes weekly.", "It will offer lunchtime exercise classes and stress-management workshops.", "The CEO grew up in Boston.", "Sales targets remain unchanged."], answer: 1, explanation: "B names the classes and workshops referred to by these activities. It links the programme to the signup instruction; the other sentences do not supply that reference.", explanationVi: "B nêu lớp học và hội thảo mà these activities nhắc lại. Câu nối chương trình với hướng dẫn đăng ký; các câu khác không tạo được tham chiếu." },
   ],
   businessContext: "Part 6 texts mimic real business memos, notices and emails - cohesion skill carries straight into the workplace.",
   businessContextVi: "Văn bản Part 6 mô phỏng memo, thông báo, email công sở - kỹ năng cohesion áp dụng trực tiếp ở công sở.",
@@ -360,7 +354,7 @@ const part6Cohesion: ToeicLecture = {
   ],
   quiz: [
     { question: "Before answering a Part 6 connector question, you should always:", options: ["Read just the sentence", "Read the sentence BEFORE and AFTER", "Re-read the title", "Guess C"], answer: 1, explanation: "Connectors depend on inter-sentence logic." },
-    { question: "‘Sales fell. ___, the firm launched a new product.’ Best connector:", options: ["Therefore", "However", "For example", "Meanwhile"], answer: 1, explanation: "Contrast between fall and new launch → However." },
+    { question: "Sales fell. Management decided to respond. ___, the firm launched a new product. Best connector:", options: ["Therefore", "However", "For example", "Meanwhile"], answer: 0, explanation: "Therefore expresses the result of the explicit decision to respond, rather than an unsupported contrast." },
     { question: "Tense for ‘By 2015 we ___ three new branches.’", options: ["open", "had opened", "are opening", "will open"], answer: 1, explanation: "‘By + past year’ → past perfect." },
     { question: "Sentence insertion correct answers always:", options: ["Introduce a new topic", "Match the paragraph THEME", "Quote the title", "Use idioms"], answer: 1, explanation: "Theme continuity is non-negotiable." },
     { question: "Which signals CAUSE-EFFECT?", options: ["In contrast", "For instance", "Consequently", "Meanwhile"], answer: 2, explanation: "Consequently = result of previous cause." },
@@ -393,7 +387,7 @@ const part7Email: ToeicLecture = {
     "Đề thread email gần như chắc chắn có trong Part 7. Thạo 3-Slot Hunt - Ai gửi? Yêu cầu gì? Hành động tiếp theo? - bạn trả 5 câu trong 4 phút.",
   trapAlerts: [
     { trap: "Mistaking the SECOND email's sender for the requester", trapVi: "Nhầm người gửi email THỨ HAI là người yêu cầu", why: "The reply often AGREES; the request came in email #1.", whyVi: "Email trả lời thường ĐỒNG Ý; yêu cầu nằm ở email 1." },
-    { trap: "Confusing CC vs To recipients", trapVi: "Nhầm CC và To", why: "Some questions ask ‘who must take action?’ - only the TO recipient.", whyVi: "Có câu hỏi ‘ai phải hành động?’ - chỉ TO chứ không phải CC." },
+    { trap: "Confusing CC vs To recipients", trapVi: "Nhầm CC và To", why: "To and Cc show distribution, not automatic action obligations. Read the body to identify who is explicitly asked to do what.", whyVi: "To và Cc cho biết người nhận, không tự quy định ai phải hành động. Đọc thân thư để biết ai được yêu cầu làm gì." },
     { trap: "Time-zone / date confusion in attachments", trapVi: "Nhầm múi giờ / ngày trong file đính kèm", why: "Dates inside an attached schedule may differ from the email's send date.", whyVi: "Ngày trong file đính kèm có thể khác ngày gửi email." },
   ],
   coreTechnique: [
@@ -404,7 +398,7 @@ const part7Email: ToeicLecture = {
   ],
   practiceSet: [
     { context: "Email 1 (From: Lin To: Carlos) - request quote", contextVi: "Email 1 - yêu cầu báo giá", question: "Who is requesting a quote?", options: ["Carlos", "Lin", "The CC recipient", "An attached supplier"], answer: 1, explanation: "Sender of email 1 (Lin) made the request.", explanationVi: "Người gửi email 1 (Lin) yêu cầu." },
-    { context: "Email 2 (From: Carlos To: Lin) - agrees, attaches PDF", contextVi: "Email 2 - đồng ý, đính kèm PDF", question: "What will Carlos do next?", options: ["Cancel the order", "Email the price list", "Call the warehouse", "Visit Lin's office"], answer: 1, explanation: "‘I've attached our latest price list.’", explanationVi: "‘I've attached our latest price list.’" },
+    { context: "Email 2 (From: Carlos To: Lin) - agrees, attaches PDF", contextVi: "Email 2 - đồng ý, đính kèm PDF", question: "What has Carlos included with his reply?", options: ["Cancel the order", "Email the price list", "Call the warehouse", "Visit Lin's office"], answer: 1, explanation: "'I have attached our latest price list' shows a completed action: he included the price list, not a promised future action.", explanationVi: "'I have attached our latest price list' shows a completed action: he included the price list, not a promised future action." },
     { context: "Attached PDF: event date is 14 May", contextVi: "PDF đính kèm: sự kiện 14/5", question: "When will the event take place?", options: ["10 May", "12 May", "14 May", "20 May"], answer: 2, explanation: "Date comes from the ATTACHMENT, not the body.", explanationVi: "Ngày lấy từ FILE ĐÍNH KÈM, không phải thân email." },
   ],
   businessContext: "Email-thread passages mirror everyday workplace communication; mastering them strengthens both your TOEIC and real-job inbox.",
@@ -422,7 +416,7 @@ const part7Email: ToeicLecture = {
   quiz: [
     { question: "Read the headers first because:", options: ["They look pretty", "They decode 80 % of who/what/when questions", "It saves paper", "They are decorative"], answer: 1, explanation: "From / To / Subject reveal sender, recipient, and topic instantly." },
     { question: "‘Who is requesting?’ - usually answered in:", options: ["Email 1", "Email 2", "The attachment", "Cc field"], answer: 0, explanation: "Email 1 typically contains the request." },
-    { question: "Why does the TO field matter more than CC for action questions?", options: ["Only TO recipients are expected to act", "CC is fake", "TO sorts alphabetically", "It doesn't matter"], answer: 0, explanation: "CC is informational; TO carries the action obligation." },
+    { question: "How should you decide who must act in an email?", options: ["Read the explicit request and named responsibility in the body", "Assume nobody in Cc can act", "Choose the first recipient alphabetically", "Ignore the body"], answer: 0, explanation: "The body assigns responsibility. To/Cc alone is not a reliable rule for action obligations." },
     { question: "Event date may live in:", options: ["Only the body", "Only the subject line", "The attachment, not the body", "The CC field"], answer: 2, explanation: "Many TOEIC questions hide dates inside attachments." },
     { question: "‘Could we push to next week?’ signals:", options: ["Agreement", "Counter-offer / reschedule request", "Cancellation", "Greeting"], answer: 1, explanation: "Polite request to reschedule." },
     { question: "If the question asks ‘what will the reader do?’, you should locate:", options: ["Greeting", "Sign-off + action verb", "Subject line", "Date"], answer: 1, explanation: "Action verbs near the sign-off reveal next steps." },
