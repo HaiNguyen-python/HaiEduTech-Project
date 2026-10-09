@@ -36,8 +36,13 @@ const PteExamGuide = () => (
                   <h3 className="font-bold">{item.name}</h3>
                   <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{item.note}</p>
                 </div>
-                {item.available ? <CheckCircle2 className="shrink-0 text-primary" size={19} /> : <span className="max-w-28 shrink-0 rounded bg-muted px-2 py-1 text-xs font-semibold text-muted-foreground">Practice not yet available</span>}
+                {item.available ? <CheckCircle2 className="shrink-0 text-primary" size={19} /> : item.scoring !== "unscored" && <span className="max-w-28 shrink-0 rounded bg-muted px-2 py-1 text-xs font-semibold text-muted-foreground">Practice not yet available</span>}
               </div>
+              <dl className="mt-3 space-y-2 text-sm">
+                <div><dt className="font-semibold">Timing</dt><dd className="text-muted-foreground">{PTE_TASK_REQUIREMENTS[item.id]?.timing}</dd></div>
+                <div><dt className="font-semibold">Required response</dt><dd className="text-muted-foreground">{PTE_TASK_REQUIREMENTS[item.id]?.response}</dd></div>
+                <div><dt className="font-semibold">Scoring</dt><dd className="text-muted-foreground">{PTE_TASK_REQUIREMENTS[item.id]?.scoring}</dd></div>
+              </dl>
               <div className="mt-3 flex flex-wrap gap-2 text-xs text-muted-foreground">
                 <span className="rounded bg-muted px-2 py-1 capitalize">{item.scoring}</span>
                 {item.contributesTo.map(skill => <span key={skill} className="rounded bg-muted px-2 py-1 capitalize">{skill}</span>)}
