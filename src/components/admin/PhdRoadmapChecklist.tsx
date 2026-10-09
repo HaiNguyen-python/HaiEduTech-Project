@@ -12,12 +12,13 @@ import { Textarea } from "@/components/ui/textarea";
 import {
   BookOpen, Lightbulb, FileText, ShieldCheck, Database, BarChart3,
   PenTool, Send, CheckCircle2, Circle, Clock, AlertTriangle, Sparkles,
-  ChevronDown, ChevronUp, Wand2, Loader2, Copy, Trash2
+  ChevronDown, ChevronUp, Wand2, Loader2, Copy, Trash2, Save
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import ReactMarkdown from "react-markdown";
+import { researchError } from "@/lib/phdResearch";
 
 type Status = "not_started" | "in_progress" | "done" | "blocked";
 
@@ -78,8 +79,8 @@ const STEPS: StepDef[] = [
     icon: FileText,
     vi: "4. Proposal Writing",
     en: "4. Proposal Writing",
-    descVi: "1500–2000 từ, đủ 7 mục, đạt Health Score ≥ 80.",
-    descEn: "1500–2000 words, all 7 sections, Health Score ≥ 80.",
+    descVi: "Theo yêu cầu trường và người hướng dẫn; kiểm tra cấu trúc và tính khoa học.",
+    descEn: "Follow institutional and supervisor requirements; review structure and scientific validity.",
     nextActions: [
       { vi: "Mở tab Proposal Builder; lấp đủ 7 section + chạy Health Score.", en: "Open the Proposal Builder; fill all 7 sections + run Health Score." },
       { vi: "Nhờ 1 mentor + 1 peer review; cập nhật v0.2.", en: "Get 1 mentor + 1 peer review; update to v0.2." },
@@ -107,7 +108,7 @@ const STEPS: StepDef[] = [
     descVi: "Pilot → main study, quản lý dropout, đảm bảo data quality.",
     descEn: "Pilot → main study, manage dropout, ensure data quality.",
     nextActions: [
-      { vi: "Chạy pilot N=10–20, fix instrument issues trước khi launch.", en: "Run a pilot N=10–20 and fix instrument issues before launch." },
+      { vi: "Lập cỡ mẫu pilot theo mục tiêu khả thi; kiểm tra công cụ trước nghiên cứu chính.", en: "Plan pilot size for feasibility objectives; test instruments before the main study." },
       { vi: "Setup data dictionary + backup hằng tuần.", en: "Set up a data dictionary + weekly backups." },
       { vi: "Theo dõi dropout/attrition; ghi log lý do.", en: "Track dropout/attrition; log the reasons." },
     ],
@@ -155,9 +156,9 @@ const STEPS: StepDef[] = [
 
 const STATUS_META: Record<Status, { vi: string; en: string; cls: string; icon: typeof Circle }> = {
   not_started: { vi: "Chưa bắt đầu", en: "Not started", cls: "bg-muted text-muted-foreground", icon: Circle },
-  in_progress: { vi: "Đang làm", en: "In progress", cls: "bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30", icon: Clock },
-  done: { vi: "Hoàn thành", en: "Done", cls: "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30", icon: CheckCircle2 },
-  blocked: { vi: "Đang vướng", en: "Blocked", cls: "bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30", icon: AlertTriangle },
+  in_progress: { vi: "Đang làm", en: "In progress", cls: "bg-muted text-foreground border border-border", icon: Clock },
+  done: { vi: "Hoàn thành", en: "Done", cls: "bg-primary/10 text-primary border border-primary/20", icon: CheckCircle2 },
+  blocked: { vi: "Đang vướng", en: "Blocked", cls: "bg-destructive/10 text-destructive border border-destructive/20", icon: AlertTriangle },
 };
 
 interface AiPlan {
@@ -169,23 +170,50 @@ interface AiPlan {
 interface StepState { status: Status; note: string; ai?: AiPlan }
 type StateMap = Record<string, StepState>;
 
-const PhdRoadmapChecklist = () => {
+const PhdRoadmapChecklist = ({ userId }: { userId: string | null }) => {
   const { t, lang } = useLanguage();
   const isVi = lang === "vi";
   const [state, setState] = useState<StateMap>({});
   const [expanded, setExpanded] = useState<string | null>(STEPS[0].id);
   const [aiLoadingId, setAiLoadingId] = useState<string | null>(null);
+  const [cloudId, setCloudId] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
+  const [ready, setReady] = useState(false);
 
+  const storageKey = `${STORAGE_KEY}:${userId || "signed-out"}`;
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) setState(JSON.parse(raw));
-    } catch { /* ignore */ }
-  }, []);
+    let cancelled = false;
+    setReady(false);
+    const load = async () => {
+      try {
+        const raw = localStorage.getItem(storageKey);
+        if (raw && !cancelled) setState(JSON.parse(raw));
+        if (userId) {
+          const { data, error } = await supabase.from("phd_research_notes").select("id,content").eq("user_id", userId).eq("topic", "Roadmap State").order("updated_at", { ascending: false }).limit(1).maybeSingle();
+          if (error) throw error;
+          if (data && !cancelled) { setCloudId(data.id); if (!raw) { const restored = JSON.parse(data.content); setState(restored); localStorage.setItem(storageKey, data.content); } }
+        }
+      } catch (e) { if (!cancelled) setError(e instanceof Error ? e.message : "Unable to restore roadmap"); }
+      finally { if (!cancelled) setReady(true); }
+    };
+    load(); return () => { cancelled = true; };
+  }, [storageKey, userId]);
 
   const persist = (next: StateMap) => {
     setState(next);
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(next)); } catch { /* ignore */ }
+    try { localStorage.setItem(storageKey, JSON.stringify(next)); } catch { setError("Browser storage is unavailable. Save your roadmap to your account."); }
+  };
+  const saveCloud = async () => {
+    if (!userId) return;
+    setSaving(true); setError("");
+    const payload = { user_id: userId, topic: "Roadmap State", title: "PhD Roadmap", content: JSON.stringify(state), tags: ["roadmap-state"], importance: 3 };
+    try {
+      const response = cloudId ? await supabase.from("phd_research_notes").update(payload).eq("id", cloudId).eq("user_id", userId).select("id").single() : await supabase.from("phd_research_notes").insert(payload).select("id").single();
+      if (response.error) throw response.error;
+      setCloudId(response.data.id); toast.success(t("Đã lưu lộ trình vào tài khoản", "Roadmap saved to account"));
+    } catch (e) { setError(e instanceof Error ? e.message : "Unable to save roadmap"); }
+    finally { setSaving(false); }
   };
 
   const getStep = (id: string): StepState =>
@@ -205,6 +233,7 @@ const PhdRoadmapChecklist = () => {
   };
 
   const generateNextAction = async (step: StepDef) => {
+    setError("");
     setAiLoadingId(step.id);
     try {
       const cur = getStep(step.id);
@@ -228,8 +257,7 @@ const PhdRoadmapChecklist = () => {
       setAi(step.id, { markdown: md, checks: {}, generatedAt: new Date().toISOString() });
       toast.success(t("Đã tạo next actions", "Next actions generated"));
     } catch (e) {
-      toast.error(t("AI lỗi, thử lại sau", "AI error, try again later"));
-      console.error(e);
+      setError(await researchError(e));
     } finally {
       setAiLoadingId(null);
     }
@@ -274,25 +302,27 @@ const PhdRoadmapChecklist = () => {
     persist({});
   };
 
+  if (!ready) return <div className="py-8"><Loader2 className="w-5 h-5 animate-spin" /></div>;
   return (
     <div className="space-y-4">
+      {error && <div role="alert" className="rounded-md border border-destructive/30 p-4 text-sm text-destructive">{error}</div>}
       {/* Overview */}
-      <Card className="border-violet-500/30 bg-gradient-to-br from-violet-500/5 to-indigo-500/5">
-        <CardHeader className="pb-3">
+      <section className="border-b border-border pb-5">
+        <div className="pb-3">
           <CardTitle className="text-base flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-violet-600" />
+            <Sparkles className="w-4 h-4 text-primary" />
             {t("Lộ trình PhD — Tổng quan", "PhD Roadmap — Overview")}
           </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-3">
+        </div>
+        <div className="space-y-3">
           <div className="flex flex-wrap gap-2 text-xs">
-            <Badge className="bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">
+            <Badge className="bg-primary/10 text-primary border border-primary/20">
               ✅ {doneCount}/{STEPS.length} {t("xong", "done")}
             </Badge>
-            <Badge className="bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30">
+            <Badge className="bg-muted text-foreground border border-border">
               ⏳ {inProg} {t("đang làm", "in progress")}
             </Badge>
-            <Badge className="bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30">
+            <Badge className="bg-destructive/10 text-destructive border border-destructive/20">
               ⚠️ {blocked} {t("vướng", "blocked")}
             </Badge>
             <Badge variant="outline">{pct}%</Badge>
@@ -300,15 +330,15 @@ const PhdRoadmapChecklist = () => {
           <Progress value={pct} className="h-2" />
 
           {nextFocus && (
-            <div className="rounded-lg border-2 border-violet-500/40 bg-violet-500/10 p-3 text-sm">
+            <div className="rounded-lg border-2 border-primary/30 bg-primary/5 p-3 text-sm">
               <div className="font-semibold mb-1 flex items-center gap-1.5">
-                <Lightbulb className="w-4 h-4 text-violet-600" />
+                <Lightbulb className="w-4 h-4 text-primary" />
                 {nextFocus.reason === "blocked"
                   ? t("Ưu tiên gỡ vướng:", "Unblock first:")
                   : nextFocus.reason === "in_progress"
                     ? t("Tiếp tục đang dở:", "Continue in-progress:")
                     : t("Bước kế tiếp gợi ý:", "Suggested next step:")}
-                <span className="text-violet-700 dark:text-violet-300">{t(nextFocus.step.vi, nextFocus.step.en)}</span>
+                <span className="text-primary">{t(nextFocus.step.vi, nextFocus.step.en)}</span>
               </div>
               <ul className="list-disc pl-5 space-y-1 text-muted-foreground">
                 {nextFocus.step.nextActions.slice(0, 2).map((a, i) => (
@@ -318,13 +348,14 @@ const PhdRoadmapChecklist = () => {
             </div>
           )}
 
-          <div className="flex justify-end">
+          <div className="flex justify-end gap-2">
+             <Button size="sm" onClick={saveCloud} disabled={saving || !userId} className="gap-2">{saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}{t("Lưu vào tài khoản", "Save to account")}</Button>
             <Button size="sm" variant="outline" onClick={resetAll}>
               {t("Reset roadmap", "Reset roadmap")}
             </Button>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </section>
 
       {/* Steps */}
       <div className="space-y-2">
@@ -339,15 +370,16 @@ const PhdRoadmapChecklist = () => {
             <Card key={s.id} className={st === "done" ? "opacity-80" : ""}>
               <button
                 onClick={() => setExpanded(isOpen ? null : s.id)}
-                className="w-full text-left p-4 flex items-start gap-3"
+                className="w-full h-auto whitespace-normal text-left p-4 flex items-start justify-start gap-3"
+                 aria-expanded={isOpen}
               >
-                <div className="w-9 h-9 shrink-0 rounded-md bg-violet-500/10 text-violet-600 dark:text-violet-400 flex items-center justify-center">
+                <div className="w-9 h-9 shrink-0 rounded-md bg-primary/5 text-primary  flex items-center justify-center">
                   <Icon className="w-4 h-4" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
                     <span className="font-semibold text-sm">{t(s.vi, s.en)}</span>
-                    <span className={`inline-flex items-center gap-1 text-[11px] px-2 py-0.5 rounded-full ${meta.cls}`}>
+                    <span className={`inline-flex items-center gap-1 text-sm px-2 py-0.5 rounded-full ${meta.cls}`}>
                       <StatusIcon className="w-3 h-3" />
                       {t(meta.vi, meta.en)}
                     </span>
@@ -355,7 +387,7 @@ const PhdRoadmapChecklist = () => {
                   <p className="text-xs text-muted-foreground mt-0.5">{t(s.descVi, s.descEn)}</p>
                 </div>
                 {isOpen ? <ChevronUp className="w-4 h-4 text-muted-foreground" /> : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
-              </button>
+              </Button>
 
               {isOpen && (
                 <CardContent className="pt-0 space-y-3">
@@ -375,7 +407,7 @@ const PhdRoadmapChecklist = () => {
 
                   <div className="rounded-md border bg-muted/30 p-3">
                     <div className="text-xs font-semibold mb-1.5 flex items-center gap-1">
-                      <Lightbulb className="w-3.5 h-3.5 text-amber-500" />
+                      <Lightbulb className="w-3.5 h-3.5 text-primary" />
                       {t("Next actions gợi ý", "Suggested next actions")}
                     </div>
                     <ul className="list-disc pl-5 space-y-1 text-xs text-muted-foreground">
@@ -399,10 +431,10 @@ const PhdRoadmapChecklist = () => {
                   </div>
 
                   {/* AI Generate next action */}
-                  <div className="rounded-lg border-2 border-violet-500/30 bg-gradient-to-br from-violet-500/5 to-fuchsia-500/5 p-3 space-y-2">
+                  <div className="rounded-lg border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-accent/5 p-3 space-y-2">
                     <div className="flex items-center justify-between gap-2 flex-wrap">
                       <div className="text-xs font-semibold flex items-center gap-1.5">
-                        <Wand2 className="w-3.5 h-3.5 text-violet-600" />
+                        <Wand2 className="w-3.5 h-3.5 text-primary" />
                         {t("AI Next Action — cá nhân hoá theo tiến độ", "AI Next Action — tailored to your progress")}
                       </div>
                       <div className="flex gap-1.5">
@@ -422,7 +454,7 @@ const PhdRoadmapChecklist = () => {
                             <Button
                               size="sm"
                               variant="ghost"
-                              className="h-7 text-xs text-rose-600"
+                              className="h-7 text-xs text-destructive"
                               onClick={() => setAi(s.id, undefined)}
                             >
                               <Trash2 className="w-3 h-3" />
@@ -432,8 +464,8 @@ const PhdRoadmapChecklist = () => {
                         <Button
                           size="sm"
                           onClick={() => generateNextAction(s)}
-                          disabled={aiLoadingId === s.id}
-                          className="h-7 text-xs bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white"
+                          disabled={aiLoadingId !== null}
+                          className="h-7 text-xs "
                         >
                           {aiLoadingId === s.id ? (
                             <><Loader2 className="w-3 h-3 mr-1 animate-spin" /> {t("Đang tạo...", "Generating...")}</>
@@ -445,7 +477,8 @@ const PhdRoadmapChecklist = () => {
                     </div>
 
                     {getStep(s.id).ai && (() => {
-                      const ai = getStep(s.id).ai!;
+                      const ai = getStep(s.id).ai;
+                       if (!ai) return null;
                       const tasks = parseChecklist(ai.markdown);
                       // Strip checklist lines from markdown for nicer display, keep headings/other content
                       const mdWithoutTasks = ai.markdown.replace(/^\s*-\s*\[[ xX]\]\s+.+$/gm, "").replace(/\n{3,}/g, "\n\n");
@@ -454,7 +487,7 @@ const PhdRoadmapChecklist = () => {
                         <div className="space-y-2">
                           {tasks.length > 0 && (
                             <div className="rounded-md bg-background/60 border p-2">
-                              <div className="text-[11px] font-semibold mb-1.5 text-muted-foreground">
+                              <div className="text-sm font-semibold mb-1.5 text-muted-foreground">
                                 ✅ {t("Checklist", "Checklist")} ({doneTasks}/{tasks.length})
                               </div>
                               <ul className="space-y-1">
@@ -467,7 +500,7 @@ const PhdRoadmapChecklist = () => {
                                           type="checkbox"
                                           checked={checked}
                                           onChange={() => toggleCheck(s.id, tk.idx)}
-                                          className="mt-0.5 accent-violet-600"
+                                          className="mt-0.5 accent-primary"
                                         />
                                         <span className={checked ? "line-through text-muted-foreground" : ""}>{tk.text}</span>
                                       </label>
@@ -480,7 +513,7 @@ const PhdRoadmapChecklist = () => {
                           <div className="prose prose-sm dark:prose-invert max-w-none text-xs [&_h2]:text-sm [&_h2]:mt-3 [&_h2]:mb-1 [&_p]:my-1 [&_ul]:my-1">
                             <ReactMarkdown>{mdWithoutTasks}</ReactMarkdown>
                           </div>
-                          <div className="text-[10px] text-muted-foreground">
+                          <div className="text-xs text-muted-foreground">
                             {t("Tạo lúc", "Generated at")} {new Date(ai.generatedAt).toLocaleString()}
                           </div>
                         </div>
@@ -488,7 +521,7 @@ const PhdRoadmapChecklist = () => {
                     })()}
 
                     {!getStep(s.id).ai && (
-                      <p className="text-[11px] text-muted-foreground">
+                      <p className="text-sm text-muted-foreground">
                         {t(
                           "AI sẽ đọc trạng thái + ghi chú của bạn và sinh checklist 5-8 việc cụ thể, kèm resource và tiêu chí hoàn thành.",
                           "AI reads your status + notes and generates a 5-8 task checklist with resources and exit criteria."
