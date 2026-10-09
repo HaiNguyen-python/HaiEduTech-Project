@@ -6,6 +6,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { pythonChallenges } from "@/data/pythonChallenges";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useState, useMemo } from "react";
 import PythonChallengeLeaderboard from "@/components/programming/PythonChallengeLeaderboard";
 import PythonProgressChart from "@/components/programming/PythonProgressChart";
@@ -61,13 +62,21 @@ const PythonChallengeList = () => {
         </div>
         <div className="grid items-start gap-7 lg:grid-cols-[minmax(0,1fr)_320px]">
           <section className="min-w-0" aria-label={t("Danh sách thử thách", "Challenge library")}>
-            <div className="mb-6 border-b border-border pb-5">
-              <h2 className="mb-3 flex items-center gap-2 text-sm font-semibold"><Filter className="h-4 w-4 text-primary" />{t("Chủ đề", "Topics")}</h2>
-              <div className="flex flex-wrap gap-2">
-                {SECTIONS.map(s => <Button key={s} size="sm" variant={section === s ? "default" : "secondary"} onClick={() => { setSection(s); setPage(1); }} aria-pressed={section === s} className="h-auto min-h-8 max-w-full whitespace-normal px-2.5 py-1.5 text-left text-xs">
-                  {s === "all" ? t("Tất cả", "All") : s}{s !== "all" && <span className="opacity-70">{pythonChallenges.filter(c => c.section === s).length}</span>}
-                </Button>)}
-              </div>
+            <div className="mb-6 flex flex-wrap items-center gap-3 border-b border-border pb-5">
+              <span className="flex items-center gap-2 text-sm font-semibold"><Filter className="h-4 w-4 text-primary" />{t("Chủ đề", "Topics")}</span>
+              <Select value={section} onValueChange={s => { setSection(s); setPage(1); }}>
+                <SelectTrigger className="h-9 w-full max-w-xs sm:w-72" aria-label={t("Chọn chủ đề", "Choose a topic")}>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="max-h-80">
+                  {SECTIONS.map(s => <SelectItem key={s} value={s}>
+                    <span className="flex items-center justify-between gap-3">
+                      <span>{s === "all" ? t("Tất cả", "All") : s}</span>
+                      <span className="font-mono text-xs text-muted-foreground">{pythonChallenges.filter(c => c.section === s).length}</span>
+                    </span>
+                  </SelectItem>)}
+                </SelectContent>
+              </Select>
             </div>
             <div className="mb-4 flex items-center justify-between gap-3"><h2 className="font-display text-lg font-bold">{section === "all" ? t("Thử thách của bạn", "Your challenges") : section}</h2><span className="shrink-0 font-mono text-xs text-muted-foreground">{filtered.length} {t("bài", "challenges")}</span></div>
             <div className="grid gap-4 sm:grid-cols-2 sm:gap-5 xl:grid-cols-3">
