@@ -30,6 +30,8 @@ import PhdRoadmapChecklist from "./PhdRoadmapChecklist";
 import PhdResearchTools from "./PhdResearchTools";
 import PhdEvidenceMatrix from "./PhdEvidenceMatrix";
 import { RESEARCH_TOPICS, safeResearchUrl, researchError } from "@/lib/phdResearch";
+import PhdResearchBriefEditor from "./PhdResearchBrief";
+import { EMPTY_RESEARCH_BRIEF, RESEARCH_BRIEF_TOPIC, parseResearchBrief, hasResearchBrief, researchBriefContext, type ResearchBrief } from "@/lib/phdResearchBrief";
 
 interface NoteRow {
   id: string;
@@ -62,7 +64,9 @@ const PhdResearchTab = () => {
   const [notes, setNotes] = useState<NoteRow[]>([]);
   const [citations, setCitations] = useState<CitationRow[]>([]);
   const [loadingData, setLoadingData] = useState(true);
-  const [activeTab, setActiveTab] = useState("roadmap");
+  const [activeTab, setActiveTab] = useState("brief");
+  const [brief, setBrief] = useState<ResearchBrief>({ ...EMPTY_RESEARCH_BRIEF });
+  const [briefId, setBriefId] = useState<string | null>(null);
   const [dataError, setDataError] = useState("");
   const [aiError, setAiError] = useState("");
   const [noteQuery, setNoteQuery] = useState("");
@@ -100,7 +104,9 @@ const PhdResearchTab = () => {
       ]);
       if (n.error || c.error) setDataError(n.error?.message || c.error?.message || "Unable to load research");
        if (!n.error) {
-         setNotes((n.data || []).filter(row => row.topic !== "Roadmap State") as NoteRow[]);
+          setNotes((n.data || []).filter(row => !["Roadmap State", RESEARCH_BRIEF_TOPIC].includes(row.topic)) as NoteRow[]);
+          const savedBrief = n.data?.find(row => row.topic === RESEARCH_BRIEF_TOPIC);
+          if (savedBrief) { setBrief(parseResearchBrief(savedBrief.content)); setBriefId(savedBrief.id); setActiveTab("roadmap"); }
          const latest = n.data?.find(row => row.topic === "Proposal");
          if (latest) { setProposalTitle(latest.title); setProposalText(latest.content); }
        }
@@ -117,7 +123,7 @@ const PhdResearchTab = () => {
     setLitResult(null);
     try {
       const { data, error } = await supabase.functions.invoke("phd-research-ai", {
-        body: { mode: "literature", query: litQuery, language: isVi ? "vi" : "en" },
+        body: { mode: "literature", query: `${litQuery}\n\nResearch brief:\n${researchBriefContext(brief)}`.slice(0, 4000), language: isVi ? "vi" : "en" },
       });
       if (error) throw error;
       if (!data?.content) throw new Error(data?.error || "Empty AI response");
@@ -127,7 +133,7 @@ const PhdResearchTab = () => {
     } finally {
       setLitLoading(false);
     }
-  }, [litQuery, isVi]);
+  }, [litQuery, isVi, brief]);
 
   const saveLitAsCitation = useCallback(async () => {
     if (!userId || !litResult) return;
@@ -159,7 +165,7 @@ const PhdResearchTab = () => {
     setRqResult("");
     try {
       const { data, error } = await supabase.functions.invoke("phd-research-ai", {
-        body: { mode: "rq", topic: rqTopic, language: isVi ? "vi" : "en" },
+        body: { mode: "rq", topic: `${rqTopic}\n\nResearch brief:\n${researchBriefContext(brief)}`.slice(0, 4000), language: isVi ? "vi" : "en" },
       });
       if (error) throw error;
       if (!data?.content) throw new Error(data?.error || "Empty AI response");
@@ -169,7 +175,7 @@ const PhdResearchTab = () => {
     } finally {
       setRqLoading(false);
     }
-  }, [rqTopic, isVi, t]);
+  }, [rqTopic, isVi, t, brief]);
 
   const saveRqAsNote = useCallback(async () => {
     if (!userId || !rqResult) return;
@@ -300,10 +306,18 @@ const PhdResearchTab = () => {
     URL.revokeObjectURL(url);
   }, [proposalTitle, proposalText]);
 
-  const researchContext = useMemo(() => citations.slice(0, 12).map(c => `SOURCE: ${c.title}
+  const researchContext = useMemo(() => (`RESEARCH BRIEF:\n${researchBriefContext(brief)}\n\n` + citations.slice(0, 12).map(c => `SOURCE: ${c.title}
 AUTHORS/YEAR: ${c.authors ?? "unknown"}, ${c.year ?? "unknown"}
 URL: ${c.source_url ?? "none"}
-EVIDENCE: ${(c.summary ?? "").slice(0, 1800)}`).join("\n\n").slice(0, 28000), [citations]);
+EVIDENCE: ${(c.summary ?? "").slice(0, 1800)}`).join("\n\n")).slice(0, 28000), [citations, brief]);
+  const saveBrief = async () => {
+    if (!userId || !hasResearchBrief(brief)) return false;
+    setDataError("");
+    const payload = { user_id: userId, topic: RESEARCH_BRIEF_TOPIC, title: brief.topic.trim(), content: JSON.stringify(brief), tags: ["research-brief"], importance: 5 };
+    const response = briefId ? await supabase.from("phd_research_notes").update(payload).eq("id", briefId).eq("user_id", userId).select("id").single() : await supabase.from("phd_research_notes").insert(payload).select("id").single();
+    if (response.error) { setDataError(response.error.message); return false; }
+    setBriefId(response.data.id); toast.success(t("Đã lưu hồ sơ nghiên cứu", "Research brief saved")); return true;
+  };
   const filteredNotes = notes.filter(n => `${n.title} ${n.topic} ${n.content} ${n.tags.join(" ")}`.toLowerCase().includes(noteQuery.toLowerCase()));
   const saveLabNote = async (title: string, content: string, topic: string) => {
     if (!userId) return;
@@ -332,15 +346,16 @@ EVIDENCE: ${(c.summary ?? "").slice(0, 1800)}`).join("\n\n").slice(0, 28000), [c
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
       <header className="border-b border-border pb-6 space-y-5">
         <div className="flex flex-wrap items-start justify-between gap-4">
-          <div className="flex items-start gap-3"><div className="bg-primary/10 p-3 rounded-md"><Brain className="w-7 h-7 text-primary" /></div><div><div className="flex items-center gap-2 text-sm text-muted-foreground mb-1"><ShieldCheck className="w-4 h-4" />{t("Không gian nghiên cứu cá nhân", "Private research workspace")}</div><h2 className="text-2xl font-bold">PhD Research</h2><p className="text-base text-muted-foreground mt-1">EdTech & Neuroscience</p></div></div>
+          <div className="flex min-w-0 items-start gap-3"><div className="bg-primary/10 p-3 rounded-md"><Brain className="w-7 h-7 text-primary" /></div><div className="min-w-0"><div className="flex items-center gap-2 text-sm text-muted-foreground mb-1"><ShieldCheck className="w-4 h-4" />{t("Không gian nghiên cứu cá nhân", "Private research workspace")}</div><h2 className="text-2xl font-bold">PhD Research</h2><p className="text-base text-muted-foreground mt-1">EdTech & Neuroscience</p>{brief.topic && <p className="mt-3 max-w-2xl break-words text-lg font-medium leading-relaxed">{brief.topic}</p>}</div></div>
           <div className="flex gap-6 border-l border-border pl-6"><div><div className="text-2xl font-semibold tabular-nums">{citations.length}</div><div className="text-sm text-muted-foreground">{t("Tài liệu", "Sources")}</div></div><div><div className="text-2xl font-semibold tabular-nums">{notes.length}</div><div className="text-sm text-muted-foreground">{t("Ghi chú", "Notes")}</div></div></div>
         </div>
       </header>
       {dataError && <div role="alert" className="border border-destructive/30 rounded-md p-4 text-destructive">{dataError}</div>}
       {aiError && <div role="alert" className="border border-destructive/30 rounded-md p-4 text-destructive">{aiError}</div>}
-      <Tabs value={activeTab} onValueChange={v => { setActiveTab(v); setAiError(""); }} className="space-y-6">
-        <div className="overflow-x-auto border-b border-border pb-2">
-          <TabsList className="grid w-full h-auto grid-cols-2 md:grid-cols-4 bg-muted/40 p-1 gap-1 [&_button]:justify-start [&_button]:whitespace-normal [&_button]:text-left">
+      <Tabs value={activeTab} onValueChange={v => { setActiveTab(v); setAiError(""); }} className="grid items-start gap-7 xl:grid-cols-[220px_minmax(0,1fr)]">
+        <div className="border-b border-border pb-5 xl:sticky xl:top-24 xl:border-b-0 xl:border-r xl:pr-5">
+          <TabsList className="grid w-full h-auto grid-cols-2 md:grid-cols-3 xl:grid-cols-1 bg-transparent p-0 gap-1 [&_button]:justify-start [&_button]:whitespace-normal [&_button]:text-left [&_button]:text-sm [&_button]:shadow-none [&_button[data-state=active]]:bg-primary/10 [&_button[data-state=active]]:text-primary">
+            <TabsTrigger value="brief" className="gap-2 py-3"><GraduationCap className="size-4 shrink-0" />{t("Hồ sơ nghiên cứu", "Research brief")}</TabsTrigger>
             <TabsTrigger value="roadmap" className="gap-2 py-2.5"><ListChecks className="w-4 h-4" />{t("Lộ trình", "Roadmap")}</TabsTrigger>
             <TabsTrigger value="literature" className="gap-2 py-2.5"><Search className="w-4 h-4" />{t("Tìm tài liệu", "Literature")}</TabsTrigger>
             <TabsTrigger value="evidence" className="gap-2 py-2.5"><Tag className="w-4 h-4" />{t("Bằng chứng", "Evidence matrix")}</TabsTrigger>
@@ -350,13 +365,16 @@ EVIDENCE: ${(c.summary ?? "").slice(0, 1800)}`).join("\n\n").slice(0, 28000), [c
             <TabsTrigger value="citations" className="gap-2 py-2.5"><Tag className="w-4 h-4" />{t("Thư viện nguồn", "Source library")}</TabsTrigger>
             <TabsTrigger value="proposal" className="gap-2 py-2.5"><FileText className="w-4 h-4" />{t("Đề cương", "Proposal")}</TabsTrigger>
           </TabsList>
+          {brief.keywords && <div className="mt-5 space-y-2 border-t border-border pt-4"><p className="text-xs font-semibold uppercase text-muted-foreground">{t("Từ khóa nghiên cứu", "Study keywords")}</p><p className="break-words text-sm leading-relaxed text-foreground">{brief.keywords}</p></div>}
         </div>
+        <div className="min-w-0 [&>[data-state=active]]:mt-0">
+        <TabsContent value="brief"><PhdResearchBriefEditor brief={brief} onChange={setBrief} onSave={saveBrief} onContinue={() => { setLitQuery([brief.topic, brief.keywords].join(" ")); setRqTopic(brief.problem); setActiveTab("roadmap"); }} /></TabsContent>
         <TabsContent value="evidence"><PhdEvidenceMatrix citations={citations} onSave={saveEvidence} /></TabsContent>
         <TabsContent value="lab"><PhdResearchTools context={researchContext} proposal={proposalText} onSave={saveLabNote} /></TabsContent>
 
         {/* ROADMAP */}
         <TabsContent value="roadmap">
-          <PhdRoadmapChecklist userId={userId} />
+          <PhdRoadmapChecklist userId={userId} brief={brief} onOpenTool={tool => { if (tool === "literature" && !litQuery) setLitQuery([brief.topic, brief.keywords].join(" ")); if (tool === "rq" && !rqTopic) setRqTopic(brief.problem); setActiveTab(tool); }} />
         </TabsContent>
 
         {/* LITERATURE */}
@@ -719,7 +737,7 @@ EVIDENCE: ${(c.summary ?? "").slice(0, 1800)}`).join("\n\n").slice(0, 28000), [c
                         .from("phd_research_notes")
                         .select("*")
                         .order("updated_at", { ascending: false });
-                      setNotes((data || []).filter(row => row.topic !== "Roadmap State") as NoteRow[]);
+                      setNotes((data || []).filter(row => !["Roadmap State", RESEARCH_BRIEF_TOPIC].includes(row.topic)) as NoteRow[]);
                     }}
                   >
                     <Save className="w-3.5 h-3.5 mr-1.5" />
@@ -736,6 +754,7 @@ EVIDENCE: ${(c.summary ?? "").slice(0, 1800)}`).join("\n\n").slice(0, 28000), [c
             </div>
           </section>
         </TabsContent>
+        </div>
       </Tabs>
     </motion.div>
   );

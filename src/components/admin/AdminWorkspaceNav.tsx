@@ -1,3 +1,9 @@
+import { useEffect, useState } from "react";
+import { DndContext, PointerSensor, KeyboardSensor, closestCenter, useSensor, useSensors, type DragEndEvent } from "@dnd-kit/core";
+import { SortableContext, verticalListSortingStrategy, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
+import { supabase } from "@/integrations/supabase/client";
+import { moveTool, normalizeToolOrder, type ToolOrder } from "@/lib/adminToolOrder";
+import SortableAdminTool from "./SortableAdminTool";
 import type { LucideIcon } from "lucide-react";
 import {
   Activity,
@@ -29,6 +35,7 @@ import {
   Sparkles,
   UserCog,
   Users,
+  GripVertical, RotateCcw, Check,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -165,6 +172,27 @@ export default function AdminWorkspaceNav({
 }: AdminWorkspaceNavProps) {
   const navigate = useNavigate();
   const { setOpenMobile } = useSidebar();
+  const defaults = Object.fromEntries(ADMIN_NAV_GROUPS.map(group => [group.id, group.items.map(item => item.id)]));
+  const [order, setOrder] = useState<ToolOrder>(defaults);
+  const [storageKey, setStorageKey] = useState<string | null>(null);
+  const [reordering, setReordering] = useState(false);
+  const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }), useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }));
+  useEffect(() => {
+    let cancelled = false;
+    supabase.auth.getUser().then(({ data }) => {
+      if (cancelled || !data.user) return;
+      const key = `admin-tool-order-v1:${data.user.id}`;
+      setStorageKey(key);
+      try { setOrder(normalizeToolOrder(JSON.parse(localStorage.getItem(key) || "null"), defaults)); } catch { setOrder(defaults); }
+    });
+    return () => { cancelled = true; };
+  }, []);
+  const persistOrder = (next: ToolOrder) => {
+    setOrder(next);
+    if (storageKey) { try { localStorage.setItem(storageKey, JSON.stringify(next)); } catch { /* Ordering remains available for this session. */ } }
+  };
+  const onDragEnd = ({ active, over }: DragEndEvent) => { if (over) persistOrder(moveTool(order, String(active.id), String(over.id))); };
+  const itemById = new Map(ADMIN_NAV_GROUPS.flatMap(group => group.items).map(item => [item.id, item]));
   const text = (vi: string, en: string) => (isVietnamese ? vi : en);
 
   const selectTab = (tab: string, group: AdminTabGroup) => {
@@ -187,8 +215,13 @@ export default function AdminWorkspaceNav({
       </SidebarHeader>
 
       <SidebarContent className="bg-sidebar px-2 py-3">
+        <div className="flex items-center justify-end gap-1 group-data-[collapsible=icon]:hidden">
+          {reordering && <Button variant="ghost" size="icon" className="size-7" title={text("Khôi phục thứ tự", "Reset tool order")} aria-label="Reset tool order" onClick={() => persistOrder(defaults)}><RotateCcw className="size-4" /></Button>}
+          <Button variant={reordering ? "secondary" : "ghost"} size="sm" className="h-8 gap-1.5 text-xs" disabled={!storageKey} onClick={() => setReordering(value => !value)}>{reordering ? <Check className="size-3.5" /> : <GripVertical className="size-3.5" />}{reordering ? text("Xong", "Done") : text("Sắp xếp", "Arrange tools")}</Button>
+        </div>
+        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
         {ADMIN_NAV_GROUPS.map((group) => {
-          const visibleItems = group.items.filter((item) => !item.teacherOnly || isTeacher);
+          const visibleItems = (order[group.id] || []).flatMap(id => { const item = itemById.get(id); return item && (!item.teacherOnly || isTeacher) ? [item] : []; });
           if (visibleItems.length === 0) return null;
           const GroupIcon = group.icon;
           return (
@@ -199,24 +232,29 @@ export default function AdminWorkspaceNav({
               </SidebarGroupLabel>
               <SidebarGroupContent>
                 <SidebarMenu>
+                  <SortableContext items={visibleItems.map(item => item.id)} strategy={verticalListSortingStrategy}>
                   {visibleItems.map((item) => (
                     <SidebarMenuItem key={item.id}>
+                      <SortableAdminTool id={item.id} label={text(item.labelVi, item.labelEn)} enabled={reordering}>
                       <SidebarMenuButton
                         isActive={activeTab === item.id}
                         tooltip={text(item.labelVi, item.labelEn)}
-                        onClick={() => selectTab(item.id, group.id)}
+                        onClick={() => selectTab(item.id, ADMIN_TAB_TO_GROUP[item.id])}
                         className="h-9 font-medium data-[active=true]:font-semibold"
                       >
                         <item.icon />
                         <span>{text(item.labelVi, item.labelEn)}</span>
                       </SidebarMenuButton>
+                      </SortableAdminTool>
                     </SidebarMenuItem>
                   ))}
+                  </SortableContext>
                 </SidebarMenu>
               </SidebarGroupContent>
             </SidebarGroup>
           );
         })}
+        </DndContext>
 
         {isTeacher && (
           <SidebarGroup className="border-t border-sidebar-border pt-3">
