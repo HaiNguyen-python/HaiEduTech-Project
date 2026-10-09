@@ -14,6 +14,7 @@ import { pythonChallenges, getChallengeById, getNextChallenge, getPrevChallenge 
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { usePythonChallengeProgress } from "@/hooks/usePythonChallengeProgress";
+import { getChapterForChallenge } from "@/data/curriculum/pythonBookTheory";
 import { isPythonChallengeUnlocked } from "@/lib/pythonChallengeProgress";
 
 const difficultyColors = {
@@ -126,6 +127,7 @@ const PythonChallengePage = () => {
   const { t } = useLanguage();
   const id = challengeId || "001";
   const challenge = getChallengeById(id);
+  const chapter = challenge ? getChapterForChallenge(challenge.number) : undefined;
   const next = getNextChallenge(id);
   const prev = getPrevChallenge(id);
 
@@ -208,6 +210,7 @@ const PythonChallengePage = () => {
                     <Progress value={progressPct} className="h-1.5" />
                   </div>
 
+                  {chapter && <Button asChild variant="outline" className="h-auto w-full whitespace-normal justify-start"><Link to={`/programming/python/${chapter.lessonId}`}><Code2 className="h-4 w-4 shrink-0" /><span>Theory: {chapter.title}</span></Link></Button>}
                   <h3 className="font-semibold text-foreground text-sm">Challenges</h3>
                   <div className="space-y-0.5 max-h-[50vh] overflow-y-auto pr-1">
                     {pythonChallenges.map(c => {

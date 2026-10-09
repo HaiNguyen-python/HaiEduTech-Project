@@ -22,32 +22,19 @@ import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import {
-  pythonModules,
+  getModuleById,
+  getBookChapter,
+  getPathwaySequence,
   getLessonById,
   getLessonsByModule,
 } from "@/data/curriculum/pythonPathway";
+import BookChallengePractice from "@/components/python/BookChallengePractice";
 import CodePlayground from "@/components/python/CodePlayground";
 import { preloadPyodide } from "@/components/python/PyodideRunner";
 import LessonQuiz from "@/components/python/LessonQuiz";
 import { setLessonComplete, getPythonPathwayProgress } from "@/components/python/PythonPathwayHub";
 import { cn } from "@/lib/utils";
 import LessonReadToggle from "@/components/programming/LessonReadToggle";
-
-import imgM1 from "@/assets/python-modules/m1-basics.jpg";
-import imgM2 from "@/assets/python-modules/m2-flow.jpg";
-import imgM3 from "@/assets/python-modules/m3-data.jpg";
-import imgM4 from "@/assets/python-modules/m4-functions.jpg";
-import imgM5 from "@/assets/python-modules/m5-oop.jpg";
-import imgM6 from "@/assets/python-modules/m6-mastery.jpg";
-
-const moduleHeroImages: Record<string, string> = {
-  "m1-basics": imgM1,
-  "m2-flow": imgM2,
-  "m3-data": imgM3,
-  "m4-functions": imgM4,
-  "m5-oop": imgM5,
-  "m6-mastery": imgM6,
-};
 
 const levelStyles: Record<string, string> = {
   Beginner: "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/30",
@@ -59,7 +46,7 @@ const levelStyles: Record<string, string> = {
 const StepBadge = ({ n, label, color }: { n: number; label: string; color: string }) => (
   <div className="flex items-center gap-2 mb-3">
     <span className={cn(
-      "inline-flex items-center justify-center w-7 h-7 rounded-full text-white font-bold text-xs shadow-sm",
+      "inline-flex items-center justify-center w-7 h-7 rounded-full text-primary-foreground font-bold text-xs shadow-sm",
       color,
     )}>
       {n}
@@ -75,11 +62,15 @@ const PythonLessonView = () => {
   const navigate = useNavigate();
   
   const lesson = useMemo(() => (lessonId ? getLessonById(lessonId) : undefined), [lessonId]);
-  const module = useMemo(() => pythonModules.find((m) => m.id === lesson?.moduleId), [lesson]);
-  const moduleLessons = useMemo(() => (module ? getLessonsByModule(module.id) : []), [module]);
+  const chapter = lesson ? getBookChapter(lesson.id) : undefined;
+  const supplementary = !!lesson && !chapter;
+  const module = useMemo(() => lesson ? getModuleById(lesson.moduleId, supplementary) : undefined, [lesson, supplementary]);
+  const moduleLessons = useMemo(() => (module ? getLessonsByModule(module.id, supplementary) : []), [module, supplementary]);
   const idx = lesson ? moduleLessons.findIndex((l) => l.id === lesson.id) : -1;
-  const prev = idx > 0 ? moduleLessons[idx - 1] : null;
-  const next = idx >= 0 && idx < moduleLessons.length - 1 ? moduleLessons[idx + 1] : null;
+  const sequence = lesson ? getPathwaySequence(lesson.id) : [];
+  const sequenceIndex = sequence.findIndex(item => item.id === lesson?.id);
+  const prev = sequenceIndex > 0 ? sequence[sequenceIndex - 1] : null;
+  const next = sequenceIndex >= 0 ? sequence[sequenceIndex + 1] : null;
 
   const [completed, setCompleted] = useState(false);
 
@@ -119,7 +110,7 @@ const PythonLessonView = () => {
       } catch (_e) { /* ignore */ }
 
       if (module) {
-        const all = getLessonsByModule(module.id);
+        const all = getLessonsByModule(module.id, supplementary);
         const progress = getPythonPathwayProgress();
         const done = all.every((l) => progress[l.id]);
         if (done) {
@@ -168,13 +159,13 @@ const PythonLessonView = () => {
           <motion.div
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-6 rounded-2xl p-6 bg-gradient-to-br from-emerald-500/5 via-fuchsia-500/5 to-purple-500/10 border-2 border-emerald-500/60 shadow-[0_6px_24px_-8px_rgba(16,185,129,0.35)]"
+            className="mb-6 border-b border-border pb-6"
           >
             <div className="flex items-start justify-between gap-3 flex-wrap mb-3">
               <div className="flex flex-wrap gap-2">
                 <span className={cn(
                   "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border",
-                  `bg-gradient-to-r ${module.color} text-white border-transparent shadow-sm`,
+                  `bg-gradient-to-r ${module.color} text-primary-foreground border-transparent shadow-sm`,
                 )}>
                   {module.emoji} {module.titleEn}
                 </span>
@@ -194,9 +185,11 @@ const PythonLessonView = () => {
                 {"Lesson"} {idx + 1}/{moduleLessons.length}
               </div>
             </div>
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-display font-extrabold text-foreground leading-tight tracking-tight">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-display font-extrabold text-foreground leading-tight tracking-normal">
               {lesson.emoji} {lesson.titleEn}
             </h1>
+            {chapter && <p className="mt-3 text-base text-muted-foreground">Python by Example · Challenges {String(chapter.first).padStart(3, "0")}-{String(chapter.last).padStart(3, "0")}</p>}
+            {supplementary && <p className="mt-3 text-base text-muted-foreground">Supplementary reference</p>}
           </motion.div>
 
           {/* Mark-as-read + module progress bar */}
@@ -216,34 +209,22 @@ const PythonLessonView = () => {
 
           {/* Split view */}
 
-          <div className="grid lg:grid-cols-2 gap-6">
+          <div className="grid lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] gap-6">
             {/* Left: explanation */}
-            <div className="space-y-4">
+            <div className="min-w-0 space-y-4">
               {/* Step 1: Concept */}
               <motion.div
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.05 }}
-                className="p-5 rounded-2xl border-2 border-blue-500/50 bg-gradient-to-br from-blue-500/5 to-cyan-500/5 shadow-[0_4px_16px_-6px_rgba(59,130,246,0.3)] ring-1 ring-emerald-500/15"
+                className="min-w-0 py-5 border-t border-border"
               >
-                <StepBadge n={1} label={"Concept"} color="bg-gradient-to-br from-blue-500 to-cyan-600" />
+                <StepBadge n={1} label={"Concept"} color="bg-primary" />
                 <h2 className="font-display font-bold text-foreground mb-3 flex items-center gap-2 text-base">
                   <Sparkles className="w-4 h-4 text-blue-600" />
                   📘 {"Understand the concept"}
                 </h2>
-                {moduleHeroImages[lesson.moduleId] && (
-                  <div className="mb-4 overflow-hidden rounded-xl border-2 border-emerald-500/40 bg-white shadow-sm">
-                    <img
-                      src={moduleHeroImages[lesson.moduleId]}
-                      alt={module?.titleEn || "Python module illustration"}
-                      loading="lazy"
-                      width={1024}
-                      height={512}
-                      className="w-full h-auto object-cover"
-                    />
-                  </div>
-                )}
-                <div className="prose prose-base sm:prose-lg max-w-none dark:prose-invert leading-[1.75] font-sans [&>*]:my-4 [&>*:first-child]:mt-0 [&>*:last-child]:mb-0 [&>h2]:font-display [&>h2]:font-extrabold [&>h2]:tracking-tight [&>h2]:text-xl [&>h3]:font-display [&>h3]:font-bold [&>h3]:text-lg [&>p]:my-4 [&>p]:text-[15px] sm:[&>p]:text-base [&>ol]:my-4 [&>ul]:my-4 [&>pre]:my-4 [&>table]:my-4 [&_strong]:text-foreground [&_strong]:font-bold [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_code]:font-mono [&_code]:text-[0.92em] [&_code]:bg-blue-500/10 [&_code]:text-blue-700 dark:[&_code]:text-blue-300 [&_code]:before:content-none [&_code]:after:content-none [&_pre]:font-mono [&_pre_code]:bg-transparent [&_pre_code]:text-inherit [&_pre]:rounded-lg [&_pre]:border-2 [&_pre]:border-emerald-500/30 [&_th]:bg-blue-500/10 [&_th]:px-3 [&_th]:py-2 [&_td]:px-3 [&_td]:py-2 [&_li]:my-1.5 [&_ol]:list-decimal [&_ol]:pl-6 [&_ul]:list-disc [&_ul]:pl-6">
+                <div className="prose prose-base sm:prose-lg max-w-none dark:prose-invert leading-[1.75] font-sans [&>*]:my-4 [&>*:first-child]:mt-0 [&>*:last-child]:mb-0 [&>h2]:font-display [&>h2]:font-extrabold [&>h2]:tracking-normal [&>h2]:text-xl [&>h3]:font-display [&>h3]:font-bold [&>h3]:text-lg [&>p]:my-4 [&>p]:text-base [&>ol]:my-4 [&>ul]:my-4 [&>pre]:my-4 [&>table]:my-4 [&_strong]:text-foreground [&_strong]:font-bold [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_code]:font-mono [&_code]:text-[0.92em] [&_code]:bg-blue-500/10 [&_code]:text-blue-700 dark:[&_code]:text-blue-300 [&_code]:before:content-none [&_code]:after:content-none [&_pre]:font-mono [&_pre_code]:bg-transparent [&_pre_code]:text-inherit [&_pre]:rounded-lg [&_pre]:border-2 [&_pre]:border-emerald-500/30 [&_th]:bg-blue-500/10 [&_th]:px-3 [&_th]:py-2 [&_td]:px-3 [&_td]:py-2 [&_li]:my-1.5 [&_ol]:list-decimal [&_ol]:pl-6 [&_ul]:list-disc [&_ul]:pl-6">
                   <ReactMarkdown remarkPlugins={[remarkGfm]} components={{
                     pre: ({ children }) => <div className="min-w-0 max-w-full">{children}</div>,
                     code: ({ className, children, ...props }) => {
@@ -263,9 +244,9 @@ const PythonLessonView = () => {
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className="p-5 rounded-2xl border-2 border-emerald-500/70 border-l-[6px] bg-emerald-500/5 shadow-[0_4px_16px_-6px_rgba(16,185,129,0.35)]"
+                className="min-w-0 py-5 border-t border-border"
               >
-                <StepBadge n={2} label={"Pitfalls"} color="bg-gradient-to-br from-red-500 to-rose-600" />
+                <StepBadge n={2} label={"Pitfalls"} color="bg-destructive" />
                 <h3 className="font-bold text-foreground text-sm mb-3 flex items-center gap-2">
                   <AlertTriangle className="w-4 h-4 text-red-600" />
                   ⚠️ {"Common pitfalls"}
@@ -282,9 +263,9 @@ const PythonLessonView = () => {
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.15 }}
-                className="p-5 rounded-2xl border-2 border-emerald-500/50 border-l-[6px] bg-emerald-500/5 shadow-[0_4px_16px_-6px_rgba(16,185,129,0.3)] ring-1 ring-emerald-500/15"
+                className="min-w-0 py-5 border-t border-border"
               >
-                <StepBadge n={3} label={"Practice"} color="bg-gradient-to-br from-emerald-500 to-green-600" />
+                <StepBadge n={3} label={"Practice"} color="bg-primary" />
                 <h3 className="font-bold text-foreground text-sm mb-3 flex items-center gap-2">
                   <Wrench className="w-4 h-4 text-emerald-600" />
                   🛠️ {"Practice task"}
@@ -294,13 +275,18 @@ const PythonLessonView = () => {
                     {(lesson.practiceTaskEn).replace(/\n(?!\n)/g, "\n\n")}
                   </ReactMarkdown>
                 </div>
+                <BookChallengePractice lessonId={lesson.id} />
               </motion.div>
+              {chapter?.desktopExample && <details className="border-t border-border py-4">
+                <summary className="cursor-pointer font-medium text-foreground">{chapter.title === "Turtle Graphics" ? "Turtle drawing example" : "Desktop Tkinter example"}</summary>
+                <div className="mt-4 min-w-0"><CodeBlock code={chapter.desktopExample} language="python" /></div>
+              </details>}
             </div>
 
             {/* Right: playground (sticky on desktop) */}
-            <div className="space-y-4 lg:sticky lg:top-4 lg:self-start lg:max-h-[calc(100vh-2rem)] lg:overflow-y-auto">
-              <div className="p-5 rounded-2xl border-2 border-violet-500/50 bg-gradient-to-br from-violet-500/5 to-fuchsia-500/5 shadow-[0_4px_16px_-6px_rgba(139,92,246,0.3)] ring-1 ring-emerald-500/15">
-                <StepBadge n={4} label={"Try it"} color="bg-gradient-to-br from-violet-500 to-fuchsia-600" />
+            <div className="min-w-0 space-y-4 lg:sticky lg:top-4 lg:self-start lg:max-h-[calc(100vh-2rem)] lg:overflow-y-auto">
+              <div className="min-w-0 py-5 border-t border-border">
+                <StepBadge n={4} label={"Try it"} color="bg-primary" />
                 <h3 className="font-bold text-foreground text-sm mb-3 flex items-center gap-2">
                   ▶️ {"Code Playground"}
                 </h3>
@@ -313,7 +299,7 @@ const PythonLessonView = () => {
               </div>
 
               {lesson.miniProject && (
-                <div className="p-5 rounded-2xl border-2 border-amber-500/60 border-l-[6px] bg-gradient-to-br from-amber-500/10 to-yellow-500/5 shadow-[0_4px_16px_-6px_rgba(245,158,11,0.35)] ring-1 ring-emerald-500/15">
+                <div className="min-w-0 py-5 border-t border-border">
                   <div className="flex items-center gap-2 mb-2">
                     <Target className="w-4 h-4 text-amber-600" />
                     <div className="text-[10px] uppercase tracking-wider text-amber-700 dark:text-amber-500 font-bold">
@@ -338,9 +324,9 @@ const PythonLessonView = () => {
           </div>
 
           {/* Quiz */}
-          <div className="mt-8 p-5 rounded-2xl border-2 border-emerald-500/60 bg-gradient-to-br from-emerald-500/5 via-primary/5 to-emerald-500/5 shadow-[0_4px_16px_-6px_rgba(16,185,129,0.3)]">
+          <div className="mt-8 border-t border-border pt-6">
             <div className="flex items-center gap-2 mb-4">
-              <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-gradient-to-br from-primary to-emerald-500 text-white font-bold text-xs shadow-sm">
+              <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-gradient-to-br from-primary to-emerald-500 text-primary-foreground font-bold text-xs shadow-sm">
                 5
               </span>
               <h2 className="font-display font-bold text-foreground text-base flex items-center gap-2">

@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ChevronRight, Award, BookOpen } from "lucide-react";
-import { pythonModules, pythonLessons, getLessonsByModule } from "@/data/curriculum/pythonPathway";
+import { pythonModules, pythonLessons, getLessonsByModule, getBookChapter, supplementaryPythonLessons } from "@/data/curriculum/pythonPathway";
 import ModuleProgressBar from "./ModuleProgressBar";
 import { cn } from "@/lib/utils";
 
@@ -42,21 +42,21 @@ const PythonPathwayHub = () => {
     };
   }, []);
 
-  const totalCompleted = Object.values(progress).filter(Boolean).length;
+  const totalCompleted = pythonLessons.filter(lesson => progress[lesson.id]).length;
   const totalLessons = pythonLessons.length;
   const overallPct = Math.round((totalCompleted / totalLessons) * 100);
 
   return (
     <div className="space-y-6">
       {/* Hero header */}
-      <div className="rounded-2xl p-6 bg-gradient-to-br from-emerald-500/10 via-green-500/5 to-cyan-500/10 border border-emerald-500/20">
+      <div className="border-b border-border pb-6">
         <div className="flex items-start justify-between gap-4 flex-wrap">
           <div>
             <h2 className="text-2xl font-display font-bold text-foreground mb-1">
-              💻 Introduction to Programming: Beginner → Mastery
+              💻 Introduction to Programming
             </h2>
             <p className="text-sm text-muted-foreground max-w-2xl">
-              Programming pathway with 6 modules (~47 lessons) running real Python in your browser - quizzes, mini-projects, badges, and AI code explainer.
+              Python by Example · 19 chapters · 150 challenges
             </p>
           </div>
           <div className="text-right">
@@ -86,12 +86,12 @@ const PythonPathwayHub = () => {
                 <Link
                   to={`/programming/python/${firstLesson.id}`}
                   className={cn(
-                    "group block rounded-2xl p-5 border bg-card hover:shadow-lg transition-all active:scale-[0.99]",
+                    "group block rounded-lg p-5 border bg-card hover:shadow-lg transition-all active:scale-[0.99]",
                     certified ? "border-emerald-500/40 shadow-md" : "border-border hover:border-primary/30",
                   )}
                 >
                   <div className="flex items-start justify-between mb-3">
-                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${m.color} flex items-center justify-center text-2xl shadow`}>
+                    <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${m.color} flex items-center justify-center text-2xl shadow`}>
                       {m.emoji}
                     </div>
                     {certified && (
@@ -130,13 +130,13 @@ const PythonPathwayHub = () => {
               ) : (
                 <div
                   className={cn(
-                    "block rounded-2xl p-5 border bg-card opacity-70 cursor-not-allowed",
+                    "block rounded-lg p-5 border bg-card opacity-70 cursor-not-allowed",
                     "border-border",
                   )}
                   aria-disabled="true"
                 >
                   <div className="flex items-start justify-between mb-3">
-                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${m.color} flex items-center justify-center text-2xl shadow grayscale`}>
+                    <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${m.color} flex items-center justify-center text-2xl shadow grayscale`}>
                       {m.emoji}
                     </div>
                     <span className="text-[10px] font-bold text-muted-foreground bg-muted px-2 py-1 rounded-full">
@@ -163,9 +163,9 @@ const PythonPathwayHub = () => {
       </div>
 
       {/* All lessons list */}
-      <div className="rounded-2xl p-5 border border-border bg-card">
+      <div className="border-t border-border pt-5">
         <h3 className="font-display font-bold text-foreground mb-3 flex items-center gap-2">
-          📚 All lessons
+          📚 Book chapters
         </h3>
         <div className="grid sm:grid-cols-2 gap-2">
           {pythonLessons.map((l) => {
@@ -185,11 +185,11 @@ const PythonPathwayHub = () => {
               >
                 <span className="text-lg shrink-0">{l.emoji}</span>
                 <div className="min-w-0 flex-1">
-                  <div className="font-medium text-foreground truncate">
+                  <div className="font-medium text-foreground">
                     {l.titleEn}
                   </div>
-                  <div className="text-[10px] text-muted-foreground">
-                    {moduleEmoji} {moduleTitle}
+                  <div className="text-xs text-muted-foreground">
+                    {chapter ? `Challenges ${String(chapter.first).padStart(3, "0")}-${String(chapter.last).padStart(3, "0")}` : `${moduleEmoji} ${moduleTitle}`}
                   </div>
                 </div>
                 {done && <Award className="w-4 h-4 text-emerald-600 shrink-0" />}
@@ -198,6 +198,13 @@ const PythonPathwayHub = () => {
           })}
         </div>
       </div>
+      <p className="text-sm text-muted-foreground">Source: Nichola Lacey, Python by Example: Learning to Program in 150 Challenges (2019). Teaching notes adapted for HaiEduTech.</p>
+      <details className="border-t border-border pt-5">
+        <summary className="cursor-pointer font-medium text-foreground">Supplementary reference ({supplementaryPythonLessons.length})</summary>
+        <div className="mt-4 grid gap-2 sm:grid-cols-2">
+          {supplementaryPythonLessons.map(lesson => <Link key={lesson.id} to={`/programming/python/${lesson.id}`} className="py-2 text-sm text-primary hover:underline">{lesson.titleEn}</Link>)}
+        </div>
+      </details>
     </div>
   );
 };

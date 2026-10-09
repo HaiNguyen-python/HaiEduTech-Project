@@ -254,8 +254,8 @@ const Programming = () => {
   }> = {
     "python-pathway": {
       title: "Introduction to Programming", titleEn: "Introduction to Programming",
-      desc: "Lộ trình lập trình từ cơ bản đến nâng cao bằng Python: 6 module, ~47 bài, có Pyodide playground chạy thật trong trình duyệt, quiz và badge 'Programming Certified'.",
-      descEn: "Programming from Beginner → Mastery with Python: 6 modules, ~47 lessons, real in-browser Pyodide playground, quizzes, and 'Programming Certified' badges.",
+      desc: "19 chương lý thuyết ngắn gọn theo sách Python by Example, học song song với 150 bài tập Python.",
+      descEn: "Python by Example: 19 concise chapters aligned with all 150 Python Challenges.",
       modules: [],
       isPathway: true,
     },
