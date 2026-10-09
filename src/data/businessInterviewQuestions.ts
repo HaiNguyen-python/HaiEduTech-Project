@@ -165,7 +165,7 @@ export const businessInterviewQuestions: BusinessInterviewQuestion[] = [
     purpose: "Empathy, professionalism and problem-solving with clients.",
     structure: ["Stay calm and listen fully", "Acknowledge feelings and clarify the issue", "Offer options and follow up"],
     sampleAnswer: "First, I stay calm and let the customer explain the whole problem without interrupting. Then I acknowledge their frustration, for example: 'I completely understand why this is frustrating.' I confirm the facts, offer realistic solutions within my authority, and agree on a deadline. If a refund or exception requires approval, I involve the responsible person before promising it. Finally, I follow up to make sure they are satisfied. With one angry client, this approach turned a complaint into a repeat order.",
-    highlights: ["let the customer explain the whole problem without interrupting", "I completely understand why this is frustrating", "offer two or three realistic solutions", "I follow up"],
+    highlights: ["let the customer explain the whole problem without interrupting", "I completely understand why this is frustrating", "offer realistic solutions within my authority", "I follow up"],
     usefulPhrases: ["I'm sorry to hear that.", "Let me make sure I understand...", "What I can do for you is..."],
     avoid: ["Arguing about who is right", "Promising things you cannot deliver"],
   },
