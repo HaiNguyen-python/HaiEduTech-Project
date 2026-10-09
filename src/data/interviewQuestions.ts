@@ -48,6 +48,9 @@ export const interviewCategories: Record<InterviewRole, string[]> = {
 import { interviewQuestionsExpansion } from "./interviewQuestionsExpansion";
 import { interviewQuestionsJunior } from "./interviewQuestionsJunior";
 import { interviewQuestionsSoftware } from "./interviewQuestionsSoftware";
+import { interviewQuestionsPracticeAI } from "./interviewQuestionsPracticeAI";
+import { interviewQuestionsPracticeData } from "./interviewQuestionsPracticeData";
+import { interviewQuestionsPracticeSoftware } from "./interviewQuestionsPracticeSoftware";
 
 const baseInterviewQuestions: InterviewQuestion[] = [
   // ============================================================
@@ -1844,4 +1847,7 @@ export const interviewQuestions: InterviewQuestion[] = [
   ...interviewQuestionsExpansion,
   ...interviewQuestionsJunior,
   ...interviewQuestionsSoftware,
+  ...interviewQuestionsPracticeAI,
+  ...interviewQuestionsPracticeData,
+  ...interviewQuestionsPracticeSoftware,
 ];

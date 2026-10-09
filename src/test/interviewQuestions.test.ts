@@ -59,6 +59,15 @@ describe("interview question bank", () => {
     expect(parts.map((part) => part.text).join("")).toBe("Use RAG with schema validation and monitor latency.");
   });
 
+  it("gives every role a large Junior and Mid practice bank", () => {
+    for (const role of ["ai-engineer", "data-engineer", "software-engineer"] as const) {
+      const bank = interviewQuestions.filter((question) => question.role === role);
+      expect(bank.length).toBeGreaterThanOrEqual(40);
+      expect(bank.filter((question) => question.difficulty === "Junior").length).toBeGreaterThanOrEqual(15);
+      expect(bank.filter((question) => question.difficulty === "Mid").length).toBeGreaterThanOrEqual(15);
+    }
+  });
+
   it("includes a Software Engineer track with Junior to Senior coverage in every topic set", () => {
     const se = interviewQuestions.filter((question) => question.role === "software-engineer");
     expect(se.length).toBeGreaterThanOrEqual(17);
