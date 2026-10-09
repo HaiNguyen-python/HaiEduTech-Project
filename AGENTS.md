@@ -22,7 +22,7 @@
 - Python Challenge rankings count distinct completed challenge IDs from activity logs through an authenticated read-only function, preventing repeat attempts from inflating totals.
 - Generate 999 Letters into lazy-loaded `src/data/chineseLetters/part*.ts`; regenerate Pinyin/keywords and audit with `scripts/audit_chinese_letters.ts` to avoid bundle bloat.
 - Chinese typing modes preserve punctuation via `chineseLetterTyping` and share IME-aware input: committed text drives grading; map active Pinyin to one Hanzi and guard IME Enter to prevent premature errors.
-- Python theory composes its typed bank and book supplements in the pathway facade; share TheorySections, CodeMirror and the harness so display/audits agree; preserve IDs and progress.
+- Python theory composes book banks in the pathway facade; share TheorySections, CodeMirror and harness to align audits; preserve IDs/progress. Module images share a token overlay for readable equal-sized tiles.
 - Generate Python Challenges from `scripts/python_challenges/spec_*.py` via `build.py`; audit and browser grading share `pythonChallengeHarness.ts`.
 - Python charts group unique challenge completions into six areas; date growth from earliest activity, never invent ability grades.
 - Python Challenge list, direct routes and workspace navigation share the sequential-unlock helper and merged progress hook; completion events refresh same-tab state immediately to prevent inconsistent access.

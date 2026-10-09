@@ -9,9 +9,16 @@ import { ChevronRight, Award, BookOpen, Terminal, Repeat2, Layers3, FileCode2, P
 import { pythonModules, pythonLessons, getLessonsByModule, getBookChapter, supplementaryPythonLessons } from "@/data/curriculum/pythonPathway";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
+import basicsBackground from "@/assets/python-module-basics.jpg";
+import loopsBackground from "@/assets/python-module-loops.jpg";
+import dataBackground from "@/assets/python-module-data.jpg";
+import functionsBackground from "@/assets/python-module-functions.jpg";
+import interfacesBackground from "@/assets/python-module-interfaces.jpg";
+import projectsBackground from "@/assets/python-module-projects.jpg";
 
 const PROGRESS_KEY = "haiedu_python_pathway_progress";
 const moduleIcons = [Terminal, Repeat2, Layers3, FileCode2, PanelsTopLeft, Database];
+const moduleBackgrounds = [basicsBackground, loopsBackground, dataBackground, functionsBackground, interfacesBackground, projectsBackground];
 const moduleTones = ["python-module--blue", "python-module--gold", "python-module--coral", "python-module--blue", "python-module--coral", "python-module--gold"];
 
 export const getPythonPathwayProgress = (): Record<string, boolean> => {
@@ -94,11 +101,13 @@ const PythonPathwayHub = () => {
                 <Link
                   to={`/programming/python/${firstLesson.id}`}
                   className={cn(
-                     "python-module-tile group glass-card flex h-full min-h-[320px] flex-col overflow-hidden rounded-lg border p-5 sm:p-6",
+                      "python-module-tile relative isolate group glass-card flex h-full min-h-[320px] flex-col overflow-hidden rounded-lg border p-5 sm:p-6",
                      moduleTones[idx],
                      certified && "python-module--complete",
                   )}
                 >
+                  <img src={moduleBackgrounds[idx]} alt="" aria-hidden="true" loading="lazy" decoding="async" width={1024} height={640} className="python-module-background pointer-events-none absolute inset-0 -z-20 h-full w-full object-cover object-right" />
+                  <div className="python-module-background-overlay pointer-events-none absolute inset-0 -z-10" aria-hidden="true" />
                   <div className="flex items-center gap-3 mb-4">
                     <div className="python-module-icon flex h-12 w-12 shrink-0 items-center justify-center rounded-lg">
                       <Icon className="h-6 w-6" aria-hidden="true" />
@@ -110,10 +119,10 @@ const PythonPathwayHub = () => {
                     {certified ? <Award className="python-module-accent h-5 w-5 shrink-0" aria-label="Certified" /> : <ChevronRight className="python-module-accent h-5 w-5 shrink-0 group-hover:translate-x-1 transition-transform" />}
                   </div>
 
-                  <h3 className="min-h-14 font-display text-xl font-bold leading-7 text-foreground mb-2">
+                  <h3 className="max-w-[75%] min-h-14 font-display text-xl font-bold leading-7 text-foreground mb-2">
                     {m.titleEn.replace(/^\d+\.\s*/, "")}
                   </h3>
-                  <p className="min-h-12 text-sm leading-6 text-muted-foreground mb-4">
+                  <p className="max-w-[70%] min-h-12 text-sm leading-6 text-muted-foreground mb-4">
                     {m.descriptionEn}
                   </p>
 
