@@ -28,8 +28,8 @@ const BusinessInterviewQuestions = () => {
         <p className="text-sm font-bold uppercase tracking-wide text-secondary">{t("Luyện phỏng vấn", "Interview practice")}</p>
         <h2 className="mt-1 text-2xl font-bold text-foreground">{t("Câu hỏi phỏng vấn tiếng Anh thương mại", "Business English Interview Questions")}</h2>
         <p className="mt-2 max-w-3xl text-base text-muted-foreground">
-          {t("Mỗi câu có mục đích của nhà tuyển dụng, cấu trúc trả lời, câu trả lời mẫu với ý quan trọng được gạch chân, cụm từ hữu ích và lỗi cần tránh.",
-            "Each question shows what the interviewer wants, an answer structure, a sample answer with key ideas underlined, useful phrases and mistakes to avoid.")}
+          {t("Các tình huống và số liệu trong câu trả lời mẫu là giả định; hãy thay bằng kinh nghiệm và thông tin có thật của bạn.",
+            "Model answers use fictional situations and figures; replace them with your own truthful experience and verified information.")}
         </p>
       </div>
 
@@ -59,7 +59,6 @@ const BusinessInterviewQuestions = () => {
                 </span>
                 <span className="space-y-1">
                   <span className="block text-base font-semibold text-foreground">{q.question}</span>
-                  <span className="block text-sm font-normal text-muted-foreground">{q.questionVi}</span>
                   <span className="flex flex-wrap gap-2 pt-1">
                     <Badge variant="outline">{q.level}</Badge>
                     <Badge variant="secondary">{q.category}</Badge>
@@ -82,7 +81,7 @@ const BusinessInterviewQuestions = () => {
               </div>
               <div className="rounded-md border bg-background p-4">
                 <p className="flex items-center gap-2 text-sm font-bold text-foreground"><MessageSquareQuote className="h-4 w-4 text-primary" /> {t("Câu trả lời mẫu", "Sample answer")}</p>
-                <p className="mt-2 text-foreground/90"><Highlighted text={q.sampleAnswer} phrases={q.highlights} /></p>
+                <p className="mt-2 whitespace-pre-line text-foreground/90"><Highlighted text={q.sampleAnswer} phrases={q.highlights} /></p>
               </div>
               <div className="grid gap-4 md:grid-cols-2">
                 <div>
