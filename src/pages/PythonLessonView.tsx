@@ -38,6 +38,7 @@ import LessonReadToggle from "@/components/programming/LessonReadToggle";
 import TheorySections from "@/components/TheorySections";
 import { isPathwayLessonUnlocked, firstIncompletePathwayLesson } from "@/lib/pythonPathwayLock";
 import { LockKeyhole } from "lucide-react";
+import { pythonPlaygroundTasks } from "@/data/pythonPlaygroundTasks";
 import pythonHeader from "@/assets/python-challenges-header.jpg";
 
 const levelStyles: Record<string, string> = {
@@ -316,6 +317,23 @@ const PythonLessonView = () => {
                 <h3 className="font-bold text-foreground text-lg mb-3 flex items-center gap-2">
                   {"Code Playground"}
                 </h3>
+                {(() => {
+                  const task = pythonPlaygroundTasks[lesson.id];
+                  return (
+                    <div className="mb-4 rounded-lg border border-primary/30 bg-primary/5 p-4 text-sm">
+                      <p className="mb-1 flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-primary"><Target className="h-4 w-4" /> Your task</p>
+                      <p className="mb-3 font-semibold text-foreground">{task?.goal ?? lesson.practiceTaskEn}</p>
+                      {task && <>
+                        <ol className="mb-3 list-decimal space-y-1 pl-5 text-foreground/90">{task.steps.map(st => <li key={st}>{st}</li>)}</ol>
+                        <div className="grid gap-3 sm:grid-cols-2">
+                          {task.sampleInput && <div><p className="mb-1 text-xs font-semibold text-muted-foreground">Sample input</p><div className="whitespace-pre-wrap rounded-md bg-muted px-3 py-2 font-mono text-xs text-foreground">{task.sampleInput}</div></div>}
+                          <div className={task.sampleInput ? "" : "sm:col-span-2"}><p className="mb-1 text-xs font-semibold text-muted-foreground">Expected output</p><div className="whitespace-pre-wrap rounded-md bg-muted px-3 py-2 font-mono text-xs text-foreground">{task.expectedOutput}</div></div>
+                        </div>
+                      </>}
+                      <p className="mt-3 text-xs text-muted-foreground">Start from the example code below, then edit it to meet the task. Press Reset to restore the example.</p>
+                    </div>
+                  );
+                })()}
                 <CodePlayground
                    key={lesson.id}
                   initialCode={lesson.codeExample}
