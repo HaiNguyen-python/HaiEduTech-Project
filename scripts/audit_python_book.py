@@ -11,7 +11,7 @@ records = json.loads("[" + bank.split("= [", 1)[1].split(";\n\nexport const pyth
 harness = (root / "src/lib/pythonChallengeHarness.ts").read_text()
 namespace = {}
 exec(re.search(r"PY_HARNESS = String\.raw`(.*?)`;", harness, re.S).group(1), namespace)
-inputs = {1: ["Ava", "3", "8"], 2: ["20"], 3: ["ava", "lee"], 4: ["2"], 5: ["3"], 6: ["2", "3", "stop"], 7: ["5"], 10: ["Python"], 15: ["2", "3"], 16: ["10"], 17: ["Book"], 18: ["Ava"], 19: ["Hello z!"]}
+inputs = {1: ["Ava", "3", "8"], 2: ["20", "yes"], 3: ["ava", "lee"], 4: ["2"], 5: ["3"], 6: ["2", "3", "stop"], 7: ["5"], 10: ["Python"], 15: ["2", "3"], 16: ["10"], 17: ["Book"], 18: ["Ava"], 19: ["Hello z!"]}
 expected = {1: "Total: 24.0", 2: "Adult", 3: "Ava Lee", 4: "Area: 12.57", 5: "3 x 10 = 30", 6: "Total: 5", 8: "Total turn: 360.0", 9: "['Leo', 'Mia']", 10: "Vowels: 1", 11: "[3, 5, 8, 8, 10]", 12: "Ava 21", 13: "Mia", 14: "Learning Python 2020", 15: "Total: 5", 16: "Miles: 6.21", 17: "Saved items: ['Book']", 18: "(1, 'Ava')", 19: "Decoded: hello z!"}
 old_cwd = os.getcwd()
 with tempfile.TemporaryDirectory() as work:
