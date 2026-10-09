@@ -307,8 +307,8 @@ const PurposeEnglishCourse = ({
               <TabsTrigger value="overview" className="min-h-11 gap-2"><Target className="h-4 w-4" /> {t("Lộ trình", "Roadmap")}</TabsTrigger>
               <TabsTrigger value="core" className="min-h-11 gap-2"><BookOpen className="h-4 w-4" /> {t("Bài nền tảng", "Core Lessons")}</TabsTrigger>
               <TabsTrigger value="lab" className="min-h-11 gap-2"><MessageSquareMore className="h-4 w-4" /> Lab</TabsTrigger>
-              <TabsTrigger value="readiness" className="min-h-11 gap-2"><Trophy className="h-4 w-4" /> Readiness</TabsTrigger>
               {track === "business" && <TabsTrigger value="interview" className="min-h-11 gap-2"><UserRoundCheck className="h-4 w-4" /> Interview</TabsTrigger>}
+              <TabsTrigger value="readiness" className="min-h-11 gap-2"><Trophy className="h-4 w-4" /> Readiness</TabsTrigger>
             </TabsList>
 
             <TabsContent value="overview" className="mt-7">
