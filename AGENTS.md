@@ -25,7 +25,7 @@
 - Python theory shares book banks, TheorySections, CodeMirror and harness; preserve IDs/progress. Python/DSA tiles use images and token overlays.
 - Generate Python Challenges from `scripts/python_challenges/spec_*.py` via `build.py`; audit and browser grading share `pythonChallengeHarness.ts`.
 - Python charts group unique challenge completions into six areas; date growth from earliest activity, never invent ability grades.
-- Python Challenge list, direct routes and workspace navigation share the sequential-unlock helper and merged progress hook; completion events refresh same-tab state immediately to prevent inconsistent access.
+- Python list/routes/workspace share unlock helper and merged progress; completion refreshes same-tab access. Editor receives gated Next in its toolbar; a separate grouped cheatsheet keeps reference readable.
 - IELTS Reading shares task groups, compact heading pools and ReaderPassage across rooms; preserve source IDs/theme scope and keep choose-TWO pairs intact as two marks in 40-slot papers for aligned grading.
 - Code Typing uses quote-aware numeric formatting. Lessons share CodeBlock with local scrolling; preserve nesting/literals and fix syntax at source to avoid corrupting code.
 
