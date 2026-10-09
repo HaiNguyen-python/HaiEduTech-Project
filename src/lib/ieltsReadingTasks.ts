@@ -6,7 +6,7 @@ export const readingTaskGroups = (questions: ReadingQuestion[]): ReadingQuestion
     const last = groups.at(-1);
     const previous = last?.at(-1);
     const options = (q: ReadingQuestion) => q.headings ?? q.features ?? q.endings ?? q.wordBank;
-    if (previous?.type === question.type && JSON.stringify(options(previous)) === JSON.stringify(options(question))) {
+    if (previous?.type === question.type && JSON.stringify(options(previous)) === JSON.stringify(options(question)) && readingTaskInstruction(previous) === readingTaskInstruction(question)) {
       last?.push(question);
     } else groups.push([question]);
   }
@@ -19,6 +19,8 @@ export const readingTaskInstruction = (q: ReadingQuestion): string => {
     case "tfng": return "Do the following statements agree with the information in the Reading Passage? TRUE: the statement agrees with the information. FALSE: the statement contradicts the information. NOT GIVEN: there is no information on this.";
     case "ynng": return "Do the following statements agree with the views or claims of the writer? YES: the statement agrees with the writer. NO: the statement contradicts the writer. NOT GIVEN: it is impossible to say what the writer thinks about this.";
     case "multiple-choice": return "Choose the correct letter, A, B, C or D.";
+    case "mcq-multi": return "Choose TWO letters.";
+    case "fill-blank": return q.instruction ?? "Write NO MORE THAN THREE WORDS AND/OR A NUMBER from the passage.";
     default: return q.instruction ?? "";
   }
 };

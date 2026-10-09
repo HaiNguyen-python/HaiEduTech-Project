@@ -132,7 +132,7 @@ export const ieltsReadingExpansion3Lessons: LanguageLesson[] = [
 
 **Chiến lược nâng cao:**
 1. **NO vs NOT GIVEN**: NO = bài viết nói NGƯỢC LẠI. NOT GIVEN = bài viết KHÔNG ĐỀ CẬP
-2. **Cẩn thận với absolute words**: 'always', 'never', 'all' - thường là NO
+2. **Kiểm tra từ tuyệt đối**: 'always', 'never', 'all' phải đối chiếu bằng chứng, không tự động chọn NO
 3. **Qualifier words**: 'most', 'some', 'often' - dễ bị nhầm
 4. **Implicit vs explicit**: nếu phải SUY LUẬN quá nhiều → có thể là NOT GIVEN
 
@@ -144,7 +144,7 @@ export const ieltsReadingExpansion3Lessons: LanguageLesson[] = [
 
 **Advanced strategies:**
 1. **NO vs NOT GIVEN**: NO = passage says the OPPOSITE. NOT GIVEN = passage doesn't MENTION it
-2. **Watch absolute words**: 'always', 'never', 'all' - often NO
+2. **Check absolute wording**: compare 'always', 'never', 'all' with the evidence; do not automatically choose NO
 3. **Qualifier words**: 'most', 'some', 'often' - easily confused
 4. **Implicit vs explicit**: if you need too much inference → likely NOT GIVEN`,
     proTips: [
@@ -173,7 +173,7 @@ export const ieltsReadingExpansion3Lessons: LanguageLesson[] = [
       { question: "Statement: 'All students passed the exam.' Passage: 'Most students passed.' → Answer:", options: ["YES", "NO", "NOT GIVEN"], answer: 1, explanation: "'All' vs 'Most' - the passage contradicts 'all' so it's NO." },
       { question: "Statement: 'The study was conducted in France.' Passage nói về study nhưng không đề cập location:", options: ["YES", "NO", "NOT GIVEN"], answer: 2, explanation: "Location not mentioned → NOT GIVEN." },
       { question: "When should you choose NOT GIVEN?", options: ["When the passage says the opposite", "When the passage doesn't mention that information", "When the passage agrees", "When you don't know"], answer: 1, explanation: "NOT GIVEN = passage doesn't address the topic." },
-      { question: "Absolute words ('always', 'never') thường dẫn đến đáp án:", options: ["YES", "NO", "NOT GIVEN"], answer: 1, explanation: "Absolute claims are often contradicted in academic texts." },
+      { question: "The writer says: Every participant should receive feedback. Statement: All participants should receive feedback. Answer:", options: ["YES", "NO", "NOT GIVEN"], answer: 0, explanation: "Every and all express the same supported scope. Absolute wording does not automatically make a statement NO." },
     ],
   },
   {
@@ -356,36 +356,47 @@ export const ieltsListeningExpansion3Lessons: LanguageLesson[] = [
     titleEn: "Section 1 - Form Completion Mastery",
     level: 3,
     difficulty: "beginner",
-    theory: `**Section 1 Form Completion** là phần dễ nhất nhưng cần chính xác tuyệt đối.
+    theory: `### Mục tiêu: số, ngày và mã tham chiếu
+Sau bài Form & Note Completion nền tảng, bài này luyện ghi dữ liệu chính xác, không lặp lại kỹ thuật đoán thông tin.
 
-**Chiến lược:**
-1. **Đọc form trước khi nghe** - dự đoán loại thông tin cần (tên, số, địa chỉ)
-2. **Chú ý spelling** - tên riêng thường được đánh vần
-3. **Số điện thoại** - viết từng nhóm số, kiểm tra lại
-4. **Dates** - nghe ngày, tháng, năm riêng biệt
+### Quy trình
+1. Xem nhãn ô trống và giới hạn từ/số được in trong đề.
+2. Ghi từng nhóm số; double seven = 77, triple two = 222.
+3. Phân biệt teen/ty bằng trọng âm và toàn bộ ngữ cảnh; không đoán chỉ từ một âm.
+4. Với ngày, giữ ngày và tháng đúng; kiểm tra lời sửa có thay thế đúng thông tin đang hỏi không.
 
-**Word limit thường gặp:**
-- ONE WORD AND/OR A NUMBER
-- NO MORE THAN TWO WORDS
+### Ví dụ có giải thích
+Recording: "The booking is for the thirteenth of May. The reference is double seven, four, two."
+Date (ONE WORD AND/OR A NUMBER): **13 May**. Reference (A NUMBER): **7742**.
+Recording: "The fee was thirteen pounds last year; this year it is thirty."
+Current fee (£): **30**, không phải 13, vì câu hỏi hỏi phí năm nay.
 
-**Lỗi thường gặp:**
-- Viết sai chính tả tên riêng
-- Nhầm số teen/ty (13/30, 14/40)
-- Bỏ qua thông tin khi đang viết câu trước`,
-    theoryEn: `**Section 1 Form Completion** is the easiest but requires absolute accuracy.
+### Lỗi thường gặp
+Không thêm £ khi đề đã in sẵn ký hiệu. Không tự thêm từ để vượt word limit. Chỉ dùng viết tắt khi ghi nháp, rồi kiểm tra dạng đáp án cuối. Nếu bỏ lỡ một số, tiếp tục theo audio và kiểm tra sau.`,
+    theoryEn: `### Goal: numbers, dates and reference codes
+After the foundation Form & Note Completion lesson, practise accurate data capture rather than repeating prediction techniques.
 
-**Strategies:**
-1. **Read the form before listening** - predict information types (names, numbers, addresses)
-2. **Watch spelling** - proper nouns are often spelled out
-3. **Phone numbers** - write in groups, double-check
-4. **Dates** - listen for day, month, year separately`,
+### Method
+1. Read the gap label and its printed word/number limit.
+2. Record digits in groups: double seven = 77; triple two = 222.
+3. Distinguish teen/ty using stress and the complete context, not one isolated sound.
+4. For dates, retain both the correct day and month. Check whether a correction replaces the detail being asked about.
+
+### Worked example
+Recording: "The booking is for the thirteenth of May. The reference is double seven, four, two."
+Date (ONE WORD AND/OR A NUMBER): **13 May**. Reference (A NUMBER): **7742**.
+Recording: "The fee was thirteen pounds last year; this year it is thirty."
+Current fee (£): **30**, not 13, because the question asks about this year.
+
+### Common mistakes
+Do not repeat £ when it is already printed. Do not add words beyond the limit. Use abbreviations only for rough notes, then check the final answer. If you miss a digit, keep following the recording and check later.`,
     proTips: [
-      "Tên riêng luôn được đánh vần - nghe kỹ từng chữ cái",
+      "Tên riêng có thể được đánh vần; đừng giả định mọi tên đều sẽ được đánh vần",
       "Postcodes thường có cả letter và number: SW1 4PQ",
       "Nếu miss 1 câu, KHÔNG quay lại - tiếp tục câu tiếp theo",
     ],
     proTipsEn: [
-      "Proper nouns are always spelled out - listen carefully to each letter",
+      "Proper nouns may be spelled out; listen carefully rather than assuming every name will be spelled",
       "Postcodes often have both letters and numbers",
       "If you miss one answer, DON'T go back - continue to the next",
     ],
@@ -395,8 +406,8 @@ export const ieltsListeningExpansion3Lessons: LanguageLesson[] = [
         instruction: "Điền từ thích hợp",
         instructionEn: "Fill in the appropriate word",
         sentences: [
-          { text: "Section 1 is always a ___ between two people.", textEn: "Section 1 is always a ___ between two people.", answer: "conversation", hint: "cuộc trò chuyện" },
-          { text: "Proper nouns are usually ___ out letter by letter.", textEn: "Proper nouns are usually ___ out letter by letter.", answer: "spelled", hint: "đánh vần" },
+          { text: "The reference is double seven, four, two. Reference: ___", textEn: "The reference is double seven, four, two. Reference: ___", answer: "7742", hint: "double seven = 77" },
+          { text: "The fee was thirteen pounds last year; this year it is thirty. Current fee (£): ___", textEn: "The fee was thirteen pounds last year; this year it is thirty. Current fee (£): ___", answer: "30", hint: "this year, not last year" },
           { text: "If you miss an answer, don't ___ - move to the next question.", textEn: "If you miss an answer, don't ___ - move to the next question.", answer: "panic", hint: "hoảng" },
         ],
       },

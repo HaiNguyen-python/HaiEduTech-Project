@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { ReadingExam } from "@/data/ieltsFullReadingExams";
 import { shuffleHeadingsInExam } from "@/lib/ieltsReadingShuffle";
-import { expandReadingAnswerSlots, selectReadingSlots, allocateReadingCounts } from "@/lib/ieltsReadingTasks";
+import { expandReadingAnswerSlots, selectReadingSlots, allocateReadingCounts, readingTaskGroups, readingTaskInstruction } from "@/lib/ieltsReadingTasks";
 import { isReadingAnswerCorrect } from "@/lib/ieltsReadingAnswer";
 import { IELTS_FULL_TESTS } from "@/data/ieltsFullTests";
 import { READING_QUESTION_EXTENSIONS } from "@/data/ieltsReadingQuestionExtensions";
@@ -17,6 +17,12 @@ const exams = Object.values(modules).flatMap(m => Object.values(m as Record<stri
 const prepared = exams.map(e => ({ ...shuffleHeadingsInExam(e), questions: expandReadingAnswerSlots(shuffleHeadingsInExam({ ...e, questions: [...e.questions, ...(READING_QUESTION_EXTENSIONS[e.id] ?? []), ...(READING_NOT_GIVEN_EXTENSIONS[e.id] ?? [])] }).questions) }));
 
 describe("IELTS Reading paper integrity", () => {
+  it("shares one word-limit instruction per task and separates different limits", () => {
+    const base = { number: 1, type: "fill-blank" as const, prompt: "Complete", answer: "coral", instruction: "Write ONE WORD only." };
+    const groups = readingTaskGroups([base, { ...base, number: 2 }, { ...base, number: 3, instruction: "Write TWO WORDS only." }]);
+    expect(groups.map(group => group.length)).toEqual([2, 1]);
+    expect(readingTaskInstruction(groups[0][0])).toBe("Write ONE WORD only.");
+  });
   it("uses unambiguous paragraph labels and distinct passage titles", () => {
     expect(new Set(exams.map(e => e.passageTitle)).size).toBe(exams.length);
     for (const e of exams) {

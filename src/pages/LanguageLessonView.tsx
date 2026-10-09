@@ -513,8 +513,8 @@ const LanguageLessonView = () => {
                             </div>
                             <p className="text-sm text-muted-foreground leading-relaxed">
                               {t(
-                                "6 bài luyện nghe có audio + transcript + chấm điểm: Form Completion, Multiple Choice, Map Labelling, Matching, Sentence Completion, Note Completion.",
-                                "6 listening drills with audio + transcript + auto scoring: Form Completion, MCQ, Map Labelling, Matching, Sentence & Note Completion."
+                                "30 đề đầy đủ 40 câu và 120 bài luyện theo dạng câu hỏi, kèm audio, transcript và chấm điểm.",
+                                "30 full 40-question tests and 120 question-type drills with audio, transcripts and scoring."
                               )}
                             </p>
                           </div>

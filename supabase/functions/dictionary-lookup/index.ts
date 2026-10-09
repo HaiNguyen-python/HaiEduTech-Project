@@ -115,7 +115,7 @@ function withDeadline<T>(p: Promise<T>, ms: number, fallback: T): Promise<T> {
   });
 }
 
-async function handleDictionary(word: string) {
+async function handleDictionary(word: string, quick = false) {
   const w = word.trim().toLowerCase();
   // Primary: dictionaryapi.dev
   const primary = await fetchJSONWithRetry(
@@ -170,7 +170,12 @@ async function handleDictionary(word: string) {
     return { notFound: true };
   }
 
-  // Build Vietnamese translations server-side (max 6 to stay under MyMemory limits)
+  if (quick) return { entry, viTranslations: {} };
+  return { entry, viTranslations: await translateEntry(entry) };
+}
+
+async function translateEntry(entry: any) {
+  // Optional translations are requested separately after definitions are visible.
   const toTranslate: { key: string; text: string }[] = [];
   entry.meanings?.forEach((m: any, mIdx: number) => {
     m.definitions?.slice(0, 2).forEach((def: any, dIdx: number) => {
@@ -196,7 +201,7 @@ async function handleDictionary(word: string) {
     });
   }
 
-  return { entry, viTranslations };
+  return viTranslations;
 }
 
 async function handleCollocation(word: string) {
@@ -324,7 +329,7 @@ Deno.serve(async (req) => {
       });
     }
 
-    const validKinds = new Set(["dictionary", "collocation", "thesaurus"]);
+    const validKinds = new Set(["dictionary", "dictionary-translations", "collocation", "thesaurus"]);
     if (!validKinds.has(type)) {
       return new Response(JSON.stringify({ error: true, message: "Invalid type" }), {
         status: 200,
@@ -333,7 +338,14 @@ Deno.serve(async (req) => {
     }
 
     // ⚡ Server-side cache hit
-    const cached = await readCache(type, word);
+    const cached = await readCache(type === "dictionary-translations" ? "dictionary" : type, word);
+    if (type === "dictionary-translations") {
+      const base = cached?.entry ? cached : await handleDictionary(word, true);
+      if (!base.entry) return Response.json(base, { headers: corsHeaders });
+      const viTranslations = Object.keys(base.viTranslations ?? {}).length ? base.viTranslations : await translateEntry(base.entry);
+      await writeCache("dictionary", word, { entry: base.entry, viTranslations });
+      return Response.json({ viTranslations }, { headers: corsHeaders });
+    }
     if (cached) {
       return new Response(JSON.stringify({ ...cached, cached: true }), {
         status: 200,
@@ -342,7 +354,7 @@ Deno.serve(async (req) => {
     }
 
     let result: any;
-    if (type === "dictionary") result = await handleDictionary(word);
+    if (type === "dictionary") result = await handleDictionary(word, body.quick === true);
     else if (type === "collocation") result = await handleCollocation(word);
     else result = await handleThesaurus(word);
 

@@ -28,6 +28,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { playEnglishTts } from "@/lib/englishTts";
 import { playChineseTts } from "@/lib/chineseTts";
+import { playFinnishTts } from "@/lib/finnishTts";
+import { finnishQuickLookup } from "@/lib/finnishQuickLookup";
 
 // Play pronunciation for the current dictionary language, regardless of
 // whether the lookup entry contains an audio URL. Uses the same reliable
@@ -38,19 +40,21 @@ const playLookupAudio = (word: string, lang: DictLang) => {
   switch (lang) {
     case "en": return playEnglishTts(text);
     case "zh": return playChineseTts(text);
+    case "fi": return playFinnishTts(text);
   }
 };
 
 type LookupErrorKind = "notFound" | "busy" | null;
 type SizeMode = "wide";
 type ActiveTab = "dictionary" | "ozdic" | "thesaurus" | "translate";
-type DictLang = "en" | "zh";
+type DictLang = "en" | "zh" | "fi";
 
 const LANG_LABEL: Record<DictLang, string> = {
   en: "🇬🇧 English",
   zh: "🇨🇳 中文",
+  fi: "🇫🇮 Suomi",
 };
-const LANG_OPTIONS: DictLang[] = ["en", "zh"];
+const LANG_OPTIONS: DictLang[] = ["en", "zh", "fi"];
 
 const RECENT_KEY = "super-dict-recent";
 const POSITION_KEY = "super-dict-position";
@@ -60,6 +64,7 @@ const MAX_RECENT = 5;
 const SUGGESTIONS_BY_LANG: Record<DictLang, string[]> = {
   en: ["ambiguous", "perspective", "significant"],
   zh: ["学习", "朋友", "希望"],
+  fi: ["ystävä", "oppia", "työ"],
 };
 
 // Size limits (px) for resizable panel on lg+
@@ -126,7 +131,7 @@ const posChip = (pos: string): string => {
 // ──────────────────────────────────────────────────────────────────────────
 const LOOKUP_CACHE_KEY = "super-dict-cache-v1";
 const LOOKUP_CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
-const LOOKUP_CACHE_MAX = 300; // cap entries to avoid bloating localStorage
+const LOOKUP_CACHE_MAX = 1000; // cap entries to avoid bloating localStorage
 type CachedEntry = { t: number; v: any };
 const lookupCache = new Map<string, CachedEntry>();
 let lookupCacheLoaded = false;
@@ -219,6 +224,7 @@ const SuperDictionary = () => {
   const [savingNotebook, setSavingNotebook] = useState(false);
   const [savedWord, setSavedWord] = useState<string | null>(null);
   const dictInputRef = useRef<HTMLInputElement>(null);
+  const lookupRequestRef = useRef(0);
 
   // Drag-to-move position (offset from default anchored position)
   const [position, setPosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
@@ -268,6 +274,8 @@ const SuperDictionary = () => {
   }, []);
 
   const updateDictLang = useCallback((lang: DictLang) => {
+    lookupRequestRef.current += 1;
+    setDictLoading(false);
     setDictLang(lang);
     setDictResult(null);
     setDictError(null);
@@ -360,6 +368,7 @@ const SuperDictionary = () => {
   const handleDictLookup = useCallback(async (word: string) => {
     const w = word.trim();
     if (!w) return;
+    const request = ++lookupRequestRef.current;
     setDictLoading(true);
     setDictResult(null);
     setDictViTranslations({});
@@ -368,6 +377,14 @@ const SuperDictionary = () => {
 
     // ⚡ Instant cache hit
     const cacheKey = `dict:${dictLang}:${w.toLowerCase()}`;
+    const localFinnish = dictLang === "fi" ? finnishQuickLookup(w) : null;
+    if (localFinnish) {
+      setDictResult(localFinnish.entry);
+      setDictViTranslations(localFinnish.viTranslations);
+      pushRecent(w);
+      setDictLoading(false);
+      return;
+    }
     const cached = getCachedLookup(cacheKey);
     if (cached) {
       if (cached.entry) {
@@ -384,8 +401,9 @@ const SuperDictionary = () => {
     try {
       if (dictLang === "en") {
         const { data, error } = await supabase.functions.invoke("dictionary-lookup", {
-          body: { type: "dictionary", word: w },
+          body: { type: "dictionary", word: w, quick: true },
         });
+        if (request !== lookupRequestRef.current) return;
         if (error || !data) setDictError("busy");
         else if (data.notFound) {
           setDictError("notFound");
@@ -397,11 +415,23 @@ const SuperDictionary = () => {
           setDictViTranslations(data.viTranslations || {});
           pushRecent(w);
           setCachedLookup(cacheKey, { entry: data.entry, viTranslations: data.viTranslations || {} });
+          // Definitions are already visible; optional translations never hold up the result.
+          if (!data.viTranslations || Object.keys(data.viTranslations).length === 0) {
+            void supabase.functions.invoke("dictionary-lookup", {
+              body: { type: "dictionary-translations", word: w },
+            }).then(({ data: translations }) => {
+              if (translations?.viTranslations) {
+                setCachedLookup(cacheKey, { entry: data.entry, viTranslations: translations.viTranslations });
+                if (request === lookupRequestRef.current) setDictViTranslations(translations.viTranslations);
+              }
+            }).catch(() => {});
+          }
         } else setDictError("notFound");
       } else {
         const { data, error } = await supabase.functions.invoke("multi-lang-lookup", {
           body: { word: w, lang: dictLang },
         });
+        if (request !== lookupRequestRef.current) return;
         if (error || !data) setDictError("busy");
         else if (data.notFound) {
           setDictError("notFound");
@@ -428,9 +458,9 @@ const SuperDictionary = () => {
         } else setDictError("notFound");
       }
     } catch {
-      setDictError("busy");
+      if (request === lookupRequestRef.current) setDictError("busy");
     }
-    setDictLoading(false);
+    if (request === lookupRequestRef.current) setDictLoading(false);
   }, [pushRecent, dictLang]);
 
   // Translate sentences/paragraphs (cached client-side for instant repeats)
@@ -794,7 +824,7 @@ const SuperDictionary = () => {
                       {t("Siêu từ điển", "Super Dictionary")}
                     </p>
                     <p className="text-[10px] text-muted-foreground leading-tight truncate">
-                      {t("Anh • Trung · Dịch · Kết hợp từ · Đồng nghĩa", "EN · ZH · Translate · Collocations · Synonyms")}
+                      {t("Anh · Trung · Phần Lan", "English · Chinese · Finnish")}
                     </p>
                   </div>
                 </div>
@@ -862,6 +892,7 @@ const SuperDictionary = () => {
                             onChange={(e) => setDictSearchWord(e.target.value)}
                             placeholder={
                               dictLang === "en" ? t("Nhập từ tiếng Anh...", "Enter an English word...") :
+                              dictLang === "fi" ? t("Nhập từ tiếng Phần Lan...", "Enter a Finnish word...") :
                               t("Nhập từ tiếng Trung (Hán tự)...", "Enter a Chinese word (Hanzi)...")
                             }
                             onKeyDown={(e) => { if (e.key === "Enter") handleDictLookup(dictSearchWord); }}

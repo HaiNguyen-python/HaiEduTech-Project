@@ -89,32 +89,6 @@ const levelLabel = (l: string) => LEVEL_LABEL[l] ?? l;
 const IELTS_FULL_READING_EXAMS: ReadingExam[] = _MERGED_EXAMS;
 const EXAMS_BY_ID: Record<string, ReadingExam> = Object.fromEntries(IELTS_FULL_READING_EXAMS.map(e => [e.id, e]));
 
-// Word-count hint for fill-in-the-blank answers, mirroring the real IELTS
-// "NO MORE THAN X WORDS AND/OR A NUMBER" instruction.
-const wordCountHint = (answer: string, isVi: boolean): string => {
-  const clean = (answer || "").trim();
-  const hasNumber = /\d/.test(clean);
-  const words = clean.split(/\s+/).filter(Boolean).length;
-  const cap = Math.max(1, Math.min(3, words));
-  const en =
-    cap === 1
-      ? hasNumber
-        ? "Write NO MORE THAN ONE WORD AND/OR A NUMBER."
-        : "Write ONE WORD only."
-      : cap === 2
-        ? "Write NO MORE THAN TWO WORDS AND/OR A NUMBER."
-        : "Write NO MORE THAN THREE WORDS AND/OR A NUMBER.";
-  const vi =
-    cap === 1
-      ? hasNumber
-        ? "Viết KHÔNG QUÁ MỘT TỪ VÀ/HOẶC MỘT CON SỐ."
-        : "Chỉ viết MỘT TỪ duy nhất."
-      : cap === 2
-        ? "Viết KHÔNG QUÁ HAI TỪ VÀ/HOẶC MỘT CON SỐ."
-        : "Viết KHÔNG QUÁ BA TỪ VÀ/HOẶC MỘT CON SỐ.";
-  return isVi ? vi : en;
-};
-
 // ============================================================
 // Shared exam-room UI helpers
 // ============================================================
@@ -795,9 +769,6 @@ const QuestionBlock: React.FC<QBlockProps> = ({ question: q, value, onChange, su
 
       {q.type === "fill-blank" && (
         <div className="pl-9 space-y-1.5">
-          <p className="text-[11px] font-semibold uppercase tracking-wide text-primary/80">
-            {q.instruction ?? wordCountHint(q.answer, false)}
-          </p>
           <input
             type="text"
             value={value}
@@ -870,9 +841,9 @@ const QuestionBlock: React.FC<QBlockProps> = ({ question: q, value, onChange, su
 
       {q.type === "mcq-multi" && q.options && (
         <div className="pl-9 space-y-2">
-          <p className="text-[11px] font-semibold uppercase tracking-wide text-primary/80">
+          {!grouped && <p className="text-[11px] font-semibold uppercase tracking-wide text-primary/80">
             {isVi ? "Chọn HAI đáp án." : "Choose TWO letters."}
-          </p>
+          </p>}
           {q.options.map((opt, i) => {
             const letter = String.fromCharCode(65 + i);
             const picked = parseReadingLetters(value);

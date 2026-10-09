@@ -481,13 +481,13 @@ export const ieltsModules: LanguageModule[] = [
         titleEn: "Section 1 & 2: Everyday English",
         level: 2,
         difficulty: "beginner",
-        theory: "**Section 1:** Hội thoại giữa 2 người về chủ đề hàng ngày.\n**Section 2:** Độc thoại về chủ đề xã hội.\n\n**Dạng câu hỏi phổ biến:**\n- Form completion (điền thông tin)\n- Multiple choice\n- Matching\n\n**Chiến lược:**\n1. **Đọc câu hỏi trước** khi nghe (30 giây)\n2. **Predict** loại thông tin cần nghe (tên, số, ngày)\n3. **Chú ý spelling** - viết sai chính tả = mất điểm\n4. **Nghe distractor** - đáp án thường đến SAU thông tin gây nhiễu\n\n**Lưu ý chính tả:**\n- Tên riêng luôn viết HOA\n- Số điện thoại: viết từng số hoặc từng cặp\n- Ngày tháng: 15th March / March 15th đều được",
-        theoryEn: "**Section 1:** Conversation between 2 people about everyday topics.\n**Section 2:** Monologue about social topics.\n\n**Strategies:**\n1. Read questions BEFORE listening\n2. Predict information type (name, number, date)\n3. Watch spelling - wrong spelling = lost marks\n4. Listen for distractors - answer often comes AFTER misleading info",
+        theory: "**Section 1:** Hội thoại giữa 2 người về chủ đề hàng ngày.\n**Section 2:** Độc thoại về chủ đề xã hội.\n\n**Dạng câu hỏi phổ biến:**\n- Form completion (điền thông tin)\n- Multiple choice\n- Matching\n\n**Chiến lược:**\n1. **Đọc câu hỏi trước** trong thời gian chuẩn bị được cho\n2. **Predict** loại thông tin cần nghe (tên, số, ngày)\n3. **Chú ý spelling** - viết sai chính tả = mất điểm\n4. **Nghe distractor** - đáp án thường đến SAU thông tin gây nhiễu\n\n**Lưu ý chính tả:**\n- IELTS chấp nhận đáp án chữ HOA hoặc chữ thường; viết chính tả rõ ràng\n- Số điện thoại: viết từng số hoặc từng cặp\n- Ngày tháng: 15th March / March 15th đều được",
+        theoryEn: "**Section 1:** A conversation between two people about everyday needs, such as booking a course.\n**Section 2:** One speaker gives information about an everyday social setting, such as a guided tour.\n\n### Step-by-step method\n1. Use the given preparation time to read the questions and their word limits.\n2. Predict the information type: name, number, date or description. Prediction guides attention; it is not an answer.\n3. Follow the gap labels as you listen. A familiar word alone does not confirm the answer.\n4. Track relevant corrections, spelling and units. Confirm which detail the question requests.\n\n### Worked example\nRecording: The tour was £15 last year; this year it costs £18.\nQuestion: Current ticket price (£): ___.\nAnswer: **18**. The question asks about this year; £ is already printed.\n\n### Final check\nCheck spelling and the printed word/number limit. Uppercase or lowercase answers are accepted. If you miss a detail, keep following the next question rather than losing your place.",
         exercises: [
           {
             type: "fill-in-blank",
             instruction: "Giả sử bạn nghe đoạn hội thoại sau. Điền thông tin còn thiếu:\n\n'My name is Sarah Thompson. That's T-H-O-M-P-S-O-N. I live at 42 Oak Street, and my phone number is 07845 392 617.'",
-            instructionEn: "Based on the dialogue, fill in the missing information",
+            instructionEn: "Complete the form with ONE WORD AND/OR A NUMBER.\n\nDialogue: My name is Sarah Thompson. That is T-H-O-M-P-S-O-N. I live at 42 Oak Street, and my phone number is 07845 392 617.",
             sentences: [
               { text: "Name: Sarah ___", textEn: "Name: Sarah ___", answer: "Thompson" },
               { text: "Address: ___ Oak Street", textEn: "Address: ___ Oak Street", answer: "42" },
@@ -497,7 +497,7 @@ export const ieltsModules: LanguageModule[] = [
         ],
         quiz: [
           { question: "In IELTS Listening, what happens if you misspell?", options: ["Half a point", "Still correct if close", "Lose the mark completely", "Up to the examiner"], answer: 2, explanation: "IELTS Listening requires EXACT spelling. Misspelling = 0 marks for that question." },
-          { question: "What should you do in the 30 seconds before listening?", options: ["Rest", "Read questions and predict answers", "Write predicted answers", "Review previous section"], answer: 1, explanation: "Use the 30 seconds before each section to read questions and predict the type of information you'll hear." },
+          { question: "What should you do during the preparation time before listening?", options: ["Rest", "Read questions and predict answers", "Write predicted answers", "Review previous section"], answer: 1, explanation: "Use the given preparation time to read questions and predict the type of information required; do not assume a fixed duration." },
         ],
       },
       ...ieltsListeningExpansionLessons,

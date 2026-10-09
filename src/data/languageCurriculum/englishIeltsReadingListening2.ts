@@ -328,7 +328,7 @@ export const ieltsReadingExpansion2Lessons: LanguageLesson[] = [
 1. **Inference (Suy luận):** Đáp án không được nói trực tiếp - phải "đọc giữa các dòng"
 2. **Author Purpose:** Xác định tại sao tác giả viết đoạn/bài đó
 3. **Tìm signpost language:** "This suggests that...", "It can be inferred..."
-4. **Loại trừ đáp án quá cực đoan** - "always", "never" thường sai
+4. **Đối chiếu phạm vi** - kiểm tra "always", "never" bằng passage, không tự động loại
 
 **Mức Band 7.0+ cần:**
 - Phân biệt fact vs opinion
@@ -340,7 +340,7 @@ export const ieltsReadingExpansion2Lessons: LanguageLesson[] = [
 1. **Inference:** The answer is not stated directly - you must "read between the lines"
 2. **Author Purpose:** Determine why the author wrote that section/passage
 3. **Find signpost language:** "This suggests that...", "It can be inferred..."
-4. **Eliminate extreme answers** - "always", "never" are usually wrong
+4. **Compare scope** - check "always" and "never" against the passage rather than automatically rejecting them
 
 **Band 7.0+ requirements:**
 - Distinguish fact vs opinion
@@ -349,12 +349,12 @@ export const ieltsReadingExpansion2Lessons: LanguageLesson[] = [
     proTips: [
       "Đáp án inference đúng phải có evidence trong passage, dù không nói trực tiếp",
       "Author purpose thường liên quan đến: inform, persuade, compare, argue, describe",
-      "Đáp án chứa 'always', 'never', 'all' thường là trap - quá tuyệt đối",
+      "Từ tuyệt đối có thể đúng; cần kiểm tra mức độ và phạm vi theo passage",
     ],
     proTipsEn: [
       "Correct inferences must have supporting evidence in the passage",
       "Author purpose usually relates to: inform, persuade, compare, argue, describe",
-      "Answers containing 'always', 'never', 'all' are usually traps - too absolute",
+      "Absolute wording can be correct; verify its strength and scope against the passage",
     ],
     vocabulary: [
       { word: "inference", meaning: "suy luận", meaningEn: "a conclusion drawn from evidence", example: "What inference can be drawn from paragraph 3?", partOfSpeech: "noun" },
@@ -372,7 +372,7 @@ export const ieltsReadingExpansion2Lessons: LanguageLesson[] = [
           { text: "An ___ is a conclusion drawn from evidence rather than stated directly.", textEn: "An ___ is a conclusion drawn from evidence.", answer: "inference", hint: "i________e" },
           { text: "The author ___ that renewable energy is the only viable solution.", textEn: "The author ___ that renewable energy is the only viable solution.", answer: "implies", hint: "i_____s" },
           { text: "The ___ of the passage is neutral and informative.", textEn: "The ___ of the passage is neutral.", answer: "tone", hint: "t__e" },
-          { text: "Answers containing 'always' or 'never' are often too ___.", textEn: "Answers containing 'always' or 'never' are too ___.", answer: "extreme", hint: "e_____e" },
+          { text: "An option that exceeds the passage's scope makes an ___ claim.", textEn: "An option that exceeds the passage's scope makes an ___ claim.", answer: "unsupported", hint: "not supported by evidence" },
           { text: "The author's main ___ is to persuade readers to recycle more.", textEn: "The author's main ___ is to persuade.", answer: "purpose", hint: "p______e" },
         ],
       },
@@ -382,7 +382,7 @@ export const ieltsReadingExpansion2Lessons: LanguageLesson[] = [
         instructionEn: "Rearrange to form a sentence",
         items: [
           { scrambled: ["between", "Read", "lines", "the", "for", "inferences"], correct: "Read between the lines for inferences" },
-          { scrambled: ["extreme", "Eliminate", "options", "first", "answers"], correct: "Eliminate extreme answers options first" },
+          { scrambled: ["the", "Check", "against", "evidence", "options"], correct: "Check options against the evidence" },
           { scrambled: ["purpose", "Identify", "author's", "the", "main"], correct: "Identify the author's main purpose" },
           { scrambled: ["fact", "Distinguish", "opinion", "from", "carefully"], correct: "Distinguish fact from opinion carefully" },
         ],
@@ -390,7 +390,7 @@ export const ieltsReadingExpansion2Lessons: LanguageLesson[] = [
     ],
     quiz: [
       { question: "An inference means:", options: ["A direct quote from the passage", "A conclusion supported by evidence but not stated explicitly", "A random guess", "The title of the passage"], answer: 1, explanation: "Inferences require reading between the lines with textual support." },
-      { question: "Which word signals an extreme (likely wrong) answer?", options: ["Sometimes", "Often", "Always", "Usually"], answer: 2, explanation: "'Always' is absolute and rarely correct in IELTS reading." },
+      { question: "What should you do with an option containing always?", options: ["Reject it automatically", "Accept it automatically", "Compare its scope with the passage", "Ignore the question"], answer: 2, explanation: "Absolute wording is neither a correct-answer signal nor an automatic trap. Its scope must be supported by the evidence." },
       { question: "Author purpose questions ask:", options: ["What the passage says", "Why the author wrote it", "How many words are used", "When it was written"], answer: 1, explanation: "Purpose questions focus on the writer's intention." },
       { question: "'The tone is critical' means the author is:", options: ["Supportive", "Expressing disapproval or negative evaluation", "Neutral", "Confused"], answer: 1, explanation: "A critical tone indicates negative judgement or evaluation." },
       { question: "For Band 7.0+, you need to identify:", options: ["Only main ideas", "Fact vs opinion and implicit meaning", "Just vocabulary", "The number of paragraphs"], answer: 1, explanation: "Higher bands require understanding implied meanings and distinguishing facts from opinions." },
@@ -565,7 +565,7 @@ export const ieltsListeningExpansion2Lessons: LanguageLesson[] = [
     titleEn: "Handling Distractors in Listening",
     level: 4,
     difficulty: "advanced",
-    theory: `**Distractors** là thông tin sai được cố ý đưa vào để đánh lạc hướng.
+    theory: `**Distractors** là chi tiết hoặc phương án không trả lời đúng câu hỏi; có thể đúng ở một ngữ cảnh khác.
 
 **Cách nhận diện Distractor:**
 1. **Self-correction:** "It's on Monday... no, sorry, Tuesday" → đáp án là Tuesday
@@ -574,10 +574,10 @@ export const ieltsListeningExpansion2Lessons: LanguageLesson[] = [
 4. **Conditional:** "If it rains, we'll meet indoors" - chưa chắc đã xảy ra
 
 **Nguyên tắc vàng:**
-- Đáp án CUỐI CÙNG sau khi sửa mới là đáp án đúng
+- Dùng thông tin sửa nếu nó thay thế đúng chi tiết và người nói mà câu hỏi yêu cầu
 - Chú ý "but", "actually", "in fact", "no wait" - thường intro đáp án thật
 - Đừng vội chọn thông tin đầu tiên nghe được`,
-    theoryEn: `**Distractors** are incorrect information deliberately included to mislead you.
+    theoryEn: `**Distractors** are details or options that do not answer the question, even if they are true in another context.
 
 **How to identify Distractors:**
 1. **Self-correction:** "It's on Monday... no, sorry, Tuesday" → answer is Tuesday
@@ -586,18 +586,18 @@ export const ieltsListeningExpansion2Lessons: LanguageLesson[] = [
 4. **Conditional:** "If it rains, we'll meet indoors" - may not happen
 
 **Golden rules:**
-- The FINAL answer after corrections is the correct one
+- Use corrected information when it replaces the specific detail and speaker requested by the question
 - Watch for "but", "actually", "in fact", "no wait" - they often introduce the real answer
 - Don't rush to select the first piece of information you hear`,
     proTips: [
-      "Nếu đáp án đến quá dễ và quá sớm - rất có thể đó là distractor",
-      "'Actually' và 'In fact' gần như luôn đi trước đáp án đúng",
-      "Conditional (If...) thường KHÔNG phải đáp án vì chưa xác nhận",
+      "Thông tin đầu có thể đúng; tiếp tục nghe để kiểm tra sự sửa đổi liên quan",
+      "'Actually' và 'In fact' báo hiệu đối chiếu hoặc sửa; phải kiểm tra chi tiết được hỏi",
+      "Thông tin If... có thể là đáp án nếu câu hỏi hỏi đúng điều kiện đó",
     ],
     proTipsEn: [
-      "If an answer comes too easily and too early - it's likely a distractor",
-      "'Actually' and 'In fact' almost always precede the correct answer",
-      "Conditional statements (If...) are usually NOT the answer as they're unconfirmed",
+      "Early information may be correct; keep listening for relevant corrections",
+      "'Actually' and 'In fact' can signal contrast or correction; verify the requested detail",
+      "Conditional details can answer a question about that condition; do not discard them automatically",
     ],
     vocabulary: [
       { word: "distractor", meaning: "yếu tố gây nhiễu", meaningEn: "information designed to mislead", example: "Be careful of distractors in Section 3.", partOfSpeech: "noun" },
@@ -611,10 +611,10 @@ export const ieltsListeningExpansion2Lessons: LanguageLesson[] = [
         instruction: "Điền từ thích hợp",
         instructionEn: "Fill in the blanks",
         sentences: [
-          { text: "A ___ is false information designed to mislead test takers.", textEn: "A ___ is false information designed to mislead.", answer: "distractor", hint: "d_________r" },
+          { text: "A ___ may be true in another context but does not answer this question.", textEn: "A ___ may be true in another context but does not answer this question.", answer: "distractor", hint: "d_________r" },
           { text: "When a speaker says 'no, sorry', they are making a ___.", textEn: "When a speaker says 'no, sorry', they make a ___.", answer: "self-correction", hint: "s___-c________n" },
-          { text: "The word 'actually' often introduces the ___ answer.", textEn: "'Actually' often introduces the ___ answer.", answer: "correct", hint: "c_____t" },
-          { text: "___ statements with 'if' are usually not the final answer.", textEn: "___ statements with 'if' are usually not final.", answer: "Conditional", hint: "C__________l" },
+          { text: "The word 'actually' may introduce a ___ to earlier information.", textEn: "'Actually' may introduce a ___ to earlier information.", answer: "correction", hint: "a change to earlier information" },
+          { text: "___ statements with 'if' describe information that depends on a condition.", textEn: "___ statements with 'if' describe information that depends on a condition.", answer: "Conditional", hint: "C__________l" },
           { text: "Don't rush to select the ___ piece of information you hear.", textEn: "Don't rush to select the ___ information.", answer: "first", hint: "f___t" },
         ],
       },
@@ -623,18 +623,18 @@ export const ieltsListeningExpansion2Lessons: LanguageLesson[] = [
         instruction: "Sắp xếp lại câu",
         instructionEn: "Rearrange to form a sentence",
         items: [
-          { scrambled: ["answer", "The", "final", "is", "the", "correct", "one"], correct: "The final answer is the correct one" },
+          { scrambled: ["the", "Check", "requested", "detail", "carefully"], correct: "Check the requested detail carefully" },
           { scrambled: ["for", "Watch", "self-corrections", "speakers'", "out"], correct: "Watch out for speakers' self-corrections" },
-          { scrambled: ["first", "select", "Don't", "the", "answer", "heard"], correct: "Don't select the first answer heard" },
+          { scrambled: ["before", "Listen", "choosing", "for", "context"], correct: "Listen for context before choosing" },
         ],
       },
     ],
     quiz: [
       { question: "'It's on Monday... no, Tuesday' - the answer is:", options: ["Monday", "Tuesday", "Both", "Neither"], answer: 1, explanation: "The corrected information (Tuesday) is the real answer." },
-      { question: "Which word usually introduces the correct answer?", options: ["Maybe", "If", "Actually", "Perhaps"], answer: 2, explanation: "'Actually' typically precedes the corrected, true answer." },
-      { question: "A conditional statement ('If it rains...') is:", options: ["Always the answer", "Never mentioned", "Usually NOT the answer", "The best answer"], answer: 2, explanation: "Conditionals are hypothetical and unconfirmed." },
-      { question: "If an answer seems too easy and comes early:", options: ["It's definitely correct", "It's likely a distractor", "Write it immediately", "Ignore the rest"], answer: 1, explanation: "Easy early answers are often distractors to trap careless listeners." },
-      { question: "Multiple speakers correcting each other means:", options: ["Both are right", "The first speaker is right", "The last corrected version is right", "Neither is right"], answer: 2, explanation: "The final corrected information is the intended answer." },
+      { question: "Which word can introduce a correction that you should check?", options: ["Maybe", "If", "Actually", "Perhaps"], answer: 2, explanation: "Actually can signal a correction, but only the full context determines whether it answers the question." },
+      { question: "Recording: If it rains, we will meet in the hall. Question: Where will they meet in wet weather?", options: ["The park", "Not given", "The hall", "The station"], answer: 2, explanation: "The question asks about wet weather, so the conditional detail directly supports the hall." },
+      { question: "After hearing a possible answer early, you should:", options: ["Assume it is correct", "Keep listening for context and relevant corrections", "Reject it because it was early", "Ignore the rest"], answer: 1, explanation: "Timing alone does not determine correctness. Confirm the detail and whether it is subsequently corrected." },
+      { question: "Anna: The price is £50. Ben: That was last year; this year it is £45. Question: What is the current price?", options: ["£50", "£5", "£45", "Not given"], answer: 2, explanation: "Ben explicitly replaces last year's price with the current price. The question asks about this year." },
     ],
   },
   {
@@ -647,33 +647,33 @@ export const ieltsListeningExpansion2Lessons: LanguageLesson[] = [
 
 **Chiến lược:**
 1. **Đọc câu trước khi nghe** - xác định vị trí gap và dự đoán word form
-2. **Grammar clues:** Article (a/an) trước gap → noun; to + gap → verb
+2. **Grammar clues:** Article (a/an) mở đầu cụm danh từ; sau to có thể là động từ nguyên mẫu hoặc danh từ tùy ngữ cảnh
 3. **Paraphrasing:** Câu trong đề thường paraphrase từ audio
 4. **Word limit:** Tuân thủ nghiêm ngặt - "NO MORE THAN TWO WORDS"
 
 **Mẹo quan trọng:**
 - Gap ở cuối câu → thường là noun hoặc noun phrase
-- Gap sau "very" hoặc "quite" → adjective
-- Gap sau "to" → verb (infinitive)`,
+- Sau "very" hoặc "quite" có thể là adjective hoặc adverb; xác nhận bằng cấu trúc đầy đủ
+- Sau "to", xem cấu trúc đầy đủ: to study = infinitive; to London = preposition + noun`,
     theoryEn: `**Sentence Completion** requires listening and filling in words to complete sentences.
 
 **Strategies:**
 1. **Read sentences before listening** - identify gap positions and predict word forms
-2. **Grammar clues:** Article (a/an) before gap → noun; "to" + gap → verb
+2. **Grammar clues:** a/an starts a noun phrase, which may include an adjective; to can precede an infinitive or function as a preposition
 3. **Paraphrasing:** The written sentence often paraphrases the audio
 4. **Word limit:** Follow strictly - "NO MORE THAN TWO WORDS"
 
 **Key tips:**
 - Gap at end of sentence → usually a noun or noun phrase
-- Gap after "very" or "quite" → adjective
-- Gap after "to" → verb (infinitive)`,
+- After "very" or "quite", an adjective or adverb may fit; confirm using the complete structure
+- After "to", inspect the complete structure: to study is an infinitive; to London is preposition + noun`,
     proTips: [
-      "Câu trong đề KHÔNG giống y chang audio - luôn có paraphrasing",
+      "Câu hỏi có thể paraphrase hoặc dùng lại từ trong audio; đối chiếu toàn bộ nghĩa",
       "Dùng grammar context để thu hẹp loại từ cần nghe",
       "Nếu nghe được từ đúng nhưng vượt word limit - tìm phiên bản ngắn hơn",
     ],
     proTipsEn: [
-      "Written sentences are NEVER identical to audio - there's always paraphrasing",
+      "Written questions may paraphrase the audio or reuse its wording; check the complete meaning",
       "Use grammar context to narrow down the word type needed",
       "If you hear the right word but it exceeds the limit - look for a shorter version",
     ],
