@@ -415,9 +415,9 @@ const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics, unlo
                 <div className={`relative z-10 flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-4 border-background font-extrabold shadow-sm sm:h-16 sm:w-16 ${isComplete ? "bg-primary text-primary-foreground" : isCurrent ? "bg-secondary text-secondary-foreground ring-4 ring-primary/15" : "bg-muted text-foreground/70"}`}>{isComplete ? <Check className="h-6 w-6" /> : String(topicIndex + 1).padStart(2, "0")}</div>
                 <div className={`min-w-0 flex-1 overflow-hidden rounded-lg border border-border border-l-4 bg-card shadow-sm transition-shadow hover:shadow-md ${isComplete ? "border-l-primary" : isCurrent ? "border-l-secondary" : "border-l-border"}`}>
                   {TOPIC_IMAGES[topic.id] && (
-                    <button type="button" onClick={() => setOpenTopic(isOpen ? "" : topic.id)} aria-hidden="true" tabIndex={-1} className="relative block h-32 w-full overflow-hidden sm:h-40">
-                      <img src={TOPIC_IMAGES[topic.id]} alt="" loading="lazy" width={1280} height={640} className="h-full w-full object-cover" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-card via-card/10 to-transparent" />
+                    <button type="button" onClick={() => setOpenTopic(isOpen ? "" : topic.id)} aria-hidden="true" tabIndex={-1} className="relative block aspect-[2/1] max-h-80 w-full overflow-hidden bg-muted/30">
+                      <img src={TOPIC_IMAGES[topic.id]} alt="" loading="lazy" width={1280} height={640} className="h-full w-full object-contain" />
+                      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-6 bg-gradient-to-t from-card to-transparent" />
                     </button>
                   )}
                   <button
