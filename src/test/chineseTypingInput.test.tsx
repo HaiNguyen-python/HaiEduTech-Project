@@ -4,7 +4,7 @@ import { describe, expect, it, vi } from "vitest";
 import { useChineseTypingInput } from "../hooks/useChineseTypingInput";
 import { liveChineseTyping, normalizeLetterTyping } from "../lib/chineseLetterTyping";
 
-const change = (value: string, isComposing = false) => ({ currentTarget: { value }, nativeEvent: { isComposing } }) as ChangeEvent<HTMLTextAreaElement>;
+const change = (value: string, isComposing = false) => ({ currentTarget: { value }, nativeEvent: { isComposing } }) as unknown as ChangeEvent<HTMLTextAreaElement>;
 const end = (value: string) => ({ currentTarget: { value } }) as CompositionEvent<HTMLTextAreaElement>;
 const enter = (keyCode = 13) => ({ key: "Enter", keyCode, nativeEvent: { isComposing: false } }) as KeyboardEvent;
 
