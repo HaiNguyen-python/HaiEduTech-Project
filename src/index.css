@@ -164,6 +164,10 @@
   .python-module-tile:hover { border-color: hsl(var(--python-module-ink) / .6); box-shadow: var(--python-tile-shadow); transform: translateY(-2px); }
   .python-module-tile:focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 3px; }
   .python-module-background-overlay { background: var(--python-tile-overlay); }
+  .dsa-topic-tile {
+    --dsa-tile-overlay: linear-gradient(90deg, hsl(var(--card)) 0%, hsl(var(--card) / .98) 35%, hsl(var(--card) / .9) 52%, hsl(var(--card) / .72) 70%, hsl(var(--card) / .08) 100%);
+  }
+  .dsa-topic-overlay { background: var(--dsa-tile-overlay); }
   .python-module-icon { background: hsl(var(--python-module-wash)); color: hsl(var(--python-module-ink)); }
   .python-module-accent { color: hsl(var(--python-module-ink)); }
   .python-module--complete { border-color: hsl(var(--python-success) / .6); }

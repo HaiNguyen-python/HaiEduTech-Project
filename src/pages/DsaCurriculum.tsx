@@ -35,6 +35,35 @@ import { dsaLessons, type DsaSectionId, type DsaQuiz } from "@/data/dsaLessons";
 import { dsaExtraQuizzes } from "@/data/dsaExtraQuizzes";
 import DsaTheoryText from "@/components/programming/DsaTheoryText";
 import CodeBlock from "@/components/CodeBlock";
+import arraysArt from "@/assets/dsa-arrays.jpg";
+import stackArt from "@/assets/dsa-stack-queue.jpg";
+import treesArt from "@/assets/dsa-trees.jpg";
+import graphsArt from "@/assets/dsa-graphs.jpg";
+import searchArt from "@/assets/dsa-search.jpg";
+import sortArt from "@/assets/dsa-sort.jpg";
+import recursionArt from "@/assets/dsa-recursion.jpg";
+import hashingArt from "@/assets/dsa-hashing.jpg";
+import modularArt from "@/assets/dsa-modular.jpg";
+import bitsArt from "@/assets/dsa-bits.jpg";
+import probabilityArt from "@/assets/dsa-probability.jpg";
+import algebraArt from "@/assets/dsa-linear-algebra.jpg";
+import advancedGraphsArt from "@/assets/dsa-advanced-graphs.jpg";
+
+const topicIllustrations: Record<string, string> = {
+  "Arrays & Linked Lists": arraysArt,
+  "Stack & Queue": stackArt,
+  "Trees & Binary Search Trees": treesArt,
+  "Graph Concepts": graphsArt,
+  "Searching Algorithms": searchArt,
+  "Sorting Algorithms": sortArt,
+  "Recursion & Big O Notation": recursionArt,
+  "Hashing & Hash Functions": hashingArt,
+  "Modular Arithmetic & GCD/LCM": modularArt,
+  "Bit Manipulation": bitsArt,
+  "Probability & Combinatorics": probabilityArt,
+  "Linear Algebra for ML/AI": algebraArt,
+  "Advanced Graph Theory": advancedGraphsArt,
+};
 
 type Tier = "easy" | "medium" | "hard";
 
@@ -425,25 +454,27 @@ const DsaCurriculum = () => {
                     {sec.titleEn}
                   </h2>
                 </div>
-                <div className="grid sm:grid-cols-2 gap-4">
+                <div className="grid auto-rows-fr sm:grid-cols-2 gap-4">
                   {sec.topics.map((topic) => {
                     const Icon = topic.icon;
                     return (
                       <div
                         key={topic.titleEn}
-                        className="glass-card rounded-2xl p-5 border border-border/60 hover:border-primary/50 transition-all hover:shadow-md"
+                        className="dsa-topic-tile relative isolate min-h-[200px] h-full overflow-hidden bg-card rounded-lg p-5 border border-border/60 hover:border-primary/50 transition-all hover:shadow-md"
                       >
+                        <img src={topicIllustrations[topic.titleEn]} alt="" aria-hidden="true" loading="lazy" decoding="async" width={480} height={480} className="dsa-topic-image pointer-events-none absolute inset-y-0 right-0 -z-20 h-full w-1/2 object-cover" />
+                        <div className="dsa-topic-overlay pointer-events-none absolute inset-0 -z-10" aria-hidden="true" />
                         <div className="flex items-start gap-3">
                           <div
-                            className={`w-10 h-10 rounded-xl bg-gradient-to-br ${sec.accent} flex items-center justify-center shrink-0`}
+                            className="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0"
                           >
-                            <Icon className="w-5 h-5 text-white" />
+                            <Icon className="w-5 h-5" />
                           </div>
-                          <div className="min-w-0">
+                          <div className="min-w-0 flex-1">
                             <h3 className="font-semibold text-foreground mb-1">
                               {topic.titleEn}
                             </h3>
-                            <p className="text-sm text-muted-foreground leading-relaxed">
+                            <p className="max-w-[85%] text-sm text-muted-foreground leading-relaxed">
                               {topic.descEn}
                             </p>
                           </div>
