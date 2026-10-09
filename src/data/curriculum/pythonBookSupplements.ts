@@ -113,5 +113,17 @@ db.close()`),
     return exact, misplaced
 
 print(feedback(["red", "blue", "red", "green"],
-               ["red", "red", "yellow", "blue"]))  # (1, 2)`),
+               ["red", "red", "yellow", "blue"]))  # (1, 2)`) + "\n\n" + example("Project checklist and password scoring", "Challenge 146 needs an encode/decode menu, a quit option and wraparound at the end of the chosen alphabet. The book's sample alphabet includes a space; the course example preserves spaces instead. For Challenge 148, award one point each for length at least 8, uppercase, lowercase, a digit and a special character. Scores 1-2 are weak, 3-4 prompt improvement and 5 meets all criteria; reject an empty password too. Keep user IDs unique, change existing records rather than duplicating them, and list IDs without passwords. This is a book exercise, not a production password system. Challenge 149 separates calculation from display and clear actions. Challenge 150 relates artists and artworks by IDs and filters by artist, medium or price; the browser exercises replace native GUI windows with console menus.", `def password_score(password):
+    checks = [
+        len(password) >= 8,
+        any(character.isupper() for character in password),
+        any(character.islower() for character in password),
+        any(character.isdigit() for character in password),
+        any(not character.isalnum() and not character.isspace()
+            for character in password),
+    ]
+    return sum(checks)
+
+print(password_score("Learning7!"))  # 5
+print(password_score("abc"))         # 1`),
 };
