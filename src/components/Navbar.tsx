@@ -433,15 +433,23 @@ const Navbar = () => {
   ];
   const finnishSubs: SubItem[] = [
     { to: "/finnish", label: t("Khóa học & Lộ trình", "Courses & Roadmap"), icon: Route },
-    { to: "/finnish/beginner", label: t("Tiếng Phần Lan Cơ bản", "Finnish Beginner"), icon: Sprout },
-    { to: "/finnish/yki-dashboard", label: t("Luyện thi YKI A2", "YKI A2 Prep"), icon: Snowflake },
-    { to: "/finnish/yki-b1", label: t("Luyện thi YKI B1", "YKI B1 Prep"), icon: Target },
-    { to: "/finnish-vocabulary", label: t("Từ vựng", "Vocabulary"), icon: BookOpen },
-    { to: "/finnish/writing", label: t("Luyện viết YKI", "YKI Writing Practice"), icon: PenLine },
-    { to: "/speaking-coach/finnish", label: t("Luyện nói", "Speaking Coach"), icon: Mic2 },
-    { to: "/finnish/arcade", label: t("Finnish Arcade", "Finnish Arcade"), icon: Gamepad2 },
     { to: "/finnish/performance", label: t("Your Performance", "Your Performance"), icon: Activity },
-    { to: "/finnish/life-in-finland", label: t("Cuộc sống ở Phần Lan", "Life in Finland"), icon: Snowflake },
+    { to: "#fi-div1", label: "", divider: true },
+    { to: "#fi-yki-group", label: t("Lộ trình YKI", "YKI Program"), icon: GraduationCap, groupLabel: "fi-yki", children: [
+      { to: "/finnish/yki-dashboard", label: t("Luyện thi YKI A2", "YKI A2 Prep"), icon: Snowflake },
+      { to: "/finnish/yki-b1", label: t("Luyện thi YKI B1", "YKI B1 Prep"), icon: Target },
+      { to: "/finnish/writing", label: t("Luyện viết YKI", "YKI Writing Practice"), icon: PenLine },
+    ] },
+    { to: "#fi-essentials-group", label: t("Finnish Essentials", "Finnish Essentials"), icon: BookType, groupLabel: "fi-essentials", children: [
+      { to: "/finnish/beginner", label: t("Tiếng Phần Lan Cơ bản", "Finnish Beginner"), icon: Sprout },
+      { to: "/finnish-vocabulary", label: t("Từ vựng", "Vocabulary"), icon: BookOpen },
+      { to: "/speaking-coach/finnish", label: t("Luyện nói", "Speaking Practice"), icon: Mic2 },
+      { to: "/finnish/life-in-finland", label: t("Cuộc sống ở Phần Lan", "Life in Finland"), icon: Landmark },
+    ] },
+    { to: "#fi-div2", label: "", divider: true },
+    { to: "#fi-practice-group", label: t("Luyện tập & Giải trí", "Practice & Fun"), icon: Target, groupLabel: "fi-practice", children: [
+      { to: "/finnish/arcade", label: t("Finnish Arcade Hub", "Finnish Arcade Hub"), icon: Gamepad2 },
+    ] },
   ];
 
   const studyAbroadSubs: SubItem[] = [
