@@ -508,6 +508,7 @@ const AdminDashboard = () => {
 
           <main className="flex-1 px-4 py-5 md:px-6 lg:px-8">
             <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2 }} className="mx-auto max-w-[1600px]">
+              {activeTab !== "phd-research" && <>
               <div className="mb-5 flex flex-col gap-3 border-b border-border pb-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <p className="text-xs font-bold uppercase text-primary">{t("Trung tâm điều hành", "Command center")}</p>
@@ -605,6 +606,7 @@ const AdminDashboard = () => {
               </motion.div>
             )}
 
+              </>}
             <Tabs value={activeTab} onValueChange={(tab) => handleTabChange(tab)} className="space-y-4">
 
               <Suspense fallback={<TabLoading />}>

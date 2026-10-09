@@ -31,6 +31,7 @@
 
 - Finnish games share Finnish TTS and stop audio on exit; native fallback requires a Finnish voice, never English.
 
-- Dictionary uses local Finnish entries and deferred English translations; request IDs reject stale results for fast safe searches.
+- Dictionary: local Finnish entries, deferred EN translations; reject stale request IDs.
 - IELTS lesson summaries use subject visuals and evidence checks, not grammar defaults.
 - PTE shares sourced 22-type rules, protected attempts and exact-ID mini-set links; audit mismatch indices/adjacent pairs; label estimates, not official scores.
+- PhD architecture: follow `docs/phd-research.md`.
