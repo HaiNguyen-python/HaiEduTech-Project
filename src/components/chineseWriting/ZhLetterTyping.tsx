@@ -13,7 +13,7 @@ import { playChineseTts, stopChineseTts } from "@/lib/chineseTts";
 import HanziStrokeOrder from "@/components/HanziStrokeOrder";
 import { loadLetters, type ZhLetter } from "@/data/chineseLetters";
 import type { ZhLevel } from "@/data/chineseWritingBank";
-import { activePinyinIndex, letterDisplayCharacters, liveChineseTyping, normalizeLetterTyping as strip } from "@/lib/chineseLetterTyping";
+import { letterDisplayCharacters, resolveChineseTyping, normalizeLetterTyping as strip } from "@/lib/chineseLetterTyping";
 
 const PROGRESS_KEY = "zh-letters-progress";
 type Progress = { done: string[]; bestCpm: number; words: string[] };
@@ -39,7 +39,8 @@ export default function ZhLetterTyping({ level }: { level: ZhLevel }) {
   const [all, setAll] = useState<ZhLetter[] | null>(null);
   const [vol, setVol] = useState<"all" | 1 | 2>("all");
   const [idx, setIdx] = useState(0);
-  const input = useChineseTypingInput();
+  const commitRef = useRef<(value: string) => void>(() => {});
+  const input = useChineseTypingInput((value) => commitRef.current(value));
   const [start, setStart] = useState<number | null>(null);
   const [done, setDone] = useState<{ acc: number; cpm: number } | null>(null);
   const [showPy, setShowPy] = useState(true);
@@ -65,12 +66,16 @@ export default function ZhLetterTyping({ level }: { level: ZhLevel }) {
   if (!item) return <Card><CardContent className="p-6 text-muted-foreground">{t("Chưa có lá thư ở cấp độ này.", "No letters at this level yet.")}</CardContent></Card>;
 
   const target = strip(item.zh);
-  const got = liveChineseTyping(input.committed);
-  const activeIndex = activePinyinIndex(item.zh, input.typed, input.draft);
+  const typing = resolveChineseTyping(item.zh, input.typed, input.draft);
+  const got = typing.chars;
+  const activeIndex = typing.active;
+  commitRef.current = (value) => { if (!done && resolveChineseTyping(item.zh, value).complete) finish(value); };
 
-  function finish() {
-    if (input.isComposing || !got.length) return;
-    const scored = strip(input.committed);
+  function finish(value?: string) {
+    if (done) return;
+    if (value === undefined && (input.isComposing || !got.length)) return;
+    const scored = value === undefined ? got : resolveChineseTyping(item.zh, value).chars;
+    if (!scored.length) return;
     let ok = 0;
     for (let i = 0; i < target.length; i++) if (scored[i] === target[i]) ok++;
     const acc = Math.round((ok / target.length) * 100);
@@ -118,7 +123,7 @@ export default function ZhLetterTyping({ level }: { level: ZhLevel }) {
         <div className="space-y-2">
           <p className="text-2xl leading-relaxed tracking-wide" lang="zh-CN" data-testid="zh-letter-typing-passage">
             {letterDisplayCharacters(item.zh).map(({ character, typingIndex }, i) => (
-              <span key={i} className={typingIndex === null ? "text-foreground" : typingIndex === activeIndex ? "text-primary underline" : typingIndex < got.length ? (got[typingIndex] === character ? "text-primary" : "text-destructive underline") : typingIndex === got.length ? "text-foreground border-b-2 border-primary" : "text-foreground"}>{character}</span>
+              <span key={i} className={typingIndex === null ? "text-foreground" : typingIndex === activeIndex ? (typing.pendingError ? "text-destructive underline" : "text-primary underline") : typingIndex < got.length ? (got[typingIndex] === character ? "text-primary" : "text-destructive underline") : typingIndex === got.length ? "text-foreground border-b-2 border-primary" : "text-foreground"}>{character}</span>
             ))}
           </p>
           {showPy && <p className="text-muted-foreground">{item.pinyin}</p>}

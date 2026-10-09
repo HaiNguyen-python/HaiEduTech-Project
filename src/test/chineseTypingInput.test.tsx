@@ -2,7 +2,7 @@ import { act, renderHook } from "@testing-library/react";
 import type { ChangeEvent, CompositionEvent, KeyboardEvent } from "react";
 import { describe, expect, it, vi } from "vitest";
 import { useChineseTypingInput } from "../hooks/useChineseTypingInput";
-import { activePinyinIndex, liveChineseTyping, normalizeLetterTyping } from "../lib/chineseLetterTyping";
+import { activePinyinIndex, liveChineseTyping, normalizeLetterTyping, resolveChineseTyping } from "../lib/chineseLetterTyping";
 
 const change = (value: string, isComposing = false) => ({ currentTarget: { value }, nativeEvent: { isComposing } }) as unknown as ChangeEvent<HTMLTextAreaElement>;
 const end = (value: string) => ({ currentTarget: { value } }) as CompositionEvent<HTMLTextAreaElement>;
@@ -70,5 +70,38 @@ describe("Chinese IME input", () => {
     expect(liveChineseTyping("我先在家。")).toBe("我先在家");
     expect(liveChineseTyping("我先túshūguǎn")).toBe("我先");
     expect(normalizeLetterTyping("我先，zaijia")).toBe("我先zaijia");
+  });
+});
+
+describe("Chinese typing resolution", () => {
+  const target = "她跑得很快。";
+  it("colors every Hanzi already typed as Pinyin, not only the current one", () => {
+    const r = resolveChineseTyping(target, "ta'pao'de'hen'kuai");
+    expect(r.chars.join("")).toBe("她跑得很快");
+    expect(r.active).toBe(4);
+    expect(r.complete).toBe(true);
+  });
+  it("keeps the partial syllable active without coloring later Hanzi", () => {
+    const r = resolveChineseTyping(target, "tapaod");
+    expect(r.chars.join("")).toBe("她跑");
+    expect(r.active).toBe(2);
+    expect(r.pendingError).toBe(false);
+  });
+  it("flags a Pinyin typo on the current Hanzi only", () => {
+    const r = resolveChineseTyping(target, "taq");
+    expect(r.chars.join("")).toBe("她");
+    expect(r.active).toBe(1);
+    expect(r.pendingError).toBe(true);
+  });
+  it("mixes committed Hanzi with pending Pinyin and keeps wrong Hanzi for scoring", () => {
+    expect(resolveChineseTyping(target, "他跑dehen").chars.join("")).toBe("他跑得很");
+  });
+  it("submits once composition commits the full sentence", () => {
+    const committed: string[] = [];
+    const { result } = renderHook(() => useChineseTypingInput((v) => committed.push(v)));
+    act(() => result.current.onCompositionStart());
+    act(() => result.current.onCompositionEnd(end("tapaodehenkuai")));
+    expect(committed).toEqual(["tapaodehenkuai"]);
+    expect(resolveChineseTyping(target, committed[0]).complete).toBe(true);
   });
 });
