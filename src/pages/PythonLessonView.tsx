@@ -291,6 +291,7 @@ const PythonLessonView = () => {
                   ▶️ {"Code Playground"}
                 </h3>
                 <CodePlayground
+                   key={lesson.id}
                   initialCode={lesson.codeExample}
                   needsScientific={module.needsScientific}
                   lessonContext={`${module.titleEn} → ${lesson.titleEn}`}
@@ -313,6 +314,7 @@ const PythonLessonView = () => {
                     {lesson.miniProject.descriptionEn}
                   </p>
                   <CodePlayground
+                     key={`${lesson.id}-project`}
                     initialCode={lesson.miniProject.starterCode}
                     needsScientific={module.needsScientific}
                     lessonContext={`Mini-project: ${lesson.miniProject.titleEn}`}

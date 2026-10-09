@@ -170,6 +170,7 @@ const PythonPathwayHub = () => {
         <div className="grid sm:grid-cols-2 gap-2">
           {pythonLessons.map((l) => {
             const done = progress[l.id];
+             const chapter = getBookChapter(l.id);
             const m = pythonModules.find((mm) => mm.id === l.moduleId);
             const moduleEmoji = m?.emoji ?? "📘";
             const moduleTitle = m?.titleEn ?? "Module updating";

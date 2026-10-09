@@ -10,7 +10,7 @@ export interface BookChapter {
 
 // Original concise teaching notes based on the chapter sequence of Nichola Lacey's
 // Python by Example (2019). Do not copy the book's prose or answer listings.
-const source = [
+const source: { lesson: PythonLesson; chapter: BookChapter }[] = [
   {
     "lesson": {
       "id": "m1-l4-io",
@@ -2086,7 +2086,7 @@ const source = [
   }
 ];
 
-export const pythonBookLessons: PythonLesson[] = source.map(record => record.lesson as PythonLesson);
+export const pythonBookLessons: PythonLesson[] = source.map(record => record.lesson);
 export const pythonBookChapters: BookChapter[] = source.map(record => record.chapter);
 export const getBookChapter = (lessonId: string) => pythonBookChapters.find(chapter => chapter.lessonId === lessonId);
 export const getChapterForChallenge = (number: number) => pythonBookChapters.find(chapter => number >= chapter.first && number <= chapter.last);
