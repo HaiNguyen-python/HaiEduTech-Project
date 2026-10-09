@@ -191,7 +191,7 @@
   .python-playground .cm-gutters { background: hsl(var(--muted)); color: hsl(var(--muted-foreground)); border-color: hsl(var(--border)); }
   .python-playground .cm-activeLine, .python-playground .cm-activeLineGutter { background: hsl(var(--secondary)); }
   .python-playground .cm-cursor { border-left-color: hsl(var(--primary)); }
-  .python-challenge-tile { --python-tile-ink: 222 47% 11%; background: hsl(var(--card)); border: 2px solid hsl(var(--python-tile-ink)); box-shadow: 4px 4px 0 hsl(var(--python-tile-ink)); transition: transform .2s, box-shadow .2s; }
+  .python-challenge-tile { --python-tile-ink: 160 84% 26%; background: hsl(var(--card)); border: 2px solid hsl(var(--python-tile-ink)); box-shadow: 4px 4px 0 hsl(var(--python-tile-ink)); transition: transform .2s, box-shadow .2s; }
   a.python-challenge-tile:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 hsl(var(--python-tile-ink)); }
   a.python-challenge-tile:active { transform: translate(0, 0); box-shadow: 2px 2px 0 hsl(var(--python-tile-ink)); }
   a.python-challenge-tile:focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 3px; }
@@ -217,7 +217,7 @@
     --python-hero-surface: var(--background);
     --python-success: 160 65% 70%; --python-success-wash: 165 25% 17%;
   }
-  .dark .python-challenge-tile { --python-tile-ink: 210 25% 92%; }
+  .dark .python-challenge-tile { --python-tile-ink: 152 70% 62%; }
   @media (max-width: 639px) {
     .python-lab { --python-hero-overlay: linear-gradient(90deg, hsl(var(--python-hero-surface) / .97), hsl(var(--python-hero-surface) / .82)); }
   }
