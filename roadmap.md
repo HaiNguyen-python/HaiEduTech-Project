@@ -1,5 +1,5 @@
 # Tasks
-- [ ] Add six topic-specific illustrated backgrounds to Python module tiles; verify readable text, equal heights and working links.
+- [x] Add six topic-specific illustrated backgrounds to Python module tiles; browser verified all images, readable text, equal 344.75px heights and lesson links; build passed.
 - [x] Highlight exactly the current Pinyin syllable's Hanzi in both Chinese typing modes; nine tests and browser screenshots verified.
 - [x] Fix premature Chinese typing feedback in sentences and 999 Letters; eight tests and browser checks verify composition, commit, deletion, fallback Pinyin and Enter.
 - [x] Match Python module tiles to AI Foundation with equal sizes; full-book review added 14 short examples, 71 examples execute, 523 Python samples pass syntax/indentation audit, all 150 challenge mappings and browser backlinks verified; desktop/mobile tiles aligned without overflow, input and SQLite run correctly.
