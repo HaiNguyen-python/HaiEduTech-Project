@@ -47,6 +47,11 @@ export interface ReadingQuestion {
   answer: string;
   /** For mcq-multi: the set of correct option letters, e.g. ["A", "D"]. */
   answers?: string[];
+  /** Two-answer tasks occupy two numbered, independently marked slots. */
+  pairIndex?: 0 | 1;
+  pairStart?: number;
+  /** Stable authored question identity for notes and evidence. */
+  sourceNumber?: number;
   /** Optional explanation revealed in review mode. */
   explanation?: string;
 }

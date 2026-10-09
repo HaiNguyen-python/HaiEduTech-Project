@@ -7,6 +7,7 @@
  * @copyright 2026 HaiEduTech
  */
 import type { ReadingQuestion } from "@/data/ieltsFullReadingExams";
+import { parseReadingLetters } from "@/lib/ieltsReadingTasks";
 
 /** Lowercase, strip punctuation and collapse whitespace. */
 const norm = (s: string): string =>
@@ -30,12 +31,7 @@ const normTf = (s: string): string => {
 
 /** Sorted upper-case letter set, e.g. "b,a" and "A B" both become "A|B". */
 const normLetterSet = (s: string): string =>
-  (s || "")
-    .toUpperCase()
-    .split(/[^A-Z]+/)
-    .filter(Boolean)
-    .sort()
-    .join("|");
+  parseReadingLetters(s || "").join("|");
 
 /** Strip a leading article so "the kiln" matches "kiln" where allowed. */
 const stripArticle = (s: string): string => norm(s).replace(/^(a|an|the)\s+/, "");
@@ -50,6 +46,7 @@ export const isReadingAnswerCorrect = (q: ReadingQuestion, value: string): boole
       return normTf(user) === normTf(q.answer);
 
     case "mcq-multi": {
+      if (q.pairIndex !== undefined) return parseReadingLetters(user).length === 1 && (q.answers ?? []).includes(user.toUpperCase());
       const expected = q.answers?.length ? q.answers.join("|") : q.answer;
       return normLetterSet(user) === normLetterSet(expected);
     }

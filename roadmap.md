@@ -1,4 +1,5 @@
 # Tasks
+- [x] Audit 45 IELTS Reading banks and 30 full-test compositions; compact shared Matching Headings lists, preserve task order, disambiguate Soft Defences headings and paragraph labels, count choose-TWO as two marks, and clarify original-practice status. Seven tests and content audit passed; single/full rooms, dark mode and partial-credit scoring verified in browser without runtime errors. Full-test sets reuse existing passages; they are not 30 wholly independent papers.
 - [x] Put TOEIC Technique first/default and Trap Alerts last; audit lecture banks, repair misleading strategies and missing contexts, disambiguate grammar and keys; six bank tests and three authenticated lesson browser checks passed without runtime errors.
 - [x] Remove Vietnamese interview question translations; expand Business English from 20 to 50 questions, correct availability, salary, approval and STAR logic; three content tests and browser checks for questions, highlighting and filters passed.
 - [x] Illustrate all 13 DSA curriculum tiles with topic-specific backgrounds; browser confirmed all images loaded, equal 200px heights, readable text and no runtime errors; build passed.

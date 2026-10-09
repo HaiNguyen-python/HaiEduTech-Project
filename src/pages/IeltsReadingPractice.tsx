@@ -57,6 +57,7 @@ import { IELTS_FULL_TESTS, type FullTest } from "@/data/ieltsFullTests";
 import { shuffleHeadingsInExam } from "@/lib/ieltsReadingShuffle";
 import { isReadingAnswerCorrect, readingAnswerLabel } from "@/lib/ieltsReadingAnswer";
 import { pushAttempt } from "@/lib/ieltsReadingHistory";
+import { readingTaskGroups, readingTaskInstruction, parseReadingLetters, expandReadingAnswerSlots, selectReadingSlots, allocateReadingCounts } from "@/lib/ieltsReadingTasks";
 import ReadingProgressChart from "@/components/ielts/ReadingProgressChart";
 
 // Extend each exam's passage AND questions so each passage carries 13-14 Qs
@@ -78,7 +79,7 @@ const _MERGED_EXAMS: ReadingExam[] = [..._BASE_EXAMS, ...IELTS_FULL_READING_EXAM
   };
   // De-bias matching-headings so the correct label is not always "i"
   merged = shuffleHeadingsInExam(merged);
-  return merged;
+  return { ...merged, questions: expandReadingAnswerSlots(merged.questions) };
 });
 // Display difficulty without the blunt word "Hard": levels are shown in
 // exam-style wording instead.
@@ -380,7 +381,7 @@ interface ExamEngineProps {
 
 const ExamEngine: React.FC<ExamEngineProps> = ({ exam, onClose }) => {
   const { t } = useLanguage();
-  const progressKey = `ielts-reading-progress::${exam.id}`;
+  const progressKey = `ielts-reading-progress::v2::${exam.id}`;
   const [answers, setAnswers] = useState<Record<number, string>>(() => {
     try {
       const raw = localStorage.getItem(progressKey);
@@ -626,20 +627,8 @@ const ExamEngine: React.FC<ExamEngineProps> = ({ exam, onClose }) => {
           className="overflow-y-auto bg-background flex-1 min-h-[40vh] lg:min-h-0"
         >
           <div className="max-w-5xl mx-auto px-3 md:px-6 py-6 md:py-8 space-y-6">
-            {!submitted && exam.questions.map((q) => (
-              <QuestionBlock
-                key={q.number}
-                question={q}
-                highlightId={`${exam.id}::question::${q.number}`}
-                paperTheme={paperTheme}
-                value={answers[q.number] || ""}
-                onChange={(v) => handleAnswer(q.number, v)}
-                submitted={submitted}
-                onFocus={() => setActiveQ(q.number)}
-                flagged={flagged.has(q.number)}
-                onToggleFlag={() => toggleFlag(q.number)}
-              />
-            ))}
+            {!submitted && <QuestionTasks questions={exam.questions} examId={exam.id} paperTheme={paperTheme}
+              answers={answers} onAnswer={handleAnswer} onFocus={setActiveQ} flagged={flagged} onToggleFlag={toggleFlag} />}
             {submitted && (
               <>
                 <div className="rounded-xl border-2 border-primary/30 bg-gradient-to-br from-primary/5 to-emerald-500/5 p-5 text-center">
@@ -651,7 +640,7 @@ const ExamEngine: React.FC<ExamEngineProps> = ({ exam, onClose }) => {
                     {score === exam.questions.length
                       ? t("Xuất sắc!", "Excellent!")
                       : score >= exam.questions.length * 0.7
-                        ? t("Tốt - gần Band 7!", "Strong - around Band 7!")
+                        ? t("Làm tốt!", "Well done!")
                         : t("Tiếp tục luyện tập!", "Keep practising!")}
                   </p>
                   <div className="mt-3 flex gap-2 justify-center">
@@ -689,9 +678,10 @@ interface QBlockProps {
   onToggleFlag?: () => void;
   highlightId: string;
   paperTheme: "light" | "dark";
+  grouped?: boolean;
 }
 
-const QuestionBlock: React.FC<QBlockProps> = ({ question: q, value, onChange, submitted, onFocus, flagged, onToggleFlag, highlightId, paperTheme }) => {
+const QuestionBlock: React.FC<QBlockProps> = ({ question: q, value, onChange, submitted, onFocus, flagged, onToggleFlag, highlightId, paperTheme, grouped }) => {
   const { lang } = useLanguage();
   const isVi = lang === "vi";
   const correct = submitted && isReadingAnswerCorrect(q, value);
@@ -704,14 +694,15 @@ const QuestionBlock: React.FC<QBlockProps> = ({ question: q, value, onChange, su
       onFocus={onFocus}
       onClick={onFocus}
       className={cn(
-        "rounded-xl border bg-card p-4 transition-all",
+        grouped ? "border-b border-border py-4 last:border-0 transition-all" : "rounded-lg border bg-card p-4 transition-all",
         flagged && !submitted && "ring-2 ring-amber-400/60",
         submitted && (correct ? "border-emerald-500 bg-emerald-500/5" : wrong ? "border-destructive bg-destructive/5" : "")
       )}
     >
+      {q.type === "mcq-multi" && q.pairStart !== undefined && <span id={`q-${q.number + 1}`} />}
       <div className="flex items-start gap-3 mb-3">
-        <Badge variant="outline" className="font-bold text-sm shrink-0">{q.number}</Badge>
-        <p className="text-sm font-medium text-foreground leading-relaxed flex-1">{renderText(q.prompt)}</p>
+        <Badge variant="outline" className="font-bold text-sm shrink-0">{q.number}{q.type === "mcq-multi" && q.pairStart !== undefined ? `–${q.number + 1}` : ""}</Badge>
+        <p className="text-sm font-medium text-foreground leading-relaxed flex-1">{renderText(grouped && q.type === "matching-headings" ? (q.prompt.match(/Paragraph\s+[A-Z]/i)?.[0] ?? q.prompt) : q.prompt)}</p>
         {!submitted && onToggleFlag && (
           <button
             type="button"
@@ -732,7 +723,7 @@ const QuestionBlock: React.FC<QBlockProps> = ({ question: q, value, onChange, su
         )}
       </div>
 
-      {q.instruction && (
+      {q.instruction && !grouped && (
         <p className="pl-9 mb-2 text-[11px] font-semibold uppercase tracking-wide text-primary/80">
           {renderText(q.instruction)}
         </p>
@@ -779,10 +770,11 @@ const QuestionBlock: React.FC<QBlockProps> = ({ question: q, value, onChange, su
 
       {q.type === "matching-headings" && q.headings && (
         <div className="pl-9 space-y-2">
-          <ul className="rounded-lg border border-dashed bg-muted/40 p-2.5 space-y-1 text-xs text-foreground">
+          {!grouped && <ul className="rounded-lg border border-dashed bg-muted/40 p-2.5 space-y-1 text-sm text-foreground">
             {q.headings.map(h => <li key={h.label}>{renderText(`${h.label}. ${h.text}`)}</li>)}
-          </ul>
+          </ul>}
           <select
+            aria-label={`Answer to question ${q.number}`}
             value={value}
             onChange={(e) => onChange(e.target.value)}
             disabled={submitted}
@@ -804,7 +796,7 @@ const QuestionBlock: React.FC<QBlockProps> = ({ question: q, value, onChange, su
       {q.type === "fill-blank" && (
         <div className="pl-9 space-y-1.5">
           <p className="text-[11px] font-semibold uppercase tracking-wide text-primary/80">
-            {wordCountHint(q.answer, isVi)}
+            {q.instruction ?? wordCountHint(q.answer, false)}
           </p>
           <input
             type="text"
@@ -826,8 +818,9 @@ const QuestionBlock: React.FC<QBlockProps> = ({ question: q, value, onChange, su
             const selected = value === opt;
             const isCorrect = submitted && opt.toLowerCase() === q.answer.trim().toLowerCase();
             return (
-              <button
+              <Button
                 key={opt}
+                variant="outline"
                 type="button"
                 disabled={submitted}
                 onClick={() => onChange(opt)}
@@ -845,7 +838,7 @@ const QuestionBlock: React.FC<QBlockProps> = ({ question: q, value, onChange, su
                 )}
               >
                 {opt}
-              </button>
+              </Button>
             );
           })}
         </div>
@@ -882,12 +875,12 @@ const QuestionBlock: React.FC<QBlockProps> = ({ question: q, value, onChange, su
           </p>
           {q.options.map((opt, i) => {
             const letter = String.fromCharCode(65 + i);
-            const picked = value.toUpperCase().split(/[^A-Z]+/).filter(Boolean);
+            const picked = parseReadingLetters(value);
             const selected = picked.includes(letter);
             const isCorrect = submitted && (q.answers || []).map(a => a.toUpperCase()).includes(letter);
             const toggle = () => {
               const next = selected ? picked.filter(l => l !== letter) : [...picked, letter].slice(-2);
-              onChange(next.sort().join(""));
+              onChange(next.sort().join("|"));
             };
             return (
               <label
@@ -907,7 +900,7 @@ const QuestionBlock: React.FC<QBlockProps> = ({ question: q, value, onChange, su
                 )}
               >
                 <input type="checkbox" checked={selected} readOnly disabled={submitted} className="mt-1 accent-primary" />
-                <span><span className="font-bold mr-1">{letter}.</span>{renderText(opt)}</span>
+                <span><span className="font-bold mr-1">{letter}.</span>{renderText(opt.replace(/^[A-E]\.\s*/, ""))}</span>
               </label>
             );
           })}
@@ -932,6 +925,59 @@ const QuestionBlock: React.FC<QBlockProps> = ({ question: q, value, onChange, su
 };
 
 // ============================================================
+// Shared task-group presentation for both exam modes.
+// ============================================================
+interface QuestionTasksProps {
+  questions: ReadingQuestion[];
+  examId: string;
+  paperTheme: "light" | "dark";
+  answers: Record<number, string>;
+  onAnswer: (number: number, value: string) => void;
+  onFocus: (number: number) => void;
+  flagged?: Set<number>;
+  onToggleFlag?: (number: number) => void;
+  originalNumbers?: Record<number, number>;
+}
+
+const QuestionTasks: React.FC<QuestionTasksProps> = ({ questions, examId, paperTheme, answers, onAnswer, onFocus, flagged, onToggleFlag, originalNumbers }) => (
+  <div className="space-y-8">
+    {readingTaskGroups(questions).map(group => {
+      const first = group[0];
+      if (!first) return null;
+      const headings = first.type === "matching-headings" ? first.headings : undefined;
+      const instruction = readingTaskInstruction(first);
+      return <section key={first.number} aria-label={`Questions ${first.number} to ${group.at(-1)?.number}`} className="space-y-4">
+        <ReaderPassage passageId={`${examId}::task::${originalNumbers?.[first.number] ?? first.number}`} paperTheme={paperTheme}>
+          {renderText => <div className="space-y-3">
+            <h3 className="text-base font-bold text-foreground">Questions {first.number}{group.length > 1 ? `–${group.at(-1)?.number}` : ""}</h3>
+            {instruction && <p className="text-sm leading-relaxed text-foreground">{renderText(instruction)}</p>}
+            {headings && <div className="rounded-lg border border-border bg-muted/30 p-4">
+              <h4 className="mb-3 font-semibold text-foreground">List of Headings</h4>
+              <ol className="space-y-2 text-sm leading-relaxed">
+                {headings.map(h => <li key={h.label} className="flex gap-3"><span className="w-8 shrink-0 font-semibold">{h.label}</span><span>{renderText(h.text)}</span></li>)}
+              </ol>
+            </div>}
+          </div>}
+        </ReaderPassage>
+        <div>{group.filter(q => q.pairIndex !== 1).map(q => q.type === "mcq-multi" && q.pairIndex === 0 ? <QuestionBlock key={q.number}
+          question={{ ...q, pairIndex: undefined }}
+          highlightId={`${examId}::question::${q.sourceNumber ?? q.number}`} paperTheme={paperTheme}
+          value={[answers[q.number], answers[q.number + 1]].filter(Boolean).join("|")}
+          onChange={value => { const letters = parseReadingLetters(value); onAnswer(q.number, letters[0] ?? ""); onAnswer(q.number + 1, letters[1] ?? ""); }}
+          submitted={false} onFocus={() => onFocus(q.number)} grouped
+        /> : <QuestionBlock key={q.number} question={q} grouped
+          highlightId={`${examId}::question::${originalNumbers?.[q.number] ?? q.sourceNumber ?? q.number}`}
+          paperTheme={paperTheme} value={answers[q.number] ?? ""}
+          onChange={value => onAnswer(q.number, value)} submitted={false}
+          onFocus={() => onFocus(q.number)} flagged={flagged?.has(q.number)}
+          onToggleFlag={onToggleFlag ? () => onToggleFlag(q.number) : undefined}
+        />)}</div>
+      </section>;
+    })}
+  </div>
+);
+
+// ============================================================
 // Full Test Engine - 3 passages, 60-min countdown, sequential
 // question numbering (Passage 1: Q1–N, Passage 2: continues, ...).
 // ============================================================
@@ -948,28 +994,7 @@ const FULL_TEST_TOTAL_QS = 40;
  * Distribute exactly 40 questions over the 3 passages (target 13/13/14),
  * never exceeding what a passage actually offers.
  */
-const allocateFullTestCounts = (lengths: number[], total = FULL_TEST_TOTAL_QS): number[] => {
-  const base = [13, 13, 14];
-  const take = lengths.map((len, i) => Math.min(len, base[i] ?? 13));
-  let remaining = total - take.reduce((a, b) => a + b, 0);
-  // Give away leftovers round-robin; drop extras from the largest slice first.
-  let guard = 0;
-  while (remaining > 0 && guard++ < 200) {
-    let moved = false;
-    for (let i = 0; i < take.length && remaining > 0; i++) {
-      if (take[i] < lengths[i]) { take[i] += 1; remaining -= 1; moved = true; }
-    }
-    if (!moved) break;
-  }
-  guard = 0;
-  while (remaining < 0 && guard++ < 200) {
-    const maxIdx = take.indexOf(Math.max(...take));
-    if (take[maxIdx] <= 0) break;
-    take[maxIdx] -= 1;
-    remaining += 1;
-  }
-  return take;
-};
+const allocateFullTestCounts = allocateReadingCounts;
 
 const FullTestEngine: React.FC<FullTestEngineProps> = ({ test, onClose }) => {
   const { t } = useLanguage();
@@ -983,7 +1008,7 @@ const FullTestEngine: React.FC<FullTestEngineProps> = ({ test, onClose }) => {
   const passages = useMemo(() => {
     const lengths = rawPassages.map(p => p.questions.length);
     const take = allocateFullTestCounts(lengths);
-    return rawPassages.map((p, i) => ({ ...p, questions: p.questions.slice(0, take[i]) }));
+    return rawPassages.map((p, i) => ({ ...p, questions: selectReadingSlots(p.questions, take[i]) }));
   }, [rawPassages]);
 
   // Build a flat question list with re-numbered "global" numbers 1..N.
@@ -1183,18 +1208,10 @@ const FullTestEngine: React.FC<FullTestEngineProps> = ({ test, onClose }) => {
                 `Questions ${passageOffsets[activePassage]}–${passageOffsets[activePassage] + currentPassage.questions.length - 1}`
               )}
             </div>
-            {!submitted && currentItems.map(item => (
-              <QuestionBlock
-                key={item.globalNumber}
-                question={{ ...item.q, number: item.globalNumber }}
-                highlightId={`${currentPassage.id}::question::${item.q.number}`}
-                paperTheme={paperTheme}
-                value={answers[item.globalNumber] || ""}
-                onChange={v => setAnswers(p => ({ ...p, [item.globalNumber]: v }))}
-                submitted={submitted}
-                onFocus={() => { /* no-op */ }}
-              />
-            ))}
+            {!submitted && <QuestionTasks questions={currentItems.map(item => ({ ...item.q, number: item.globalNumber }))}
+              examId={currentPassage.id} paperTheme={paperTheme} answers={answers}
+              originalNumbers={Object.fromEntries(currentItems.map(item => [item.globalNumber, item.q.sourceNumber ?? item.q.number]))}
+              onAnswer={(number, value) => setAnswers(p => ({ ...p, [number]: value }))} onFocus={() => {}} />}
             {submitted && (
               <>
                 <div className="rounded-xl border-2 border-primary/30 bg-gradient-to-br from-primary/5 to-emerald-500/5 p-5 text-center">
@@ -1202,9 +1219,9 @@ const FullTestEngine: React.FC<FullTestEngineProps> = ({ test, onClose }) => {
                   <p className="font-bold text-lg">{t("Kết quả", "Final Score")}: {score}/{totalQs}</p>
                   <p className="text-sm text-muted-foreground mt-1">
                     {score >= totalQs * 0.85
-                      ? t("Xuất sắc - Band 8.0+!", "Excellent - Band 8.0+!")
+                      ? t("Xuất sắc!", "Excellent!")
                       : score >= totalQs * 0.7
-                        ? t("Tốt - quanh Band 7.0", "Strong - around Band 7.0")
+                        ? t("Làm tốt!", "Well done!")
                         : t("Tiếp tục luyện tập!", "Keep practising!")}
                   </p>
                   <div className="mt-3"><Button variant="outline" size="sm" onClick={onClose}>
@@ -1298,8 +1315,8 @@ const IeltsReadingPractice: React.FC = () => {
                 </h2>
                 <p className="text-sm text-muted-foreground mt-1">
                   {t(
-                    "Mô phỏng chính xác phòng thi IELTS Academic Reading: 3 passages liền nhau, ~40 câu hỏi, đồng hồ đếm ngược 60 phút và ma trận câu hỏi 1–40.",
-                    "Exactly mirrors the IELTS Academic Reading exam: 3 connected passages, ~40 questions, 60-minute countdown and a global 1–40 question matrix."
+                    "Đề luyện theo định dạng IELTS: 3 bài đọc, 40 câu hỏi, 60 phút. Đây là đề tự biên soạn, không phải đề IELTS chính thức.",
+                    "IELTS-style practice: 3 passages, 40 questions and 60 minutes. These are original practice papers, not official IELTS tests."
                   )}
                 </p>
               </div>
@@ -1311,7 +1328,7 @@ const IeltsReadingPractice: React.FC = () => {
                     <motion.div
                       key={ft.id}
                       whileHover={{ y: -2 }}
-                      className="rounded-xl border bg-card p-4 hover:shadow-lg transition-all"
+                      className="rounded-lg border bg-card p-4 hover:shadow-lg transition-all flex flex-col"
                     >
                       <div className="flex items-center gap-2 mb-2 flex-wrap">
                         <Badge variant="secondary" className="text-[10px]">{t("Đề đầy đủ", "Full Test")}</Badge>
@@ -1321,7 +1338,7 @@ const IeltsReadingPractice: React.FC = () => {
                         <span className="text-[11px] text-muted-foreground">{totalQs} Qs</span>
                       </div>
                       <h3 className="font-bold text-foreground text-base mb-1">{ft.title}</h3>
-                      <ul className="text-xs text-muted-foreground mb-3 space-y-0.5 list-disc list-inside">
+                      <ul className="text-sm text-muted-foreground mb-3 space-y-1 list-disc list-inside flex-1">
                         {ps.map((p, i) => (
                           <li key={p.id}>{t(`Đoạn ${i + 1}`, `Passage ${i + 1}`)}: {p.passageTitle}</li>
                         ))}

@@ -12,7 +12,7 @@ export const READING_QUESTION_EXTENSIONS: Record<string, ReadingQuestion[]> = {
     {
       number: 11,
       type: "multiple-choice",
-      prompt: "Which of the following best describes the IEA's view on the energy transition?",
+      prompt: "Which of the following best describes the analysts' view on the energy transition?",
       options: [
         "Slower than expected",
         "Inevitable but already complete",

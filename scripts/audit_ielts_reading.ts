@@ -144,8 +144,8 @@ for (const exam of exams) {
     if (set.size < 2) issues.push(`${exam.id}: TFNG/YNNG set uses only one answer value`);
   }
 
-  if (headingQs > 0 && headingListSize < headingQs + 3)
-    issues.push(`${exam.id}: heading list ${headingListSize} for ${headingQs} questions (need >= ${headingQs + 3} distractors included)`);
+  if (headingQs > 0 && headingListSize <= headingQs)
+    issues.push(`${exam.id}: heading list must contain more headings than matched paragraphs`);
 }
 
 // Full-test referential integrity
