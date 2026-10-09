@@ -21,11 +21,19 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import IllustratedPageHeader from "@/components/common/IllustratedPageHeader";
 
-type Subject = "chinese" | "programming" | "vietnamese" | "interpersonal";
+type Subject = "chinese" | "programming" | "vietnamese" | "interpersonal" | "finnish";
 interface Row { activity_type: string; score: number | null; max_score: number | null; time_spent_seconds: number | null; created_at: string; metadata?: { pillar?: string } | null }
 interface Section { key: string; vi: string; en: string; match: RegExp }
 
 const SECTIONS: Record<Subject, Section[]> = {
+  finnish: [
+    { key: "writing", vi: "Luyện viết YKI", en: "YKI Writing", match: /writing|typing/ },
+    { key: "speaking", vi: "Nói & Phát âm", en: "Speaking", match: /speak|pronunc/ },
+    { key: "reading", vi: "Đọc & Nghe", en: "Reading & Listening", match: /read|listen/ },
+    { key: "vocab", vi: "Từ vựng", en: "Vocabulary", match: /vocab|word|flashcard/ },
+    { key: "exam", vi: "Đề thi YKI", en: "YKI Exams", match: /yki|exam|mock|test/ },
+    { key: "lesson", vi: "Bài học & Trò chơi", en: "Lessons & Games", match: /lesson|quiz|conv|arcade|game/ },
+  ],
   chinese: [
     { key: "writing", vi: "Luyện viết", en: "Writing Practice", match: /chinese_writing|writing/ },
     { key: "vocab", vi: "Từ vựng HSK", en: "HSK Vocabulary", match: /vocab|word|hsk_srs|flashcard/ },
@@ -89,12 +97,14 @@ const SubjectPerformance = ({ subject }: { subject: Subject }) => {
         .from("student_activity_log")
         .select("activity_type, score, max_score, time_spent_seconds, created_at, domain, metadata")
         .eq("user_id", session.user.id)
-        .in("domain", subject === "vietnamese" ? ["vietnamese", "english"] : [subject])
+        .in("domain", subject === "vietnamese" ? ["vietnamese", "english"] : subject === "finnish" ? ["english"] : [subject])
         .order("created_at", { ascending: true })
         .limit(2000);
       let list = (data as Row[]) ?? [];
       // Older Vietnamese results were stored under "english"; keep only Vietnamese ones.
       if (subject === "vietnamese") list = list.filter((r) => (r as Row & { domain?: string }).domain === "vietnamese" || /vietnam/i.test(r.activity_type));
+      // Finnish results are stored in the shared language bucket; keep only Finnish/YKI ones.
+      if (subject === "finnish") list = list.filter((r) => /finnish|yki|suomi/i.test(r.activity_type) || /finnish/i.test(String((r.metadata as Record<string, unknown> | null)?.subject ?? "")));
       if (subject === "interpersonal") {
         const [{ data: lessonRows }, { data: placementRows }] = await Promise.all([
           supabase.from("lifestyle_lesson_progress").select("lesson_id, pillar, score, max_score, updated_at").eq("user_id", session.user.id),
@@ -164,9 +174,10 @@ const SubjectPerformance = ({ subject }: { subject: Subject }) => {
 
   const title = subject === "chinese" ? t("Kết quả học Tiếng Trung", "Your Chinese Performance")
     : subject === "vietnamese" ? t("Kết quả học Tiếng Việt", "Your Vietnamese Performance")
+    : subject === "finnish" ? t("Kết quả học Tiếng Phần Lan", "Your Finnish Performance")
     : subject === "interpersonal" ? t("Kết quả Kỹ năng mềm", "Your Interpersonal Skills Performance")
     : t("Kết quả học Công nghệ", "Your Technology Performance");
-  const home = subject === "chinese" ? "/chinese" : subject === "vietnamese" ? "/learn-vietnamese" : subject === "interpersonal" ? "/lifestyle-academy" : "/programming";
+  const home = subject === "chinese" ? "/chinese" : subject === "vietnamese" ? "/learn-vietnamese" : subject === "interpersonal" ? "/lifestyle-academy" : subject === "finnish" ? "/finnish" : "/programming";
   const reportRef = useRef<HTMLDivElement>(null);
   const [exporting, setExporting] = useState(false);
   const downloadPdf = async () => {

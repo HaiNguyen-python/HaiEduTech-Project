@@ -440,6 +440,7 @@ const Navbar = () => {
     { to: "/finnish/writing", label: t("Luyện viết YKI", "YKI Writing Practice"), icon: PenLine },
     { to: "/speaking-coach/finnish", label: t("Luyện nói", "Speaking Coach"), icon: Mic2 },
     { to: "/finnish/arcade", label: t("Finnish Arcade", "Finnish Arcade"), icon: Gamepad2 },
+    { to: "/finnish/performance", label: t("Your Performance", "Your Performance"), icon: Activity },
     { to: "/finnish/life-in-finland", label: t("Cuộc sống ở Phần Lan", "Life in Finland"), icon: Snowflake },
   ];
 
