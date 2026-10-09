@@ -12,6 +12,8 @@ export interface StudentState {
   userId: string;
   fullName: string;
   totalActivities: number;
+  scoredActivities: number;
+  interventionReasons: Array<"low-score" | "recent-low-score">;
   avgScore: number;
   recentTrend: "improving" | "declining" | "stable";
   lastActive: string;
@@ -71,9 +73,14 @@ export function computeStudentState(
     max_score: number | null;
     metadata: any;
     created_at: string;
-    domain?: string;
+    domain?: string | null;
   }>
 ): StudentState {
+  const orderedActivities = [...activities].sort((a, b) => Date.parse(a.created_at) - Date.parse(b.created_at));
+  const scoredActs = orderedActivities.filter(a =>
+    Number.isFinite(a.score) && Number.isFinite(a.max_score) && a.score != null && a.max_score != null &&
+    a.max_score > 0 && a.score >= 0 && a.score <= a.max_score && !(a.max_score === 1 && a.score === 0)
+  );
   const skillMap: Record<string, { totalScore: number; count: number }> = {};
   const domainMap: Record<LearningDomain, { totalScore: number; count: number }> = {
     english: { totalScore: 0, count: 0 },
@@ -84,7 +91,7 @@ export function computeStudentState(
   // Process each activity to extract skill-level data.
   // Skip rows that have no real score (heartbeat / daily_login / vocab tracking
   // markers) so the average isn't dragged down to 0.
-  for (const act of activities) {
+  for (const act of scoredActs) {
     if (act.score == null || act.max_score == null || (act.max_score ?? 0) <= 0) continue;
     // Skip "completion markers" (max=1, score=0) that some legacy modules log
     // when a lesson is opened without producing a real score — these would
@@ -105,6 +112,7 @@ export function computeStudentState(
     if (act.metadata?.categoryStats) {
       const stats = act.metadata.categoryStats as Record<string, { correct: number; total: number }>;
       for (const [cat, data] of Object.entries(stats)) {
+        if (!Number.isFinite(data.correct) || !Number.isFinite(data.total) || data.total <= 0 || data.correct < 0 || data.correct > data.total) continue;
         if (!skillMap[cat]) skillMap[cat] = { totalScore: 0, count: 0 };
         skillMap[cat].totalScore += (data.correct / data.total) * 10;
         skillMap[cat].count++;
@@ -139,35 +147,51 @@ export function computeStudentState(
   const weakestAreas = sorted.slice(0, 3).map(([k]) => k);
   const strongestAreas = sorted.slice(-3).reverse().map(([k]) => k);
 
-  // Compute recent trend from last 5 scored activities only
-  const scoredActs = activities.filter(a => a.score != null && (a.max_score ?? 0) > 0 && !((a.max_score === 1) && ((a.score ?? 0) === 0)));
-  const recent = scoredActs.slice(-5);
+  // Compare six attempts within the same activity/domain, not unrelated skills.
+  const latest = scoredActs.at(-1);
+  const recent = latest ? scoredActs.filter(a => a.activity_type === latest.activity_type && a.domain === latest.domain).slice(-6) : [];
+  const average = (rows: typeof scoredActs) => rows.reduce((sum, a) => sum + ((a.score ?? 0) / (a.max_score ?? 1)) * 10, 0) / rows.length;
+  let recentAverage = 0;
   let trend: "improving" | "declining" | "stable" = "stable";
-  if (recent.length >= 3) {
-    const firstHalf = recent.slice(0, Math.floor(recent.length / 2));
-    const secondHalf = recent.slice(Math.floor(recent.length / 2));
-    const avgFirst = firstHalf.reduce((s, a) => s + ((a.score ?? 0) / (a.max_score ?? 10)) * 10, 0) / firstHalf.length;
-    const avgSecond = secondHalf.reduce((s, a) => s + ((a.score ?? 0) / (a.max_score ?? 10)) * 10, 0) / secondHalf.length;
-    if (avgSecond - avgFirst > 0.5) trend = "improving";
-    else if (avgFirst - avgSecond > 0.5) trend = "declining";
+  if (recent.length === 6) {
+    const avgFirst = average(recent.slice(0, 3));
+    recentAverage = average(recent.slice(3));
+    if (recentAverage - avgFirst >= 1) trend = "improving";
+    else if (avgFirst - recentAverage >= 1) trend = "declining";
   }
 
   const avgScore = scoredActs.length > 0
     ? scoredActs.reduce((s, a) => s + ((a.score ?? 0) / (a.max_score ?? 10)) * 10, 0) / scoredActs.length
     : 0;
 
+  const interventionReasons: StudentState["interventionReasons"] = [];
+  if (scoredActs.length >= 3 && avgScore < 5) interventionReasons.push("low-score");
+  if (trend === "declining" && recentAverage < 5) interventionReasons.push("recent-low-score");
   return {
     userId,
     fullName,
     totalActivities: activities.length,
+    scoredActivities: scoredActs.length,
+    interventionReasons,
     avgScore: Math.round(avgScore * 10) / 10,
     recentTrend: trend,
-    lastActive: activities.length > 0 ? activities[activities.length - 1].created_at : "",
+    lastActive: orderedActivities.at(-1)?.created_at ?? "",
     skillBreakdown,
     weakestAreas,
     strongestAreas,
     domainBreakdown,
   };
+}
+
+export function needsStudentIntervention(state: StudentState): boolean {
+  return state.interventionReasons.length > 0;
+}
+
+export function interventionReason(state: StudentState, isVi: boolean): string {
+  return state.interventionReasons.map(reason => reason === "low-score"
+    ? (isVi ? `TB dưới 50% (${state.scoredActivities} bài có điểm)` : `Average below 50% (${state.scoredActivities} scored attempts)`)
+    : (isVi ? "3 bài gần nhất cùng kỹ năng dưới 50%, giảm ít nhất 1/10" : "Latest 3 same-skill attempts below 50%, drop of at least 1/10")
+  ).join("; ");
 }
 
 // Generate RL-based recommendations for a student
@@ -193,7 +217,7 @@ export function generateRecommendations(state: StudentState): RLRecommendation[]
   }
 
   // Rule 2: Declining trend warning
-  if (state.recentTrend === "declining") {
+  if (state.interventionReasons.includes("recent-low-score")) {
     recommendations.push({
       action: "Schedule 1-on-1 review session",
       actionVi: "Lên lịch buổi ôn tập 1-1",
@@ -217,7 +241,7 @@ export function generateRecommendations(state: StudentState): RLRecommendation[]
   }
 
   // Rule 4: Overall low score
-  if (state.avgScore < 5 && state.totalActivities >= 3) {
+  if (state.interventionReasons.includes("low-score")) {
     recommendations.push({
       action: "Lower difficulty level",
       actionVi: "Giảm độ khó bài tập",

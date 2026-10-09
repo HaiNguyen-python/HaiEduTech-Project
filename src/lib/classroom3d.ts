@@ -4,7 +4,7 @@
  *   Classifies each student into a colour tier and builds the desk layout.
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
-import type { StudentState } from "@/lib/rlEngine";
+import { needsStudentIntervention, type StudentState } from "@/lib/rlEngine";
 
 export type ClassroomTier = "alert" | "progress" | "stable" | "average" | "idle";
 
@@ -61,7 +61,7 @@ export function lastActiveMs(state: StudentState, last?: LastActivity): number {
 
 /**
  * Tier rules (mirrors the dashboard's intervention banner):
- *  - alert    : >=3 activities with avg < 5, declining trend, or silent >14 days
+ *  - alert    : shared low-score evidence rule
  *  - progress : improving trend
  *  - stable   : avg >= 7
  *  - average  : avg 5-7
@@ -72,12 +72,7 @@ export function classifyStudent(
   last?: LastActivity,
   now = Date.now(),
 ): ClassroomTier {
-  const silentSpeak = !!last && last.lastSpeak > 0 && now - last.lastSpeak > FOURTEEN_DAYS;
-  const silentWrite = !!last && last.lastWrite > 0 && now - last.lastWrite > FOURTEEN_DAYS;
-  const needsIntervention =
-    (state.totalActivities >= 3 && (state.avgScore < 5 || state.recentTrend === "declining")) ||
-    silentSpeak ||
-    silentWrite;
+  const needsIntervention = needsStudentIntervention(state);
 
   if (needsIntervention) return "alert";
   if (state.totalActivities === 0) return "idle";

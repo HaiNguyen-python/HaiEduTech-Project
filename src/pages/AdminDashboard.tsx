@@ -26,7 +26,7 @@ import {
   PieChart, Pie, LineChart, Line
 } from "recharts";
 import {
-  computeStudentState, generateRecommendations, getCategoryLabel,
+  computeStudentState, generateRecommendations, getCategoryLabel, needsStudentIntervention, interventionReason,
   DOMAIN_LABELS,
   type StudentState, type RLRecommendation, type LearningDomain
 } from "@/lib/rlEngine";
@@ -259,7 +259,7 @@ const AdminDashboard = () => {
       const activityByUser = new Map<string, typeof learningActivities>();
       for (const act of learningActivities) {
         if (!activityByUser.has(act.user_id)) activityByUser.set(act.user_id, []);
-        activityByUser.get(act.user_id)!.push(act);
+        activityByUser.get(act.user_id)?.push(act);
       }
 
       for (const [userId, userActivities] of activityByUser) {
@@ -281,7 +281,7 @@ const AdminDashboard = () => {
       const activeThisWeek = new Set(
         learningActivities.filter(a => new Date(a.created_at) > oneWeekAgo).map(a => a.user_id)
       ).size;
-      const activeStates = states.filter(s => s.totalActivities > 0);
+      const activeStates = states.filter(s => s.scoredActivities > 0);
       const classAvg = activeStates.length > 0
         ? activeStates.reduce((s, st) => s + st.avgScore, 0) / activeStates.length
         : 0;
@@ -422,21 +422,9 @@ const AdminDashboard = () => {
     return studentStates.filter(s => normalizeForSearch(s.fullName).includes(q));
   }, [studentStates, deferredSearch]);
 
-  // Students needing intervention (score < 5 OR declining OR silent on speak/write > 14 days)
-  const interventionNeeded = useMemo(() => {
-    const now = Date.now();
-    const FOURTEEN_DAYS = 14 * 24 * 60 * 60 * 1000;
-    return studentStates.filter((s) => {
-      const last = lastActivityByUser.get(s.userId);
-      const silentSpeak = last && last.lastSpeak > 0 && now - last.lastSpeak > FOURTEEN_DAYS;
-      const silentWrite = last && last.lastWrite > 0 && now - last.lastWrite > FOURTEEN_DAYS;
-      return (
-        (s.totalActivities >= 3 && (s.avgScore < 5 || s.recentTrend === "declining")) ||
-        silentSpeak ||
-        silentWrite
-      );
-    });
-  }, [studentStates, lastActivityByUser]);
+  const interventionNeeded = useMemo(() => studentStates
+    .filter(needsStudentIntervention)
+    .sort((a, b) => a.avgScore - b.avgScore), [studentStates]);
 
   if (roleLoading) {
     return (
@@ -508,7 +496,7 @@ const AdminDashboard = () => {
 
           <main className="flex-1 px-4 py-5 md:px-6 lg:px-8">
             <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2 }} className="mx-auto max-w-[1600px]">
-              {activeTab !== "phd-research" && <>
+              {activeTab === "overview" && <>
               <div className="mb-5 flex flex-col gap-3 border-b border-border pb-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <p className="text-xs font-bold uppercase text-primary">{t("Trung tâm điều hành", "Command center")}</p>
@@ -597,7 +585,8 @@ const AdminDashboard = () => {
                       key={s.userId}
                       variant="destructive"
                       className="cursor-pointer"
-                      onClick={() => handleSelectStudent(s)}
+                      title={interventionReason(s, t("vi", "en") === "vi")}
+                      onClick={() => { handleSelectStudent(s); openStudentsTab(); }}
                     >
                       {s.fullName} ({s.avgScore}/10) {s.recentTrend === "declining" ? "↘" : ""}
                     </Badge>
@@ -729,6 +718,7 @@ const AdminDashboard = () => {
                               <TableHead>{t("Học sinh", "Student")}</TableHead>
                               <TableHead className="text-center">{t("Điểm TB", "Avg")}</TableHead>
                               <TableHead className="text-center">{t("Xu hướng", "Trend")}</TableHead>
+                              <TableHead>{t("Lý do cảnh báo", "Flag reason")}</TableHead>
                               <TableHead>{t("Điểm yếu", "Weak Areas")}</TableHead>
                               <TableHead>{t("Lĩnh vực", "Domains")}</TableHead>
                               <TableHead>{t("Hành động đề xuất", "Suggested Action")}</TableHead>
@@ -745,6 +735,7 @@ const AdminDashboard = () => {
                                     <span className="font-bold text-destructive">{s.avgScore}</span>
                                   </TableCell>
                                   <TableCell className="text-center align-top pt-3">{TREND_ICONS[s.recentTrend]}</TableCell>
+                                  <TableCell className="min-w-[200px] whitespace-normal text-sm">{interventionReason(s, isVi)}</TableCell>
                                   <TableCell className="align-top pt-3">
                                     <div className="flex flex-wrap gap-1">
                                       {s.weakestAreas.slice(0, 2).map(a => (
@@ -851,7 +842,7 @@ const AdminDashboard = () => {
                               </TableHeader>
                               <TableBody>
                                 {filteredStudents.map((state) => {
-                                  const needsIntervention = state.totalActivities >= 3 && (state.avgScore < 5 || state.recentTrend === "declining");
+                                  const needsIntervention = needsStudentIntervention(state);
                                   const last = lastActivityByUser.get(state.userId);
                                   const now = Date.now();
                                   const daysSpeak = last && last.lastSpeak > 0 ? Math.floor((now - last.lastSpeak) / 86400000) : null;
