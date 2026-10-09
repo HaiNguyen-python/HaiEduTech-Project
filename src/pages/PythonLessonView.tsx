@@ -36,6 +36,8 @@ import { setLessonComplete, getPythonPathwayProgress } from "@/components/python
 import { cn } from "@/lib/utils";
 import LessonReadToggle from "@/components/programming/LessonReadToggle";
 import TheorySections from "@/components/TheorySections";
+import { isPathwayLessonUnlocked, firstIncompletePathwayLesson } from "@/lib/pythonPathwayLock";
+import { LockKeyhole } from "lucide-react";
 import pythonHeader from "@/assets/python-challenges-header.jpg";
 
 const levelStyles: Record<string, string> = {
@@ -127,6 +129,30 @@ const PythonLessonView = () => {
     }
   };
 
+  const goBack = () => (window.history.length > 1 ? navigate(-1) : navigate("/programming?pillar=python-pathway"));
+  const progressNow = getPythonPathwayProgress();
+  const unlocked = lesson ? isPathwayLessonUnlocked(lesson.id, progressNow) : true;
+  const nextUnlocked = !!next && (completed || !!progressNow[lesson?.id ?? ""]);
+
+  if (lesson && module && !unlocked) {
+    const resume = firstIncompletePathwayLesson(progressNow);
+    return (
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <div className="container mx-auto max-w-xl px-4 py-20 text-center">
+          <LockKeyhole className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />
+          <h1 className="mb-2 font-display text-2xl font-bold text-foreground">This lesson is locked</h1>
+          <p className="mb-6 text-muted-foreground">Finish the previous lessons first. Next up: {resume?.titleEn}.</p>
+          <div className="flex justify-center gap-3">
+            <Button variant="outline" onClick={goBack}><ArrowLeft className="mr-1 h-4 w-4" /> Back</Button>
+            {resume && <Button asChild><Link to={`/programming/python/${resume.id}`}>Go to {resume.titleEn}</Link></Button>}
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
   if (!lesson || !module) {
     return (
       <div className="min-h-screen bg-background">
@@ -144,7 +170,10 @@ const PythonLessonView = () => {
       <Navbar />
       <div className="pt-6 pb-16">
         <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
-          {/* Breadcrumb */}
+          {/* Back + breadcrumb */}
+          <Button variant="outline" size="sm" onClick={goBack} className="mb-3 gap-1.5 rounded-full shadow-sm">
+            <ArrowLeft className="h-4 w-4" /> Back
+          </Button>
           <div className="flex items-center gap-2 text-xs text-muted-foreground mb-4 flex-wrap">
             <Link to="/programming?pillar=python-pathway" className="hover:text-primary flex items-center gap-1">
               <ArrowLeft className="w-3 h-3" /> {"Programming"}
@@ -341,8 +370,8 @@ const PythonLessonView = () => {
               <ChevronLeft className="w-4 h-4 mr-1" /> <span className="truncate max-w-[200px]">{prev?.titleEn ?? "-"}</span>
             </Button>
             <Button asChild variant="ghost"><Link to="/programming?pillar=python-pathway">{"All modules"}</Link></Button>
-            <Button disabled={!next} onClick={() => next && navigate(`/programming/python/${next.id}`)}>
-              <span className="truncate max-w-[200px]">{next?.titleEn ?? "-"}</span> <ChevronRight className="w-4 h-4 ml-1" />
+            <Button disabled={!nextUnlocked} title={next && !nextUnlocked ? "Complete this lesson to unlock the next one" : undefined} onClick={() => next && nextUnlocked && navigate(`/programming/python/${next.id}`)}>
+              {next && !nextUnlocked && <LockKeyhole className="w-4 h-4 mr-1" />}<span className="truncate max-w-[200px]">{next?.titleEn ?? "-"}</span> <ChevronRight className="w-4 h-4 ml-1" />
             </Button>
           </div>
         </div>

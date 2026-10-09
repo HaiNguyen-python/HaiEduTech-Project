@@ -7,6 +7,9 @@ import { Link } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
 import { ChevronRight, Award, BookOpen, Terminal, Repeat2, Layers3, FileCode2, PanelsTopLeft, Database } from "lucide-react";
 import { pythonModules, pythonLessons, getLessonsByModule, getBookChapter, supplementaryPythonLessons } from "@/data/curriculum/pythonPathway";
+import { isPathwayLessonUnlocked, isPythonProgramComplete } from "@/lib/pythonPathwayLock";
+import { usePythonChallengeProgress } from "@/hooks/usePythonChallengeProgress";
+import { LockKeyhole } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 import basicsBackground from "@/assets/python-module-basics.jpg";
@@ -52,6 +55,8 @@ const PythonPathwayHub = () => {
     };
   }, []);
 
+  const { ids: challengeIds } = usePythonChallengeProgress();
+  const certReady = isPythonProgramComplete(progress, challengeIds.size);
   const totalCompleted = pythonLessons.filter(lesson => progress[lesson.id]).length;
   const totalLessons = pythonLessons.length;
   const overallPct = Math.round((totalCompleted / totalLessons) * 100);
@@ -78,6 +83,11 @@ const PythonPathwayHub = () => {
         </div>
       </div>
 
+      <Link to="/programming/python-certificate" className="flex items-center justify-between gap-3 rounded-lg border border-primary/30 bg-primary/5 px-4 py-3 text-sm hover:bg-primary/10">
+        <span className="flex items-center gap-2 font-semibold text-foreground"><Award className="h-5 w-5 text-primary" /> Python Programming Certificate</span>
+        <span className="text-xs text-muted-foreground">{certReady ? "Ready to download" : `Lessons ${totalCompleted}/${totalLessons} · Challenges ${challengeIds.size}/150`}</span>
+      </Link>
+
       {/* Module grid */}
       <div className="grid auto-rows-fr gap-4 md:grid-cols-2" aria-label="Python learning modules">
         {pythonModules.map((m, idx) => {
@@ -89,6 +99,8 @@ const PythonPathwayHub = () => {
           const firstChapter = firstLesson ? getBookChapter(firstLesson.id) : undefined;
           const lastChapter = lastLesson ? getBookChapter(lastLesson.id) : undefined;
           const Icon = moduleIcons[idx] ?? Terminal;
+          const moduleLocked = !!firstLesson && !isPathwayLessonUnlocked(firstLesson.id, progress);
+          const target = lessons.find(l => !progress[l.id]) ?? firstLesson;
           return (
             <motion.div
               key={m.id}
@@ -99,11 +111,15 @@ const PythonPathwayHub = () => {
             >
               {firstLesson ? (
                 <Link
-                  to={`/programming/python/${firstLesson.id}`}
+                  to={moduleLocked ? "#" : `/programming/python/${target.id}`}
+                  onClick={e => { if (moduleLocked) e.preventDefault(); }}
+                  aria-disabled={moduleLocked || undefined}
+                  title={moduleLocked ? "Complete the previous module to unlock" : undefined}
                   className={cn(
                       "python-module-tile relative isolate group glass-card flex h-full min-h-[320px] flex-col overflow-hidden rounded-lg border p-5 sm:p-6",
                      moduleTones[idx],
                      certified && "python-module--complete",
+                     moduleLocked && "cursor-not-allowed opacity-60 grayscale",
                   )}
                 >
                   <img src={moduleBackgrounds[idx]} alt="" aria-hidden="true" loading="lazy" decoding="async" width={1024} height={640} className="python-module-background pointer-events-none absolute inset-0 -z-20 h-full w-full object-cover object-right" />
@@ -116,7 +132,7 @@ const PythonPathwayHub = () => {
                       <p className="python-module-accent font-mono text-xs mb-1">MODULE {String(idx + 1).padStart(2, "0")} / 06</p>
                       <p className="text-xs text-muted-foreground">{m.level} · {lessons.length} chapters</p>
                     </div>
-                    {certified ? <Award className="python-module-accent h-5 w-5 shrink-0" aria-label="Certified" /> : <ChevronRight className="python-module-accent h-5 w-5 shrink-0 group-hover:translate-x-1 transition-transform" />}
+                    {moduleLocked ? <LockKeyhole className="h-5 w-5 shrink-0 text-muted-foreground" aria-label="Locked" /> : certified ? <Award className="python-module-accent h-5 w-5 shrink-0" aria-label="Certified" /> : <ChevronRight className="python-module-accent h-5 w-5 shrink-0 group-hover:translate-x-1 transition-transform" />}
                   </div>
 
                   <h3 className="max-w-[75%] min-h-14 font-display text-xl font-bold leading-7 text-foreground mb-2">
@@ -138,7 +154,7 @@ const PythonPathwayHub = () => {
                       <div className="flex gap-1.5" aria-label={`${completed} of ${lessons.length} chapters complete`}>
                         {lessons.map(l => <span key={l.id} className={cn("h-2 w-2 rounded-full", progress[l.id] ? "bg-primary" : "bg-primary/20")} />)}
                       </div>
-                      <span className="python-module-accent text-xs font-semibold">{certified ? "Review module" : completed ? "Continue learning" : "Start learning"}</span>
+                      <span className="python-module-accent text-xs font-semibold">{moduleLocked ? "Locked" : certified ? "Review module" : completed ? "Continue learning" : "Start learning"}</span>
                     </div>
                   </div>
                 </Link>
@@ -189,6 +205,14 @@ const PythonPathwayHub = () => {
             const m = pythonModules.find((mm) => mm.id === l.moduleId);
             const moduleEmoji = m?.emoji ?? "📘";
             const moduleTitle = m?.titleEn ?? "Module updating";
+            const locked = !isPathwayLessonUnlocked(l.id, progress);
+            if (locked) return (
+              <div key={l.id} aria-disabled="true" title="Complete the previous lesson to unlock" className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm border border-dashed border-border opacity-60 cursor-not-allowed">
+                <span className="text-lg shrink-0">{l.emoji}</span>
+                <div className="min-w-0 flex-1"><div className="font-medium text-foreground">{l.titleEn}</div><div className="text-xs text-muted-foreground">Locked</div></div>
+                <LockKeyhole className="w-4 h-4 text-muted-foreground shrink-0" />
+              </div>
+            );
 
             return (
               <Link
