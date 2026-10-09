@@ -1,5 +1,5 @@
 # Tasks
-- [ ] Audit Python theory accuracy, add section examples, apply AI Foundation-inspired readable design and black IDE, verify running code and responsive layout.
+- [x] Audit Python theory: 19 chapters, 38 additional section examples, AI Foundation-style expandable sections and black CodeMirror IDE; 57 examples and 11 tests passed, input/SQLite/Ctrl+Enter/reset and desktop/mobile verified. Broad legacy English audit still flags unrelated shallow-indentation conventions; no changes outside this course.
 - [x] Rewrite Introduction to Programming as concise book-aligned theory covering all 150 challenges; preserve legacy lesson URLs and progress.
 - [x] Align lesson/challenge navigation; 19 examples and 19 code questions execute, all 150 IDs covered, legacy URLs preserved, desktop/mobile and SQLite browser checks passed.
 - [x] Audit all 450 Pattern Drilling sentences and 746 words using stress-preserving CMU data; repair lexical/context IPA, test regressions and verify display/reflex behavior in browser.
