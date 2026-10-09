@@ -123,7 +123,7 @@ export default function ZhLetterTyping({ level }: { level: ZhLevel }) {
         <div className="space-y-2">
           <p className="text-2xl leading-relaxed tracking-wide" lang="zh-CN" data-testid="zh-letter-typing-passage">
             {letterDisplayCharacters(item.zh).map(({ character, typingIndex }, i) => (
-              <span key={i} className={typingIndex === null ? "text-foreground" : typingIndex === activeIndex ? "text-primary underline" : typingIndex < got.length ? (got[typingIndex] === character ? "text-primary" : "text-destructive underline") : typingIndex === got.length ? "text-foreground border-b-2 border-primary" : "text-foreground"}>{character}</span>
+              <span key={i} className={typingIndex === null ? "text-foreground" : typingIndex === activeIndex ? (typing.pendingError ? "text-destructive underline" : "text-primary underline") : typingIndex < got.length ? (got[typingIndex] === character ? "text-primary" : "text-destructive underline") : typingIndex === got.length ? "text-foreground border-b-2 border-primary" : "text-foreground"}>{character}</span>
             ))}
           </p>
           {showPy && <p className="text-muted-foreground">{item.pinyin}</p>}

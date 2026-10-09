@@ -66,7 +66,7 @@ export default function ZhTypingTask({ items, poolKey }: { items: ZhSentence[]; 
         <div>
           <p className="text-2xl" lang="zh-CN" data-testid="zh-typing-passage">
             {letterDisplayCharacters(item.zh).map(({ character, typingIndex }, i) => (
-              <span key={i} className={typingIndex !== null && typingIndex === activeIndex ? "text-primary underline" : typingIndex !== null && typingIndex < got.length ? (got[typingIndex] === character ? "text-primary" : "text-destructive underline") : "text-foreground"}>{character}</span>
+              <span key={i} className={typingIndex !== null && typingIndex === activeIndex ? (typing.pendingError ? "text-destructive underline" : "text-primary underline") : typingIndex !== null && typingIndex < got.length ? (got[typingIndex] === character ? "text-primary" : "text-destructive underline") : "text-foreground"}>{character}</span>
             ))}
           </p>
           <Button variant="ghost" size="sm" className="my-1 gap-2" aria-expanded={showPinyin} aria-controls="zh-typing-pinyin" onClick={() => setShowPinyin((visible) => !visible)}>
