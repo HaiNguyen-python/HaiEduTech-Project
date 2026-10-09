@@ -1,4 +1,6 @@
 # Tasks
+- [x] Rewrite Introduction to Programming as concise book-aligned theory covering all 150 challenges; preserve legacy lesson URLs and progress.
+- [x] Align lesson/challenge navigation; 19 examples and 19 code questions execute, all 150 IDs covered, legacy URLs preserved, desktop/mobile and SQLite browser checks passed.
 - [x] Audit all 450 Pattern Drilling sentences and 746 words using stress-preserving CMU data; repair lexical/context IPA, test regressions and verify display/reflex behavior in browser.
 - [x] Add full sentence IPA to all 450 English Pattern Drilling sentences; 27 tests passed and browser verified repeat/reflex visibility.
 - [x] Audit Programming code indentation; 572 curated Python samples pass static syntax checks, unsafe indent scaling removed and Spark/activation samples repaired.
