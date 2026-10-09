@@ -1,5 +1,5 @@
 # Tasks
-- [ ] Remove Vietnamese interview question translations, expand Business English coverage and audit all answers; verify content and browser display.
+- [x] Remove Vietnamese interview question translations; expand Business English from 20 to 50 questions, correct availability, salary, approval and STAR logic; three content tests and browser checks for questions, highlighting and filters passed.
 - [x] Illustrate all 13 DSA curriculum tiles with topic-specific backgrounds; browser confirmed all images loaded, equal 200px heights, readable text and no runtime errors; build passed.
 - [x] Add six topic-specific illustrated backgrounds to Python module tiles; browser verified all images, readable text, equal 344.75px heights and lesson links; build passed.
 - [x] Highlight exactly the current Pinyin syllable's Hanzi in both Chinese typing modes; nine tests and browser screenshots verified.
