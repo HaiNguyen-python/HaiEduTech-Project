@@ -36,6 +36,7 @@ const CodePlayground = ({ initialCode, needsScientific, lessonContext, storageKe
   const [output, setOutput] = useState<string>("");
   const [running, setRunning] = useState(false);
   const [input, setInput] = useState("");
+  const [editorVersion, setEditorVersion] = useState(0);
   const runLock = useRef(false);
   const [copied, setCopied] = useState(false);
   const [explain, setExplain] = useState<string>("");
@@ -66,6 +67,7 @@ const CodePlayground = ({ initialCode, needsScientific, lessonContext, storageKe
 
   const handleReset = () => {
     setCode(initialCode);
+    setEditorVersion(version => version + 1);
     setOutput("");
     setExplain("");
     setInput("");
@@ -120,6 +122,7 @@ const CodePlayground = ({ initialCode, needsScientific, lessonContext, storageKe
 
       {/* Editor */}
       <CodeMirror
+        key={editorVersion}
         value={code}
         onChange={setCode}
         theme={vscodeDark}
