@@ -59,6 +59,13 @@ describe("interview question bank", () => {
     expect(parts.map((part) => part.text).join("")).toBe("Use RAG with schema validation and monitor latency.");
   });
 
+  it("includes a Software Engineer track with Junior to Senior coverage in every topic set", () => {
+    const se = interviewQuestions.filter((question) => question.role === "software-engineer");
+    expect(se.length).toBeGreaterThanOrEqual(17);
+    for (const level of ["Junior", "Mid", "Senior"] as const) expect(se.some((question) => question.difficulty === level)).toBe(true);
+    for (const category of interviewCategories["software-engineer"]) expect(se.some((question) => question.category === category)).toBe(true);
+  });
+
   it("keeps the Software Engineering bank stable and filter-ready", () => {
     expect(softwareInterviewMetadata).toHaveLength(30);
     expect(new Set(softwareInterviewMetadata.map((question) => question.id)).size).toBe(30);
