@@ -35,12 +35,14 @@ import LessonQuiz from "@/components/python/LessonQuiz";
 import { setLessonComplete, getPythonPathwayProgress } from "@/components/python/PythonPathwayHub";
 import { cn } from "@/lib/utils";
 import LessonReadToggle from "@/components/programming/LessonReadToggle";
+import TheorySections from "@/components/TheorySections";
+import pythonHeader from "@/assets/python-challenges-header.jpg";
 
 const levelStyles: Record<string, string> = {
-  Beginner: "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/30",
-  Intermediate: "bg-sky-500/10 text-sky-700 dark:text-sky-400 border-sky-500/30",
-  Advanced: "bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/30",
-  Mastery: "bg-rose-500/10 text-rose-700 dark:text-rose-400 border-rose-500/30",
+  Beginner: "bg-primary/10 text-primary border-primary/30",
+  Intermediate: "bg-secondary text-secondary-foreground border-border",
+  Advanced: "bg-accent/10 text-foreground border-accent/30",
+  Mastery: "bg-secondary text-secondary-foreground border-border",
 };
 
 const StepBadge = ({ n, label, color }: { n: number; label: string; color: string }) => (
@@ -138,7 +140,7 @@ const PythonLessonView = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="python-lab python-theory min-h-screen bg-background">
       <Navbar />
       <div className="pt-6 pb-16">
         <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
@@ -159,13 +161,15 @@ const PythonLessonView = () => {
           <motion.div
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-6 border-b border-border pb-6"
+            className="python-theory-heading relative isolate mb-6 border-b border-border py-8 sm:py-10"
           >
+            <img src={pythonHeader} alt="" className="absolute inset-0 -z-20 h-full w-full object-cover" />
+            <div className="python-lab-header-overlay absolute inset-0 -z-10" />
             <div className="flex items-start justify-between gap-3 flex-wrap mb-3">
               <div className="flex flex-wrap gap-2">
                 <span className={cn(
                   "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border",
-                  `bg-gradient-to-r ${module.color} text-primary-foreground border-transparent shadow-sm`,
+                  "bg-primary text-primary-foreground border-transparent",
                 )}>
                   {module.emoji} {module.titleEn}
                 </span>
@@ -176,7 +180,7 @@ const PythonLessonView = () => {
                   {module.level}
                 </span>
                 {completed && (
-                  <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[11px] font-bold bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30">
+                  <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-primary/10 text-primary border border-primary/30">
                     <Trophy className="w-3 h-3" /> {"Completed"}
                   </span>
                 )}
@@ -220,23 +224,16 @@ const PythonLessonView = () => {
                 className="min-w-0 py-5 border-t border-border"
               >
                 <StepBadge n={1} label={"Concept"} color="bg-primary" />
-                <h2 className="font-display font-bold text-foreground mb-3 flex items-center gap-2 text-base">
-                  <Sparkles className="w-4 h-4 text-blue-600" />
-                  📘 {"Understand the concept"}
+                <h2 className="font-display font-bold text-foreground mb-5 flex items-center gap-2 text-xl">
+                  <Sparkles className="w-5 h-5 text-primary" />
+                  {"Understand the concept"}
                 </h2>
-                <div className="prose prose-base sm:prose-lg max-w-none dark:prose-invert leading-[1.75] font-sans [&>*]:my-4 [&>*:first-child]:mt-0 [&>*:last-child]:mb-0 [&>h2]:font-display [&>h2]:font-extrabold [&>h2]:tracking-normal [&>h2]:text-xl [&>h3]:font-display [&>h3]:font-bold [&>h3]:text-lg [&>p]:my-4 [&>p]:text-base [&>ol]:my-4 [&>ul]:my-4 [&>pre]:my-4 [&>table]:my-4 [&_strong]:text-foreground [&_strong]:font-bold [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_code]:font-mono [&_code]:text-[0.92em] [&_code]:bg-blue-500/10 [&_code]:text-blue-700 dark:[&_code]:text-blue-300 [&_code]:before:content-none [&_code]:after:content-none [&_pre]:font-mono [&_pre_code]:bg-transparent [&_pre_code]:text-inherit [&_pre]:rounded-lg [&_pre]:border-2 [&_pre]:border-emerald-500/30 [&_th]:bg-blue-500/10 [&_th]:px-3 [&_th]:py-2 [&_td]:px-3 [&_td]:py-2 [&_li]:my-1.5 [&_ol]:list-decimal [&_ol]:pl-6 [&_ul]:list-disc [&_ul]:pl-6">
-                  <ReactMarkdown remarkPlugins={[remarkGfm]} components={{
-                    pre: ({ children }) => <div className="min-w-0 max-w-full">{children}</div>,
-                    code: ({ className, children, ...props }) => {
-                      const source = String(children);
-                      const match = /language-(\w+)/.exec(className || "");
-                      if (match || source.includes("\n")) return <CodeBlock code={source} language={match?.[1] || "python"} />;
-                      return <code className={className} {...props}>{children}</code>;
-                    },
-                  }}>
-                    {lesson.conceptEn}
-                  </ReactMarkdown>
-                </div>
+                <TheorySections
+                  key={lesson.id}
+                  markdown={lesson.conceptEn.replace(/^### /gm, "## ")}
+                  storageKey={`python-theory-sections:${lesson.id}`}
+                  defaultCodeLanguage="python"
+                />
               </motion.div>
 
               {/* Step 2: Pitfalls */}
@@ -247,11 +244,11 @@ const PythonLessonView = () => {
                 className="min-w-0 py-5 border-t border-border"
               >
                 <StepBadge n={2} label={"Pitfalls"} color="bg-destructive" />
-                <h3 className="font-bold text-foreground text-sm mb-3 flex items-center gap-2">
-                  <AlertTriangle className="w-4 h-4 text-red-600" />
-                  ⚠️ {"Common pitfalls"}
+                <h3 className="font-bold text-foreground text-lg mb-3 flex items-center gap-2">
+                  <AlertTriangle className="w-5 h-5 text-destructive" />
+                  {"Common pitfalls"}
                 </h3>
-                <div className="prose prose-sm max-w-none dark:prose-invert prose-p:my-2 prose-strong:text-foreground prose-strong:font-bold prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:bg-red-500/10 prose-code:before:content-none prose-code:after:content-none text-foreground/90 leading-relaxed [&>p]:mb-2 [&>p:last-child]:mb-0">
+                <div className="python-theory-prose prose prose-base max-w-none dark:prose-invert text-foreground leading-relaxed">
                   <ReactMarkdown remarkPlugins={[remarkGfm]}>
                     {(lesson.pitfallsEn).replace(/\n(?!\n)/g, "\n\n")}
                   </ReactMarkdown>
@@ -266,11 +263,11 @@ const PythonLessonView = () => {
                 className="min-w-0 py-5 border-t border-border"
               >
                 <StepBadge n={3} label={"Practice"} color="bg-primary" />
-                <h3 className="font-bold text-foreground text-sm mb-3 flex items-center gap-2">
-                  <Wrench className="w-4 h-4 text-emerald-600" />
-                  🛠️ {"Practice task"}
+                <h3 className="font-bold text-foreground text-lg mb-3 flex items-center gap-2">
+                  <Wrench className="w-5 h-5 text-primary" />
+                  {"Practice task"}
                 </h3>
-                <div className="prose prose-sm max-w-none dark:prose-invert prose-p:my-2 prose-strong:text-foreground prose-strong:font-bold prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:bg-emerald-500/10 prose-code:before:content-none prose-code:after:content-none text-foreground/90 leading-relaxed [&>p]:mb-2 [&>p:last-child]:mb-0">
+                <div className="python-theory-prose prose prose-base max-w-none dark:prose-invert text-foreground leading-relaxed">
                   <ReactMarkdown remarkPlugins={[remarkGfm]}>
                     {(lesson.practiceTaskEn).replace(/\n(?!\n)/g, "\n\n")}
                   </ReactMarkdown>
@@ -287,8 +284,8 @@ const PythonLessonView = () => {
             <div className="min-w-0 space-y-4 lg:sticky lg:top-4 lg:self-start lg:max-h-[calc(100vh-2rem)] lg:overflow-y-auto">
               <div className="min-w-0 py-5 border-t border-border">
                 <StepBadge n={4} label={"Try it"} color="bg-primary" />
-                <h3 className="font-bold text-foreground text-sm mb-3 flex items-center gap-2">
-                  ▶️ {"Code Playground"}
+                <h3 className="font-bold text-foreground text-lg mb-3 flex items-center gap-2">
+                  {"Code Playground"}
                 </h3>
                 <CodePlayground
                    key={lesson.id}
@@ -302,8 +299,8 @@ const PythonLessonView = () => {
               {lesson.miniProject && (
                 <div className="min-w-0 py-5 border-t border-border">
                   <div className="flex items-center gap-2 mb-2">
-                    <Target className="w-4 h-4 text-amber-600" />
-                    <div className="text-[10px] uppercase tracking-wider text-amber-700 dark:text-amber-500 font-bold">
+                    <Target className="w-4 h-4 text-primary" />
+                    <div className="text-xs uppercase tracking-wider text-primary font-bold">
                       🎯 {"Mini Project"}
                     </div>
                   </div>
@@ -328,7 +325,7 @@ const PythonLessonView = () => {
           {/* Quiz */}
           <div className="mt-8 border-t border-border pt-6">
             <div className="flex items-center gap-2 mb-4">
-              <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-gradient-to-br from-primary to-emerald-500 text-primary-foreground font-bold text-xs shadow-sm">
+              <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-primary text-primary-foreground font-bold text-xs shadow-sm">
                 5
               </span>
               <h2 className="font-display font-bold text-foreground text-base flex items-center gap-2">

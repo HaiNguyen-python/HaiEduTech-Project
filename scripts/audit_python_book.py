@@ -11,8 +11,8 @@ records = json.loads("[" + bank.split("= [", 1)[1].split(";\n\nexport const pyth
 harness = (root / "src/lib/pythonChallengeHarness.ts").read_text()
 namespace = {}
 exec(re.search(r"PY_HARNESS = String\.raw`(.*?)`;", harness, re.S).group(1), namespace)
-inputs = {1: ["Ava", "3", "8"], 2: ["20"], 3: ["ava", "lee"], 4: ["2"], 5: ["3"], 6: ["2", "3", "stop"], 7: ["5"], 10: ["Python"], 15: ["2", "3"], 16: ["10"], 17: ["Book"], 18: ["Ava"], 19: ["Hello z!"]}
-expected = {1: "Total: 24.0", 2: "Adult", 3: "Ava Lee", 4: "Area: 12.57", 5: "3 x 10 = 30", 6: "Total: 5", 8: "Total turn: 360.0", 9: "['Ava', 'Leo', 'Mia']", 10: "Vowels: 1", 11: "[3, 5, 8, 8, 10]", 12: "Ava 21", 13: "Mia", 14: "Learning Python 2020", 15: "Total: 5", 16: "Miles: 6.21", 17: "Saved items: ['Book']", 18: "(1, 'Ava')", 19: "Decoded: hello z!"}
+inputs = {1: ["Ava", "3", "8"], 2: ["20", "yes"], 3: ["ava", "lee"], 4: ["2"], 5: ["3"], 6: ["2", "3", "stop"], 7: ["5"], 10: ["Python"], 15: ["2", "3"], 16: ["10"], 17: ["Book"], 18: ["Ava"], 19: ["Hello z!"]}
+expected = {1: "Total: 24.0", 2: "Adult", 3: "Ava Lee", 4: "Area: 12.57", 5: "3 x 10 = 30", 6: "Total: 5", 8: "Total turn: 360.0", 9: "['Leo', 'Mia']", 10: "Vowels: 1", 11: "[3, 5, 8, 8, 10]", 12: "Ava 21", 13: "Mia", 14: "Learning Python 2020", 15: "Total: 5", 16: "Miles: 6.21", 17: "Saved items: ['Book']", 18: "(1, 'Ava')", 19: "Decoded: hello z!"}
 old_cwd = os.getcwd()
 with tempfile.TemporaryDirectory() as work:
     os.chdir(work)
@@ -26,6 +26,16 @@ with tempfile.TemporaryDirectory() as work:
             assert result["out"].strip(), lesson["id"]
             if number in expected:
                 assert expected[number] in result["out"], f"{lesson['id']}: {result['out']}"
+            snippets = re.findall(r"```python\n(.*?)\n```", lesson["conceptEn"], re.S)
+            assert len(snippets) == 3, f"{lesson['id']}: missing section example"
+            for snippet in snippets[:-1]:
+                compile(snippet, lesson["id"] + "-section", "exec")
+                result = json.loads(namespace["_hai_run"](snippet, "[]", False, "", 7))
+                assert not result["err"], f"{lesson['id']} section: {result['err']}"
+                if lesson["id"] == "m6-l1-files" and "print(" not in snippet:
+                    assert Path("example.txt").read_text() == "Hello\n"
+                else:
+                    assert result["out"].strip(), f"{lesson['id']}: empty section output"
             for question in lesson["quiz"]:
                 if question["type"] == "fill":
                     compile(question["codeBefore"] + question["answer"] + question["codeAfter"], "fill.py", "exec")
@@ -38,4 +48,4 @@ with tempfile.TemporaryDirectory() as work:
         assert "Add another line" in missing["err"]
     finally:
         os.chdir(old_cwd)
-print("PASS: 19 runnable examples, 19 completed code questions, desktop syntax, input exhaustion and loop limit.")
+print("PASS: 19 worked examples, 38 section examples, 19 code questions, desktop syntax, input exhaustion and loop limit.")
