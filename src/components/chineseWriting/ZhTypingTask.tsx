@@ -11,12 +11,13 @@ import { pickRandomIndex, markPracticed } from "@/lib/randomPicker";
 import { playChineseTts, stopChineseTts } from "@/lib/chineseTts";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
 import type { ZhSentence } from "@/data/chineseWritingBank";
-import { activePinyinIndex, letterDisplayCharacters, liveChineseTyping, normalizeLetterTyping } from "@/lib/chineseLetterTyping";
+import { letterDisplayCharacters, resolveChineseTyping, normalizeLetterTyping } from "@/lib/chineseLetterTyping";
 
 export default function ZhTypingTask({ items, poolKey }: { items: ZhSentence[]; poolKey: string }) {
   const { t } = useLanguage();
   const [idx, setIdx] = useState(0);
-  const input = useChineseTypingInput();
+  const commitRef = useRef<(value: string) => void>(() => {});
+  const input = useChineseTypingInput((value) => commitRef.current(value));
   const [showPinyin, setShowPinyin] = useState(true);
   const [start, setStart] = useState<number | null>(null);
   const [done, setDone] = useState<{ acc: number; cpm: number } | null>(null);
@@ -32,12 +33,16 @@ export default function ZhTypingTask({ items, poolKey }: { items: ZhSentence[]; 
   useAutoSpeak(speak.on, item?.id, item?.zh, (x) => playChineseTts(x), stopChineseTts);
   if (!item) return null;
   const target = normalizeLetterTyping(item.zh);
-  const got = liveChineseTyping(input.committed);
-  const activeIndex = activePinyinIndex(item.zh, input.typed, input.draft);
+  const typing = resolveChineseTyping(item.zh, input.typed, input.draft);
+  const got = typing.chars;
+  const activeIndex = typing.active;
+  commitRef.current = (value) => { if (!done && resolveChineseTyping(item.zh, value).complete) finish(value); };
 
-  function finish() {
-    if (input.isComposing || !got.length) return;
-    const scored = normalizeLetterTyping(input.committed);
+  function finish(value?: string) {
+    if (done) return;
+    if (value === undefined && (input.isComposing || !got.length)) return;
+    const scored = value === undefined ? got : resolveChineseTyping(item.zh, value).chars;
+    if (!scored.length) return;
     let ok = 0;
     for (let i = 0; i < target.length; i++) if (scored[i] === target[i]) ok++;
     const acc = Math.round((ok / target.length) * 100);

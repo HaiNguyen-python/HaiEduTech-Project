@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import type { ChangeEvent, CompositionEvent, KeyboardEvent } from "react";
 
 /** Keep IME draft text in the input, but compare only committed text. */
-export function useChineseTypingInput() {
+export function useChineseTypingInput(onCommitted?: (value: string) => void) {
   const [typed, setTyped] = useState("");
   const [committed, setCommitted] = useState("");
   const [isComposing, setIsComposing] = useState(false);
@@ -35,6 +35,7 @@ export function useChineseTypingInput() {
     setDraft("");
     setTyped(event.currentTarget.value);
     setCommitted(event.currentTarget.value);
+    onCommitted?.(event.currentTarget.value);
   };
   const isImeKey = (event: KeyboardEvent) =>
     composing.current || event.nativeEvent.isComposing || event.keyCode === 229 ||
