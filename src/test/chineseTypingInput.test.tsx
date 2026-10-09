@@ -106,6 +106,6 @@ describe("Chinese typing resolution", () => {
     expect(result.current.isImeKey({ key: "Process", code: "Enter", keyCode: 229, nativeEvent: { isComposing: true } } as KeyboardEvent)).toBe(true);
     act(() => result.current.onCompositionEnd(end("tapaodehenkuai")));
     expect(committed.at(-1)).toEqual(["tapaodehenkuai", true]);
-    expect(resolveChineseTyping(target, committed[0]).complete).toBe(true);
+    expect(resolveChineseTyping(target, committed.at(-1)![0]).complete).toBe(true);
   });
 });
