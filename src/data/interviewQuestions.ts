@@ -4,7 +4,7 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 
-export type InterviewRole = "ai-engineer" | "data-engineer";
+export type InterviewRole = "ai-engineer" | "data-engineer" | "software-engineer";
 export type InterviewDifficulty = "Junior" | "Mid" | "Senior";
 
 export interface InterviewQuestion {
@@ -36,10 +36,18 @@ export const interviewCategories: Record<InterviewRole, string[]> = {
     "Big Data & Cloud",
     "System Design",
   ],
+  "software-engineer": [
+    "Coding & Data Structures",
+    "System Design",
+    "Backend & APIs",
+    "Testing, DevOps & Quality",
+    "Behavioral & Collaboration",
+  ],
 };
 
 import { interviewQuestionsExpansion } from "./interviewQuestionsExpansion";
 import { interviewQuestionsJunior } from "./interviewQuestionsJunior";
+import { interviewQuestionsSoftware } from "./interviewQuestionsSoftware";
 
 const baseInterviewQuestions: InterviewQuestion[] = [
   // ============================================================
@@ -1835,4 +1843,5 @@ export const interviewQuestions: InterviewQuestion[] = [
   ...baseInterviewQuestions,
   ...interviewQuestionsExpansion,
   ...interviewQuestionsJunior,
+  ...interviewQuestionsSoftware,
 ];

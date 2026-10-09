@@ -377,6 +377,7 @@ const InterviewQuestionsPage = () => {
                     <div className="interview-role-switch" role="tablist" aria-label={t("Khu vực luyện phỏng vấn", "Interview preparation areas")}>
                       <Button size="sm" variant={view === "ai-engineer" ? "default" : "ghost"} role="tab" aria-selected={view === "ai-engineer"} onClick={() => selectView("ai-engineer")}>AI Engineer</Button>
                       <Button size="sm" variant={view === "data-engineer" ? "default" : "ghost"} role="tab" aria-selected={view === "data-engineer"} onClick={() => selectView("data-engineer")}>Data Engineer</Button>
+                      <Button size="sm" variant={view === "software-engineer" ? "default" : "ghost"} role="tab" aria-selected={view === "software-engineer"} onClick={() => selectView("software-engineer")}>Software Engineer</Button>
                       <Button size="sm" variant={view === "cv-clinic" ? "default" : "ghost"} role="tab" aria-selected={view === "cv-clinic"} onClick={() => selectView("cv-clinic")}><Stethoscope className="mr-1.5 h-4 w-4" aria-hidden="true" />CV Clinic</Button>
                     </div>
                     {view !== "cv-clinic" && (

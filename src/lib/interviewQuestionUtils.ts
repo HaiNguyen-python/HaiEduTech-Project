@@ -104,6 +104,9 @@ const IMPORTANT_INTERVIEW_TERMS = [
   "liveness probe", "HorizontalPodAutoscaler", "StatefulSet", "Deployment", "Service",
   "STAR", "Situation", "Task", "Action", "Result", "RICE", "MoSCoW",
   "blameless postmortem", "service-level agreement", "Core Web Vitals",
+  "Big-O", "B-tree", "query plan", "testing pyramid", "unit tests", "integration tests",
+  "golden signals", "distributed tracing", "root cause", "regression test", "disagree and commit",
+  "base62", "health checks", "status codes", "PACELC", "two pointers", "Dijkstra",
 ] as const;
 
 const escapedImportantTerms = [...IMPORTANT_INTERVIEW_TERMS]
