@@ -6,6 +6,7 @@ import { useParams, Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PythonEditor from "@/components/PythonEditor";
+import PythonCheatsheet from "@/components/programming/PythonCheatsheet";
 import PythonChallengeLeaderboard from "@/components/programming/PythonChallengeLeaderboard";
 import { motion } from "framer-motion";
 import { ArrowLeft, ChevronRight, ChevronLeft, Trophy, Code2, Flame, LockKeyhole } from "lucide-react";
@@ -303,7 +304,13 @@ const PythonChallengePage = () => {
                   </div>
 
                   {/* Editor */}
-                  <PythonEditor challenge={challenge} onPass={handlePass} />
+                  <PythonEditor challenge={challenge} onPass={handlePass} nextAction={
+                    next && isPythonChallengeUnlocked(next.id, ids) ? (
+                      <Button asChild size="sm" variant="outline" className="shrink-0"><Link to={`/python-challenges/${next.id}`} title={`#${next.number}: ${next.title}`}>Next<ChevronRight className="h-4 w-4" /></Link></Button>
+                    ) : (
+                      <Button size="sm" variant="outline" disabled className="shrink-0" title={next ? t("Hoàn thành bài này để mở bài tiếp theo", "Complete this challenge to unlock the next one") : t("Đây là bài cuối cùng", "This is the final challenge")}>Next{next ? <LockKeyhole className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}</Button>
+                    )
+                  } />
 
                   {/* Navigation */}
                   <div className="flex justify-between items-center pt-6">
@@ -312,18 +319,15 @@ const PythonChallengePage = () => {
                         <ChevronLeft className="w-4 h-4" /> #{prev.number}: {prev.title}
                       </Link>
                     ) : <div />}
-                    {next && isPythonChallengeUnlocked(next.id, ids) ? (
-                      <Link to={`/python-challenges/${next.id}`} className="flex items-center gap-2 text-sm text-primary hover:underline font-medium">
-                        #{next.number}: {next.title} <ChevronRight className="w-4 h-4" />
-                      </Link>
-                    ) : next ? <span className="flex items-center gap-2 text-sm text-muted-foreground"><LockKeyhole className="h-4 w-4" />#{next.number}</span> : <div />}
+
                   </div>
                 </motion.div>
               </div>
 
               <div className="lg:col-start-2 xl:col-start-3 xl:row-start-1">
-                <div className="xl:sticky xl:top-28">
+                <div className="space-y-4 xl:sticky xl:top-28">
                   <PythonChallengeLeaderboard refreshKey={leaderboardRefreshKey} />
+                  <PythonCheatsheet />
                 </div>
               </div>
             </div>

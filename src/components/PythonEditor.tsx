@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import { Button } from "@/components/ui/button";
+import { useState, useEffect, useRef, useCallback, useMemo, type ReactNode } from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { python } from "@codemirror/lang-python";
 import { keymap } from "@codemirror/view";
@@ -17,6 +18,7 @@ import DOMPurify from "dompurify";
 interface Props {
   challenge: PythonChallenge;
   onPass?: () => void;
+  nextAction?: ReactNode;
 }
 
 declare global {
@@ -55,7 +57,7 @@ const celebrate = () => {
   shoot(0.8, 320);
 };
 
-const PythonEditor = ({ challenge, onPass }: Props) => {
+const PythonEditor = ({ challenge, onPass, nextAction }: Props) => {
   const { t } = useLanguage();
   // Learners type everything from scratch - the editor starts completely blank.
   const [code, setCode] = useState("");
@@ -267,46 +269,27 @@ const PythonEditor = ({ challenge, onPass }: Props) => {
       </div>
 
       {/* Actions */}
-      <div className="flex flex-wrap gap-2">
-        <button
-          onClick={runCode}
-          disabled={running || !pyodideReady}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-green-600 text-white font-semibold text-sm hover:bg-green-700 active:scale-[0.97] transition-all disabled:opacity-50"
-        >
+      <div className="flex flex-nowrap items-center gap-2 overflow-x-auto pb-1" role="group" aria-label="Challenge actions">
+        <Button size="sm" onClick={runCode} disabled={running || !pyodideReady} className="shrink-0">
           {running ? <Loader2 className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4" />}
-           {running ? "Running..." : "Run Code"}
-        </button>
-
-        <button
-          onClick={() => setShowHints(!showHints)}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-secondary text-secondary-foreground text-sm hover:bg-secondary/80 active:scale-[0.97] transition-all"
-        >
-          {showHints ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-           Hints
-        </button>
-
-        {hasError && (
-          <button
-            onClick={askAiDebug}
-            disabled={aiLoading}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:brightness-110 active:scale-[0.97] transition-all disabled:opacity-50"
-          >
-            {aiLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
-            Ask AI why error
-          </button>
-        )}
+          {running ? "Running..." : "Run Code"}
+        </Button>
+        <Button size="sm" variant="secondary" onClick={() => setShowHints(!showHints)} aria-pressed={showHints} className="shrink-0">
+          {showHints ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />} Hints
+        </Button>
+        <Button size="sm" variant="secondary" className="shrink-0" onClick={() => setAnswerState(answerState === "shown" ? "hidden" : "confirm")} aria-expanded={answerState !== "hidden"}>
+          <BookOpen className="w-4 h-4" />
+          {answerState === "shown" ? t("Ẩn đáp án", "Hide Answer") : t("Xem đáp án", "Show Answer")}
+        </Button>
+        {nextAction}
       </div>
-
-        {/* Show Answer - two-step reveal so learners don't spoil it by accident */}
-        {answerState !== "shown" && (
-          <button
-            onClick={() => setAnswerState(answerState === "hidden" ? "confirm" : "shown")}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-secondary text-secondary-foreground text-sm hover:bg-secondary/80 active:scale-[0.97] transition-all"
-          >
-            <BookOpen className="w-4 h-4" />
-            {t("Xem đáp án", "Show Answer")}
-          </button>
-        )}
+      {hasError && (
+        <Button size="sm" onClick={askAiDebug} disabled={aiLoading}>
+          {aiLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+          Ask AI why error
+        </Button>
+      )}
+      {/* Answer confirmation remains separate from the stable toolbar. */}
         {answerState === "confirm" && (
           <div className="flex flex-wrap items-center gap-2 px-4 py-2.5 rounded-lg bg-yellow-500/10 border border-yellow-500/30 text-sm text-secondary-foreground">
             <span className="font-semibold text-yellow-600">
