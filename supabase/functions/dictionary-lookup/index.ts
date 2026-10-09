@@ -360,7 +360,7 @@ Deno.serve(async (req) => {
 
     // Persist successful payloads only (avoid caching transient busy/error states)
     if (result && !result.error) {
-      writeCache(type, word, result);
+      await writeCache(type, word, result);
     }
 
     return new Response(JSON.stringify(result), {
