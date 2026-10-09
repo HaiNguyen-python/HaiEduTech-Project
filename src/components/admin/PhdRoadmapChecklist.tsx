@@ -12,13 +12,14 @@ import { Textarea } from "@/components/ui/textarea";
 import {
   BookOpen, Lightbulb, FileText, ShieldCheck, Database, BarChart3,
   PenTool, Send, CheckCircle2, Circle, Clock, AlertTriangle, Sparkles,
-  ChevronDown, ChevronUp, Wand2, Loader2, Copy, Trash2, Save
+   ChevronDown, ChevronUp, Wand2, Loader2, Copy, Trash2, Save, ArrowRight, ArrowLeft
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import ReactMarkdown from "react-markdown";
 import { researchError } from "@/lib/phdResearch";
+import { hasResearchBrief, researchBriefContext, type ResearchBrief } from "@/lib/phdResearchBrief";
 
 type Status = "not_started" | "in_progress" | "done" | "blocked";
 
@@ -170,7 +171,7 @@ interface AiPlan {
 interface StepState { status: Status; note: string; ai?: AiPlan }
 type StateMap = Record<string, StepState>;
 
-const PhdRoadmapChecklist = ({ userId }: { userId: string | null }) => {
+const PhdRoadmapChecklist = ({ userId, brief, onOpenTool }: { userId: string | null; brief: ResearchBrief; onOpenTool: (tool: string) => void }) => {
   const { t, lang } = useLanguage();
   const isVi = lang === "vi";
   const [state, setState] = useState<StateMap>({});
@@ -247,7 +248,7 @@ const PhdRoadmapChecklist = ({ userId }: { userId: string | null }) => {
           step: step.en,
           status: cur.status,
           note: cur.note,
-          context: ctxParts,
+           context: `PERSONAL RESEARCH BRIEF:\n${researchBriefContext(brief)}\n\nPROGRESS:\n${ctxParts}`,
           language: lang === "en" ? "en" : "vi",
         },
       });
@@ -311,7 +312,7 @@ const PhdRoadmapChecklist = ({ userId }: { userId: string | null }) => {
         <div className="pb-3">
           <CardTitle className="text-base flex items-center gap-2">
             <Sparkles className="w-4 h-4 text-primary" />
-            {t("Lộ trình PhD — Tổng quan", "PhD Roadmap — Overview")}
+            {t("Lộ trình nghiên cứu", "Guided research")}
           </CardTitle>
         </div>
         <div className="space-y-3">
@@ -328,6 +329,7 @@ const PhdRoadmapChecklist = ({ userId }: { userId: string | null }) => {
             <Badge variant="outline">{pct}%</Badge>
           </div>
           <Progress value={pct} className="h-2" />
+          {!hasResearchBrief(brief) && <div className="flex flex-wrap items-center justify-between gap-3 border-l-2 border-primary py-3 pl-4"><p className="text-base text-muted-foreground">{t("Chưa xác định chủ đề và vấn đề nghiên cứu.", "Your research topic and problem are not defined yet.")}</p><Button variant="outline" onClick={() => onOpenTool("brief")}>{t("Nhập hồ sơ nghiên cứu", "Define research brief")}</Button></div>}
 
           {nextFocus && (
             <div className="rounded-lg border-2 border-primary/30 bg-primary/5 p-3 text-sm">
@@ -340,6 +342,7 @@ const PhdRoadmapChecklist = ({ userId }: { userId: string | null }) => {
                     : t("Bước kế tiếp gợi ý:", "Suggested next step:")}
                 <span className="text-primary">{t(nextFocus.step.vi, nextFocus.step.en)}</span>
               </div>
+              {brief.topic && <p className="mb-3 break-words text-base">{brief.topic}</p>}
               <ul className="list-disc pl-5 space-y-1 text-muted-foreground">
                 {nextFocus.step.nextActions.slice(0, 2).map((a, i) => (
                   <li key={i}>{t(a.vi, a.en)}</li>
@@ -367,7 +370,7 @@ const PhdRoadmapChecklist = ({ userId }: { userId: string | null }) => {
           const StatusIcon = meta.icon;
           const isOpen = expanded === s.id;
           return (
-            <Card key={s.id} className={st === "done" ? "opacity-80" : ""}>
+            <section key={s.id} className={`border-b border-border ${isOpen ? "border-l-2 border-l-primary" : ""} ${st === "done" ? "opacity-80" : ""}`}>
               <Button variant="ghost"
                 onClick={() => setExpanded(isOpen ? null : s.id)}
                 className="w-full h-auto whitespace-normal text-left p-4 flex items-start justify-start gap-3"
@@ -378,19 +381,20 @@ const PhdRoadmapChecklist = ({ userId }: { userId: string | null }) => {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="font-semibold text-sm">{t(s.vi, s.en)}</span>
+                    <span className="font-semibold text-base">{t(s.vi, s.en)}</span>
                     <span className={`inline-flex items-center gap-1 text-sm px-2 py-0.5 rounded-full ${meta.cls}`}>
                       <StatusIcon className="w-3 h-3" />
                       {t(meta.vi, meta.en)}
                     </span>
                   </div>
-                  <p className="text-xs text-muted-foreground mt-0.5">{t(s.descVi, s.descEn)}</p>
+                  <p className="text-sm text-muted-foreground mt-1 leading-relaxed">{t(s.descVi, s.descEn)}</p>
                 </div>
                 {isOpen ? <ChevronUp className="w-4 h-4 text-muted-foreground" /> : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
               </Button>
 
               {isOpen && (
-                <CardContent className="pt-0 space-y-3">
+                <div className="px-4 pb-6 pt-2 space-y-5 md:pl-16">
+                  <div className="flex flex-wrap gap-2"><Button variant="outline" size="sm" className="gap-2" onClick={() => onOpenTool(["literature", "rq", "evidence", "proposal", "notebook", "evidence", "lab", "proposal", "proposal"][STEPS.indexOf(s)])}>{t("Mở công cụ của bước này", "Open step workspace")}<ArrowRight className="size-4" /></Button></div>
                   <div className="flex flex-wrap gap-2">
                     {(Object.keys(STATUS_META) as Status[]).map((k) => (
                       <Button
@@ -445,7 +449,9 @@ const PhdRoadmapChecklist = ({ userId }: { userId: string | null }) => {
                               variant="ghost"
                               className="h-7 text-xs"
                               onClick={() => {
-                                navigator.clipboard.writeText(getStep(s.id).ai!.markdown);
+                                const plan = getStep(s.id).ai;
+                                if (!plan) return;
+                                navigator.clipboard.writeText(plan.markdown);
                                 toast.success(t("Đã copy", "Copied"));
                               }}
                             >
@@ -464,7 +470,7 @@ const PhdRoadmapChecklist = ({ userId }: { userId: string | null }) => {
                         <Button
                           size="sm"
                           onClick={() => generateNextAction(s)}
-                          disabled={aiLoadingId !== null}
+                          disabled={aiLoadingId !== null || !hasResearchBrief(brief)}
                           className="h-7 text-xs "
                         >
                           {aiLoadingId === s.id ? (
@@ -510,7 +516,7 @@ const PhdRoadmapChecklist = ({ userId }: { userId: string | null }) => {
                               </ul>
                             </div>
                           )}
-                          <div className="prose prose-sm dark:prose-invert max-w-none text-xs [&_h2]:text-sm [&_h2]:mt-3 [&_h2]:mb-1 [&_p]:my-1 [&_ul]:my-1">
+                          <div className="prose dark:prose-invert max-w-none text-base leading-relaxed [&_h2]:text-lg [&_h2]:mt-5 [&_h2]:mb-3 [&_p]:my-3 [&_ul]:my-3">
                             <ReactMarkdown>{mdWithoutTasks}</ReactMarkdown>
                           </div>
                           <div className="text-xs text-muted-foreground">
@@ -529,9 +535,10 @@ const PhdRoadmapChecklist = ({ userId }: { userId: string | null }) => {
                       </p>
                     )}
                   </div>
-                </CardContent>
+                  <div className="flex justify-between gap-3 border-t border-border pt-4"><Button variant="ghost" className="gap-2" disabled={STEPS.indexOf(s) === 0} onClick={() => setExpanded(STEPS[STEPS.indexOf(s) - 1]?.id ?? s.id)}><ArrowLeft className="size-4" />{t("Bước trước", "Previous step")}</Button><Button variant="outline" className="gap-2" disabled={STEPS.indexOf(s) === STEPS.length - 1} onClick={() => setExpanded(STEPS[STEPS.indexOf(s) + 1]?.id ?? s.id)}>{t("Bước tiếp", "Next step")}<ArrowRight className="size-4" /></Button></div>
+                </div>
               )}
-            </Card>
+            </section>
           );
         })}
       </div>
