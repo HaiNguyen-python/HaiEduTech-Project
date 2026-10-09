@@ -368,7 +368,7 @@ const PhdRoadmapChecklist = ({ userId }: { userId: string | null }) => {
           const isOpen = expanded === s.id;
           return (
             <Card key={s.id} className={st === "done" ? "opacity-80" : ""}>
-              <button
+              <Button variant="ghost"
                 onClick={() => setExpanded(isOpen ? null : s.id)}
                 className="w-full h-auto whitespace-normal text-left p-4 flex items-start justify-start gap-3"
                  aria-expanded={isOpen}

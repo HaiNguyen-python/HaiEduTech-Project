@@ -303,9 +303,7 @@ const PhdResearchTab = () => {
   const researchContext = useMemo(() => citations.slice(0, 12).map(c => `SOURCE: ${c.title}
 AUTHORS/YEAR: ${c.authors ?? "unknown"}, ${c.year ?? "unknown"}
 URL: ${c.source_url ?? "none"}
-EVIDENCE: ${(c.summary ?? "").slice(0, 1800)}`).join("
-
-").slice(0, 28000), [citations]);
+EVIDENCE: ${(c.summary ?? "").slice(0, 1800)}`).join("\n\n").slice(0, 28000), [citations]);
   const filteredNotes = notes.filter(n => `${n.title} ${n.topic} ${n.content} ${n.tags.join(" ")}`.toLowerCase().includes(noteQuery.toLowerCase()));
   const saveLabNote = async (title: string, content: string, topic: string) => {
     if (!userId) return;
