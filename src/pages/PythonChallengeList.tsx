@@ -70,7 +70,7 @@ const PythonChallengeList = () => {
               </div>
             </div>
             <div className="mb-4 flex items-center justify-between gap-3"><h2 className="font-display text-lg font-bold">{section === "all" ? t("Thử thách của bạn", "Your challenges") : section}</h2><span className="shrink-0 font-mono text-xs text-muted-foreground">{filtered.length} {t("bài", "challenges")}</span></div>
-            <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+            <div className="grid gap-4 sm:grid-cols-2 sm:gap-5 xl:grid-cols-3">
               {paged.map(c => {
                 const done = ids.has(c.id);
                 const unlocked = !loading && isPythonChallengeUnlocked(c.id, ids);
@@ -84,10 +84,10 @@ const PythonChallengeList = () => {
                     </div>
                     <h3 className="mb-2 text-base font-semibold leading-snug text-foreground">{t(c.titleVi, c.title)}</h3>
                     <p className="mb-5 line-clamp-1 text-xs text-muted-foreground">{c.section}</p>
-                    <div className="mt-auto flex items-center justify-between gap-2 border-t border-border/60 pt-3"><span className="python-tile-status flex items-center gap-1.5 text-xs font-semibold">{done ? <CheckCircle className="h-3.5 w-3.5" /> : unlocked ? <Code2 className="h-3.5 w-3.5" /> : <LockKeyhole className="h-3.5 w-3.5" />}{status}</span><span className="python-challenge-difficulty font-mono text-[10px] uppercase">{t(c.difficulty === "easy" ? "Cơ bản" : c.difficulty === "medium" ? "Trung cấp" : "Nâng cao", c.difficulty)}</span></div>
+                    <div className="mt-auto flex items-center justify-between gap-2 border-t-2 border-dashed border-border/70 pt-3"><span className="python-tile-status flex items-center gap-1.5 text-xs font-semibold">{done ? <CheckCircle className="h-3.5 w-3.5" /> : unlocked ? <Code2 className="h-3.5 w-3.5" /> : <LockKeyhole className="h-3.5 w-3.5" />}{status}</span><span className="python-challenge-difficulty font-mono text-[10px] uppercase">{t(c.difficulty === "easy" ? "Cơ bản" : c.difficulty === "medium" ? "Trung cấp" : "Nâng cao", c.difficulty)}</span></div>
                   </div>
                 </>;
-                const tileClass = `python-challenge-tile ${TILE_CLASSES[c.difficulty]} ${done ? "python-tile--done" : unlocked ? "python-tile--ready" : "python-tile--locked"} group flex min-h-72 flex-col overflow-hidden rounded-lg border text-left`;
+                const tileClass = `python-challenge-tile ${TILE_CLASSES[c.difficulty]} ${done ? "python-tile--done" : unlocked ? "python-tile--ready" : "python-tile--locked"} group flex min-h-72 flex-col overflow-hidden rounded-xl text-left`;
                 return unlocked ? <Link key={c.id} to={`/python-challenges/${c.id}`} className={tileClass} aria-label={`${c.id}: ${t(c.titleVi, c.title)} - ${status}`}>{contents}</Link> : <div key={c.id} className={tileClass} aria-disabled="true" title={loading ? t("Đang tải tiến độ", "Loading progress") : t(`Hoàn thành bài ${nextChallenge?.id ?? "001"} để tiếp tục mở khóa.`, `Complete challenge ${nextChallenge?.id ?? "001"} to continue unlocking.`)}>{contents}</div>;
               })}
             </div>
