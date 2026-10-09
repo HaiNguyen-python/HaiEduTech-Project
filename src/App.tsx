@@ -308,6 +308,7 @@ const PteExamGuide = lazyWithRetry(() => import("./pages/PteExamGuide.tsx"));
 const PteMockPractice = lazyWithRetry(() => import("./pages/PteMockPractice.tsx"));
 const PteObjectivePractice = lazyWithRetry(() => import("./pages/PteObjectivePractice.tsx"));
 const PythonLessonView = lazyWithRetry(() => import("./pages/PythonLessonView.tsx"));
+const PythonCertificate = lazyWithRetry(() => import("./pages/PythonCertificate.tsx"));
 const StudyAbroadHub = lazyWithRetry(() => import("./pages/StudyAbroadHub.tsx"));
 const StudentDocuments = lazyWithRetry(() => import("./pages/StudentDocuments.tsx"));
 const MotivationLetterGuide = lazyWithRetry(() => import("./pages/MotivationLetterGuide.tsx"));
@@ -437,6 +438,7 @@ const App = () => (
             <Route path="/programming/software-eng" element={<LazyRoute><PillarHub /></LazyRoute>} />
             <Route path="/programming/cybersecurity" element={<LazyRoute><PillarHub /></LazyRoute>} />
             {/* Specific routes MUST come before dynamic :moduleId to avoid shadowing */}
+            <Route path="/programming/python-certificate" element={<LazyRoute><PythonCertificate /></LazyRoute>} />
             <Route path="/programming/python/:lessonId" element={<LazyRoute><PythonLessonView /></LazyRoute>} />
             <Route path="/programming/:moduleId" element={<LazyRoute><ProgrammingLesson /></LazyRoute>} />
             <Route path="/programming/:moduleId/:lessonId" element={<LazyRoute><ProgrammingLesson /></LazyRoute>} />
