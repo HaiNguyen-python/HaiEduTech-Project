@@ -39,8 +39,8 @@ export default function ZhLetterTyping({ level }: { level: ZhLevel }) {
   const [all, setAll] = useState<ZhLetter[] | null>(null);
   const [vol, setVol] = useState<"all" | 1 | 2>("all");
   const [idx, setIdx] = useState(0);
-  const commitRef = useRef<(value: string) => void>(() => {});
-  const input = useChineseTypingInput((value) => commitRef.current(value));
+  const commitRef = useRef<(value: string, viaEnter: boolean) => void>(() => {});
+  const input = useChineseTypingInput((value, viaEnter) => commitRef.current(value, viaEnter));
   const [start, setStart] = useState<number | null>(null);
   const [done, setDone] = useState<{ acc: number; cpm: number } | null>(null);
   const [showPy, setShowPy] = useState(true);
@@ -69,7 +69,8 @@ export default function ZhLetterTyping({ level }: { level: ZhLevel }) {
   const typing = resolveChineseTyping(item.zh, input.typed, input.draft);
   const got = typing.chars;
   const activeIndex = typing.active;
-  commitRef.current = (value) => { if (!done && resolveChineseTyping(item.zh, value).complete) finish(value); };
+  // First Enter grades (even when the IME consumes it to commit Pinyin); the next Enter moves on.
+  commitRef.current = (value, viaEnter) => { if (viaEnter && !done) finish(value); };
 
   function finish(value?: string) {
     if (done) return;
