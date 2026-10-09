@@ -118,7 +118,7 @@ export const ieltsReadingExpansionLessons: LanguageLesson[] = [
     ],
     proTipsEn: [
       "Underline key words in the question before scanning the passage",
-      "Answers are always verbatim from the passage - never make up words",
+      "For completion tasks asking for words FROM THE PASSAGE, copy the required words without changing their form; word-list tasks use the supplied options",
       "Double-check word count before writing your final answer",
     ],
     exercises: [
@@ -246,7 +246,7 @@ export const ieltsReadingExpansionLessons: LanguageLesson[] = [
 1. Đọc câu hỏi + gạch chân key words
 2. Locate đoạn chứa thông tin trong passage
 3. Loại trừ đáp án sai:
-   - **Too extreme** - "always", "never", "all" thường sai
+   - **Sai phạm vi** - chỉ loại "always", "never", "all" khi passage không hỗ trợ mức độ đó
    - **Not mentioned** - thông tin không có trong passage
    - **Partially correct** - đúng một phần nhưng thiếu/sai phần còn lại
 4. Đáp án đúng = paraphrase ý trong passage`,
@@ -258,19 +258,19 @@ export const ieltsReadingExpansionLessons: LanguageLesson[] = [
 1. Read the question + underline key words
 2. Locate the relevant section in the passage
 3. Eliminate wrong answers:
-   - **Too extreme** - "always", "never", "all" are usually wrong
+   - **Unsupported scope** - reject "always", "never", "all" only when the passage does not support that strength
    - **Not mentioned** - information not in the passage
    - **Partially correct** - partly right but missing/wrong in other parts
 4. Correct answer = paraphrase of passage content`,
     proTips: [
-      "Đáp án chứa 'always', 'never', 'all' thường là bẫy - quá tuyệt đối",
+      "Kiểm tra 'always', 'never', 'all' bằng bằng chứng; không tự động loại từ tuyệt đối",
       "Đáp án đúng hiếm khi copy nguyên văn - tìm paraphrase",
-      "Với dạng chọn nhiều, mỗi đáp án đúng nằm ở đoạn khác nhau",
+      "Với dạng chọn nhiều, kiểm tra bằng chứng cho từng đáp án; chúng có thể ở cùng đoạn",
     ],
     proTipsEn: [
-      "Options with 'always', 'never', 'all' are usually traps - too absolute",
+      "Check 'always', 'never', 'all' against the evidence; absolute wording is not automatically wrong",
       "Correct answers rarely copy verbatim - look for paraphrases",
-      "For multiple-answer questions, each correct answer is in a different paragraph",
+      "For multiple-answer questions, verify each option separately; evidence may be in the same paragraph",
     ],
     exercises: [
       {
@@ -279,7 +279,7 @@ export const ieltsReadingExpansionLessons: LanguageLesson[] = [
         instructionEn: "Fill in the appropriate words",
         sentences: [
           { text: "POE stands for Process of ___.", textEn: "POE stands for Process of ___.", answer: "Elimination", hint: "loại trừ" },
-          { text: "Options with words like 'always' or '___' are usually traps.", textEn: "Options with words like 'always' or '___' are usually traps.", answer: "never", hint: "không bao giờ" },
+          { text: "Check words like 'always' or '___' against the passage before deciding.", textEn: "Check words like 'always' or '___' against the passage before deciding.", answer: "never", hint: "không bao giờ" },
           { text: "The correct answer usually ___ the original text.", textEn: "The correct answer usually ___ the original text.", answer: "paraphrases", hint: "diễn đạt lại" },
           { text: "A ___ correct option is right in part but wrong overall.", textEn: "A ___ correct option is right in part but wrong overall.", answer: "partially", hint: "một phần" },
           { text: "Always ___ key words in the question stem.", textEn: "Always ___ key words in the question stem.", answer: "underline", hint: "gạch chân" },
@@ -298,10 +298,10 @@ export const ieltsReadingExpansionLessons: LanguageLesson[] = [
     ],
     quiz: [
       { question: "What does POE stand for?", options: ["Point of Entry", "Process of Elimination", "Power of Example", "Proof of Evidence"], answer: 1, explanation: "POE = Process of Elimination - systematically removing wrong answers." },
-      { question: "Which word in an option usually signals a trap?", options: ["Sometimes", "Often", "Always", "Usually"], answer: 2, explanation: "Absolute words like 'always' are too extreme and usually incorrect." },
+      { question: "Passage: All samples were stored at 4°C. Option: Every sample was refrigerated at 4°C. Is the absolute wording supported?", options: ["No, absolutes are always wrong", "Only if there are two paragraphs", "Yes, the passage explicitly says all samples", "Not enough information"], answer: 2, explanation: "Every and all have the same scope here. Absolute wording can be correct when the evidence supports it." },
       { question: "A 'partially correct' answer is:", options: ["Completely wrong", "Right in part but wrong overall", "The best answer", "Not mentioned in the passage"], answer: 1, explanation: "It contains some truth but is incomplete or distorted." },
       { question: "How does the correct answer relate to the passage?", options: ["It copies exact words", "It paraphrases the content", "It adds new information", "It contradicts the passage"], answer: 1, explanation: "Correct answers paraphrase passage content using synonyms." },
-      { question: "For 'choose 2 from 5' questions, correct answers are usually:", options: ["In the same paragraph", "In different paragraphs", "In the conclusion only", "Not in the passage"], answer: 1, explanation: "Each correct answer typically comes from a different part of the passage." },
+      { question: "Where may evidence for two correct options appear?", options: ["Only in one paragraph", "In the same or different paragraphs", "In the conclusion only", "Outside the passage"], answer: 1, explanation: "There is no separate-paragraph rule. Locate and verify the evidence for each selected option." },
     ],
   },
   {
@@ -494,12 +494,12 @@ export const ieltsListeningExpansionLessons: LanguageLesson[] = [
 4. **Listen for signpost words** - "however", "on the other hand", "actually"
 5. **Watch for self-correction** - speakers may change their mind mid-sentence`,
     proTips: [
-      "Khi 2 người tranh luận, đáp án thường là ý kiến cuối cùng (sau self-correction)",
+      "Theo dõi người nói và chi tiết được hỏi; chỉ dùng ý sửa khi nó thay thế đúng thông tin đó",
       "Section 3 hay dùng distractor: ý kiến ban đầu bị phản bác → đáp án là ý sau",
       "Ghi chú nhanh tên người nói + ý chính để không bị lẫn",
     ],
     proTipsEn: [
-      "When 2 people debate, the answer is usually the final opinion (after self-correction)",
+      "Track the named speaker and requested detail; use a correction only when it replaces that specific information",
       "Section 3 often uses distractors: initial opinions get refuted → the answer follows",
       "Take quick notes on speaker names + key points to avoid confusion",
     ],
@@ -529,7 +529,7 @@ export const ieltsListeningExpansionLessons: LanguageLesson[] = [
     ],
     quiz: [
       { question: "How many speakers are in Section 3?", options: ["1", "2-4", "5+", "Exactly 2"], answer: 1, explanation: "Section 3 features a discussion between 2-4 speakers." },
-      { question: "What's a common distractor technique in Section 3?", options: ["Background noise", "Initial opinion gets changed later", "Speaking too fast", "Using slang"], answer: 1, explanation: "Speakers often state an opinion then change it - the final opinion is usually correct." },
+      { question: "What's a common distractor technique in Section 3?", options: ["Background noise", "Initial opinion gets changed later", "Speaking too fast", "Using slang"], answer: 1, explanation: "A correction may replace an earlier detail. Confirm which speaker and detail the question asks for before choosing." },
       { question: "What does 'however' signal?", options: ["Agreement", "A change in direction", "The end of the recording", "A new topic"], answer: 1, explanation: "'However' is a signpost word indicating contrast or change." },
       { question: "Why is identifying speakers important?", options: ["For fun", "Questions may ask what a specific person said", "To count them", "It's not important"], answer: 1, explanation: "Questions often ask about specific speakers' opinions or contributions." },
       { question: "When should you read the questions?", options: ["After listening", "During the introduction", "Before the audio starts", "Never"], answer: 2, explanation: "Use the preparation time before each section to read and underline key words." },

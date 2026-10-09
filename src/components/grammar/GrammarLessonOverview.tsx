@@ -3,6 +3,8 @@ import { BadgeCheck, BookOpenText, ListTree, Sparkles, Target } from "lucide-rea
 import grammarChibiBeginner from "@/assets/grammar-chibi-beginner.png";
 import grammarChibiIntermediate from "@/assets/grammar-chibi-intermediate.png";
 import grammarChibiAdvanced from "@/assets/grammar-chibi-advanced.png";
+import readingIllustration from "@/assets/ielts-reading-illustration.png";
+import listeningIllustration from "@/assets/ielts-listening-illustration.png";
 
 interface GrammarLessonOverviewProps {
   lesson: LanguageLesson;
@@ -23,7 +25,7 @@ const stripMarkdown = (value: string) =>
 
 const getIntro = (lesson: LanguageLesson) => {
   const theory = lesson.theoryEn || lesson.theory || "";
-  const firstParagraph = theory.split(/\n{2,}/).find((chunk) => stripMarkdown(chunk).length > 40) || theory;
+  const firstParagraph = theory.split(/\n{2,}/).map(chunk => chunk.replace(/^#{1,6}\s+.*(?:\n|$)/gm, "")).find((chunk) => stripMarkdown(chunk).length > 40) || theory;
   return stripMarkdown(firstParagraph).slice(0, 220);
 };
 
@@ -69,6 +71,24 @@ const GrammarLessonOverview = ({ lesson, module }: GrammarLessonOverviewProps) =
   const intro = getIntro(lesson);
   const practiceLabels = getPracticeLabels(lesson);
   const vocabCount = lesson.vocabulary?.length ?? 0;
+  const isReading = module.id === "ielts-reading";
+  const isListening = module.id === "ielts-listening";
+  if (isReading || isListening) return (
+    <section className="space-y-5 border-b border-border py-5" aria-label="IELTS lesson overview">
+      <div className="flex items-center gap-5">
+        <div className="min-w-0 flex-1 space-y-3">
+          <p className="text-sm font-semibold text-primary">{isReading ? "IELTS Reading" : "IELTS Listening"}</p>
+          <h2 className="text-xl font-semibold text-foreground">{lesson.titleEn || lesson.title}</h2>
+          <p className="text-base leading-7 text-muted-foreground">{intro}</p>
+        </div>
+        <img src={isReading ? readingIllustration : listeningIllustration} alt={isReading ? "IELTS passage analysis" : "IELTS listening practice"} className="hidden h-36 w-36 shrink-0 object-contain sm:block" />
+      </div>
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div className="space-y-2"><h3 className="font-semibold text-foreground">Practice &amp; review</h3><p className="text-base leading-7 text-muted-foreground">{isReading ? "Reading strategies and passage-based practice" : "Listening strategies and audio practice"} · {lesson.quiz.length} review questions{vocabCount ? ` · ${vocabCount} useful terms` : ""}</p></div>
+        <div className="space-y-2"><h3 className="font-semibold text-foreground">Evidence check</h3><p className="text-base leading-7 text-muted-foreground">{isReading ? "Locate the relevant passage and confirm the full meaning, not just matching keywords." : "Identify the speaker, follow corrections and confirm the specific detail the question asks for."}</p></div>
+      </div>
+    </section>
+  );
   const quickGoal = lesson.proTipsEn?.[0] || lesson.proTips?.[0] || "Review the model sentences, then apply the rule in full sentences.";
   const chibi = chibiByDifficulty[lesson.difficulty];
 

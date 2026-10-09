@@ -1,4 +1,4 @@
-- Interpersonal Skills uses `lifestyle` for placement/personalization and `interpersonal` for activity-log reporting; dedicated lesson/placement tables remain authoritative to prevent duplicate chart entries.
+- Interpersonal Skills uses `lifestyle` for placement and `interpersonal` for activity reporting; dedicated tables prevent duplicate chart entries.
 - Keep curated IELTS vocabulary photos in an explicit one-word mapping, separate from shared emoji resolution.
 - Home page student results come only from the `testimonials` table (public reads published rows, staff manage all); never hardcode or auto-generate testimonial content - the section self-hides when the table is empty.
 - Tuition uses `CourseTuitionSection`, `--tuition-*` tokens and one responsive list to keep prices and the 3x one-to-one rule consistent.
@@ -6,7 +6,7 @@
 - Keep only the exact `/english`, `/chinese`, `/programming`, and `/register` overview routes public; nested learning routes remain authentication and Premium protected.
 - Keep auth emails in the shared six HaiEduTech templates deployed through the auth hook.
 - Use shared `normalizeMath` for Programming math; audit malformed delimiters.
-- Resolve HSK vocabulary visuals from the Hanzi-aware resolver, with explicit common-word mappings and stable category fallbacks, so unknown meanings do not repeat one generic icon.
+- HSK visuals use Hanzi-aware mappings and stable category fallbacks to avoid generic icons.
 
 - Public subject UI exposes Home, About, English, Chinese, Finnish, Vietnamese, Technology, Interpersonal Skills and Your Corner. Finnish pages stay open to all signed-in users; hide JA/SV from navigation (teacher-gated routes), Specialized Language and Super Dictionary; keep direct course URLs.
 - Keep Finnish YKI Writing prompts in a dedicated typed bank grouped into nine three-task exam sets; reuse this bank across task and skill practice to prevent content drift.
@@ -22,7 +22,7 @@
 - Python Challenge rankings count distinct completed challenge IDs from activity logs through an authenticated read-only function, preventing repeat attempts from inflating totals.
 - Generate 999 Letters into lazy-loaded `src/data/chineseLetters/part*.ts`; regenerate Pinyin/keywords and audit with `scripts/audit_chinese_letters.ts` to avoid bundle bloat.
 - Chinese typing modes preserve punctuation via `chineseLetterTyping` and share IME-aware input: committed text drives grading; map active Pinyin to one Hanzi and guard IME Enter to prevent premature errors.
-- Python theory composes book banks in the pathway facade; share TheorySections, CodeMirror and harness to align audits; preserve IDs/progress. Python/DSA tiles use imported images and token overlays for readable equal sizes.
+- Python theory shares book banks, TheorySections, CodeMirror and harness; preserve IDs/progress. Python/DSA tiles use images and token overlays.
 - Generate Python Challenges from `scripts/python_challenges/spec_*.py` via `build.py`; audit and browser grading share `pythonChallengeHarness.ts`.
 - Python charts group unique challenge completions into six areas; date growth from earliest activity, never invent ability grades.
 - Python Challenge list, direct routes and workspace navigation share the sequential-unlock helper and merged progress hook; completion events refresh same-tab state immediately to prevent inconsistent access.
@@ -30,3 +30,6 @@
 - Code Typing uses quote-aware numeric formatting. Lessons share CodeBlock with local scrolling; preserve nesting/literals and fix syntax at source to avoid corrupting code.
 
 - Finnish games share Finnish TTS and stop audio on exit; native fallback requires a Finnish voice, never English.
+
+- Dictionary uses local Finnish entries and deferred English translations; request IDs reject stale results for fast safe searches.
+- IELTS lesson summaries use subject visuals and evidence checks, not grammar defaults.

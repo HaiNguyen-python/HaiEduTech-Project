@@ -91,7 +91,7 @@ A science/environment passage in IELTS style. Focus on distinguishing fact from 
       "Paraphrase thường thay đổi cấu trúc câu chứ không chỉ thay từ đồng nghĩa",
     ],
     proTipsEn: [
-      "In T/F/NG, watch quantifiers like always, never, only - they often signal FALSE",
+      "In T/F/NG, compare quantifiers such as always, never and only with the passage; they do not automatically signal FALSE",
       "Paraphrases often restructure the sentence, not just swap synonyms",
     ],
     exercises: [
