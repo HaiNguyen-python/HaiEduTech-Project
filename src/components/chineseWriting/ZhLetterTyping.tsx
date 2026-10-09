@@ -1,3 +1,4 @@
+import { useChineseTypingInput } from "@/hooks/useChineseTypingInput";
 import { AutoSpeakToggle, useAutoSpeak, useAutoSpeakPref } from "@/components/typing/AutoSpeak";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowRight, Volume2, Eye, EyeOff, Loader2 } from "lucide-react";
@@ -12,7 +13,7 @@ import { playChineseTts, stopChineseTts } from "@/lib/chineseTts";
 import HanziStrokeOrder from "@/components/HanziStrokeOrder";
 import { loadLetters, type ZhLetter } from "@/data/chineseLetters";
 import type { ZhLevel } from "@/data/chineseWritingBank";
-import { letterDisplayCharacters, normalizeLetterTyping as strip } from "@/lib/chineseLetterTyping";
+import { letterDisplayCharacters, liveChineseTyping, normalizeLetterTyping as strip } from "@/lib/chineseLetterTyping";
 
 const PROGRESS_KEY = "zh-letters-progress";
 type Progress = { done: string[]; bestCpm: number; words: string[] };
@@ -38,7 +39,7 @@ export default function ZhLetterTyping({ level }: { level: ZhLevel }) {
   const [all, setAll] = useState<ZhLetter[] | null>(null);
   const [vol, setVol] = useState<"all" | 1 | 2>("all");
   const [idx, setIdx] = useState(0);
-  const [typed, setTyped] = useState("");
+  const input = useChineseTypingInput();
   const [start, setStart] = useState<number | null>(null);
   const [done, setDone] = useState<{ acc: number; cpm: number } | null>(null);
   const [showPy, setShowPy] = useState(true);
@@ -54,7 +55,7 @@ export default function ZhLetterTyping({ level }: { level: ZhLevel }) {
   const item = items[idx % Math.max(1, items.length)];
   const quiz = useMemo(() => (item && all ? buildQuiz(item, all) : []), [item, all]);
 
-  const reset = () => { setTyped(""); setStart(null); setDone(null); setAnswers({}); setStroke(null); setTimeout(() => ref.current?.focus({ preventScroll: true }), 0); };
+  const reset = () => { input.reset(); setStart(null); setDone(null); setAnswers({}); setStroke(null); setTimeout(() => ref.current?.focus({ preventScroll: true }), 0); };
   useEffect(() => { if (items.length) setIdx(pickRandomIndex(poolKey, ids)); reset(); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [poolKey, items.length]);
   const next = () => { if (item) markPracticed(poolKey, item.id); setIdx(pickRandomIndex(poolKey, ids, item?.id)); reset(); };
 
@@ -64,14 +65,16 @@ export default function ZhLetterTyping({ level }: { level: ZhLevel }) {
   if (!item) return <Card><CardContent className="p-6 text-muted-foreground">{t("Chưa có lá thư ở cấp độ này.", "No letters at this level yet.")}</CardContent></Card>;
 
   const target = strip(item.zh);
-  const got = strip(typed);
+  const got = liveChineseTyping(input.committed);
 
   function finish() {
+    if (input.isComposing || !got.length) return;
+    const scored = strip(input.committed);
     let ok = 0;
-    for (let i = 0; i < target.length; i++) if (got[i] === target[i]) ok++;
+    for (let i = 0; i < target.length; i++) if (scored[i] === target[i]) ok++;
     const acc = Math.round((ok / target.length) * 100);
     const mins = Math.max(0.05, (Date.now() - (start ?? Date.now())) / 60000);
-    const cpm = Math.round(got.length / mins);
+    const cpm = Math.round(scored.length / mins);
     setDone({ acc, cpm });
     const p = { ...progress, done: Array.from(new Set([...progress.done, item.id])), bestCpm: Math.max(progress.bestCpm, acc >= 80 ? cpm : 0) };
     setProgress(p); localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
@@ -86,7 +89,7 @@ export default function ZhLetterTyping({ level }: { level: ZhLevel }) {
     }
   };
   const onKey = (e: React.KeyboardEvent) => {
-    if (e.nativeEvent.isComposing) return;
+    if (input.isImeKey(e)) return;
     if (e.key === "Enter") { e.preventDefault(); if (done) next(); else if (got.length) finish(); }
   };
 
@@ -112,7 +115,7 @@ export default function ZhLetterTyping({ level }: { level: ZhLevel }) {
         </div>
 
         <div className="space-y-2">
-          <p className="text-2xl leading-relaxed tracking-wide">
+          <p className="text-2xl leading-relaxed tracking-wide" lang="zh-CN" data-testid="zh-letter-typing-passage">
             {letterDisplayCharacters(item.zh).map(({ character, typingIndex }, i) => (
               <span key={i} className={typingIndex === null ? "text-foreground" : typingIndex < got.length ? (got[typingIndex] === character ? "text-primary" : "text-destructive underline") : typingIndex === got.length ? "text-foreground border-b-2 border-primary" : "text-foreground"}>{character}</span>
             ))}
@@ -121,12 +124,13 @@ export default function ZhLetterTyping({ level }: { level: ZhLevel }) {
           <p className="text-sm text-foreground/80">{item.vi}</p>
         </div>
 
-        <Textarea ref={ref} value={typed} readOnly={!!done} rows={3} lang="zh-CN" onKeyDown={onKey}
+        <Textarea ref={ref} value={input.typed} readOnly={!!done} rows={3} lang="zh-CN" onKeyDown={onKey}
+          onCompositionStart={input.onCompositionStart} onCompositionEnd={input.onCompositionEnd}
           onPaste={(e) => e.preventDefault()}
-          onChange={(e) => { if (start === null) setStart(Date.now()); setTyped(e.target.value); }}
+          onChange={(e) => { if (start === null) setStart(Date.now()); input.onChange(e); }}
           placeholder={t("Gõ lại lá thư bằng bộ gõ Pinyin... (Enter để chấm)", "Retype the letter with a Pinyin IME... (Enter to check)")} />
         <div className="flex flex-wrap items-center gap-2">
-          <Button onClick={() => (done ? next() : finish())} disabled={!got.length && !done}>{done ? t("Tiếp", "Next") : t("Chấm", "Check")}<ArrowRight className="w-4 h-4 ml-1" /></Button>
+          <Button onClick={() => (done ? next() : finish())} disabled={input.isComposing || (!got.length && !done)}>{done ? t("Tiếp", "Next") : t("Chấm", "Check")}<ArrowRight className="w-4 h-4 ml-1" /></Button>
           {done && <span className="ml-auto text-sm"><strong>{done.acc}%</strong> {t("chính xác", "accuracy")} · <strong>{done.cpm}</strong> {t("chữ/phút", "chars/min")}</span>}
         </div>
 
