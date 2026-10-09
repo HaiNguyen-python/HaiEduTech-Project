@@ -340,7 +340,7 @@ EVIDENCE: ${(c.summary ?? "").slice(0, 1800)}`).join("\n\n").slice(0, 28000), [c
       {aiError && <div role="alert" className="border border-destructive/30 rounded-md p-4 text-destructive">{aiError}</div>}
       <Tabs value={activeTab} onValueChange={v => { setActiveTab(v); setAiError(""); }} className="space-y-6">
         <div className="overflow-x-auto border-b border-border pb-2">
-          <TabsList className="w-max h-auto bg-muted/40 p-1 gap-1">
+          <TabsList className="grid w-full h-auto grid-cols-2 md:grid-cols-4 bg-muted/40 p-1 gap-1 [&_button]:justify-start [&_button]:whitespace-normal [&_button]:text-left">
             <TabsTrigger value="roadmap" className="gap-2 py-2.5"><ListChecks className="w-4 h-4" />{t("Lộ trình", "Roadmap")}</TabsTrigger>
             <TabsTrigger value="literature" className="gap-2 py-2.5"><Search className="w-4 h-4" />{t("Tìm tài liệu", "Literature")}</TabsTrigger>
             <TabsTrigger value="evidence" className="gap-2 py-2.5"><Tag className="w-4 h-4" />{t("Bằng chứng", "Evidence matrix")}</TabsTrigger>
