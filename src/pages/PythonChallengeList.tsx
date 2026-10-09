@@ -110,6 +110,7 @@ const PythonChallengeList = () => {
           <div className="grid min-w-0 gap-5">
             <PythonChallengeLeaderboard refreshKey={ids.size} />
             <PythonProgressChart ids={ids} history={history} loading={loading} error={error} />
+            <PythonCheatsheet />
           </div>
         </div>
       </main>
