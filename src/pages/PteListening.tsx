@@ -16,6 +16,7 @@ import { DICTATION_ALL as DICTATION_BANK, SUMMARIZE_SPOKEN_ALL as SUMMARIZE_SPOK
 import { stringSimilarity, similarityToBand, bandLabel, diffWords, keywordCoverage } from "@/lib/pteScoring";
 import { usePteProgress } from "@/hooks/usePteProgress";
 import PteFilterBar, { DEFAULT_PTE_FILTERS, applyPteFilter, type PteFilterState } from "@/components/pte/PteFilterBar";
+import { recordPteAttempt } from "@/lib/pteAttempts";
 
 type Mode = "dictation" | "summarize";
 
@@ -107,8 +108,11 @@ const PteListening = () => {
   };
 
   useEffect(() => {
-    if (submitted && result) recordCompletion(current.id, result.band);
-  }, [submitted, result, current, recordCompletion]);
+    if (submitted && result) {
+      recordCompletion(current.id, result.band);
+      void recordPteAttempt({ skill: "listening", taskType: mode === "dictation" ? "write-from-dictation" : "summarize-spoken-text", itemId: current.id, score: result.band, accuracy: result.accuracy * 100, response: answer });
+    }
+  }, [submitted, result, current, mode, answer, recordCompletion]);
 
   const handleNext = () => {
     const max = mode === "dictation" ? dFiltered.length : sFiltered.length;
@@ -177,7 +181,7 @@ const PteListening = () => {
           </Button>
           <div className="flex-1 text-xs text-slate-600">
             {mode === "dictation"
-              ? "🎧 Listen carefully. You will hear the sentence twice."
+              ? "🎧 Listen carefully. Practice mode permits one replay; the exam does not."
               : "🎧 Listen, take notes, then write a 50-70 word summary."}
           </div>
         </div>

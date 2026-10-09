@@ -16,6 +16,7 @@ import { keywordCoverage, similarityToBand, bandLabel } from "@/lib/pteScoring";
 import { usePteProgress } from "@/hooks/usePteProgress";
 import { supabase } from "@/integrations/supabase/client";
 import PteFilterBar, { DEFAULT_PTE_FILTERS, applyPteFilter, type PteFilterState } from "@/components/pte/PteFilterBar";
+import { recordPteAttempt } from "@/lib/pteAttempts";
 
 type Mode = "essay" | "summarize";
 
@@ -86,6 +87,7 @@ const PteWriting = () => {
   useEffect(() => {
     if (!submitted || !result) return;
     recordCompletion(current.id, result.band);
+    void recordPteAttempt({ skill: "writing", taskType: mode === "essay" ? "write-essay" : "summarize-written-text", itemId: current.id, score: result.band, accuracy: result.coverage * 100, response: essay });
     (async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) return;
@@ -258,7 +260,7 @@ const PteWriting = () => {
             <div className="text-3xl font-extrabold text-[#003580]">{result.band}</div>
             <div>
               <div className={`text-sm font-semibold ${bandLabel(result.band).color}`}>{bandLabel(result.band).label}</div>
-              <div className="text-xs text-slate-500">PTE Band Estimate (10–90)</div>
+               <div className="text-xs text-slate-500">HaiEduTech practice estimate (10-90)</div>
             </div>
           </div>
 
