@@ -106,31 +106,31 @@ const CodePlayground = ({ initialCode, needsScientific, lessonContext, storageKe
   };
 
   return (
-    <div className="rounded-xl border border-border overflow-hidden bg-[#282a36] text-[#f8f8f2] shadow-lg">
+    <div className="rounded-xl border border-border overflow-hidden bg-card text-card-foreground shadow-lg">
       {/* Header */}
-      <div className="flex items-center justify-between px-3 py-2 bg-[#1e1f29] border-b border-[#44475a]">
+      <div className="flex items-center justify-between px-3 py-2 bg-muted border-b border-border">
         <div className="flex items-center gap-2 text-xs">
-          <span className="w-3 h-3 rounded-full bg-[#ff5555]" />
-          <span className="w-3 h-3 rounded-full bg-[#f1fa8c]" />
-          <span className="w-3 h-3 rounded-full bg-[#50fa7b]" />
-          <span className="ml-2 font-mono text-[#bd93f9]">🐍 playground.py</span>
+          <span className="w-3 h-3 rounded-full bg-destructive" />
+          <span className="w-3 h-3 rounded-full bg-accent" />
+          <span className="w-3 h-3 rounded-full bg-primary" />
+          <span className="ml-2 font-mono text-primary">🐍 playground.py</span>
         </div>
         <div className="text-[10px] font-mono flex items-center gap-1">
           {loading ? (
-            <span className="text-[#f1fa8c] flex items-center gap-1">
+            <span className="text-muted-foreground flex items-center gap-1">
               <Loader2 className="w-3 h-3 animate-spin" /> {status}
             </span>
           ) : ready ? (
-            <span className="text-[#50fa7b]">● ready</span>
+            <span className="text-primary">● ready</span>
           ) : (
-            <span className="text-[#6272a4]">○ idle</span>
+            <span className="text-muted-foreground">○ idle</span>
           )}
         </div>
       </div>
 
       {/* Loading banner - only shown on first load so user knows it's working */}
       {loading && !ready && (
-        <div className="px-3 py-2 bg-[#bd93f9]/10 border-b border-[#44475a] text-xs text-[#bd93f9] flex items-center gap-2">
+        <div className="px-3 py-2 bg-primary/10 border-b border-border text-xs text-primary flex items-center gap-2">
           <Loader2 className="w-3.5 h-3.5 animate-spin shrink-0" />
           <span className="flex-1">{status} - first run downloads ~10MB, then it's instant.</span>
         </div>
@@ -144,7 +144,8 @@ const CodePlayground = ({ initialCode, needsScientific, lessonContext, storageKe
         onChange={(e) => setCode(e.target.value)}
         onKeyDown={handleKeyDown}
         spellCheck={false}
-        className="w-full min-h-[280px] max-h-[480px] p-4 bg-[#282a36] text-[#f8f8f2] font-mono text-sm leading-relaxed resize-y outline-none caret-[#ff79c6]"
+        wrap="off"
+        className="w-full min-h-[280px] max-h-[480px] p-4 bg-card text-card-foreground font-mono text-sm leading-relaxed resize-y outline-none caret-primary"
         style={{ fontFamily: "'JetBrains Mono', monospace" }}
       />
 
@@ -156,21 +157,21 @@ const CodePlayground = ({ initialCode, needsScientific, lessonContext, storageKe
       </div>}
 
       {/* Toolbar */}
-      <div className="flex flex-wrap items-center gap-2 px-3 py-2 bg-[#1e1f29] border-t border-[#44475a]">
+      <div className="flex flex-wrap items-center gap-2 px-3 py-2 bg-muted border-t border-border">
         <Button
           size="sm"
           onClick={handleRun}
           disabled={running}
-          className="bg-[#50fa7b] text-[#282a36] hover:bg-[#69ff94] font-bold disabled:opacity-60"
+          className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold disabled:opacity-60"
         >
           {running || (loading && !ready) ? <Loader2 className="w-4 h-4 mr-1 animate-spin" /> : <Play className="w-4 h-4 mr-1" />}
           {loading && !ready ? "Loading…" : "Run"}
         </Button>
-        <Button size="sm" variant="ghost" onClick={handleReset} className="text-[#f8f8f2] hover:bg-[#44475a]">
+        <Button size="sm" variant="ghost" onClick={handleReset} className="text-card-foreground hover:bg-accent">
           <RotateCcw className="w-4 h-4 mr-1" /> Reset
         </Button>
-        <Button size="sm" variant="ghost" onClick={handleCopy} className="text-[#f8f8f2] hover:bg-[#44475a]">
-          {copied ? <Check className="w-4 h-4 mr-1 text-[#50fa7b]" /> : <Copy className="w-4 h-4 mr-1" />}
+        <Button size="sm" variant="ghost" onClick={handleCopy} className="text-card-foreground hover:bg-accent">
+          {copied ? <Check className="w-4 h-4 mr-1 text-primary" /> : <Copy className="w-4 h-4 mr-1" />}
           {copied ? "Copied" : "Copy"}
         </Button>
         <Button
@@ -178,7 +179,7 @@ const CodePlayground = ({ initialCode, needsScientific, lessonContext, storageKe
           variant="ghost"
           onClick={handleExplain}
           disabled={explainLoading}
-          className="text-[#bd93f9] hover:bg-[#44475a] ml-auto"
+          className="text-primary hover:bg-accent ml-auto"
         >
           {explainLoading ? <Loader2 className="w-4 h-4 mr-1 animate-spin" /> : <Sparkles className="w-4 h-4 mr-1" />}
           Explain with AI
@@ -186,27 +187,27 @@ const CodePlayground = ({ initialCode, needsScientific, lessonContext, storageKe
       </div>
 
       {/* Output */}
-      <div className="px-4 py-3 bg-[#21222c] border-t border-[#44475a] min-h-[100px] max-h-[260px] overflow-auto">
-        <div className="text-[10px] text-[#8be9fd] font-mono mb-1">stdout</div>
-        <pre className="text-xs text-[#f8f8f2] font-mono whitespace-pre-wrap" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+      <div className="px-4 py-3 bg-muted border-t border-border min-h-[100px] max-h-[260px] overflow-auto">
+        <div className="text-[10px] text-muted-foreground font-mono mb-1">stdout</div>
+        <pre className="text-xs text-card-foreground font-mono whitespace-pre-wrap" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
           {output || "Run the code to see output…"}
         </pre>
       </div>
 
       {/* AI Explanation */}
       {explain && (
-        <div className="px-4 py-3 bg-[#1e1f29] border-t border-[#44475a]">
-          <div className="text-[10px] text-[#bd93f9] font-mono mb-2 flex items-center gap-1">
+        <div className="px-4 py-3 bg-muted border-t border-border">
+          <div className="text-[10px] text-primary font-mono mb-2 flex items-center gap-1">
             <Sparkles className="w-3 h-3" /> AI Explanation
           </div>
-          <div className="prose prose-invert prose-sm max-w-none text-[#f8f8f2]">
+          <div className="prose dark:prose-invert prose-sm max-w-none text-card-foreground">
             <ReactMarkdown>{explain}</ReactMarkdown>
           </div>
         </div>
       )}
 
       {/* AI Code Reviewer */}
-      <div className="p-3 bg-[#1e1f29] border-t border-[#44475a]">
+      <div className="p-3 bg-muted border-t border-border">
         <AICodeReviewer code={code} lessonContext={lessonContext} onApplyRefactor={(newCode) => setCode(newCode)} />
       </div>
     </div>

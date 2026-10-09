@@ -358,7 +358,7 @@ const PythonLessonView = () => {
 const PythonLessonViewGated = () => {
   const { lessonId } = useParams<{ lessonId: string }>();
   const l = lessonId ? getLessonById(lessonId) : undefined;
-  const idx = l ? getLessonsByModule(l.moduleId).findIndex((x) => x.id === l.id) : -1;
+  const idx = l ? getLessonsByModule(l.moduleId, !getBookChapter(l.id)).findIndex((x) => x.id === l.id) : -1;
   return <PremiumGate kind="lesson" free={idx < FREE_LESSONS} backTo="/programming?tab=python-pathway"><PythonLessonView /></PremiumGate>;
 };
 
