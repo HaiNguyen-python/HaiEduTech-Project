@@ -141,6 +141,13 @@
       "when": 1791200960632,
       "tag": "0019_add_python_challenge_leaderboard",
       "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1791537154548,
+      "tag": "0020_grant_pte_progress_data_api",
+      "breakpoints": true
     }
   ]
 }

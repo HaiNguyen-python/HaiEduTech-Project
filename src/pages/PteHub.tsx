@@ -5,7 +5,7 @@
  */
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Mic, PenTool, BookOpen, Headphones, Trophy, Sparkles, Flame, TrendingUp, ChevronRight, GraduationCap, ClipboardCheck } from "lucide-react";
+import { Mic, PenTool, BookOpen, Headphones, Trophy, Sparkles, Flame, TrendingUp, ChevronRight, GraduationCap, ClipboardCheck, ListChecks } from "lucide-react";
 import { PTE_LESSONS, PTE_LESSON_QUIZ_TOTAL } from "@/data/pteLessonsData";
 import PteShell from "@/components/pte/PteShell";
 import PtePeak from "@/components/pte/PtePeak";
@@ -17,6 +17,7 @@ import {
   READ_ALOUD_ALL, REPEAT_SENTENCE_ALL, ESSAY_ALL, DICTATION_ALL,
   MOCK_TESTS, REPEATED_2026_IDS, PTE_TOTAL_TASKS,
 } from "@/data/pteData";
+import { PTE_SCORED_ITEM_TYPES } from "@/data/pteExamBlueprint";
 
 const SKILL_CARDS = [
   {
@@ -67,22 +68,22 @@ const PteHub = () => {
     >
       <PtePeak completed={progress.completedIds.length} total={totalTasks} />
 
-      {/* Placement test CTA */}
-      <Link
-        to="/placement-test?subject=pte"
-        className="mb-4 block bg-white rounded-2xl p-5 sm:p-6 border-2 border-[#003580]/20 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all"
-      >
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-[#003580]/10 grid place-items-center shrink-0">
-            <ClipboardCheck size={26} className="text-[#003580]" />
+      <div className="mb-4 grid gap-3 md:grid-cols-2">
+        <Link to="/placement-test?subject=pte" className="block rounded-lg border border-border bg-card p-5 text-card-foreground shadow-sm transition-shadow hover:shadow-md">
+          <div className="flex items-center gap-4">
+            <div className="grid h-12 w-12 shrink-0 place-items-center rounded-lg bg-primary/10"><ClipboardCheck size={26} className="text-primary" /></div>
+            <div className="min-w-0 flex-1"><h3 className="text-lg font-bold">Diagnostic Test</h3><p className="text-sm text-muted-foreground">24 questions to establish your starting point</p></div>
+            <ChevronRight size={22} className="shrink-0 text-primary" />
           </div>
-          <div className="flex-1 min-w-0">
-            <h3 className="text-lg sm:text-xl font-bold text-[#003580]">PTE Placement Test</h3>
-            <p className="text-slate-600 text-sm">24 questions - find your level and the right class</p>
+        </Link>
+        <Link to="/pte/exam-guide" className="block rounded-lg border border-border bg-card p-5 text-card-foreground shadow-sm transition-shadow hover:shadow-md">
+          <div className="flex items-center gap-4">
+            <div className="grid h-12 w-12 shrink-0 place-items-center rounded-lg bg-accent/10"><ListChecks size={26} className="text-accent" /></div>
+            <div className="min-w-0 flex-1"><h3 className="text-lg font-bold">Exam Guide</h3><p className="text-sm text-muted-foreground">All {PTE_SCORED_ITEM_TYPES.length} scored item types and skill links</p></div>
+            <ChevronRight size={22} className="shrink-0 text-primary" />
           </div>
-          <ChevronRight size={24} className="shrink-0 text-[#003580]" />
-        </div>
-      </Link>
+        </Link>
+      </div>
 
       {/* Strategy lessons CTA */}
       <Link
@@ -268,7 +269,7 @@ const PteHub = () => {
       <div className="bg-white rounded-2xl p-5 sm:p-6 border border-[#003580]/15 shadow-sm">
         <div className="flex items-center gap-2 mb-3">
           <Trophy className="text-[#003580]" size={20} />
-          <h2 className="text-lg font-bold text-[#003580]">Mock Tests</h2>
+          <h2 className="text-lg font-bold text-[#003580]">Mini Mock Tests</h2>
           <span className="ml-auto text-xs px-2 py-0.5 rounded-full bg-[#003580]/10 text-[#003580] font-semibold">
             {MOCK_TESTS.length} sets
           </span>
@@ -288,7 +289,7 @@ const PteHub = () => {
           ))}
         </div>
         <p className="text-xs text-slate-500 mt-3 flex items-center gap-1">
-          <Sparkles size={12} /> Tip: Mock Test 3 includes 2026 high-frequency predictive questions.
+          <Sparkles size={12} /> These are short mixed sets, not full-length scored PTE simulations.
         </p>
       </div>
 

@@ -24,6 +24,7 @@ import {
 import { usePteProgress } from "@/hooks/usePteProgress";
 import { toast } from "sonner";
 import PteFilterBar, { DEFAULT_PTE_FILTERS, applyPteFilter, type PteFilterState } from "@/components/pte/PteFilterBar";
+import { recordPteAttempt } from "@/lib/pteAttempts";
 
 type Mode = "read-aloud" | "repeat" | "describe-image" | "retell-lecture";
 
@@ -156,6 +157,7 @@ const PteSpeaking = () => {
     }
     setScore(band);
     recordCompletion(item.id, band);
+    void recordPteAttempt({ skill: "speaking", taskType: mode, itemId: item.id, score: band, accuracy: mode === "read-aloud" || mode === "repeat" ? stringSimilarity((item as any).text, transcript) * 100 : undefined, response: transcript });
     // Log to admin dashboard for teacher visibility on speaking practice frequency
     (async () => {
       try {
@@ -170,7 +172,7 @@ const PteSpeaking = () => {
         });
       } catch (e) { console.error("log pte speaking failed", e); }
     })();
-    toast.success(`Recorded! Estimated PTE Band: ${band}`);
+    toast.success(`Recorded! Practice score estimate: ${band}`);
   };
 
   const handleNext = () => {
@@ -217,7 +219,7 @@ const PteSpeaking = () => {
   ];
 
   return (
-    <PteShell title="Speaking Practice" subtitle="Pronunciation, Fluency & Content Coverage · Web Speech API">
+    <PteShell title="Speaking Practice" subtitle="Transcript-based practice feedback">
       {/* Mode tabs */}
       <div className="flex gap-2 mb-4 flex-wrap">
         {modes.map(m => {
@@ -347,7 +349,7 @@ const PteSpeaking = () => {
         {phase === "done" && score !== null && bandInfo && (
           <div className="mt-5 border-t pt-4">
             <div className="flex items-baseline gap-3 flex-wrap">
-              <div className="text-3xl font-bold text-[#003580]">Band {score}</div>
+               <div className="text-3xl font-bold text-[#003580]">Estimate {score}</div>
               <div className={`text-sm font-semibold ${bandInfo.color}`}>{bandInfo.label}</div>
             </div>
 

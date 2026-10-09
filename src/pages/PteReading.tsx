@@ -14,6 +14,7 @@ import { FILL_BLANK_ALL as FILL_BLANK_BANK, REORDER_ALL as REORDER_BANK, type Pt
 import { similarityToBand, bandLabel } from "@/lib/pteScoring";
 import { usePteProgress } from "@/hooks/usePteProgress";
 import PteFilterBar, { DEFAULT_PTE_FILTERS, applyPteFilter, type PteFilterState } from "@/components/pte/PteFilterBar";
+import { recordPteAttempt } from "@/lib/pteAttempts";
 
 type Mode = "fillBlank" | "reorder";
 
@@ -167,6 +168,7 @@ const PteReading = () => {
     const id = mode === "fillBlank" ? fbItem.id : roItem.id;
     const band = mode === "fillBlank" ? fbBand : roBand;
     recordCompletion(id, band);
+    void recordPteAttempt({ skill: "reading", taskType: mode === "fillBlank" ? "reading-fill-dropdown" : "reorder-paragraphs", itemId: id, score: band, accuracy: (mode === "fillBlank" ? fbScore : roScore) * 100 });
     toast.success(`Submitted! Band ${band}`);
   };
 
