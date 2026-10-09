@@ -11,3 +11,6 @@ export function letterDisplayCharacters(text: string) {
     typingIndex: normalizeLetterTyping(character) ? typingIndex++ : null,
   }));
 }
+/** Fallback for keyboards exposing trailing Pinyin without composition events. */
+export const liveChineseTyping = (text: string): string =>
+  normalizeLetterTyping(text.replace(/[a-züv\u0300-\u036fāáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜ'’]+$/iu, ""));
