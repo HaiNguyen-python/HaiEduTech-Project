@@ -1,3 +1,4 @@
+import { PTE_ADDITIONAL_LESSONS } from "./pteAdditionalLessons";
 /**
  * @file pteLessonsData.ts
  * @description PTE Academic strategy lessons (English only): 12 lessons, 3 per skill.
@@ -46,26 +47,27 @@ export const PTE_SKILL_META: Record<PteLessonSkill, { label: string; route: stri
 };
 
 export const PTE_LESSONS: PteLesson[] = [
+  ...PTE_ADDITIONAL_LESSONS,
   /* ============================ SPEAKING ============================ */
   {
     id: "pl-sp-1",
     skill: "speaking",
-    title: "Read Aloud: chunking and the 35-second window",
+    title: "Read Aloud: meaningful chunks and clear delivery",
     taskTypes: "Read Aloud",
     targetBand: "50 - 79+",
     minutes: 12,
     overview:
-      "Read Aloud scores Content, Oral Fluency and Pronunciation at the same time. The single biggest score driver is not speed but smooth, uninterrupted delivery of meaningful chunks. You get roughly 35-40 seconds of preparation and then one recording attempt with no pause button.",
+      "Read Aloud scores Content, Oral Fluency and Pronunciation at the same time. Clear pronunciation and a natural, continuous delivery matter; Pearson does not prescribe a universal words-per-minute target. You get roughly 35-40 seconds of preparation and then one recording attempt with no pause button.",
     objectives: [
       "Split any academic sentence into 3-6 breath chunks before the microphone opens",
-      "Keep a steady pace of about 140-160 words per minute without hesitation",
+      "Keep a natural pace that preserves clarity and meaningful phrasing",
       "Recover from a misread word without restarting the sentence",
     ],
     steps: [
       { title: "1. Scan for structure", detail: "In preparation time, mark the commas, the main verb and any long noun phrase. These are your natural chunk borders." },
       { title: "2. Mark stress words", detail: "Underline the content words (nouns, main verbs, adjectives). Function words such as of, the, that stay unstressed and fast." },
       { title: "3. Whisper-rehearse the hard words", detail: "Say technical or multi-syllable words once at low volume so the first attempt on record is not the first attempt ever." },
-      { title: "4. Deliver in one flow", detail: "Start speaking within one second of the beep, keep the pace even, and never repeat a word. Self-correction costs more fluency marks than the original slip." },
+      { title: "4. Deliver in one flow", detail: "Start speaking within one second of the beep, keep the pace even, and avoid unnecessary restarts. Repetition and hesitation can affect fluency." },
       { title: "5. Land the ending", detail: "Drop the pitch on the final chunk so the recording sounds finished rather than cut off." },
     ],
     example: {
@@ -104,13 +106,13 @@ export const PTE_LESSONS: PteLesson[] = [
           "Pause for three seconds to reset",
         ],
         answer: 0,
-        explanation: "Fluency is scored across the whole recording, so a restart or repetition costs more than a single unclear word.",
+        explanation: "Continue smoothly where possible. Repetition and restarts can disrupt fluency; no fixed trade-off is guaranteed.",
       },
       {
-        question: "Which pace best matches a high Oral Fluency score in Read Aloud?",
-        options: ["About 90 words per minute", "About 140-160 words per minute", "As fast as possible", "Whatever pace avoids all pauses, even 200+ wpm"],
+        question: "Which delivery is most appropriate for Read Aloud?",
+        options: ["A deliberately slow word-by-word delivery", "A natural pace with clear pronunciation and phrasing", "As fast as possible", "A pace that obscures word endings"],
         answer: 1,
-        explanation: "Around 140-160 wpm is fast enough to sound natural and slow enough to keep pronunciation clear.",
+        explanation: "Pearson rewards natural rhythm and intelligibility rather than a fixed speed target.",
       },
       {
         question: "How many chunks is a typical 35-word Read Aloud sentence best divided into?",
@@ -145,7 +147,7 @@ export const PTE_LESSONS: PteLesson[] = [
     targetBand: "50 - 79+",
     minutes: 10,
     overview:
-      "Repeat Sentence is the highest-value Speaking task because it feeds both the Speaking and the Listening score. You hear the sentence once and must reproduce it immediately. Success depends on holding meaning, not on holding individual words.",
+      "Repeat Sentence contributes to both Speaking and Listening; no guaranteed ranking of task importance is assumed. You hear the sentence once and must reproduce it immediately. Success depends on holding meaning, not on holding individual words.",
     objectives: [
       "Hold 8-12 word sentences in working memory using meaning groups",
       "Reproduce sentence rhythm and intonation, not just the words",
@@ -204,7 +206,7 @@ export const PTE_LESSONS: PteLesson[] = [
           "Apologise then guess",
         ],
         answer: 1,
-        explanation: "Partial content delivered fluently still scores content plus full fluency credit.",
+        explanation: "Remembered words in the correct sequence can earn partial content credit. Fluency credit depends on the actual delivery.",
       },
       {
         question: "Which memory strategy works best for Repeat Sentence?",
@@ -243,13 +245,13 @@ export const PTE_LESSONS: PteLesson[] = [
     objectives: [
       "Apply a four-slot template to any chart, map, process or photograph",
       "Take symbol-based notes during a 90-second lecture",
-      "Fill the full 40-second window without dead air",
+      "Cover the key information coherently within the 40-second limit",
     ],
     steps: [
       { title: "1. Open with the topic", detail: "Describe Image: 'The bar chart compares ... over ...'. Retell Lecture: 'The lecturer discussed ...'." },
-      { title: "2. Give the headline fact", detail: "One clear high, low, trend or main claim. This is the single most heavily weighted content point." },
+      { title: "2. Give the headline fact", detail: "One clear high, low, trend or main claim. Make this relevant and accurate; no fixed weighting is assumed for one chosen detail." },
       { title: "3. Add two supporting details", detail: "Two numbers, two categories, two stages or two examples from your notes. Two is enough - depth beats breadth here." },
-      { title: "4. Close with significance", detail: "'Overall, the data suggests ...' or 'In conclusion, the lecturer argued ...'. A closing line guarantees you never stop early." },
+      { title: "4. Close with significance", detail: "'Overall, the data suggests ...' or 'In conclusion, the lecturer argued ...'. Conclude only with information supported by the image or lecture; do not invent causes." },
       { title: "5. Take notes with symbols", detail: "For Retell Lecture use arrows, plus and minus signs, and first letters only. Full words cost too much time." },
     ],
     example: {
@@ -264,7 +266,7 @@ export const PTE_LESSONS: PteLesson[] = [
     },
     scoring: [
       "Content: rewards accurate key features, not the number of features",
-      "Oral Fluency: dead air after 20 seconds is the most common score killer",
+      "Oral Fluency: maintain smooth delivery; filling the entire time window is not itself a scoring requirement",
       "Pronunciation: numbers and country or category names must stay clear",
     ],
     mistakes: [
@@ -314,10 +316,10 @@ export const PTE_LESSONS: PteLesson[] = [
         explanation: "Symbol notes are fast enough to keep up with the audio while still triggering recall.",
       },
       {
-        question: "Stopping at second 20 with silence until the timer ends will mostly damage:",
+        question: "Frequent hesitation and broken phrasing during a response mainly affect:",
         options: ["Grammar", "Oral Fluency", "Spelling", "Vocabulary range"],
         answer: 1,
-        explanation: "Long silence inside the response window is directly penalised by the fluency rubric.",
+        explanation: "Fluency concerns rhythm, phrasing and continuity. A complete shorter response is not automatically wrong.",
       },
     ],
   },
@@ -331,7 +333,7 @@ export const PTE_LESSONS: PteLesson[] = [
     targetBand: "50 - 79+",
     minutes: 12,
     overview:
-      "You must compress a passage into a single sentence of 5-75 words in 10 minutes. Form is scored first: two sentences, or a missing full stop, can reduce the whole item to zero regardless of quality.",
+      "You must compress a passage into a single sentence of 5-75 words in 10 minutes. Use one complete sentence and respect the word limit. Form errors can prevent credit, so check the current Pearson rubric rather than relying on keyword coverage.",
     objectives: [
       "Produce one grammatical sentence between 30 and 45 words",
       "Join main ideas with coordination and subordination instead of full stops",
@@ -411,7 +413,7 @@ export const PTE_LESSONS: PteLesson[] = [
   {
     id: "pl-wr-2",
     skill: "writing",
-    title: "Essay: the 5-paragraph 250-word machine",
+    title: "Essay: a focused argument in 200-300 words",
     taskTypes: "Write Essay",
     targetBand: "65 - 79+",
     minutes: 16,
@@ -419,7 +421,7 @@ export const PTE_LESSONS: PteLesson[] = [
       "You have 20 minutes for a 200-300 word essay. The scoring engine rewards a clear position, developed paragraphs, accurate grammar and academic vocabulary. A pre-learned structure lets you spend your thinking time on ideas rather than layout.",
     objectives: [
       "Identify the prompt type: opinion, discussion, problem-solution or advantage-disadvantage",
-      "Produce a five-paragraph essay of 240-280 words within 20 minutes",
+      "Produce a coherent essay of 200-300 words within 20 minutes; paragraph count is not fixed",
       "Use topic sentences, one developed example per body paragraph and a paraphrased conclusion",
     ],
     steps: [
@@ -435,7 +437,7 @@ export const PTE_LESSONS: PteLesson[] = [
         "Introduction: paraphrase + position (I largely agree, with one condition).\nBody 1: Access - free tuition removes financial barriers, widening the talent pool; example: Nordic systems with high graduate rates.\nBody 2: Return on public investment - graduates pay higher taxes and staff essential services; example: publicly funded medical training.\nBody 3 (concession): Unlimited funding strains budgets, so means-tested support may be fairer.\nConclusion: restate position + implication for national skills policy.",
       notes: [
         "Each body paragraph contains one idea, one explanation, one example",
-        "The concession paragraph raises Grammar and Development scores",
+        "A relevant concession can strengthen an argument, but does not guarantee extra marks",
         "Target 240-280 words, comfortably inside the 200-300 range",
       ],
     },
@@ -555,7 +557,7 @@ export const PTE_LESSONS: PteLesson[] = [
           "Avoid long words entirely",
         ],
         answer: 1,
-        explanation: "Both conventions are accepted, but inconsistency within one response is penalised.",
+        explanation: "Both conventions are accepted, but a consistent convention makes proofreading easier; it is not a separate guaranteed penalty.",
       },
       {
         question: "Which sentence is grammatically correct?",
@@ -594,7 +596,7 @@ export const PTE_LESSONS: PteLesson[] = [
     id: "pl-rd-1",
     skill: "reading",
     title: "Fill in the Blanks: collocation and grammar signals",
-    taskTypes: "Reading Fill in the Blanks · R&W Fill in the Blanks",
+    taskTypes: "Fill in the Blanks - Dropdown · Fill in the Blanks - Drag and Drop",
     targetBand: "50 - 79+",
     minutes: 12,
     overview:
@@ -622,8 +624,8 @@ export const PTE_LESSONS: PteLesson[] = [
     },
     scoring: [
       "Partial credit: each correct blank earns marks, so never leave gaps empty",
-      "Reading Fill in the Blanks contributes only to Reading",
-      "Reading & Writing Fill in the Blanks contributes to both Reading and Writing",
+      "Fill in the Blanks - Drag and Drop contributes to Reading",
+      "Fill in the Blanks - Dropdown contributes to Reading in the enhanced test",
     ],
     mistakes: [
       "Reading only the words immediately around the gap",
@@ -662,10 +664,10 @@ export const PTE_LESSONS: PteLesson[] = [
         explanation: "Despite introduces a contrast, so the surrounding ideas must oppose each other.",
       },
       {
-        question: "Which Fill in the Blanks task also affects your Writing score?",
-        options: ["Reading Fill in the Blanks", "Reading & Writing Fill in the Blanks", "Neither", "Both equally"],
-        answer: 1,
-        explanation: "The Reading & Writing variant is an integrated task contributing to both scores.",
+        question: "In the enhanced test, which Reading blank format affects Writing?",
+        options: ["Dropdown only", "Drag and Drop only", "Neither", "Both equally"],
+        answer: 2,
+        explanation: "Both Reading blank formats are attributed to Reading in the enhanced test.",
       },
     ],
   },
@@ -788,7 +790,7 @@ export const PTE_LESSONS: PteLesson[] = [
     ],
     example: {
       prompt: "Text: 'The committee rejected the proposal because the funding was insufficient.' Audio: 'The committee accepted the proposal because the funding was insufficient.'",
-      model: "Highlight: accepted (the audio contradicts the printed word rejected).",
+      model: "Highlight: rejected (the printed word differs from the spoken word accepted).",
       notes: [
         "Only one word differs; the rest of the sentence is identical",
         "Clicking extra words costs marks through negative marking",
@@ -810,7 +812,7 @@ export const PTE_LESSONS: PteLesson[] = [
       "For each wrong answer, write the exact line of text that disproves it",
       "Practise Highlight Incorrect Words with the audio at normal speed only",
     ],
-    practiceRoute: "/pte/reading",
+    practiceRoute: "/pte/objective-practice",
     quiz: [
       {
         question: "Which task type has negative marking?",
@@ -859,12 +861,12 @@ export const PTE_LESSONS: PteLesson[] = [
   {
     id: "pl-ls-1",
     skill: "listening",
-    title: "Write from Dictation: the highest-value listening task",
+    title: "Write from Dictation: accurate words and spelling",
     taskTypes: "Write from Dictation",
     targetBand: "50 - 79+",
     minutes: 12,
     overview:
-      "Write from Dictation feeds both Listening and Writing and is scored word by word, which makes it the best return on practice time in the whole test. The technique is a fast skeleton note followed by a controlled reconstruction.",
+      "Write from Dictation feeds both Listening and Writing and is scored word by word, so careful listening and spelling are important; no guaranteed score weighting is assumed. The technique is a fast skeleton note followed by a controlled reconstruction.",
     objectives: [
       "Capture a first-letter skeleton of a 9-12 word sentence on one hearing",
       "Reconstruct the sentence with correct spelling and word forms",
@@ -874,7 +876,7 @@ export const PTE_LESSONS: PteLesson[] = [
       { title: "1. Write a skeleton, not words", detail: "Note the first letters and any number: 'T lct wl b hld in t mn aud tmrw'." },
       { title: "2. Type immediately", detail: "Working memory fades in seconds; convert the skeleton into full words before it disappears." },
       { title: "3. Restore grammar", detail: "Add articles, plural s and past tense that your skeleton dropped. These are scored words too." },
-      { title: "4. Check spelling of academic words", detail: "Misspelled words score zero, so prefer a correctly spelled near-synonym only if you cannot spell the original." },
+      { title: "4. Check spelling of academic words", detail: "Write the exact word heard. A synonym does not earn credit for the target word; check its spelling." },
       { title: "5. Keep every word you heard", detail: "Scoring is per correct word, so an incomplete but accurate sentence still earns most of the marks." },
     ],
     example: {
@@ -1043,7 +1045,7 @@ export const PTE_LESSONS: PteLesson[] = [
       { title: "1. Preview the transcript gaps", detail: "In Listening Fill in the Blanks you see the text first. Predict the part of speech and likely word for each gap." },
       { title: "2. Type the exact word you hear", detail: "Spelling counts. Do not substitute a synonym." },
       { title: "3. Select Missing Word: track the argument", detail: "The final missing word completes the speaker's conclusion, so follow whether the tone is positive, negative or cautious." },
-      { title: "4. Highlight Correct Summary: eliminate extremes", detail: "Options with all, never, proves or completely usually overstate what the audio said." },
+      { title: "4. Highlight Correct Summary: eliminate extremes", detail: "Check whether strong claims are actually supported. Words such as all or never are not automatically wrong." },
       { title: "5. Match scope, not keywords", detail: "The correct summary covers the whole recording, not just its opening sentence." },
     ],
     example: {
@@ -1058,7 +1060,7 @@ export const PTE_LESSONS: PteLesson[] = [
     scoring: [
       "Listening Fill in the Blanks: per correct, correctly spelled word",
       "Select Missing Word and Highlight Correct Summary: single answer, no negative marking",
-      "All three contribute to the Listening score only",
+      "Listening Fill in the Blanks and Select Missing Word contribute to Listening; Highlight Correct Summary contributes to Listening and Reading",
     ],
     mistakes: [
       "Writing a synonym instead of the exact word heard",
@@ -1088,7 +1090,7 @@ export const PTE_LESSONS: PteLesson[] = [
         question: "Summary options containing \"always\" or \"proves\" are usually wrong because they:",
         options: ["Are too short", "Overstate what an academic speaker claims", "Use difficult vocabulary", "Repeat the topic"],
         answer: 1,
-        explanation: "Academic lectures hedge; absolute claims rarely match the recording.",
+        explanation: "The option changes a possibility into a certainty. Reject it because of the evidence, not a banned word.",
       },
       {
         question: "Which of these Listening tasks has negative marking?",

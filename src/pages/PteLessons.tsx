@@ -31,7 +31,7 @@ const PteLessons = () => {
   return (
     <PteShell
       title="PTE Strategy Lessons"
-      subtitle="12 method lessons across all four skills, each with a worked example and a 5-question check."
+      subtitle={`${PTE_LESSONS.length} method lessons across all four skills, with worked examples and knowledge checks.`}
     >
       <div className="grid grid-cols-3 gap-3 mb-6">
         {[
@@ -95,7 +95,7 @@ const PteLessons = () => {
                           <Clock size={11} /> {lesson.minutes} min
                         </span>
                         <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-sky-100 text-sky-800 font-semibold">
-                          <Target size={11} /> Band {lesson.targetBand}
+                          <Target size={11} /> Score target {lesson.targetBand}
                         </span>
                         <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-semibold">
                           <ListChecks size={11} /> {lesson.quiz.length} questions

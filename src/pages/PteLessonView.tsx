@@ -62,7 +62,7 @@ const PteLessonView = () => {
           <Clock size={12} /> {lesson.minutes} min
         </span>
         <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-sky-100 text-sky-800 font-bold">
-          <Target size={12} /> Band {lesson.targetBand}
+          <Target size={12} /> Score target {lesson.targetBand}
         </span>
         <Link
           to={lesson.practiceRoute}
