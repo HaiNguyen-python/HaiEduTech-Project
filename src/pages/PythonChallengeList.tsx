@@ -65,9 +65,8 @@ const PythonChallengeList = () => {
             <div className="mb-6 flex flex-wrap items-center gap-3 border-b border-border pb-5">
               <span className="flex items-center gap-2 text-sm font-semibold"><Filter className="h-4 w-4 text-primary" />{t("Chủ đề", "Topics")}</span>
               <Select value={section} onValueChange={s => { setSection(s); setPage(1); }}>
-                <SelectTrigger className="h-9 w-full max-w-xs gap-2 sm:w-72" aria-label={t("Chọn chủ đề", "Choose a topic")}>
+                <SelectTrigger className="h-9 w-full max-w-xs sm:w-72" aria-label={t("Chọn chủ đề", "Choose a topic")}>
                   <SelectValue />
-                  <ChevronDown className="h-4 w-4 shrink-0 opacity-60" aria-hidden="true" />
                 </SelectTrigger>
                 <SelectContent className="max-h-80">
                   {SECTIONS.map(s => <SelectItem key={s} value={s}>
