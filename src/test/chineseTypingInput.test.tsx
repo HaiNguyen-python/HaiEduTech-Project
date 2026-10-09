@@ -96,12 +96,16 @@ describe("Chinese typing resolution", () => {
   it("mixes committed Hanzi with pending Pinyin and keeps wrong Hanzi for scoring", () => {
     expect(resolveChineseTyping(target, "他跑dehen").chars.join("")).toBe("他跑得很");
   });
-  it("submits once composition commits the full sentence", () => {
-    const committed: string[] = [];
-    const { result } = renderHook(() => useChineseTypingInput((v) => committed.push(v)));
+  it("reports an Enter that commits the IME so the first Enter grades", () => {
+    const committed: [string, boolean][] = [];
+    const { result } = renderHook(() => useChineseTypingInput((v, viaEnter) => committed.push([v, viaEnter])));
     act(() => result.current.onCompositionStart());
+    act(() => result.current.onCompositionEnd(end("ta")));
+    expect(committed.at(-1)).toEqual(["ta", false]);
+    act(() => result.current.onCompositionStart());
+    expect(result.current.isImeKey({ key: "Process", code: "Enter", keyCode: 229, nativeEvent: { isComposing: true } } as KeyboardEvent)).toBe(true);
     act(() => result.current.onCompositionEnd(end("tapaodehenkuai")));
-    expect(committed).toEqual(["tapaodehenkuai"]);
+    expect(committed.at(-1)).toEqual(["tapaodehenkuai", true]);
     expect(resolveChineseTyping(target, committed[0]).complete).toBe(true);
   });
 });
