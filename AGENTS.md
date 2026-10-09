@@ -1,6 +1,6 @@
-- Interpersonal Skills uses `lifestyle` for placement and `interpersonal` for activity reporting; dedicated tables prevent duplicate chart entries.
-- Keep curated IELTS vocabulary photos in an explicit one-word mapping, separate from shared emoji resolution.
-- Home page student results come only from the `testimonials` table (public reads published rows, staff manage all); never hardcode or auto-generate testimonial content - the section self-hides when the table is empty.
+- Interpersonal Skills: `lifestyle` for placement, `interpersonal` for activity; separate tables prevent duplicate charts.
+- Keep IELTS vocabulary photos in a one-word map separate from emoji resolution.
+- Home results use only published `testimonials`; staff manage all; never hardcode or generate them; hide when empty.
 - Tuition uses `CourseTuitionSection`, `--tuition-*` tokens and one responsive list to keep prices and the 3x one-to-one rule consistent.
 - Derive registration prices from the shared catalog; server-validate EUR prices and separate course payments from Premium.
 - Keep only the exact `/english`, `/chinese`, `/programming`, and `/register` overview routes public; nested learning routes remain authentication and Premium protected.
@@ -15,7 +15,7 @@
 - Keep uploaded YKI B1 Reading documents in a separate typed bank with original mixed question formats; auto-score choices and provide reference guidance for short answers to avoid false exact-match grading.
 - Pattern Drilling uses scoped CMU phone-based IPA plus context rules, not lossy shared IPA, to preserve stress.
 - Writing-practice tasks use unseen random selection with a single Next action; Chinese vocabulary and pattern tasks always show a complete Hanzi, Pinyin, and meaning example.
-- Course notices use shared tuition defaults, store one selected-language snapshot per recipient, and send only through the staff-authorized single-notice email function.
+- Course notices use tuition defaults, one language snapshot per recipient, and the staff-only single-notice function.
 - TOEIC vocabulary uses the shared Word Quest and Daily Mission engines with its own storage namespace and existing TOEIC mastery subject, so learning progress never collides with IELTS.
 - TOEIC shares Part guides with lesson techniques; audit unique IDs, answer indices and contextual evidence in `toeicLectureContent.test.ts` to prevent collisions and ambiguous grading.
 - TOEIC S/W uses unique `toeicSWContentSets`, audited by `toeicSwAudit.test.ts`; `grade-toeic-sw` grades transcripts/text, never session-only recordings.
@@ -33,3 +33,4 @@
 
 - Dictionary uses local Finnish entries and deferred English translations; request IDs reject stale results for fast safe searches.
 - IELTS lesson summaries use subject visuals and evidence checks, not grammar defaults.
+- PTE uses one 22-scored-type blueprint and protected attempt records; label heuristic results as practice estimates.

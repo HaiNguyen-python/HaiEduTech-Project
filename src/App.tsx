@@ -301,7 +301,6 @@ const PteSpeaking = lazyWithRetry(() => import("./pages/PteSpeaking.tsx"));
 const PteWriting = lazyWithRetry(() => import("./pages/PteWriting.tsx"));
 const PteReading = lazyWithRetry(() => import("./pages/PteReading.tsx"));
 const PteListening = lazyWithRetry(() => import("./pages/PteListening.tsx"));
-const PtePlaceholder = lazyWithRetry(() => import("./pages/PtePlaceholder.tsx"));
 const PteVocabulary = lazyWithRetry(() => import("./pages/PteVocabulary.tsx"));
 const PteLessons = lazyWithRetry(() => import("./pages/PteLessons.tsx"));
 const PteLessonView = lazyWithRetry(() => import("./pages/PteLessonView.tsx"));
