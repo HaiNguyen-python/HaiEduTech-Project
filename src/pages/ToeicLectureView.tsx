@@ -151,11 +151,8 @@ const ToeicLectureView = () => {
 
         {/* Content Tabs */}
         <section className="container mx-auto px-4 py-8">
-          <Tabs defaultValue="traps" className="space-y-6">
+          <Tabs key={lecture.id} defaultValue="technique" className="space-y-6">
             <TabsList className="bg-white/5 border border-white/10 p-1 flex-wrap h-auto gap-1">
-              <TabsTrigger value="traps" className="data-[state=active]:bg-red-500/20 data-[state=active]:text-red-300">
-                <AlertTriangle className="w-4 h-4 mr-1.5" /> {t("Cảnh báo bẫy", "Trap Alerts")}
-              </TabsTrigger>
               <TabsTrigger value="technique" className="data-[state=active]:bg-blue-500/20 data-[state=active]:text-blue-300">
                 <BookOpen className="w-4 h-4 mr-1.5" /> {t("Kỹ thuật", "Technique")}
               </TabsTrigger>
@@ -167,6 +164,9 @@ const ToeicLectureView = () => {
               </TabsTrigger>
               <TabsTrigger value="quiz" className="data-[state=active]:bg-purple-500/20 data-[state=active]:text-purple-300">
                 <Zap className="w-4 h-4 mr-1.5" /> Quiz
+              </TabsTrigger>
+              <TabsTrigger value="traps" className="data-[state=active]:bg-destructive/10 data-[state=active]:text-destructive">
+                <AlertTriangle className="w-4 h-4 mr-1.5" /> {t("Cảnh báo bẫy", "Trap Alerts")}
               </TabsTrigger>
             </TabsList>
 

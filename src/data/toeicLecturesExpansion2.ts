@@ -501,19 +501,14 @@ const part3Tone: ToeicLecture = {
   practiceSet: [
     {
       context:
-        "Man: 'I sent the report 3 hours ago.' Woman: 'Oh… that's interesting.' Why does the woman say this?",
+        "Man: 'I sent the report three hours ago.' Woman: 'That is strange; I have checked my inbox and spam folder and cannot find it. Could you resend it?'",
       contextVi:
-        "Nam: 'Tôi gửi báo cáo 3 tiếng trước.' Nữ: 'Oh… that's interesting.' Tại sao nữ nói vậy?",
+        "Nam: 'Tôi gửi báo cáo ba tiếng trước.' Nữ: 'Lạ thật; tôi kiểm tra hộp thư và thư rác nhưng không thấy. Anh gửi lại được không?'",
       question: "What is implied?",
-      options: [
-        "She finds the report fascinating.",
-        "She didn't receive it and is suspicious.",
-        "She wants to read it later.",
-        "She thinks it took too long.",
-      ],
+      options: ["She finds the report fascinating.", "She cannot find the email and needs it resent.", "She wants to read it next month.", "She thinks writing it took too long."],
       answer: 1,
-      explanation: "'Oh… that's interesting' with hesitation = polite skepticism.",
-      explanationVi: "'Oh… that's interesting' kèm ngập ngừng = nghi ngờ lịch sự.",
+      explanation: "Checking inbox and spam plus requesting a resend supports B. Hesitation alone would not prove suspicion or nonreceipt.",
+      explanationVi: "Kiểm tra hộp thư, thư rác rồi yêu cầu gửi lại chứng minh B. Chỉ ngập ngừng không đủ kết luận nghi ngờ hay chưa nhận.",
     },
     {
       context: "Woman: 'Want to grab lunch?' Man: 'I'd love to, but I have a deadline.'",
