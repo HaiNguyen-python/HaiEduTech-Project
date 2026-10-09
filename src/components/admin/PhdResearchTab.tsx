@@ -23,10 +23,13 @@ import ReactMarkdown from "react-markdown";
 import DOMPurify from "dompurify";
 import {
   GraduationCap, Search, BookOpen, Lightbulb, FileText, Sparkles, Loader2,
-  Save, Plus, Trash2, ExternalLink, Download, Tag, ListChecks
+  Save, Plus, Trash2, ExternalLink, Download, Tag, ListChecks, Brain, FlaskConical, ShieldCheck
 } from "lucide-react";
 import { scoreProposal, buildProposalDocxBlob } from "@/lib/phdProposalScore";
 import PhdRoadmapChecklist from "./PhdRoadmapChecklist";
+import PhdResearchTools from "./PhdResearchTools";
+import PhdEvidenceMatrix from "./PhdEvidenceMatrix";
+import { RESEARCH_TOPICS, safeResearchUrl, researchError } from "@/lib/phdResearch";
 
 interface NoteRow {
   id: string;
@@ -49,16 +52,7 @@ interface CitationRow {
   created_at: string;
 }
 
-const DEFAULT_TOPICS = [
-  "AI Tutors & LLM",
-  "Adaptive Learning",
-  "Learning Analytics",
-  "Gamification & Motivation",
-  "Equity & Access",
-  "Assessment & Grading",
-  "Multimodal Learning",
-  "General",
-];
+const DEFAULT_TOPICS = RESEARCH_TOPICS;
 
 const PhdResearchTab = () => {
   const { lang, t } = useLanguage();
@@ -68,6 +62,10 @@ const PhdResearchTab = () => {
   const [notes, setNotes] = useState<NoteRow[]>([]);
   const [citations, setCitations] = useState<CitationRow[]>([]);
   const [loadingData, setLoadingData] = useState(true);
+  const [activeTab, setActiveTab] = useState("roadmap");
+  const [dataError, setDataError] = useState("");
+  const [aiError, setAiError] = useState("");
+  const [noteQuery, setNoteQuery] = useState("");
 
   // Literature review state
   const [litQuery, setLitQuery] = useState("");
@@ -84,7 +82,7 @@ const PhdResearchTab = () => {
   const [polishLoading, setPolishLoading] = useState(false);
 
   // Proposal builder
-  const [proposalTitle, setProposalTitle] = useState("PhD Proposal - EdTech");
+  const [proposalTitle, setProposalTitle] = useState("PhD Proposal - EdTech & Neuroscience");
   const [proposalText, setProposalText] = useState("");
 
   // Load
@@ -97,10 +95,15 @@ const PhdResearchTab = () => {
       }
       setUserId(auth.user.id);
       const [n, c] = await Promise.all([
-        supabase.from("phd_research_notes").select("*").order("updated_at", { ascending: false }),
-        supabase.from("phd_research_citations").select("*").order("created_at", { ascending: false }),
+        supabase.from("phd_research_notes").select("*").eq("user_id", auth.user.id).order("updated_at", { ascending: false }),
+        supabase.from("phd_research_citations").select("*").eq("user_id", auth.user.id).order("created_at", { ascending: false }),
       ]);
-      if (!n.error) setNotes((n.data || []) as NoteRow[]);
+      if (n.error || c.error) setDataError(n.error?.message || c.error?.message || "Unable to load research");
+       if (!n.error) {
+         setNotes((n.data || []) as NoteRow[]);
+         const latest = n.data?.find(row => row.topic === "Proposal");
+         if (latest) { setProposalTitle(latest.title); setProposalText(latest.content); }
+       }
       if (!c.error) setCitations((c.data || []) as CitationRow[]);
       setLoadingData(false);
     })();
@@ -109,6 +112,7 @@ const PhdResearchTab = () => {
   // ===== Literature =====
   const runLitSearch = useCallback(async () => {
     if (!litQuery.trim()) return;
+    setAiError("");
     setLitLoading(true);
     setLitResult(null);
     try {
@@ -116,9 +120,10 @@ const PhdResearchTab = () => {
         body: { mode: "literature", query: litQuery, language: isVi ? "vi" : "en" },
       });
       if (error) throw error;
+      if (!data?.content) throw new Error(data?.error || "Empty AI response");
       setLitResult({ content: data.content || "", citations: data.citations || [] });
     } catch (e) {
-      toast.error(t("Lỗi khi tìm tài liệu", "Literature search failed"));
+      setAiError(await researchError(e));
     } finally {
       setLitLoading(false);
     }
@@ -134,7 +139,7 @@ const PhdResearchTab = () => {
         title: litQuery.slice(0, 200),
         summary: litResult.content,
         source_url: litResult.citations[0] || null,
-        tags: ["lit-review"],
+        tags: ["lit-review", "ai-summary", "verification-needed"],
       })
       .select()
       .single();
@@ -149,6 +154,7 @@ const PhdResearchTab = () => {
   // ===== RQ generator =====
   const runRqGen = useCallback(async () => {
     if (!rqTopic.trim()) return;
+    setAiError("");
     setRqLoading(true);
     setRqResult("");
     try {
@@ -156,9 +162,10 @@ const PhdResearchTab = () => {
         body: { mode: "rq", topic: rqTopic, language: isVi ? "vi" : "en" },
       });
       if (error) throw error;
+      if (!data?.content) throw new Error(data?.error || "Empty AI response");
       setRqResult(data.content || "");
-    } catch {
-      toast.error(t("Lỗi khi sinh RQ", "RQ generation failed"));
+    } catch (e) {
+      setAiError(await researchError(e));
     } finally {
       setRqLoading(false);
     }
@@ -237,16 +244,18 @@ const PhdResearchTab = () => {
 
   const polishCurrentNote = useCallback(async () => {
     if (!editingNote?.content?.trim()) return;
+    setAiError("");
     setPolishLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke("phd-research-ai", {
         body: { mode: "note_polish", content: editingNote.content, language: isVi ? "vi" : "en" },
       });
       if (error) throw error;
+      if (!data?.content) throw new Error(data?.error || "Empty AI response");
       setEditingNote({ ...editingNote, content: data.content || editingNote.content });
       toast.success(t("Đã làm gọn note", "Note polished"));
-    } catch {
-      toast.error(t("Lỗi AI", "AI error"));
+    } catch (e) {
+      setAiError(await researchError(e));
     } finally {
       setPolishLoading(false);
     }
@@ -291,6 +300,28 @@ const PhdResearchTab = () => {
     URL.revokeObjectURL(url);
   }, [proposalTitle, proposalText]);
 
+  const researchContext = useMemo(() => citations.slice(0, 12).map(c => `SOURCE: ${c.title}
+AUTHORS/YEAR: ${c.authors ?? "unknown"}, ${c.year ?? "unknown"}
+URL: ${c.source_url ?? "none"}
+EVIDENCE: ${(c.summary ?? "").slice(0, 1800)}`).join("
+
+").slice(0, 28000), [citations]);
+  const filteredNotes = notes.filter(n => `${n.title} ${n.topic} ${n.content} ${n.tags.join(" ")}`.toLowerCase().includes(noteQuery.toLowerCase()));
+  const saveLabNote = async (title: string, content: string, topic: string) => {
+    if (!userId) return;
+    const { data, error } = await supabase.from("phd_research_notes").insert({ user_id: userId, title, content, topic, tags: ["ai-draft", "verification-needed"], importance: 4 }).select().single();
+    if (error) { toast.error(error.message); return; }
+    setNotes(current => [data as NoteRow, ...current]); toast.success(t("Đã lưu bản phân tích", "Analysis saved"));
+  };
+  const saveEvidence = async (entry: Partial<CitationRow>) => {
+    if (!userId || !entry.title?.trim()) return false;
+    const payload = { user_id: userId, title: entry.title.trim(), topic: entry.topic || "General", authors: entry.authors || null, year: entry.year ?? null, source_url: safeResearchUrl(entry.source_url) || null, summary: entry.summary || "", tags: entry.tags || [] };
+    const response = entry.id ? await supabase.from("phd_research_citations").update(payload).eq("id", entry.id).eq("user_id", userId).select().single() : await supabase.from("phd_research_citations").insert(payload).select().single();
+    if (response.error) { toast.error(response.error.message); return false; }
+    setCitations(current => entry.id ? current.map(c => c.id === entry.id ? response.data as CitationRow : c) : [response.data as CitationRow, ...current]);
+    toast.success(t("Đã lưu tài liệu", "Source saved")); return true;
+  };
+
   if (loadingData) {
     return (
       <div className="flex items-center justify-center py-16">
@@ -301,59 +332,44 @@ const PhdResearchTab = () => {
 
   return (
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
-      <Card className="border-violet-500/30 bg-gradient-to-br from-violet-500/5 to-indigo-500/5">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-xl">
-            <GraduationCap className="w-6 h-6 text-violet-600" />
-            🎓 PhD Research (EdTech) — Workspace cá nhân
-          </CardTitle>
-          <p className="text-sm text-muted-foreground">
-            {t(
-              "Workspace nghiên cứu PhD ngành EdTech — chỉ bạn xem được. Bao gồm tìm tài liệu (AI), notebook, sinh câu hỏi nghiên cứu, và proposal builder.",
-              "Personal PhD (EdTech) research workspace — only you can see it. Includes AI literature search, notebook, RQ generator, and proposal builder.",
-            )}
-          </p>
-        </CardHeader>
-      </Card>
-
-      <Tabs defaultValue="roadmap" className="space-y-4">
-        <ScrollArea className="w-full">
-          <TabsList className="w-max">
-            <TabsTrigger value="roadmap" className="gap-1.5">
-              <ListChecks className="w-3.5 h-3.5" /> Roadmap
-            </TabsTrigger>
-            <TabsTrigger value="literature" className="gap-1.5">
-              <Search className="w-3.5 h-3.5" /> Literature
-            </TabsTrigger>
-            <TabsTrigger value="notebook" className="gap-1.5">
-              <BookOpen className="w-3.5 h-3.5" /> Notebook ({notes.length})
-            </TabsTrigger>
-            <TabsTrigger value="rq" className="gap-1.5">
-              <Lightbulb className="w-3.5 h-3.5" /> RQ Generator
-            </TabsTrigger>
-            <TabsTrigger value="citations" className="gap-1.5">
-              <Tag className="w-3.5 h-3.5" /> Citations ({citations.length})
-            </TabsTrigger>
-            <TabsTrigger value="proposal" className="gap-1.5">
-              <FileText className="w-3.5 h-3.5" /> Proposal
-            </TabsTrigger>
+      <header className="border-b border-border pb-6 space-y-5">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div className="flex items-start gap-3"><div className="bg-primary/10 p-3 rounded-md"><Brain className="w-7 h-7 text-primary" /></div><div><div className="flex items-center gap-2 text-sm text-muted-foreground mb-1"><ShieldCheck className="w-4 h-4" />{t("Không gian nghiên cứu cá nhân", "Private research workspace")}</div><h2 className="text-2xl font-bold">PhD Research</h2><p className="text-base text-muted-foreground mt-1">EdTech & Neuroscience</p></div></div>
+          <div className="flex gap-6 border-l border-border pl-6"><div><div className="text-2xl font-semibold tabular-nums">{citations.length}</div><div className="text-sm text-muted-foreground">{t("Tài liệu", "Sources")}</div></div><div><div className="text-2xl font-semibold tabular-nums">{notes.length}</div><div className="text-sm text-muted-foreground">{t("Ghi chú", "Notes")}</div></div></div>
+        </div>
+      </header>
+      {dataError && <div role="alert" className="border border-destructive/30 rounded-md p-4 text-destructive">{dataError}</div>}
+      {aiError && <div role="alert" className="border border-destructive/30 rounded-md p-4 text-destructive">{aiError}</div>}
+      <Tabs value={activeTab} onValueChange={v => { setActiveTab(v); setAiError(""); }} className="space-y-6">
+        <div className="overflow-x-auto border-b border-border pb-2">
+          <TabsList className="w-max h-auto bg-muted/40 p-1 gap-1">
+            <TabsTrigger value="roadmap" className="gap-2 py-2.5"><ListChecks className="w-4 h-4" />{t("Lộ trình", "Roadmap")}</TabsTrigger>
+            <TabsTrigger value="literature" className="gap-2 py-2.5"><Search className="w-4 h-4" />{t("Tìm tài liệu", "Literature")}</TabsTrigger>
+            <TabsTrigger value="evidence" className="gap-2 py-2.5"><Tag className="w-4 h-4" />{t("Bằng chứng", "Evidence matrix")}</TabsTrigger>
+            <TabsTrigger value="lab" className="gap-2 py-2.5"><FlaskConical className="w-4 h-4" />{t("Nghiên cứu AI", "AI research lab")}</TabsTrigger>
+            <TabsTrigger value="notebook" className="gap-2 py-2.5"><BookOpen className="w-4 h-4" />{t("Sổ nghiên cứu", "Notebook")}</TabsTrigger>
+            <TabsTrigger value="rq" className="gap-2 py-2.5"><Lightbulb className="w-4 h-4" />{t("Câu hỏi nghiên cứu", "Research questions")}</TabsTrigger>
+            <TabsTrigger value="citations" className="gap-2 py-2.5"><Tag className="w-4 h-4" />{t("Thư viện nguồn", "Source library")}</TabsTrigger>
+            <TabsTrigger value="proposal" className="gap-2 py-2.5"><FileText className="w-4 h-4" />{t("Đề cương", "Proposal")}</TabsTrigger>
           </TabsList>
-        </ScrollArea>
+        </div>
+        <TabsContent value="evidence"><PhdEvidenceMatrix citations={citations} onSave={saveEvidence} /></TabsContent>
+        <TabsContent value="lab"><PhdResearchTools context={researchContext} proposal={proposalText} onSave={saveLabNote} /></TabsContent>
 
         {/* ROADMAP */}
         <TabsContent value="roadmap">
-          <PhdRoadmapChecklist />
+          <PhdRoadmapChecklist userId={userId} />
         </TabsContent>
 
         {/* LITERATURE */}
         <TabsContent value="literature">
-          <Card>
-            <CardHeader>
+          <section className="space-y-4">
+            <div className="space-y-2">
               <CardTitle className="text-base flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-violet-600" /> AI Literature Review (Perplexity · academic mode)
+                <Sparkles className="w-4 h-4 text-primary" /> {t("Tìm tài liệu học thuật", "Academic literature search")}
               </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
+            </div>
+            <div className="space-y-4">
               <div className="flex gap-2">
                 <Input
                   value={litQuery}
@@ -369,6 +385,7 @@ const PhdResearchTab = () => {
                   <span className="ml-1.5">{t("Tìm", "Search")}</span>
                 </Button>
               </div>
+              <p className="text-sm text-muted-foreground">{t("Tóm tắt AI chưa phải tài liệu đã xác minh. Kiểm tra tác giả, năm, DOI và toàn văn trước khi trích dẫn.", "AI summaries are not verified bibliographic records. Check authors, year, DOI and full text before citing.")}</p>
               {litResult && (
                 <div className="rounded-lg border border-border bg-card/50 p-4 space-y-3">
                   <div className="prose prose-sm dark:prose-invert max-w-none">
@@ -384,7 +401,7 @@ const PhdResearchTab = () => {
                               href={u}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-violet-600 hover:underline flex items-center gap-1"
+                              className="text-primary hover:underline flex items-center gap-1"
                             >
                               <ExternalLink className="w-3 h-3" />
                               {u.length > 80 ? u.slice(0, 80) + "..." : u}
@@ -396,12 +413,12 @@ const PhdResearchTab = () => {
                   )}
                   <Button size="sm" onClick={saveLitAsCitation}>
                     <Save className="w-3.5 h-3.5 mr-1.5" />
-                    {t("Lưu vào Citations", "Save to Citations")}
+                    {t("Lưu bản tổng hợp", "Save synthesis draft")}
                   </Button>
                 </div>
               )}
-            </CardContent>
-          </Card>
+            </div>
+          </section>
         </TabsContent>
 
         {/* NOTEBOOK */}
@@ -421,7 +438,7 @@ const PhdResearchTab = () => {
           </div>
 
           {editingNote && (
-            <Card className="mb-3 border-violet-500/40">
+            <Card className="mb-3 border-primary/30">
               <CardContent className="pt-4 space-y-3">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                   <Input
@@ -480,7 +497,7 @@ const PhdResearchTab = () => {
                     {polishLoading ? (
                       <Loader2 className="w-3.5 h-3.5 mr-1.5 animate-spin" />
                     ) : (
-                      <Sparkles className="w-3.5 h-3.5 mr-1.5 text-violet-600" />
+                      <Sparkles className="w-3.5 h-3.5 mr-1.5 text-primary" />
                     )}
                     {t("AI làm gọn", "AI Polish")}
                   </Button>
@@ -492,31 +509,32 @@ const PhdResearchTab = () => {
             </Card>
           )}
 
+          <Input className="mb-4" aria-label="Search research notes" value={noteQuery} onChange={e => setNoteQuery(e.target.value)} placeholder={t("Tìm ghi chú, chủ đề, tags…", "Search notes, topics, tags…")} />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {notes.length === 0 && !editingNote && (
               <p className="text-muted-foreground text-sm italic">
                 {t("Chưa có note. Tạo note mới hoặc lưu kết quả từ RQ Generator.", "No notes yet. Create one or save from RQ Generator.")}
               </p>
             )}
-            {notes.map((n) => (
-              <Card key={n.id} className="hover:border-violet-500/40 transition-colors">
+            {filteredNotes.map((n) => (
+              <Card key={n.id} className="hover:border-primary/30 transition-colors">
                 <CardContent className="pt-4 space-y-2">
                   <div className="flex items-start justify-between gap-2">
                     <div className="min-w-0 flex-1">
                       <h4 className="font-semibold text-sm break-words">{n.title}</h4>
                       <div className="flex items-center gap-2 mt-1 flex-wrap">
-                        <Badge variant="outline" className="text-[10px]">{n.topic}</Badge>
-                        <span className="text-[11px] text-amber-600">
+                        <Badge variant="outline" className="text-xs">{n.topic}</Badge>
+                        <span className="text-xs text-muted-foreground">
                           {"⭐".repeat(n.importance)}
                         </span>
                       </div>
                     </div>
                     <div className="flex gap-1">
-                      <Button size="icon" variant="ghost" onClick={() => setEditingNote(n)} title={t("Sửa", "Edit")}>
+                      <Button size="icon" variant="ghost" onClick={() => { setEditingNote(n); if (n.topic === "Proposal") { setProposalTitle(n.title); setProposalText(n.content); } }} title={t("Sửa", "Edit")}>
                         <FileText className="w-3.5 h-3.5" />
                       </Button>
                       <Button size="icon" variant="ghost" onClick={() => deleteNote(n.id)} title={t("Xóa", "Delete")}>
-                        <Trash2 className="w-3.5 h-3.5 text-red-500" />
+                        <Trash2 className="w-3.5 h-3.5 text-destructive" />
                       </Button>
                     </div>
                   </div>
@@ -524,7 +542,7 @@ const PhdResearchTab = () => {
                   {n.tags.length > 0 && (
                     <div className="flex gap-1 flex-wrap">
                       {n.tags.map((tg) => (
-                        <span key={tg} className="text-[10px] bg-muted px-1.5 py-0.5 rounded">
+                        <span key={tg} className="text-xs bg-muted px-1.5 py-0.5 rounded">
                           #{tg}
                         </span>
                       ))}
@@ -538,13 +556,13 @@ const PhdResearchTab = () => {
 
         {/* RQ GENERATOR */}
         <TabsContent value="rq">
-          <Card>
-            <CardHeader>
+          <section className="space-y-4">
+            <div className="space-y-2">
               <CardTitle className="text-base flex items-center gap-2">
-                <Lightbulb className="w-4 h-4 text-amber-500" /> Research Question + Hypothesis Generator
+                <Lightbulb className="w-4 h-4 text-primary" /> Research Question + Hypothesis Generator
               </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
+            </div>
+            <div className="space-y-4">
               <Textarea
                 rows={3}
                 placeholder={t(
@@ -569,8 +587,8 @@ const PhdResearchTab = () => {
                   </Button>
                 </div>
               )}
-            </CardContent>
-          </Card>
+            </div>
+          </section>
         </TabsContent>
 
         {/* CITATIONS */}
@@ -587,25 +605,25 @@ const PhdResearchTab = () => {
                   <div className="flex items-start justify-between gap-2">
                     <div className="min-w-0 flex-1">
                       <h4 className="font-semibold text-sm break-words">{c.title}</h4>
-                      <p className="text-[11px] text-muted-foreground">
+                      <p className="text-xs text-muted-foreground">
                         {c.authors && `${c.authors} · `}
                         {c.year && `${c.year} · `}
                         {new Date(c.created_at).toLocaleDateString()}
                       </p>
                     </div>
                     <div className="flex gap-1">
-                      {c.source_url && (
+                      {safeResearchUrl(c.source_url) && (
                         <Button
                           size="icon"
                           variant="ghost"
-                          onClick={() => window.open(c.source_url!, "_blank")}
+                          onClick={() => { const url = safeResearchUrl(c.source_url); if (url) window.open(url, "_blank", "noopener,noreferrer"); }}
                           title={t("Mở nguồn", "Open source")}
                         >
                           <ExternalLink className="w-3.5 h-3.5" />
                         </Button>
                       )}
                       <Button size="icon" variant="ghost" onClick={() => deleteCitation(c.id)}>
-                        <Trash2 className="w-3.5 h-3.5 text-red-500" />
+                        <Trash2 className="w-3.5 h-3.5 text-destructive" />
                       </Button>
                     </div>
                   </div>
@@ -622,13 +640,13 @@ const PhdResearchTab = () => {
 
         {/* PROPOSAL */}
         <TabsContent value="proposal">
-          <Card>
-            <CardHeader>
+          <section className="space-y-4">
+            <div className="space-y-2">
               <CardTitle className="text-base flex items-center gap-2">
-                <FileText className="w-4 h-4 text-blue-600" /> Proposal Builder + Health Score
+                <FileText className="w-4 h-4 text-primary" /> {t("Đề cương & kiểm tra cấu trúc", "Proposal & structure check")}
               </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
+            </div>
+            <div className="space-y-4">
               <Input
                 value={proposalTitle}
                 onChange={(e) => setProposalTitle(e.target.value)}
@@ -647,14 +665,14 @@ const PhdResearchTab = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div className="rounded-lg border p-3 bg-muted/30">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-semibold">Health Score</span>
+                    <span className="text-sm font-semibold">{t("Điểm cấu trúc tham khảo", "Structure heuristic")}</span>
                     <span
                       className={`text-2xl font-bold ${
                         proposalScore.total >= 80
-                          ? "text-emerald-600"
+                          ? "text-primary"
                           : proposalScore.total >= 50
-                          ? "text-amber-600"
-                          : "text-red-600"
+                          ? "text-muted-foreground"
+                          : "text-destructive"
                       }`}
                     >
                       {proposalScore.total}/100
@@ -663,7 +681,7 @@ const PhdResearchTab = () => {
                   <ul className="space-y-1 text-xs">
                     {proposalScore.checks.map((ch) => (
                       <li key={ch.key} className="flex items-center gap-2">
-                        <span className={ch.pass ? "text-emerald-600" : "text-red-500"}>
+                        <span className={ch.pass ? "text-primary" : "text-destructive"}>
                           {ch.pass ? "✓" : "✗"}
                         </span>
                         <span>{isVi ? ch.labelVi : ch.labelEn}</span>
@@ -709,16 +727,16 @@ const PhdResearchTab = () => {
                     <Save className="w-3.5 h-3.5 mr-1.5" />
                     {t("Snapshot vào Notebook", "Snapshot to Notebook")}
                   </Button>
-                  <p className="text-[11px] text-muted-foreground">
+                  <p className="text-xs text-muted-foreground">
                     {t(
-                      "💡 Mục tiêu Health Score ≥ 80 trước khi gửi cho supervisor.",
-                      "💡 Aim for Health Score ≥ 80 before sending to a supervisor.",
+                      "Điểm này chỉ kiểm tra cấu trúc, không đánh giá chất lượng khoa học. Dùng phản biện AI và ý kiến người hướng dẫn trước khi nộp.",
+                      "This score checks structure only, not scientific quality. Use AI peer review and supervisor feedback before submission.",
                     )}
                   </p>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </section>
         </TabsContent>
       </Tabs>
     </motion.div>
