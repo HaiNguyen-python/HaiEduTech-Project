@@ -1,3 +1,4 @@
+import { PTE_NEW_READ_ALOUD, PTE_NEW_REPEAT, PTE_NEW_ESSAYS, PTE_NEW_SUMMARIES, PTE_NEW_BLANKS, PTE_NEW_REORDER, PTE_NEW_DICTATIONS, PTE_NEW_SPOKEN, PTE_NEW_MCQ, PTE_NEW_HIGHLIGHT, PTE_NEW_MOCKS } from "./pteAcademicExpansion";
 /**
  * @file pteData.ts
  * @description PTE Academic question bank, mock tests, and academic vocabulary.
@@ -347,22 +348,25 @@ export interface PteMockTest {
   reorderIds: string[];
   dictationIds: string[];
   summarizeSpokenIds: string[];
+  mcqIds?: string[];
+  highlightIds?: string[];
 }
 
 export const MOCK_TESTS: PteMockTest[] = [
+  ...PTE_NEW_MOCKS,
   { id: "mt-1", title: "Mock Test 1 - Foundation", description: "Mixed difficulty, suitable for first attempt.",
     readAloudIds: ["ra-1", "ra-2"], repeatSentenceIds: ["rs-1", "rs-2"], essayIds: ["es-1"], summarizeTextIds: ["sw-1"],
     fillBlankIds: ["fb-1", "fb-2"], reorderIds: ["ro-1"], dictationIds: ["dc-1", "dc-2"], summarizeSpokenIds: ["ss-1"] },
   { id: "mt-2", title: "Mock Test 2 - Academic Focus", description: "Heavy on academic vocabulary and synthesis.",
     readAloudIds: ["ra-3", "ra-4"], repeatSentenceIds: ["rs-3", "rs-4"], essayIds: ["es-2"], summarizeTextIds: ["sw-2"],
     fillBlankIds: ["fb-3", "fb-4"], reorderIds: ["ro-2"], dictationIds: ["dc-3", "dc-4"], summarizeSpokenIds: ["ss-2"] },
-  { id: "mt-3", title: "Mock Test 3 - Advanced Trends 2026", description: "Predictive set based on 2026 high-frequency questions.",
+  { id: "mt-3", title: "Practice Set 3 - Academic Topics", description: "Original mixed practice, not recalled or predicted exam content.",
     readAloudIds: ["ra-5", "ra-6"], repeatSentenceIds: ["rs-5", "rs-6"], essayIds: ["es-3"], summarizeTextIds: ["sw-3"],
     fillBlankIds: ["fb-5", "fb-6"], reorderIds: ["ro-3"], dictationIds: ["dc-5", "dc-6"], summarizeSpokenIds: ["ss-3"] },
-  { id: "mt-4", title: "Mock Test 4 - Accuracy Under Pressure", description: "Exam-length set focused on spelling, word forms and precise recall.",
+  { id: "mt-4", title: "Mock Test 4 - Accuracy Under Pressure", description: "Short mixed set focused on spelling, word forms and precise recall.",
     readAloudIds: ["ra-7", "ra-8"], repeatSentenceIds: ["rs-7", "rs-8"], essayIds: ["es-4"], summarizeTextIds: ["sw-4"],
     fillBlankIds: ["fb-7", "fb-8"], reorderIds: ["ro-4"], dictationIds: ["dc-7", "dc-8"], summarizeSpokenIds: ["ss-4"] },
-  { id: "mt-5", title: "Mock Test 5 - Band 79+ Challenge", description: "Hardest available items across all four skills for high-band targets.",
+  { id: "mt-5", title: "Practice Set 5 - Advanced Challenge", description: "Hardest available items across all four skills for advanced score targets.",
     readAloudIds: ["ra-9", "ra-10"], repeatSentenceIds: ["rs-9", "rs-10"], essayIds: ["es-5"], summarizeTextIds: ["sw-5"],
     fillBlankIds: ["fb-9", "fb-10"], reorderIds: ["ro-5"], dictationIds: ["dc-9", "dc-10"], summarizeSpokenIds: ["ss-5"] },
 ];
@@ -1349,29 +1353,29 @@ import {
   FILL_BLANK_V3, REORDER_V3, MCQ_V3, HIGHLIGHT_INCORRECT_V3,
 } from "./pteExpansionV3";
 
-export const READ_ALOUD_ALL: PteReadAloud[]            = [...READ_ALOUD_BANK, ...READ_ALOUD_EXPANSION, ...READ_ALOUD_EXPANSION_2, ...READ_ALOUD_V3];
-export const REPEAT_SENTENCE_ALL: PteRepeatSentence[]  = [...REPEAT_SENTENCE_BANK, ...REPEAT_SENTENCE_EXPANSION, ...REPEAT_SENTENCE_EXPANSION_2, ...REPEAT_SENTENCE_V3];
-export const ESSAY_ALL: PteEssayPrompt[]               = [...ESSAY_BANK, ...ESSAY_EXPANSION, ...ESSAY_EXPANSION_2, ...ESSAY_V3];
-export const SUMMARIZE_TEXT_ALL: PteSummarizeText[]    = [...SUMMARIZE_TEXT_BANK, ...SUMMARIZE_TEXT_EXPANSION, ...SUMMARIZE_TEXT_EXPANSION_2, ...SUMMARIZE_TEXT_V3];
-export const FILL_BLANK_ALL: PteFillBlank[]            = [...FILL_BLANK_BANK, ...FILL_BLANK_EXPANSION, ...FILL_BLANK_EXPANSION_2, ...FILL_BLANK_V3];
-export const REORDER_ALL: PteReorderItem[]             = [...REORDER_BANK, ...REORDER_EXPANSION, ...REORDER_V3];
-export const DICTATION_ALL: PteDictation[]             = [...DICTATION_BANK, ...DICTATION_EXPANSION, ...DICTATION_EXPANSION_2, ...DICTATION_V3];
-export const SUMMARIZE_SPOKEN_ALL: PteSummarizeSpoken[]= [...SUMMARIZE_SPOKEN_BANK, ...SUMMARIZE_SPOKEN_EXPANSION, ...SUMMARIZE_SPOKEN_V3];
+export const READ_ALOUD_ALL: PteReadAloud[]            = [...PTE_NEW_READ_ALOUD, ...READ_ALOUD_BANK, ...READ_ALOUD_EXPANSION, ...READ_ALOUD_EXPANSION_2, ...READ_ALOUD_V3];
+export const REPEAT_SENTENCE_ALL: PteRepeatSentence[]  = [...PTE_NEW_REPEAT, ...REPEAT_SENTENCE_BANK, ...REPEAT_SENTENCE_EXPANSION, ...REPEAT_SENTENCE_EXPANSION_2, ...REPEAT_SENTENCE_V3];
+export const ESSAY_ALL: PteEssayPrompt[]               = [...PTE_NEW_ESSAYS, ...ESSAY_BANK, ...ESSAY_EXPANSION, ...ESSAY_EXPANSION_2, ...ESSAY_V3];
+export const SUMMARIZE_TEXT_ALL: PteSummarizeText[]    = [...PTE_NEW_SUMMARIES, ...SUMMARIZE_TEXT_BANK, ...SUMMARIZE_TEXT_EXPANSION, ...SUMMARIZE_TEXT_EXPANSION_2, ...SUMMARIZE_TEXT_V3];
+export const FILL_BLANK_ALL: PteFillBlank[]            = [...PTE_NEW_BLANKS, ...FILL_BLANK_BANK, ...FILL_BLANK_EXPANSION, ...FILL_BLANK_EXPANSION_2, ...FILL_BLANK_V3];
+export const REORDER_ALL: PteReorderItem[]             = [...PTE_NEW_REORDER, ...REORDER_BANK, ...REORDER_EXPANSION, ...REORDER_V3];
+export const DICTATION_ALL: PteDictation[]             = [...PTE_NEW_DICTATIONS, ...DICTATION_BANK, ...DICTATION_EXPANSION, ...DICTATION_EXPANSION_2, ...DICTATION_V3];
+export const SUMMARIZE_SPOKEN_ALL: PteSummarizeSpoken[]= [...PTE_NEW_SPOKEN, ...SUMMARIZE_SPOKEN_BANK, ...SUMMARIZE_SPOKEN_EXPANSION, ...SUMMARIZE_SPOKEN_V3];
 export const DESCRIBE_IMAGE_ALL: PteDescribeImage[]    = [...DESCRIBE_IMAGE_BANK, ...DESCRIBE_IMAGE_EXPANSION, ...DESCRIBE_IMAGE_EXPANSION_2, ...DESCRIBE_IMAGE_V3];
-export const MCQ_ALL: PteMcq[]                         = [...MCQ_BANK, ...MCQ_EXPANSION, ...MCQ_V3];
-export const HIGHLIGHT_INCORRECT_ALL: PteHighlightIncorrect[] = [...HIGHLIGHT_INCORRECT_BANK, ...HIGHLIGHT_INCORRECT_EXPANSION, ...HIGHLIGHT_INCORRECT_V3];
+export const MCQ_ALL: PteMcq[]                         = [...PTE_NEW_MCQ, ...MCQ_BANK, ...MCQ_EXPANSION, ...MCQ_V3];
+export const HIGHLIGHT_INCORRECT_ALL: PteHighlightIncorrect[] = [...PTE_NEW_HIGHLIGHT, ...HIGHLIGHT_INCORRECT_BANK, ...HIGHLIGHT_INCORRECT_EXPANSION, ...HIGHLIGHT_INCORRECT_V3];
 
 // Total count of practice items across all task types (used by the PTE Peak progress bar)
 export const PTE_TOTAL_TASKS =
   READ_ALOUD_ALL.length + REPEAT_SENTENCE_ALL.length + ESSAY_ALL.length +
   SUMMARIZE_TEXT_ALL.length + FILL_BLANK_ALL.length + REORDER_ALL.length +
   DICTATION_ALL.length + SUMMARIZE_SPOKEN_ALL.length +
-  DESCRIBE_IMAGE_ALL.length + MCQ_BANK.length + HIGHLIGHT_INCORRECT_BANK.length;
+  DESCRIBE_IMAGE_ALL.length + MCQ_ALL.length + HIGHLIGHT_INCORRECT_ALL.length + RETELL_LECTURE_BANK.length;
 
 // Generic helper used by skill pages for filter UI.
 export const PTE_TARGET_BANDS: PteTargetBand[] = ["50", "65", "79+"];
 export const PTE_CATEGORIES: { id: PteCategory; label: string; description: string }[] = [
   { id: "daily",      label: "Daily Practice",  description: "Short, varied tasks for everyday warm-up." },
-  { id: "mock",       label: "Mock Tests",      description: "Items pulled into full mock test rotations." },
-  { id: "prediction", label: "Prediction Files",description: "2026 high-frequency questions to memorise." },
+  { id: "mock",       label: "Mock Tests",      description: "Original items for guided mixed practice." },
+  { id: "prediction", label: "Focus Practice",description: "Curated revision items, not exam predictions." },
 ];

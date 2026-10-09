@@ -1,3 +1,4 @@
+import { Link, useSearchParams } from "react-router-dom";
 /**
  * @file PteListening.tsx
  * @description PTE Listening - Dictation (strict input) & Summarize Spoken Text (notepad).
@@ -22,8 +23,10 @@ type Mode = "dictation" | "summarize";
 
 const PteListening = () => {
   const { recordCompletion } = usePteProgress();
-  const [mode, setMode] = useState<Mode>("dictation");
-  const [idx, setIdx] = useState(0);
+  const [params] = useSearchParams();
+  const requestedType = params.get("type");
+  const [mode, setMode] = useState<Mode>(() => ["dictation", "summarize"].includes(requestedType ?? "") ? requestedType as Mode : "dictation");
+  const [idx, setIdx] = useState(() => Math.max(0, (mode === "dictation" ? DICTATION_BANK : SUMMARIZE_SPOKEN_BANK).findIndex(item => item.id === params.get("item"))));
   const [answer, setAnswer] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [playing, setPlaying] = useState(false);
@@ -129,8 +132,10 @@ const PteListening = () => {
 
   return (
     <PteShell title="Listening" subtitle="Dictation · Summarize Spoken Text">
+      {params.get("set") && <Link to={`/pte/mock/${params.get("set")}`} className="mb-4 inline-block text-sm font-semibold text-primary underline">Back to this practice set</Link>}
+      <p className="mb-4 text-sm text-muted-foreground">Synthetic audio and local practice estimates, not official scores. Short timers are training targets; exam recordings play once.</p>
       {/* Mode tabs */}
-      <div className="flex gap-2 mb-4">
+      <div className="flex flex-wrap gap-2 mb-4">
         {([
           { id: "dictation" as Mode, label: "Write from Dictation", icon: Headphones },
           { id: "summarize" as Mode, label: "Summarize Spoken Text", icon: FileText },

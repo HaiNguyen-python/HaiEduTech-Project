@@ -1,3 +1,4 @@
+import { Link, useSearchParams } from "react-router-dom";
 /**
  * @file PteSpeaking.tsx
  * @description PTE Speaking practice - Read Aloud, Repeat Sentence, Describe Image, Retell Lecture.
@@ -29,8 +30,10 @@ import { recordPteAttempt } from "@/lib/pteAttempts";
 type Mode = "read-aloud" | "repeat" | "describe-image" | "retell-lecture";
 
 const PteSpeaking = () => {
-  const [mode, setMode] = useState<Mode>("read-aloud");
-  const [idx, setIdx] = useState(0);
+  const [params] = useSearchParams();
+  const requestedType = params.get("type");
+  const [mode, setMode] = useState<Mode>(() => ["read-aloud", "repeat", "describe-image", "retell-lecture"].includes(requestedType ?? "") ? requestedType as Mode : "read-aloud");
+  const [idx, setIdx] = useState(() => Math.max(0, (mode === "read-aloud" ? READ_ALOUD_BANK : mode === "repeat" ? REPEAT_SENTENCE_BANK : mode === "describe-image" ? DESCRIBE_IMAGE_BANK : RETELL_LECTURE_BANK).findIndex(item => item.id === params.get("item"))));
   // Phases: prep -> (lecture for retell) -> record -> done
   const [phase, setPhase] = useState<"prep" | "lecture" | "record" | "done">("prep");
   const [transcript, setTranscript] = useState("");
@@ -220,6 +223,8 @@ const PteSpeaking = () => {
 
   return (
     <PteShell title="Speaking Practice" subtitle="Transcript-based practice feedback">
+      {params.get("set") && <Link to={`/pte/mock/${params.get("set")}`} className="mb-4 inline-block text-sm font-semibold text-primary underline">Back to this practice set</Link>}
+      <p className="mb-4 text-sm text-muted-foreground">Synthetic audio and transcript-based content estimates only. These estimates do not assess pronunciation or reproduce Pearson scoring.</p>
       {/* Mode tabs */}
       <div className="flex gap-2 mb-4 flex-wrap">
         {modes.map(m => {
@@ -285,14 +290,14 @@ const PteSpeaking = () => {
 
         {mode === "describe-image" && (
           <div className="bg-[#f4f7fb] rounded-xl p-3 border border-[#003580]/10">
-            <img
+            {(item as any).imageUrl ? <img
               src={(item as any).imageUrl}
               alt={(item as any).title}
               loading="lazy"
               width={1024}
               height={768}
               className="w-full h-auto max-h-[420px] object-contain rounded-lg bg-white"
-            />
+            /> : <div className="whitespace-pre-wrap rounded-lg border border-border bg-card p-6 text-base text-card-foreground">{(item as any).emojiVisual}</div>}
             <p className="mt-2 text-xs text-slate-600 text-center font-medium">{(item as any).title}</p>
             <p className="mt-1 text-[11px] text-slate-500 text-center">
               25s prep · 40s response · Cover: introduction → trend → key features → conclusion
@@ -406,7 +411,7 @@ const PteSpeaking = () => {
                   onClick={() => setShowModel(s => !s)}
                   className="mt-3 text-xs font-semibold text-[#003580] hover:underline"
                 >
-                  {showModel ? "Hide" : "Show"} model answer (Band 90)
+                  {showModel ? "Hide" : "Show"} model answer (illustrative)
                 </button>
                 {showModel && (
                   <div className="mt-2 bg-emerald-50 border border-emerald-200 rounded-lg p-3 text-sm text-slate-800 leading-relaxed">

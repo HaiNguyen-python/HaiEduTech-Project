@@ -1,3 +1,4 @@
+import { Link, useSearchParams } from "react-router-dom";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { CheckCircle2, ChevronRight, Headphones, ListChecks, RotateCcw, Volume2, XCircle } from "lucide-react";
 import { toast } from "sonner";
@@ -21,8 +22,10 @@ const MODES: { id: Mode; label: string }[] = [
 ];
 
 const PteObjectivePractice = () => {
-  const [mode, setMode] = useState<Mode>("reading-single-answer");
-  const [idx, setIdx] = useState(0);
+  const [params] = useSearchParams();
+  const requestedType = params.get("type");
+  const [mode, setMode] = useState<Mode>(() => ["reading-single-answer", "reading-multiple-answer", "highlight-incorrect-words"].includes(requestedType ?? "") ? requestedType as Mode : "reading-single-answer");
+  const [idx, setIdx] = useState(() => Math.max(0, (mode === "highlight-incorrect-words" ? HIGHLIGHT_INCORRECT_ALL : MCQ_ALL.filter(item => mode === "reading-single-answer" ? item.correctIndices.length === 1 : item.correctIndices.length > 1)).findIndex(item => item.id === params.get("item"))));
   const [selected, setSelected] = useState<number[]>([]);
   const [submitted, setSubmitted] = useState(false);
   const [playing, setPlaying] = useState(false);
@@ -123,6 +126,8 @@ const PteObjectivePractice = () => {
 
   return (
     <PteShell title="Objective Practice" subtitle="Reading and Listening tasks with exam-style scoring">
+      {params.get("set") && <Link to={`/pte/mock/${params.get("set")}`} className="mb-4 inline-block text-sm font-semibold text-primary underline">Back to this practice set</Link>}
+      <p className="mb-4 text-sm text-muted-foreground">Original practice with synthetic audio. Per-item timers are training targets, not official section deadlines.</p>
       <div className="mb-4 flex flex-wrap gap-2">
         {MODES.map(entry => (
           <Button key={entry.id} variant={mode === entry.id ? "default" : "outline"} size="sm" onClick={() => { setMode(entry.id); setIdx(0); }}>
@@ -137,7 +142,7 @@ const PteObjectivePractice = () => {
       <section className="rounded-lg border border-border bg-card p-5 text-card-foreground shadow-sm sm:p-6">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <span className="rounded bg-muted px-2 py-1 text-xs font-semibold text-primary">{MODES.find(entry => entry.id === mode)?.label} · {idx + 1}/{filtered.length}</span>
-          <PteTimer seconds={isHighlight ? 120 : 90} label="Time" running={!submitted} resetKey={timerKey} onComplete={() => toast.warning("Time is up.")} />
+          <PteTimer seconds={isHighlight ? 120 : 90} label="Training target" running={!submitted} resetKey={timerKey} onComplete={() => toast.warning("Time is up.")} />
         </div>
 
         {mcq && (

@@ -3,7 +3,8 @@
  * @description Reusable filter chips for PTE modules: Target Band, Real Exam 2026, Category.
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
-import { Flame, Target, Layers } from "lucide-react";
+import { Target, Layers } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import type { PteTargetBand, PteCategory, PteTags } from "@/data/pteData";
 
 export interface PteFilterState {
@@ -26,7 +27,7 @@ interface Props {
 }
 
 const BANDS: { id: PteTargetBand | "all"; label: string }[] = [
-  { id: "all", label: "All bands" },
+  { id: "all", label: "All targets" },
   { id: "50", label: "PTE 50" },
   { id: "65", label: "PTE 65" },
   { id: "79+", label: "PTE 79+" },
@@ -36,29 +37,19 @@ const CATEGORIES: { id: PteCategory | "all"; label: string }[] = [
   { id: "all", label: "All" },
   { id: "daily", label: "Daily" },
   { id: "mock", label: "Mock" },
-  { id: "prediction", label: "Prediction" },
+  { id: "prediction", label: "Focus" },
 ];
 
 const PteFilterBar = ({ value, onChange, resultCount, totalCount }: Props) => {
   const Chip = ({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) => (
-    <button
-      type="button"
-      onClick={onClick}
-      className={`text-xs px-2.5 py-1 rounded-full border transition-colors font-medium ${
-        active
-          ? "bg-[#003580] text-white border-[#003580]"
-          : "bg-white text-slate-700 border-slate-300 hover:border-[#003580]/50"
-      }`}
-    >
-      {children}
-    </button>
+    <Button type="button" size="sm" variant={active ? "default" : "outline"} onClick={onClick} className="h-8 text-xs">{children}</Button>
   );
 
   return (
     <div className="bg-white rounded-xl border border-[#003580]/15 p-3 sm:p-4 mb-4 shadow-sm">
       <div className="flex flex-wrap items-center gap-2 mb-2">
         <span className="inline-flex items-center gap-1 text-[11px] font-bold text-slate-600 uppercase tracking-wide">
-          <Target size={12} /> Band
+          <Target size={12} /> Score target
         </span>
         {BANDS.map(b => (
           <Chip key={b.id} active={value.band === b.id} onClick={() => onChange({ ...value, band: b.id })}>
@@ -75,15 +66,7 @@ const PteFilterBar = ({ value, onChange, resultCount, totalCount }: Props) => {
             {c.label}
           </Chip>
         ))}
-        <Chip
-          active={value.realExam2026}
-          onClick={() => onChange({ ...value, realExam2026: !value.realExam2026 })}
-        >
-          <span className="inline-flex items-center gap-1">
-            <Flame size={11} className={value.realExam2026 ? "text-orange-200" : "text-orange-500"} />
-            Real Exam 2026
-          </span>
-        </Chip>
+
       </div>
       <p className="text-[11px] text-slate-500">
         Showing <span className="font-semibold text-[#003580]">{resultCount}</span> of {totalCount}

@@ -372,7 +372,7 @@ export const HIGHLIGHT_INCORRECT_V3: PteHighlightIncorrect[] = [
   { id: "hi-v3-01", topic: "Climate policy",
     audioText:   "Many countries have introduced carbon pricing schemes to discourage emissions and fund renewable investment.",
     displayText: "Many nations have introduced carbon trading schemes to encourage emissions and fund renewable investment.",
-    incorrectIndices: [1, 4, 6] }, // nations | trading | encourage
+    incorrectIndices: [1, 5, 8] }, // nations | trading | encourage
   { id: "hi-v3-02", topic: "Higher education",
     audioText:   "Postgraduate scholarships often require a personal statement and two academic references.",
     displayText: "Undergraduate scholarships often demand a personal statement and three academic references.",
@@ -380,7 +380,7 @@ export const HIGHLIGHT_INCORRECT_V3: PteHighlightIncorrect[] = [
   { id: "hi-v3-03", topic: "Public health",
     audioText:   "Vaccination programmes have eradicated smallpox and dramatically reduced cases of measles globally.",
     displayText: "Vaccination programmes have eliminated smallpox and significantly increased cases of measles globally.",
-    incorrectIndices: [3, 5, 6] }, // eliminated | significantly | increased
+    incorrectIndices: [3, 6, 7] }, // eliminated | significantly | increased
   { id: "hi-v3-04", topic: "Economics",
     audioText:   "Central banks raised interest rates aggressively in response to post-pandemic inflation pressures.",
     displayText: "Central banks lowered interest rates cautiously in response to pre-pandemic inflation pressures.",
@@ -388,11 +388,11 @@ export const HIGHLIGHT_INCORRECT_V3: PteHighlightIncorrect[] = [
   { id: "hi-v3-05", topic: "Renewable energy",
     audioText:   "Solar panels installed on residential rooftops can offset most household electricity consumption.",
     displayText: "Solar panels installed on commercial rooftops will eliminate all household electricity consumption.",
-    incorrectIndices: [4, 6, 7] }, // commercial | will | eliminate / all (varies; pick 3 distinct altered)
+    incorrectIndices: [4, 6, 7, 8] }, // commercial | will | eliminate | all
   { id: "hi-v3-06", topic: "Conservation",
     audioText:   "Conservationists are restoring wetlands along several major river systems across the country.",
     displayText: "Conservationists are draining wetlands beside several minor river systems across the country.",
-    incorrectIndices: [3, 5, 7] }, // draining | beside | minor
+    incorrectIndices: [2, 4, 6] }, // draining | beside | minor
 ];
 
 /* ============================================================

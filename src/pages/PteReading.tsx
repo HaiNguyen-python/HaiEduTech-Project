@@ -1,3 +1,4 @@
+import { Link, useSearchParams } from "react-router-dom";
 /**
  * @file PteReading.tsx
  * @description PTE Reading module - Fill in the Blanks (drag-drop) & Re-order Paragraphs.
@@ -14,6 +15,7 @@ import { FILL_BLANK_ALL as FILL_BLANK_BANK, REORDER_ALL as REORDER_BANK, type Pt
 import { similarityToBand, bandLabel } from "@/lib/pteScoring";
 import { usePteProgress } from "@/hooks/usePteProgress";
 import PteFilterBar, { DEFAULT_PTE_FILTERS, applyPteFilter, type PteFilterState } from "@/components/pte/PteFilterBar";
+import { scoreReorderPairs } from "@/lib/pteObjectiveScoring";
 import { recordPteAttempt } from "@/lib/pteAttempts";
 
 type Mode = "fillBlank" | "reorder";
@@ -30,8 +32,10 @@ const shuffle = <T,>(arr: T[]): T[] => {
 
 const PteReading = () => {
   const { recordCompletion } = usePteProgress();
-  const [mode, setMode] = useState<Mode>("fillBlank");
-  const [idx, setIdx] = useState(0);
+  const [params] = useSearchParams();
+  const requestedType = params.get("type");
+  const [mode, setMode] = useState<Mode>(() => ["fillBlank", "reorder"].includes(requestedType ?? "") ? requestedType as Mode : "fillBlank");
+  const [idx, setIdx] = useState(() => Math.max(0, (mode === "fillBlank" ? FILL_BLANK_BANK : REORDER_BANK).findIndex(item => item.id === params.get("item"))));
   const [submitted, setSubmitted] = useState(false);
   const [timerKey, setTimerKey] = useState(0);
 
@@ -146,11 +150,7 @@ const PteReading = () => {
 
   const roScore = useMemo(() => {
     if (!roItem) return 0;
-    let correct = 0;
-    roItem.correctOrder.forEach((expected, i) => {
-      if (order[i] === expected) correct++;
-    });
-    return correct / roItem.correctOrder.length;
+    return scoreReorderPairs(order, roItem.correctOrder).accuracy / 100;
   }, [order, roItem]);
 
   const roBand = similarityToBand(roScore);
@@ -169,7 +169,7 @@ const PteReading = () => {
     const band = mode === "fillBlank" ? fbBand : roBand;
     recordCompletion(id, band);
     void recordPteAttempt({ skill: "reading", taskType: mode === "fillBlank" ? "reading-fill-dropdown" : "reorder-paragraphs", itemId: id, score: band, accuracy: (mode === "fillBlank" ? fbScore : roScore) * 100 });
-    toast.success(`Submitted! Band ${band}`);
+    toast.success(`Submitted! Practice estimate ${band}`);
   };
 
   const handleNext = () => {
@@ -191,8 +191,10 @@ const PteReading = () => {
 
   return (
     <PteShell title="Reading" subtitle="Fill in the Blanks · Re-order Paragraphs">
+      {params.get("set") && <Link to={`/pte/mock/${params.get("set")}`} className="mb-4 inline-block text-sm font-semibold text-primary underline">Back to this practice set</Link>}
+      <p className="mb-4 text-sm text-muted-foreground">Local practice estimates, not official scores. The exam uses a shared Reading clock; these item timers are training targets. Our dropdown warm-ups use a shared option pool, unlike separate option lists in the exam.</p>
       {/* Mode tabs */}
-      <div className="flex gap-2 mb-4">
+      <div className="flex flex-wrap gap-2 mb-4">
         {([
           { id: "fillBlank" as Mode, label: "Fill in the Blanks", icon: BookOpen },
           { id: "reorder" as Mode, label: "Re-order Paragraphs", icon: Shuffle },

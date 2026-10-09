@@ -25,7 +25,7 @@ const SKILL_CARDS = [
     icon: Mic,
     title: "Speaking",
     subtitle: "Read Aloud · Repeat Sentence",
-    desc: "Pronunciation & Oral Fluency scoring with Web Speech API.",
+    desc: "Read academic texts and practise spoken responses.",
     color: "from-[#003580] to-[#0052cc]",
   },
   {
@@ -33,7 +33,7 @@ const SKILL_CARDS = [
     icon: PenTool,
     title: "Writing",
     subtitle: "Essay · Summarize Written Text",
-    desc: "Word counter, exam timer, AI scoring & saves to your Notebook.",
+    desc: "Develop arguments and concise one-sentence summaries.",
     color: "from-[#0052cc] to-[#1e40af]",
   },
   {
@@ -41,7 +41,7 @@ const SKILL_CARDS = [
     icon: BookOpen,
     title: "Reading",
     subtitle: "Fill in the Blanks · Re-order Paragraphs",
-    desc: "Drag-and-drop interface with instant content matching.",
+    desc: "Choose precise words and restore logical paragraph order.",
     color: "from-[#1e40af] to-[#003580]",
   },
   {
@@ -49,7 +49,7 @@ const SKILL_CARDS = [
     icon: Headphones,
     title: "Listening",
     subtitle: "Dictation · Summarize Spoken Text",
-    desc: "Audio playback with strict input field & string similarity scoring.",
+    desc: "Practise listening, exact spelling and lecture summaries.",
     color: "from-[#0052cc] to-[#003580]",
   },
 ];
@@ -62,7 +62,7 @@ const PteHub = () => {
   return (
     <PteShell
       title="PTE Academic Prep"
-      subtitle="Climb to Band 90 across all four skills with AI-powered feedback."
+      subtitle="Build your four skills with original academic practice and clearly labelled feedback."
       backTo="/english"
       backLabel="Learn English"
     >
@@ -134,110 +134,7 @@ const PteHub = () => {
         />
       </section>
 
-      {/* Predicted Questions 2026 - high-frequency repeated tasks */}
-      <div className="bg-gradient-to-br from-orange-50 via-amber-50 to-rose-50 rounded-2xl p-5 sm:p-6 border-2 border-orange-300/60 shadow-sm mb-6 relative overflow-hidden">
-        <div className="absolute -top-6 -right-6 text-7xl opacity-10 select-none pointer-events-none">🔥</div>
-        <div className="flex items-center gap-2 mb-1 relative">
-          <Flame className="text-orange-600" size={22} />
-          <h2 className="text-lg sm:text-xl font-bold text-orange-900">Predicted Questions 2026</h2>
-          <span className="ml-auto inline-flex items-center gap-1 text-[11px] px-2 py-0.5 rounded-full bg-orange-600 text-white font-bold shadow-sm">
-            <TrendingUp size={11} /> HIGH FREQ
-          </span>
-        </div>
-        <p className="text-xs sm:text-sm text-orange-800/80 mb-4 relative">
-          🔥 High-frequency repeated questions based on 2026 PTE Academic trends. Master these for an exam edge.
-        </p>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 relative">
-          {/* Read Aloud */}
-          <div className="bg-white rounded-xl p-4 border border-orange-200 hover:shadow-md transition-shadow">
-            <div className="flex items-center gap-2 mb-2">
-              <Mic size={16} className="text-[#003580]" />
-              <h3 className="font-bold text-[#003580] text-sm">Read Aloud</h3>
-              <span className="ml-auto text-[10px] px-1.5 py-0.5 rounded bg-orange-100 text-orange-700 font-semibold">🔥 {REPEATED_2026_IDS.readAloud.length}</span>
-            </div>
-            <ul className="space-y-1.5">
-              {REPEATED_2026_IDS.readAloud.map(id => {
-                const item = READ_ALOUD_ALL.find(x => x.id === id);
-                if (!item) return null;
-                return (
-                  <li key={id} className="text-xs text-slate-700 leading-relaxed line-clamp-2">
-                    <span className="text-orange-600 font-semibold mr-1">🔥</span>
-                    {item.text.slice(0, 110)}...
-                  </li>
-                );
-              })}
-            </ul>
-            <Link to="/pte/speaking" className="mt-3 inline-block text-xs font-semibold text-[#003580] hover:underline">Practice Speaking →</Link>
-          </div>
-
-          {/* Repeat Sentence */}
-          <div className="bg-white rounded-xl p-4 border border-orange-200 hover:shadow-md transition-shadow">
-            <div className="flex items-center gap-2 mb-2">
-              <Mic size={16} className="text-[#003580]" />
-              <h3 className="font-bold text-[#003580] text-sm">Repeat Sentence</h3>
-              <span className="ml-auto text-[10px] px-1.5 py-0.5 rounded bg-orange-100 text-orange-700 font-semibold">🔥 {REPEATED_2026_IDS.repeatSentence.length}</span>
-            </div>
-            <ul className="space-y-1.5">
-              {REPEATED_2026_IDS.repeatSentence.map(id => {
-                const item = REPEAT_SENTENCE_ALL.find(x => x.id === id);
-                if (!item) return null;
-                return (
-                  <li key={id} className="text-xs text-slate-700 leading-relaxed line-clamp-2">
-                    <span className="text-orange-600 font-semibold mr-1">🔥</span>
-                    {item.text}
-                  </li>
-                );
-              })}
-            </ul>
-            <Link to="/pte/speaking" className="mt-3 inline-block text-xs font-semibold text-[#003580] hover:underline">Practice Speaking →</Link>
-          </div>
-
-          {/* Essay */}
-          <div className="bg-white rounded-xl p-4 border border-orange-200 hover:shadow-md transition-shadow">
-            <div className="flex items-center gap-2 mb-2">
-              <PenTool size={16} className="text-[#003580]" />
-              <h3 className="font-bold text-[#003580] text-sm">Essay Prompts</h3>
-              <span className="ml-auto text-[10px] px-1.5 py-0.5 rounded bg-orange-100 text-orange-700 font-semibold">🔥 {REPEATED_2026_IDS.essay.length}</span>
-            </div>
-            <ul className="space-y-1.5">
-              {REPEATED_2026_IDS.essay.map(id => {
-                const item = ESSAY_ALL.find(x => x.id === id);
-                if (!item) return null;
-                return (
-                  <li key={id} className="text-xs text-slate-700 leading-relaxed line-clamp-2">
-                    <span className="text-orange-600 font-semibold mr-1">🔥</span>
-                    {item.prompt.slice(0, 120)}...
-                  </li>
-                );
-              })}
-            </ul>
-            <Link to="/pte/writing" className="mt-3 inline-block text-xs font-semibold text-[#003580] hover:underline">Practice Writing →</Link>
-          </div>
-
-          {/* Dictation */}
-          <div className="bg-white rounded-xl p-4 border border-orange-200 hover:shadow-md transition-shadow">
-            <div className="flex items-center gap-2 mb-2">
-              <Headphones size={16} className="text-[#003580]" />
-              <h3 className="font-bold text-[#003580] text-sm">Write from Dictation</h3>
-              <span className="ml-auto text-[10px] px-1.5 py-0.5 rounded bg-orange-100 text-orange-700 font-semibold">🔥 {REPEATED_2026_IDS.dictation.length}</span>
-            </div>
-            <ul className="space-y-1.5">
-              {REPEATED_2026_IDS.dictation.map(id => {
-                const item = DICTATION_ALL.find(x => x.id === id);
-                if (!item) return null;
-                return (
-                  <li key={id} className="text-xs text-slate-700 leading-relaxed line-clamp-2">
-                    <span className="text-orange-600 font-semibold mr-1">🔥</span>
-                    {item.audioText}
-                  </li>
-                );
-              })}
-            </ul>
-            <Link to="/pte/listening" className="mt-3 inline-block text-xs font-semibold text-[#003580] hover:underline">Practice Listening →</Link>
-          </div>
-        </div>
-      </div>
+      <p className="mb-6 text-sm text-muted-foreground">Original HaiEduTech practice, not recalled or predicted Pearson questions. Transcript-based feedback cannot measure pronunciation or replicate official scoring.</p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
         {SKILL_CARDS.map((c, i) => (
@@ -276,7 +173,7 @@ const PteHub = () => {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           {MOCK_TESTS.map(mt => (
-            <div key={mt.id} className="border border-[#003580]/15 rounded-xl p-4 bg-[#f4f7fb] hover:bg-[#e8eef7] transition-colors">
+            <Link to={`/pte/mock/${mt.id}`} key={mt.id} className="block border border-[#003580]/15 rounded-xl p-4 bg-[#f4f7fb] hover:bg-[#e8eef7] transition-colors">
               <h3 className="font-bold text-[#003580] text-sm">{mt.title}</h3>
               <p className="text-xs text-slate-600 mt-1 leading-relaxed">{mt.description}</p>
               <div className="mt-2 text-[11px] text-slate-500">
@@ -285,11 +182,11 @@ const PteHub = () => {
                 {" "}{mt.fillBlankIds.length + mt.reorderIds.length} Reading ·
                 {" "}{mt.dictationIds.length + mt.summarizeSpokenIds.length} Listening
               </div>
-            </div>
+            </Link>
           ))}
         </div>
         <p className="text-xs text-slate-500 mt-3 flex items-center gap-1">
-          <Sparkles size={12} /> These are short mixed sets, not full-length scored PTE simulations.
+          <Sparkles size={12} /> These guided sets cover a subset of formats and use synthetic audio. They are not full-length scored PTE simulations.
         </p>
       </div>
 

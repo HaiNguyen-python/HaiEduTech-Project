@@ -305,6 +305,7 @@ const PteVocabulary = lazyWithRetry(() => import("./pages/PteVocabulary.tsx"));
 const PteLessons = lazyWithRetry(() => import("./pages/PteLessons.tsx"));
 const PteLessonView = lazyWithRetry(() => import("./pages/PteLessonView.tsx"));
 const PteExamGuide = lazyWithRetry(() => import("./pages/PteExamGuide.tsx"));
+const PteMockPractice = lazyWithRetry(() => import("./pages/PteMockPractice.tsx"));
 const PteObjectivePractice = lazyWithRetry(() => import("./pages/PteObjectivePractice.tsx"));
 const PythonLessonView = lazyWithRetry(() => import("./pages/PythonLessonView.tsx"));
 const StudyAbroadHub = lazyWithRetry(() => import("./pages/StudyAbroadHub.tsx"));
@@ -596,6 +597,7 @@ const App = () => (
             <Route path="/pte/lessons/:lessonId" element={<LazyRoute><PteLessonView /></LazyRoute>} />
             <Route path="/pte/exam-guide" element={<LazyRoute><PteExamGuide /></LazyRoute>} />
             <Route path="/pte/objective-practice" element={<LazyRoute><PteObjectivePractice /></LazyRoute>} />
+            <Route path="/pte/mock/:mockId" element={<LazyRoute><PteMockPractice /></LazyRoute>} />
             <Route path="/pte/:skill" element={<Navigate to="/pte" replace />} />
             <Route path="/study-abroad" element={<LazyRoute><StudyAbroadHub /></LazyRoute>} />
             <Route path="/study-abroad/documents" element={<LazyRoute><StudentDocuments /></LazyRoute>} />

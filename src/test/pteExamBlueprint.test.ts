@@ -18,7 +18,7 @@ describe("PTE Academic blueprint", () => {
 
   it("keeps the current three-section structure", () => {
     expect(PTE_SECTION_TIMINGS.map(section => section.section)).toEqual(["Speaking & Writing", "Reading", "Listening"]);
-    expect(PTE_SECTION_TIMINGS.map(section => section.itemTypes)).toEqual([10, 5, 8]);
+    expect(PTE_SECTION_TIMINGS.map(section => section.itemTypes)).toEqual([9, 5, 8]);
   });
 
   it("includes both item types introduced in the 2025 enhancement", () => {
