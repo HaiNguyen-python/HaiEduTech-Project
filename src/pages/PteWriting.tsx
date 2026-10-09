@@ -1,3 +1,4 @@
+import { Link, useSearchParams } from "react-router-dom";
 /**
  * @file PteWriting.tsx
  * @description PTE Writing module - Essay & Summarize Written Text with timer, word counter, AI scoring, Notebook save.
@@ -22,8 +23,10 @@ type Mode = "essay" | "summarize";
 
 const PteWriting = () => {
   const { recordCompletion } = usePteProgress();
-  const [mode, setMode] = useState<Mode>("essay");
-  const [idx, setIdx] = useState(0);
+  const [params] = useSearchParams();
+  const requestedType = params.get("type");
+  const [mode, setMode] = useState<Mode>(() => ["essay", "summarize"].includes(requestedType ?? "") ? requestedType as Mode : "essay");
+  const [idx, setIdx] = useState(() => Math.max(0, (mode === "essay" ? ESSAY_BANK : SUMMARIZE_TEXT_BANK).findIndex(item => item.id === params.get("item"))));
   const [essay, setEssay] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [timerKey, setTimerKey] = useState(0);
@@ -143,6 +146,8 @@ const PteWriting = () => {
 
   return (
     <PteShell title="Writing" subtitle="Essay · Summarize Written Text">
+      {params.get("set") && <Link to={`/pte/mock/${params.get("set")}`} className="mb-4 inline-block text-sm font-semibold text-primary underline">Back to this practice set</Link>}
+      <p className="mb-4 text-sm text-muted-foreground">Local writing estimates do not evaluate all Pearson traits or guarantee an official score. A written summary must be one complete sentence.</p>
       {/* Mode tabs */}
       <div className="flex gap-2 mb-4">
         {(["essay", "summarize"] as Mode[]).map(m => (
