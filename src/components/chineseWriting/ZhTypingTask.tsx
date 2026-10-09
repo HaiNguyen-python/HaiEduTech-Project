@@ -11,7 +11,7 @@ import { pickRandomIndex, markPracticed } from "@/lib/randomPicker";
 import { playChineseTts, stopChineseTts } from "@/lib/chineseTts";
 import { logStudentActivity } from "@/hooks/useActivityLogger";
 import type { ZhSentence } from "@/data/chineseWritingBank";
-import { letterDisplayCharacters, liveChineseTyping, normalizeLetterTyping } from "@/lib/chineseLetterTyping";
+import { activePinyinIndex, letterDisplayCharacters, liveChineseTyping, normalizeLetterTyping } from "@/lib/chineseLetterTyping";
 
 export default function ZhTypingTask({ items, poolKey }: { items: ZhSentence[]; poolKey: string }) {
   const { t } = useLanguage();
@@ -33,6 +33,7 @@ export default function ZhTypingTask({ items, poolKey }: { items: ZhSentence[]; 
   if (!item) return null;
   const target = normalizeLetterTyping(item.zh);
   const got = liveChineseTyping(input.committed);
+  const activeIndex = activePinyinIndex(item.zh, input.typed, input.draft);
 
   function finish() {
     if (input.isComposing || !got.length) return;
@@ -60,7 +61,7 @@ export default function ZhTypingTask({ items, poolKey }: { items: ZhSentence[]; 
         <div>
           <p className="text-2xl" lang="zh-CN" data-testid="zh-typing-passage">
             {letterDisplayCharacters(item.zh).map(({ character, typingIndex }, i) => (
-              <span key={i} className={typingIndex !== null && typingIndex < got.length ? (got[typingIndex] === character ? "text-primary" : "text-destructive underline") : "text-foreground"}>{character}</span>
+              <span key={i} className={typingIndex !== null && typingIndex === activeIndex ? "text-primary underline" : typingIndex !== null && typingIndex < got.length ? (got[typingIndex] === character ? "text-primary" : "text-destructive underline") : "text-foreground"}>{character}</span>
             ))}
           </p>
           <Button variant="ghost" size="sm" className="my-1 gap-2" aria-expanded={showPinyin} aria-controls="zh-typing-pinyin" onClick={() => setShowPinyin((visible) => !visible)}>
@@ -71,7 +72,7 @@ export default function ZhTypingTask({ items, poolKey }: { items: ZhSentence[]; 
           <p className="text-sm text-muted-foreground">{item.vi}</p>
         </div>
         <Textarea ref={ref} value={input.typed} readOnly={!!done} rows={2} lang="zh-CN" onKeyDown={onKey}
-          onCompositionStart={input.onCompositionStart} onCompositionEnd={input.onCompositionEnd}
+          onCompositionStart={input.onCompositionStart} onCompositionUpdate={input.onCompositionUpdate} onCompositionEnd={input.onCompositionEnd}
           onPaste={(e) => e.preventDefault()}
           onChange={(e) => { if (start === null) setStart(Date.now()); input.onChange(e); }}
           placeholder={t("Gõ pinyin bằng bộ gõ tiếng Trung để ra chữ Hán... (Enter để chấm)", "Type with a Chinese pinyin IME... (Enter to check)")} />

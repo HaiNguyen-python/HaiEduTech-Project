@@ -2,13 +2,25 @@ import { act, renderHook } from "@testing-library/react";
 import type { ChangeEvent, CompositionEvent, KeyboardEvent } from "react";
 import { describe, expect, it, vi } from "vitest";
 import { useChineseTypingInput } from "../hooks/useChineseTypingInput";
-import { liveChineseTyping, normalizeLetterTyping } from "../lib/chineseLetterTyping";
+import { activePinyinIndex, liveChineseTyping, normalizeLetterTyping } from "../lib/chineseLetterTyping";
 
 const change = (value: string, isComposing = false) => ({ currentTarget: { value }, nativeEvent: { isComposing } }) as unknown as ChangeEvent<HTMLTextAreaElement>;
 const end = (value: string) => ({ currentTarget: { value } }) as CompositionEvent<HTMLTextAreaElement>;
 const enter = (keyCode = 13) => ({ key: "Enter", keyCode, nativeEvent: { isComposing: false } }) as KeyboardEvent;
 
 describe("Chinese IME input", () => {
+  it("maps the current Pinyin syllable to exactly one Hanzi", () => {
+    const target = "我先在家学习，后来去了图书馆。";
+    expect(activePinyinIndex(target, "w")).toBe(0);
+    expect(activePinyinIndex(target, "wo")).toBe(0);
+    expect(activePinyinIndex(target, "wox")).toBe(1);
+    expect(activePinyinIndex(target, "woxian")).toBe(1);
+    expect(activePinyinIndex(target, "我先zai")).toBe(2);
+    expect(activePinyinIndex(target, "我先zaijia")).toBe(3);
+    expect(activePinyinIndex(target, "我先", "zai")).toBe(2);
+    expect(activePinyinIndex(target, "我先在家")).toBeNull();
+    expect(activePinyinIndex(target, "我先在家学习，hòu")).toBe(6);
+  });
   it("does not compare Pinyin drafts before Hanzi is committed", () => {
     const { result } = renderHook(useChineseTypingInput);
     act(() => result.current.onCompositionStart());
