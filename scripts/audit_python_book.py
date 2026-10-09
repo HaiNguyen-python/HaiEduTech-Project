@@ -26,6 +26,13 @@ with tempfile.TemporaryDirectory() as work:
             assert result["out"].strip(), lesson["id"]
             if number in expected:
                 assert expected[number] in result["out"], f"{lesson['id']}: {result['out']}"
+            snippets = re.findall(r"```python\n(.*?)\n```", lesson["conceptEn"], re.S)
+            assert len(snippets) == 3, f"{lesson['id']}: missing section example"
+            for snippet in snippets[:-1]:
+                compile(snippet, lesson["id"] + "-section", "exec")
+                result = json.loads(namespace["_hai_run"](snippet, "[]", False, "", 7))
+                assert not result["err"], f"{lesson['id']} section: {result['err']}"
+                assert result["out"].strip(), f"{lesson['id']}: empty section output"
             for question in lesson["quiz"]:
                 if question["type"] == "fill":
                     compile(question["codeBefore"] + question["answer"] + question["codeAfter"], "fill.py", "exec")
@@ -38,4 +45,4 @@ with tempfile.TemporaryDirectory() as work:
         assert "Add another line" in missing["err"]
     finally:
         os.chdir(old_cwd)
-print("PASS: 19 runnable examples, 19 completed code questions, desktop syntax, input exhaustion and loop limit.")
+print("PASS: 19 worked examples, 38 section examples, 19 code questions, desktop syntax, input exhaustion and loop limit.")

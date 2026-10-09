@@ -20,9 +20,9 @@
 - TOEIC lecture guidance is organized by tested Part alongside lesson-specific techniques, so strategy depth stays consistent without duplicating lecture question data.
 - TOEIC S/W uses unique `toeicSWContentSets`, audited by `toeicSwAudit.test.ts`; `grade-toeic-sw` grades transcripts/text, never session-only recordings.
 - Python Challenge rankings count distinct completed challenge IDs from activity logs through an authenticated read-only function, preventing repeat attempts from inflating totals.
-- The 999 Letters typing set is generated from the uploaded book into `src/data/chineseLetters/part*.ts` (lazy-loaded, Pinyin/keywords regenerated, audited by `scripts/audit_chinese_letters.ts`), so the book never bloats the main bundle.
+- Generate 999 Letters into lazy-loaded `src/data/chineseLetters/part*.ts`; regenerate Pinyin/keywords and audit with `scripts/audit_chinese_letters.ts` to avoid bundle bloat.
 - Render both Chinese sentence typing and 999 Letters from original punctuated Hanzi and map scoring indices separately through `chineseLetterTyping`, so punctuation stays visible without changing existing typing scores.
-- Python theory shares a typed chapter bank and challenge harness for links/input; keep legacy IDs and reference progress separate.
+- Python theory shares a typed bank, TheorySections, CodeMirror and challenge harness for consistent content/execution; preserve legacy IDs and reference progress.
 - Generate Python Challenges from `scripts/python_challenges/spec_*.py` via `build.py`; audit and browser grading share `pythonChallengeHarness.ts`.
 - Python charts group unique challenge completions into six areas; date growth from earliest activity, never invent ability grades.
 - Python Challenge list, direct routes and workspace navigation share the sequential-unlock helper and merged progress hook; completion events refresh same-tab state immediately to prevent inconsistent access.
