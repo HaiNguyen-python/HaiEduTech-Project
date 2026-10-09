@@ -156,6 +156,16 @@
     --python-hero-overlay: linear-gradient(90deg, hsl(var(--python-hero-surface) / .97) 0%, hsl(var(--python-hero-surface) / .90) 31%, hsl(var(--python-hero-surface) / .15) 70%);
   }
   .python-lab-header-overlay { background: var(--python-hero-overlay); }
+  .python-module--blue { --python-module-ink: var(--python-blue); --python-module-wash: var(--python-blue-wash); }
+  .python-module--gold { --python-module-ink: var(--python-gold); --python-module-wash: var(--python-gold-wash); }
+  .python-module--coral { --python-module-ink: var(--python-coral); --python-module-wash: var(--python-coral-wash); }
+  .python-module-tile { border-color: hsl(var(--python-module-ink) / .25); border-top: 3px solid hsl(var(--python-module-ink)); transition: border-color .2s, box-shadow .2s, transform .2s; }
+  .python-module-tile:hover { border-color: hsl(var(--python-module-ink) / .6); box-shadow: var(--python-tile-shadow); transform: translateY(-2px); }
+  .python-module-tile:focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 3px; }
+  .python-module-icon { background: hsl(var(--python-module-wash)); color: hsl(var(--python-module-ink)); }
+  .python-module-accent { color: hsl(var(--python-module-ink)); }
+  .python-module--complete { border-color: hsl(var(--python-success) / .6); }
+  @media (prefers-reduced-motion: reduce) { .python-module-tile, .python-module-tile * { transition: none; } .python-module-tile:hover { transform: none; } }
   .python-theory { --python-hero-overlay: linear-gradient(90deg, hsl(var(--python-hero-surface) / .98), hsl(var(--python-hero-surface) / .93) 45%, hsl(var(--python-hero-surface) / .7)); }
   .python-theory-heading { padding-inline: 1.25rem; }
   .python-theory-prose code { background: hsl(var(--primary) / .08); color: hsl(var(--foreground)); border-radius: .25rem; padding: .15rem .35rem; }

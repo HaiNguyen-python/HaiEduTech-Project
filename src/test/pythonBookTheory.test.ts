@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { pythonLessons, pythonModules, getLessonById, supplementaryPythonLessons, getPathwaySequence } from "@/data/curriculum/pythonPathway";
 import { pythonBookChapters, getChapterForChallenge } from "@/data/curriculum/pythonBookTheory";
 import { pythonLessons as legacy } from "@/data/curriculum/pythonPathwayLegacy";
+import { pythonChallenges } from "@/data/pythonChallenges";
 
 describe("book-aligned Introduction to Programming", () => {
   it("covers each of the 150 challenges exactly once in 19 book chapters", () => {
@@ -30,5 +31,16 @@ describe("book-aligned Introduction to Programming", () => {
     }
     expect(pythonModules).toHaveLength(6);
     expect(pythonModules.every(module => pythonLessons.some(lesson => lesson.moduleId === module.id))).toBe(true);
+  });
+  it("maps every actual challenge to exactly one accessible core lesson", () => {
+    expect(pythonChallenges).toHaveLength(150);
+    for (const challenge of pythonChallenges) {
+      const chapters = pythonBookChapters.filter(chapter => challenge.number >= chapter.first && challenge.number <= chapter.last);
+      expect(chapters).toHaveLength(1);
+      expect(getLessonById(chapters[0].lessonId)?.id).toBe(chapters[0].lessonId);
+      expect(pythonLessons.some(lesson => lesson.id === chapters[0].lessonId)).toBe(true);
+    }
+    expect(getChapterForChallenge(104)?.lessonId).toBe("book-2d");
+    expect(getChapterForChallenge(116)?.lessonId).toBe("book-csv");
   });
 });
