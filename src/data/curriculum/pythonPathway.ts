@@ -1,10 +1,16 @@
 import { pythonLessons as legacyLessons, pythonModules as legacyModules } from "./pythonPathwayLegacy";
 import { pythonBookLessons, pythonBookModules, getBookChapter } from "./pythonBookTheory";
+import { pythonBookSupplements } from "./pythonBookSupplements";
 
 export type { PythonLesson, PythonModule, QuizQuestion } from "./pythonPathwayLegacy";
 export { getBookChapter, getChapterForChallenge, pythonBookChapters } from "./pythonBookTheory";
 
-export const pythonLessons = pythonBookLessons;
+export const pythonLessons = pythonBookLessons.map(lesson => {
+  const supplement = pythonBookSupplements[lesson.id];
+  if (!supplement) return lesson;
+  const concept = `${lesson.conceptEn}\n\n${supplement}`;
+  return { ...lesson, concept, conceptEn: concept };
+});
 export const pythonModules = pythonBookModules;
 export const supplementaryPythonLessons = legacyLessons.filter(lesson => !getBookChapter(lesson.id));
 export const getLessonById = (id: string) => pythonLessons.find(lesson => lesson.id === id) ?? legacyLessons.find(lesson => lesson.id === id);
