@@ -146,9 +146,9 @@ export const businessTopicsPart2: PurposeTopic[] = [
         gist: "Propose two options, confirm one and repeat the time zone.",
         gistVi: "Đề xuất hai lựa chọn, xác nhận một và nhắc lại múi giờ.",
         teaching:
-          "Offer choices instead of asking an open question: \"Would Tuesday at 10:00 or Wednesday at 14:00 suit you?\" Always name the time zone with international partners: \"14:00 Hanoi time, which is 09:00 in Helsinki.\" To change a booking, apologise, give a reason and propose a replacement in the same message. Confirm in writing after the call, because spoken times are the most common source of missed meetings.",
+          "Offer choices instead of asking an open question: \"Would Tuesday at 10:00 or Wednesday at 14:00 suit you?\" Always name the time zone with international partners: \"14:00 Hanoi time is 09:00 in Helsinki in winter (EET), but 10:00 in summer (EEST). Check the meeting date.\" To change a booking, apologise, give a reason and propose a replacement in the same message. Confirm in writing after the call, because spoken times are the most common source of missed meetings.",
         teachingVi:
-          "Hãy đưa lựa chọn thay vì hỏi mở: \"Would Tuesday at 10:00 or Wednesday at 14:00 suit you?\" Luôn nêu múi giờ khi làm việc quốc tế: \"14:00 Hanoi time, which is 09:00 in Helsinki.\" Khi đổi hẹn, hãy xin lỗi, nêu lý do và đề xuất lịch thay thế trong cùng tin nhắn. Sau cuộc gọi hãy xác nhận bằng văn bản, vì giờ hẹn nói bằng miệng là nguyên nhân phổ biến nhất gây trễ họp.",
+          "Hãy đưa lựa chọn thay vì hỏi mở: \"Would Tuesday at 10:00 or Wednesday at 14:00 suit you?\" Luôn nêu múi giờ khi làm việc quốc tế: \"14:00 Hanoi time is 09:00 in Helsinki in winter (EET), but 10:00 in summer (EEST). Check the meeting date.\" Khi đổi hẹn, hãy xin lỗi, nêu lý do và đề xuất lịch thay thế trong cùng tin nhắn. Sau cuộc gọi hãy xác nhận bằng văn bản, vì giờ hẹn nói bằng miệng là nguyên nhân phổ biến nhất gây trễ họp.",
         vocab: [
           { term: "Would ... suit you?", pos: "pattern", vi: "... có phù hợp với bạn không?", example: "Would Tuesday at 10:00 suit you?", exampleVi: "Thứ Ba 10:00 có phù hợp với bạn không?" },
           { term: "to fit someone in", pos: "verb phrase", vi: "xếp lịch cho ai", example: "I can fit you in at 15:30 on Thursday.", exampleVi: "Tôi có thể xếp lịch cho bạn 15:30 thứ Năm." },
@@ -167,7 +167,7 @@ export const businessTopicsPart2: PurposeTopic[] = [
           lines: [
             "Minh: Would Tuesday at 10:00 or Wednesday at 14:00 Hanoi time suit you for the demo?",
             "Client: Wednesday is better, but 14:00 clashes with our weekly review. Could we push it back to 15:30?",
-            "Minh: 15:30 Hanoi time works, which is 10:30 in Helsinki. I can fit you in for 45 minutes.",
+            "Minh: 15:30 Hanoi time works. For our January meeting, that is 10:30 in Helsinki (EET). I can fit you in for 45 minutes.",
             "Client: Perfect. Please send an invitation.",
             "Minh: I will confirm in writing right after this call, with the link and the agenda.",
           ],
@@ -323,16 +323,16 @@ export const businessTopicsPart2: PurposeTopic[] = [
         gist: "Contract English uses shall, subject to and provided that with legal precision.",
         gistVi: "Tiếng Anh hợp đồng dùng shall, subject to và provided that với nghĩa pháp lý chặt chẽ.",
         teaching:
-          "In contracts, \"shall\" creates an obligation (\"the supplier shall deliver by 3 June\"), \"may\" gives a right, and \"subject to\" makes something conditional (\"subject to written approval\"). \"Provided that\" introduces a condition; \"without prejudice to\" protects existing rights; \"force majeure\" covers events beyond control. Never sign a document you cannot paraphrase in plain words - if you cannot restate a clause simply, ask the other party to clarify it in writing.",
+          "In contracts, \"shall\" creates an obligation (\"the supplier shall deliver by 3 June\"), \"may\" gives a right, and \"subject to\" makes something conditional (\"subject to written approval\"). \"Provided that\" introduces a condition; \"without prejudice to\" protects existing rights; \"force majeure\" may excuse specified extraordinary events beyond reasonable control, subject to the clause and applicable law. Never sign a document you cannot paraphrase in plain words - if you cannot restate a clause simply, ask the other party to clarify it in writing.",
         teachingVi:
           "Trong hợp đồng, \"shall\" tạo nghĩa vụ (\"the supplier shall deliver by 3 June\"), \"may\" cho quyền, và \"subject to\" làm điều khoản có điều kiện (\"subject to written approval\"). \"Provided that\" nêu điều kiện; \"without prejudice to\" bảo lưu quyền hiện có; \"force majeure\" là sự kiện ngoài tầm kiểm soát. Đừng ký văn bản mà bạn không diễn đạt lại được bằng lời đơn giản - nếu chưa hiểu một điều khoản, hãy đề nghị bên kia giải thích bằng văn bản.",
         vocab: [
           { term: "shall", pos: "modal", vi: "có nghĩa vụ phải", example: "The supplier shall deliver by 3 June.", exampleVi: "Nhà cung cấp phải giao hàng trước ngày 3 tháng 6." },
           { term: "subject to", pos: "phrase", vi: "phụ thuộc vào, với điều kiện", example: "The discount is subject to written approval.", exampleVi: "Mức giảm giá phụ thuộc vào phê duyệt bằng văn bản." },
           { term: "provided that", pos: "phrase", vi: "với điều kiện là", example: "Provided that payment is received, production starts Monday.", exampleVi: "Với điều kiện nhận được thanh toán, sản xuất bắt đầu thứ Hai." },
-          { term: "termination clause", pos: "noun phrase", vi: "điều khoản chấm dứt", example: "The termination clause requires 60 days notice.", exampleVi: "Điều khoản chấm dứt yêu cầu thông báo trước 60 ngày." },
+          { term: "termination clause", pos: "noun phrase", vi: "điều khoản chấm dứt", example: "The termination clause requires 60 days' notice.", exampleVi: "Điều khoản chấm dứt yêu cầu thông báo trước 60 ngày." },
           { term: "liability", pos: "noun", vi: "trách nhiệm pháp lý", example: "Our liability is limited to the contract value.", exampleVi: "Trách nhiệm của chúng tôi giới hạn trong giá trị hợp đồng." },
-          { term: "force majeure", pos: "noun phrase", vi: "sự kiện bất khả kháng", example: "Typhoons fall under force majeure.", exampleVi: "Bão được coi là sự kiện bất khả kháng." },
+          { term: "force majeure", pos: "noun phrase", vi: "sự kiện bất khả kháng", example: "This contract lists typhoons as force majeure events.", exampleVi: "Hợp đồng này liệt kê bão là sự kiện bất khả kháng." },
           { term: "confidentiality", pos: "noun", vi: "tính bảo mật", example: "Confidentiality survives the end of the contract.", exampleVi: "Nghĩa vụ bảo mật vẫn hiệu lực sau khi hợp đồng kết thúc." },
           { term: "amendment", pos: "noun", vi: "phụ lục sửa đổi", example: "Any change requires a written amendment.", exampleVi: "Mọi thay đổi cần có phụ lục sửa đổi bằng văn bản." },
           { term: "in writing", pos: "phrase", vi: "bằng văn bản", example: "Notice must be given in writing.", exampleVi: "Thông báo phải được đưa ra bằng văn bản." },
@@ -352,7 +352,7 @@ export const businessTopicsPart2: PurposeTopic[] = [
         questions: [
           { question: "In contract English, \"shall\" expresses", questionVi: "Trong hợp đồng, \"shall\" thể hiện", options: ["a suggestion", "an obligation", "a possibility", "a preference"], answer: 1, explanation: "\"Shall\" creates a binding duty for the named party.", explanationVi: "\"Shall\" tạo nghĩa vụ ràng buộc cho bên được nêu." },
           { question: "The discount is ___ written approval.", questionVi: "Chọn cụm nghĩa \"phụ thuộc vào\".", options: ["subject to", "object to", "according", "based"], answer: 0, explanation: "\"Subject to\" makes the term conditional.", explanationVi: "\"Subject to\" khiến điều khoản trở thành có điều kiện." },
-          { question: "Force majeure covers", questionVi: "Force majeure bao gồm", options: ["events beyond a party's control", "late payment", "poor planning", "staff holidays"], answer: 0, explanation: "It covers extraordinary events such as storms or port closures.", explanationVi: "Nó bao gồm các sự kiện đặc biệt như bão hoặc cảng đóng." },
+          { question: "Force majeure covers", questionVi: "Force majeure bao gồm", options: ["extraordinary events covered by the clause and applicable law", "every late payment automatically", "all poor planning", "all staff holidays"], answer: 0, explanation: "Coverage depends on the clause and applicable law; a storm or port closure is not automatically excused.", explanationVi: "Phạm vi áp dụng phụ thuộc điều khoản và pháp luật; bão hoặc cảng đóng không tự động miễn trách nhiệm." },
           { question: "\"Liability is limited to the contract value\" means", questionVi: "\"Liability is limited to the contract value\" nghĩa là", options: ["no compensation is possible", "compensation cannot exceed the contract amount", "the contract is void", "the buyer pays all damages"], answer: 1, explanation: "It caps the maximum compensation at the contract value.", explanationVi: "Nó giới hạn mức bồi thường tối đa bằng giá trị hợp đồng." },
           { question: "Before signing a clause you do not understand you should", questionVi: "Trước khi ký điều khoản chưa hiểu, bạn nên", options: ["ask for written clarification", "sign quickly", "assume it is standard", "delete it yourself"], answer: 0, explanation: "Written clarification protects you if there is a dispute later.", explanationVi: "Giải thích bằng văn bản giúp bảo vệ bạn khi có tranh chấp." },
         ],
@@ -374,9 +374,9 @@ export const businessTopicsPart2: PurposeTopic[] = [
         gist: "Replace duties with results: action verb plus number plus outcome.",
         gistVi: "Thay mô tả công việc bằng kết quả: động từ hành động cộng số liệu cộng kết quả.",
         teaching:
-          "Weak CV line: \"Responsible for social media.\" Strong line: \"Grew Instagram followers from 4,000 to 22,000 in 11 months, increasing enquiries by 35%.\" Start each bullet with a past-tense action verb (led, launched, reduced, negotiated, automated), add a number, then the business outcome. Keep it to one or two pages, use the same tense throughout, and tailor the top third to the job advert keywords.",
+          "Weak CV line: \"Responsible for social media.\" Strong line: \"Grew Instagram followers from 4,000 to 22,000 in 11 months, increasing enquiries by 35%.\" Use past-tense action verbs (led, launched, reduced, negotiated, automated) for completed achievements and present tense for ongoing duties. Add a truthful number when available, then the business outcome. Keep it to one or two pages, keep tense consistent with each time frame, and tailor the top third to the job advert keywords.",
         teachingVi:
-          "Dòng CV yếu: \"Responsible for social media.\" Dòng CV mạnh: \"Grew Instagram followers from 4,000 to 22,000 in 11 months, increasing enquiries by 35%.\" Mỗi dòng nên bắt đầu bằng động từ quá khứ chỉ hành động (led, launched, reduced, negotiated, automated), thêm số liệu, rồi kết quả kinh doanh. Giữ CV trong một đến hai trang, dùng thống nhất một thời động từ, và điều chỉnh phần đầu theo từ khóa trong tin tuyển dụng.",
+          "Dòng CV yếu: \"Responsible for social media.\" Dòng CV mạnh: \"Grew Instagram followers from 4,000 to 22,000 in 11 months, increasing enquiries by 35%.\" Dùng động từ quá khứ cho thành tích đã hoàn thành và hiện tại cho nhiệm vụ đang làm. Thêm số liệu có thật khi có, rồi nêu kết quả kinh doanh. Giữ CV trong một đến hai trang, dùng thời phù hợp với từng giai đoạn, và điều chỉnh phần đầu theo từ khóa trong tin tuyển dụng.",
         vocab: [
           { term: "to spearhead", pos: "verb", vi: "dẫn đầu triển khai", example: "Spearheaded the launch of a new pricing model.", exampleVi: "Dẫn đầu triển khai mô hình giá mới." },
           { term: "to streamline", pos: "verb", vi: "tinh gọn quy trình", example: "Streamlined onboarding from 9 days to 3 days.", exampleVi: "Tinh gọn quy trình tiếp nhận từ 9 ngày xuống 3 ngày." },

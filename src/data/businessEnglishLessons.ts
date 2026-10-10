@@ -414,9 +414,9 @@ export const businessTopicsPart1: PurposeTopic[] = [
         gist: "Name the chart, give the overall trend, then the two numbers that matter.",
         gistVi: "Gọi tên biểu đồ, nêu xu hướng chung, rồi nói hai số liệu quan trọng nhất.",
         teaching:
-          "Use the pattern: what the chart shows (\"this line chart shows monthly revenue for 2026\"), the trend (\"revenue rose steadily until August, then fell sharply\"), and the key figures (\"the peak was 2.4 billion dong in August, a 12% increase year on year\"). Match verbs and adverbs: rise/fall/level off with sharply, steadily, slightly. Say \"increase by 5%\" for the change and \"increase to 5%\" for the final level - this pair is the most common mistake in reporting.",
+          "Use the pattern: what the chart shows (\"this line chart shows monthly revenue for 2026\"), the trend (\"revenue rose steadily until August, then fell sharply\"), and the key figures (\"the peak was 2.4 billion dong in August, a 12% increase year on year\"). Use rise/fall with sharply, steadily or slightly; use level off for a trend becoming stable. Say \"increase by 5%\" for the change and \"increase to 5%\" for the final level - this pair is the most common mistake in reporting.",
         teachingVi:
-          "Dùng mẫu: biểu đồ thể hiện gì (\"this line chart shows monthly revenue for 2026\"), xu hướng (\"revenue rose steadily until August, then fell sharply\"), và số liệu chính (\"the peak was 2.4 billion dong in August, a 12% increase year on year\"). Ghép đúng động từ với trạng từ: rise/fall/level off cùng sharply, steadily, slightly. Nói \"increase by 5%\" cho mức thay đổi và \"increase to 5%\" cho mức cuối cùng - đây là lỗi phổ biến nhất khi báo cáo số liệu.",
+          "Dùng mẫu: biểu đồ thể hiện gì (\"this line chart shows monthly revenue for 2026\"), xu hướng (\"revenue rose steadily until August, then fell sharply\"), và số liệu chính (\"the peak was 2.4 billion dong in August, a 12% increase year on year\"). Dùng rise/fall với sharply, steadily hoặc slightly; dùng level off khi xu hướng ổn định lại. Nói \"increase by 5%\" cho mức thay đổi và \"increase to 5%\" cho mức cuối cùng - đây là lỗi phổ biến nhất khi báo cáo số liệu.",
         vocab: [
           { term: "to rise sharply", pos: "verb phrase", vi: "tăng mạnh", example: "Orders rose sharply in the second quarter.", exampleVi: "Đơn hàng tăng mạnh trong quý hai." },
           { term: "to fall steadily", pos: "verb phrase", vi: "giảm đều", example: "Costs fell steadily after the audit.", exampleVi: "Chi phí giảm đều sau kỳ kiểm toán." },
@@ -425,7 +425,7 @@ export const businessTopicsPart1: PurposeTopic[] = [
           { term: "year on year", pos: "phrase", vi: "so với cùng kỳ năm trước", example: "Revenue is up 12% year on year.", exampleVi: "Doanh thu tăng 12% so với cùng kỳ năm trước." },
           { term: "to account for", pos: "verb phrase", vi: "chiếm tỷ lệ", example: "Mobile accounts for 68% of orders.", exampleVi: "Kênh mobile chiếm 68% đơn hàng." },
           { term: "margin", pos: "noun", vi: "biên lợi nhuận", example: "Our margin narrowed from 22% to 18%.", exampleVi: "Biên lợi nhuận của chúng ta thu hẹp từ 22% xuống 18%." },
-          { term: "outlier", pos: "noun", vi: "điểm dữ liệu bất thường", example: "Ignore March; it is an outlier caused by one bulk order.", exampleVi: "Bỏ qua tháng 3; đó là điểm bất thường do một đơn hàng lớn." },
+          { term: "outlier", pos: "noun", vi: "điểm dữ liệu bất thường", example: "Investigate March: it is an outlier caused by one bulk order.", exampleVi: "Hãy kiểm tra tháng 3: đó là điểm bất thường do một đơn hàng lớn." },
           { term: "flat", pos: "adjective", vi: "không đổi", example: "Sales were flat over the summer.", exampleVi: "Doanh số không đổi trong suốt mùa hè." },
           { term: "the bottom line", pos: "noun phrase", vi: "kết quả cuối cùng, điều quan trọng nhất", example: "The bottom line is that profit is down 4%.", exampleVi: "Điều quan trọng nhất là lợi nhuận giảm 4%." },
         ],
@@ -474,7 +474,7 @@ export const businessTopicsPart1: PurposeTopic[] = [
           label: "Sample Q and A",
           labelVi: "Đoạn hỏi đáp mẫu",
           lines: [
-            "Client: Is not a pilot just a way to delay the launch?",
+            "Client: Isn't a pilot just a way to delay the launch?",
             "You: That is a fair question. So your concern is that the pilot pushes the launch back.",
             "You: The pilot runs inside the current schedule, in Da Nang only, and we cap costs at 50 million dong. Worst case we lose one week, and we avoid a national recall like last year.",
             "You: Does that answer your question, or would you like to see the timeline slide?",
