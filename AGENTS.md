@@ -4,7 +4,7 @@
 - Tuition uses `CourseTuitionSection`, `--tuition-*` tokens and one responsive list to keep prices and the 3x one-to-one rule consistent.
 - Derive registration prices from the shared catalog; server-validate EUR prices and separate course payments from Premium.
 - Keep only the exact `/english`, `/chinese`, `/programming`, and `/register` overview routes public; nested learning routes remain authentication and Premium protected.
-- Keep auth emails in the shared six HaiEduTech templates deployed through the auth hook.
+- Auth emails use six shared HaiEduTech templates deployed through the auth hook.
 - Programming math: shared `normalizeMath`; audit delimiters.
 - HSK visuals use Hanzi-aware mappings and stable category fallbacks to avoid generic icons.
 
@@ -38,4 +38,4 @@
 
 - Admin flags share rlEngine. Chinese/Interpersonal use shared sequential locks and completion PDFs; completed lessons remain reviewable; no unverifiable issuance codes.
 
-- Purpose English gaps use shared phrase-matched surface forms; Business function quizzes use model roles to avoid false answers.
+- Purpose English gaps use shared phrase-matched surface forms; Business function quizzes use model roles for accurate keys.
