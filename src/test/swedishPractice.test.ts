@@ -19,8 +19,8 @@ describe("Swedish practice", () => {
     expect(getPatterns("swedish").find(p => p.id === "sv-a2-1")?.fills[0].w).toBe("arbetade");
   });
   it("provides typing, translation, paraphrase and three skill banks", () => {
-    expect(SWEDISH_WRITING_SENTENCES).toHaveLength(30);
-    for (const level of ["A1", "A2", "B1"]) expect(SWEDISH_WRITING_SENTENCES.filter(s => s.level === level)).toHaveLength(10);
+    expect(SWEDISH_WRITING_SENTENCES).toHaveLength(90);
+    for (const level of ["A1", "A2", "B1"]) expect(SWEDISH_WRITING_SENTENCES.filter(s => s.level === level)).toHaveLength(30);
     for (const s of SWEDISH_WRITING_SENTENCES) { expect(s.en.length).toBeGreaterThan(10); expect(s.alternativeSv).not.toBe(s.sv); }
     for (const bank of Object.values(SWEDISH_WRITING_SKILLS)) { expect(bank.length).toBeGreaterThan(0); for (const s of bank) expect(s.exampleEn.length).toBeGreaterThan(10); }
   });
@@ -36,5 +36,19 @@ describe("Swedish practice", () => {
     const ids = shuffledSwedishIndices(30);
     expect(ids).toHaveLength(30);
     expect([...ids].sort((a,b) => a-b)).toEqual(Array.from({ length: 30 }, (_,i) => i));
+  });
+});
+
+import { SWEDISH_WRITING_SENTENCES as SV_BANK, SWEDISH_WRITING_SKILLS as SV_SKILLS } from "@/data/swedishWritingPractice";
+describe("Swedish writing bank size", () => {
+  it("has 30 unique typing sentences per level A1-B1", () => {
+    for (const level of ["A1", "A2", "B1"]) expect(SV_BANK.filter(s => s.level === level)).toHaveLength(30);
+    expect(new Set(SV_BANK.map(s => s.id)).size).toBe(90);
+    expect(new Set(SV_BANK.map(s => s.sv)).size).toBe(90);
+  });
+  it("has expanded skill banks", () => {
+    expect(SV_SKILLS.vocabulary).toHaveLength(18);
+    expect(SV_SKILLS.grammar).toHaveLength(12);
+    expect(SV_SKILLS.connectors).toHaveLength(12);
   });
 });
