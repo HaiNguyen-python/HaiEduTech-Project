@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import CertificateCanvas from "@/components/certificates/CertificateCanvas";
+import { exportCertificatePdf } from "@/lib/certificatePdfExport";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { toast } from "@/hooks/use-toast";
 import { pythonLessons } from "@/data/curriculum/pythonPathway";
@@ -36,11 +37,7 @@ const PythonCertificate = () => {
   const download = async () => {
     if (!certRef.current || !eligible) return;
     try {
-      const [{ default: html2canvas }, { default: jsPDF }] = await Promise.all([import("html2canvas"), import("jspdf")]);
-      const canvas = await html2canvas(certRef.current, { scale: 2, backgroundColor: "#ffffff" });
-      const pdf = new jsPDF({ orientation: "landscape", unit: "px", format: [canvas.width, canvas.height] });
-      pdf.addImage(canvas.toDataURL("image/png"), "PNG", 0, 0, canvas.width, canvas.height);
-      pdf.save(`Python_Programming_Certificate_${name.trim().replace(/\s+/g, "_") || "learner"}.pdf`);
+      await exportCertificatePdf(certRef.current, `Python_Programming_Certificate_${name.trim().replace(/\s+/g, "_") || "learner"}.pdf`);
     } catch {
       toast({ title: t("Không tạo được PDF", "Could not create the PDF"), variant: "destructive" });
     }
