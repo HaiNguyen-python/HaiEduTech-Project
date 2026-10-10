@@ -73,8 +73,10 @@ export default function ParentLetterTemplates() {
       </div>
     </CardContent>
     <style>{`
-      .parent-letter{width:720px;max-width:none;margin:0 auto;padding:40px 48px;background:hsl(var(--schedule-paper, 0 0% 100%));color:hsl(var(--schedule-ink, 222 47% 11%));border:10px solid transparent;border-image:linear-gradient(135deg,#3B82F6,#10B981) 1;font-family:inherit}
-      .teaching-poster--export.parent-letter{width:1080px;padding:64px 72px;font-size:22px}
+      .parent-letter{width:720px;max-width:100%;margin:0 auto;padding:40px 48px;background:hsl(var(--schedule-paper, 0 0% 100%));color:hsl(var(--schedule-ink, 222 47% 11%));border:10px solid transparent;border-image:linear-gradient(135deg,#3B82F6,#10B981) 1;font-family:inherit;overflow-wrap:break-word}
+      .teaching-poster--export.parent-letter{width:1080px;max-width:none;padding:64px 72px;font-size:22px;border-image:none;border-color:hsl(var(--primary))}
+      .teaching-poster--export.parent-letter h2{background:none;-webkit-text-fill-color:hsl(var(--primary));color:hsl(var(--primary))}
+      @media(max-width:640px){.parent-letter:not(.teaching-poster--export){padding:24px 20px}.parent-letter__head{flex-wrap:wrap}}
       .parent-letter__head{display:flex;align-items:center;gap:14px;padding-bottom:16px;border-bottom:2px solid #10B981}
       .parent-letter__head img{width:64px;height:64px;border-radius:50%;object-fit:cover}
       .parent-letter__head strong{font-size:1.4em;color:#2563EB}.parent-letter__head p{font-size:.85em;color:#059669;margin:0}
