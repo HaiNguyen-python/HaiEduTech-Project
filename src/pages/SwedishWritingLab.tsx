@@ -11,13 +11,15 @@ import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import SwedishWritingExercises, { type SwedishWritingMode } from "@/components/swedish/SwedishWritingExercises";
 import { ElevatedTabs, ElevatedTabsList, ElevatedTabsTrigger } from "@/components/ui/elevated-tabs";
-import SwedishHeroBanner from "@/components/swedish/SwedishHeroBanner";
+import IllustratedPageHeader from "@/components/common/IllustratedPageHeader";
 import FloatingNordicParticles from "@/components/FloatingNordicParticles";
 import { motion } from "framer-motion";
 import {
   PencilLine, Sparkles, Loader2, CheckCircle2, AlertCircle, Lightbulb,
-  BookOpen, ChevronDown, ChevronUp,
+  BookOpen, ChevronDown, ChevronUp, Puzzle, Link2, Languages, Keyboard, PenLine,
 } from "lucide-react";
+
+const MODE_ICONS = [PenLine, BookOpen, Puzzle, Link2, Languages, Sparkles, Keyboard];
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
@@ -54,7 +56,7 @@ const SwedishWritingLab = () => {
   const modes = ["tasks", "vocabulary", "grammar", "connectors", "translation", "paraphrase", "typing"];
   const requestedMode = searchParams.get("mode") ?? "tasks";
   const mode = modes.includes(requestedMode) ? requestedMode : "tasks";
-  const modeLabels = [t("Đề YKI", "YKI Tasks"), t("Từ vựng", "Vocabulary"), t("Ngữ pháp", "Grammar"), t("Liên kết", "Connectors"), t("Dịch", "Translation"), "Paraphrase", "Typing"];
+  const modeLabels = [t("Đề YKI", "YKI Tasks"), t("Từ vựng", "Vocabulary"), t("Ngữ pháp", "Grammar"), t("Liên kết", "Connectors"), t("Dịch", "Translation"), t("Nâng cấp câu", "Paraphrase"), t("Gõ câu", "Typing")];
   const [level, setLevel] = useState<SwedishLevel>("A1");
   const [activeId, setActiveId] = useState<string>(SWEDISH_WRITING_PROMPTS[0].id);
   const [draft, setDraft] = useState("");
@@ -139,30 +141,20 @@ const SwedishWritingLab = () => {
         path="/swedish/writing"
       />
       <Navbar />
-      <main className="pt-24 lg:pt-28">
-        <SwedishHeroBanner pickKey="SwedishWritingLab" compact />
-        <div className="container mx-auto max-w-5xl px-4 sm:px-6 py-8 sm:py-12">
-          <header className="text-center mb-8">
-            <div className="inline-flex items-center gap-2 mb-3">
-              <PencilLine className="w-5 h-5 text-primary" />
-              <Badge variant="outline" className="border-primary/30 text-primary">
-                {t("YKI Ruotsi · Skriva", "YKI Ruotsi · Skriva")}
-              </Badge>
+      <main className="container mx-auto max-w-6xl space-y-6 px-4 pb-16 pt-28 sm:px-6">
+        <div>
+          <IllustratedPageHeader variant="swedish">
+            <div className="text-center">
+              <Badge className="mb-3">YKI Ruotsi · Skriva</Badge>
+              <h1 className="text-3xl font-bold md:text-4xl">{t("Luyện viết YKI tiếng Thụy Điển", "Swedish YKI Writing Practice")}</h1>
+              <p className="mx-auto mt-3 max-w-3xl text-foreground/80">{t("Đề viết YKI A1–B1 có AI chấm theo 4 tiêu chí cùng 6 phần luyện kỹ năng viết.", "YKI A1–B1 writing prompts with AI feedback on four criteria, plus six focused writing modes.")}</p>
             </div>
-            <h1 className="font-display text-3xl sm:text-4xl font-bold">
-              ✍️ {t("Swedish Writing Lab", "Swedish Writing Lab")}
-            </h1>
-            <p className="mx-auto mt-3 max-w-2xl text-sm sm:text-base text-muted-foreground leading-relaxed">
-              {t(
-                "Chọn cấp độ YKI, viết bài theo đề, AI sẽ chấm theo 4 tiêu chí và trích lỗi cụ thể.",
-                "Pick a YKI level, write to the prompt, and the AI grades 4 criteria with concrete error feedback.",
-              )}
-            </p>
-          </header>
-
+          </IllustratedPageHeader>
+        </div>
+        <div>
           <ElevatedTabs value={mode} onValueChange={value => setSearchParams({ mode: value })}>
-            <ElevatedTabsList className="grid w-full grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 mb-6">
-              {modes.map((value, i) => <ElevatedTabsTrigger key={value} value={value} className="justify-center px-2 py-2.5">{modeLabels[i]}</ElevatedTabsTrigger>)}
+            <ElevatedTabsList className="grid w-full grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 mb-5">
+              {modes.map((value, i) => { const Icon = MODE_ICONS[i]; return <ElevatedTabsTrigger key={value} value={value} className="justify-center px-2 py-2.5 sm:px-3"><Icon className="h-4 w-4 shrink-0" /><span className="truncate">{modeLabels[i]}</span></ElevatedTabsTrigger>; })}
             </ElevatedTabsList>
             {modes.filter(value => value !== "tasks").map(value => <TabsContent key={value} value={value}><SwedishWritingExercises mode={value as SwedishWritingMode} /></TabsContent>)}
             <TabsContent value="tasks">

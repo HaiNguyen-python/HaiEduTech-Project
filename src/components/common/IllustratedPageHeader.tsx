@@ -10,7 +10,7 @@ import technologyBg from "@/assets/programming-career-header.jpg";
 import interpersonalBg from "@/assets/lifestyle/interpersonal-hero-bg.jpg";
 import { cn } from "@/lib/utils";
 
-const BACKGROUNDS = { ielts: ieltsBg, chinese: chineseBg, toeic: toeicBg, vietnamese: vietnameseBg, finnish: finnishBg, cambridge: cambridgeBg, sat: satBg, technology: technologyBg, interpersonal: interpersonalBg } as const;
+const BACKGROUNDS = { ielts: ieltsBg, chinese: chineseBg, toeic: toeicBg, vietnamese: vietnameseBg, finnish: finnishBg, swedish: finnishBg, cambridge: cambridgeBg, sat: satBg, technology: technologyBg, interpersonal: interpersonalBg } as const;
 
 interface Props {
   variant: keyof typeof BACKGROUNDS;
