@@ -43,7 +43,7 @@ export default function ParentLetterTemplates() {
   const download = async () => {
     if (!ref.current) return;
     setBusy(true);
-    try { await exportScheduleImage(ref.current, `HaiEduTech-${TEMPLATES[kind].label}-${kind === "thanks" ? "Hanh-trinh-15-nam" : className}.png`.replace(/\s+/g, "_")); }
+    try { await exportScheduleImage(ref.current, `HaiEduTech-${TEMPLATES[kind].label}-${kind === "thanks" ? "Hanh-trinh-15-nam" : className}.pdf`.replace(/\s+/g, "_"), "pdf"); }
     catch { toast({ title: "Không tải được ảnh", variant: "destructive" }); }
     finally { setBusy(false); }
   };
@@ -57,7 +57,7 @@ export default function ParentLetterTemplates() {
         {kind !== "thanks" && <div className="space-y-1.5"><Label>Tên lớp</Label><Input value={className} onChange={e => setClassName(e.target.value)} /></div>}
         <div className="space-y-1.5"><Label>Tiêu đề</Label><Input value={title} onChange={e => setTitle(e.target.value)} /></div>
         <div className="space-y-1.5"><Label>{kind === "thanks" ? "Nội dung thư gửi chung Quý Phụ huynh và học viên" : <>Nội dung ({"{lop}"} = tên lớp)</>}</Label><Textarea rows={14} value={body} onChange={e => setBody(e.target.value)} /></div>
-        <Button onClick={download} disabled={busy} className="gap-2">{busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}Tải ảnh gửi PH</Button>
+        <Button onClick={download} disabled={busy} className="gap-2">{busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}Tải PDF gửi PH</Button>
       </div>
       <div className="overflow-x-auto">
         <div ref={ref} className="parent-letter">
