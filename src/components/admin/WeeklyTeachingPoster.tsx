@@ -3,6 +3,7 @@ import { formatInTimeZone } from "date-fns-tz";
 import logo from "@/assets/certificate-logo.jpg.asset.json";
 import { FINLAND_ZONE, scheduleDate, scheduleTime, shiftScheduleDate, type ClassOccurrence, type ScheduleZone } from "@/lib/classScheduleTime";
 import { classColor, withAlpha } from "@/lib/classScheduleColors";
+import { formatTeachingHours, totalTeachingMinutes } from "@/lib/scheduleHours";
 import "./WeeklyTeachingPoster.css";
 
 type Props = { week: string; zone: ScheduleZone; occurrences: ClassOccurrence[]; colors: Record<string, string> };
@@ -23,7 +24,7 @@ const WeeklyTeachingPoster = forwardRef<HTMLDivElement, Props>(({ week, zone, oc
         <div className="teaching-poster__teacher"><strong>Mr. Hai Nguyen</strong><p>Language • Technology • Learning</p></div>
       </header>
       <div className="teaching-poster__title">
-        <div><h2>THỜI KHÓA BIỂU TUẦN</h2><p>{displayDate(week)} - {displayDate(shiftScheduleDate(week, 6))}/{week.slice(0, 4)} · {occurrences.length} buổi học</p></div>
+        <div><h2>THỜI KHÓA BIỂU TUẦN</h2><p>{displayDate(week)} - {displayDate(shiftScheduleDate(week, 6))}/{week.slice(0, 4)} · {occurrences.length} buổi học · Tổng {formatTeachingHours(totalTeachingMinutes(occurrences))}</p></div>
         <div className="teaching-poster__zone">{finland ? "Giờ Phần Lan" : "Giờ Việt Nam"} · UTC{offset}{offset !== endOffset ? ` / ${endOffset}` : ""}</div>
       </div>
       <div className="teaching-poster__days">
