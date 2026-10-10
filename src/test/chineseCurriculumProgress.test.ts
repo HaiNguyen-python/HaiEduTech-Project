@@ -23,6 +23,9 @@ describe("Chinese curriculum progress", () => {
   it("returns the first unfinished lesson across all pillars", () => {
     expect(getNextChineseLesson(chineseConversationalPillars, [lessons[0].id])?.id).toBe(lessons[1].id);
   });
+  it("has no unfinished lesson once every lesson is completed", () => {
+    expect(getNextChineseLesson(chineseConversationalPillars, lessons.map(lesson => lesson.id))).toBeNull();
+  });
 
   it("provides a themed illustration with accessible labels for every lesson", () => {
     const illustrations = lessons.map(getChineseLessonIllustration);

@@ -43,7 +43,10 @@ export default function CurriculumCertificate({ track }: { track: "chinese" | "i
     try {
       await document.fonts.ready;
       const [{ default: html2canvas }, { default: jsPDF }] = await Promise.all([import("html2canvas"), import("jspdf")]);
-      const canvas = await html2canvas(artwork.current, { scale: 2, windowWidth: 1280 });
+      const canvas = await html2canvas(artwork.current, { scale: 2, windowWidth: 1280, onclone: (doc) => {
+        const cloned = doc.querySelector<HTMLElement>(".curriculum-certificate");
+        if (cloned) cloned.style.width = "960px";
+      } });
       const pdf = new jsPDF({ orientation: "landscape", unit: "mm", format: "a4" });
       const width = 277;
       const height = canvas.height / canvas.width * width;
