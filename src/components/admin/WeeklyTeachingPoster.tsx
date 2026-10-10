@@ -11,18 +11,19 @@ const displayDate = (date: string) => `${date.slice(8, 10)}/${date.slice(5, 7)}`
 const WeeklyTeachingPoster = forwardRef<HTMLDivElement, Props>(({ week, zone, occurrences }, ref) => {
   const finland = zone === FINLAND_ZONE;
   const offset = formatInTimeZone(`${week}T12:00:00Z`, zone, "xxx");
+  const endOffset = formatInTimeZone(`${shiftScheduleDate(week, 6)}T12:00:00Z`, zone, "xxx");
   return (
     <div ref={ref} className="teaching-poster" aria-label="Thời khóa biểu HaiEduTech">
       <header className="teaching-poster__header">
         <div className="teaching-poster__brand">
-          <img src={logo.url} alt="Logo HaiEduTech" crossOrigin="anonymous" />
+          <img src={logo.url} alt="Logo HaiEduTech" crossOrigin="anonymous" onError={event => { if (!event.currentTarget.src.endsWith("/favicon-192.png")) event.currentTarget.src = "/favicon-192.png"; }} />
           <div><strong>HaiEduTech</strong><p>Language & Technology Learning Center</p></div>
         </div>
         <div className="teaching-poster__teacher"><strong>Mr. Hai Nguyen</strong><p>Language • Technology • Learning</p></div>
       </header>
       <div className="teaching-poster__title">
         <div><h2>THỜI KHÓA BIỂU TUẦN</h2><p>{displayDate(week)} - {displayDate(shiftScheduleDate(week, 6))}/{week.slice(0, 4)} · {occurrences.length} buổi học</p></div>
-        <div className="teaching-poster__zone">{finland ? "Giờ Phần Lan" : "Giờ Việt Nam"} · UTC{offset}</div>
+        <div className="teaching-poster__zone">{finland ? "Giờ Phần Lan" : "Giờ Việt Nam"} · UTC{offset}{offset !== endOffset ? ` / ${endOffset}` : ""}</div>
       </div>
       <div className="teaching-poster__days">
         {DAYS.map((day, index) => {
