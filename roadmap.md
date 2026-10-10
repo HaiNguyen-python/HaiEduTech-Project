@@ -41,3 +41,4 @@
 - [x] Normalize numeric literals without underscores and test full drills (unit tests and displayed ETL race verified).
 - [x] Rename the parent thank-you letter title to "THƯ TRI ÂN QUÝ PHỤ HUYNH · HÀNH TRÌNH 15 NĂM" (browser preview and downloaded image verified).
 - [x] Rewrite all three parent letter templates so they address parents and learners of any age together (browser preview and downloaded images verified).
+- [x] Raise the thank-you letter photo background from 6.5% to 12% opacity so it reads a little stronger (downloaded image verified, text still crisp).
