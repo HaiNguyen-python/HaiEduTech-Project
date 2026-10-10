@@ -20,6 +20,8 @@ import {
 import WeeklyTeachingPoster from "./WeeklyTeachingPoster";
 import { exportScheduleImage } from "@/lib/scheduleImageExport";
 import { expandScheduleWeek, scheduleDate, scheduleTime, scheduleWeekStart, shiftScheduleDate, vietnamInstant, VIETNAM_ZONE, FINLAND_ZONE, type ClassSchedule, type ScheduleZone } from "@/lib/classScheduleTime";
+import { buildClassColorMap, classColor, classColorKey } from "@/lib/classScheduleColors";
+
 
 const SUBJECT_OPTIONS = [
   { value: "english", label: "English", chip: "bg-blue-500/15 text-blue-700 border-blue-500/30 dark:text-blue-300", dot: "bg-blue-500" },
@@ -76,6 +78,14 @@ export default function ClassScheduleManager() {
   function filteredForWeek() {
     return schedules.filter(c => (filterSubject === "all" || c.subject === filterSubject) && (filterStatus === "all" || c.status === filterStatus));
   }
+  // One colour per class, computed from every class so it stays the same across weeks and views.
+  const classColors = useMemo(() => buildClassColorMap(schedules), [schedules]);
+  const classLegend = useMemo(() => {
+    const byKey = new Map<string, ClassSchedule>();
+    for (const c of schedules) byKey.set(classColorKey(c), c);
+    return [...byKey.values()].sort((a, b) => a.class_name.localeCompare(b.class_name));
+  }, [schedules]);
+
   const downloadPoster = async () => {
     if (!posterRef.current) return;
     setExporting(true);
@@ -285,14 +295,18 @@ export default function ClassScheduleManager() {
         </div>
       </div>
 
-      {/* ===== Subject legend ===== */}
-      <div className="flex flex-wrap gap-2 text-xs">
-        {SUBJECT_OPTIONS.map((o) => (
-          <span key={o.value} className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-md border ${o.chip}`}>
-            <span className={`w-2 h-2 rounded-full ${o.dot}`} /> {o.label}
-          </span>
-        ))}
-      </div>
+      {/* ===== Class colour legend ===== */}
+      {!!classLegend.length && (
+        <div className="flex flex-wrap gap-2 text-xs" aria-label="Màu của từng lớp">
+          {classLegend.map((c) => (
+            <span key={classColorKey(c)} className="inline-flex items-center gap-1.5 rounded-md border border-border bg-card px-2 py-1">
+              <span className="h-2 w-2 shrink-0 rounded-full" style={{ background: classColor(classColors, c) }} />
+              <span className="truncate">{c.class_name}</span>
+            </span>
+          ))}
+        </div>
+      )}
+
 
       {view !== "list" && (
         <div className="flex flex-wrap items-center justify-between gap-3">
@@ -307,7 +321,7 @@ export default function ClassScheduleManager() {
           </Button>}
         </div>
       )}
-      {view === "poster" && (loading ? <div className="py-12 text-center text-muted-foreground">Đang tải lịch học…</div> : <WeeklyTeachingPoster ref={posterRef} week={weekStart} zone={zone} occurrences={occurrences} />)}
+      {view === "poster" && (loading ? <div className="py-12 text-center text-muted-foreground">Đang tải lịch học…</div> : <WeeklyTeachingPoster ref={posterRef} week={weekStart} zone={zone} occurrences={occurrences} colors={classColors} />)}
       {view === "week" && (
         <div className="overflow-x-auto">
           <div className="grid min-w-[1000px] grid-cols-7 gap-2">
@@ -316,10 +330,11 @@ export default function ClassScheduleManager() {
               const items = occurrences.filter(c => scheduleDate(c.start_time, zone) === date);
               return <div key={date} onDragOver={e => e.preventDefault()} onDrop={() => handleDrop(date)} className="min-h-[280px] rounded-lg border border-border bg-card p-3">
                 <p className="mb-3 text-sm font-semibold">{["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ nhật"][i]}<span className="block text-muted-foreground">{date.slice(8)}/{date.slice(5, 7)}</span></p>
-                <div className="space-y-2">{items.map(c => <Button key={c.occurrence_id} variant="outline" draggable onDragStart={() => setDraggingId(c.id)} onDragEnd={() => setDraggingId(null)} onClick={() => { const original = schedules.find(s => s.id === c.id); if (original) startEdit(original); }} className="h-auto w-full flex-col items-start whitespace-normal p-2 text-left">
-                  <span className="font-bold text-primary">{scheduleTime(c.start_time, zone)} - {scheduleTime(c.end_time, zone)}</span>
+                <div className="space-y-2">{items.map(c => { const color = classColor(classColors, c); return <Button key={c.occurrence_id} variant="outline" draggable onDragStart={() => setDraggingId(c.id)} onDragEnd={() => setDraggingId(null)} onClick={() => { const original = schedules.find(s => s.id === c.id); if (original) startEdit(original); }} className="h-auto w-full flex-col items-start whitespace-normal p-2 text-left" style={{ borderLeftColor: color, borderLeftWidth: 4 }}>
+                  <span className="font-bold" style={{ color }}>{scheduleTime(c.start_time, zone)} - {scheduleTime(c.end_time, zone)}</span>
                   <span className="mt-1 text-xs leading-relaxed">{c.class_name}</span>
-                </Button>)}</div>
+                </Button>; })}</div>
+
               </div>;
             })}
           </div>
@@ -341,7 +356,8 @@ export default function ClassScheduleManager() {
                   const isConflict = conflictMap[c.id];
                   return (
                     <div key={c.id} className={`p-4 flex flex-wrap items-center gap-3 hover:bg-muted/40 transition-colors ${isConflict ? "bg-red-500/5" : ""}`}>
-                      <span className={`w-2.5 h-2.5 rounded-full ${meta.dot}`} />
+                      <span className="w-2.5 h-2.5 shrink-0 rounded-full" style={{ background: classColor(classColors, c) }} />
+
                       <div className="flex-1 min-w-[240px]">
                         <div className="font-semibold flex items-center gap-2">
                           {c.class_name}

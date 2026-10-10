@@ -1,14 +1,15 @@
-import { forwardRef } from "react";
+import { forwardRef, type CSSProperties } from "react";
 import { formatInTimeZone } from "date-fns-tz";
 import logo from "@/assets/certificate-logo.jpg.asset.json";
 import { FINLAND_ZONE, scheduleDate, scheduleTime, shiftScheduleDate, type ClassOccurrence, type ScheduleZone } from "@/lib/classScheduleTime";
+import { classColor, withAlpha } from "@/lib/classScheduleColors";
 import "./WeeklyTeachingPoster.css";
 
-type Props = { week: string; zone: ScheduleZone; occurrences: ClassOccurrence[] };
+type Props = { week: string; zone: ScheduleZone; occurrences: ClassOccurrence[]; colors: Record<string, string> };
 const DAYS = ["Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy", "Chủ Nhật"];
 const displayDate = (date: string) => `${date.slice(8, 10)}/${date.slice(5, 7)}`;
 
-const WeeklyTeachingPoster = forwardRef<HTMLDivElement, Props>(({ week, zone, occurrences }, ref) => {
+const WeeklyTeachingPoster = forwardRef<HTMLDivElement, Props>(({ week, zone, occurrences, colors }, ref) => {
   const finland = zone === FINLAND_ZONE;
   const offset = formatInTimeZone(`${week}T12:00:00Z`, zone, "xxx");
   const endOffset = formatInTimeZone(`${shiftScheduleDate(week, 6)}T12:00:00Z`, zone, "xxx");
@@ -32,10 +33,13 @@ const WeeklyTeachingPoster = forwardRef<HTMLDivElement, Props>(({ week, zone, oc
           return <section key={date} className="teaching-poster__day">
             <div className="teaching-poster__day-label"><strong>{day}</strong><span>{displayDate(date)}</span></div>
             <div className="teaching-poster__sessions">
-              {sessions.map(c => <article key={c.occurrence_id} className="teaching-poster__session" data-subject={c.subject}>
-                <time>{scheduleTime(c.start_time, zone)} - {scheduleTime(c.end_time, zone)}{scheduleDate(c.end_time, zone) !== date ? " (+1 ngày)" : ""}</time>
-                <h3>{c.class_name}</h3>
-              </article>)}
+              {sessions.map(c => {
+                const color = classColor(colors, c);
+                return <article key={c.occurrence_id} className="teaching-poster__session" style={{ "--schedule-subject": color, "--schedule-subject-soft": withAlpha(color, 0.08) } as CSSProperties}>
+                  <time>{scheduleTime(c.start_time, zone)} - {scheduleTime(c.end_time, zone)}{scheduleDate(c.end_time, zone) !== date ? " (+1 ngày)" : ""}</time>
+                  <h3>{c.class_name}</h3>
+                </article>;
+              })}
               {!sessions.length && <p className="teaching-poster__empty">Không có lớp</p>}
             </div>
           </section>;

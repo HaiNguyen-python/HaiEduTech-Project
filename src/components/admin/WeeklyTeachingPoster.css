@@ -16,14 +16,10 @@
 .teaching-poster__day-label strong { display: block; color: hsl(var(--schedule-blue)); font-size: 16px; }
 .teaching-poster__day-label span { display: block; color: hsl(var(--schedule-muted)); font-size: 13px; margin-top: 4px; }
 .teaching-poster__sessions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 16px 22px; align-items: start; }
-.teaching-poster__session { --schedule-subject: var(--schedule-blue); border-left: 3px solid hsl(var(--schedule-subject)); padding: 3px 0 3px 12px; min-width: 0; }
-.teaching-poster__session[data-subject="chinese"] { --schedule-subject: var(--schedule-rose); }
-.teaching-poster__session[data-subject="finnish"] { --schedule-subject: var(--schedule-green); }
-.teaching-poster__session[data-subject="programming"], .teaching-poster__session[data-subject="ielts"] { --schedule-subject: var(--schedule-violet); }
-.teaching-poster__session[data-subject="toeic"] { --schedule-subject: var(--schedule-cyan); }
-.teaching-poster__session[data-subject="pte"] { --schedule-subject: var(--schedule-gold); }
-.teaching-poster__session time { color: hsl(var(--schedule-subject)); font-size: 17px; line-height: 1.4; font-weight: 800; font-variant-numeric: tabular-nums; }
-.teaching-poster__session h3 { font-size: 14px; font-weight: 700; line-height: 1.55; margin-top: 3px; overflow-wrap: anywhere; }
+.teaching-poster__session { --schedule-subject: hsl(var(--schedule-blue)); --schedule-subject-soft: hsl(var(--schedule-blue) / .08); border: 1px solid var(--schedule-subject-soft); border-left: 4px solid var(--schedule-subject); background: var(--schedule-subject-soft); border-radius: 6px; padding: 9px 12px; min-width: 0; }
+.teaching-poster__session time { color: var(--schedule-subject); font-size: 17px; line-height: 1.4; font-weight: 800; font-variant-numeric: tabular-nums; }
+.teaching-poster__session h3 { font-size: 14px; font-weight: 700; line-height: 1.55; margin-top: 3px; color: hsl(var(--schedule-ink)); overflow-wrap: anywhere; }
+
 .teaching-poster__empty { grid-column: 1 / -1; align-self: center; color: hsl(var(--schedule-muted)); font-size: 13px; padding: 8px 0; }
 .teaching-poster__footer { padding: 22px 32px; display: flex; justify-content: space-between; align-items: center; gap: 20px; background: hsl(var(--schedule-wash)); }
 .teaching-poster__footer strong { font-size: 16px; color: hsl(var(--schedule-green)); }
