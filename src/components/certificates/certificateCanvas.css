@@ -26,6 +26,7 @@
  .certificate-canvas__brand { flex-wrap: wrap; gap: 10px; margin-bottom: 24px; }
  .certificate-canvas__logo { width: 60px; height: 60px; }
  .certificate-canvas__brand-name { font-size: 18px; }
+ .certificate-canvas__brand-sub { font-size: 9.5px; letter-spacing: 0.5px; }
  .certificate-canvas__preview { margin-left: 0; }
  .certificate-canvas__title { font-size: 26px; }
  .certificate-canvas__name { font-size: 32px; }
