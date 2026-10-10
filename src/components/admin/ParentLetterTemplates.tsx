@@ -82,7 +82,7 @@ export default function ParentLetterTemplates() {
     <style>{`
       .parent-letter{position:relative;isolation:isolate;width:720px;max-width:100%;margin:0 auto;padding:40px 48px;background:hsl(var(--schedule-paper, 0 0% 100%));color:hsl(var(--schedule-ink, 222 47% 11%));border:10px solid transparent;border-image:linear-gradient(135deg,#3B82F6,#10B981) 1;font-family:inherit;overflow-wrap:break-word}
       .parent-letter > :not(.parent-letter__background){position:relative;z-index:1}
-      .parent-letter__background{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:44% center;opacity:.065;pointer-events:none;z-index:0}
+      .parent-letter__background{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:44% center;opacity:.1;pointer-events:none;z-index:0}
       .parent-letter__brand{font-family:"Dancing Script",cursive;font-weight:700;color:hsl(var(--notice-deep,#1E3A8A))!important;font-size:2em;letter-spacing:0}
       .teaching-poster--export.parent-letter{width:1080px;max-width:none;padding:64px 72px;font-size:22px;border-image:none;border-color:hsl(var(--primary))}
       .teaching-poster--export.parent-letter h2{background:none;-webkit-text-fill-color:hsl(var(--primary));color:hsl(var(--primary))}
