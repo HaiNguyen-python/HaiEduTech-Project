@@ -22,22 +22,22 @@ export async function exportCertificatePdf(artwork: HTMLElement, filename: strin
       if (qrValue) {
         image.src = await QRCode.toDataURL(qrValue, { width: 320, margin: 4, errorCorrectionLevel: "M" });
       } else if (!image.src.startsWith("data:")) {
-        const response = await fetch(image.src, { mode: "cors" });
-        if (!response.ok) throw new Error("Could not load certificate image. Please retry.");
-        const blob = await response.blob();
-        image.src = await new Promise<string>((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = () => typeof reader.result === "string" ? resolve(reader.result) : reject(new Error("Invalid image"));
-          reader.onerror = () => reject(new Error("Could not read certificate image"));
-          reader.readAsDataURL(blob);
-        });
+        image.crossOrigin = "anonymous";
+        await image.decode();
+        const bitmap = document.createElement("canvas");
+        bitmap.width = image.naturalWidth;
+        bitmap.height = image.naturalHeight;
+        const context = bitmap.getContext("2d");
+        if (!context || !bitmap.width) throw new Error("Could not load certificate image. Please retry.");
+        context.drawImage(image, 0, 0);
+        image.src = bitmap.toDataURL("image/png");
       }
       await image.decode();
       if (!image.naturalWidth) throw new Error("Certificate image is missing");
     }));
     const bounds = clone.getBoundingClientRect();
     const canvas = await html2canvas(clone, {
-      scale: 2, backgroundColor: styles.backgroundColor, useCORS: true,
+      scale: 2, backgroundColor: styles.backgroundColor, useCORS: true, logging: false,
       width: Math.ceil(bounds.width), height: Math.ceil(bounds.height),
       windowWidth: 1280, windowHeight: 1800, scrollX: 0, scrollY: 0,
       onclone: (_document, element) => {
