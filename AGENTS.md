@@ -41,3 +41,7 @@
 - Purpose English gaps use shared phrase-matched surface forms; Business function quizzes use model roles for accurate keys.
 
 - Swedish writing uses a typed bank and sv-scoped storage; patterns reuse the shared engine to prevent drift.
+
+<!-- LOVABLE:BEGIN -->
+- Admin and Purpose English certificates share CertificateCanvas and token-based print styles to keep artwork consistent without changing eligibility or verification.
+<!-- LOVABLE:END -->
