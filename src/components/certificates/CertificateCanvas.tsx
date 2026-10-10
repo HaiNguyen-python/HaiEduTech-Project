@@ -27,7 +27,7 @@ const CertificateCanvas = forwardRef<HTMLDivElement, CertificateCanvasProps>(
     return (
       <div ref={ref} className="certificate-canvas">
         <div className="certificate-canvas__brand">
-          <img className="certificate-canvas__logo" src={logoAsset.url} alt="HaiEduTech" width={84} height={84} crossOrigin="anonymous" />
+          <img className="certificate-canvas__logo" src={new URL(logoAsset.url, "https://haiedutech.com").href} alt="HaiEduTech" width={84} height={84} crossOrigin="anonymous" />
           <span className="certificate-canvas__brand-name">HaiEduTech</span>
           {preview && <span className="certificate-canvas__preview">{t("Bản xem trước", "Preview")}</span>}
         </div>
