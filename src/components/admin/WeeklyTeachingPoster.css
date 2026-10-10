@@ -1,0 +1,48 @@
+.teaching-poster { background: hsl(var(--schedule-paper)); color: hsl(var(--schedule-ink)); border: 1px solid hsl(var(--schedule-line)); border-top: 5px solid hsl(var(--schedule-blue)); border-radius: 8px; overflow: hidden; font-family: Manrope, sans-serif; }
+.teaching-poster__header { padding: 28px 32px 24px; display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; }
+.teaching-poster__brand { display: flex; gap: 14px; align-items: center; }
+.teaching-poster__brand img { width: 68px; height: 68px; object-fit: contain; }
+.teaching-poster__brand strong { font-family: Sora, sans-serif; font-size: 28px; color: hsl(var(--schedule-blue)); }
+.teaching-poster__brand p { font-size: 12px; color: hsl(var(--schedule-muted)); margin-top: 3px; }
+.teaching-poster__teacher { text-align: right; font-size: 14px; color: hsl(var(--schedule-green)); padding-top: 12px; }
+.teaching-poster__teacher p { font-size: 12px; color: hsl(var(--schedule-muted)); margin-top: 4px; }
+.teaching-poster__title { padding: 0 32px 24px; display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; }
+.teaching-poster__title h2 { font-family: Sora, sans-serif; font-size: 30px; line-height: 1.25; font-weight: 700; }
+.teaching-poster__title p { font-size: 14px; margin-top: 8px; color: hsl(var(--schedule-muted)); }
+.teaching-poster__zone { white-space: nowrap; background: hsl(var(--schedule-blue) / .08); color: hsl(var(--schedule-blue)); border-radius: 6px; padding: 10px 14px; font-size: 14px; font-weight: 700; }
+.teaching-poster__days { border-top: 1px solid hsl(var(--schedule-line)); }
+.teaching-poster__day { display: grid; grid-template-columns: 125px minmax(0, 1fr); border-bottom: 1px solid hsl(var(--schedule-line)); }
+.teaching-poster__day-label { background: hsl(var(--schedule-wash)); padding: 22px 20px; border-right: 1px solid hsl(var(--schedule-line)); }
+.teaching-poster__day-label strong { display: block; color: hsl(var(--schedule-blue)); font-size: 16px; }
+.teaching-poster__day-label span { display: block; color: hsl(var(--schedule-muted)); font-size: 13px; margin-top: 4px; }
+.teaching-poster__sessions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 16px 22px; align-items: start; }
+.teaching-poster__session { --schedule-subject: var(--schedule-blue); border-left: 3px solid hsl(var(--schedule-subject)); padding: 3px 0 3px 12px; min-width: 0; }
+.teaching-poster__session[data-subject="chinese"] { --schedule-subject: var(--schedule-rose); }
+.teaching-poster__session[data-subject="finnish"] { --schedule-subject: var(--schedule-green); }
+.teaching-poster__session[data-subject="programming"], .teaching-poster__session[data-subject="ielts"] { --schedule-subject: var(--schedule-violet); }
+.teaching-poster__session[data-subject="toeic"] { --schedule-subject: var(--schedule-cyan); }
+.teaching-poster__session[data-subject="pte"] { --schedule-subject: var(--schedule-gold); }
+.teaching-poster__session time { color: hsl(var(--schedule-subject)); font-size: 17px; line-height: 1.4; font-weight: 800; font-variant-numeric: tabular-nums; }
+.teaching-poster__session h3 { font-size: 14px; font-weight: 700; line-height: 1.55; margin-top: 3px; overflow-wrap: anywhere; }
+.teaching-poster__empty { grid-column: 1 / -1; align-self: center; color: hsl(var(--schedule-muted)); font-size: 13px; padding: 8px 0; }
+.teaching-poster__footer { padding: 22px 32px; display: flex; justify-content: space-between; align-items: center; gap: 20px; background: hsl(var(--schedule-wash)); }
+.teaching-poster__footer strong { font-size: 16px; color: hsl(var(--schedule-green)); }
+.teaching-poster__footer p { font-size: 12px; color: hsl(var(--schedule-muted)); margin-top: 4px; }
+.teaching-poster__website { font-size: 18px; color: hsl(var(--schedule-blue)); font-weight: 800; }
+.schedule-export-host { position: fixed; left: -100000px; top: 0; width: 1080px; pointer-events: none; }
+.teaching-poster--export { width: 1080px; border-radius: 0; }
+@media (max-width: 640px) {
+  .teaching-poster:not(.teaching-poster--export) .teaching-poster__header { padding: 20px 16px; flex-wrap: wrap; gap: 10px; }
+  .teaching-poster:not(.teaching-poster--export) .teaching-poster__brand img { width: 52px; height: 52px; }
+  .teaching-poster:not(.teaching-poster--export) .teaching-poster__brand strong { font-size: 24px; }
+  .teaching-poster:not(.teaching-poster--export) .teaching-poster__brand p { font-size: 11px; }
+  .teaching-poster:not(.teaching-poster--export) .teaching-poster__teacher { text-align: left; padding: 0; }
+  .teaching-poster:not(.teaching-poster--export) .teaching-poster__title { padding: 0 16px 20px; flex-direction: column; align-items: flex-start; }
+  .teaching-poster:not(.teaching-poster--export) .teaching-poster__title h2 { font-size: 25px; }
+  .teaching-poster:not(.teaching-poster--export) .teaching-poster__day { grid-template-columns: 82px minmax(0, 1fr); }
+  .teaching-poster:not(.teaching-poster--export) .teaching-poster__day-label { padding: 18px 10px; }
+  .teaching-poster:not(.teaching-poster--export) .teaching-poster__day-label strong { font-size: 15px; }
+  .teaching-poster:not(.teaching-poster--export) .teaching-poster__sessions { grid-template-columns: minmax(0, 1fr); padding: 14px 12px; }
+  .teaching-poster:not(.teaching-poster--export) .teaching-poster__session h3 { font-size: 16px; }
+  .teaching-poster:not(.teaching-poster--export) .teaching-poster__footer { padding: 20px 16px; flex-direction: column; align-items: flex-start; gap: 12px; }
+}
