@@ -33,3 +33,5 @@
  .certificate-canvas__signatures { grid-template-columns: 1fr; gap: 22px; margin-top: 28px; }
  .certificate-canvas__qr { align-items: flex-start; }
 }
+
+ .certificate-canvas__footer-slogan { margin-left: 0; }
