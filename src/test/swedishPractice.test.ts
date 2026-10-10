@@ -19,7 +19,7 @@ describe("Swedish practice", () => {
     expect(getPatterns("swedish").find(p => p.id === "sv-a2-1")?.fills[0].w).toBe("arbetade");
   });
   it("provides typing, translation, paraphrase and three skill banks", () => {
-    expect(SWEDISH_WRITING_SENTENCES).toHaveLength(30);
+    expect(SWEDISH_WRITING_SENTENCES).toHaveLength(90);
     for (const level of ["A1", "A2", "B1"]) expect(SWEDISH_WRITING_SENTENCES.filter(s => s.level === level)).toHaveLength(10);
     for (const s of SWEDISH_WRITING_SENTENCES) { expect(s.en.length).toBeGreaterThan(10); expect(s.alternativeSv).not.toBe(s.sv); }
     for (const bank of Object.values(SWEDISH_WRITING_SKILLS)) { expect(bank.length).toBeGreaterThan(0); for (const s of bank) expect(s.exampleEn.length).toBeGreaterThan(10); }
