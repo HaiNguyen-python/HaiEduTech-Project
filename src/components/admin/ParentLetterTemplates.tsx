@@ -14,7 +14,7 @@ const TEMPLATES: Record<Kind, { label: string; title: string; body: string }> = 
   notice: {
     label: "Thông báo",
     title: "THÔNG BÁO GỬI QUÝ PHỤ HUYNH",
-    body: "Kính gửi Quý Phụ huynh lớp {lop},\n\nHaiEduTech xin trân trọng thông báo:\n• Lịch học tuần tới: [ghi lịch học]\n• Nội dung trọng tâm: [ghi nội dung]\n• Thay đổi (nếu có): [ghi thay đổi]\n\nRất mong Quý Phụ huynh nhắc nhở các con tham gia đầy đủ và đúng giờ. Mọi thắc mắc xin liên hệ thầy Hải qua số 0962.823.800.\n\nTrân trọng cảm ơn!",
+    body: "Kính gửi Quý Phụ huynh lớp {lop},\n\nHaiEduTech xin trân trọng thông báo:\n• Lịch học tuần tới: [ghi lịch học]\n• Nội dung trọng tâm: [ghi nội dung]\n• Thay đổi (nếu có): [ghi thay đổi]\n\nRất mong Quý Phụ huynh nhắc nhở các con tham gia đầy đủ và đúng giờ. Mọi thắc mắc xin liên hệ thầy Hải qua www.haiedutech.com.\n\nTrân trọng cảm ơn!",
   },
   thanks: {
     label: "Thư cảm ơn",
