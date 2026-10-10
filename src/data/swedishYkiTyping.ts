@@ -14,7 +14,7 @@ export interface SwedishYkiTypingSentence {
 }
 
 export function splitSwedishSentences(text: string): string[] {
-  return text.split(/\n+/).flatMap(line => line.match(/[^.!?]+(?:[.!?]+["”]?|$)/g) ?? []).map(s => s.trim().normalize("NFC")).filter(s => s.split(/\s+/).length >= 3);
+  return text.split(/\n+/).flatMap(line => line.match(/[^.!?]+(?:[.!?]+["”]?|$)/g) ?? []).map(s => s.trim().normalize("NFC")).filter(Boolean);
 }
 
 export const SWEDISH_YKI_TYPING_SENTENCES: SwedishYkiTypingSentence[] = SWEDISH_SAMPLE_ESSAYS.flatMap(essay => {
@@ -23,7 +23,7 @@ export const SWEDISH_YKI_TYPING_SENTENCES: SwedishYkiTypingSentence[] = SWEDISH_
   const sv = splitSwedishSentences(essay.essaySv);
   const vi = splitSwedishSentences(essay.essayVi);
   const aligned = sv.length === vi.length;
-  return sv.map((sentence, i) => ({
+  return sv.flatMap((sentence, i) => sentence.split(/\s+/).length < 3 ? [] : [{
     id: `sv-yki-typing-${essay.id}-${i + 1}`,
     level: essay.level,
     sv: sentence,
@@ -32,5 +32,5 @@ export const SWEDISH_YKI_TYPING_SENTENCES: SwedishYkiTypingSentence[] = SWEDISH_
     promptTitleVi: prompt.titleVi,
     promptTitleEn: prompt.titleEn,
     taskSv: prompt.taskSv,
-  }));
+  }]);
 });
