@@ -127,6 +127,9 @@ export const CHINESE_PATTERNS: DrillPattern[] = [
 import { CHINESE_PATTERNS_MORE, ENGLISH_PATTERNS_MORE } from "./patternDrillsMore";
 import { ENGLISH_PATTERNS_EXPANSION } from "./patternDrillsEnglishExpansion";
 import { CHINESE_PATTERNS_EXPANSION } from "./patternDrillsChineseExpansion";
+import { FINNISH_PATTERNS } from "./patternDrillsFinnish";
+
+export const PATTERN_LANGUAGES = ["english", "chinese", "finnish"];
 
 const LEVEL_ORDER: DrillLevel[] = ["starter", "a1", "a2", "b1", "b2", "c1"];
 
@@ -135,4 +138,5 @@ const sortByLevel = (patterns: DrillPattern[]): DrillPattern[] =>
 
 export const getPatterns = (language: string): DrillPattern[] =>
   language === "chinese" ? sortByLevel([...CHINESE_PATTERNS, ...CHINESE_PATTERNS_MORE, ...CHINESE_PATTERNS_EXPANSION])
-    : language === "english" ? sortByLevel([...ENGLISH_PATTERNS, ...ENGLISH_PATTERNS_MORE, ...ENGLISH_PATTERNS_EXPANSION]) : [];
+    : language === "english" ? sortByLevel([...ENGLISH_PATTERNS, ...ENGLISH_PATTERNS_MORE, ...ENGLISH_PATTERNS_EXPANSION])
+    : language === "finnish" ? sortByLevel(FINNISH_PATTERNS) : [];

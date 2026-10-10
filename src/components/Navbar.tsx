@@ -444,6 +444,7 @@ const Navbar = () => {
       { to: "/finnish/beginner", label: t("Tiếng Phần Lan Cơ bản", "Finnish Beginner"), icon: Sprout },
       { to: "/finnish-vocabulary", label: t("Từ vựng", "Vocabulary"), icon: BookOpen },
       { to: "/speaking-coach/finnish", label: t("Luyện nói", "Speaking Practice"), icon: Mic2 },
+      { to: "/speaking-coach/finnish?activity=pattern", label: t("Luyện khung câu", "Pattern Drilling"), icon: Mic2 },
       { to: "/finnish/life-in-finland", label: t("Cuộc sống ở Phần Lan", "Life in Finland"), icon: Landmark },
     ] },
     { to: "#fi-div2", label: "", divider: true },

@@ -1,6 +1,6 @@
 // Standalone AI Speaking Coach page with gamification integration
 import { useState, useRef, useCallback, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AISpeakingCoach from "@/components/AISpeakingCoach";
@@ -16,6 +16,7 @@ import type { PlanMode } from "@/lib/speaking/pronunciationPlan";
 import { allPronWords, loadPronStats } from "@/lib/speaking/pronunciationStats";
 import { countWeakWords, SPEAKING_PROGRESS_EVENT } from "@/lib/speakingWeakWords";
 import { stopSpeakingTts } from "@/lib/speakingModeShared";
+import { PATTERN_LANGUAGES } from "@/data/patternDrills";
 import { Badge } from "@/components/ui/badge";
 import MountainClimber from "@/components/MountainClimber";
 import FinnishSkier from "@/components/FinnishSkier";
@@ -36,6 +37,8 @@ interface FlyingStar {
 const SpeakingCoachPage = () => {
   const { language } = useParams<{ language: string }>();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const requestedActivity = searchParams.get("activity");
   const { t } = useLanguage();
 
   const lang = (language === "japanese" ? "japanese" : language === "chinese" ? "chinese" : language === "finnish" ? "finnish" : language === "swedish" ? "swedish" : language === "vietnamese" ? "vietnamese" : "english") as "english" | "finnish" | "swedish" | "chinese" | "vietnamese" | "japanese";
@@ -49,6 +52,14 @@ const SpeakingCoachPage = () => {
   const [activity, setActivity] = useState<SpeakingActivity>("sentences");
   const [weakCount, setWeakCount] = useState(() => countWeakWords(lang));
   const [hasStats, setHasStats] = useState(() => allPronWords(loadPronStats(lang)).length > 0);
+
+  useEffect(() => {
+    setExcellentCount(0); setFlyingStars([]);
+    const openPattern = requestedActivity === "pattern" && PATTERN_LANGUAGES.includes(lang);
+    setActivity(openPattern ? "pattern" : "sentences");
+    setView(openPattern ? "practice" : "overview");
+    return () => stopSpeakingTts(lang);
+  }, [lang, requestedActivity]);
 
   useEffect(() => {
     setHasStats(allPronWords(loadPronStats(lang)).length > 0);
@@ -262,7 +273,7 @@ const SpeakingCoachPage = () => {
         {view === "practice" && (
           <div className="space-y-4">
             <ActivityChips language={lang} active={activity} weakCount={weakCount} onPick={pickActivity} />
-            {activity === "pattern" && <PatternDrillMode language={lang} onPerfectScore={handlePerfectScore} />}
+            {activity === "pattern" && <PatternDrillMode key={lang} language={lang} onPerfectScore={handlePerfectScore} />}
             {activity === "shadow" && <ShadowingMode language={lang} onPerfectScore={handlePerfectScore} />}
             {activity === "drill" && <SoundDrillMode language={lang} onPerfectScore={handlePerfectScore} />}
             {activity === "freetalk" && <FreeTalkMode language={lang} onPerfectScore={handlePerfectScore} />}

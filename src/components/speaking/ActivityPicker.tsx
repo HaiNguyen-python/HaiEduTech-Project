@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { PATTERN_LANGUAGES } from "@/data/patternDrills";
 
 export type SpeakingActivity = "sentences" | "pattern" | "shadow" | "drill" | "freetalk" | "mrhai" | "review";
 
@@ -78,9 +79,9 @@ export const ACTIVITY_META = [
   },
 ];
 
-const PATTERN_LANGS = ["english", "chinese"];
+
 const visibleActivities = (language?: string) =>
-  ACTIVITY_META.filter((a) => a.key !== "pattern" || PATTERN_LANGS.includes(language || ""));
+  ACTIVITY_META.filter((a) => a.key !== "pattern" || PATTERN_LANGUAGES.includes(language || ""));
 
 interface GridProps {
   language?: string;

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { speakingCoachLanguages } from "@/data/speakingCoachData";
 import { DRILL_LEVELS, fillSentence, getPatterns, splitDrillFrame, type DrillLevel } from "@/data/patternDrills";
@@ -89,8 +90,15 @@ const PatternDrillMode = ({ language, onPerfectScore }: Props) => {
 
   const clearAttempt = () => { setResults(null); setAccuracy(null); setShowHint(false); rec.reset(); };
 
-  useEffect(() => { setPIdx(0); setFIdx(0); setStep("repeat"); }, [level, language]);
-  useEffect(() => { stopSpeakingTts(language); clearAttempt(); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [pIdx, fIdx, step, level]);
+  useEffect(() => {
+    setMastered(safeStorage.get<string[]>(storeKey, []) || []);
+    setLevel("starter"); setPIdx(0); setFIdx(0); setStep("repeat");
+  }, [storeKey]);
+  useEffect(() => {
+    stopSpeakingTts(language); clearAttempt();
+    return () => stopSpeakingTts(language);
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
+  }, [pIdx, fIdx, step, level, language]);
 
   if (!pattern || !fill) return null;
 
@@ -123,22 +131,43 @@ const PatternDrillMode = ({ language, onPerfectScore }: Props) => {
                 "Master one sentence frame, swap the slot word and say it aloud until it comes out automatically. Ideal for beginners.")}
             </p>
           </div>
-          <div className="flex flex-wrap gap-2">
-            {DRILL_LEVELS.map((l) => (
-              <Button key={l.key} size="sm" variant={level === l.key ? "default" : "outline"} onClick={() => setLevel(l.key)}>
-                {t(l.vi, l.en)}
-              </Button>
-            ))}
+          <div className="grid gap-3 sm:grid-cols-[180px_minmax(0,1fr)]">
+            <div className="min-w-0 space-y-1.5">
+              <label htmlFor={`drill-level-${language}`} className="text-sm font-medium">{t("Trình độ", "Level")}</label>
+              <Select value={level} onValueChange={(value) => {
+                const selected = DRILL_LEVELS.find((item) => item.key === value);
+                if (!selected) return;
+                setLevel(selected.key); setPIdx(0); setFIdx(0); setStep("repeat");
+              }}>
+                <SelectTrigger id={`drill-level-${language}`} aria-label={t("Chọn trình độ", "Choose a level")}><SelectValue /></SelectTrigger>
+                <SelectContent>{DRILL_LEVELS.filter((item) => all.some((p) => p.level === item.key)).map((item) => (
+                  <SelectItem key={item.key} value={item.key}>{t(item.vi, item.en)}</SelectItem>
+                ))}</SelectContent>
+              </Select>
+            </div>
+            <div className="min-w-0 space-y-1.5">
+              <label htmlFor={`drill-frame-${language}`} className="text-sm font-medium">{t("Cấu trúc", "Sentence structure")}</label>
+              <Select value={pattern.id} onValueChange={(value) => {
+                const index = patterns.findIndex((p) => p.id === value);
+                if (index < 0) return;
+                setPIdx(index); setFIdx(0); setStep("repeat");
+              }}>
+                <SelectTrigger id={`drill-frame-${language}`} aria-label={t("Chọn cấu trúc", "Choose a structure")}><SelectValue /></SelectTrigger>
+                <SelectContent className="max-w-[calc(100vw-2rem)]">{patterns.map((p, i) => (
+                  <SelectItem key={p.id} value={p.id}>
+                    <span className="inline-flex items-center gap-2">
+                      <span className="text-muted-foreground">{i + 1}.</span>
+                      <span className="break-words"><SlottedSentence frame={p.frame} placeholder /></span>
+                      {mastered.includes(p.id) && <CheckCircle2 aria-label={t("Đã hoàn thành", "Completed")} className="h-3.5 w-3.5 shrink-0 text-primary" />}
+                    </span>
+                  </SelectItem>
+                ))}</SelectContent>
+              </Select>
+            </div>
           </div>
-          {levelMeta && <p className="text-xs text-muted-foreground">{t(levelMeta.descVi, levelMeta.descEn)}</p>}
-          <div className="flex flex-wrap gap-2">
-            {patterns.map((p, i) => (
-              <Button key={p.id} size="sm" variant={i === pIdx ? "secondary" : "ghost"} className="gap-1 border"
-                onClick={() => { setPIdx(i); setFIdx(0); setStep("repeat"); }}>
-                {mastered.includes(p.id) && <CheckCircle2 className="w-3.5 h-3.5 text-primary" />}
-                <SlottedSentence frame={p.frame} placeholder />
-              </Button>
-            ))}
+          <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-muted-foreground">
+            {levelMeta && <p>{t(levelMeta.descVi, levelMeta.descEn)}</p>}
+            <p>{patterns.filter((p) => mastered.includes(p.id)).length}/{patterns.length} {t("cấu trúc đã hoàn thành", "structures completed")}</p>
           </div>
         </CardContent>
       </Card>
@@ -162,7 +191,7 @@ const PatternDrillMode = ({ language, onPerfectScore }: Props) => {
 
           <div className="rounded-xl border bg-card p-5 text-center space-y-2">
             {step === "reflex" && (
-              <p className="text-sm text-muted-foreground">{t("Nói câu này bằng", "Say this in")} {language === "chinese" ? t("tiếng Trung", "Chinese") : t("tiếng Anh", "English")}:</p>
+              <p className="text-sm text-muted-foreground">{t("Nói câu này bằng", "Say this in")} {language === "chinese" ? t("tiếng Trung", "Chinese") : language === "finnish" ? t("tiếng Phần Lan", "Finnish") : t("tiếng Anh", "English")}:</p>
             )}
             {step === "reflex" && <p className="text-lg font-semibold">{cueVi}</p>}
             {hideTarget ? (
