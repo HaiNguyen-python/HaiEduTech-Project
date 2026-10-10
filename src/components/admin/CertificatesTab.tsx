@@ -16,6 +16,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
 import CertificateCanvas from "@/components/certificates/CertificateCanvas";
+import { exportCertificatePdf } from "@/lib/certificatePdfExport";
 import { dedupeStudentProfiles, fetchAllProfiles, type AdminProfile } from "@/lib/adminStudents";
 import {
   buildCertificateCode,
@@ -140,14 +141,12 @@ const CertificatesTab = () => {
 
   const exportPdf = async () => {
     if (!certRef.current) return;
-    const [{ default: html2canvas }, { default: jsPDF }] = await Promise.all([
-      import("html2canvas"),
-      import("jspdf"),
-    ]);
-    const canvas = await html2canvas(certRef.current, { scale: 2, backgroundColor: "#ffffff" });
-    const pdf = new jsPDF({ orientation: "landscape", unit: "px", format: [canvas.width, canvas.height] });
-    pdf.addImage(canvas.toDataURL("image/png"), "PNG", 0, 0, canvas.width, canvas.height);
-    pdf.save(`${code}_${name.trim().replace(/\s+/g, "_") || "learner"}.pdf`);
+    try {
+      await exportCertificatePdf(certRef.current, `${code}_${name.trim().replace(/\s+/g, "_") || "learner"}.pdf`);
+    } catch (error) {
+      toast({ title: t("Không tạo được PDF. Vui lòng thử lại.", "Could not create PDF. Please retry."), variant: "destructive" });
+      throw error;
+    }
   };
 
   const handleIssue = async () => {
@@ -340,7 +339,7 @@ const CertificatesTab = () => {
               {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Award className="h-4 w-4" />}
               {t("Cấp chứng chỉ & tải PDF", "Issue certificate & download PDF")}
             </Button>
-            <Button size="lg" variant="outline" className="gap-2" onClick={() => void exportPdf()}>
+            <Button size="lg" variant="outline" className="gap-2" onClick={() => void exportPdf().catch(() => undefined)}>
               <Download className="h-4 w-4" />{t("Chỉ tải PDF", "Download PDF only")}
             </Button>
           </div>

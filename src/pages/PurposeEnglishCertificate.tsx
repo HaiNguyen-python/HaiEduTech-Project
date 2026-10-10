@@ -10,6 +10,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Award, Download, ShieldCheck } from "lucide-react";
 import CertificateCanvas from "@/components/certificates/CertificateCanvas";
+import { exportCertificatePdf } from "@/lib/certificatePdfExport";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
@@ -105,11 +106,7 @@ const PurposeEnglishCertificate = ({ track }: Props) => {
     if (!certRef.current) return;
     if (!certPremium) { openUpgradeModal(); return; }
     try {
-      const [{ default: html2canvas }, { default: jsPDF }] = await Promise.all([import("html2canvas"), import("jspdf")]);
-      const canvas = await html2canvas(certRef.current, { scale: 2, backgroundColor: "#ffffff" });
-      const pdf = new jsPDF({ orientation: "landscape", unit: "px", format: [canvas.width, canvas.height] });
-      pdf.addImage(canvas.toDataURL("image/png"), "PNG", 0, 0, canvas.width, canvas.height);
-      pdf.save(`${config.courseEn.replace(/\s+/g, "_")}_Certificate_${name.trim().replace(/\s+/g, "_") || "learner"}.pdf`);
+      await exportCertificatePdf(certRef.current, `${config.courseEn.replace(/\s+/g, "_")}_Certificate_${name.trim().replace(/\s+/g, "_") || "learner"}.pdf`);
       if (certificate.eligible) {
         void logStudentActivity({
           activityType: config.activityType,

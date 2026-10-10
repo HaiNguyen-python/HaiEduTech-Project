@@ -4,7 +4,8 @@
  *
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
-import { forwardRef } from "react";
+import { forwardRef, useEffect, useState } from "react";
+import QRCode from "qrcode";
 import logoAsset from "@/assets/certificate-logo.jpg.asset.json";
 import "./certificateCanvas.css";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -24,6 +25,15 @@ export interface CertificateCanvasProps {
 const CertificateCanvas = forwardRef<HTMLDivElement, CertificateCanvasProps>(
   ({ learnerName, courseName, body, issuedDate, code, detail, preview }, ref) => {
     const { t } = useLanguage();
+    const qrValue = `https://haiedutech.com/verify/${code}`;
+    const [qr, setQr] = useState<{ value: string; src: string }>();
+    useEffect(() => {
+      let active = true;
+      void QRCode.toDataURL(qrValue, { width: 320, margin: 4, errorCorrectionLevel: "M" }).then(src => {
+        if (active) setQr({ value: qrValue, src });
+      }).catch(() => { if (active) setQr(undefined); });
+      return () => { active = false; };
+    }, [qrValue]);
     return (
       <div ref={ref} className="certificate-canvas">
         <div className="certificate-canvas__brand">
@@ -43,7 +53,7 @@ const CertificateCanvas = forwardRef<HTMLDivElement, CertificateCanvasProps>(
           <div><div className="certificate-canvas__signature">Mr. Hai</div><div className="certificate-canvas__caption">Instructor · HaiEduTech Founder</div></div>
           <div><div className="certificate-canvas__date">{issuedDate}</div><div className="certificate-canvas__caption">{t("Ngày cấp", "Date issued")}</div></div>
           <div className="certificate-canvas__qr">
-            <img alt="Verify QR" width={78} height={78} src={`https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(`https://haiedutech.com/verify/${code}`)}`} />
+            <img alt="Verify QR" width={78} height={78} data-qr-value={qrValue} src={qr?.value === qrValue ? qr.src : undefined} />
             <div>Scan to verify</div>
           </div>
         </div>
