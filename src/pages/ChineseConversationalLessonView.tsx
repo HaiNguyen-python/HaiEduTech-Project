@@ -27,6 +27,7 @@ import {
 } from "@/lib/chineseCurriculumProgress";
 import { dialogueAvatarFor } from "@/lib/dialogueAvatars";
 import { getChineseLessonIllustration } from "@/lib/chineseLessonVisuals";
+import { isCurriculumLessonUnlocked } from "@/lib/curriculumCompletion";
 
 const getIcon = (name: string): LucideIcon => icons[name as keyof typeof icons] ?? BookOpen;
 const markLessonComplete = (id: string) => {
@@ -77,6 +78,7 @@ const ChineseConversationalLessonView = () => {
   const [listeningSubmitted, setListeningSubmitted] = useState(false);
   const [listeningScore, setListeningScore] = useState<{ correct: number; total: number; percent: number } | null>(null);
   const [isCompleted, setIsCompleted] = useState(false);
+  const [completedIds, setCompletedIds] = useState<string[]>(() => readChineseProgress(flattenChineseLessons(chineseConversationalPillars)));
   const [illustrationFailed, setIllustrationFailed] = useState(false);
   const lessonIndex = lessonId ? (getChinesePillarByLessonId(lessonId)?.lessons.findIndex((l: { id: string }) => l.id === lessonId) ?? -1) : -1;
   const { hasAccess, loading: accessLoading } = useCourseAccess("conversational-chinese", lessonIndex);
@@ -110,7 +112,12 @@ const ChineseConversationalLessonView = () => {
   useEffect(() => () => stopChineseDialog(), []);
 
   useEffect(() => {
-    const sync = () => lesson && setIsCompleted(readChineseProgress(allLessons).includes(lesson.id));
+    const sync = () => {
+      const completed = readChineseProgress(allLessons);
+      setCompletedIds(completed);
+      if (lesson) setIsCompleted(completed.includes(lesson.id));
+    };
+    sync();
     window.addEventListener("storage", sync);
     window.addEventListener(CHINESE_CURRICULUM_PROGRESS_EVENT, sync);
     return () => {
@@ -163,6 +170,12 @@ const ChineseConversationalLessonView = () => {
   }
 
   const LIcon = getIcon(lesson.icon);
+  const lessonIds = allLessons.map(item => item.id);
+  const unlocked = isCurriculumLessonUnlocked(lessonIds, lesson.id, completedIds);
+  if (!unlocked) {
+    const nextAvailable = allLessons.find(item => !completedIds.includes(item.id));
+    return <div className="min-h-screen bg-background"><Navbar /><main className="container mx-auto max-w-xl px-4 py-16 text-center"><Lock className="mx-auto mb-4 h-12 w-12 text-muted-foreground" /><h1 className="text-2xl font-bold">{t("Bài học đang khóa", "Lesson locked")}</h1><p className="my-4 text-muted-foreground">{t("Hoàn thành các bài trước để mở khóa bài này.", "Complete the preceding lessons to unlock this lesson.")}</p><div className="flex flex-wrap justify-center gap-3"><Button asChild variant="outline"><Link to="/chinese/conversational/curriculum"><ArrowLeft className="mr-2 h-4 w-4" />{t("Về lộ trình", "Back to path")}</Link></Button>{nextAvailable && <Button asChild><Link to={`/chinese/conversational/learn/${nextAvailable.id}`}>{t("Tiếp tục học", "Continue learning")}</Link></Button>}</div></main><Footer /></div>;
+  }
   const currentIndex = allLessons.findIndex((candidate) => candidate.id === lesson.id);
   const previousLesson = currentIndex > 0 ? allLessons[currentIndex - 1] : null;
   const nextLesson = currentIndex < allLessons.length - 1 ? allLessons[currentIndex + 1] : null;
@@ -171,6 +184,7 @@ const ChineseConversationalLessonView = () => {
   const lessonIllustration = getChineseLessonIllustration(lesson);
 
   const handleComplete = () => {
+    if (!isCurriculumLessonUnlocked(lessonIds, lesson.id, readChineseProgress(allLessons))) return;
     markLessonComplete(lesson.id);
     setIsCompleted(true);
     // Use a neutral 7/10 completion marker — actual exercise scores are logged
@@ -687,14 +701,14 @@ const ChineseConversationalLessonView = () => {
               <span className="font-medium">Completed! Badge: {lesson.badge}</span>
             </div>
           )}
-          {nextLesson && (
+           {nextLesson && isCurriculumLessonUnlocked(lessonIds, nextLesson.id, completedIds) ? (
             <Button asChild variant="outline" size="lg">
               <Link to={`/chinese/conversational/learn/${nextLesson.id}`}>
                 Next: {nextLesson.title}
                 <ArrowRight className="h-4 w-4 ml-1" />
               </Link>
             </Button>
-          )}
+           ) : nextLesson ? <Button variant="outline" size="lg" disabled><Lock className="mr-2 h-4 w-4" />{t("Hoàn thành bài này để học tiếp", "Complete this lesson to continue")}</Button> : <Button asChild variant="outline" size="lg"><Link to="/chinese/conversational/certificate"><Award className="mr-2 h-4 w-4" />{t("Chứng nhận hoàn thành", "Completion certificate")}</Link></Button>}
         </div>
       </main>
 
