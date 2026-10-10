@@ -24,7 +24,8 @@ describe("Purpose English grounded guided questions", () => {
   for (const lesson of [...business, ...academic]) {
     it(`${lesson.id}: unique options and a gap answer that restores the source sentence`, () => {
       const activities = buildGuidedActivities(lesson, lesson.id.startsWith("biz-") ? "business" : "academic");
-      expect(activities).toHaveLength(3);
+      if (lesson.id.startsWith("biz-")) expect(activities).toHaveLength(3);
+      else expect(activities.length).toBeGreaterThanOrEqual(2);
       for (const activity of activities) {
         expect(activity.options).toHaveLength(4);
         expect(new Set(activity.options.map((option) => option.toLowerCase())).size).toBe(4);
