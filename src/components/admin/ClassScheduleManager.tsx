@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { fromZonedTime } from "date-fns-tz";
 import { supabase } from "@/integrations/supabase/client";
 import { useUserRole } from "@/hooks/useUserRole";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -219,7 +219,7 @@ export default function ClassScheduleManager() {
     const start = new Date(cls.start_time);
     const end = new Date(cls.end_time);
     const duration = end.getTime() - start.getTime();
-    const newStart = new Date(vietnamInstant(targetDate, scheduleTime(start)));
+    const newStart = fromZonedTime(`${targetDate}T${scheduleTime(start, zone)}:00`, zone);
     const newEnd = new Date(newStart.getTime() + duration);
     const { error } = await supabase
       .from("class_schedules")
