@@ -17,6 +17,31 @@ export async function exportCertificatePdf(artwork: HTMLElement, filename: strin
   host.append(clone);
   document.body.append(host);
   try {
+    // Rasterize the signature first: html2canvas can crop inline SVG flourishes.
+    for (const signature of Array.from(clone.querySelectorAll<SVGSVGElement>(".certificate-canvas__handwriting"))) {
+      const rendered = signature.cloneNode(true) as SVGSVGElement;
+      rendered.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+      rendered.setAttribute("width", "600");
+      rendered.setAttribute("height", "272");
+      rendered.setAttribute("fill", "none");
+      rendered.setAttribute("stroke", getComputedStyle(signature).stroke);
+      rendered.setAttribute("stroke-width", "2");
+      rendered.setAttribute("stroke-linecap", "round");
+      rendered.setAttribute("stroke-linejoin", "round");
+      const image = document.createElement("img");
+      image.className = "certificate-canvas__handwriting";
+      image.alt = "Hai signature sample";
+      image.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(new XMLSerializer().serializeToString(rendered))}`;
+      await image.decode();
+      const bitmap = document.createElement("canvas");
+      bitmap.width = 600;
+      bitmap.height = 272;
+      const context = bitmap.getContext("2d");
+      if (!context) throw new Error("Could not render certificate signature");
+      context.drawImage(image, 0, 0, 600, 272);
+      image.src = bitmap.toDataURL("image/png");
+      signature.replaceWith(image);
+    }
     await Promise.all(Array.from(clone.querySelectorAll("img")).map(async image => {
       const qrValue = image.dataset.qrValue;
       if (qrValue) {

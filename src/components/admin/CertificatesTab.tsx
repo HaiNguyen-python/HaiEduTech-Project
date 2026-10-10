@@ -112,8 +112,8 @@ const CertificatesTab = () => {
   const scoreNum = score.trim() ? Number(score) : null;
   const maxNum = maxScore.trim() ? Number(maxScore) : null;
   const body = t(
-    `đã hoàn thành khóa ${courseVi}${level ? ` - trình độ ${level}` : ""} tại HaiEduTech.`,
-    `has completed the ${courseEn}${level ? ` - level ${level}` : ""} course at HaiEduTech.`,
+    `đã hoàn thành xuất sắc khóa ${courseVi}${level ? ` - trình độ ${level}` : ""} tại HaiEduTech.`,
+    `has excellently completed the ${courseEn}${level ? ` - level ${level}` : ""} course at HaiEduTech.`,
   );
   const detailParts: string[] = [];
   if (scoreNum !== null && !Number.isNaN(scoreNum)) {
