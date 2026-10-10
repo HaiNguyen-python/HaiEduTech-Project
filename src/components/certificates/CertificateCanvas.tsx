@@ -28,7 +28,10 @@ const CertificateCanvas = forwardRef<HTMLDivElement, CertificateCanvasProps>(
       <div ref={ref} className="certificate-canvas">
         <div className="certificate-canvas__brand">
           <img className="certificate-canvas__logo" src={new URL(logoAsset.url, "https://haiedutech.com").href} alt="HaiEduTech" width={84} height={84} crossOrigin="anonymous" />
-          <span className="certificate-canvas__brand-name">HaiEduTech</span>
+          <div className="certificate-canvas__brand-text">
+            <span className="certificate-canvas__brand-name">HaiEduTech</span>
+            <span className="certificate-canvas__brand-sub">{t("Trung tâm Ngôn ngữ & Công nghệ HaiEduTech", "HaiEduTech Language & Technology Learning Center")}</span>
+          </div>
           {preview && <span className="certificate-canvas__preview">{t("Bản xem trước", "Preview")}</span>}
         </div>
         <div className="certificate-canvas__title">{t("Chứng chỉ hoàn thành khóa học", "Certificate of Completion")}</div>
@@ -45,7 +48,9 @@ const CertificateCanvas = forwardRef<HTMLDivElement, CertificateCanvasProps>(
           </div>
         </div>
         <div className="certificate-canvas__footer">
-          {t("Mã chứng chỉ", "Certificate ID")}: {code} · {courseName} · {t("Chứng nhận hoàn thành khóa học của HaiEduTech, không phải chứng chỉ trình độ quốc tế.", "A HaiEduTech course completion record, not an international proficiency certificate.")}
+          <div className="certificate-canvas__footer-line">{t("Mã chứng chỉ", "Certificate ID")}: {code} · {courseName}</div>
+          <div className="certificate-canvas__footer-site">www.haiedutech.com</div>
+          <div className="certificate-canvas__footer-slogan">{t("Nơi giao thoa độc đáo giữa ngôn ngữ và công nghệ", "The Unique Intersection of Language and Technology")}</div>
         </div>
       </div>
     );
