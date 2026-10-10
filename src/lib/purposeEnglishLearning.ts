@@ -1,5 +1,6 @@
 import type { PurposeLesson, PurposeTopic } from "@/data/purposeEnglishTypes";
 import { businessEnglishModelRoles } from "@/data/businessEnglishModelRoles";
+import { findKeyPhraseRanges } from "@/lib/highlightKeywords";
 
 export type PurposeTrack = "business" | "academic";
 
@@ -116,13 +117,17 @@ const seededShuffle = <T,>(items: T[], seed: string) => {
 
 const pickDistractors = <T,>(pool: T[], count: number, seed: string) => seededShuffle(pool, seed).slice(0, count);
 
-const blankTerm = (example: string, term: string) => {
-  const pattern = new RegExp(term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i");
-  return pattern.test(example) ? example.replace(pattern, "______") : `______ ${example}`;
+export const purposeGap = (example: string, term: string) => {
+  const range = findKeyPhraseRanges(example, [term])[0];
+  if (!range || range.end <= range.start) return null;
+  return {
+    sentence: `${example.slice(0, range.start)}______${example.slice(range.end)}`,
+    answer: example.slice(range.start, range.end),
+  };
 };
 
 const buildOptions = (correct: string, distractors: string[], seed: string) => {
-  const unique = [correct, ...distractors.filter((item) => item.trim().toLowerCase() !== correct.trim().toLowerCase())];
+  const unique = [correct, ...Array.from(new Set(distractors.map((item) => item.trim()))).filter((item) => item.toLowerCase() !== correct.trim().toLowerCase())];
   const options = seededShuffle(unique, seed);
   return { options, answer: options.indexOf(correct) };
 };
@@ -157,27 +162,35 @@ export const buildGuidedActivities = (lesson: PurposeLesson, track: PurposeTrack
 
   const gapIndex = (seedFrom(`${lesson.id}-gap`) + 3) % Math.max(vocab.length, 1);
   const gapItem = vocab[gapIndex === meaningIndex ? (gapIndex + 1) % Math.max(vocab.length, 1) : gapIndex];
-  if (gapItem && terms.length >= 4) {
-    const pool = terms.filter((term) => term !== gapItem.term);
-    const { options, answer } = buildOptions(gapItem.term, pickDistractors(pool, 3, `${lesson.id}-g-pool`), `${lesson.id}-g-opt`);
+  const gap = gapItem ? purposeGap(gapItem.example, gapItem.term) : null;
+  if (gapItem && gap && terms.length >= 4) {
+    const pool = vocab.filter((item) => item !== gapItem)
+      .map((item) => purposeGap(item.example, item.term)?.answer)
+      .filter((answer): answer is string => Boolean(answer));
+    const { options, answer } = buildOptions(gap.answer, pickDistractors(pool, 3, `${lesson.id}-g-pool`), `${lesson.id}-g-opt`);
     activities.push({
       id: `${lesson.id}-guided-gap`,
       kind: "gap",
-      prompt: `Complete the sentence: "${blankTerm(gapItem.example, gapItem.term)}"`,
-      promptVi: `Hoàn thành câu: "${blankTerm(gapItem.example, gapItem.term)}" (nghĩa: ${gapItem.exampleVi})`,
+      prompt: `Complete the sentence: "${gap.sentence}"`,
+      promptVi: `Hoàn thành câu: "${gap.sentence}"`,
       options,
       answer,
-      explanation: `The full sentence is: ${gapItem.example}`,
-      explanationVi: `Câu đầy đủ là: ${gapItem.example} (${gapItem.exampleVi})`,
+      explanation: `The full sentence is: ${gapItem.example} The lesson phrase is "${gapItem.term}"; use "${gap.answer}" in this context.`,
+      explanationVi: `Câu đầy đủ là: ${gapItem.example} (${gapItem.exampleVi}). Cụm từ trong bài là "${gapItem.term}"; ở đây dùng "${gap.answer}".`,
     });
   }
 
-  const lines = lesson.model.lines.filter((line) => line.trim().length > 12);
+  const lines = lesson.model.lines;
   if (lines.length >= 4) {
-    const targetIndex = lines.length - 1;
-    const target = lines[targetIndex];
-    const role = track === "business" ? "closes the message and points to the next step" : "states the conclusion or the limitation";
-    const roleVi = track === "business" ? "kết lại nội dung và nêu bước tiếp theo" : "nêu kết luận hoặc giới hạn của lập luận";
+    const roles = track === "business" ? businessEnglishModelRoles[lesson.id] : undefined;
+    // Quiz the actual discourse function, never assume a sender's name or a
+    // final CV skill list is an action-oriented closing.
+    const targetIndex = roles?.findIndex((role) => /action|next step|request|recommendation|result/i.test(role.en)) ?? -1;
+    const index = targetIndex >= 0 ? targetIndex : lines.length - 1;
+    const target = lines[index];
+    const preciseRole = roles?.[index];
+    const role = preciseRole ? `has the function "${preciseRole.en}"` : "states the conclusion or the limitation";
+    const roleVi = preciseRole ? `có chức năng "${preciseRole.vi}"` : "nêu kết luận hoặc giới hạn của lập luận";
     const pool = lines.filter((line) => line !== target);
     const { options, answer } = buildOptions(target, pickDistractors(pool, 3, `${lesson.id}-f-pool`), `${lesson.id}-f-opt`);
     activities.push({
@@ -187,8 +200,8 @@ export const buildGuidedActivities = (lesson: PurposeLesson, track: PurposeTrack
       promptVi: `Trong bài mẫu, dòng nào ${roleVi}?`,
       options,
       answer,
-      explanation: `This is the final move of the model text, so it carries the closing function.`,
-      explanationVi: `Đây là phần cuối của bài mẫu, nên nó đảm nhiệm chức năng kết lại.`,
+      explanation: preciseRole ? `This line performs the function "${preciseRole.en}": ${target}` : `This line states the model's concluding point or limitation: ${target}`,
+      explanationVi: preciseRole ? `Dòng này có chức năng "${preciseRole.vi}": ${target}` : `Dòng này nêu ý kết luận hoặc giới hạn của bài mẫu: ${target}`,
     });
   }
 
