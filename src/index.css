@@ -17,6 +17,17 @@
   }
 
   :root {
+    --schedule-paper: 0 0% 100%;
+    --schedule-ink: 222 47% 15%;
+    --schedule-muted: 215 20% 43%;
+    --schedule-blue: 217 91% 52%;
+    --schedule-green: 160 84% 30%;
+    --schedule-line: 214 32% 88%;
+    --schedule-wash: 210 65% 97%;
+    --schedule-rose: 346 77% 46%;
+    --schedule-violet: 262 65% 46%;
+    --schedule-cyan: 192 82% 32%;
+    --schedule-gold: 35 91% 35%;
     --certificate-paper: 0 0% 100%;
     --certificate-ink: 222 47% 11%;
     --certificate-blue: 217 91% 51%;
