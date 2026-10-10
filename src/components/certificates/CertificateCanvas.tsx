@@ -51,7 +51,7 @@ const CertificateCanvas = forwardRef<HTMLDivElement, CertificateCanvasProps>(
         {detail && <div className="certificate-canvas__detail">{detail}</div>}
         <div className="certificate-canvas__signatures">
           <div className="certificate-canvas__signed">
-            <svg className="certificate-canvas__handwriting" viewBox="0 0 200 90" role="img" aria-label="Hai signature sample">
+            <svg className="certificate-canvas__handwriting" xmlns="http://www.w3.org/2000/svg" width={150} height={68} viewBox="0 0 200 90" role="img" aria-label="Hai signature sample">
               <path d="M24 61 C30 43 35 20 42 15 C47 12 46 22 43 35 L34 66 M60 64 C63 43 70 24 79 16 C86 11 84 24 77 35 M35 46 C46 41 58 42 70 39 M70 57 C80 39 94 41 91 52 C87 64 75 69 75 58 C76 48 87 44 94 44 L87 61 C85 68 98 63 108 53 M113 43 L104 61 C101 69 116 64 125 55 M116 31 L118 28 M20 77 C64 65 122 66 165 71 C141 72 98 76 68 83 M122 57 C140 53 156 46 175 43" />
             </svg>
             <div className="certificate-canvas__signature">Mr. Hai Nguyen</div>
