@@ -1,0 +1,18 @@
+.curriculum-certificate { color: hsl(var(--certificate-ink)); background: hsl(var(--certificate-paper)); border: 1px solid hsl(var(--certificate-line)); border-top: 8px solid hsl(var(--certificate-blue)); padding: 36px 44px 26px; min-height: 580px; letter-spacing: 0; }
+.certificate-interpersonal { border-top-color: hsl(var(--certificate-emerald)); }
+.certificate-top { display: flex; justify-content: space-between; align-items: center; gap: 16px; border-bottom: 1px solid hsl(var(--certificate-line)); padding-bottom: 18px; color: hsl(var(--certificate-blue)); }
+.certificate-heading { text-align: center; padding-top: 24px; }
+.certificate-heading > svg, .certificate-course { color: hsl(var(--certificate-blue)); }
+.certificate-interpersonal .certificate-heading > svg, .certificate-interpersonal .certificate-course { color: hsl(var(--certificate-emerald)); }
+.certificate-name { text-align: center; overflow-wrap: anywhere; border-bottom: 1px solid hsl(var(--certificate-line)); margin: 20px auto; padding-bottom: 16px; max-width: 640px; }
+.certificate-footer { display: grid; grid-template-columns: 1fr 90px 1fr; align-items: center; gap: 20px; margin-top: 30px; }
+.certificate-seal { border: 2px solid hsl(var(--certificate-gold)); color: hsl(var(--certificate-gold)); border-radius: 50%; width: 80px; height: 80px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.certificate-disclaimer { margin-top: 20px; border-top: 1px solid hsl(var(--certificate-line)); padding-top: 14px; }
+@media (max-width: 640px) {
+  .curriculum-certificate { padding: 24px 20px; }
+  .certificate-top { flex-wrap: wrap; }
+  .certificate-name { font-size: 28px; }
+  .certificate-heading h2 { font-size: 24px; }
+  .certificate-footer { grid-template-columns: 1fr 1fr; gap: 16px; }
+  .certificate-seal { display: none; }
+}
