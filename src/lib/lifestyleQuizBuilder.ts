@@ -54,7 +54,11 @@ function arrange(correct: LifestyleQuizOption, distractors: LifestyleQuizOption[
 
 type Extractor = (l: LifestyleLesson) => LifestyleQuizOption | null;
 
-/** Picks distractor texts from lessons that are NOT the current lesson. */
+/**
+ * Picks plausible distractors: same pillar first (so every option sits in the
+ * same topic and the learner must reason about the lesson), closest in length,
+ * then other pillars only as a fallback.
+ */
 function pickDistractors(
   lesson: LifestyleLesson,
   pool: LifestyleLesson[],
@@ -63,16 +67,26 @@ function pickDistractors(
   taken: Set<string>,
 ): LifestyleQuizOption[] {
   const out: LifestyleQuizOption[] = [];
-  const start = hash(seed) % Math.max(pool.length, 1);
-  for (let step = 0; step < pool.length && out.length < 3; step++) {
-    const candidate = pool[(start + step * 7 + 1) % pool.length];
-    if (!candidate || candidate.id === lesson.id) continue;
-    const value = extract(candidate);
-    if (!value) continue;
-    const key = value.en.toLowerCase();
+  const own = extract(lesson);
+  const targetLen = own?.en.length ?? 100;
+  const rank = (list: LifestyleLesson[]) =>
+    list
+      .filter((c) => c.id !== lesson.id)
+      .map((c) => ({ c, v: extract(c) }))
+      .filter((x): x is { c: LifestyleLesson; v: LifestyleQuizOption } => !!x.v)
+      .sort(
+        (a, b) =>
+          Math.abs(a.v.en.length - targetLen) - Math.abs(b.v.en.length - targetLen) ||
+          (hash(seed + a.c.id) % 97) - (hash(seed + b.c.id) % 97),
+      );
+  const same = rank(pool.filter((c) => c.pillar === lesson.pillar));
+  const other = rank(pool.filter((c) => c.pillar !== lesson.pillar));
+  for (const { v } of [...same, ...other]) {
+    if (out.length >= 3) break;
+    const key = v.en.toLowerCase();
     if (taken.has(key)) continue;
     taken.add(key);
-    out.push(value);
+    out.push(v);
   }
   return out;
 }
