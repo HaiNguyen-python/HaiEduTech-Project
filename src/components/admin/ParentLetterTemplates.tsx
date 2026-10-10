@@ -79,6 +79,7 @@ export default function ParentLetterTemplates() {
     </CardContent>
     <style>{`
       .parent-letter{width:720px;max-width:100%;margin:0 auto;padding:40px 48px;background:hsl(var(--schedule-paper, 0 0% 100%));color:hsl(var(--schedule-ink, 222 47% 11%));border:10px solid transparent;border-image:linear-gradient(135deg,#3B82F6,#10B981) 1;font-family:inherit;overflow-wrap:break-word}
+      .parent-letter__brand{font-family:"Dancing Script",cursive;font-weight:700;color:hsl(var(--notice-deep,#1E3A8A))!important;font-size:2em;letter-spacing:0}
       .teaching-poster--export.parent-letter{width:1080px;max-width:none;padding:64px 72px;font-size:22px;border-image:none;border-color:hsl(var(--primary))}
       .teaching-poster--export.parent-letter h2{background:none;-webkit-text-fill-color:hsl(var(--primary));color:hsl(var(--primary))}
       @media(max-width:640px){.parent-letter:not(.teaching-poster--export){padding:24px 20px}.parent-letter__head{flex-wrap:wrap}}
@@ -89,8 +90,12 @@ export default function ParentLetterTemplates() {
       .parent-letter h2{text-align:center;font-size:1.6em;font-weight:800;margin:28px 0 20px;background:linear-gradient(90deg,#2563EB,#059669);-webkit-background-clip:text;background-clip:text;color:transparent}
       .parent-letter__body{white-space:pre-wrap;line-height:1.7;font-size:1em}
       .parent-letter__sign{text-align:right;margin-top:28px}.parent-letter__sign p{margin:0;font-style:italic;opacity:.7}.parent-letter__sign strong{font-size:1.2em;color:#2563EB}
-      .parent-letter footer{margin-top:28px;padding-top:14px;border-top:1px solid #10B98155;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:.85em}
-      .parent-letter footer span{font-weight:700;color:#2563EB}.parent-letter footer em{color:#059669}
+      .parent-letter footer{margin-top:28px;padding-top:16px;border-top:1px solid #10B98155;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:.85em;text-align:center}
+      .parent-letter__contact{display:inline-flex;align-items:center;gap:10px;flex-wrap:wrap}
+      .parent-letter__contact span{font-weight:700;color:#2563EB}
+      .parent-letter__contact em{font-style:normal;color:#64748B}
+      .parent-letter__contact i{width:4px;height:4px;border-radius:9999px;background:#10B98188;flex:none}
+      .parent-letter__slogan{color:#059669;font-size:.92em}
     `}</style>
   </Card>;
 }
