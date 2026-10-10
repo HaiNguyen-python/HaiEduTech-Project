@@ -3,9 +3,17 @@ import { isCurriculumComplete, isCurriculumLessonUnlocked } from "@/lib/curricul
 import { chineseConversationalPillars } from "@/data/chineseConversationalCurriculum";
 import { flattenChineseLessons } from "@/lib/chineseCurriculumProgress";
 import { interpersonalLessonIds, passedInterpersonalIds } from "@/lib/interpersonalCurriculum";
+import { LIFESTYLE_LESSONS } from "@/data/lifestyleAcademyLessons";
 
 describe("Sequential curricula and certificates", () => {
   const chinese = flattenChineseLessons(chineseConversationalPillars).map(lesson => lesson.id);
+  it("includes every Interpersonal lesson exactly once and locks across pillar boundaries", () => {
+    expect(new Set(interpersonalLessonIds).size).toBe(LIFESTYLE_LESSONS.length);
+    expect(interpersonalLessonIds).toHaveLength(LIFESTYLE_LESSONS.length);
+    const boundary = chineseConversationalPillars[0].lessons.length;
+    expect(isCurriculumLessonUnlocked(chinese, chinese[boundary], chinese.slice(0, boundary - 1))).toBe(false);
+    expect(isCurriculumLessonUnlocked(chinese, chinese[boundary], chinese.slice(0, boundary))).toBe(true);
+  });
   for (const [name, ids] of [["Chinese", chinese], ["Interpersonal", interpersonalLessonIds]] as const) {
     it(`${name} locks following lessons until predecessors are complete`, () => {
       expect(isCurriculumLessonUnlocked(ids, ids[0], [])).toBe(true);
