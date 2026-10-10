@@ -42,14 +42,14 @@ export default function ParentLetterTemplates() {
   const download = async () => {
     if (!ref.current) return;
     setBusy(true);
-    try { await exportScheduleImage(ref.current, `HaiEduTech-${TEMPLATES[kind].label}-${kind === "thanks" ? "15-nam" : className}.png`.replace(/\s+/g, "_")); }
+    try { await exportScheduleImage(ref.current, `HaiEduTech-${TEMPLATES[kind].label}-${kind === "thanks" ? "Quy-Phu-huynh" : className}.png`.replace(/\s+/g, "_")); }
     catch { toast({ title: "Không tải được ảnh", variant: "destructive" }); }
     finally { setBusy(false); }
   };
   const text = body.split("{lop}").join(className || "...");
 
   return <Card>
-    <CardHeader><CardTitle>Mẫu thư gửi Phụ huynh</CardTitle><CardDescription>Thông báo · Tri ân 15 năm · Dặn dò & Nội quy</CardDescription></CardHeader>
+    <CardHeader><CardTitle>Mẫu thư gửi Phụ huynh</CardTitle><CardDescription>Thông báo · Tri ân Phụ huynh · Dặn dò & Nội quy</CardDescription></CardHeader>
     <CardContent className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)]">
       <div className="space-y-4">
         <div className="flex flex-wrap gap-2">{(Object.keys(TEMPLATES) as Kind[]).map(k => <Button key={k} size="sm" variant={k === kind ? "default" : "outline"} onClick={() => pick(k)}>{TEMPLATES[k].label}</Button>)}</div>
