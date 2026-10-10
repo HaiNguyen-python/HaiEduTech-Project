@@ -14,11 +14,11 @@ const TEMPLATES: Record<Kind, { label: string; title: string; body: string }> = 
   notice: {
     label: "Thông báo",
     title: "THÔNG BÁO GỬI QUÝ PHỤ HUYNH",
-    body: "Kính gửi Quý Phụ huynh lớp {lop},\n\nHaiEduTech xin trân trọng thông báo:\n• Lịch học tuần tới: [ghi lịch học]\n• Nội dung trọng tâm: [ghi nội dung]\n• Thay đổi (nếu có): [ghi thay đổi]\n\nRất mong Quý Phụ huynh nhắc nhở các con tham gia đầy đủ và đúng giờ. Mọi thắc mắc xin liên hệ thầy Hải qua số 0962.823.800.\n\nTrân trọng cảm ơn!",
+    body: "Kính gửi Quý Phụ huynh lớp {lop},\n\nHaiEduTech xin trân trọng thông báo:\n• Lịch học tuần tới: [ghi lịch học]\n• Nội dung trọng tâm: [ghi nội dung]\n• Thay đổi (nếu có): [ghi thay đổi]\n\nRất mong Quý Phụ huynh nhắc nhở các con tham gia đầy đủ và đúng giờ. Mọi thắc mắc xin liên hệ thầy Hải qua www.haiedutech.com.\n\nTrân trọng cảm ơn!",
   },
   thanks: {
     label: "Thư cảm ơn",
-    title: "15 NĂM ĐỒNG HÀNH · TRI ÂN QUÝ PHỤ HUYNH",
+    title: "TRI ÂN QUÝ PHỤ HUYNH · 15 NĂM ĐỒNG HÀNH CÙNG TIẾNG ANH THẦY HẢI",
     body: "Kính gửi Quý Phụ huynh,\n\nNhân dịp kỷ niệm 15 năm thành lập lớp tiếng Anh thầy Hải, thầy xin gửi đến Quý Phụ huynh lời cảm ơn chân thành và sâu sắc vì đã tin tưởng, gửi gắm và đồng hành cùng thầy trên hành trình học tập của các con.\n\nNhìn lại chặng đường ấy, điều thầy trân quý nhất không chỉ là những bài học đã dạy, mà là được chứng kiến các con từng bước trưởng thành: từ ngập ngừng đến tự tin bày tỏ, từ một câu hỏi nhỏ đến niềm vui khám phá kiến thức mới. Phía sau mỗi bước tiến ấy luôn có sự chăm chút, kiên nhẫn và động viên của gia đình.\n\nTừ lớp tiếng Anh thầy Hải ngày đầu, hôm nay HaiEduTech đã có mặt tại Phần Lan, tiếp nối hành trình xây dựng môi trường học tập Ngoại ngữ & Công nghệ quốc tế dành cho học sinh Việt Nam đang sinh sống ở nhiều quốc gia. Dù các con ở Việt Nam, Phần Lan hay một nơi xa khác, thầy mong lớp học luôn là nơi các con được kết nối, được lắng nghe và tự tin mở rộng cánh cửa ra thế giới.\n\nNgoại ngữ giúp các con hiểu và giao tiếp với thế giới; công nghệ giúp các con khám phá, sáng tạo và chủ động trong thời đại số. Kết hợp hai lĩnh vực ấy, thầy mong mang đến không chỉ kiến thức, mà còn tinh thần tự học, tư duy cởi mở và lòng tự tin để mỗi em tìm được con đường phù hợp với mình, đồng thời luôn trân trọng cội nguồn Việt Nam.\n\nMười lăm năm là một dấu mốc đáng nhớ, nhưng cũng là lời nhắc thầy tiếp tục học hỏi, đổi mới và tận tâm với từng giờ dạy. Thầy sẽ tiếp tục nỗ lực để mỗi buổi học đều có giá trị, để các con được khích lệ khi gặp khó khăn và được ghi nhận trong từng tiến bộ, dù nhỏ.\n\nCảm ơn Quý Phụ huynh đã dành cho thầy sự tin yêu, những góp ý chân thành và cơ hội được góp một phần vào hành trình trưởng thành của các con. Sự đồng hành ấy là nền tảng quý giá để lớp tiếng Anh thầy Hải, nay là HaiEduTech, tiếp tục vững bước.\n\nKính chúc Quý Phụ huynh cùng gia đình sức khỏe, bình an và hạnh phúc. Chúc các con luôn giữ niềm vui học tập, lòng ham hiểu biết và sự tự tin theo đuổi những ước mơ của mình.\n\nTrân trọng và biết ơn!",
   },
   reminder: {
@@ -67,8 +67,8 @@ export default function ParentLetterTemplates() {
           </header>
           <h2>{title}</h2>
           <div className="parent-letter__body">{text}</div>
-          <div className="parent-letter__sign"><p>Giáo viên phụ trách</p><strong>Mr. Hai Nguyen</strong></div>
-          <footer><span>www.haiedutech.com · 0962.823.800</span><em>The Unique Intersection of language and technology</em></footer>
+          <div className="parent-letter__sign"><p>Giáo viên phụ trách</p><strong>Thầy Hải</strong></div>
+          <footer><span>www.haiedutech.com</span><em>The Unique Intersection of language and technology</em></footer>
         </div>
       </div>
     </CardContent>
