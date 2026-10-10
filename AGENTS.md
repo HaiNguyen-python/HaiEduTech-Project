@@ -8,7 +8,7 @@
 - Programming math: shared `normalizeMath`; audit delimiters.
 - HSK visuals use Hanzi-aware mappings and stable category fallbacks to avoid generic icons.
 
-- Public nav: Home, About, English, Chinese, Finnish, Vietnamese, Technology, Interpersonal Skills, Your Corner. Finnish is open to signed-in users; hide JA/SV (teacher-gated), Specialized Language and Super Dictionary; preserve course URLs.
+- Nav: retain subjects and URLs. Finnish is open to signed-in users; show Swedish; hide JA (teacher-gated), Specialized Language and Super Dictionary; preserve course URLs.
 - Keep YKI Writing exams in one typed bank to prevent drift; original A2 typing stays separate, preserving exam IDs and length-based levels.
 - Format Finnish and English model-letter layout through the shared letter formatter, preserving wording and testing closing/signature separation to prevent inline sign-offs.
 - Keep uploaded Finnish YKI B1 Speaking exams in one typed bank grouped by exam and the four official practice parts, so prompts and trilingual model answers stay aligned.
@@ -39,3 +39,5 @@
 - Admin flags share rlEngine. Chinese/Interpersonal use shared sequential locks and completion PDFs; completed lessons remain reviewable; no unverifiable issuance codes.
 
 - Purpose English gaps use shared phrase-matched surface forms; Business function quizzes use model roles for accurate keys.
+
+- Swedish writing uses its typed bank and sv-scoped drafts/typing scores; patterns reuse the shared engine to avoid language drift.

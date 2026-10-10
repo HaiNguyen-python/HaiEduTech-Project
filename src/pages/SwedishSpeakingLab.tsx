@@ -7,6 +7,7 @@
  * @author Teacher Hai (HaiEduTech)
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
+import { Link } from "react-router-dom";
 import { consumeAiGrade } from "@/lib/aiQuota";
 import { useEffect, useMemo, useRef, useState } from "react";
 import SwedishHeroBanner from "@/components/swedish/SwedishHeroBanner";
@@ -264,6 +265,10 @@ const SwedishSpeakingLab = () => {
             </p>
           </header>
 
+          <div className="mb-6 flex flex-wrap justify-center gap-3">
+            <Button variant="outline" asChild><Link to="/speaking-coach/swedish">Speaking Coach</Link></Button>
+            <Button asChild><Link to="/speaking-coach/swedish?activity=pattern">Pattern Drilling</Link></Button>
+          </div>
           <Tabs value={level} onValueChange={(v) => onPickLevel(v as SwedishLevel)} className="mb-6">
             <TabsList className="grid w-full grid-cols-3">
               {LEVELS.map((lvl) => (

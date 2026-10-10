@@ -113,6 +113,13 @@ const SUBJECT_COLORS: Record<string, SubjectColor> = {
     header: "text-sky-600",
     accent: "hover:border-sky-500",
   },
+  sv: {
+    trigger: "hover:text-primary hover:bg-primary/10",
+    rowHover: "hover:text-primary hover:bg-primary/10",
+    rowActive: "text-primary bg-primary/10",
+    childHover: "hover:text-primary hover:bg-primary/10",
+    icon: "text-primary/80", header: "text-primary", accent: "hover:border-primary",
+  },
   prog: {
     trigger: "hover:text-emerald-600 hover:bg-emerald-500/10",
     rowHover: "hover:text-emerald-600 hover:bg-emerald-500/10",
@@ -453,6 +460,33 @@ const Navbar = () => {
     ] },
   ];
 
+  const swedishSubs: SubItem[] = [
+    { to: "/swedish", label: t("Khóa học & Lộ trình", "Courses & Roadmap"), icon: Route },
+    { to: "/swedish/performance", label: "Your Performance", icon: Activity },
+    { to: "#sv-div1", label: "", divider: true },
+    { to: "#sv-yki", label: t("Lộ trình YKI", "YKI Program"), icon: GraduationCap, groupLabel: "sv-yki", children: [
+      { to: "/swedish/yki-a2", label: "YKI A2 Prep", icon: Snowflake },
+      { to: "/swedish/yki-b1", label: "YKI B1 Prep", icon: Target },
+      { to: "/swedish/writing", label: "Writing Practice", icon: PenLine },
+      { to: "/swedish/listening", label: "Listening Practice", icon: Headphones },
+      { to: "/swedish/reading", label: "Reading Practice", icon: BookOpen },
+      { to: "/swedish/speaking", label: "Speaking Lab", icon: Mic2 },
+    ] },
+    { to: "#sv-essentials", label: "Swedish Essentials", icon: BookType, groupLabel: "sv-essentials", children: [
+      { to: "/swedish/beginner", label: "Swedish Beginner", icon: Sprout },
+      { to: "/swedish/vocabulary", label: t("Từ vựng", "Vocabulary"), icon: BookOpen },
+      { to: "/swedish/curriculum", label: "Interactive Curriculum", icon: GraduationCap },
+      { to: "/speaking-coach/swedish", label: t("Luyện nói", "Speaking Practice"), icon: Mic2 },
+      { to: "/speaking-coach/swedish?activity=pattern", label: "Pattern Drilling", icon: Mic2 },
+      { to: "/swedish/svenskfinland", label: "Svenskfinland / Life in Sweden", icon: Landmark },
+    ] },
+    { to: "#sv-practice", label: t("Luyện tập & Giải trí", "Practice & Fun"), icon: Target, groupLabel: "sv-practice", children: [
+      { to: "/swedish/skills", label: "Skills Lab", icon: Target },
+      { to: "/songs/swedish", label: t("Học qua bài hát", "Learn through Songs"), icon: Music },
+      { to: "/swedish/writing?mode=typing", label: "Typing", icon: PenLine },
+    ] },
+  ];
+
   const studyAbroadSubs: SubItem[] = [
     { to: "/study-abroad", label: t("🌍 Tổng quan", "🌍 Overview"), icon: Compass },
     { to: "/global-scholarship", label: t("💰 Global Scholarship", "💰 Global Scholarship"), icon: Newspaper },
@@ -479,6 +513,7 @@ const Navbar = () => {
     { to: "/english", label: t("Tiếng Anh", "English"), icon: BookOpen, subs: [...englishSubs, teacherNotes("English")], key: "en" },
     { to: "/chinese", label: t("Tiếng Trung", "Chinese"), icon: Languages, subs: [...chineseSubs, teacherNotes("Chinese")], key: "cn" },
     { to: "/finnish", label: t("Tiếng Phần Lan", "Finnish"), icon: Snowflake, subs: [...finnishSubs, teacherNotes("Finnish")], key: "fi" },
+    { to: "/swedish", label: t("Tiếng Thụy Điển", "Swedish"), icon: Globe, subs: [...swedishSubs, teacherNotes("Swedish")], key: "sv" },
     { to: "/learn-vietnamese", label: t("Tiếng Việt", "Vietnamese"), icon: Library, subs: [...vietnameseSubs, teacherNotes("Vietnamese")], key: "vn" },
     { to: "/programming", label: t("Công nghệ", "Technology\n"), icon: Code2, subs: [...programmingSubs, teacherNotes("Programming")], key: "prog" },
     { to: "/lifestyle-academy", label: t("Kỹ năng mềm", "Interpersonal Skills"), icon: Heart, subs: ([
