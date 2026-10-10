@@ -1,5 +1,5 @@
 /** Fixed-width, light artwork export; never capture admin tools or private meeting links. */
-export async function exportScheduleImage(artwork: HTMLElement, filename: string) {
+export async function exportScheduleImage(artwork: HTMLElement, filename: string, format: "png" | "pdf" = "png") {
   const { default: html2canvas } = await import("html2canvas");
   await document.fonts.ready;
   const host = document.createElement("div");
@@ -33,6 +33,17 @@ export async function exportScheduleImage(artwork: HTMLElement, filename: string
         element.style.margin = "0";
       },
     });
+    if (format === "pdf") {
+      const { default: jsPDF } = await import("jspdf");
+      const width = 210;
+      const pageHeight = 297;
+      const height = Math.max(pageHeight, width * canvas.height / canvas.width);
+      const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: [width, height] });
+      const imageHeight = width * canvas.height / canvas.width;
+      pdf.addImage(canvas.toDataURL("image/jpeg", 0.95), "JPEG", 0, (height - imageHeight) / 2, width, imageHeight);
+      pdf.save(filename);
+      return;
+    }
     const blob = await new Promise<Blob>((resolve, reject) => canvas.toBlob(value => value ? resolve(value) : reject(new Error("Image export failed")), "image/png"));
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
