@@ -17,6 +17,7 @@ import { useCourseAccess } from "@/hooks/useCourseAccess";
 import AccessDeniedModal from "@/components/AccessDeniedModal";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { isCurriculumLessonUnlocked } from "@/lib/curriculumCompletion";
 import {
   CHINESE_CURRICULUM_PROGRESS_EVENT, estimateChineseLessonMinutes, flattenChineseLessons,
   getNextChineseLesson, matchesChineseLessonFilter, readChineseProgress, type ChineseLessonFilter,
@@ -105,6 +106,7 @@ const ChineseConversationalDashboard = () => {
                 </p>
                 <div className="mt-6 flex flex-wrap gap-3">
                   {nextLesson && <Button asChild className="gap-2"><Link to={`/chinese/conversational/learn/${nextLesson.id}`}><ArrowRight className="h-4 w-4" />{t("Tiếp tục học", "Continue learning")}</Link></Button>}
+                  <Button asChild variant="outline" className="gap-2"><Link to="/chinese/conversational/certificate"><Award className="h-4 w-4" />{t("Chứng nhận hoàn thành", "Completion certificate")}</Link></Button>
                   <Badge variant="outline" className="min-h-10 px-4 text-sm"><Award className="mr-2 h-4 w-4 text-accent" />{completed.length} {t("bài hoàn thành", "lessons completed")}</Badge>
                 </div>
               </motion.div>
@@ -178,11 +180,12 @@ const PillarContent = ({ pillar, pillarNumber, completed, visibleLessons, curren
             const globalIndex = flattenChineseLessons(chineseConversationalPillars).findIndex((item) => item.id === lesson.id) + 1;
             const isCompleted = completed.includes(lesson.id);
             const isCurrent = currentLessonId === lesson.id;
+            const unlocked = isCurriculumLessonUnlocked(flattenChineseLessons(chineseConversationalPillars).map(item => item.id), lesson.id, completed);
             return (
               <AccordionItem key={lesson.id} value={lesson.id} className={`border-b border-border last:border-b-0 ${isCurrent ? "border-l-4 border-l-primary bg-primary/5" : "border-l-4 border-l-transparent"}`}>
                 <AccordionTrigger className="px-4 py-4 text-left hover:no-underline hover:bg-muted/50 sm:px-5">
                   <div className="flex min-w-0 flex-1 items-start gap-3 pr-3">
-                    <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border text-sm font-extrabold ${isCompleted ? "border-primary/25 bg-primary/10 text-primary" : isCurrent ? "border-primary bg-primary text-primary-foreground" : "border-border bg-muted text-foreground/70"}`}>{isCompleted ? <CheckCircle2 className="h-5 w-5" /> : globalIndex}</span>
+                     <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border text-sm font-extrabold ${isCompleted ? "border-primary/25 bg-primary/10 text-primary" : isCurrent ? "border-primary bg-primary text-primary-foreground" : "border-border bg-muted text-foreground/70"}`}>{isCompleted ? <CheckCircle2 className="h-5 w-5" /> : !unlocked ? <Lock className="h-4 w-4" /> : globalIndex}</span>
                     <div className="min-w-0 flex-1">
                       <div className="flex flex-wrap items-center gap-2"><h3 className="text-base font-extrabold leading-6">{lesson.title} <span className="font-bold text-muted-foreground">({lesson.titleZh})</span></h3>{isCurrent && <Badge>{t("Đang học", "In progress")}</Badge>}{isCompleted && <Badge variant="secondary">{t("Hoàn thành", "Completed")}</Badge>}</div>
                       <p className="mt-1 text-sm font-medium leading-6 text-muted-foreground">{lesson.description}</p>
@@ -194,7 +197,7 @@ const PillarContent = ({ pillar, pillarNumber, completed, visibleLessons, curren
                   <div className="ml-0 border-t border-border pt-4 sm:ml-14">
                     <p className="text-sm font-extrabold uppercase text-primary">{t("Bạn sẽ luyện", "What you will practise")}</p>
                     <div className="mt-3 grid gap-2 sm:grid-cols-3"><LessonMetric label={t("Tình huống", "Situations")} value={lesson.keySituations.length} /><LessonMetric label={t("Từ vựng", "Vocabulary")} value={lesson.vocabulary.length} /><LessonMetric label={t("Bài nghe", "Listening check")} value={lesson.listeningChallenge.questions.length} /></div>
-                    <div className="mt-4 flex flex-wrap gap-2"><Button asChild><Link to={`/chinese/conversational/learn/${lesson.id}`}><BookOpen className="mr-2 h-4 w-4" />{isCompleted ? t("Học lại", "Review lesson") : isCurrent ? t("Tiếp tục", "Continue") : t("Bắt đầu bài", "Start lesson")}</Link></Button><Button asChild variant="outline"><Link to={`/chinese/conversational/learn/${lesson.id}?tab=roleplay`}><MessageCircle className="mr-2 h-4 w-4" />Roleplay</Link></Button></div>
+                     {unlocked ? <div className="mt-4 flex flex-wrap gap-2"><Button asChild><Link to={`/chinese/conversational/learn/${lesson.id}`}><BookOpen className="mr-2 h-4 w-4" />{isCompleted ? t("Học lại", "Review lesson") : t("Tiếp tục", "Continue")}</Link></Button><Button asChild variant="outline"><Link to={`/chinese/conversational/learn/${lesson.id}?tab=roleplay`}><MessageCircle className="mr-2 h-4 w-4" />Roleplay</Link></Button></div> : <p className="mt-4 flex items-center gap-2 text-sm text-muted-foreground"><Lock className="h-4 w-4" />{t("Hoàn thành các bài trước để mở khóa.", "Complete the preceding lessons to unlock.")}</p>}
                   </div>
                 </AccordionContent>
               </AccordionItem>

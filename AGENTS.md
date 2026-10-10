@@ -17,8 +17,8 @@
 - Writing-practice tasks use unseen random selection with a single Next action; Chinese vocabulary and pattern tasks always show a complete Hanzi, Pinyin, and meaning example.
 - Course notices use tuition defaults, one language snapshot per recipient, and the staff-only single-notice function.
 - TOEIC vocabulary uses the shared Word Quest and Daily Mission engines with its own storage namespace and existing TOEIC mastery subject, so learning progress never collides with IELTS.
-- TOEIC shares Part guides with lesson techniques; audit unique IDs, answer indices and contextual evidence in `toeicLectureContent.test.ts` to prevent collisions and ambiguous grading.
-- TOEIC S/W uses unique `toeicSWContentSets`, audited by `toeicSwAudit.test.ts`; `grade-toeic-sw` grades transcripts/text, never session-only recordings.
+- TOEIC shares Part guides/techniques; `toeicLectureContent.test.ts` audits IDs, keys and evidence.
+- TOEIC S/W: audit `toeicSWContentSets` with `toeicSwAudit.test.ts`; grade text, not session-only audio.
 - Python Challenge rankings count distinct completed challenge IDs from activity logs through an authenticated read-only function, preventing repeat attempts from inflating totals.
 - Generate 999 Letters into lazy-loaded `src/data/chineseLetters/part*.ts`; regenerate Pinyin/keywords and audit with `scripts/audit_chinese_letters.ts` to avoid bundle bloat.
 - Chinese typing modes preserve punctuation via `chineseLetterTyping` and share IME-aware input: committed text drives grading; map active Pinyin to one Hanzi and guard IME Enter to prevent premature errors.
@@ -36,4 +36,4 @@
 - PTE shares sourced 22-type rules, protected attempts and exact-ID mini-set links; audit mismatch indices/adjacent pairs; label estimates, not official scores.
 - PhD and admin sorting: follow `docs/phd-research.md` for persistence and access safety.
 
-- Admin flags share rlEngine to avoid divergent alerts.
+- Admin flags share rlEngine. Chinese/Interpersonal use shared sequential locks and completion PDFs; completed lessons remain reviewable; no unverifiable issuance codes.

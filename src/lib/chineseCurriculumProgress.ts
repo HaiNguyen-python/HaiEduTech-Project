@@ -31,7 +31,7 @@ export const writeChineseProgress = (completed: string[], lessons: ChineseConvLe
 
 export const getNextChineseLesson = (pillars: ChineseConvPillar[], completed: string[]) => {
   const allLessons = flattenChineseLessons(pillars);
-  return allLessons.find((lesson) => !completed.includes(lesson.id)) ?? allLessons[0] ?? null;
+  return allLessons.find((lesson) => !completed.includes(lesson.id)) ?? null;
 };
 
 export const estimateChineseLessonMinutes = (lesson: ChineseConvLesson): number => {

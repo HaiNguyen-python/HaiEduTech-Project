@@ -329,6 +329,7 @@ const EnglishEssentials = lazyWithRetry(() => import("./pages/EnglishEssentials.
 const BusinessEnglish = lazyWithRetry(() => import("./pages/BusinessEnglish.tsx"));
 const PurposeEnglishCertificate = lazyWithRetry(() => import("./pages/PurposeEnglishCertificate.tsx"));
 const CertificateVerify = lazyWithRetry(() => import("./pages/CertificateVerify.tsx"));
+const CurriculumCertificate = lazyWithRetry(() => import("./pages/CurriculumCertificate.tsx"));
 const AcademicEnglish = lazyWithRetry(() => import("./pages/AcademicEnglish.tsx"));
 
 // Shared loading fallback component
@@ -373,6 +374,7 @@ const App = () => (
             <Route path="/insights/:slug" element={<LazyRoute><InsightPost /></LazyRoute>} />
             <Route path="/your-corner" element={<LazyRoute><YourCorner /></LazyRoute>} />
             <Route path="/lifestyle-academy" element={<LazyRoute><LifestyleAcademy /></LazyRoute>} />
+            <Route path="/lifestyle-academy/certificate" element={<LazyRoute><CurriculumCertificate track="interpersonal" /></LazyRoute>} />
             <Route path="/lifestyle-academy/performance" element={<LazyRoute><SubjectPerformance subject="interpersonal" /></LazyRoute>} />
             <Route path="/english" element={<LazyRoute><English /></LazyRoute>} />
             <Route path="/english/fun-facts" element={<LazyRoute><EnglishFunFacts /></LazyRoute>} />
@@ -399,6 +401,7 @@ const App = () => (
             <Route path="/finnish/performance" element={<LazyRoute><SubjectPerformance subject="finnish" /></LazyRoute>} />
             <Route path="/japanese" element={<LazyRoute><Japanese /></LazyRoute>} />
             <Route path="/chinese/conversational/curriculum" element={<LazyRoute><ChineseConversationalDashboard /></LazyRoute>} />
+            <Route path="/chinese/conversational/certificate" element={<LazyRoute><CurriculumCertificate track="chinese" /></LazyRoute>} />
             <Route path="/chinese/conversational/learn/:lessonId" element={<LazyRoute><ChineseConversationalLessonView /></LazyRoute>} />
             <Route path="/chinese/culture" element={<LazyRoute><ChineseCultureHub /></LazyRoute>} />
             <Route path="/chinese/:courseId" element={<LazyRoute><ChineseCourse /></LazyRoute>} />

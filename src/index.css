@@ -17,6 +17,12 @@
   }
 
   :root {
+    --certificate-paper: 0 0% 100%;
+    --certificate-ink: 222 47% 11%;
+    --certificate-blue: 217 91% 51%;
+    --certificate-emerald: 160 84% 29%;
+    --certificate-gold: 38 80% 40%;
+    --certificate-line: 214 32% 83%;
     --background: 210 40% 98%;
     --foreground: 222 47% 11%;
 
