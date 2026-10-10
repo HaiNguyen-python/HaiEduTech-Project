@@ -465,25 +465,21 @@ const Navbar = () => {
     { to: "/swedish/performance", label: "Your Performance", icon: Activity },
     { to: "#sv-div1", label: "", divider: true },
     { to: "#sv-yki", label: t("Lộ trình YKI", "YKI Program"), icon: GraduationCap, groupLabel: "sv-yki", children: [
-      { to: "/swedish/yki-a2", label: "YKI A2 Prep", icon: Snowflake },
-      { to: "/swedish/yki-b1", label: "YKI B1 Prep", icon: Target },
-      { to: "/swedish/writing", label: "Writing Practice", icon: PenLine },
-      { to: "/swedish/listening", label: "Listening Practice", icon: Headphones },
-      { to: "/swedish/reading", label: "Reading Practice", icon: BookOpen },
-      { to: "/swedish/speaking", label: "Speaking Lab", icon: Mic2 },
+      { to: "/swedish/yki-a2", label: t("Luyện thi YKI A2", "YKI A2 Prep"), icon: Snowflake },
+      { to: "/swedish/yki-b1", label: t("Luyện thi YKI B1", "YKI B1 Prep"), icon: Target },
+      { to: "/swedish/writing", label: t("Luyện viết YKI", "YKI Writing Practice"), icon: PenLine },
     ] },
     { to: "#sv-essentials", label: "Swedish Essentials", icon: BookType, groupLabel: "sv-essentials", children: [
-      { to: "/swedish/beginner", label: "Swedish Beginner", icon: Sprout },
+      { to: "/swedish/beginner", label: t("Tiếng Thụy Điển Cơ bản", "Swedish Beginner"), icon: Sprout },
       { to: "/swedish/vocabulary", label: t("Từ vựng", "Vocabulary"), icon: BookOpen },
-      { to: "/swedish/curriculum", label: "Interactive Curriculum", icon: GraduationCap },
       { to: "/speaking-coach/swedish", label: t("Luyện nói", "Speaking Practice"), icon: Mic2 },
-      { to: "/speaking-coach/swedish?activity=pattern", label: "Pattern Drilling", icon: Mic2 },
-      { to: "/swedish/svenskfinland", label: "Svenskfinland / Life in Sweden", icon: Landmark },
+      { to: "/swedish/svenskfinland", label: t("Cuộc sống ở Thụy Điển", "Life in Sweden"), icon: Landmark },
     ] },
+    { to: "#sv-div2", label: "", divider: true },
     { to: "#sv-practice", label: t("Luyện tập & Giải trí", "Practice & Fun"), icon: Target, groupLabel: "sv-practice", children: [
+      { to: "/swedish/curriculum", label: "Interactive Curriculum", icon: GraduationCap },
       { to: "/swedish/skills", label: "Skills Lab", icon: Target },
       { to: "/songs/swedish", label: t("Học qua bài hát", "Learn through Songs"), icon: Music },
-      { to: "/swedish/writing?mode=typing", label: "Typing", icon: PenLine },
     ] },
   ];
 
