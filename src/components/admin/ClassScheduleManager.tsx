@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import { useUserRole } from "@/hooks/useUserRole";
@@ -14,25 +14,12 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { useToast } from "@/hooks/use-toast";
 import {
   Calendar as CalendarIcon, Clock, Users, Link as LinkIcon, Plus, List, LayoutGrid,
-  Edit, Trash2, AlertTriangle, ChevronLeft, ChevronRight, MapPin, Video,
+  Edit, Trash2, AlertTriangle, ChevronLeft, ChevronRight, MapPin, Video, Download, Image, Loader2,
 } from "lucide-react";
 
-// ===== Types & subject palette =====
-type ClassSchedule = {
-  id: string;
-  class_name: string;
-  subject: string;
-  description: string | null;
-  start_time: string;
-  end_time: string;
-  recurring: string;
-  recurring_days: number[] | null;
-  platform_link: string | null;
-  location: string | null;
-  max_students: number;
-  status: string;
-  color: string | null;
-};
+import WeeklyTeachingPoster from "./WeeklyTeachingPoster";
+import { exportScheduleImage } from "@/lib/scheduleImageExport";
+import { expandScheduleWeek, scheduleDate, scheduleTime, scheduleWeekStart, shiftScheduleDate, vietnamInstant, VIETNAM_ZONE, FINLAND_ZONE, type ClassSchedule, type ScheduleZone } from "@/lib/classScheduleTime";
 
 const SUBJECT_OPTIONS = [
   { value: "english", label: "English", chip: "bg-blue-500/15 text-blue-700 border-blue-500/30 dark:text-blue-300", dot: "bg-blue-500" },
@@ -47,25 +34,6 @@ const SUBJECT_OPTIONS = [
 
 const subjectMeta = (s: string) => SUBJECT_OPTIONS.find((o) => o.value === s) ?? SUBJECT_OPTIONS[7];
 
-// ===== Helpers for week view =====
-const startOfWeek = (d: Date) => {
-  const date = new Date(d);
-  const day = (date.getDay() + 6) % 7; // Monday-first
-  date.setHours(0, 0, 0, 0);
-  date.setDate(date.getDate() - day);
-  return date;
-};
-
-const addDays = (d: Date, n: number) => {
-  const x = new Date(d);
-  x.setDate(x.getDate() + n);
-  return x;
-};
-
-const fmtDate = (d: Date) => d.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" });
-const fmtTime = (iso: string) => new Date(iso).toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" });
-const sameDay = (a: Date, b: Date) => a.toDateString() === b.toDateString();
-
 const overlaps = (a: ClassSchedule, b: ClassSchedule) =>
   a.id !== b.id &&
   new Date(a.start_time) < new Date(b.end_time) &&
@@ -76,7 +44,7 @@ const emptyForm = {
   class_name: "",
   subject: "english",
   description: "",
-  date: new Date().toISOString().slice(0, 10),
+  date: scheduleDate(new Date()),
   start_hm: "18:00",
   end_hm: "19:30",
   recurring: "none",
@@ -92,8 +60,8 @@ export default function ClassScheduleManager() {
   const { toast } = useToast();
   const [schedules, setSchedules] = useState<ClassSchedule[]>([]);
   const [loading, setLoading] = useState(true);
-  const [view, setView] = useState<"week" | "list">("week");
-  const [weekStart, setWeekStart] = useState<Date>(startOfWeek(new Date()));
+  const [view, setView] = useState<"poster" | "week" | "list">("poster");
+  const [weekStart, setWeekStart] = useState<string>(scheduleWeekStart());
   const [filterSubject, setFilterSubject] = useState<string>("all");
   const [filterStatus, setFilterStatus] = useState<string>("all");
   const [openSheet, setOpenSheet] = useState(false);
@@ -101,6 +69,23 @@ export default function ClassScheduleManager() {
   const [form, setForm] = useState(emptyForm);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [draggingId, setDraggingId] = useState<string | null>(null);
+  const [zone, setZone] = useState<ScheduleZone>(VIETNAM_ZONE);
+  const [exporting, setExporting] = useState(false);
+  const posterRef = useRef<HTMLDivElement>(null);
+  const occurrences = useMemo(() => expandScheduleWeek(filteredForWeek(), weekStart, zone), [schedules, filterSubject, filterStatus, weekStart, zone]);
+  function filteredForWeek() {
+    return schedules.filter(c => (filterSubject === "all" || c.subject === filterSubject) && (filterStatus === "all" || c.status === filterStatus));
+  }
+  const downloadPoster = async () => {
+    if (!posterRef.current) return;
+    setExporting(true);
+    try {
+      await exportScheduleImage(posterRef.current, `HaiEduTech-${weekStart}-${zone === VIETNAM_ZONE ? "Vietnam" : "Finland"}.png`);
+      toast({ title: "Đã tải ảnh thời khóa biểu" });
+    } catch {
+      toast({ title: "Chưa tải được ảnh. Vui lòng thử lại.", variant: "destructive" });
+    } finally { setExporting(false); }
+  };
 
   // Fetch all schedules + realtime sync
   const fetchSchedules = useCallback(async () => {
@@ -157,8 +142,8 @@ export default function ClassScheduleManager() {
       toast({ title: "Class name is required", variant: "destructive" });
       return;
     }
-    const start = new Date(`${form.date}T${form.start_hm}:00`).toISOString();
-    const end = new Date(`${form.date}T${form.end_hm}:00`).toISOString();
+    const start = vietnamInstant(form.date, form.start_hm);
+    const end = vietnamInstant(form.date, form.end_hm);
     if (new Date(end) <= new Date(start)) {
       toast({ title: "End time must be after start time", variant: "destructive" });
       return;
@@ -200,9 +185,9 @@ export default function ClassScheduleManager() {
       class_name: s.class_name,
       subject: s.subject,
       description: s.description ?? "",
-      date: d.toISOString().slice(0, 10),
-      start_hm: d.toTimeString().slice(0, 5),
-      end_hm: e.toTimeString().slice(0, 5),
+      date: scheduleDate(d),
+      start_hm: scheduleTime(d),
+      end_hm: scheduleTime(e),
       recurring: s.recurring,
       recurring_days: s.recurring_days ?? [],
       platform_link: s.platform_link ?? "",
@@ -227,15 +212,14 @@ export default function ClassScheduleManager() {
   };
 
   // ===== Drag & Drop reschedule =====
-  const handleDrop = async (targetDate: Date) => {
+  const handleDrop = async (targetDate: string) => {
     if (!draggingId) return;
     const cls = schedules.find((s) => s.id === draggingId);
     if (!cls) return;
     const start = new Date(cls.start_time);
     const end = new Date(cls.end_time);
     const duration = end.getTime() - start.getTime();
-    const newStart = new Date(targetDate);
-    newStart.setHours(start.getHours(), start.getMinutes(), 0, 0);
+    const newStart = new Date(vietnamInstant(targetDate, scheduleTime(start)));
     const newEnd = new Date(newStart.getTime() + duration);
     const { error } = await supabase
       .from("class_schedules")
@@ -245,13 +229,6 @@ export default function ClassScheduleManager() {
     else toast({ title: "Class rescheduled" });
     setDraggingId(null);
   };
-
-  // ===== Derived: weekly grid =====
-  const weekDays = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
-  const classesForDay = (d: Date) =>
-    filtered
-      .filter((c) => sameDay(new Date(c.start_time), d))
-      .sort((a, b) => +new Date(a.start_time) - +new Date(b.start_time));
 
   if (!isTeacher) {
     return (
@@ -269,6 +246,9 @@ export default function ClassScheduleManager() {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex flex-wrap items-center gap-2">
           <div className="inline-flex rounded-lg border border-border bg-card p-1">
+            <Button size="sm" variant={view === "poster" ? "default" : "ghost"} onClick={() => setView("poster")} className="gap-1.5">
+              <Image className="w-4 h-4" /> Thời khóa biểu
+            </Button>
             <Button size="sm" variant={view === "week" ? "default" : "ghost"} onClick={() => setView("week")} className="gap-1.5">
               <LayoutGrid className="w-4 h-4" /> Week
             </Button>
@@ -296,7 +276,13 @@ export default function ClassScheduleManager() {
             </SelectContent>
           </Select>
         </div>
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="inline-flex rounded-lg border border-border bg-card p-1" aria-label="Múi giờ">
+            <Button size="sm" variant={zone === VIETNAM_ZONE ? "default" : "ghost"} aria-pressed={zone === VIETNAM_ZONE} onClick={() => setZone(VIETNAM_ZONE)}>Việt Nam</Button>
+            <Button size="sm" variant={zone === FINLAND_ZONE ? "default" : "ghost"} aria-pressed={zone === FINLAND_ZONE} onClick={() => setZone(FINLAND_ZONE)}>Phần Lan</Button>
+          </div>
         <Button onClick={startCreate} className="gap-1.5"><Plus className="w-4 h-4" /> Add Class</Button>
+        </div>
       </div>
 
       {/* ===== Subject legend ===== */}
@@ -308,83 +294,36 @@ export default function ClassScheduleManager() {
         ))}
       </div>
 
-      {/* ===== Week view ===== */}
+      {view !== "list" && (
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-1">
+            <Button size="icon" variant="outline" aria-label="Tuần trước" title="Tuần trước" onClick={() => setWeekStart(shiftScheduleDate(weekStart, -7))}><ChevronLeft className="w-4 h-4" /></Button>
+            <Button size="sm" variant="outline" onClick={() => setWeekStart(scheduleWeekStart(new Date(), zone))}>Tuần này</Button>
+            <Button size="icon" variant="outline" aria-label="Tuần sau" title="Tuần sau" onClick={() => setWeekStart(shiftScheduleDate(weekStart, 7))}><ChevronRight className="w-4 h-4" /></Button>
+            <Input type="date" aria-label="Chọn tuần" className="w-40" value={weekStart} onChange={e => { if (e.target.value) setWeekStart(scheduleWeekStart(new Date(`${e.target.value}T12:00:00Z`), zone)); }} />
+          </div>
+          {view === "poster" && <Button variant="outline" onClick={downloadPoster} disabled={exporting || loading || !occurrences.length} className="gap-2">
+            {exporting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />} Tải ảnh Zalo
+          </Button>}
+        </div>
+      )}
+      {view === "poster" && (loading ? <div className="py-12 text-center text-muted-foreground">Đang tải lịch học…</div> : <WeeklyTeachingPoster ref={posterRef} week={weekStart} zone={zone} occurrences={occurrences} />)}
       {view === "week" && (
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-            <CardTitle className="text-base flex items-center gap-2">
-              <CalendarIcon className="w-4 h-4 text-primary" />
-              {fmtDate(weekStart)} - {fmtDate(addDays(weekStart, 6))}
-            </CardTitle>
-            <div className="flex items-center gap-1">
-              <Button size="sm" variant="ghost" onClick={() => setWeekStart(addDays(weekStart, -7))}><ChevronLeft className="w-4 h-4" /></Button>
-              <Button size="sm" variant="outline" onClick={() => setWeekStart(startOfWeek(new Date()))}>Today</Button>
-              <Button size="sm" variant="ghost" onClick={() => setWeekStart(addDays(weekStart, 7))}><ChevronRight className="w-4 h-4" /></Button>
-            </div>
-          </CardHeader>
-          <CardContent className="overflow-x-auto">
-            <div className="min-w-[900px] grid grid-cols-7 gap-2">
-              {weekDays.map((d) => {
-                const today = sameDay(d, new Date());
-                const items = classesForDay(d);
-                return (
-                  <div
-                    key={d.toISOString()}
-                    onDragOver={(e) => e.preventDefault()}
-                    onDrop={() => handleDrop(d)}
-                    className={`rounded-lg border ${today ? "border-primary/60 bg-primary/5" : "border-border bg-card"} min-h-[260px] p-2 flex flex-col gap-2`}
-                  >
-                    <div className="flex items-baseline justify-between">
-                      <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-                        {d.toLocaleDateString(undefined, { weekday: "short" })}
-                      </div>
-                      <div className={`text-sm font-bold ${today ? "text-primary" : ""}`}>{d.getDate()}</div>
-                    </div>
-                    <div className="flex flex-col gap-2">
-                      <AnimatePresence>
-                        {items.map((c) => {
-                          const meta = subjectMeta(c.subject);
-                          const isConflict = conflictMap[c.id];
-                          return (
-                            <motion.div
-                              key={c.id}
-                              draggable
-                              onDragStart={() => setDraggingId(c.id)}
-                              onDragEnd={() => setDraggingId(null)}
-                              initial={{ opacity: 0, y: 4 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              exit={{ opacity: 0 }}
-                              whileHover={{ scale: 1.02 }}
-                              onClick={() => startEdit(c)}
-                              className={`group cursor-pointer rounded-md border-l-4 px-2 py-1.5 text-xs shadow-sm bg-background hover:shadow-md transition-all ${
-                                isConflict ? "border-red-500 ring-1 ring-red-500/40 bg-red-500/5" : ""
-                              }`}
-                              style={!isConflict ? { borderLeftColor: `hsl(var(--primary))` } : undefined}
-                            >
-                              <div className="flex items-center gap-1.5 mb-0.5">
-                                <span className={`w-2 h-2 rounded-full ${meta.dot}`} />
-                                <span className="font-semibold truncate">{c.class_name}</span>
-                                {isConflict && <AlertTriangle className="w-3 h-3 text-red-500 ml-auto" />}
-                              </div>
-                              <div className="text-muted-foreground flex items-center gap-1">
-                                <Clock className="w-3 h-3" /> {fmtTime(c.start_time)}–{fmtTime(c.end_time)}
-                              </div>
-                              {c.location && (
-                                <div className="text-muted-foreground flex items-center gap-1 mt-0.5">
-                                  <MapPin className="w-3 h-3" /> <span className="truncate">{c.location}</span>
-                                </div>
-                              )}
-                            </motion.div>
-                          );
-                        })}
-                      </AnimatePresence>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </CardContent>
-        </Card>
+        <div className="overflow-x-auto">
+          <div className="grid min-w-[1000px] grid-cols-7 gap-2">
+            {Array.from({ length: 7 }, (_, i) => {
+              const date = shiftScheduleDate(weekStart, i);
+              const items = occurrences.filter(c => scheduleDate(c.start_time, zone) === date);
+              return <div key={date} onDragOver={e => e.preventDefault()} onDrop={() => handleDrop(date)} className="min-h-[280px] rounded-lg border border-border bg-card p-3">
+                <p className="mb-3 text-sm font-semibold">{["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ nhật"][i]}<span className="block text-muted-foreground">{date.slice(8)}/{date.slice(5, 7)}</span></p>
+                <div className="space-y-2">{items.map(c => <Button key={c.occurrence_id} variant="outline" draggable onDragStart={() => setDraggingId(c.id)} onDragEnd={() => setDraggingId(null)} onClick={() => { const original = schedules.find(s => s.id === c.id); if (original) startEdit(original); }} className="h-auto w-full flex-col items-start whitespace-normal p-2 text-left">
+                  <span className="font-bold text-primary">{scheduleTime(c.start_time, zone)} - {scheduleTime(c.end_time, zone)}</span>
+                  <span className="mt-1 text-xs leading-relaxed">{c.class_name}</span>
+                </Button>)}</div>
+              </div>;
+            })}
+          </div>
+        </div>
       )}
 
       {/* ===== List view ===== */}
@@ -413,8 +352,8 @@ export default function ClassScheduleManager() {
                           )}
                         </div>
                         <div className="text-xs text-muted-foreground mt-0.5 flex flex-wrap gap-3">
-                          <span className="inline-flex items-center gap-1"><CalendarIcon className="w-3 h-3" /> {new Date(c.start_time).toLocaleDateString()}</span>
-                          <span className="inline-flex items-center gap-1"><Clock className="w-3 h-3" /> {fmtTime(c.start_time)}–{fmtTime(c.end_time)}</span>
+                          <span className="inline-flex items-center gap-1"><CalendarIcon className="w-3 h-3" /> {scheduleDate(c.start_time, zone)}</span>
+                          <span className="inline-flex items-center gap-1"><Clock className="w-3 h-3" /> {scheduleTime(c.start_time, zone)}–{scheduleTime(c.end_time, zone)}</span>
                           <span className="inline-flex items-center gap-1"><Users className="w-3 h-3" /> Max {c.max_students}</span>
                           {c.location && <span className="inline-flex items-center gap-1"><MapPin className="w-3 h-3" /> {c.location}</span>}
                           {c.platform_link && (
@@ -444,7 +383,7 @@ export default function ClassScheduleManager() {
         <SheetContent side="right" className="w-full sm:max-w-lg overflow-y-auto">
           <SheetHeader>
             <SheetTitle>{editingId ? "Edit Class" : "Add New Class"}</SheetTitle>
-            <SheetDescription>Fill in the details. Conflicts will be flagged automatically.</SheetDescription>
+            <SheetDescription>Giờ nhập: Việt Nam (UTC+7). Conflicts will be flagged automatically.</SheetDescription>
           </SheetHeader>
           <div className="mt-6 space-y-4">
             <div className="space-y-1.5">
@@ -491,9 +430,11 @@ export default function ClassScheduleManager() {
                   {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((d, i) => {
                     const active = form.recurring_days.includes(i);
                     return (
-                      <button
+                      <Button
                         key={d}
                         type="button"
+                        variant={active ? "default" : "outline"}
+                        size="sm"
                         onClick={() => {
                           const next = active ? form.recurring_days.filter((x) => x !== i) : [...form.recurring_days, i];
                           setForm({ ...form, recurring_days: next });
@@ -503,7 +444,7 @@ export default function ClassScheduleManager() {
                         }`}
                       >
                         {d}
-                      </button>
+                      </Button>
                     );
                   })}
                 </div>
