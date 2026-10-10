@@ -269,6 +269,11 @@ const Finnish = () => {
                 </Button>
               </div>
             </Link>
+            <Button asChild variant="outline" className="mt-3 gap-2">
+              <Link to="/speaking-coach/finnish?activity=pattern">
+                <Mic className="h-4 w-4" /> {t("Luyện khung câu tiếng Phần Lan", "Finnish Pattern Drilling")} <ChevronRight className="h-4 w-4" />
+              </Link>
+            </Button>
           </motion.div>
         </section>
       </main>
