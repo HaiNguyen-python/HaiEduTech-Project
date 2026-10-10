@@ -1254,7 +1254,7 @@ export const conversationalPillars: ConvPillar[] = [
           { term: "cut to the chase", meaning: "đi thẳng vào vấn đề", meaningEn: "get to the point directly", type: "idiom", example: "Let me cut to the chase - here are the results.", exampleVi: "Để tôi đi thẳng vào vấn đề - đây là kết quả." },
           { term: "run through", meaning: "trình bày tóm tắt", meaningEn: "go over quickly", type: "phrasal-verb", example: "Let me run through the key points.", exampleVi: "Để tôi trình bày qua các điểm chính." },
           { term: "break it down", meaning: "phân tích chi tiết", meaningEn: "explain in simpler parts", type: "phrasal-verb", example: "Let me break it down for you.", exampleVi: "Để tôi phân tích chi tiết cho bạn." },
-          { term: "take away", meaning: "điểm cần nhớ", meaningEn: "key point to remember", type: "expression", example: "The main takeaway from today is this chart.", exampleVi: "Điểm chính cần nhớ hôm nay là biểu đồ này." },
+          { term: "takeaway", meaning: "điểm cần nhớ", meaningEn: "key point to remember", type: "expression", example: "The main takeaway from today is that revenue grew by 15%.", exampleVi: "Điểm chính cần nhớ hôm nay là doanh thu tăng 15%." },
         ],
         listeningChallenge: {
           title: "Presentation Conclusion",

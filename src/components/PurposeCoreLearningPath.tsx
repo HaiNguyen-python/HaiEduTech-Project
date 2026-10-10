@@ -291,8 +291,8 @@ const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics, unlo
                           <Button
                             key={option}
                             variant="outline"
-                            disabled={answered}
-                            onClick={() => setGuidedPicks((current) => ({ ...current, [activity.id]: optionIndex }))}
+                            aria-disabled={answered}
+                            onClick={() => { if (!answered) setGuidedPicks((current) => ({ ...current, [activity.id]: optionIndex })); }}
                             className={`h-auto min-h-12 justify-start whitespace-normal py-3 text-left text-base ${answered && right ? "border-primary bg-primary/10" : ""} ${selectedWrong ? "border-destructive bg-destructive/10" : ""}`}
                           >
                             <span className="mr-2 font-bold text-primary">{String.fromCharCode(65 + optionIndex)}.</span>
@@ -336,7 +336,7 @@ const PurposeCoreLearningPath = ({ track, storageKey, activityType, topics, unlo
                       {question.options.map((option, optionIndex) => {
                         const right = optionIndex === question.answer;
                         const selectedWrong = answered && optionIndex === chosen && !right;
-                        return <Button key={option} variant="outline" disabled={answered} onClick={() => choose(questionIndex, optionIndex)} className={`h-auto min-h-12 justify-start whitespace-normal py-3 text-left ${answered && right ? "border-primary bg-primary/10" : ""} ${selectedWrong ? "border-destructive bg-destructive/10" : ""}`}><span className="mr-2 font-bold text-primary">{String.fromCharCode(65 + optionIndex)}.</span><span className="flex-1">{option}</span>{answered && right && <CheckCircle2 className="h-4 w-4 text-primary" />}{selectedWrong && <XCircle className="h-4 w-4 text-destructive" />}</Button>;
+                        return <Button key={option} variant="outline" aria-disabled={answered} onClick={() => choose(questionIndex, optionIndex)} className={`h-auto min-h-12 justify-start whitespace-normal py-3 text-left text-base ${answered && right ? "border-primary bg-primary/10" : ""} ${selectedWrong ? "border-destructive bg-destructive/10" : ""}`}><span className="mr-2 font-bold text-primary">{String.fromCharCode(65 + optionIndex)}.</span><span className="flex-1">{option}</span>{answered && right && <CheckCircle2 className="h-4 w-4 text-primary" />}{selectedWrong && <XCircle className="h-4 w-4 text-destructive" />}</Button>;
                       })}
                     </div>
                      {answered && <div className="mt-4 border-l-4 border-primary bg-primary/5 p-4"><p className="font-extrabold text-foreground">{t("Đáp án", "Answer")}: {String.fromCharCode(65 + question.answer)}. {question.options[question.answer]}</p><p className="mt-2 font-medium leading-7 text-foreground">{t(question.explanationVi, question.explanation)}</p></div>}
