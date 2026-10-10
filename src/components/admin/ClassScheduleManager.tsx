@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
+import { formatTeachingHours, totalTeachingMinutes } from "@/lib/scheduleHours";
 import { fromZonedTime } from "date-fns-tz";
 import { supabase } from "@/integrations/supabase/client";
 import { useUserRole } from "@/hooks/useUserRole";
@@ -315,6 +316,9 @@ export default function ClassScheduleManager() {
             <Button size="sm" variant="outline" onClick={() => setWeekStart(scheduleWeekStart(new Date(), zone))}>Tuần này</Button>
             <Button size="icon" variant="outline" aria-label="Tuần sau" title="Tuần sau" onClick={() => setWeekStart(shiftScheduleDate(weekStart, 7))}><ChevronRight className="w-4 h-4" /></Button>
             <Input type="date" aria-label="Chọn tuần" className="w-40" value={weekStart} onChange={e => { if (e.target.value) setWeekStart(scheduleWeekStart(new Date(`${e.target.value}T12:00:00Z`), zone)); }} />
+          </div>
+          <div className="rounded-lg border border-primary/30 bg-primary/10 px-3 py-1.5 text-sm font-semibold text-primary">
+            Tổng giờ dạy tuần: {formatTeachingHours(totalTeachingMinutes(occurrences))} · {occurrences.length} buổi
           </div>
           {view === "poster" && <Button variant="outline" onClick={downloadPoster} disabled={exporting || loading || !occurrences.length} className="gap-2">
             {exporting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />} Tải ảnh Zalo
