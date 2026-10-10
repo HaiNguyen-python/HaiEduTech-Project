@@ -86,6 +86,7 @@ export default function ParentLetterTemplates() {
       .parent-letter__brand{font-family:"Dancing Script",cursive;font-weight:700;font-size:2em;letter-spacing:0;background:linear-gradient(90deg,#2563EB,#059669);-webkit-background-clip:text;background-clip:text;color:transparent!important;-webkit-text-fill-color:transparent}
       .teaching-poster--export.parent-letter{width:1080px;max-width:none;padding:64px 72px;font-size:22px;border-image:none;border-color:hsl(var(--primary))}
       .teaching-poster--export.parent-letter h2{background:none;-webkit-text-fill-color:hsl(var(--primary));color:hsl(var(--primary))}
+      .teaching-poster--export .parent-letter__brand{background:none;-webkit-background-clip:border-box;background-clip:border-box;-webkit-text-fill-color:#2563EB;color:#2563EB!important}
       @media(max-width:640px){.parent-letter:not(.teaching-poster--export){padding:24px 20px}.parent-letter__head{flex-wrap:wrap}}
       .parent-letter__head{display:flex;align-items:center;gap:14px;padding-bottom:16px;border-bottom:2px solid #10B981}
       .parent-letter__head img{width:64px;height:64px;border-radius:50%;object-fit:cover}
