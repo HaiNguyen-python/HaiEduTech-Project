@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
+import { formatTeachingHours, totalTeachingMinutes } from "@/lib/scheduleHours";
 import { fromZonedTime } from "date-fns-tz";
 import { supabase } from "@/integrations/supabase/client";
 import { useUserRole } from "@/hooks/useUserRole";
