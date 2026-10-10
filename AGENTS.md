@@ -8,7 +8,7 @@
 - Programming math: shared `normalizeMath`; audit delimiters.
 - HSK visuals use Hanzi-aware mappings and stable category fallbacks to avoid generic icons.
 
-- Nav: retain subjects and URLs. Finnish is open to signed-in users; show Swedish; hide JA (teacher-gated), Specialized Language and Super Dictionary; preserve course URLs.
+- Nav: retain URLs; show Finnish/Swedish; hide JA, Specialized Language and Super Dictionary. Preserve access gates.
 - Keep YKI Writing exams in one typed bank to prevent drift; original A2 typing stays separate, preserving exam IDs and length-based levels.
 - Format Finnish and English model-letter layout through the shared letter formatter, preserving wording and testing closing/signature separation to prevent inline sign-offs.
 - Keep uploaded Finnish YKI B1 Speaking exams in one typed bank grouped by exam and the four official practice parts, so prompts and trilingual model answers stay aligned.
@@ -40,4 +40,4 @@
 
 - Purpose English gaps use shared phrase-matched surface forms; Business function quizzes use model roles for accurate keys.
 
-- Swedish writing uses its typed bank and sv-scoped drafts/typing scores; patterns reuse the shared engine to avoid language drift.
+- Swedish writing uses a typed bank and sv-scoped storage; patterns reuse the shared engine to prevent drift.
