@@ -36,6 +36,7 @@ import {
   ClipboardCheck,
   ChevronDown,
   Mic2,
+  Lock, Award,
 } from "lucide-react";
 
 import Navbar from "@/components/Navbar";
@@ -53,6 +54,8 @@ import SoftSkillsRadar from "@/components/lifestyle/SoftSkillsRadar";
 import { useLifestyleProgress, type LifestyleLessonResult } from "@/hooks/useLifestyleProgress";
 import PlacementCta from "@/components/personalization/PlacementCta";
 import heroBg from "@/assets/lifestyle/interpersonal-hero-bg.jpg";
+import { isCurriculumLessonUnlocked } from "@/lib/curriculumCompletion";
+import { interpersonalLessonIds, passedInterpersonalIds } from "@/lib/interpersonalCurriculum";
 
 
 // Pillar-specific styles used across cards for consistent theming.
@@ -414,7 +417,12 @@ const LifestyleAcademy = () => {
   const [filter, setFilter] = useState<FilterKey>("all");
   const [query, setQuery] = useState("");
   const [mood, setMood] = useState<MoodKey>("ready");
-  const { results, pillarScores, stats, saveResult } = useLifestyleProgress();
+  const { results, pillarScores, stats, saveResult, loading } = useLifestyleProgress();
+  const completedIds = passedInterpersonalIds(results);
+  const lessonUnlocked = (id: string) => !loading && isCurriculumLessonUnlocked(interpersonalLessonIds, id, completedIds);
+  const saveUnlockedResult = (result: LifestyleLessonResult) => {
+    if (lessonUnlocked(result.lessonId)) void saveResult(result);
+  };
 
   // Scroll helper: filter by pillar then scroll to the deep-dive lessons section.
   const openPillarLessons = (key: PillarKey) => {
@@ -626,6 +634,7 @@ const LifestyleAcademy = () => {
           
           <div className="relative z-10 container mx-auto px-4 py-10 md:py-14">
             <PlacementCta subject="lifestyle" className="mb-10" />
+            <div className="mb-6 flex flex-wrap items-center justify-between gap-4 border-y border-border py-5"><p className="font-semibold text-foreground">{completedIds.length}/{interpersonalLessonIds.length} {t("bài hoàn thành", "lessons completed")}</p><Button asChild variant="outline"><Link to="/lifestyle-academy/certificate"><Award className="mr-2 h-4 w-4" />{t("Chứng nhận hoàn thành", "Completion certificate")}</Link></Button></div>
             <div className="mb-10 flex flex-col gap-4 border-y border-border py-6 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <h3 className="text-lg font-bold text-foreground">{t("Public Speaking Studio", "Public Speaking Studio")}</h3>
@@ -689,7 +698,8 @@ const LifestyleAcademy = () => {
                       open={isGroupOpen(group.pillar.key)}
                       onToggle={() => toggleGroup(group.pillar.key)}
                       results={results}
-                      onQuizFinish={saveResult}
+                      onQuizFinish={saveUnlockedResult}
+                      lessonUnlocked={lessonUnlocked}
                     />
                   ))}
                 </div>
@@ -702,7 +712,8 @@ const LifestyleAcademy = () => {
                     lesson={lesson}
                     index={i}
                     result={results[lesson.id]}
-                    onQuizFinish={saveResult}
+                    onQuizFinish={saveUnlockedResult}
+                      lessonUnlocked={lessonUnlocked}
                   />
                 ))}
                 {filteredLessons.length === 0 && (
@@ -913,9 +924,10 @@ interface PillarLessonGroupProps {
   onToggle: () => void;
   results: Record<string, LifestyleLessonResult>;
   onQuizFinish: (r: LifestyleLessonResult) => void;
+  lessonUnlocked: (id: string) => boolean;
 }
 const PillarLessonGroup = ({
-  pillar, lessons, open, onToggle, results, onQuizFinish,
+  pillar, lessons, open, onToggle, results, onQuizFinish, lessonUnlocked,
 }: PillarLessonGroupProps) => {
   const { t, lang } = useLanguage();
   const styles = PILLAR_STYLES[pillar.key];
@@ -970,6 +982,7 @@ const PillarLessonGroup = ({
                     index={i}
                     result={results[lesson.id]}
                     onQuizFinish={onQuizFinish}
+                    lessonUnlocked={lessonUnlocked}
                   />
                 ))}
               </div>
@@ -1054,11 +1067,13 @@ interface LessonCardProps {
   index: number;
   result?: LifestyleLessonResult;
   onQuizFinish: (result: LifestyleLessonResult) => void;
+  lessonUnlocked: (id: string) => boolean;
 }
-const LessonCard = ({ lesson, index, result, onQuizFinish }: LessonCardProps) => {
+const LessonCard = ({ lesson, index, result, onQuizFinish, lessonUnlocked }: LessonCardProps) => {
+  const unlocked = lessonUnlocked(lesson.id);
   const { t, lang } = useLanguage();
   const [open, setOpen] = useState(false);
-  const pillar = PILLARS.find((p) => p.key === lesson.pillar)!;
+  const pillar = PILLARS.find((p) => p.key === lesson.pillar) ?? PILLARS[0];
   const Icon = pillar.Icon;
   const MediumIcon = lesson.medium === "audio" ? Headphones : lesson.medium === "practice" ? Target : BookOpen;
   const levelLabel = {
@@ -1081,11 +1096,12 @@ const LessonCard = ({ lesson, index, result, onQuizFinish }: LessonCardProps) =>
     >
       <Card
         role="button"
-        tabIndex={0}
+        tabIndex={unlocked ? 0 : -1}
+        aria-disabled={!unlocked}
         aria-label={lang === "vi" ? lesson.titleVi : lesson.titleEn}
-        onClick={() => setOpen(true)}
+        onClick={() => { if (unlocked) setOpen(true); }}
         onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
+          if (unlocked && (e.key === "Enter" || e.key === " ")) {
             e.preventDefault();
             setOpen(true);
           }
@@ -1173,13 +1189,15 @@ const LessonCard = ({ lesson, index, result, onQuizFinish }: LessonCardProps) =>
 
           <div className="flex-1" />
           <Button
+            disabled={!unlocked}
             onClick={(e) => {
               e.stopPropagation();
-              setOpen(true);
+              if (unlocked) setOpen(true);
             }}
             className="mt-4 w-full justify-between border-0 bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-sm shadow-emerald-500/25 hover:from-emerald-600 hover:to-teal-600 hover:text-white hover:shadow-md hover:shadow-emerald-500/30"
           >
-            <span className="font-semibold">{t("Xem bài học & làm quiz", "Open lesson & quiz")}</span>
+            <span className="font-semibold">{unlocked ? t("Xem bài học & làm quiz", "Open lesson & quiz") : t("Hoàn thành các bài trước", "Complete preceding lessons")}</span>
+            {!unlocked && <Lock className="h-4 w-4" />}
             <ArrowRight className="h-4 w-4" />
           </Button>
         </CardContent>
@@ -1187,7 +1205,7 @@ const LessonCard = ({ lesson, index, result, onQuizFinish }: LessonCardProps) =>
 
       <LessonDialog
         lesson={lesson}
-        open={open}
+        open={open && unlocked}
         onOpenChange={setOpen}
         styles={styles}
         iconBg={pillar.iconBg}
