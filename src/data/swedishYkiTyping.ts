@@ -14,7 +14,7 @@ export interface SwedishYkiTypingSentence {
 }
 
 export function splitSwedishSentences(text: string): string[] {
-  return (text.replace(/\s*\n+\s*/g, " ").match(/[^.!?]+[.!?]+["”]?/g) ?? []).map(s => s.trim().normalize("NFC")).filter(Boolean);
+  return text.split(/\n+/).flatMap(line => line.match(/[^.!?]+(?:[.!?]+["”]?|$)/g) ?? []).map(s => s.trim().normalize("NFC")).filter(Boolean);
 }
 
 export const SWEDISH_YKI_TYPING_SENTENCES: SwedishYkiTypingSentence[] = SWEDISH_SAMPLE_ESSAYS.flatMap(essay => {
