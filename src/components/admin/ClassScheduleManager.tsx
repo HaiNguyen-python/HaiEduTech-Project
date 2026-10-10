@@ -20,6 +20,8 @@ import {
 import WeeklyTeachingPoster from "./WeeklyTeachingPoster";
 import { exportScheduleImage } from "@/lib/scheduleImageExport";
 import { expandScheduleWeek, scheduleDate, scheduleTime, scheduleWeekStart, shiftScheduleDate, vietnamInstant, VIETNAM_ZONE, FINLAND_ZONE, type ClassSchedule, type ScheduleZone } from "@/lib/classScheduleTime";
+import { buildClassColorMap, classColor, classColorKey } from "@/lib/classScheduleColors";
+
 
 const SUBJECT_OPTIONS = [
   { value: "english", label: "English", chip: "bg-blue-500/15 text-blue-700 border-blue-500/30 dark:text-blue-300", dot: "bg-blue-500" },
@@ -76,6 +78,14 @@ export default function ClassScheduleManager() {
   function filteredForWeek() {
     return schedules.filter(c => (filterSubject === "all" || c.subject === filterSubject) && (filterStatus === "all" || c.status === filterStatus));
   }
+  // One colour per class, computed from every class so it stays the same across weeks and views.
+  const classColors = useMemo(() => buildClassColorMap(schedules), [schedules]);
+  const classLegend = useMemo(() => {
+    const byKey = new Map<string, ClassSchedule>();
+    for (const c of schedules) byKey.set(classColorKey(c), c);
+    return [...byKey.values()].sort((a, b) => a.class_name.localeCompare(b.class_name));
+  }, [schedules]);
+
   const downloadPoster = async () => {
     if (!posterRef.current) return;
     setExporting(true);
@@ -285,14 +295,18 @@ export default function ClassScheduleManager() {
         </div>
       </div>
 
-      {/* ===== Subject legend ===== */}
-      <div className="flex flex-wrap gap-2 text-xs">
-        {SUBJECT_OPTIONS.map((o) => (
-          <span key={o.value} className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-md border ${o.chip}`}>
-            <span className={`w-2 h-2 rounded-full ${o.dot}`} /> {o.label}
-          </span>
-        ))}
-      </div>
+      {/* ===== Class colour legend ===== */}
+      {!!classLegend.length && (
+        <div className="flex flex-wrap gap-2 text-xs" aria-label="Màu của từng lớp">
+          {classLegend.map((c) => (
+            <span key={classColorKey(c)} className="inline-flex items-center gap-1.5 rounded-md border border-border bg-card px-2 py-1">
+              <span className="h-2 w-2 shrink-0 rounded-full" style={{ background: classColor(classColors, c) }} />
+              <span className="truncate">{c.class_name}</span>
+            </span>
+          ))}
+        </div>
+      )}
+
 
       {view !== "list" && (
         <div className="flex flex-wrap items-center justify-between gap-3">
