@@ -7,7 +7,10 @@
  * @copyright 2026 HaiEduTech, ILC. All rights reserved.
  */
 import { consumeAiGrade } from "@/lib/aiQuota";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import SwedishWritingExercises, { type SwedishWritingMode } from "@/components/swedish/SwedishWritingExercises";
+import { ElevatedTabs, ElevatedTabsList, ElevatedTabsTrigger } from "@/components/ui/elevated-tabs";
 import SwedishHeroBanner from "@/components/swedish/SwedishHeroBanner";
 import FloatingNordicParticles from "@/components/FloatingNordicParticles";
 import { motion } from "framer-motion";
@@ -47,6 +50,11 @@ const LEVELS: SwedishLevel[] = ["A1", "A2", "B1"];
 
 const SwedishWritingLab = () => {
   const { t } = useLanguage();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const modes = ["tasks", "vocabulary", "grammar", "connectors", "translation", "paraphrase", "typing"];
+  const requestedMode = searchParams.get("mode") ?? "tasks";
+  const mode = modes.includes(requestedMode) ? requestedMode : "tasks";
+  const modeLabels = [t("Đề YKI", "YKI Tasks"), t("Từ vựng", "Vocabulary"), t("Ngữ pháp", "Grammar"), t("Liên kết", "Connectors"), t("Dịch", "Translation"), "Paraphrase", "Typing"];
   const [level, setLevel] = useState<SwedishLevel>("A1");
   const [activeId, setActiveId] = useState<string>(SWEDISH_WRITING_PROMPTS[0].id);
   const [draft, setDraft] = useState("");
@@ -60,6 +68,12 @@ const SwedishWritingLab = () => {
   );
   const active: SwedishWritingPrompt =
     prompts.find((p) => p.id === activeId) || prompts[0];
+
+  useEffect(() => {
+    setDraft(localStorage.getItem(`sv-writing-draft:${active.id}`) ?? "");
+    setResult(null); setShowSample(false);
+  }, [active.id]);
+  const updateDraft = (value: string) => { setDraft(value); localStorage.setItem(`sv-writing-draft:${active.id}`, value); };
 
   const wordCount = draft.trim() ? draft.trim().split(/\s+/).filter(Boolean).length : 0;
 
@@ -146,6 +160,12 @@ const SwedishWritingLab = () => {
             </p>
           </header>
 
+          <ElevatedTabs value={mode} onValueChange={value => setSearchParams({ mode: value })}>
+            <ElevatedTabsList className="grid w-full grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 mb-6">
+              {modes.map((value, i) => <ElevatedTabsTrigger key={value} value={value} className="justify-center px-2 py-2.5">{modeLabels[i]}</ElevatedTabsTrigger>)}
+            </ElevatedTabsList>
+            {modes.filter(value => value !== "tasks").map(value => <TabsContent key={value} value={value}><SwedishWritingExercises mode={value as SwedishWritingMode} /></TabsContent>)}
+            <TabsContent value="tasks">
           {/* Level tabs */}
           <Tabs value={level} onValueChange={(v) => onPickLevel(v as SwedishLevel)} className="mb-6">
             <TabsList className="grid w-full grid-cols-3">
@@ -159,7 +179,7 @@ const SwedishWritingLab = () => {
                   <button
                     key={p.id}
                     onClick={() => { setActiveId(p.id); setResult(null); setShowSample(false); }}
-                    className={`w-full text-left rounded-lg border p-3 transition ${
+                    className={`h-auto block w-full whitespace-normal text-left rounded-lg border p-3 transition ${
                       p.id === activeId
                         ? "border-primary bg-primary/5"
                         : "border-border hover:border-primary/40"
@@ -306,12 +326,12 @@ const SwedishWritingLab = () => {
             <CardContent className="space-y-3">
               <Textarea
                 value={draft}
-                onChange={(e) => setDraft(e.target.value)}
+                onChange={(e) => updateDraft(e.target.value)}
                 placeholder={t(
                   "Viết bài của bạn bằng tiếng Thụy Điển ở đây…",
                   "Write your Swedish response here…",
                 )}
-                className="min-h-[200px] font-mono text-sm leading-relaxed"
+                className="min-h-[240px] text-base leading-relaxed" lang="sv"
               />
               <Button onClick={onSubmit} disabled={loading} className="w-full gap-2" size="lg">
                 {loading ? (
@@ -394,6 +414,8 @@ const SwedishWritingLab = () => {
               </Card>
             </motion.div>
           )}
+            </TabsContent>
+          </ElevatedTabs>
         </div>
       </main>
       <Footer />
