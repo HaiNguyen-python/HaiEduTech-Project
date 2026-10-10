@@ -1,4 +1,5 @@
 # Tasks
+- [ ] Refine the parent thank-you letter for the English class's 15th anniversary, Finland presence and international language/technology learning; address all parents and merge reminders/rules. Verify preview and image download.
 - [x] Give every class its own colour in the weekly timetable poster, week grid and list (subject plus class name decides the colour, twelve-colour palette with collision skipping). Five colour tests and the eight schedule tests pass; authenticated browser verified nine classes on 12/10-18/10 with nine distinct colours, identical colours for the same class, working Zalo PNG download whose pixels contain all nine colours, and the Finland time switch; build OK.
 - [x] Add branded weekly teaching timetable with PNG export for Zalo, Vietnam/Finland time switch, date-aware recurrence and DST checks; preserve existing classes and management. Verified both PNG downloads, 16 weekly sessions, winter conversion, no mobile overflow, eight tests passing and build OK.
 
