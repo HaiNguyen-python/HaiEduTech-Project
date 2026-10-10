@@ -22,6 +22,7 @@ const IRREGULAR_VERBS: Record<string, string[]> = {
   have: ["has", "had", "having"],
   keep: ["keeps", "kept", "keeping"],
   lead: ["leads", "led", "leading"],
+  level: ["levels", "levelled", "levelling", "leveled", "leveling"],
   meet: ["meets", "met", "meeting"],
   put: ["puts", "putting"],
   reach: ["reaches", "reached", "reaching"],

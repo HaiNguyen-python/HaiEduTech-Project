@@ -171,8 +171,8 @@ export const buildGuidedActivities = (lesson: PurposeLesson, track: PurposeTrack
     activities.push({
       id: `${lesson.id}-guided-gap`,
       kind: "gap",
-      prompt: `Complete the sentence: "${gap.sentence}"`,
-      promptVi: `Hoàn thành câu: "${gap.sentence}"`,
+      prompt: `Complete the sentence using the phrase meaning "${gapItem.vi}": "${gap.sentence}"`,
+      promptVi: `Hoàn thành câu bằng cụm mang nghĩa "${gapItem.vi}": "${gap.sentence}"`,
       options,
       answer,
       explanation: `The full sentence is: ${gapItem.example} The lesson phrase is "${gapItem.term}"; use "${gap.answer}" in this context.`,

@@ -1,11 +1,11 @@
 - Interpersonal Skills: `lifestyle` for placement, `interpersonal` for activity; separate tables prevent duplicate charts.
-- Keep IELTS vocabulary photos in a one-word map separate from emoji resolution.
+- IELTS photos: one-word map separate from emojis.
 - Home results use only published `testimonials`; staff manage all; never hardcode or generate them; hide when empty.
 - Tuition uses `CourseTuitionSection`, `--tuition-*` tokens and one responsive list to keep prices and the 3x one-to-one rule consistent.
 - Derive registration prices from the shared catalog; server-validate EUR prices and separate course payments from Premium.
 - Keep only the exact `/english`, `/chinese`, `/programming`, and `/register` overview routes public; nested learning routes remain authentication and Premium protected.
-- Keep auth emails in the shared six HaiEduTech templates deployed through the auth hook.
-- Use shared `normalizeMath` for Programming math; audit malformed delimiters.
+- Auth emails use six shared HaiEduTech templates deployed through the auth hook.
+- Programming math: shared `normalizeMath`; audit delimiters.
 - HSK visuals use Hanzi-aware mappings and stable category fallbacks to avoid generic icons.
 
 - Public nav: Home, About, English, Chinese, Finnish, Vietnamese, Technology, Interpersonal Skills, Your Corner. Finnish is open to signed-in users; hide JA/SV (teacher-gated), Specialized Language and Super Dictionary; preserve course URLs.
@@ -34,6 +34,8 @@
 - Dictionary: local Finnish entries, deferred EN translations; reject stale request IDs.
 - IELTS lesson summaries use subject visuals and evidence checks, not grammar defaults.
 - PTE shares sourced 22-type rules, protected attempts and exact-ID mini-set links; audit mismatch indices/adjacent pairs; label estimates, not official scores.
-- PhD and admin sorting: follow `docs/phd-research.md` for persistence and access safety.
+- PhD/admin sorting: follow `docs/phd-research.md`.
 
 - Admin flags share rlEngine. Chinese/Interpersonal use shared sequential locks and completion PDFs; completed lessons remain reviewable; no unverifiable issuance codes.
+
+- Purpose English gaps use shared phrase-matched surface forms; Business function quizzes use model roles for accurate keys.
