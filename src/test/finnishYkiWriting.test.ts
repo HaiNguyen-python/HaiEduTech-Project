@@ -1,9 +1,27 @@
 import { YKI_TYPING_ENGLISH } from "@/data/finnishYkiTypingEnglish";
+import { FINNISH_A2_TYPING_SENTENCES, FINNISH_A2_TYPING_LEVEL } from "@/data/finnishA2Typing";
 import { formatModelLetter } from "@/lib/finnishModelLetter";
 import { describe, expect, it } from "vitest";
 import { getYkiWritingEnglish, YKI_SKILL_BANK, YKI_WRITING_SENTENCES, YKI_WRITING_TASKS } from "@/data/finnishYkiWriting";
 
 describe("Finnish YKI writing bank", () => {
+  it("offers a separate lower A2 typing pool with short everyday sentences", () => {
+    expect(FINNISH_A2_TYPING_LEVEL.id).toBe(0);
+    expect(FINNISH_A2_TYPING_SENTENCES).toHaveLength(60);
+    const all = [...FINNISH_A2_TYPING_SENTENCES, ...YKI_WRITING_SENTENCES];
+    expect(new Set(all.map((item) => item.id)).size).toBe(all.length);
+    expect(new Set(all.map((item) => item.fi)).size).toBe(all.length);
+    for (const item of FINNISH_A2_TYPING_SENTENCES) {
+      expect(item.cefr).toBe("A2");
+      expect(item.level).toBeLessThan(1);
+      expect(item.fi.trim().split(/\s+/).length).toBeGreaterThanOrEqual(4);
+      expect(item.fi.trim().split(/\s+/).length).toBeLessThanOrEqual(10);
+      expect(item.en.trim().length).toBeGreaterThan(10);
+      expect(item.fi).toBe(item.fi.normalize("NFC"));
+    }
+    expect(FINNISH_A2_TYPING_SENTENCES.find((item) => item.fi === "Lähden töihin puoli kahdeksalta.")?.en)
+      .toBe("I leave for work at half past seven.");
+  });
   it("separates closings from the body and puts retained signatures on the next line", () => {
     expect(formatModelLetter("Hei Anna! Tavataan pian. Terveisin\nMai"))
       .toBe("Hei Anna!\n\nTavataan pian.\n\nTerveisin\nMai");
