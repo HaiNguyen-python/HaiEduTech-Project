@@ -17,6 +17,7 @@ import { logStudentActivity } from "@/hooks/useActivityLogger";
 import { toast } from "@/hooks/use-toast";
 import { playFinnishTts, stopFinnishTts } from "@/lib/finnishTts";
 import { formatModelLetter } from "@/lib/finnishModelLetter";
+import { FINNISH_A2_TYPING_LEVEL, FINNISH_A2_TYPING_SENTENCES } from "@/data/finnishA2Typing";
 import { getYkiWritingEnglish, YKI_SKILL_BANK, YKI_WRITING_KINDS, YKI_TYPING_LEVELS, YKI_WRITING_SENTENCES, YKI_WRITING_TASKS, type YkiWritingKind } from "@/data/finnishYkiWriting";
 
 type FilterKind = "all" | YkiWritingKind;
@@ -70,8 +71,11 @@ function SkillCards({ kind }: { kind: SkillKind }) {
   );
 }
 
-const shuffledIds = (level: number) => {
-  const ids = YKI_WRITING_SENTENCES.map((item, i) => (item.level === level ? i : -1)).filter((i) => i >= 0);
+const TYPING_SENTENCES = [...FINNISH_A2_TYPING_SENTENCES, ...YKI_WRITING_SENTENCES];
+const TYPING_LEVELS = [FINNISH_A2_TYPING_LEVEL, ...YKI_TYPING_LEVELS];
+const shuffledIds = (level: number, mode: string) => {
+  const bank = mode === "typing" ? TYPING_SENTENCES : YKI_WRITING_SENTENCES;
+  const ids = bank.map((item, i) => (item.level === level ? i : -1)).filter((i) => i >= 0);
   for (let i = ids.length - 1; i > 0; i -= 1) { const j = Math.floor(Math.random() * (i + 1)); [ids[i], ids[j]] = [ids[j], ids[i]]; }
   return ids;
 };
@@ -81,9 +85,11 @@ function SentencePractice({ mode }: { mode: "translation" | "paraphrase" | "typi
   const [index, setIndex] = useState(0);
   const [answer, setAnswer] = useState("");
   const [revealed, setRevealed] = useState(false);
-  const [level, setLevel] = useState(1);
-  const [order, setOrder] = useState<number[]>(() => shuffledIds(1));
-  const levelPool = order.map((i) => YKI_WRITING_SENTENCES[i]);
+  const [level, setLevel] = useState(mode === "typing" ? 0 : 1);
+  const [order, setOrder] = useState<number[]>(() => shuffledIds(mode === "typing" ? 0 : 1, mode));
+  const bank = mode === "typing" ? TYPING_SENTENCES : YKI_WRITING_SENTENCES;
+  const levels = mode === "typing" ? TYPING_LEVELS : YKI_TYPING_LEVELS;
+  const levelPool = order.map((i) => bank[i]);
   const poolSize = mode === "translation" ? YKI_WRITING_TASKS.length : levelPool.length;
   const sentenceItem = levelPool[index % levelPool.length];
   const translationItem = YKI_WRITING_TASKS[index % YKI_WRITING_TASKS.length];
@@ -104,11 +110,11 @@ function SentencePractice({ mode }: { mode: "translation" | "paraphrase" | "typi
   }, [mode, start, checked]);
   const reset = () => { setAnswer(""); setRevealed(false); setStart(null); setChecked(null); };
   const next = () => {
-    if (mode !== "translation" && index + 1 >= poolSize) { setOrder(shuffledIds(level)); setIndex(0); }
+    if (mode !== "translation" && index + 1 >= poolSize) { setOrder(shuffledIds(level, mode)); setIndex(0); }
     else setIndex((value) => (value + 1) % poolSize);
     reset();
   };
-  const changeLevel = (value: number) => { setLevel(value); setOrder(shuffledIds(value)); setIndex(0); reset(); };
+  const changeLevel = (value: number) => { setLevel(value); setOrder(shuffledIds(value, mode)); setIndex(0); reset(); };
   const typingScore = target ? Math.round((normalize(answer).split(" ").filter((word, i) => word === normalize(target).split(" ")[i]).length / Math.max(1, normalize(target).split(" ").length)) * 100) : 0;
   const elapsed = start ? Math.max(0, now - start) : 0;
   const correctChars = Array.from(answer).filter((c, i) => c === target[i]).length;
@@ -129,10 +135,10 @@ function SentencePractice({ mode }: { mode: "translation" | "paraphrase" | "typi
   return (
     <Card className="border-primary/20">
       <CardHeader>
-        <div className="flex items-start justify-between gap-3">
+        <div className="flex flex-wrap items-start justify-between gap-3">
           <div className="flex flex-wrap items-center gap-2">
             <Badge variant="outline">{index + 1} / {poolSize}</Badge>
-            {mode !== "translation" && YKI_TYPING_LEVELS.map((lv) => (
+            {mode !== "translation" && levels.map((lv) => (
               <Button key={lv.id} size="sm" variant={level === lv.id ? "default" : "outline"} onClick={() => changeLevel(lv.id)}>
                 {t(lv.labelVi, lv.labelEn)}
               </Button>
