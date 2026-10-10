@@ -52,3 +52,14 @@ describe("Swedish writing bank size", () => {
     expect(SV_SKILLS.connectors).toHaveLength(12);
   });
 });
+
+import { SWEDISH_YKI_TYPING_SENTENCES } from "@/data/swedishYkiTyping";
+import { SWEDISH_SAMPLE_ESSAYS } from "@/data/swedishSampleEssays";
+describe("Swedish YKI typing bank", () => {
+  it("uses only sentences from YKI Writing model answers, at every level", () => {
+    const essays = SWEDISH_SAMPLE_ESSAYS.map(e => e.essaySv);
+    for (const s of SWEDISH_YKI_TYPING_SENTENCES) expect(essays.some(e => e.includes(s.sv))).toBe(true);
+    for (const level of ["A1", "A2", "B1"]) expect(SWEDISH_YKI_TYPING_SENTENCES.filter(s => s.level === level).length).toBeGreaterThanOrEqual(70);
+    expect(new Set(SWEDISH_YKI_TYPING_SENTENCES.map(s => s.id)).size).toBe(SWEDISH_YKI_TYPING_SENTENCES.length);
+  });
+});
